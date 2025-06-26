@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Cbo>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\MhpAdminApproval>
  */
-class CboFactory extends Factory
+class MhpAdminApprovalFactory extends Factory
 {
     /**
      * Define the model's default state.

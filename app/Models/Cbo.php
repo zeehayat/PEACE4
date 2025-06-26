@@ -4,26 +4,29 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Cbo extends Model
 {
-    protected $guarded = [];
+    /** @use HasFactory<\Database\Factories\CboFactory> */
     use HasFactory;
-    public function mhps():HasMany {
-        return $this->hasMany(Mhp::class);
+    protected $fillable = [
+        'reference_code', 'district', 'tehsil', 'village_council', 'village',
+        'date_of_formation', 'total_members', 'gender', 'num_cbo_members',
+        'president_name', 'president_contact', 'secretary_name', 'secretary_contact',
+    ];
+
+    public function dialogues()
+    {
+        return $this->hasMany(CboDialogue::class);
     }
 
-    public function irrigationSchemes():HasMany {
-        return $this->hasMany(IrrigationScheme::class);
+    public function exposureVisits()
+    {
+        return $this->hasMany(CboExposureVisit::class);
     }
 
-    public function cboActivities():HasMany {
-        return $this->hasMany(CboActivity::class);
-    }
-
-    public function attachments(): MorphMany {
-        return $this->morphMany(Attachment::class, 'attachable');
+    public function trainings()
+    {
+        return $this->hasMany(CboTraining::class);
     }
 }

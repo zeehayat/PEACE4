@@ -4,13 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Attachment extends Model
 {
-    protected $guarded = [];
+    /** @use HasFactory<\Database\Factories\AttachmentFactory> */
     use HasFactory;
-    public function attachable():MorphTo {
+    protected $fillable = ['attachable_id', 'attachable_type', 'path', 'description', 'uploaded_at'];
+
+    public function attachable()
+    {
         return $this->morphTo();
     }
 }
