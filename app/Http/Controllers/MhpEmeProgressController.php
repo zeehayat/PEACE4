@@ -1,37 +1,48 @@
+
 <?php
 
 namespace App\Http\Controllers;
 
-use App\Models\MhpEmeProgress;
 use Illuminate\Http\Request;
+use App\Models\MhpEmeProgress;
+use App\Services\MhpEmeProgressService;
 
 class MhpEmeProgressController extends Controller
 {
-    public function store(Request $request)
+    protected MhpEmeProgressService $service;
+
+    public function __construct(MhpEmeProgressService $service)
     {
-        $validated = $request->validate([
-            'mhp_site_id' => 'required|exists:mhp_sites,id',
-            'milestone_percent' => 'required|integer|in:25,50,75,100',
-            'progress_date' => 'nullable|date',
-            'remarks' => 'nullable|string',
-        ]);
-
-        $progress = MhpEmeProgress::create($validated);
-
-        // Handle file attachments (if any)
-        // Example: $progress->attachments()->create([...]);
-
-        return response()->json($progress, 201);
+        $this->service = $service;
     }
 
-    public function index($mhpSiteId)
+    public function index()
     {
-        return MhpEmeProgress::where('mhp_site_id', $mhpSiteId)->with('attachments')->get();
+        $items = MhpEmeProgress::latest()->paginate(10);
+        return inertia('MhpEmeProgresss/Index', compact('items'));
+    }
+
+    public function store(Request $request)
+    {
+        $this->service->create($request->all());
+        return redirect()->back()->with('success', 'MhpEmeProgress created.');
+    }
+
+    public function update(Request $request, MhpEmeProgress $mhpEmeProgress)
+    {
+        $this->service->update($mhpEmeProgress, $request->all());
+        return redirect()->back()->with('success', 'MhpEmeProgress updated.');
     }
 
     public function destroy(MhpEmeProgress $mhpEmeProgress)
     {
-        $mhpEmeProgress->delete();
-        return response()->noContent();
+        $this->service->delete($mhpEmeProgress);
+        return redirect()->back()->with('success', 'MhpEmeProgress deleted.');
+    }
+
+    public function show(int $id)
+    {
+        $item = $this->service->find($id);
+        return inertia('MhpEmeProgresss/Show', compact('item'));
     }
 }

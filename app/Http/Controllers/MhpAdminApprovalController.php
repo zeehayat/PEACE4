@@ -1,65 +1,48 @@
+
 <?php
 
 namespace App\Http\Controllers;
 
-use App\Models\MhpAdminApproval;
 use Illuminate\Http\Request;
+use App\Models\MhpAdminApproval;
+use App\Services\MhpAdminApprovalService;
 
 class MhpAdminApprovalController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected MhpAdminApprovalService $service;
+
+    public function __construct(MhpAdminApprovalService $service)
+    {
+        $this->service = $service;
+    }
+
     public function index()
     {
-        //
+        $items = MhpAdminApproval::latest()->paginate(10);
+        return inertia('MhpAdminApprovals/Index', compact('items'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $this->service->create($request->all());
+        return redirect()->back()->with('success', 'MhpAdminApproval created.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(MhpAdminApproval $mhpAdminApproval)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(MhpAdminApproval $mhpAdminApproval)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, MhpAdminApproval $mhpAdminApproval)
     {
-        //
+        $this->service->update($mhpAdminApproval, $request->all());
+        return redirect()->back()->with('success', 'MhpAdminApproval updated.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(MhpAdminApproval $mhpAdminApproval)
     {
-        //
+        $this->service->delete($mhpAdminApproval);
+        return redirect()->back()->with('success', 'MhpAdminApproval deleted.');
+    }
+
+    public function show(int $id)
+    {
+        $item = $this->service->find($id);
+        return inertia('MhpAdminApprovals/Show', compact('item'));
     }
 }

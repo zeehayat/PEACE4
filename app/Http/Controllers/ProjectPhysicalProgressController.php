@@ -1,65 +1,48 @@
+
 <?php
 
 namespace App\Http\Controllers;
 
-use App\Models\ProjectPhysicalProgress;
 use Illuminate\Http\Request;
+use App\Models\ProjectPhysicalProgress;
+use App\Services\ProjectPhysicalProgressService;
 
 class ProjectPhysicalProgressController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected ProjectPhysicalProgressService $service;
+
+    public function __construct(ProjectPhysicalProgressService $service)
+    {
+        $this->service = $service;
+    }
+
     public function index()
     {
-        //
+        $items = ProjectPhysicalProgress::latest()->paginate(10);
+        return inertia('ProjectPhysicalProgresss/Index', compact('items'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $this->service->create($request->all());
+        return redirect()->back()->with('success', 'ProjectPhysicalProgress created.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(ProjectPhysicalProgress $projectPhysicalProgress)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(ProjectPhysicalProgress $projectPhysicalProgress)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, ProjectPhysicalProgress $projectPhysicalProgress)
     {
-        //
+        $this->service->update($projectPhysicalProgress, $request->all());
+        return redirect()->back()->with('success', 'ProjectPhysicalProgress updated.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(ProjectPhysicalProgress $projectPhysicalProgress)
     {
-        //
+        $this->service->delete($projectPhysicalProgress);
+        return redirect()->back()->with('success', 'ProjectPhysicalProgress deleted.');
+    }
+
+    public function show(int $id)
+    {
+        $item = $this->service->find($id);
+        return inertia('ProjectPhysicalProgresss/Show', compact('item'));
     }
 }

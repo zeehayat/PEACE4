@@ -1,65 +1,48 @@
+
 <?php
 
 namespace App\Http\Controllers;
 
-use App\Models\Attachment;
 use Illuminate\Http\Request;
+use App\Models\Attachment;
+use App\Services\AttachmentService;
 
 class AttachmentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected AttachmentService $service;
+
+    public function __construct(AttachmentService $service)
+    {
+        $this->service = $service;
+    }
+
     public function index()
     {
-        //
+        $items = Attachment::latest()->paginate(10);
+        return inertia('Attachments/Index', compact('items'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $this->service->create($request->all());
+        return redirect()->back()->with('success', 'Attachment created.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Attachment $attachment)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Attachment $attachment)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Attachment $attachment)
     {
-        //
+        $this->service->update($attachment, $request->all());
+        return redirect()->back()->with('success', 'Attachment updated.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Attachment $attachment)
     {
-        //
+        $this->service->delete($attachment);
+        return redirect()->back()->with('success', 'Attachment deleted.');
+    }
+
+    public function show(int $id)
+    {
+        $item = $this->service->find($id);
+        return inertia('Attachments/Show', compact('item'));
     }
 }

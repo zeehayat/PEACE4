@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('project_financial_installments', function (Blueprint $table) {
             $table->id();
-            $table->morphs('projectable');
+            $table->unsignedBigInteger('projectable_id');
+            $table->string('projectable_type');
+            $table->index(['projectable_type', 'projectable_id'], 'projectable_index');
             $table->string('category')->default('general');
             $table->unsignedInteger('installment_number');
             $table->date('installment_date')->nullable();

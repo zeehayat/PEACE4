@@ -2,22 +2,21 @@
 
 namespace Database\Factories;
 
+use App\Models\Attachment;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Attachment>
- */
 class AttachmentFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+    protected $model = Attachment::class;
+
     public function definition(): array
     {
         return [
-            //
+            'attachable_id' => 1, // Override when attaching
+            'attachable_type' => 'App\\Models\\Cbo',
+            'file_path' => 'uploads/' . $this->faker->uuid . '.pdf',
+            'uploaded_at' => now(),
+            'description' => $this->faker->sentence(),
         ];
     }
 }

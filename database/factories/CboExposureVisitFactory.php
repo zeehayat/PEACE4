@@ -2,22 +2,20 @@
 
 namespace Database\Factories;
 
+
+use App\Models\Cbo;
+use App\Models\CboExposureVisit;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\CboExposureVisit>
- */
 class CboExposureVisitFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+    protected $model = CboExposureVisit::class;
+
     public function definition(): array
     {
         return [
-            //
+            'cbo_id' => Cbo::factory(),
+            'exposure_date' => $this->faker->date(),
         ];
     }
 }

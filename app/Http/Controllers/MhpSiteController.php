@@ -1,65 +1,48 @@
+
 <?php
 
 namespace App\Http\Controllers;
 
-use App\Models\MhpSite;
 use Illuminate\Http\Request;
+use App\Models\MhpSite;
+use App\Services\MhpSiteService;
 
 class MhpSiteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected MhpSiteService $service;
+
+    public function __construct(MhpSiteService $service)
+    {
+        $this->service = $service;
+    }
+
     public function index()
     {
-        //
+        $items = MhpSite::latest()->paginate(10);
+        return inertia('MhpSites/Index', compact('items'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $this->service->create($request->all());
+        return redirect()->back()->with('success', 'MhpSite created.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(MhpSite $mhpSite)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(MhpSite $mhpSite)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, MhpSite $mhpSite)
     {
-        //
+        $this->service->update($mhpSite, $request->all());
+        return redirect()->back()->with('success', 'MhpSite updated.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(MhpSite $mhpSite)
     {
-        //
+        $this->service->delete($mhpSite);
+        return redirect()->back()->with('success', 'MhpSite deleted.');
+    }
+
+    public function show(int $id)
+    {
+        $item = $this->service->find($id);
+        return inertia('MhpSites/Show', compact('item'));
     }
 }

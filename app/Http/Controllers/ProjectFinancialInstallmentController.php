@@ -1,65 +1,48 @@
+
 <?php
 
 namespace App\Http\Controllers;
 
-use App\Models\ProjectFinancialInstallment;
 use Illuminate\Http\Request;
+use App\Models\ProjectFinancialInstallment;
+use App\Services\ProjectFinancialInstallmentService;
 
 class ProjectFinancialInstallmentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected ProjectFinancialInstallmentService $service;
+
+    public function __construct(ProjectFinancialInstallmentService $service)
+    {
+        $this->service = $service;
+    }
+
     public function index()
     {
-        //
+        $items = ProjectFinancialInstallment::latest()->paginate(10);
+        return inertia('ProjectFinancialInstallments/Index', compact('items'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $this->service->create($request->all());
+        return redirect()->back()->with('success', 'ProjectFinancialInstallment created.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(ProjectFinancialInstallment $projectFinancialInstallment)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(ProjectFinancialInstallment $projectFinancialInstallment)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, ProjectFinancialInstallment $projectFinancialInstallment)
     {
-        //
+        $this->service->update($projectFinancialInstallment, $request->all());
+        return redirect()->back()->with('success', 'ProjectFinancialInstallment updated.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(ProjectFinancialInstallment $projectFinancialInstallment)
     {
-        //
+        $this->service->delete($projectFinancialInstallment);
+        return redirect()->back()->with('success', 'ProjectFinancialInstallment deleted.');
+    }
+
+    public function show(int $id)
+    {
+        $item = $this->service->find($id);
+        return inertia('ProjectFinancialInstallments/Show', compact('item'));
     }
 }

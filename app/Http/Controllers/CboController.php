@@ -1,65 +1,48 @@
+
 <?php
 
 namespace App\Http\Controllers;
 
-use App\Models\Cbo;
 use Illuminate\Http\Request;
+use App\Models\Cbo;
+use App\Services\CboService;
 
 class CboController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected CboService $service;
+
+    public function __construct(CboService $service)
+    {
+        $this->service = $service;
+    }
+
     public function index()
     {
-        //
+        $items = Cbo::latest()->paginate(10);
+        return inertia('Cbos/Index', compact('items'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $this->service->create($request->all());
+        return redirect()->back()->with('success', 'Cbo created.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Cbo $cbo)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Cbo $cbo)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Cbo $cbo)
     {
-        //
+        $this->service->update($cbo, $request->all());
+        return redirect()->back()->with('success', 'Cbo updated.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Cbo $cbo)
     {
-        //
+        $this->service->delete($cbo);
+        return redirect()->back()->with('success', 'Cbo deleted.');
+    }
+
+    public function show(int $id)
+    {
+        $item = $this->service->find($id);
+        return inertia('Cbos/Show', compact('item'));
     }
 }

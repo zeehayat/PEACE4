@@ -1,65 +1,48 @@
+
 <?php
 
 namespace App\Http\Controllers;
 
-use App\Models\CboTraining;
 use Illuminate\Http\Request;
+use App\Models\CboTraining;
+use App\Services\CboTrainingService;
 
 class CboTrainingController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected CboTrainingService $service;
+
+    public function __construct(CboTrainingService $service)
+    {
+        $this->service = $service;
+    }
+
     public function index()
     {
-        //
+        $items = CboTraining::latest()->paginate(10);
+        return inertia('CboTrainings/Index', compact('items'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $this->service->create($request->all());
+        return redirect()->back()->with('success', 'CboTraining created.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(CboTraining $cboTraining)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(CboTraining $cboTraining)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, CboTraining $cboTraining)
     {
-        //
+        $this->service->update($cboTraining, $request->all());
+        return redirect()->back()->with('success', 'CboTraining updated.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(CboTraining $cboTraining)
     {
-        //
+        $this->service->delete($cboTraining);
+        return redirect()->back()->with('success', 'CboTraining deleted.');
+    }
+
+    public function show(int $id)
+    {
+        $item = $this->service->find($id);
+        return inertia('CboTrainings/Show', compact('item'));
     }
 }
