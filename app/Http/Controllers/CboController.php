@@ -1,11 +1,10 @@
-
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Cbo;
 use App\Services\CboService;
+use Inertia\Inertia;
 
 class CboController extends Controller
 {
@@ -21,7 +20,11 @@ class CboController extends Controller
         $items = Cbo::latest()->paginate(10);
         return inertia('Cbos/Index', compact('items'));
     }
+    public function create()
+    {
+        return Inertia::render('Cbo/Create');
 
+    }
     public function store(Request $request)
     {
         $this->service->create($request->all());

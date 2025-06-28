@@ -1,48 +1,24 @@
-
 <?php
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\CboTraining;
-use App\Services\CboTrainingService;
+use App\Http\Requests\CboTrainingRequest;
+use Illuminate\Http\Request;
 
 class CboTrainingController extends Controller
 {
-    protected CboTrainingService $service;
-
-    public function __construct(CboTrainingService $service)
+    public function store(CboTrainingRequest $request)
     {
-        $this->service = $service;
+        $data = $request->validated();
+        CboTraining::create($data);
+        return redirect()->back()->with('success', 'CboTraining created successfully.');
     }
 
-    public function index()
+    public function update(CboTrainingRequest $request, CboTraining $cbotraining)
     {
-        $items = CboTraining::latest()->paginate(10);
-        return inertia('CboTrainings/Index', compact('items'));
-    }
-
-    public function store(Request $request)
-    {
-        $this->service->create($request->all());
-        return redirect()->back()->with('success', 'CboTraining created.');
-    }
-
-    public function update(Request $request, CboTraining $cboTraining)
-    {
-        $this->service->update($cboTraining, $request->all());
-        return redirect()->back()->with('success', 'CboTraining updated.');
-    }
-
-    public function destroy(CboTraining $cboTraining)
-    {
-        $this->service->delete($cboTraining);
-        return redirect()->back()->with('success', 'CboTraining deleted.');
-    }
-
-    public function show(int $id)
-    {
-        $item = $this->service->find($id);
-        return inertia('CboTrainings/Show', compact('item'));
+        $data = $request->validated();
+        $cbotraining->update($data);
+        return redirect()->back()->with('success', 'CboTraining updated successfully.');
     }
 }

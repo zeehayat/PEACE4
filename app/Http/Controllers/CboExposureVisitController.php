@@ -1,48 +1,79 @@
-
 <?php
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\CboExposureVisitRequest;
 use App\Models\CboExposureVisit;
 use App\Services\CboExposureVisitService;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class CboExposureVisitController extends Controller
 {
-    protected CboExposureVisitService $service;
-
-    public function __construct(CboExposureVisitService $service)
+    public function __construct(protected CboExposureVisitService $service) {}
+    public function index(Request $request)
     {
-        $this->service = $service;
+        $visits = CboExposureVisit::with('cbo', 'media')->latest()->paginate(10000);
+
+        return Inertia::render('CboExposureVisit/Index', [
+            'visits' => $visits,
+        ]);
+    }
+    public function create()
+    {
+        return Inertia::render('CboExposureVisit/Create', [
+            'cbos' => \App\Models\Cbo::all(['id', 'reference_code']),
+        ]);
     }
 
-    public function index()
+    public function store(CboExposureVisitRequest $request)
     {
-        $items = CboExposureVisit::latest()->paginate(10);
-        return inertia('CboExposureVisits/Index', compact('items'));
+        $data = $request->validated();
+        $visit = $this->service->create($data);
+
+        if ($request->hasFile('attachments')) {
+            foreach ($request->file('attachments') as $file) {
+                $visit->addMedia($file)->toMediaCollection('attachments');
+            }
+        }
+
+        return redirect()->route('cbo.exposure-visits.index')->with('success', 'Visit created.');
     }
 
-    public function store(Request $request)
+    public function edit(CboExposureVisit $exposureVisit)
     {
-        $this->service->create($request->all());
-        return redirect()->back()->with('success', 'CboExposureVisit created.');
+        return Inertia::render('CboExposureVisit/Edit', [
+            'visit' => $exposureVisit->load('media'),
+            'cbos' => \App\Models\Cbo::all(['id', 'reference_code']),
+        ]);
     }
 
-    public function update(Request $request, CboExposureVisit $cboExposureVisit)
+    public function update(CboExposureVisitRequest $request, CboExposureVisit $exposureVisit)
     {
-        $this->service->update($cboExposureVisit, $request->all());
-        return redirect()->back()->with('success', 'CboExposureVisit updated.');
+        $data = $request->validated();
+        $this->service->update($exposureVisit, $data);
+
+        if ($request->filled('removed_attachments')) {
+            foreach ($request->removed_attachments as $id) {
+                $exposureVisit->getMedia('attachments')->where('id', $id)->first()?->delete();
+            }
+        }
+
+        if ($request->hasFile('attachments')) {
+            foreach ($request->file('attachments') as $file) {
+                $exposureVisit->addMedia($file)->toMediaCollection('attachments');
+            }
+        }
+
+        return redirect()->route('cbo.exposure-visits.index')->with('success', 'Visit updated.');
     }
 
-    public function destroy(CboExposureVisit $cboExposureVisit)
-    {
-        $this->service->delete($cboExposureVisit);
-        return redirect()->back()->with('success', 'CboExposureVisit deleted.');
-    }
 
-    public function show(int $id)
+
+    public function destroy(CboExposureVisit $exposureVisit)
     {
-        $item = $this->service->find($id);
-        return inertia('CboExposureVisits/Show', compact('item'));
+        $this->service->delete($exposureVisit);
+
+        return redirect()->back()->with('success', 'Visit deleted.');
     }
 }
