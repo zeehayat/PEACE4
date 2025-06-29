@@ -42,9 +42,12 @@ class CboExposureVisitController extends Controller
 
     public function edit(CboExposureVisit $exposureVisit)
     {
+
+
         return Inertia::render('CboExposureVisit/Edit', [
             'visit' => $exposureVisit->load('media'),
             'cbos' => \App\Models\Cbo::all(['id', 'reference_code']),
+
         ]);
     }
 

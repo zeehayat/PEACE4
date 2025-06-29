@@ -1,6 +1,8 @@
 <template>
+    {{cbos}}
     <form @submit.prevent="submit" class="space-y-6">
         <!-- CBO Dropdown -->
+
         <div>
             <label class="block text-sm font-medium text-gray-700">CBO</label>
             <select v-model="form.cbo_id" class="mt-1 w-full border rounded px-3 py-2">
@@ -14,13 +16,9 @@
 
         <!-- Date of Visit -->
         <div>
-            <label class="block text-sm font-medium text-gray-700">Date of Visit</label>
-            <input
-                v-model="form.date_of_visit"
-                type="date"
-                class="mt-1 w-full border rounded px-3 py-2"
-            />
-            <div v-if="form.errors.date_of_visit" class="text-sm text-red-500">{{ form.errors.date_of_visit }}</div>
+            <label class="block text-sm font-medium">Date of Visit</label>
+            <input v-model="form.date_of_visit" type="date" class="mt-1 w-full border rounded px-3 py-2" />
+            <div v-if="form.errors.date_of_visit" class="text-red-500 text-sm">{{ form.errors.date_of_visit }}</div>
         </div>
 
         <!-- Attachments -->

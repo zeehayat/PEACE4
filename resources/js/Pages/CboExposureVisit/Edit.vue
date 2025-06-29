@@ -28,7 +28,7 @@ const form = useForm({
 })
 
 function submit() {
-    form.post(`/cbo/exposure-visits/${props.visit.id}`, {
+    form.put(`/cbo/exposure-visits/${props.visit.id}`, {
         forceFormData: true,
         preserveScroll: true,
         onSuccess: () => form.reset('attachments', 'removed_attachments'),

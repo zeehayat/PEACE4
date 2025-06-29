@@ -27,8 +27,9 @@ Route::prefix('cbo')->name('cbo.')->middleware(['role:cbo|cbo-mhp-irrigation|roo
     Route::get('exposure-visits', [CboExposureVisitController::class, 'index'])->name('exposure-visits.index');
     Route::get('exposure-visits/create', [CboExposureVisitController::class, 'create'])->name('exposure-visits.create');
     Route::post('exposure-visits', [CboExposureVisitController::class, 'store'])->name('exposure-visits.store');
-    Route::get('exposure-visits/{visit}/edit', [CboExposureVisitController::class, 'edit'])->name('exposure-visits.edit');
+    Route::get('exposure-visits/{exposureVisit}/edit', [CboExposureVisitController::class, 'edit'])->name('exposure-visits.edit');
     Route::put('exposure-visits/{visit}', [CboExposureVisitController::class, 'update'])->name('exposure-visits.update');
+
 });
 
 
