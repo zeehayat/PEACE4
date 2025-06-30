@@ -103,7 +103,8 @@
 const props = defineProps({
     form: Object,
     errors: Object,
-    submit: Function
+    submit: Function,
+
 })
 const districts = [
     "Abbottabad", "Bannu", "Battagram", "Buner", "Charsadda", "Chitral Lower", "Chitral Upper",

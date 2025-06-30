@@ -17,18 +17,25 @@ class CboController extends Controller
 
     public function index()
     {
-        $items = Cbo::latest()->paginate(10);
-        return inertia('Cbos/Index', compact('items'));
+        $cbos = Cbo::all();
+        return inertia('Cbo/List', [
+            'cbos' => $cbos,
+        ]);
     }
     public function create()
     {
-        return Inertia::render('Cbo/Create');
+        $cbos=Cbo::all();
+        return Inertia::render('Cbo/Create',[
+            'cbos'=>$cbos
+        ]);
 
     }
     public function store(Request $request)
     {
-        $this->service->create($request->all());
-        return redirect()->back()->with('success', 'Cbo created.');
+        $cbo = $this->service->create($request->all());
+
+        return redirect()->route('cbo.show', $cbo->id)
+            ->with('success', 'CBO created.');
     }
 
     public function update(Request $request, Cbo $cbo)
@@ -43,9 +50,10 @@ class CboController extends Controller
         return redirect()->back()->with('success', 'Cbo deleted.');
     }
 
-    public function show(int $id)
+    public function show(Cbo $cbo)
     {
-        $item = $this->service->find($id);
-        return inertia('Cbos/Show', compact('item'));
+        return inertia('Cbo/Show', [
+            'item' => $cbo->load('media'), // if you want media; optional
+        ]);
     }
 }

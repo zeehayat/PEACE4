@@ -21,6 +21,9 @@ use Inertia\Inertia;
 
 Route::get('/cbo/dialogues/{dialogue}/edit', [CboDialogueController::class, 'edit'])->name('dialogues.edit');
 Route::put('/cbo/dialogues/{dialogue}', [CboDialogueController::class, 'update'])->name('dialogues.update');
+Route::get('/cbos/{cbo}/dialogues', [CboController::class, 'show'])->name('cbo.show');
+Route::get('/cbos', [CboController::class, 'index'])->name('cbos.index');
+Route::post('/cbotrainings', [CboTrainingController::class, 'store'])->name('cbotrainings.store');
 
 
 Route::prefix('cbo')->name('cbo.')->middleware(['role:cbo|cbo-mhp-irrigation|root|admin'])->group(function () {

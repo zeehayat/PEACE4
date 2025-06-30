@@ -1,24 +1,41 @@
 <template>
     <form @submit.prevent="submit" class="space-y-6">
-        <!-- CBO -->
+        <!-- CBO (read-only) -->
         <div>
             <label class="block text-sm font-medium">CBO</label>
-            <select v-model="form.cbo_id" class="mt-1 w-full border rounded px-3 py-2">
-                <option value="">Select a CBO</option>
-                <option v-for="cbo in cbos" :key="cbo.id" :value="cbo.id">{{ cbo.reference_code }}</option>
-            </select>
-            <div v-if="form.errors.cbo_id" class="text-red-500 text-sm">{{ form.errors.cbo_id }}</div>
+            <input
+                type="text"
+                :value="cbo.reference_code"
+                readonly
+                class="mt-1 w-full bg-gray-100 border rounded px-3 py-2"
+            />
+            <input type="hidden" v-model="form.cbo_id" />
         </div>
 
         <!-- Date -->
         <div>
-            <label class="block text-sm font-medium">Date</label>
-            <input v-model="form.date_of_visit" type="date" class="mt-1 w-full border rounded px-3 py-2" />
-            <div v-if="form.errors.date_of_visit" class="text-red-500 text-sm">{{ form.errors.date_of_visit }}</div>
+            <label class="block text-sm font-medium">Date of Dialogue</label>
+            <input
+                v-model="form.date_of_dialogue"
+                type="date"
+                class="mt-1 w-full border rounded px-3 py-2"
+            />
+            <div v-if="form.errors.date_of_dialogue" class="text-red-500 text-sm">{{ form.errors.date_of_dialogue }}</div>
         </div>
-        <!-- Participants -->
 
-        <!-- FilePond Uploader -->
+        <!-- Participants -->
+        <div>
+            <label class="block text-sm font-medium">Participants</label>
+            <input
+                v-model="form.participants"
+                type="number"
+                min="0"
+                class="mt-1 w-full border rounded px-3 py-2"
+            />
+            <div v-if="form.errors.participants" class="text-red-500 text-sm">{{ form.errors.participants }}</div>
+        </div>
+
+        <!-- File Upload -->
         <div>
             <label class="block text-sm font-medium">Attachments</label>
             <FileUploader
@@ -43,8 +60,8 @@ import FileUploader from '@/Components/FormComponents/FileUploader.vue'
 
 const props = defineProps({
     form: Object,
-    cbos: Array,
-    submit: Function
+    cbo: Object,
+    submit: Function,
 })
 
 function removeExisting(mediaId) {

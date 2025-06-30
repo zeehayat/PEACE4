@@ -71,6 +71,7 @@ const maxWidthClass = computed(() => {
 <template>
     <dialog class="z-50 m-0 min-h-full min-w-full overflow-y-auto bg-transparent backdrop:bg-transparent" ref="dialog">
         <div class="fixed inset-0 overflow-y-auto px-4 py-6 sm:px-0 z-50" scroll-region>
+            <!-- Overlay -->
             <transition
                 enter-active-class="ease-out duration-300"
                 enter-from-class="opacity-0"
@@ -84,6 +85,7 @@ const maxWidthClass = computed(() => {
                 </div>
             </transition>
 
+            <!-- Modal Card -->
             <transition
                 enter-active-class="ease-out duration-300"
                 enter-from-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
@@ -92,10 +94,28 @@ const maxWidthClass = computed(() => {
                 leave-from-class="opacity-100 translate-y-0 sm:scale-100"
                 leave-to-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-                <div v-show="show" class="mb-6 bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:w-full sm:mx-auto" :class="maxWidthClass">
-                    <slot v-if="showSlot"/>
+                <div
+                    v-show="show"
+                    class="mb-6 bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:w-full sm:mx-auto"
+                    :class="maxWidthClass"
+                >
+                    <!-- Gradient Header -->
+                    <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-4 text-white font-semibold text-lg">
+                        Add CBO Training
+                    </div>
+
+                    <!-- Slot: Body Content -->
+                    <div class="p-6">
+                        <!-- Close icon button -->
+                        <button @click="close" class="absolute top-2 right-3 text-white hover:text-gray-200 text-2xl font-semibold z-50">
+                            &times;
+                        </button>
+
+                        <slot v-if="showSlot" />
+                    </div>
                 </div>
             </transition>
         </div>
     </dialog>
 </template>
+

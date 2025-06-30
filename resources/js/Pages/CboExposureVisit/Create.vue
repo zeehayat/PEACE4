@@ -14,9 +14,11 @@ const props = defineProps({
 })
 
 const form = useForm({
-    cbo_id: '',
+    cbo_id: props.cbo.id,
     date_of_visit: '',
     attachments: [],
+    existing_attachments: [],
+    removed_attachments: [],
 })
 
 function submit() {
