@@ -27,7 +27,9 @@ class CboTrainingController extends Controller
                 ->each(fn($fileAdder) => $fileAdder->toMediaCollection());
         }
 
-        return back()->with('success', 'CboTraining created successfully.');
+        return redirect()->back()->with('success', 'CboTraining created successfully.');
+
+
     }
 
     public function update(CboTrainingRequest $request, CboTraining $cbotraining)

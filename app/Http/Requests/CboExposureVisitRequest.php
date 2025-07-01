@@ -16,6 +16,7 @@ class CboExposureVisitRequest extends FormRequest
         return [
             'cbo_id' => 'required',
             'date_of_visit' => 'required',
+            'participants'=>'required|integer',
 
         ];
     }

@@ -54,6 +54,7 @@ import CBOForm from '@/Components/FormComponents/CBOForm.vue'
 import CBODialogueForm from '@/Components/FormComponents/CBODialogueForm.vue'
 import CBOExposureVisitForm from '@/Components/FormComponents/CBOExposureVisitForm.vue'
 import {route} from 'ziggy-js'
+import {toast} from "vue3-toastify";
 const activeTab = ref('dialogue')
 const showModal = ref(false)
 const cbo = ref(null)
@@ -86,7 +87,7 @@ const activityForm = useForm({
 function submit() {
     form.post(route('cbo.cbo.store'), {
         onSuccess: (page) => {
-            alert('CBO saved Succesfully')
+            toast('CBO saved Succesfully')
             cbo.value = page.props?.cbo || page.props?.data?.cbo || null
             if (cbo.value) {
 

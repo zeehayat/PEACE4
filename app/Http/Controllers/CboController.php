@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use App\Models\Cbo;
 use App\Services\CboService;
@@ -24,18 +25,35 @@ class CboController extends Controller
     }
     public function create()
     {
-        $cbos=Cbo::all();
+
         return Inertia::render('Cbo/Create',[
-            'cbos'=>$cbos
+
         ]);
 
     }
     public function store(Request $request)
     {
-        $cbo = $this->service->create($request->all());
+        try{
+            $cbo = $this->service->create($request->all());
+            $cbo=Cbo::all();
+            return Inertia::render('Cbo/List',[
+                'cbos'=>$cbo,
+            ]);
+        }
+        catch (QueryException $e){
+            if ($e->getCode() === '23000') {
+                // Duplicate key error
+                return back()
+                    ->withErrors(['reference_code' => 'A CBO with this reference code already exists.'])
+                    ->withInput();
+            }
 
-        return redirect()->route('cbo.show', $cbo->id)
-            ->with('success', 'CBO created.');
+            return back()
+                ->withErrors(['error' => 'An unexpected error occurred.'])
+                ->withInput();
+        }
+
+
     }
 
     public function update(Request $request, Cbo $cbo)

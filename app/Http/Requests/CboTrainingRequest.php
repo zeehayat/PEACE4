@@ -14,8 +14,10 @@ class CboTrainingRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'description' => 'required',
+            'cbo_id' => 'required',
+            'training_type' => 'required',
+            'date_of_training' => 'required',
+            'total_participants' => 'required|integer',
         ];
     }
 }
