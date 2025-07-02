@@ -10,21 +10,26 @@ use App\Http\Controllers\MhpAdminApprovalController;
 use App\Http\Controllers\MhpSiteController;
 use App\Http\Controllers\ProjectCostRevisionController;
 use App\Http\Controllers\ProjectFinancialInstallmentController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::prefix('cbos')->name('cbo.')->group(function () {
-    Route::get('/', [CBOController::class, 'index'])->name('index');         // List page
-    Route::get('/create', [CBOController::class, 'create'])->name('create'); // Create page (if needed)
-    Route::post('/', [CBOController::class, 'store'])->name('store');        // Store new CBO
+    Route::get('/', [CboController::class, 'index'])->name('index');         // List page
+    Route::get('/create', [CboController::class, 'create'])->name('create'); // Create page (if needed)
+    Route::post('/', [CboController::class, 'store'])->name('store');        // Store new CBO
 
-    Route::get('/{cbo}/edit', [CBOController::class, 'edit'])->name('edit'); // Edit page
-    Route::put('/{cbo}', [CBOController::class, 'update'])->name('update');  // Update CBO
+    Route::get('/{cbo}/edit', [CboController::class, 'edit'])->name('edit'); // Edit page
+    Route::put('/{cbo}', [CboController::class, 'update'])->name('update');  // Update CBO
 
-    Route::get('/{cbo}/details', [CBOController::class, 'details'])->name('details'); // Details for modal
+    Route::get('/{cbo}/details', [CboController::class, 'details'])->name('details'); // Details for modal
 });
+
+// REPORT
+Route::get('/cbo/report', [ReportController::class, 'cboReport'])->name('cbo.report');
+Route::get('/cbo/report/export', [ReportController::class, 'exportCboReport'])->name('cbo.report.export');
 
     Route::get('cbo/dialogues/create', [CboDialogueController::class, 'create'])->name('dialogues.create');
     Route::post('cbo/dialogues/store', [CboDialogueController::class, 'store'])->name('dialogues.store');

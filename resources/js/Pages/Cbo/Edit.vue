@@ -42,9 +42,9 @@
                 <InputGroup label="Gender" required>
                     <select v-model="form.gender" class="input">
                         <option value="" disabled>Select Gender</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="mixed">Mixed</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Mixed">Mixed</option>
                     </select>
                     <InputError :message="form.errors.gender" />
                 </InputGroup>
@@ -94,7 +94,7 @@ const form = useForm({
     village: props.cbo.village,
     date_of_formation: props.cbo.date_of_formation,
     total_members: props.cbo.total_members,
-    gender: props.cbo.gender,
+    gender: props.cbo.gender || '',
     num_cbo_members: props.cbo.num_cbo_members,
     president_name: props.cbo.president_name,
     president_contact: props.cbo.president_contact,
