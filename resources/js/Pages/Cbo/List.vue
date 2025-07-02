@@ -1,53 +1,92 @@
 <template>
-    <div>
-        <h1 class="text-2xl font-bold mb-6">Community-Based Organizations</h1>
+    <div class="p-4 sm:p-6">
+        <h1 class="text-3xl font-bold mb-6 text-gray-800 text-center">Community-Based Organizations</h1>
 
-        <table class="w-full table-auto border">
-            <thead class="bg-gray-100">
-            <tr>
-                <th class="px-4 py-2 text-left">Reference Code</th>
-                <th class="px-4 py-2 text-left">Name</th>
-                <th class="px-4 py-2 text-left">Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="cbo in cbos" :key="cbo.id" class="border-t">
-                <td class="px-4 py-2">{{ cbo.reference_code }}</td>
-                <td class="px-4 py-2">{{ cbo.name }}</td>
-                <td class="px-4 py-2 space-x-2">
+        <!-- Filters -->
+        <div class="mb-6 grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Gender</label>
+                <select v-model="filters.gender" class="w-full mt-1 border rounded px-3 py-2">
+                    <option value="">All</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="mixed">Mixed</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">District</label>
+                <input
+                    type="text"
+                    v-model="filters.district"
+                    class="w-full mt-1 border rounded px-3 py-2"
+                    placeholder="Search District"
+                />
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Date of Formation</label>
+                <input
+                    type="date"
+                    v-model="filters.date_of_formation"
+                    class="w-full mt-1 border rounded px-3 py-2"
+                />
+            </div>
+
+            <div class="flex items-end">
+                <button
+                    @click="applyFilters"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded w-auto"
+                >
+                    Apply Filters
+                </button>
+            </div>
+        </div>
+
+        <!-- Grid View -->
+        <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div v-for="cbo in cbos" :key="cbo.id" class="bg-white shadow rounded p-4 flex flex-col justify-between">
+                <div class="space-y-1 text-sm text-gray-700">
+                    <p><strong>Ref:</strong> {{ cbo.reference_code }}</p>
+                    <p><strong>District:</strong> {{ cbo.district }}</p>
+                    <p><strong>Tehsil:</strong> {{ cbo.tehsil }}</p>
+                    <p><strong>VC:</strong> {{ cbo.village_council }}</p>
+                    <p><strong>Village:</strong> {{ cbo.village }}</p>
+                    <p><strong>Date:</strong> {{ cbo.date_of_formation }}</p>
+                    <p><strong>Members:</strong> {{ cbo.total_members }}</p>
+                    <p><strong>Gender:</strong> {{ cbo.gender }}</p>
+                    <p><strong>CBO Members:</strong> {{ cbo.num_cbo_members }}</p>
+                    <p><strong>President:</strong> {{ cbo.president_name }}</p>
+                    <p><strong>Contact:</strong> {{ cbo.president_contact }}</p>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    <!-- Add this inside the button grid in List.vue -->
                     <button
-                        class="inline-flex items-center gap-1 px-3 py-1.5 text-sm rounded-md border border-gray-300 bg-white text-gray-800 hover:bg-gray-100 hover:text-blue-600 transition"
                         @click="editCbo(cbo)"
+                        class="bg-yellow-500 hover:bg-yellow-600 rounded shadow p-2 text-red-600 text-xs font-bold"
+                        title="Edit CBO"
                     >
-                        <Pencil class="w-4 h-4" /> Edit
+                        <Pencil class="w-5 h-5 text-white" />Edit
                     </button>
-
-                    <button
-                        class="inline-flex items-center gap-1 px-3 py-1.5 text-sm rounded-md border border-blue-600 bg-blue-600 text-white hover:bg-blue-700 transition"
-                        @click="openDialogueForm(cbo)"
-                    >
-                        <FilePlus class="w-4 h-4" /> Add Dialogue
+                    <button @click="openDialogueForm(cbo)" class="rounded p-2 shadow text-white font-bold text-xs bg-blue-600 hover:bg-blue-700" title="Dialogue">
+                        <FilePlus class="w-5 h-5 text-white" /> Dialogue
                     </button>
-
-                    <button
-                        class="inline-flex items-center gap-1 px-3 py-1.5 text-sm rounded-md border border-green-600 bg-green-600 text-white hover:bg-green-700 transition"
-                        @click="openTrainingForm(cbo)"
-                    >
-                        <Plus class="w-4 h-4" /> Add Training
+                    <button @click="openTrainingForm(cbo)" class="rounded p-2 shadow text-white font-bold text-xs bg-orange-600 hover:bg-orange-700" title="Training">
+                        <Plus class="w-5 h-5 text-white" /> Training
                     </button>
-
-                    <button
-                        class="inline-flex items-center gap-1 px-3 py-1.5 text-sm rounded-md border border-purple-600 bg-purple-600 text-white hover:bg-purple-700 transition"
-                        @click="openExposureForm(cbo)"
-                    >
-                        <Globe class="w-4 h-4" /> Add Exposure Visit
+                    <button @click="openExposureForm(cbo)" class="rounded p-2 shadow text-white font-bold text-xs bg-purple-600 hover:bg-purple-700" title="Exposure">
+                        <Globe class="w-5 h-5 text-white" /> Exposure
                     </button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+                    <button @click="openDetails(cbo)" class="rounded p-2 shadow text-white font-bold text-xs  bg-gray-700 hover:bg-gray-800" title="Details">
+                        <Eye class="w-5 h-5 text-white" /> Details
+                    </button>
+                </div>
+            </div>
+        </div>
 
-        <!-- Dialogue Modal -->
+        <!-- Modals -->
         <Modal :show="modal === 'dialogue'" @close="closeModal">
             <CBODialogueForm
                 :form="dialogueForm"
@@ -56,12 +95,10 @@
             />
         </Modal>
 
-        <!-- Training Modal -->
         <Modal :show="modal === 'training'" @close="closeModal">
             <CBOTrainingForm :cboId="selectedCbo.id" @success="onTrainingSaved" />
         </Modal>
 
-        <!-- Exposure Visit Modal -->
         <Modal :show="modal === 'exposure'" @close="closeModal">
             <CboExposureVisitForm
                 :form="exposureForm"
@@ -69,27 +106,50 @@
                 @submit="submitExposure"
             />
         </Modal>
+
+        <!-- Details Modal -->
+        <Modal :show="modal === 'details'" @close="closeModal">
+            <CboDetails :cboId="selectedCbo.id" />
+        </Modal>
     </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import { useForm, router } from '@inertiajs/vue3'
+import { useForm, router, usePage } from '@inertiajs/vue3'
 import { toast } from 'vue3-toastify'
-import { Pencil, Plus, FilePlus, Globe } from 'lucide-vue-next'
+import { Pencil, Plus, FilePlus, Globe, Eye } from 'lucide-vue-next'
 
 import Modal from '@/Components/Modal.vue'
 import CBODialogueForm from '@/Components/FormComponents/CBODialogueForm.vue'
 import CBOTrainingForm from '@/Pages/CboTraining/Create.vue'
 import CboExposureVisitForm from '@/Components/FormComponents/CBOExposureVisitForm.vue'
+import CboDetails from '@/Pages/Cbo/Partials/CboDetails.vue'
 
 const props = defineProps({ cbos: Array })
+const page = usePage()
+
+const filters = ref({
+    gender: page.props.filters?.gender || '',
+    district: page.props.filters?.district || '',
+    date_of_formation: page.props.filters?.date_of_formation || '',
+})
 
 const modal = ref(null)
 const selectedCbo = ref(null)
-
 const dialogueForm = ref(null)
 const exposureForm = ref(null)
+
+const applyFilters = () => {
+    router.get(route('cbo.index'), filters.value, {
+        preserveScroll: true,
+        preserveState: true,
+    })
+}
+
+const editCbo = (cbo) => {
+    router.visit(`/cbos/${cbo.id}/edit`)
+}
 
 const openDialogueForm = (cbo) => {
     selectedCbo.value = cbo
@@ -112,9 +172,7 @@ const submitDialogue = () => {
             toast.success('Dialogue saved successfully!')
             closeModal()
         },
-        onError: () => {
-            toast.error('Please correct the errors.')
-        },
+        onError: () => toast.error('Please correct the errors.'),
     })
 }
 
@@ -149,20 +207,23 @@ const submitExposure = () => {
             toast.success('Exposure Visit saved successfully!')
             closeModal()
         },
-        onError: () => {
-            toast.error('Please correct the errors.')
-        },
+        onError: () => toast.error('Please correct the errors.'),
     })
 }
 
-const editCbo = (cbo) => {
-    router.visit(`/cbos/${cbo.id}/edit`)
+const openDetails = (cbo) => {
+    selectedCbo.value = cbo
+    modal.value = 'details'
 }
 
 const closeModal = () => {
     modal.value = null
-    setTimeout(() => {
-        selectedCbo.value = null
-    }, 300)
+    setTimeout(() => (selectedCbo.value = null), 300)
 }
 </script>
+
+<style scoped>
+.btn-icon {
+    @apply inline-flex items-center justify-center p-2 rounded-md border border-gray-300 bg-white hover:bg-gray-100 transition;
+}
+</style>

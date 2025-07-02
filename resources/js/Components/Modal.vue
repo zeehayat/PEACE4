@@ -36,7 +36,7 @@ const maxWidthClass = computed(() => ({
     <transition name="fade">
         <div
             v-if="show"
-            class="fixed inset-0 z-50 flex items-center justify-center px-4 py-6 bg-black bg-opacity-50"
+            class="fixed inset-0 z-50 flex items-center justify-center px-4 py-6 bg-black bg-opacity-50 shadow-2xl"
             aria-modal="true"
             role="dialog"
         >

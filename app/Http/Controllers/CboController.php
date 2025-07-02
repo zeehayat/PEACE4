@@ -15,12 +15,36 @@ class CboController extends Controller
     {
         $this->service = $service;
     }
-
-    public function index()
+    public function details($id)
     {
-        $cbos = Cbo::all();
+        $cbo = Cbo::findOrFail($id);
+
+        return response()->json([
+            'dialogues' => $cbo->dialogues,
+            'trainings' => $cbo->trainings,
+            'exposures' => $cbo->exposureVisits,
+        ]);
+    }
+
+    public function index(Request $request)
+    {
+        $query = Cbo::query();
+
+        if ($request->filled('gender')) {
+            $query->where('gender', $request->gender);
+        }
+
+        if ($request->filled('district')) {
+            $query->where('district', 'like', '%' . $request->district . '%');
+        }
+
+        if ($request->filled('date_of_formation')) {
+            $query->whereDate('date_of_formation', $request->date_of_formation);
+        }
+
         return inertia('Cbo/List', [
-            'cbos' => $cbos,
+            'cbos' => $query->get(),
+            'filters' => $request->only('gender', 'district', 'date_of_formation'),
         ]);
     }
     public function create()
@@ -54,6 +78,12 @@ class CboController extends Controller
         }
 
 
+    }
+    public function edit(Cbo $cbo)
+    {
+        return inertia('Cbo/Edit', [
+            'cbo' => $cbo
+        ]);
     }
 
     public function update(Request $request, Cbo $cbo)
