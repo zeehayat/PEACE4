@@ -21,5 +21,3 @@ function submit() {
   form.post('/your-endpoint')
 }
 </script>
-// Add composition API logic here for Edit
-</script>

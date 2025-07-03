@@ -33,7 +33,7 @@ Route::get('/cbo/report/export', [ReportController::class, 'exportCboReport'])->
 
     Route::get('cbo/dialogues/create', [CboDialogueController::class, 'create'])->name('dialogues.create');
     Route::post('cbo/dialogues/store', [CboDialogueController::class, 'store'])->name('dialogues.store');
-Route::get('/cbos/{id}/details', [\App\Http\Controllers\CboController::class, 'details'])->name('cbos.details');
+Route::get('/cbos/{id}/details', [CboController::class, 'details'])->name('cbos.details');
 Route::get('/cbos/{cbo}/edit', [\App\Http\Controllers\CboController::class, 'edit'])->name('cbos.edit');
 
 Route::get('/cbo/dialogues/{dialogue}/edit', [CboDialogueController::class, 'edit'])->name('dialogues.edit');
