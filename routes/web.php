@@ -26,6 +26,10 @@ Route::prefix('cbos')->name('cbo.')->group(function () {
 
     Route::get('/{cbo}/details', [CboController::class, 'details'])->name('details'); // Details for modal
 });
+// MHP
+
+Route::resource('mhp-sites', MhpSiteController::class);
+Route::get('/mhp-site/create',[MhpSiteController::class,'create'])->name('mhp-site.create');
 
 // REPORT
 Route::get('/cbo/report', [ReportController::class, 'cboReport'])->name('cbo.report');
@@ -114,3 +118,6 @@ Route::post('/login', [LoginController::class, 'login'])->middleware('guest');
 
 // Optional: logout
 Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth');
+
+// Auto Search
+Route::get('/cbos/auto-search', [MhpSiteController::class, 'autoSearch']);
