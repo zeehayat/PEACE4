@@ -10,10 +10,28 @@ use Inertia\Inertia;
 
 class MhpSiteController extends Controller
 {
-    public function index() {
-        $sites = MhpSite::with('cbo')->paginate();
-        return Inertia::render('MhpSites/List', compact('sites'));
+    public function index(Request $request)
+    {
+        $query = MhpSite::query()->with('cbo');
+
+        if ($request->filled('cbo')) {
+            $query->whereHas('cbo', fn ($q) =>
+            $q->where('reference_code', 'like', "%{$request->cbo}%")
+            );
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $mhpSites = $query->paginate(10)->withQueryString();
+
+        return Inertia::render('MhpSite/Index', [
+            'mhpSites' => $mhpSites,
+            'filters' => $request->only('cbo', 'status'),
+        ]);
     }
+
     public function autoSearch(Request $request)
     {
         $search = $request->input('search');
@@ -34,11 +52,33 @@ class MhpSiteController extends Controller
     }
 
     public function store(Request $request) {
+
+
         $validated = $request->validate([
             'cbo_id' => 'required|exists:cbos,id',
-            'name' => 'required',
-            'location' => 'required',
-            'status' => 'required|in:New,Rehab,Upgradation',
+            'population' => 'nullable|numeric',
+            'grid_status' => 'required|string',
+            'status' => 'required|string',
+            'existing_capacity_kw' => 'nullable|numeric',
+            'planned_capacity_kw' => 'nullable|numeric',
+            'head_ft' => 'nullable|numeric',
+            'design_discharge_cusecs' => 'nullable|numeric',
+            'channel_length_km' => 'nullable|numeric',
+            'tl_ht_km' => 'nullable|numeric',
+            'tl_lt_km' => 'nullable|numeric',
+            'transformers' => 'nullable|numeric',
+            'turbine_type' => 'nullable|string',
+            'alternator_type' => 'nullable|string',
+            'accessible' => 'nullable|string',
+            'domestic_units' => 'nullable|numeric',
+            'commercial_units' => 'nullable|numeric',
+            'estimated_cost' => 'nullable|numeric',
+            'per_kw_cost' => 'nullable|numeric',
+            'total_hh' => 'nullable|numeric',
+            'avg_hh_size' => 'nullable|numeric',
+            'cost_per_capita' => 'nullable|numeric',
+            'tentative_completion_date'=>'required|date'
+
         ]);
         MhpSite::create($validated);
         return redirect()->route('mhp-sites.index')->with('success', 'MHP Site created!');

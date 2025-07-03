@@ -78,7 +78,7 @@ Route::middleware(['role:mhp|mhp-irrigation|cbo-mhp-irrigation|root|admin'])->pr
     Route::resource('sites', MhpSiteController::class);
     Route::resource('admin-approvals', MhpAdminApprovalController::class);
 });
-
+Route::get('/mhp/index',[MhpSiteController::class,'index'])->name('mhp.index');
 // Procurment Stub
 Route::middleware(['role:procurement|mhp|mhp-irrigation|cbo-mhp-irrigation|root|admin'])->prefix('procurement')->name('procurement.')->group(function () {
     Route::resource('cost-revisions', ProjectCostRevisionController::class);
