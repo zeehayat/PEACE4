@@ -1,14 +1,31 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { router } from '@inertiajs/vue3'
+import MhpAdminApprovalForm from '@/Pages/MhpAdminApproval/MhpAdminApprovalForm.vue'
 
 const props = defineProps({
     flash: Object,
-    mhpSites: Object, // paginated
-    filters: Object
+    mhpSites: Object,
+    filters: Object,
+    errors: Object
 })
 
-// reactive filters
+// Modal & toast states
+const showApprovalModal = ref(false)
+const toastMessage = ref('')
+const showToast = ref(false)
+
+// Flash watcher
+watch(() => props.flash?.success, (val) => {
+    if (val) {
+        showApprovalModal.value = false // close modal
+        toastMessage.value = val
+        showToast.value = true
+        setTimeout(() => showToast.value = false, 3000)
+    }
+})
+
+// Example filters
 const cboFilter = ref(props.filters.cbo ?? '')
 const statusFilter = ref(props.filters.status ?? '')
 
@@ -24,19 +41,21 @@ const destroy = (id) => {
         router.delete(`/mhp-sites/${id}`)
     }
 }
-
-const showFlash = ref(true)
 </script>
 
 <template>
     <div class="max-w-7xl mx-auto mt-6 space-y-4">
         <h1 class="text-3xl font-bold">MHP Sites</h1>
 
-        <!-- Flash messages -->
-        <div v-if="flash?.success && showFlash" class="bg-green-100 text-green-800 p-2 rounded relative">
-            {{ flash.success }}
-            <button @click="showFlash = false" class="absolute right-2 top-1 text-xl">&times;</button>
-        </div>
+        <!-- ✅ Toast -->
+        <transition name="fade">
+            <div
+                v-if="showToast"
+                class="fixed top-4 right-4 bg-green-600 text-white px-4 py-2 rounded shadow-lg z-50"
+            >
+                {{ toastMessage }}
+            </div>
+        </transition>
 
         <!-- Filters -->
         <div class="flex gap-2 flex-wrap">
@@ -51,7 +70,6 @@ const showFlash = ref(true)
                 <option>Rehab</option>
                 <option>Upgradation</option>
             </select>
-
             <a
                 href="/mhp-sites/create"
                 class="ml-auto px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
@@ -65,11 +83,11 @@ const showFlash = ref(true)
             <table class="min-w-full bg-white border">
                 <thead>
                 <tr class="bg-gray-100">
-                    <th class="p-2 text-left border">ID</th>
-                    <th class="p-2 text-left border">CBO</th>
-                    <th class="p-2 text-left border">Status</th>
-                    <th class="p-2 text-left border">Population</th>
-                    <th class="p-2 text-left border">Actions</th>
+                    <th class="p-2 border">ID</th>
+                    <th class="p-2 border">CBO</th>
+                    <th class="p-2 border">Status</th>
+                    <th class="p-2 border">Population</th>
+                    <th class="p-2 border">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -86,48 +104,55 @@ const showFlash = ref(true)
                         <a
                             :href="`/mhp-sites/${site.id}/edit`"
                             class="text-blue-600 hover:underline"
-                        >Edit</a>
-                        |
+                        >Edit</a> |
                         <button
                             @click="destroy(site.id)"
                             class="text-red-600 hover:underline"
-                        >Delete</button>
+                        >Delete</button> |
+                        <button
+                            @click="showApprovalModal = true"
+                            class="text-green-600 hover:underline"
+                        >+ Add Approval</button>
                     </td>
                 </tr>
                 <tr v-if="mhpSites.data.length === 0">
-                    <td colspan="5" class="text-center p-4 text-gray-500">No MHP Sites found.</td>
+                    <td colspan="5" class="text-center p-4 text-gray-500">
+                        No MHP Sites found.
+                    </td>
                 </tr>
                 </tbody>
             </table>
         </div>
 
-        <!-- Pagination -->
-        <div class="flex justify-center space-x-2 mt-4">
-            <button
-                v-if="mhpSites.prev_page_url"
-                @click="router.get(mhpSites.prev_page_url, {}, { preserveState: true, replace: true })"
-                class="px-3 py-1 border rounded hover:bg-gray-100"
+        <!-- Modal -->
+        <transition name="fade">
+            <div
+                v-if="showApprovalModal"
+                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
             >
-                Previous
-            </button>
-            <span>Page {{ mhpSites.current_page }} of {{ mhpSites.last_page }}</span>
-            <button
-                v-if="mhpSites.next_page_url"
-                @click="router.get(mhpSites.next_page_url, {}, { preserveState: true, replace: true })"
-                class="px-3 py-1 border rounded hover:bg-gray-100"
-            >
-                Next
-            </button>
-        </div>
+                <div class="bg-white rounded-lg shadow-lg p-4 relative max-w-2xl w-full">
+                    <button
+                        class="absolute top-2 right-2 text-gray-500 hover:text-red-600"
+                        @click="showApprovalModal = false"
+                    >
+                        ✖
+                    </button>
+                    <MhpAdminApprovalForm
+                        action="create"
+                        :mhp-site-id="mhpSites.data[0]?.id"
+                        :errors="props.errors"
+                    />
+                </div>
+            </div>
+        </transition>
     </div>
 </template>
 
 <style scoped>
-table {
-    @apply border-collapse w-full;
+.fade-enter-active, .fade-leave-active {
+    transition: opacity 0.3s ease;
 }
-th,
-td {
-    @apply px-3 py-2;
+.fade-enter-from, .fade-leave-to {
+    opacity: 0;
 }
 </style>

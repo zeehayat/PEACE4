@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\MhpAdminApproval;
 use App\Http\Requests\MhpAdminApprovalRequest;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class MhpAdminApprovalController extends Controller
 {
@@ -12,7 +13,10 @@ class MhpAdminApprovalController extends Controller
     {
         $data = $request->validated();
         MhpAdminApproval::create($data);
-        return redirect()->back()->with('success', 'MhpAdminApproval created successfully.');
+
+        return redirect()->route('mhp-sites.index')
+            ->with('success', 'Approval Stored Successfully.');
+
     }
 
     public function update(MhpAdminApprovalRequest $request, MhpAdminApproval $mhpadminapproval)
