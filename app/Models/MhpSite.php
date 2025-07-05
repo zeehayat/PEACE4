@@ -7,11 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class MhpSite extends Model
+class MhpSite extends Model implements HasMedia
 {
     /** @use HasFactory<\Database\Factories\MhpSiteFactory> */
-    use HasFactory;
+    use HasFactory, InteractsWithMedia;
     protected $guarded = [];
 
     public function cbo():BelongsTo

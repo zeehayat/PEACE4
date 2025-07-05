@@ -1,91 +1,90 @@
 <script setup>
-import { ref, watch } from 'vue'
-import { router } from '@inertiajs/vue3'
+import { watch } from 'vue'
+import { useForm } from '@inertiajs/vue3'
 
 const props = defineProps({
     show: Boolean,
-    onClose: Function,
-    site: Object,
-    nextField: String // e.g. "revised_cost_1"
+    site: { type: Object, required: true },
+    field: { type: String, required: true }, // e.g., revised_cost_1
 })
 
-const revisedCostValue = ref('')
-const loading = ref(false)
+const emit = defineEmits(['close', 'updated'])
+
+const form = useForm({
+    value: '',
+})
+
+watch(() => props.site, () => {
+    form.value = ''
+})
 
 const submit = () => {
-    if (!props.site || !props.nextField) return
-
-    loading.value = true
-
-    router.put(
-        `/mhp/revise-cost/${props.site.id}/${props.nextField}`,
-        { value: revisedCostValue.value },
+    form.put(
+        `/mhp/revise-cost/${props.site.id}/${props.field}`,
         {
-            preserveScroll: true,
-            preserveState: true,
             onSuccess: () => {
-                revisedCostValue.value = ''
-                loading.value = false
-                props.onClose?.()
-                // refresh table
-                router.reload({ preserveState: true, preserveScroll: true })
+                emit('updated', 'Revised cost updated successfully.')
+                emit('close')
             },
-            onError: () => {
-                loading.value = false
-            }
         }
     )
 }
-
-watch(() => props.show, (val) => {
-    if (!val) revisedCostValue.value = ''
-})
 </script>
 
+
 <template>
-    <transition name="fade">
-        <div
-            v-if="show"
-            class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-        >
-            <div class="bg-white rounded-lg shadow-lg p-4 relative max-w-md w-full">
-                <button
-                    class="absolute top-2 right-2 text-gray-500 hover:text-red-600"
-                    @click="onClose"
-                >
-                    ✖
-                </button>
+    <div
+        v-if="show"
+        class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4"
+    >
+        <div class="bg-white rounded-lg shadow-lg p-4 max-w-md w-full relative">
+            <button @click="$emit('close')" class="absolute top-2 right-2 text-lg">
+                ✖
+            </button>
 
-                <h2 class="text-lg font-bold mb-2">Add {{ nextField.replace('_', ' ') }}</h2>
+            <h2 class="text-xl font-bold mb-4 text-blue-700">
+                ➕ Add {{ field.replace('_', ' ').toUpperCase() }}
+            </h2>
 
-                <form @submit.prevent="submit">
+            <form @submit.prevent="submit">
+                <div>
+                    <label class="font-semibold">New {{ field.replace('_', ' ').toUpperCase() }}</label>
                     <input
-                        v-model="revisedCostValue"
+                        v-model="form.value"
                         type="number"
-                        placeholder="Enter revised cost"
-                        class="border w-full p-2 rounded mb-4"
+                        step="0.01"
+                        class="input"
                     />
-
-                    <div class="text-right">
-                        <button
-                            type="submit"
-                            :disabled="loading"
-                            class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-                        >
-                            {{ loading ? 'Saving...' : 'Save' }}
-                        </button>
+                    <div v-if="form.errors.value" class="text-red-500 text-xs">
+                        {{ form.errors.value }}
                     </div>
-                </form>
-            </div>
+                </div>
+
+                <div class="text-right mt-4">
+                    <button
+                        type="button"
+                        @click="$emit('close')"
+                        class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 mr-2"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        type="submit"
+                        :disabled="form.processing"
+                        class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+                    >
+                        {{ form.processing ? 'Saving…' : 'Save' }}
+                    </button>
+                </div>
+            </form>
         </div>
-    </transition>
+    </div>
 </template>
 
+
 <style scoped>
-.fade-enter-active, .fade-leave-active {
-    transition: opacity 0.3s ease;
-}
-.fade-enter-from, .fade-leave-to {
-    opacity: 0;
+.input {
+    @apply w-full border border-gray-300 rounded px-2 py-1 mt-1
+    focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-500 text-sm;
 }
 </style>

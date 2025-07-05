@@ -1,6 +1,7 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { router } from '@inertiajs/vue3'
+import AttachmentUploader from '@/Components/AttachmentComponent/AttachmentUploader.vue'
 
 const props = defineProps({
     action: { type: String, default: 'create' }, // create or update
@@ -11,7 +12,7 @@ const props = defineProps({
 
 const emit = defineEmits(['close'])
 
-const form = ref({})
+const form = ref({ attachments: [] }) // initialize attachments
 
 // formats date to YYYY-MM-DD
 const formatDate = (val) => {
@@ -36,6 +37,7 @@ const initForm = () => {
         design_estimate_date: formatDate(props.approval?.design_estimate_date),
         eu_approval_submission_date: formatDate(props.approval?.eu_approval_submission_date),
         opm_validation_date: formatDate(props.approval?.opm_validation_date),
+        attachments: [], // reset
     }
 }
 
@@ -46,9 +48,23 @@ const submit = () => {
         ? '/mhp-admin-approvals'
         : `/mhp-admin-approvals/${props.approval.id}`
 
-    const method = props.action === 'create' ? router.post : router.put
+    const method = props.action === 'create' ? router.post : router.post // use POST with _method=PUT if needed
+    const data = new FormData()
 
-    method(url, form.value, {
+    Object.entries(form.value).forEach(([key, val]) => {
+        if (key === 'attachments') {
+            val.forEach(file => data.append('attachments[]', file))
+        } else {
+            data.append(key, val ?? '')
+        }
+    })
+
+    if (props.action === 'update') {
+        data.append('_method', 'PUT')
+    }
+
+    method(url, data, {
+        forceFormData: true,
         onSuccess: () => {
             emit('close')
             router.reload({ only: ['mhpSites', 'flash'] })
@@ -58,6 +74,8 @@ const submit = () => {
 </script>
 
 <template>
+
+
     <div class="bg-white rounded-lg shadow-lg p-4 max-w-2xl w-full relative">
         <button @click="$emit('close')" class="absolute top-2 right-2">✖</button>
 
@@ -66,20 +84,23 @@ const submit = () => {
         </h2>
 
         <form @submit.prevent="submit" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <template v-for="(field, label) in {
-        eu_approval_date: 'EU Approval Date',
-        approved_cost: 'Approved Cost',
-        revised_cost_1: 'Revised Cost 1',
-        revised_cost_2: 'Revised Cost 2',
-        revised_cost_3: 'Revised Cost 3',
-        hpp_inauguration_date: 'HPP Inauguration Date',
-        technical_survey_date: 'Technical Survey Date',
-        date_design_psu_submission: 'Design PSU Submission',
-        headoffice_review_submission_date: 'Head Office Review Submission',
-        design_estimate_date: 'Design Estimate Date',
-        eu_approval_submission_date: 'EU Approval Submission',
-        opm_validation_date: 'OPM Validation Date'
-      }" :key="field">
+            <template
+                v-for="(field, label) in {
+                    eu_approval_date: 'EU Approval Date',
+                    approved_cost: 'Approved Cost',
+                    revised_cost_1: 'Revised Cost 1',
+                    revised_cost_2: 'Revised Cost 2',
+                    revised_cost_3: 'Revised Cost 3',
+                    hpp_inauguration_date: 'HPP Inauguration Date',
+                    technical_survey_date: 'Technical Survey Date',
+                    date_design_psu_submission: 'Design PSU Submission',
+                    headoffice_review_submission_date: 'Head Office Review Submission',
+                    design_estimate_date: 'Design Estimate Date',
+                    eu_approval_submission_date: 'EU Approval Submission',
+                    opm_validation_date: 'OPM Validation Date'
+                }"
+                :key="field"
+            >
                 <div>
                     <label class="font-semibold">{{ label }}</label>
                     <input
@@ -90,6 +111,14 @@ const submit = () => {
                     <div v-if="errors?.[field]" class="text-red-500 text-xs">{{ errors[field] }}</div>
                 </div>
             </template>
+
+            <div class="col-span-full">
+                <AttachmentUploader
+                    v-model="form.attachments"
+                    label="Attachments"
+                    :existing="props.approval?.attachments ?? []"
+                />
+            </div>
 
             <div class="col-span-full text-right mt-4">
                 <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">

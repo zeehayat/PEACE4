@@ -12,8 +12,13 @@ class MhpAdminApprovalController extends Controller
     public function store(MhpAdminApprovalRequest $request)
     {
         $data = $request->validated();
-        MhpAdminApproval::create($data);
-
+        unset($data['attachments']);
+        $approval=MhpAdminApproval::create($data);
+        if ($request->hasFile('attachments')) {
+            foreach ($request->file('attachments') as $file) {
+                $approval->addMedia($file)->toMediaCollection('attachments');
+            }
+        }
         return redirect()->route('mhp.mhp-sites.index')
             ->with('success', 'Approval Stored Successfully.');
 
@@ -22,7 +27,13 @@ class MhpAdminApprovalController extends Controller
     public function update(MhpAdminApprovalRequest $request, MhpAdminApproval $mhpadminapproval)
     {
         $data = $request->validated();
-        $mhpadminapproval->update($data);
+        unset($data['attachments']);
+        $approval=$mhpadminapproval->update($data);
+        if ($request->hasFile('attachments')) {
+            foreach ($request->file('attachments') as $file) {
+                $approval->addMedia($file)->toMediaCollection('attachments');
+            }
+        }
         return redirect()->back()->with('success', 'MhpAdminApproval updated successfully.');
     }
     public function updateRevisedCost($mhpSiteId, $field, Request $request)
@@ -48,6 +59,7 @@ class MhpAdminApprovalController extends Controller
 
         return back()->with('success', ucfirst(str_replace('_', ' ', $field)) . ' updated successfully.');
     }
+
 
 
 }

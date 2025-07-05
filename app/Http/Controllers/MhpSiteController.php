@@ -12,7 +12,7 @@ class MhpSiteController extends Controller
 {
     public function index(Request $request)
     {
-        $query = MhpSite::query()->with(['cbo','adminApproval']);
+        $query = MhpSite::query()->with(['cbo', 'adminApproval.media', 'media']);
 
         if ($request->filled('cbo')) {
             $query->whereHas('cbo', fn ($q) =>
@@ -25,6 +25,31 @@ class MhpSiteController extends Controller
         }
 
         $mhpSites = $query->paginate(50)->withQueryString();
+
+        // transform each site
+        $mhpSites->getCollection()->transform(function ($site) {
+            // map site attachments
+            $site->attachments = $site->getMedia('attachments')->map(fn ($m) => [
+                'id' => $m->id,
+                'name' => $m->name,
+                'file_name' => $m->file_name,
+                'url' => $m->getUrl(),
+                'size' => $m->size,
+            ]);
+
+            // map adminApproval attachments if exists
+            if ($site->adminApproval) {
+                $site->adminApproval->attachments = $site->adminApproval->getMedia('attachments')->map(fn ($m) => [
+                    'id' => $m->id,
+                    'name' => $m->name,
+                    'file_name' => $m->file_name,
+                    'url' => $m->getUrl(),
+                    'size' => $m->size,
+                ]);
+            }
+
+            return $site;
+        });
 
         return Inertia::render('MhpSite/Index', [
             'mhpSites' => $mhpSites,
@@ -51,9 +76,8 @@ class MhpSiteController extends Controller
         return Inertia::render('MhpSite/MhpSite');
     }
 
-    public function store(Request $request) {
-
-
+    public function store(Request $request)
+    {
         $validated = $request->validate([
             'cbo_id' => 'required|exists:cbos,id',
             'population' => 'nullable|numeric',
@@ -77,14 +101,70 @@ class MhpSiteController extends Controller
             'total_hh' => 'nullable|numeric',
             'avg_hh_size' => 'nullable|numeric',
             'cost_per_capita' => 'nullable|numeric',
-            'tentative_completion_date'=>'required|date',
-            'month_year_establishment'=>'required|date',
-            'established_by'=>'required|string',
-
-
+            'tentative_completion_date' => 'required|date',
+            'month_year_establishment' => 'required|date',
+            'established_by' => 'required|string',
+            'attachments.*' => 'nullable|file|max:20480', // max 20MB per file
         ]);
-        MhpSite::create($validated);
+        unset($validated['attachments']);
+
+        $site = MhpSite::create($validated);
+
+        if ($request->hasFile('attachments')) {
+            foreach ($request->file('attachments') as $file) {
+                $site->addMedia($file)->toMediaCollection('attachments');
+            }
+        }
+
         return redirect()->route('mhp.mhp-sites.index')->with('success', 'MHP Site created!');
     }
+
+
+
+    public function update(Request $request, $id)
+    {
+        $site = MhpSite::findOrFail($id);
+
+        $validated = $request->validate([
+            'cbo_id' => 'required|exists:cbos,id',
+            'population' => 'nullable|numeric',
+            'grid_status' => 'nullable|string|max:255',
+            'status' => 'nullable|string|max:255',
+            'existing_capacity_kw' => 'nullable|numeric',
+            'planned_capacity_kw' => 'nullable|numeric',
+            'head_ft' => 'nullable|numeric',
+            'design_discharge_cusecs' => 'nullable|numeric',
+            'channel_length_km' => 'nullable|numeric',
+            'tl_ht_km' => 'nullable|numeric',
+            'tl_lt_km' => 'nullable|numeric',
+            'transformers' => 'nullable|numeric',
+            'turbine_type' => 'nullable|string|max:255',
+            'alternator_type' => 'nullable|string|max:255',
+            'accessible' => 'nullable|string|in:YES,NO',
+            'domestic_units' => 'nullable|numeric',
+            'commercial_units' => 'nullable|numeric',
+            'estimated_cost' => 'nullable|numeric',
+            'per_kw_cost' => 'nullable|numeric',
+            'total_hh' => 'nullable|numeric',
+            'avg_hh_size' => 'nullable|numeric',
+            'cost_per_capita' => 'nullable|numeric',
+            'tentative_completion_date' => 'nullable|date',
+            'established_by' => 'nullable|string|max:255',
+            'month_year_establishment' => 'nullable|date',
+            'attachments.*' => 'nullable|file|max:20480',
+        ]);
+        unset($validated['attachments']);
+
+        $site->update($validated);
+
+        if ($request->hasFile('attachments')) {
+            foreach ($request->file('attachments') as $file) {
+                $site->addMedia($file)->toMediaCollection('attachments');
+            }
+        }
+
+        return back()->with('success', 'MHP site updated successfully.');
+    }
+
 
 }

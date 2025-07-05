@@ -3,7 +3,26 @@ import { ref, watch } from 'vue'
 import { router } from '@inertiajs/vue3'
 import SearchableCboSelect from '@/Components/SearchableCboSelect.vue'
 import SideBar from '@/Components/SideBar.vue'
+import vueFilePond from 'vue-filepond'
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
+
+import 'filepond/dist/filepond.min.css'
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
+
+const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginImagePreview)
+
 import DatePicker from '@/Components/DatePicker.vue'
+import AttachmentUploader from "@/Components/AttachmentComponent/AttachmentUploader.vue";
+const attachments = ref([])
+
+const removeExistingAttachment = (file) => {
+    router.delete(`/mhp/mhp-sites/${site.id}/attachments/${file.id}`, {
+        onSuccess: () => {
+            site.attachments = site.attachments.filter(f => f.id !== file.id)
+        }
+    })
+}
 //import 'vue-datepicker-next/index.css'
 const sidebarRef = ref()
 const props = defineProps({
@@ -76,12 +95,35 @@ watch(() => props.flash, (val) => {
 }, { immediate: true })
 
 const submit = () => {
-    if (props.action === 'create') {
-        router.post('/mhp/mhp-sites', form.value)
-    } else {
-        router.put(`/mhp/mhp-sites/${props.site.id}`, form.value)
+    const data = new FormData()
+
+    for (const [key, value] of Object.entries(form.value)) {
+        if (key !== 'attachments') {
+            data.append(key, value ?? '')
+        }
     }
+
+    if (form.value.attachments && form.value.attachments.length > 0) {
+        form.value.attachments.forEach((file, index) => {
+            data.append(`attachments[${index}]`, file)
+        })
+    }
+
+    // 👇 ADD THIS
+    if (props.action !== 'create') {
+        data.append('_method', 'PUT')
+    }
+
+    const url = props.action === 'create'
+        ? '/mhp/mhp-sites'
+        : `/mhp/mhp-sites/${props.site.id}`
+
+    router.post(url, data, {
+        forceFormData: true
+    })
 }
+
+
 </script>
 
 
@@ -335,6 +377,14 @@ const submit = () => {
                         </div>
                     </div>
                 </div>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Attachments</label>
+                <AttachmentUploader
+                    v-model="attachments"
+                    :existing="site.attachments ?? []"
+                    @remove-existing="removeExistingAttachment"
+                />
             </div>
 
             <div class="text-center pt-4">

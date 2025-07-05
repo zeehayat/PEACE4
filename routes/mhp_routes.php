@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::resource('mhp-sites', MhpSiteController::class);
 Route::get('/mhp-site/create',[MhpSiteController::class,'create'])->name('mhp-site.create');
-
+Route::put('/mhp-site/{id}',[MhpSiteController::class,'update'])->name('mhp-site.update');
 // Admin Approval of MHP
 Route::middleware(['role:mhp|mhp-irrigation|cbo-mhp-irrigation|root|admin'])->prefix('mhp')->name('mhp.')->group(function () {
     Route::resource('sites', MhpSiteController::class);

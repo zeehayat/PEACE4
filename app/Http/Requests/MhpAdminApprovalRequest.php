@@ -29,6 +29,7 @@ class MhpAdminApprovalRequest extends FormRequest
             'design_estimate_date'=>'required|date',
             'eu_approval_submission_date'=>'required|date',
             'opm_validation_date'=>'required|date',
+            'attachments.*' => 'nullable|file|max:20480',
         ];
     }
 }
