@@ -12,7 +12,7 @@ class MhpSiteController extends Controller
 {
     public function index(Request $request)
     {
-        $query = MhpSite::query()->with('cbo');
+        $query = MhpSite::query()->with(['cbo','adminApproval']);
 
         if ($request->filled('cbo')) {
             $query->whereHas('cbo', fn ($q) =>
@@ -24,7 +24,7 @@ class MhpSiteController extends Controller
             $query->where('status', $request->status);
         }
 
-        $mhpSites = $query->paginate(10)->withQueryString();
+        $mhpSites = $query->paginate(50)->withQueryString();
 
         return Inertia::render('MhpSite/Index', [
             'mhpSites' => $mhpSites,
@@ -77,11 +77,14 @@ class MhpSiteController extends Controller
             'total_hh' => 'nullable|numeric',
             'avg_hh_size' => 'nullable|numeric',
             'cost_per_capita' => 'nullable|numeric',
-            'tentative_completion_date'=>'required|date'
+            'tentative_completion_date'=>'required|date',
+            'month_year_establishment'=>'required|date',
+            'established_by'=>'required|string',
+
 
         ]);
         MhpSite::create($validated);
-        return redirect()->route('mhp-sites.index')->with('success', 'MHP Site created!');
+        return redirect()->route('mhp.mhp-sites.index')->with('success', 'MHP Site created!');
     }
 
 }

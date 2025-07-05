@@ -1,132 +1,99 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { router } from '@inertiajs/vue3'
-import { CalendarDaysIcon, CurrencyDollarIcon, PencilIcon } from 'lucide-vue-next'
-import FormError from '@/Components/FormError.vue'
 
 const props = defineProps({
-    action: { type: String, default: 'create' },
+    action: { type: String, default: 'create' }, // create or update
     mhpSiteId: { type: [String, Number], required: true },
     approval: { type: Object, default: null },
     errors: Object,
 })
 
-const form = ref({
-    mhp_site_id: props.mhpSiteId,
-    eu_approval_date: props.approval?.eu_approval_date ?? '',
-    approved_cost: props.approval?.approved_cost ?? '',
-    revised_cost_1: props.approval?.revised_cost_1 ?? '',
-    revised_cost_2: props.approval?.revised_cost_2 ?? '',
-    revised_cost_3: props.approval?.revised_cost_3 ?? '',
-    hpp_inauguration_date: props.approval?.hpp_inauguration_date ?? '',
-    technical_survey_date: props.approval?.technical_survey_date ?? '',
-    date_design_psu_submission: props.approval?.date_design_psu_submission ?? '',
-    headoffice_review_submission_date: props.approval?.headoffice_review_submission_date ?? '',
-    design_estimate_date: props.approval?.design_estimate_date ?? '',
-    eu_approval_submission_date: props.approval?.eu_approval_submission_date ?? '',
-    opm_validation_date: props.approval?.opm_validation_date ?? ''
-})
+const emit = defineEmits(['close'])
+
+const form = ref({})
+
+// formats date to YYYY-MM-DD
+const formatDate = (val) => {
+    if (!val) return ''
+    if (val.length >= 10) return val.substring(0, 10)
+    return val
+}
+
+// initialize form when mounted or approval changes
+const initForm = () => {
+    form.value = {
+        mhp_site_id: props.mhpSiteId,
+        eu_approval_date: formatDate(props.approval?.eu_approval_date),
+        approved_cost: props.approval?.approved_cost ?? '',
+        revised_cost_1: props.approval?.revised_cost_1 ?? '',
+        revised_cost_2: props.approval?.revised_cost_2 ?? '',
+        revised_cost_3: props.approval?.revised_cost_3 ?? '',
+        hpp_inauguration_date: formatDate(props.approval?.hpp_inauguration_date),
+        technical_survey_date: formatDate(props.approval?.technical_survey_date),
+        date_design_psu_submission: formatDate(props.approval?.date_design_psu_submission),
+        headoffice_review_submission_date: formatDate(props.approval?.headoffice_review_submission_date),
+        design_estimate_date: formatDate(props.approval?.design_estimate_date),
+        eu_approval_submission_date: formatDate(props.approval?.eu_approval_submission_date),
+        opm_validation_date: formatDate(props.approval?.opm_validation_date),
+    }
+}
+
+watch(() => props.approval, initForm, { immediate: true, deep: true })
 
 const submit = () => {
-    if (props.action === 'create') {
-        router.post('/mhp-admin-approvals', form.value)
-    } else {
-        router.put(`/mhp-admin-approvals/${props.approval.id}`, form.value)
-    }
+    const url = props.action === 'create'
+        ? '/mhp-admin-approvals'
+        : `/mhp-admin-approvals/${props.approval.id}`
+
+    const method = props.action === 'create' ? router.post : router.put
+
+    method(url, form.value, {
+        onSuccess: () => {
+            emit('close')
+            router.reload({ only: ['mhpSites', 'flash'] })
+        }
+    })
 }
 </script>
 
 <template>
-    <div class="bg-white rounded-lg shadow-lg p-6 max-w-2xl w-full">
-        <h2 class="text-xl font-bold text-gray-700 mb-4 border-b-blue-600 border-b-2">
-            {{ props.action === 'create' ? '➕ Add' : '✏️ Edit' }} Admin Approval
+    <div class="bg-white rounded-lg shadow-lg p-4 max-w-2xl w-full relative">
+        <button @click="$emit('close')" class="absolute top-2 right-2">✖</button>
+
+        <h2 class="text-xl font-bold mb-4">
+            {{ props.action === 'create' ? 'Add' : 'Edit' }} Admin Approval
         </h2>
 
-        <form @submit.prevent="submit" class="space-y-4">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
-                <!-- Example field with icon -->
+        <form @submit.prevent="submit" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <template v-for="(field, label) in {
+        eu_approval_date: 'EU Approval Date',
+        approved_cost: 'Approved Cost',
+        revised_cost_1: 'Revised Cost 1',
+        revised_cost_2: 'Revised Cost 2',
+        revised_cost_3: 'Revised Cost 3',
+        hpp_inauguration_date: 'HPP Inauguration Date',
+        technical_survey_date: 'Technical Survey Date',
+        date_design_psu_submission: 'Design PSU Submission',
+        headoffice_review_submission_date: 'Head Office Review Submission',
+        design_estimate_date: 'Design Estimate Date',
+        eu_approval_submission_date: 'EU Approval Submission',
+        opm_validation_date: 'OPM Validation Date'
+      }" :key="field">
                 <div>
-                    <label class="flex items-center gap-1">
-                        <CalendarDaysIcon class="w-4 h-4 text-blue-500" /> EU Approval Date
-                    </label>
-                    <input v-model="form.eu_approval_date" type="date" class="input">
-                    <FormError :error="props.errors?.eu_approval_date" />
+                    <label class="font-semibold">{{ label }}</label>
+                    <input
+                        v-model="form[field]"
+                        :type="field.includes('date') ? 'date' : 'number'"
+                        class="input"
+                    />
+                    <div v-if="errors?.[field]" class="text-red-500 text-xs">{{ errors[field] }}</div>
                 </div>
+            </template>
 
-                <div>
-                    <label class="flex items-center gap-1">
-                        <CurrencyDollarIcon class="w-4 h-4 text-green-500" /> Approved Cost
-                    </label>
-                    <input v-model="form.approved_cost" type="number" class="input">
-                    <FormError :error="props.errors?.approved_cost" />
-                </div>
-
-                <div>
-                    <label><PencilIcon class="w-4 h-4 text-yellow-500 inline" /> Revised Cost 1</label>
-                    <input v-model="form.revised_cost_1" type="number" class="input">
-                    <FormError :error="props.errors?.revised_cost_1" />
-                </div>
-
-                <div>
-                    <label><PencilIcon class="w-4 h-4 text-yellow-500 inline" /> Revised Cost 2</label>
-                    <input v-model="form.revised_cost_2" type="number" class="input">
-                    <FormError :error="props.errors?.revised_cost_2" />
-                </div>
-
-                <div>
-                    <label><PencilIcon class="w-4 h-4 text-yellow-500 inline" /> Revised Cost 3</label>
-                    <input v-model="form.revised_cost_3" type="number" class="input">
-                    <FormError :error="props.errors?.revised_cost_3" />
-                </div>
-
-                <div>
-                    <label><CalendarDaysIcon class="w-4 h-4 text-blue-500 inline" /> HPP Inauguration Date</label>
-                    <input v-model="form.hpp_inauguration_date" type="date" class="input">
-                    <FormError :error="props.errors?.hpp_inauguration_date" />
-                </div>
-
-                <div>
-                    <label><CalendarDaysIcon class="w-4 h-4 text-blue-500 inline" /> Technical Survey Date</label>
-                    <input v-model="form.technical_survey_date" type="date" class="input">
-                    <FormError :error="props.errors?.technical_survey_date" />
-                </div>
-
-                <div>
-                    <label><CalendarDaysIcon class="w-4 h-4 text-blue-500 inline" /> Design PSU Submission</label>
-                    <input v-model="form.date_design_psu_submission" type="date" class="input">
-                    <FormError :error="props.errors?.date_design_psu_submission" />
-                </div>
-
-                <div>
-                    <label><CalendarDaysIcon class="w-4 h-4 text-blue-500 inline" /> Head Office Review Submission</label>
-                    <input v-model="form.headoffice_review_submission_date" type="date" class="input">
-                    <FormError :error="props.errors?.headoffice_review_submission_date" />
-                </div>
-
-                <div>
-                    <label><CalendarDaysIcon class="w-4 h-4 text-blue-500 inline" /> Design Estimate Date</label>
-                    <input v-model="form.design_estimate_date" type="date" class="input">
-                    <FormError :error="props.errors?.design_estimate_date" />
-                </div>
-
-                <div>
-                    <label><CalendarDaysIcon class="w-4 h-4 text-blue-500 inline" /> EU Approval Submission</label>
-                    <input v-model="form.eu_approval_submission_date" type="date" class="input">
-                    <FormError :error="props.errors?.eu_approval_submission_date" />
-                </div>
-
-                <div>
-                    <label><CalendarDaysIcon class="w-4 h-4 text-blue-500 inline" /> OPM Validation Date</label>
-                    <input v-model="form.opm_validation_date" type="date" class="input">
-                    <FormError :error="props.errors?.opm_validation_date" />
-                </div>
-            </div>
-
-            <div class="text-right">
-                <button type="submit"
-                        class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
-                    {{ props.action === 'create' ? '💾 Save' : '✅ Update' }}
+            <div class="col-span-full text-right mt-4">
+                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                    {{ props.action === 'create' ? 'Save' : 'Update' }}
                 </button>
             </div>
         </form>

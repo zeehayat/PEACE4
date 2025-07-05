@@ -11,6 +11,21 @@ return Application::configure(basePath: dirname(__DIR__))
         api: __DIR__.'/../routes/api.php',
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
+        // Adding MHP Routes
+        then: function (){
+            Route::middleware('web')
+                ->prefix('mhp')
+                ->name('mhp.')
+                ->group(base_path('routes/mhp_routes.php'));
+            Route::middleware('web')
+                ->prefix('irrigation')
+                ->name('irrigation.')
+                ->group(base_path('routes/irrigation_routes.php'));
+            Route::middleware('web')
+                ->prefix('cbo')
+                ->name('cbo.')
+                ->group(base_path('routes/cbo_routes.php'));
+        }
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
