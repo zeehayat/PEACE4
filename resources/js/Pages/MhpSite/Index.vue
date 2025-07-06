@@ -7,6 +7,7 @@ import MhpAdminApprovalModal from '@/Components/MhpAdminApprovalModal.vue'
 import MhpApprovalViewModal from '@/Components/MhpApprovalViewModal.vue'
 import AddRevisedCostModal from '@/Components/AddRevisedCostModal.vue'
 import MhpReport from '@/Pages/MhpSite/MhpReport.vue'
+import MhpCompletionForm from "@/Pages/MhpCompletion/MhpCompletionForm.vue";
 
 const props = defineProps({
     mhpSites: Object,
@@ -29,7 +30,16 @@ const showRevisedCostModal = ref(false)
 const showReportModal = ref(false)
 const revisedCostField = ref('')
 const approvalAction = ref('create')
+const showCompletionModal = ref(false)
+const completionMode = ref('create')
+const selectedCompletion = ref(null)
 
+function openCompletionModal(site) {
+    selectedSite.value = site
+    selectedCompletion.value = site.completion || null
+    completionMode.value = site.completion ? 'edit' : 'create'
+    showCompletionModal.value = true
+}
 onMounted(() => {
     document.addEventListener('click', () => {
         openActionMenuId.value = null
@@ -238,6 +248,33 @@ function getFileIcon(file) {
                                         </a>
                                         <div class="border-t border-gray-100 my-1"></div>
                                         <a href="#" @click.prevent="selectedSite = site; showReportModal = true" class="block px-4 py-2 hover:bg-gray-100">View Report</a>
+                                        <a
+                                            href="#"
+                                            @click.prevent="
+    selectedSite = site;
+    selectedCompletion.value = site.completion ?? null;
+    completionMode.value = site.completion ? 'edit' : 'create';
+    showCompletionModal.value = true;
+"
+                                        >
+                                            {{ site.completion ? 'Edit Completion' : '+ Add Completion' }}
+                                        </a>
+
+
+
+                                        <a
+                                            v-if="site.completion"
+                                            href="#"
+                                            @click.prevent="
+    selectedCompletion.value = site.completion;
+    showCompletionModal.value = true;
+    completionMode.value = 'view';
+  "
+                                            class="block px-4 py-2 hover:bg-gray-100"
+                                        >
+                                            View Completion
+                                        </a>
+
                                     </div>
                                 </div>
                             </transition>
@@ -257,6 +294,17 @@ function getFileIcon(file) {
     <MhpApprovalViewModal v-if="selectedSite?.admin_approval" :show="showApprovalViewModal" :approval="selectedSite.admin_approval" @close="showApprovalViewModal = false; selectedSite = null" />
     <AddRevisedCostModal v-if="selectedSite" :show="showRevisedCostModal" :site="selectedSite" :field="revisedCostField" @close="showRevisedCostModal = false; selectedSite = null; revisedCostField = ''" @updated="handleUpdated" />
     <MhpReport v-if="selectedSite" :show="showReportModal" :site="selectedSite" @close="showReportModal = false; selectedSite = null" />
+    <MhpCompletionForm
+        v-if="selectedSite"
+        :show="showCompletionModal"
+        :mode="completionMode"
+        :site="selectedSite"
+        :mhp-completion="selectedCompletion"
+        @close="showCompletionModal = false"
+        @saved="handleUpdated"
+    />
+
+
 </template>
 
 <style scoped>

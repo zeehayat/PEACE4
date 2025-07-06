@@ -1,11 +1,10 @@
-
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\MhpCompletion;
 use App\Services\MhpCompletionService;
+use Illuminate\Validation\Rule;
 
 class MhpCompletionController extends Controller
 {
@@ -24,7 +23,20 @@ class MhpCompletionController extends Controller
 
     public function store(Request $request)
     {
-        $this->service->create($request->all());
+        $validated = $request->validate([
+            'mhp_site_id' => [
+                'required',
+                'exists:mhp_sites,id',
+                Rule::unique('mhp_completions', 'mhp_site_id'),
+            ],
+            'scheme_inauguration_date' => ['nullable', 'date'],
+            'testing_commissioning_date' => ['nullable', 'date'],
+            'handover_date' => ['nullable', 'date'],
+            'remarks' => ['nullable', 'string'],
+        ]);
+
+        $this->service->create($validated);
+
         return redirect()->back()->with('success', 'MhpCompletion created.');
     }
 

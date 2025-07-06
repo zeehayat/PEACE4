@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MhpAdminApprovalController;
+use App\Http\Controllers\MhpCompletionController;
 use App\Http\Controllers\MhpSiteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,3 +21,5 @@ Route::post('/mhp-admin-approvals',[MhpAdminApprovalController::class,'store'])-
 Route::put('/mhp-admin-approvals/{id}',[MhpAdminApprovalController::class,'update'])->name('mhp-admin-approvals.update');
 Route::put('/revise-cost/{mhpSite}/{field}', [MhpAdminApprovalController::class, 'updateRevisedCost'])
     ->name('mhp.revise-cost');
+
+Route::post('/mhp-completion/store',[MhpCompletionController::class,'store'])->name('mhp-completion.store');

@@ -12,7 +12,13 @@ class MhpSiteController extends Controller
 {
     public function index(Request $request)
     {
-        $query = MhpSite::query()->with(['cbo', 'adminApproval.media', 'media']);
+        $query = MhpSite::query()
+            ->with([
+                'cbo',
+                'adminApproval.media',
+                'completion.media',  // 👈 eager-load completion + its media
+                'media'
+            ]);
 
         if ($request->filled('cbo')) {
             $query->whereHas('cbo', fn ($q) =>
@@ -26,9 +32,8 @@ class MhpSiteController extends Controller
 
         $mhpSites = $query->paginate(50)->withQueryString();
 
-        // transform each site
         $mhpSites->getCollection()->transform(function ($site) {
-            // map site attachments
+            // 📎 site attachments
             $site->attachments = $site->getMedia('attachments')->map(fn ($m) => [
                 'id' => $m->id,
                 'name' => $m->name,
@@ -37,7 +42,7 @@ class MhpSiteController extends Controller
                 'size' => $m->size,
             ]);
 
-            // map adminApproval attachments if exists
+            // 📎 adminApproval attachments
             if ($site->adminApproval) {
                 $site->adminApproval->attachments = $site->adminApproval->getMedia('attachments')->map(fn ($m) => [
                     'id' => $m->id,
@@ -48,6 +53,20 @@ class MhpSiteController extends Controller
                 ]);
             }
 
+            // 📎 completion attachments
+            if ($site->completion) {
+                $site->completion->attachments = $site->completion->getMedia('attachments')->map(fn ($m) => [
+                    'id' => $m->id,
+                    'name' => $m->name,
+                    'file_name' => $m->file_name,
+                    'url' => $m->getUrl(),
+                    'size' => $m->size,
+                ]);
+            }
+
+            // 🆔 project_id
+            $site->project_id = ($site->cbo->reference_code ?? 'N/A') . '/' . $site->id;
+
             return $site;
         });
 
@@ -56,6 +75,8 @@ class MhpSiteController extends Controller
             'filters' => $request->only('cbo', 'status'),
         ]);
     }
+
+
 
     public function autoSearch(Request $request)
     {

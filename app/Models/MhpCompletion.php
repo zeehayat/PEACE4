@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class MhpCompletion extends Model
+class MhpCompletion extends Model implements HasMedia
 {
     /** @use HasFactory<\Database\Factories\MhpCompletionFactory> */
-    use HasFactory;
+    use HasFactory, InteractsWithMedia;
     protected $fillable = [
         'mhp_site_id',
         'scheme_inauguration_date',
@@ -22,8 +24,5 @@ class MhpCompletion extends Model
         return $this->belongsTo(MhpSite::class);
     }
 
-    public function attachments()
-    {
-        return $this->morphMany(Attachment::class, 'attachable');
-    }
+
 }

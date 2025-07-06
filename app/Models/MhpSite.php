@@ -25,6 +25,9 @@ class MhpSite extends Model implements HasMedia
     {
         return $this->hasOne(MhpAdminApproval::class);
     }
+    public function completion():HasOne{
+        return $this->hasOne(MhpCompletion::class);
+    }
     public function attachments():MorphMany
     {
         return $this->morphMany(Attachment::class, 'attachable');
