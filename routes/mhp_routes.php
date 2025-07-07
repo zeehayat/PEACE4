@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\MhpAdminApprovalController;
 use App\Http\Controllers\MhpCompletionController;
+use App\Http\Controllers\MhpEmeFinancialProgressController;
+use App\Http\Controllers\MhpEmePhysicalProgressController;
+use App\Http\Controllers\MhpEmeProgressController;
 use App\Http\Controllers\MhpSiteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,3 +26,21 @@ Route::put('/revise-cost/{mhpSite}/{field}', [MhpAdminApprovalController::class,
     ->name('mhp.revise-cost');
 
 Route::post('/mhp-completion/store',[MhpCompletionController::class,'store'])->name('mhp-completion.store');
+
+
+// Physical
+Route::get('/mhp-eme-physical-progresses', [MhpEmePhysicalProgressController::class, 'index']);
+Route::post('/mhp-eme-physical-progresses', [MhpEmePhysicalProgressController::class, 'store']);
+Route::post('/mhp-eme-physical-progresses/{progress}', [MhpEmePhysicalProgressController::class, 'update']);
+Route::delete('/mhp-eme-physical-progresses/{progress}', [MhpEmePhysicalProgressController::class, 'destroy']);
+
+// Financial
+Route::get('/mhp-eme-financial-progresses', [MhpEmeFinancialProgressController::class, 'index']);
+Route::post('/mhp-eme-financial-progresses', [MhpEmeFinancialProgressController::class, 'store']);
+Route::post('/mhp-eme-financial-progresses/{progress}', [MhpEmeFinancialProgressController::class, 'update']);
+Route::delete('/mhp-eme-financial-progresses/{progress}', [MhpEmeFinancialProgressController::class, 'destroy']);
+
+Route::delete('/mhp/media/{media}', function (\Spatie\MediaLibrary\MediaCollections\Models\Media $media) {
+    $media->delete();
+    return response()->json(['success' => true]);
+});

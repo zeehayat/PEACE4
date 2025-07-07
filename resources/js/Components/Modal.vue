@@ -48,7 +48,7 @@ const maxWidthClass = computed(() => ({
             >
                 <!-- Header -->
                 <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-4 text-white font-semibold text-lg flex items-center justify-between rounded-t-lg">
-                    <span>Add CBO Activity</span>
+                    <span>Add EME Progress</span>
                     <button
                         @click="close"
                         class="text-white hover:text-gray-200 text-2xl font-bold leading-none focus:outline-none"

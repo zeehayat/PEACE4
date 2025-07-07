@@ -88,14 +88,15 @@ const submit = () => {
 
 <template>
     <div v-if="show" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-        <div class="bg-white p-6 rounded shadow max-w-lg w-full relative">
-            <button @click="emit('close')" class="absolute top-2 right-2 text-gray-500">✖</button>
+        <div class="bg-white p-6 rounded shadow max-w-lg w-full relative print:bg-white print:shadow-none print:max-w-full print:p-4">
+            <button @click="emit('close')" class="absolute top-2 right-2 text-gray-500 print:hidden">✖</button>
 
             <h2 class="text-lg font-bold mb-4">
-                {{ mode === 'create' ? 'Create' : 'Edit' }} MHP Completion
+                {{ mode === 'create' ? 'Create' : mode === 'edit' ? 'Edit' : 'View' }} MHP Completion
             </h2>
 
-            <form @submit.prevent="submit" class="space-y-3">
+            <!-- CREATE & EDIT -->
+            <form v-if="mode !== 'view'" @submit.prevent="submit" class="space-y-3">
                 <!-- Site ID -->
                 <div>
                     <label class="block font-medium">MHP Site ID</label>
@@ -142,9 +143,90 @@ const submit = () => {
                     </button>
                 </div>
             </form>
+
+            <!-- VIEW / REPORT -->
+            <div v-else class="font-sans">
+                <div class="bg-white p-8 md:p-12 shadow-lg rounded-lg max-w-4xl mx-auto print:shadow-none print:p-2">
+
+                    <header class="text-center mb-10 border-b pb-4">
+                        <h1 class="text-3xl font-bold text-gray-800">MHP Completion Report</h1>
+                        <p class="text-sm text-gray-500 mt-1">Date Generated: {{ new Date().toLocaleDateString() }}</p>
+                    </header>
+
+                    <main class="space-y-6">
+
+                        <div>
+                            <h2 class="text-xl font-semibold text-gray-700 border-b pb-2 mb-4">Project Details</h2>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="text-xs font-bold text-gray-500 uppercase tracking-wider">MHP Site ID</label>
+                                    <p class="text-lg text-gray-900">{{ form.mhp_site_id }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h2 class="text-xl font-semibold text-gray-700 border-b pb-2 mb-4">Project Milestones</h2>
+                            <div class="grid md:grid-cols-3 gap-6">
+                                <div>
+                                    <label class="text-xs font-bold text-gray-500 uppercase tracking-wider">Scheme Inauguration Date</label>
+                                    <p class="text-lg text-gray-900">{{ form.scheme_inauguration_date || '—' }}</p>
+                                </div>
+
+                                <div>
+                                    <label class="text-xs font-bold text-gray-500 uppercase tracking-wider">Testing & Commissioning Date</label>
+                                    <p class="text-lg text-gray-900">{{ form.testing_commissioning_date || '—' }}</p>
+                                </div>
+
+                                <div>
+                                    <label class="text-xs font-bold text-gray-500 uppercase tracking-wider">Handover Date</label>
+                                    <p class="text-lg text-gray-900">{{ form.handover_date || '—' }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div>
+                            <h2 class="text-xl font-semibold text-gray-700 border-b pb-2 mb-4">Remarks</h2>
+                            <div class="prose max-w-none text-gray-800">
+                                <p>{{ form.remarks || 'No remarks provided.' }}</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h2 class="text-xl font-semibold text-gray-700 border-b pb-2 mb-4">Attachments</h2>
+                            <div v-if="existingAttachments.length > 0">
+                                <ul class="list-disc list-inside space-y-2">
+                                    <li v-for="file in existingAttachments" :key="file.id">
+                                        <a :href="file.url" target="_blank" class="text-blue-600 hover:underline">
+                                            {{ file.name || file.file_name }}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div v-else class="text-gray-500 italic">
+                                No attachments.
+                            </div>
+                        </div>
+
+                    </main>
+
+                    <footer class="mt-12 pt-6 border-t print:hidden">
+                        <div class="text-right space-x-2">
+                            <button @click="print" class="px-5 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                Print
+                            </button>
+                            <button @click="emit('close')" class="px-5 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
+                                Close
+                            </button>
+                        </div>
+                    </footer>
+                </div>
+            </div>
         </div>
     </div>
 </template>
+
 
 <style scoped>
 .input {
