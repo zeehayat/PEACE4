@@ -6,6 +6,7 @@ use App\Http\Controllers\MhpEmeFinancialProgressController;
 use App\Http\Controllers\MhpEmePhysicalProgressController;
 use App\Http\Controllers\MhpEmeProgressController;
 use App\Http\Controllers\MhpSiteController;
+use App\Http\Controllers\OperationalCostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -44,3 +45,12 @@ Route::delete('/mhp/media/{media}', function (\Spatie\MediaLibrary\MediaCollecti
     $media->delete();
     return response()->json(['success' => true]);
 });
+
+
+    Route::get('operational-costs', [OperationalCostController::class, 'index']);
+    Route::post('operational-costs', [OperationalCostController::class, 'store']);
+    Route::post('operational-costs/{operationalCost}', [OperationalCostController::class, 'update']);
+    Route::delete('operational-costs/{operationalCost}', [OperationalCostController::class, 'destroy']);
+    Route::get('expense-types', [OperationalCostController::class, 'expenseTypes']);
+    Route::delete('media/{media}', [OperationalCostController::class, 'deleteMedia']);
+

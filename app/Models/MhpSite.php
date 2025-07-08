@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Spatie\MediaLibrary\HasMedia;
@@ -24,6 +25,9 @@ class MhpSite extends Model implements HasMedia
     public function adminApproval():HasOne
     {
         return $this->hasOne(MhpAdminApproval::class);
+    }
+    public function operationalCosts():HasMany{
+        return $this->hasMany('OperationalCost');
     }
     public function completion():HasOne{
         return $this->hasOne(MhpCompletion::class);

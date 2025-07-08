@@ -5,6 +5,7 @@ const props = defineProps({
     show: { type: Boolean, default: false },
     maxWidth: { type: String, default: '2xl' },
     closeable: { type: Boolean, default: true },
+    title: { type: String, default: 'Add MHP Progress' },
 })
 
 const emit = defineEmits(['close'])
@@ -48,7 +49,7 @@ const maxWidthClass = computed(() => ({
             >
                 <!-- Header -->
                 <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-4 text-white font-semibold text-lg flex items-center justify-between rounded-t-lg">
-                    <span>Add EME Progress</span>
+                    <span>{{title}} </span>
                     <button
                         @click="close"
                         class="text-white hover:text-gray-200 text-2xl font-bold leading-none focus:outline-none"
