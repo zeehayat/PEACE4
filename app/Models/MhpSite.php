@@ -32,8 +32,17 @@ class MhpSite extends Model implements HasMedia
     public function completion():HasOne{
         return $this->hasOne(MhpCompletion::class);
     }
-    public function attachments():MorphMany
+
+    public function physicalProgresses(): MorphMany
     {
-        return $this->morphMany(Attachment::class, 'attachable');
+        return $this->morphMany(ProjectPhysicalProgress::class, 'projectable');
+    }
+
+    /**
+     * Get all of the site's financial installment entries.
+     */
+    public function financialInstallments(): MorphMany
+    {
+        return $this->morphMany(ProjectFinancialInstallment::class, 'projectable');
     }
 }

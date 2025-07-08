@@ -16,8 +16,10 @@ class MhpSiteController extends Controller
             ->with([
                 'cbo',
                 'adminApproval.media',
-                'completion.media',  // 👈 eager-load completion + its media
-                'media'
+                'completion.media',  // eager-load completion + its media
+                'media',
+                'physicalProgresses.media', // Eager load physical progress and its media
+                'financialInstallments.media' // Eager load financial installments and its media
             ]);
 
         if ($request->filled('cbo')) {
@@ -33,7 +35,7 @@ class MhpSiteController extends Controller
         $mhpSites = $query->paginate(50)->withQueryString();
 
         $mhpSites->getCollection()->transform(function ($site) {
-            // 📎 site attachments
+            // site attachments
             $site->attachments = $site->getMedia('attachments')->map(fn ($m) => [
                 'id' => $m->id,
                 'name' => $m->name,
@@ -42,7 +44,7 @@ class MhpSiteController extends Controller
                 'size' => $m->size,
             ]);
 
-            // 📎 adminApproval attachments
+            // adminApproval attachments
             if ($site->adminApproval) {
                 $site->adminApproval->attachments = $site->adminApproval->getMedia('attachments')->map(fn ($m) => [
                     'id' => $m->id,
@@ -53,7 +55,7 @@ class MhpSiteController extends Controller
                 ]);
             }
 
-            // 📎 completion attachments
+            // completion attachments
             if ($site->completion) {
                 $site->completion->attachments = $site->completion->getMedia('attachments')->map(fn ($m) => [
                     'id' => $m->id,
@@ -64,7 +66,47 @@ class MhpSiteController extends Controller
                 ]);
             }
 
-            // 🆔 project_id
+            // Eager load and map physicalProgresses attachments
+            // This transformation makes sure `site.physicalProgresses` has the `attachments` directly
+            if ($site->physicalProgresses) {
+                $site->physicalProgresses = $site->physicalProgresses->map(fn ($progress) => [
+                    'id' => $progress->id,
+                    'projectable_id' => $progress->projectable_id,
+                    'projectable_type' => $progress->projectable_type,
+                    'progress_percentage' => $progress->progress_percentage,
+                    'progress_date' => $progress->progress_date,
+                    'remarks' => $progress->remarks,
+                    'project_type' => $progress->project_type,
+                    'reference_code' => $progress->reference_code,
+                    'attachments' => $progress->getMedia('attachments')->map(fn ($m) => [
+                        'id' => $m->id,
+                        'name' => $m->file_name,
+                        'url' => $m->getUrl(),
+                    ]),
+                ]);
+            }
+
+            // Eager load and map financialInstallments attachments
+            // This transformation makes sure `site.financialInstallments` has the `attachments` directly
+            if ($site->financialInstallments) {
+                $site->financialInstallments = $site->financialInstallments->map(fn ($installment) => [
+                    'id' => $installment->id,
+                    'projectable_id' => $installment->projectable_id,
+                    'projectable_type' => $installment->projectable_type,
+                    'installment_number' => $installment->installment_number,
+                    'installment_date' => $installment->installment_date,
+                    'installment_amount' => $installment->installment_amount,
+                    'category' => $installment->category,
+                    'remarks' => $installment->remarks,
+                    'attachments' => $installment->getMedia('attachments')->map(fn ($m) => [
+                        'id' => $m->id,
+                        'name' => $m->file_name,
+                        'url' => $m->getUrl(),
+                    ]),
+                ]);
+            }
+
+            // project_id
             $site->project_id = ($site->cbo->reference_code ?? 'N/A') . '/' . $site->id;
 
             return $site;
@@ -75,6 +117,7 @@ class MhpSiteController extends Controller
             'filters' => $request->only('cbo', 'status'),
         ]);
     }
+
 
 
 

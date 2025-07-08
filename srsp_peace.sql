@@ -1564,7 +1564,7 @@ ALTER TABLE `om_costs`
 -- Constraints for table `operational_costs`
 --
 ALTER TABLE `operational_costs`
-  ADD CONSTRAINT `operational_costs_mhp_site_id_foreign` FOREIGN KEY (`mhp_site_id`) REFERENCES `mhp_sites` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `operational_costs_mhp_site_id_foreign2` FOREIGN KEY (`mhp_site_id`) REFERENCES `mhp_sites` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `procurement_committee_reviews`

@@ -7,6 +7,8 @@ use App\Http\Controllers\MhpEmePhysicalProgressController;
 use App\Http\Controllers\MhpEmeProgressController;
 use App\Http\Controllers\MhpSiteController;
 use App\Http\Controllers\OperationalCostController;
+use App\Http\Controllers\ProjectFinancialInstallmentController;
+use App\Http\Controllers\ProjectPhysicalProgressController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -54,3 +56,5 @@ Route::delete('/mhp/media/{media}', function (\Spatie\MediaLibrary\MediaCollecti
     Route::get('expense-types', [OperationalCostController::class, 'expenseTypes']);
     Route::delete('media/{media}', [OperationalCostController::class, 'deleteMedia']);
 
+Route::resource('project-physical-progress', ProjectPhysicalProgressController::class)->only(['store', 'update', 'destroy', 'show', 'index']);
+Route::resource('project-financial-installments', ProjectFinancialInstallmentController::class)->only(['store', 'update', 'destroy', 'show', 'index']);
