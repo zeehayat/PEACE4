@@ -2,7 +2,8 @@
 import { useForm, router } from '@inertiajs/vue3'
 import { watch, ref } from 'vue'
 import AttachmentUploader from '@/Components/AttachmentComponent/AttachmentUploader.vue'
-import SearchableCboSelect from '@/Components/SearchableCboSelect.vue'
+//import SearchableCboSelect from '@/Components/SearchableCboSelect.vue'
+import SearchableCboSelect from '@/Components/SearchableSelect.vue'
 import DatePicker from "@/Components/DatePicker.vue";
 
 const props = defineProps({

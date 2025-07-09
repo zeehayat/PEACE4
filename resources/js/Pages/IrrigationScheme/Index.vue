@@ -4,41 +4,43 @@ import { router, Link } from '@inertiajs/vue3' // Import Link for pagination
 
 import SideBar from "@/Components/SideBar.vue";
 import Toast from '@/Components/Toast.vue'; // Assuming you have a Toast component
-import IrrigationSchemeCreateModal from '@/Components/IrrigationComponents/IrrigationSchemeForm.vue'; // New Irrigation Create Modal
+import IrrigationSchemeCreateModal from '@/Components/IrrigationComponents/IrrigationSchemeCreateModal.vue'; // New Irrigation Create Modal
+import IrrigationAdminApprovalModal from '@/Components/IrrigationComponents/IrrigationAdminApprovalModal.vue'; // NEW: Import IrrigationAdminApprovalModal
 
-// Manager Modals (reusable for both MHP and Irrigation)
-import ProjectPhysicalProgressManagerModal from '@/Pages/MhpPhysicalProgress/ProjectPhysicalProgressModal.vue';
-import ProjectFinancialInstallmentManagerModal from '@/Pages/MhpFinancialProgress/ProjectFinancialInstallmentModal.vue';
-
-// TODO: Add specific irrigation modals (View, Edit Info, Admin Approval, Completion) later
-// import IrrigationSchemeDetailsModal from '@/Components/IrrigationSchemeDetailsModal.vue'
-// import IrrigationEditInfoModal from '@/Components/IrrigationEditInfoModal.vue'
-// import IrrigationAdminApprovalModal from '@/Components/IrrigationAdminApprovalModal.vue'
-// import IrrigationApprovalViewModal from '@/Components/IrrigationApprovalViewModal.vue'
-// import IrrigationCompletionForm from '@/Pages/IrrigationCompletion/IrrigationCompletionForm.vue';
+import ProjectFinancialInstallmentManagerModal from '@/Pages/ProjectFinancialInstallment/ProjectFinancialInstallmentManagerModal.vue'
+import ProjectPhysicalProgressManagerModal
+    from "@/Pages/ProjectPhysicalProgresss/ProjectPhysicalProgressManagerModal.vue";
+import IrrigationSchemeContractManagerModal from '@/Components/IrrigationComponents/IrrigationSchemeContractManagerModal.vue';
+//import IrrigationAdminApprovalModal from '@/Components/IrrigationComponents/IrrigationAdminApprovalModal.vue'
+import IrrigationSchemeContractModal from '@/Components/IrrigationComponents/IrrigationSchemeContractManagerModal.vue'
 
 
 const props = defineProps({
-    irrigationSchemes: Object, // Prop for irrigation schemes data (paginated)
+    irrigationSchemes: Object,
     filters: Object,
     errors: Object // For validation errors
 })
 
-const selectedScheme = ref(null) // Renamed from selectedSite for irrigation context
+const selectedScheme = ref(null)
 const toastVisible = ref(false)
 const toastMessage = ref('')
 const toastType = ref('success')
-const searchTerm = ref(props.filters.search || '') // Bind search to filter
+const searchTerm = ref(props.filters.search || '')
 const openActionMenuId = ref(null)
 const menuDirection = ref('down')
 
-// Modals for IrrigationScheme (initially only create modal is active)
 const showCreateSchemeModal = ref(false);
-// TODO: Add refs for other irrigation-specific modals later (e.g., for editing, details, approvals)
+const showAdminApprovalModal = ref(false);
+const adminApprovalMode = ref('create');
+// NEW: Refs for Irrigation Scheme Contract Modal
+const showSchemeContractModal = ref(false);
+const selectedSchemeContract = ref(null); // To pass existing contract data
+const schemeContractMode = ref('create'); // 'create' or 'edit'
+
+
+// TODO: Add refs for other irrigation-specific modals later
 // const showDetailsModal = ref(false)
 // const showEditInfoModal = ref(false)
-// const showAdminApprovalModal = ref(false)
-// const approvalAction = ref('create'); // 'create' or 'update'
 // const showApprovalViewModal = ref(false)
 // const showCompletionModal = ref(false);
 // const completionMode = ref('create');
@@ -50,64 +52,77 @@ const showProjectPhysicalProgressManagerModal = ref(false);
 const showProjectFinancialInstallmentManagerModal = ref(false);
 
 
-// Functions to open reusable manager modals
-function openProjectPhysicalProgressManager(scheme) { // Adapted for irrigation scheme
-    selectedScheme.value = scheme;
-    showProjectPhysicalProgressManagerModal.value = true;
-}
-
-function openProjectFinancialInstallmentManager(scheme) { // Adapted for irrigation scheme
-    selectedScheme.value = scheme;
-    showProjectFinancialInstallmentManagerModal.value = true;
-}
-
-// Function to open New Scheme Modal
 function openNewSchemeModal() {
     showCreateSchemeModal.value = true;
 }
 
-// TODO: Add functions to open other irrigation-specific modals later (e.g., for editing, details, approvals)
+function openAdminApprovalModal(scheme, mode = 'create') {
+    selectedScheme.value = scheme;
+    // selectedScheme.value.irrigationAdminApproval will be eager loaded from controller
+    selectedAdminApproval.value = scheme.irrigationAdminApproval;
+    adminApprovalMode.value = mode;
+    showAdminApprovalModal.value = true;
+}
+
+// NEW: Function to open Irrigation Scheme Contract Manager Modal
+function openSchemeContractModal(scheme, mode = 'create') {
+    selectedScheme.value = scheme;
+    // selectedScheme.value.irrigationSchemeContract will be eager loaded from controller
+    selectedSchemeContract.value = scheme.irrigationSchemeContract; // Pass existing contract
+    schemeContractMode.value = mode;
+    showSchemeContractModal.value = true;
+}
+
+
+// TODO: Add functions to open other irrigation-specific modals later (e.g., for editing, details, completions)
 /*
 function openDetailsModal(scheme) { selectedScheme.value = scheme; showDetailsModal.value = true; }
 function openEditInfoModal(scheme) { selectedScheme.value = scheme; showEditInfoModal.value = true; }
-function openAdminApprovalModal(scheme, action) { selectedScheme.value = scheme; approvalAction.value = action; showAdminApprovalModal.value = true; }
 function openApprovalViewModal(scheme) { selectedScheme.value = scheme; showApprovalViewModal.value = true; }
 function openCompletionModal(scheme, mode) { selectedScheme.value = scheme; selectedCompletion.value = scheme.completion; completionMode.value = mode; showCompletionModal.value = true; }
 */
 
+// Functions to open reusable manager modals
+function openProjectPhysicalProgressManager(scheme) {
+    selectedScheme.value = scheme;
+    showProjectPhysicalProgressManagerModal.value = true;
+}
+
+function openProjectFinancialInstallmentManager(scheme) {
+    selectedScheme.value = scheme;
+    showProjectFinancialInstallmentManagerModal.value = true;
+}
+
+
 onMounted(() => {
-    // Close action menu when clicking outside
     document.addEventListener('click', (e) => {
-        if (openActionMenuId.value && !e.target.closest('.action-menu-container')) {
+        if (openActionMenuId.value && !e.target.closest('.action-menu-container') && !e.target.closest('.action-menu-popup')) {
             openActionMenuId.value = null;
+            selectedScheme.value = null;
         }
     });
 })
 
-// Handles updates (e.g., from modals) to refresh data and show toast
 function handleUpdated(message) {
     toastMessage.value = message
     toastType.value = 'success'
     toastVisible.value = true
     setTimeout(() => (toastVisible.value = false), 3000)
-    router.reload({ only: ['irrigationSchemes'] }); // Reload irrigation schemes data
+    router.reload({ only: ['irrigationSchemes'] });
 }
 
-// Filtered schemes for display based on search term
 const filteredSchemes = computed(() => {
-    // If search term is empty, return all data provided by prop
     if (!searchTerm.value.trim()) return props.irrigationSchemes.data
 
     const term = searchTerm.value.trim().toLowerCase()
     return props.irrigationSchemes.data.filter(scheme =>
-        (scheme.cbo?.reference_code || '').toLowerCase().includes(term) || // Search by CBO Reference Code
-        (scheme.status || '').toLowerCase().includes(term) || // Search by Status
-        (scheme.project_id || '').toLowerCase().includes(term) || // Search by Project ID
-        (scheme.cbo?.district || '').toLowerCase().includes(term) // Search by CBO District
+        (scheme.cbo?.reference_code || '').toLowerCase().includes(term) ||
+        (scheme.status || '').toLowerCase().includes(term) ||
+        (scheme.project_id || '').toLowerCase().includes(term) ||
+        (scheme.cbo?.district || '').toLowerCase().includes(term)
     )
 })
 
-// Helper function to get status classes for styling scheme status pills
 function getStatusClass(status) {
     switch (status) {
         case 'New': return 'bg-blue-100 text-blue-800 border border-blue-200';
@@ -116,27 +131,50 @@ function getStatusClass(status) {
     }
 }
 
-// Toggles the action menu for a specific scheme row
 function toggleActionMenu(schemeId, event) {
+    console.log('Toggling menu for Scheme ID:', schemeId);
+
     if (openActionMenuId.value === schemeId) {
-        openActionMenuId.value = null
-        return
+        openActionMenuId.value = null;
+        selectedScheme.value = null;
+        return;
     }
 
-    const button = event.currentTarget
-    const rect = button.getBoundingClientRect()
-    const spaceBelow = window.innerHeight - rect.bottom
-    const menuHeight = 300; // Estimated height of the action menu
+    selectedScheme.value = props.irrigationSchemes.data.find(s => s.id === schemeId);
 
-    if (spaceBelow < menuHeight && rect.top > spaceBelow) {
-        menuDirection.value = 'up' // Open upwards if not enough space below
+    if (selectedScheme.value) {
+        openActionMenuId.value = schemeId;
+
+        nextTick(() => {
+            const button = event.currentTarget;
+            const rect = button.getBoundingClientRect();
+
+            let top = rect.bottom + window.scrollY;
+            let left = rect.left + window.scrollX;
+
+            const menuElement = actionMenu.value;
+            if (!menuElement) return;
+
+            const menuWidth = menuElement.offsetWidth;
+            const menuHeight = menuElement.offsetHeight;
+
+            if (left + menuWidth > window.innerWidth) {
+                left = window.innerWidth - menuWidth - 20;
+            }
+            if (top + menuHeight > window.innerHeight + window.scrollY) {
+                top = rect.top + window.scrollY - menuHeight - 10;
+            }
+
+            menuPosition.value = {
+                top: `${top}px`,
+                left: `${left}px`,
+            };
+        });
     } else {
-        menuDirection.value = 'down' // Open downwards by default
+        openActionMenuId.value = null;
     }
-    openActionMenuId.value = schemeId
 }
 
-// File icon helper (reusable for various file types)
 function getFileIcon(file) {
     const ext = file.file_name.split('.').pop().toLowerCase()
     if (ext === 'pdf') return '📄'
@@ -146,10 +184,9 @@ function getFileIcon(file) {
     return '📁'
 }
 
-// Function to delete an Irrigation Scheme
 function deleteScheme(schemeId) {
     if (confirm('Are you sure you want to delete this Irrigation Scheme? This action cannot be undone.')) {
-        router.delete(route('irrigation.irrigation-schemes.destroy', schemeId), { // Use the destroy route
+        router.delete(route('irrigation.irrigation-schemes.destroy', schemeId), {
             onSuccess: () => {
                 handleUpdated('Irrigation Scheme deleted successfully.');
             },
@@ -212,16 +249,23 @@ function deleteScheme(schemeId) {
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" /></svg>
                                 </button>
                                 <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
-                                    <div v-if="openActionMenuId === scheme.id" :class="['origin-top-right absolute w-56 rounded-xl shadow-xl bg-white ring-1 ring-black ring-opacity-5 z-30 divide-y divide-gray-100', menuDirection === 'up' ? 'bottom-full mb-2 right-0' : 'top-full mt-2 right-0']">
+                                    <div v-if="openActionMenuId === scheme.id" ref="actionMenu" :style="menuPosition" class="fixed rounded-xl shadow-xl bg-white ring-1 ring-black ring-opacity-5 z-[9999] divide-y divide-gray-100 action-menu-popup">
                                         <div class="py-1 text-sm text-gray-700">
+                                            <a v-if="selectedScheme?.irrigationAdminApproval" href="#" @click.prevent="openAdminApprovalModal(selectedScheme, 'view')" class="block px-4 py-2 hover:bg-gray-100">View Approval</a>
+                                            <a href="#" @click.prevent="openAdminApprovalModal(selectedScheme, selectedScheme.irrigationAdminApproval ? 'update' : 'create')" class="block px-4 py-2 hover:bg-gray-100">
+                                                {{ selectedScheme.irrigationAdminApproval ? 'Edit Approval' : '+ Add Approval' }}
+                                            </a>
                                         </div>
                                         <div class="py-1 text-sm text-gray-700">
+                                            <button @click="openIrrigationSchemeContractModal(selectedScheme, selectedScheme?.irrigationSchemeContract ? 'edit' : 'create')" class="w-full text-left block px-4 py-2 hover:bg-gray-100">
+                                                {{ selectedScheme?.irrigationSchemeContract ? 'Edit Contract' : '+ Add Contract' }}
+                                            </button>
                                         </div>
                                         <div class="py-1 text-sm text-gray-700">
-                                            <button @click="openProjectPhysicalProgressManager(scheme)" class="w-full text-left block px-4 py-2 hover:bg-gray-100">
+                                            <button @click="openProjectPhysicalProgressManager(selectedScheme)" class="w-full text-left block px-4 py-2 hover:bg-gray-100">
                                                 Manage Physical Progress
                                             </button>
-                                            <button @click="openProjectFinancialInstallmentManager(scheme)" class="w-full text-left block px-4 py-2 hover:bg-gray-100">
+                                            <button @click="openProjectFinancialInstallmentManager(selectedScheme)" class="w-full text-left block px-4 py-2 hover:bg-gray-100">
                                                 Manage Financial Installment
                                             </button>
                                         </div>
@@ -240,6 +284,14 @@ function deleteScheme(schemeId) {
                                   {{ scheme.status ?? 'N/A' }}
                                 </span>
                             </div>
+                            <div class="flex items-center justify-between">
+                                <p class="text-sm text-gray-500">Admin Approval</p>
+                                <p :class="scheme.irrigationAdminApproval ? 'text-green-600' : 'text-red-500'" class="font-semibold text-sm flex items-center gap-1">
+                                    <svg v-if="scheme.irrigationAdminApproval" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" /></svg>
+                                    <svg v-else class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    {{ scheme.irrigationAdminApproval ? 'Exists' : 'None' }}
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -254,6 +306,7 @@ function deleteScheme(schemeId) {
                         <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Beneficiary Farmers</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Channel Length (km)</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Land Area (Ha)</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Approval</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Attachments</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Progress Summary</th>
                         <th scope="col" class="relative px-6 py-3"><span class="sr-only">Actions</span></th>
@@ -278,6 +331,14 @@ function deleteScheme(schemeId) {
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ scheme.channel_length_km ?? 'N/A' }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ scheme.land_area_hectares ?? 'N/A' }}</td>
 
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold">
+                            <span :class="scheme.irrigationAdminApproval ? 'text-green-600' : 'text-red-500'" class="flex items-center gap-1.5">
+                                <svg v-if="scheme.irrigationAdminApproval" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" /></svg>
+                                <svg v-else class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                                {{ scheme.irrigationAdminApproval ? 'Exists' : 'None' }}
+                            </span>
+                        </td>
+
                         <td class="px-6 py-4">
                             <div v-if="scheme.media.length" class="space-y-2 text-xs max-h-24 overflow-y-auto pr-2">
                                 <div v-for="file in scheme.media" :key="file.id" class="flex items-center gap-2" :title="`Size: ${(file.size/1024).toFixed(1)} KB | Uploaded: ${new Date(file.created_at).toLocaleDateString()}`">
@@ -300,7 +361,7 @@ function deleteScheme(schemeId) {
                                     <p class="font-semibold text-gray-800">Latest Financial:</p>
                                     <span class="text-xs text-gray-600">Inst. #{{ scheme.financialInstallments[scheme.financialInstallments.length - 1].installment_number }} ({{ scheme.financialInstallments[scheme.financialInstallments.length - 1].installment_amount }})</span>
                                 </div>
-                                <div v-else class="text-gray-400 text-xs">— No Financial Installments</div>
+                                <div v-else class="text-gray-400 text-sm">— No Financial Installments</div>
                             </div>
                         </td>
 
@@ -308,25 +369,6 @@ function deleteScheme(schemeId) {
                             <button @click.stop="toggleActionMenu(scheme.id, $event)" class="p-2 text-gray-500 hover:text-gray-900 rounded-full hover:bg-gray-200/70 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" /></svg>
                             </button>
-                            <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
-                                <div v-if="openActionMenuId === scheme.id" :class="['origin-top-right absolute w-56 rounded-xl shadow-xl bg-white ring-1 ring-black ring-opacity-5 z-30 divide-y divide-gray-100', menuDirection === 'up' ? 'bottom-full mb-2 right-0' : 'top-full mt-2 right-0']">
-                                    <div class="py-1 text-sm text-gray-700">
-                                    </div>
-                                    <div class="py-1 text-sm text-gray-700">
-                                    </div>
-                                    <div class="py-1 text-sm text-gray-700">
-                                        <button @click="openProjectPhysicalProgressManager(scheme)" class="w-full text-left block px-4 py-2 hover:bg-gray-100">
-                                            Manage Physical Progress
-                                        </button>
-                                        <button @click="openProjectFinancialInstallmentManager(scheme)" class="w-full text-left block px-4 py-2 hover:bg-gray-100">
-                                            Manage Financial Installment
-                                        </button>
-                                    </div>
-                                    <div class="py-1 text-sm text-gray-700">
-                                        <button @click="deleteScheme(scheme.id)" class="w-full text-left block px-4 py-2 hover:bg-red-100 text-red-600">Delete Scheme</button>
-                                    </div>
-                                </div>
-                            </transition>
                         </td>
                     </tr>
                     </tbody>
@@ -345,6 +387,33 @@ function deleteScheme(schemeId) {
         </div>
     </div>
 
+    <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
+        <div v-if="openActionMenuId" ref="actionMenu" :style="menuPosition" class="action-menu-popup fixed rounded-xl shadow-xl bg-white ring-1 ring-black ring-opacity-5 z-[9999] divide-y divide-gray-100">
+            <div class="py-1 text-sm text-gray-700">
+                <a v-if="selectedScheme?.irrigationAdminApproval" href="#" @click.prevent="openAdminApprovalModal(selectedScheme, 'view')" class="block px-4 py-2 hover:bg-gray-100">View Approval</a>
+                <a href="#" @click.prevent="openAdminApprovalModal(selectedScheme, selectedScheme.irrigationAdminApproval ? 'update' : 'create')" class="block px-4 py-2 hover:bg-gray-100">
+                    {{ selectedScheme.irrigationAdminApproval ? 'Edit Approval' : '+ Add Approval' }}
+                </a>
+            </div>
+            <div class="py-1 text-sm text-gray-700">
+                <button @click="openIrrigationSchemeContractModal(selectedScheme, selectedScheme?.irrigationSchemeContract ? 'edit' : 'create')" class="w-full text-left block px-4 py-2 hover:bg-gray-100">
+                    {{ selectedScheme?.irrigationSchemeContract ? 'Edit Contract' : '+ Add Contract' }}
+                </button>
+            </div>
+            <div class="py-1 text-sm text-gray-700">
+                <button @click="openProjectPhysicalProgressManager(selectedScheme)" class="w-full text-left block px-4 py-2 hover:bg-gray-100">
+                    Manage Physical Progress
+                </button>
+                <button @click="openProjectFinancialInstallmentManager(selectedScheme)" class="w-full text-left block px-4 py-2 hover:bg-gray-100">
+                    Manage Financial Installment
+                </button>
+            </div>
+            <div class="py-1 text-sm text-gray-700">
+                <button @click="deleteScheme(selectedScheme?.id)" class="w-full text-left block px-4 py-2 hover:bg-red-100 text-red-600">Delete Scheme</button>
+            </div>
+        </div>
+    </transition>
+
     <Toast :show="toastVisible" :message="toastMessage" :type="toastType" @hide="toastVisible = false" />
 
     <IrrigationSchemeCreateModal
@@ -353,6 +422,26 @@ function deleteScheme(schemeId) {
         @close="showCreateSchemeModal = false"
         @saved="handleUpdated"
     />
+    <IrrigationAdminApprovalModal
+        v-if="selectedScheme"
+        :show="showAdminApprovalModal"
+        :scheme="selectedScheme"
+        :approval="selectedScheme.irrigationAdminApproval"
+        :mode="adminApprovalMode"
+        @close="showAdminApprovalModal = false; selectedScheme = null"
+        @updated="handleUpdated"
+    />
+
+    <IrrigationSchemeContractModal
+        v-if="selectedScheme"
+        :show="showSchemeContractModal"
+        :irrigation-scheme-id="selectedScheme.id"
+        :contract="selectedScheme.irrigationSchemeContract"
+        :mode="schemeContractMode"
+        @close="showSchemeContractModal = false; selectedScheme = null"
+        @saved="handleUpdated"
+    />
+
     <ProjectPhysicalProgressManagerModal
         v-if="selectedScheme"
         :show="showProjectPhysicalProgressManagerModal"

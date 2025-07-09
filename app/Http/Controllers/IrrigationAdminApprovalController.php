@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\IrrigationAdminApproval;
 use App\Services\IrrigationAdminApprovalService;
+use Illuminate\Support\Facades\DB;
 
 
 class IrrigationAdminApprovalController extends Controller

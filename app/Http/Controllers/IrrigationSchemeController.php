@@ -128,6 +128,7 @@ class IrrigationSchemeController extends Controller
 
     public function store(Request $request)
     {
+
         $validated = $request->validate([
             'cbo_id' => 'required|exists:cbos,id',
             'status' => 'required|in:New,Rehabilitation',
