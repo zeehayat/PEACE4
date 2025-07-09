@@ -25,7 +25,7 @@ const handleFormCancel = () => {
         <div class="p-6 overflow-y-auto max-h-[85vh]">
             <IrrigationSchemeForm
                 :irrigation-scheme="null"
-            mode="create"
+            :mode="create"
             @saved="handleFormSaved"
             @cancel="handleFormCancel"
             />

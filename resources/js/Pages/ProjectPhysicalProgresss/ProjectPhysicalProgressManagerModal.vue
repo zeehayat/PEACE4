@@ -16,7 +16,7 @@ const selectedProgressToEdit = ref(null)
 const addEditMode = ref('create')
 
 function openAddEditPhysicalProgress(progress = null) {
-    alert('Bowla')
+
     selectedProgressToEdit.value = progress
     addEditMode.value = progress ? 'edit' : 'create'
     showAddEditModal.value = true

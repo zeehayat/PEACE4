@@ -9,6 +9,8 @@ import IrrigationAdminApprovalModal from '@/Components/IrrigationComponents/Irri
 import IrrigationSchemeContractModal from '@/Components/IrrigationComponents/IrrigationSchemeContractManagerModal.vue'
 import ProjectPhysicalProgressManagerModal from '@/Pages/ProjectPhysicalProgresss/ProjectPhysicalProgressManagerModal.vue'
 import ProjectFinancialInstallmentManagerModal from '@/Pages/ProjectFinancialInstallment/ProjectFinancialInstallmentManagerModal.vue'
+import IrrigationSchemeContractManagerModal
+    from "@/Components/IrrigationComponents/IrrigationSchemeContractManagerModal.vue";
 
 const props = defineProps({
     irrigationSchemes: Object,
@@ -185,7 +187,13 @@ function deleteScheme(schemeId) {
 
             <IrrigationSchemeCreateModal :show="showCreateSchemeModal" :errors="props.errors" @close="showCreateSchemeModal = false" @saved="handleUpdated" />
             <IrrigationAdminApprovalModal v-if="selectedScheme" :show="showAdminApprovalModal" :scheme="selectedScheme" :approval="selectedScheme.irrigationAdminApproval" :mode="adminApprovalMode" @close="showAdminApprovalModal = false; selectedScheme = null" @updated="handleUpdated"  irrigation-scheme-id="scheme.id"/>
-            <IrrigationSchemeContractModal v-if="selectedScheme" :show="showSchemeContractModal" :irrigation-scheme-id="selectedScheme.id" :contract="selectedScheme.irrigationSchemeContract" :mode="schemeContractMode" @close="showSchemeContractModal = false; selectedScheme = null" @saved="handleUpdated" />
+            <IrrigationSchemeContractManagerModal
+                v-if="selectedScheme"
+                :show="showSchemeContractModal"
+                :scheme="selectedScheme"
+                @close="showSchemeContractModal = false; selectedScheme = null"
+                @saved="handleUpdated"
+            />
             <ProjectPhysicalProgressManagerModal v-if="selectedScheme" :show="showProjectPhysicalProgressManagerModal" :site="selectedScheme" @close="showProjectPhysicalProgressManagerModal = false" @saved="handleUpdated" />
             <ProjectFinancialInstallmentManagerModal v-if="selectedScheme" :show="showProjectFinancialInstallmentManagerModal" :site="selectedScheme" @close="showProjectFinancialInstallmentManagerModal = false" @saved="handleUpdated" />
         </div>
