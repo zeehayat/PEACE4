@@ -184,7 +184,7 @@ function deleteScheme(schemeId) {
             <Toast :show="toastVisible" :message="toastMessage" :type="toastType" @hide="toastVisible = false" />
 
             <IrrigationSchemeCreateModal :show="showCreateSchemeModal" :errors="props.errors" @close="showCreateSchemeModal = false" @saved="handleUpdated" />
-            <IrrigationAdminApprovalModal v-if="selectedScheme" :show="showAdminApprovalModal" :scheme="selectedScheme" :approval="selectedScheme.irrigationAdminApproval" :mode="adminApprovalMode" @close="showAdminApprovalModal = false; selectedScheme = null" @updated="handleUpdated" />
+            <IrrigationAdminApprovalModal v-if="selectedScheme" :show="showAdminApprovalModal" :scheme="selectedScheme" :approval="selectedScheme.irrigationAdminApproval" :mode="adminApprovalMode" @close="showAdminApprovalModal = false; selectedScheme = null" @updated="handleUpdated"  irrigation-scheme-id="scheme.id"/>
             <IrrigationSchemeContractModal v-if="selectedScheme" :show="showSchemeContractModal" :irrigation-scheme-id="selectedScheme.id" :contract="selectedScheme.irrigationSchemeContract" :mode="schemeContractMode" @close="showSchemeContractModal = false; selectedScheme = null" @saved="handleUpdated" />
             <ProjectPhysicalProgressManagerModal v-if="selectedScheme" :show="showProjectPhysicalProgressManagerModal" :site="selectedScheme" @close="showProjectPhysicalProgressManagerModal = false" @saved="handleUpdated" />
             <ProjectFinancialInstallmentManagerModal v-if="selectedScheme" :show="showProjectFinancialInstallmentManagerModal" :site="selectedScheme" @close="showProjectFinancialInstallmentManagerModal = false" @saved="handleUpdated" />
