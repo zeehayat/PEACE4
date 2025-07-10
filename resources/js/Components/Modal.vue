@@ -46,13 +46,10 @@ const maxWidthClass = computed(() => ({
             aria-modal="true"
             role="dialog"
         >
-            <!-- Modal wrapper to stop background click from closing it -->
             <div
-                class="relative w-auto rounded-lg shadow-lg transform transition-all "
-                :class="maxWidthClass"
+                class="relative w-auto rounded-lg shadow-lg transform transition-all bg-white"  :class="maxWidthClass"
                 @click.stop
             >
-                <!-- Header -->
                 <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-4 text-white font-semibold text-lg flex items-center justify-between rounded-t-lg">
                     <span>{{title}} </span>
                     <button
@@ -64,7 +61,6 @@ const maxWidthClass = computed(() => ({
                     </button>
                 </div>
 
-                <!-- Slot content -->
                 <div class="p-6">
                     <slot />
                 </div>
