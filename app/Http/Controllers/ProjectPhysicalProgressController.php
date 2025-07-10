@@ -29,13 +29,14 @@ class ProjectPhysicalProgressController extends Controller
 
     public function store(Request $request)
     {
+
         $validated = $request->validate([
             'projectable_id' => 'required|numeric',
             'projectable_type' => 'required|string',
             'progress_percentage' => 'required|integer|min:0|max:100',
             'progress_date' => 'nullable|date',
             'remarks' => 'nullable|string',
-            'project_type' => 'required|in:MHP,Irrigation',
+            'project_type' => 'required|in:MHP,IRRIGATION',
             'reference_code' => 'nullable|string|max:255',
             'attachments.*' => 'nullable|file|max:20480',
         ]);

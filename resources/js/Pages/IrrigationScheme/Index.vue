@@ -17,7 +17,8 @@ const props = defineProps({
     filters: Object,
     errors: Object
 })
-
+const projectType = ref('IRRIGATION')
+const projectableType = ref('App\\Models\\IrrigationScheme');
 const selectedScheme = ref(null)
 const toastVisible = ref(false)
 const toastMessage = ref('')
@@ -194,7 +195,9 @@ function deleteScheme(schemeId) {
                 @close="showSchemeContractModal = false; selectedScheme = null"
                 @saved="handleUpdated"
             />
-            <ProjectPhysicalProgressManagerModal v-if="selectedScheme" :show="showProjectPhysicalProgressManagerModal" :site="selectedScheme" @close="showProjectPhysicalProgressManagerModal = false" @saved="handleUpdated" />
+            <ProjectPhysicalProgressManagerModal v-if="selectedScheme" :show="showProjectPhysicalProgressManagerModal" :site="selectedScheme"
+                                                 @close="showProjectPhysicalProgressManagerModal = false" @saved="handleUpdated" :projectable_type="projectableType"
+                                                 :project_type="projectType" />
             <ProjectFinancialInstallmentManagerModal v-if="selectedScheme" :show="showProjectFinancialInstallmentManagerModal" :site="selectedScheme" @close="showProjectFinancialInstallmentManagerModal = false" @saved="handleUpdated" />
         </div>
     </div>

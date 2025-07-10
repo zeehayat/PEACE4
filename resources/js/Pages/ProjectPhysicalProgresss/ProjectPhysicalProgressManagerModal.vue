@@ -6,7 +6,10 @@ import { router } from '@inertiajs/vue3'
 
 const props = defineProps({
     show: Boolean,
-    site: Object, // MhpSite object with physicalProgresses eager loaded
+    site: Object,
+    project_type: String,
+    projectable_type: String,
+    // MhpSite object with physicalProgresses eager loaded
 })
 
 const emit = defineEmits(['close', 'saved'])
@@ -16,6 +19,7 @@ const selectedProgressToEdit = ref(null)
 const addEditMode = ref('create')
 
 function openAddEditPhysicalProgress(progress = null) {
+
 
     selectedProgressToEdit.value = progress
     addEditMode.value = progress ? 'edit' : 'create'
@@ -116,6 +120,9 @@ const is100PercentRecorded = computed(() => {
             :mode="addEditMode"
             @close="showAddEditModal = false; selectedProgressToEdit = null"
             @saved="handlePhysicalProgressSaved"
+            :project_type="project_type"
+            :projectable_type="projectable_type"
+
         />
     </Modal>
 </template>

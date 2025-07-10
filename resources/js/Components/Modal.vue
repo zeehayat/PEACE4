@@ -30,6 +30,11 @@ const maxWidthClass = computed(() => ({
     'lg': 'sm:max-w-lg',
     'xl': 'sm:max-w-xl',
     '2xl': 'sm:max-w-2xl',
+    '3xl': 'sm:max-w-3xl', // NEW: Added 3xl
+    '4xl': 'sm:max-w-4xl', // NEW: Added 4xl
+    '5xl': 'sm:max-w-5xl',
+    '6xl': 'sm:max-w-6xl',
+    '7xl': 'sm:max-w-7xl',
 }[props.maxWidth]))
 </script>
 
@@ -43,7 +48,7 @@ const maxWidthClass = computed(() => ({
         >
             <!-- Modal wrapper to stop background click from closing it -->
             <div
-                class="relative bg-white rounded-lg shadow-lg transform transition-all w-full"
+                class="relative w-auto rounded-lg shadow-lg transform transition-all "
                 :class="maxWidthClass"
                 @click.stop
             >
