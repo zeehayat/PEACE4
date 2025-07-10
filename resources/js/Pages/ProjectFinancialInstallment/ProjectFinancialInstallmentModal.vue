@@ -8,9 +8,12 @@ const props = defineProps({
     show: Boolean,
     site: Object, // The MhpSite object, now including financialInstallments
     projectFinancialInstallment: Object, // Existing record if editing
-    mode: { type: String, default: 'create' } // 'create' or 'edit'
+    mode: { type: String, default: 'create' },
+    project_type:{type: String, default: 'MHP'},
+    projectable_type:{type: String, default: ''},
+    // 'create' or 'edit'
 })
-
+console.log(props.project_type)
 const emit = defineEmits(['close', 'saved'])
 
 const newAttachments = ref([])
@@ -19,12 +22,13 @@ const attachmentsToRemove = ref([])
 
 const form = useForm({
     projectable_id: props.site?.id,
-    projectable_type: 'App\\Models\\MhpSite',
+    projectable_type: props.project_type,
     installment_number: '',
     installment_date: '',
     installment_amount: '',
     category: 'general',
     remarks: '',
+    project_type: props.project_type,
 })
 
 // Determine the next available installment number
@@ -59,15 +63,18 @@ watch(
             form.category = newInstallment.category;
             form.remarks = newInstallment.remarks;
             existingAttachments.value = newInstallment.attachments || [];
+
         } else if (newSite) { // Create mode, or reset after edit
             form.projectable_id = newSite.id;
-            form.projectable_type = 'App\\Models\\MhpSite';
+            form.projectable_type = props.projectable_type;
             form.installment_number = nextInstallmentNumber.value || ''; // Automatically set next installment
             form.installment_date = '';
             form.installment_amount = '';
             form.category = 'general';
             form.remarks = '';
+            form.project_type = props.project_type;
             existingAttachments.value = [];
+
         }
         newAttachments.value = [];
         attachmentsToRemove.value = [];
@@ -81,36 +88,49 @@ const removeExisting = (file) => {
 }
 
 const submit = () => {
-    const data = new FormData()
-    Object.entries(form.data()).forEach(([key, val]) => {
-        data.append(key, val ?? '')
-    })
-    newAttachments.value.forEach(file => {
-        data.append('attachments[]', file)
-    })
-    attachmentsToRemove.value.forEach(id => {
-        data.append('removed_attachments[]', id)
-    })
+    // ... existing form data preparation
 
-    const url = props.mode === 'create'
-        ? '/mhp/project-financial-installments'
-        : `/mhp/project-financial-installments/${props.projectFinancialInstallment.id}`
+    form.post(route('mhp.project-physical-progress.store'), { // Or put for update
+        onSuccess: (page) => {
+            // Option 1: Full data of the parent model is passed back (requires more data in response)
+            // If your controller returns the *entire updated irrigation scheme*
+            // Example: return Inertia::back()->with('success_message', 'Progress saved.')->with('updated_scheme', $scheme->load('physicalProgresses'));
+            // In Vue: const updatedScheme = page.props.flash.updated_scheme;
+            // emit('saved', 'Physical progress saved successfully!', updatedScheme);
 
-    if (props.mode === 'edit') {
-        data.append('_method', 'PUT')
-    }
+            // Option 2: More targeted update (recommended for nested relationships)
+            // Ask the backend to return just the updated physical progress records for this scheme
+            // Or, trigger a specific Inertia visit to re-fetch only the 'physicalProgresses' relation for the selectedScheme
+            // This is safer as it uses Inertia's data fetching, avoiding manual state management complexity.
 
-    router.post(url, data, {
-        forceFormData: true,
-        onSuccess: () => {
-            emit('saved', 'Financial installment saved successfully.')
-            emit('close')
+            router.get(
+                route('irrigation.irrigation-schemes.show', props.projectable.id), // Fetch the single updated scheme
+                {},
+                {
+                    preserveScroll: true,
+                    preserveState: true, // Keep form state if moving between tabs/modals, though usually not needed after successful save
+                    onSuccess: (page) => {
+                        // The 'scheme' prop from the show method now contains the updated data
+                        // You need to pass this back to the parent Index.vue
+                        emit('saved', 'Physical progress saved successfully!', page.props.irrigationScheme);
+                    },
+                    onError: (errors) => {
+                        console.error('Error re-fetching scheme data:', errors);
+                        // Handle error or just show the general success message
+                        emit('saved', 'Physical progress saved successfully!'); // Still show success, but data might be stale
+                    }
+                }
+            );
+
+            // Close the modal after success (emit is handled by the modal wrapper)
+            emit('cancel'); // This will close the modal
         },
         onError: (errors) => {
-            console.error('Validation Errors:', errors)
-        }
-    })
-}
+            console.error('Form Errors:', errors);
+        },
+    });
+};
+
 
 // Display existing financial installments for context (optional, but good for user)
 const sortedFinancialInstallments = computed(() => {

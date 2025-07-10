@@ -46,12 +46,28 @@ onMounted(() => {
     })
 })
 
-function handleUpdated(message) {
+function handleUpdated(message, updatedSchemeData = null) { // Accept optional updatedSchemeData
     toastMessage.value = message
     toastType.value = 'success'
     toastVisible.value = true
     setTimeout(() => (toastVisible.value = false), 3000)
-    router.reload({ only: ['irrigationSchemes'] })
+
+    if (updatedSchemeData && selectedScheme.value) {
+        // If specific data is provided, update the selectedScheme directly
+        // Ensure you only update the parts that might have changed to prevent re-rendering issues
+        // and also ensure physicalProgresses and financialInstallments are reactive.
+        Object.assign(selectedScheme.value, updatedSchemeData);
+
+        // Additionally, find and update the scheme in the main irrigationSchemes.data array
+        const index = props.irrigationSchemes.data.findIndex(s => s.id === updatedSchemeData.id);
+        if (index !== -1) {
+            Object.assign(props.irrigationSchemes.data[index], updatedSchemeData);
+        }
+
+    } else {
+        // Fallback: If no specific data, or if it's a create operation, reload the main list
+        router.reload({ only: ['irrigationSchemes'] });
+    }
 }
 
 const filteredSchemes = computed(() => {
@@ -198,7 +214,12 @@ function deleteScheme(schemeId) {
             <ProjectPhysicalProgressManagerModal v-if="selectedScheme" :show="showProjectPhysicalProgressManagerModal" :site="selectedScheme"
                                                  @close="showProjectPhysicalProgressManagerModal = false" @saved="handleUpdated" :projectable_type="projectableType"
                                                  :project_type="projectType" />
-            <ProjectFinancialInstallmentManagerModal v-if="selectedScheme" :show="showProjectFinancialInstallmentManagerModal" :site="selectedScheme" @close="showProjectFinancialInstallmentManagerModal = false" @saved="handleUpdated" />
+            <ProjectFinancialInstallmentManagerModal v-if="selectedScheme"
+                                                     :show="showProjectFinancialInstallmentManagerModal"
+                                                     :site="selectedScheme" @close="showProjectFinancialInstallmentManagerModal = false" @saved="handleUpdated"
+                                                     :projectable_type="projectableType"
+                                                     :project_type="projectType"
+            />
         </div>
     </div>
 </template>

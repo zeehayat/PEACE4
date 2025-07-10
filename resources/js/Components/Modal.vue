@@ -5,7 +5,7 @@ const props = defineProps({
     show: { type: Boolean, default: false },
     maxWidth: { type: String, default: '2xl' },
     closeable: { type: Boolean, default: true },
-    title: { type: String, default: 'Add MHP Progress' },
+    title: { type: String, default: 'Add Progress' },
 })
 
 const emit = defineEmits(['close'])

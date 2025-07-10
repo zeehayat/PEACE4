@@ -3,10 +3,13 @@ import { ref, computed } from 'vue'
 import Modal from '@/Components/Modal.vue'
 import ProjectFinancialInstallmentModal from '@/Pages/ProjectFinancialInstallment/ProjectFinancialInstallmentModal.vue';
 import { router } from '@inertiajs/vue3'
+import ProjectPhysicalProgressModal from "@/Pages/ProjectPhysicalProgresss/ProjectPhysicalProgressModal.vue";
 
 const props = defineProps({
     show: Boolean,
-    site: Object, // MhpSite object with financialInstallments eager loaded
+    site: Object,
+    project_type: String,
+    projectable_type: String,// MhpSite object with financialInstallments eager loaded
 })
 
 const emit = defineEmits(['close', 'saved'])
@@ -118,6 +121,8 @@ const isAllInstallmentsRecorded = computed(() => {
             :mode="addEditMode"
             @close="showAddEditModal = false; selectedInstallmentToEdit = null"
             @saved="handleFinancialInstallmentSaved"
+            :project_type="project_type"
+            :projectable_type="projectable_type"
         />
     </Modal>
 </template>
