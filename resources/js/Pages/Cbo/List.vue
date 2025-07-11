@@ -12,7 +12,7 @@
 
             <Link
                 class="bg-orange-600 p-3 rounded-full hover:rounded-2xl shadow-2xl ml-3 hover:bg-orange-800 text-white font-bold flex items-center space-x-2"
-                href="/cbo/report"
+                href="/cbo/cbo/report"
             >
                 <FileBarChart2 class="w-5 h-5" />
                 <span>CBO Activity Report</span>

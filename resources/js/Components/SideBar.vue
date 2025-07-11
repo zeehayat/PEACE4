@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import {Link} from "@inertiajs/vue3";
 
 const isOpen = ref(false)
 
@@ -44,18 +45,18 @@ defineExpose({ toggle })
                 >
                     Dashboard
                 </a>
-                <a
-                    href="#"
+                <Link
+                    href="/mhp/mhp-sites"
                     class="block px-3 py-2 rounded hover:bg-blue-100 text-gray-700"
                 >
-                    MHP Sites
-                </a>
-                <a
-                    href="#"
+                    MHP Cpanel
+                </Link>
+                <Link
+                    href="/irrigation/irrigation-schemes"
                     class="block px-3 py-2 rounded hover:bg-blue-100 text-gray-700"
                 >
-                    Reports
-                </a>
+                    Irrigation CPanel
+                </Link>
                 <a
                     href="#"
                     class="block px-3 py-2 rounded hover:bg-blue-100 text-gray-700"

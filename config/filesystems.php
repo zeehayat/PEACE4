@@ -59,6 +59,18 @@ return [
             'throw' => false,
             'report' => false,
         ],
+        'cloudflare_r2' => [
+            'driver' => 's3',
+            'key' => env('R2_ACCESS_KEY_ID'),
+            'secret' => env('R2_SECRET_ACCESS_KEY'),
+            'region' => 'auto', // Cloudflare R2 uses 'auto' or a specific region if you configured one
+            'bucket' => env('R2_BUCKET'),
+            'endpoint' => env('R2_ENDPOINT'), // THIS IS CRUCIAL FOR R2
+            'url' => env('R2_PUBLIC_URL'), // Optional, but good for direct URL generation
+            'visibility' => 'public', // Or 'private' depending on your use case
+            'throw' => false,
+            'use_path_style_endpoint' => false, // Usually false for R2
+        ],
 
     ],
 

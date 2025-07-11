@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { router } from '@inertiajs/vue3' // Ensure router is imported
+import { router, Link } from '@inertiajs/vue3' // Ensure Link is imported for pagination
 
 import MhpSiteDetailsModal from '@/Components/MhpSiteDetailsModal.vue'
 import MhpEditInfoModal from '@/Components/MhpEditInfoModal.vue'
@@ -12,6 +12,7 @@ import MhpCompletionForm from "@/Pages/MhpCompletion/MhpCompletionForm.vue";
 import SideBar from "@/Components/SideBar.vue";
 import MhpEmeProgressModal from '@/Pages/MhpEmeProgress/MhpEmeProgressModal.vue';
 import OperationalCostModal from '@/Pages/MhpOperationalCost/OperationalCostModal.vue'
+import Toast from '@/Components/Toast.vue'; // Assuming you have a Toast component
 
 // New imports for Manager Modals
 import ProjectPhysicalProgressManagerModal from '@/Pages/MhpPhysicalProgress/ProjectPhysicalProgressModal.vue'
@@ -25,17 +26,18 @@ function openOperationalCost(site) {
 }
 
 const props = defineProps({
-    mhpSites: Object,
-    errors: Object
+    mhpSites: Object, // This should be paginated data: { data: [], links: [] }
+    errors: Object,
+    filters: Object, // Added to bind search input
 })
 
 const selectedSite = ref(null)
 const toastVisible = ref(false)
 const toastMessage = ref('')
 const toastType = ref('success')
-const searchTerm = ref('')
+const searchTerm = ref(props.filters.search || '') // Bind search to filter prop
 const openActionMenuId = ref(null)
-const menuDirection = ref('down')
+const menuDirection = ref('down') // Controls if menu opens up or down
 
 const showDetailsModal = ref(false)
 const showEditInfoModal = ref(false)
@@ -44,10 +46,10 @@ const showApprovalViewModal = ref(false)
 const showRevisedCostModal = ref(false)
 const showReportModal = ref(false)
 const revisedCostField = ref('')
-const approvalAction = ref('create')
+const approvalAction = ref('create') // 'create' or 'update'
 const showCompletionModal = ref(false)
-const completionMode = ref('create')
-const selectedCompletion = ref(null)
+const completionMode = ref('create') // 'create' or 'edit' or 'view'
+const selectedCompletion = ref(null) // Holds the completion object if editing/viewing
 const emeModalVisible = ref(false);
 const showNewSiteModal = ref(false);
 
@@ -87,27 +89,47 @@ function openProjectFinancialInstallmentManager(site) {
 onMounted(() => {
     // Close menu when clicking outside
     document.addEventListener('click', (e) => {
-        // Check if the click is outside the action button and menu
         if (openActionMenuId.value && !e.target.closest('.action-menu-container')) {
             openActionMenuId.value = null;
         }
     });
 })
 
-function handleUpdated(message) {
+// MODIFIED: handleUpdated function for instant updates
+function handleUpdated(message, updatedSiteData = null) {
     toastMessage.value = message
     toastType.value = 'success'
     toastVisible.value = true
     setTimeout(() => (toastVisible.value = false), 3000)
-    router.reload({ only: ['mhpSites'] }); // Reload sites to get updated progress data
+
+    if (updatedSiteData && selectedSite.value) {
+        // If specific data is provided (e.g., from a modal save), update the reactive selectedSite
+        // and also find and update the corresponding site in the main mhpSites.data array.
+        // This ensures the table row immediately reflects changes.
+        Object.assign(selectedSite.value, updatedSiteData); // Update the modal's context
+        const index = props.mhpSites.data.findIndex(s => s.id === updatedSiteData.id);
+        if (index !== -1) {
+            Object.assign(props.mhpSites.data[index], updatedSiteData); // Update the main list
+        }
+    } else {
+        // Fallback for actions like creation, deletion, or if updatedSiteData isn't provided
+        // This performs a partial Inertia reload to get fresh data for 'mhpSites' prop.
+        router.reload({ only: ['mhpSites'] });
+    }
 }
 
+
 const filteredSites = computed(() => {
+    // Use the `props.mhpSites.data` which comes from the controller's pagination
+    // If no search term, return all data
     if (!searchTerm.value.trim()) return props.mhpSites.data
+
     const term = searchTerm.value.trim().toLowerCase()
     return props.mhpSites.data.filter(site =>
         (site.cbo?.reference_code || '').toLowerCase().includes(term) ||
-        (site.status || '').toLowerCase().includes(term)
+        (site.status || '').toLowerCase().includes(term) ||
+        (site.project_id || '').toLowerCase().includes(term) || // Search by Project ID
+        (site.cbo?.district || '').toLowerCase().includes(term) // Search by District via CBO
     )
 })
 
@@ -115,7 +137,8 @@ function getStatusClass(status) {
     switch (status) {
         case 'New': return 'bg-blue-100 text-blue-800 border border-blue-200';
         case 'Rehab': return 'bg-yellow-100 text-yellow-800 border border-yellow-200';
-        case 'Upgradation': return 'bg-green-100 text-green-800 border border-green-200';
+        case 'Upgradation': return 'bg-emerald-100 text-emerald-800 border border-emerald-200'; // Changed to emerald for more vibrancy
+        case 'Completed': return 'bg-green-100 text-green-800 border border-green-200'; // Assuming a 'Completed' status
         default: return 'bg-gray-100 text-gray-800 border border-gray-200';
     }
 }
@@ -130,10 +153,9 @@ function toggleActionMenu(siteId, event) {
     const rect = button.getBoundingClientRect()
 
     const spaceBelow = window.innerHeight - rect.bottom
-    // Estimate menu height, can be adjusted
-    const menuHeight = 350;
+    const menuHeight = 350; // Estimated menu height (adjust if your menu is taller)
 
-    if (spaceBelow < menuHeight && rect.top > spaceBelow) {
+    if (spaceBelow < menuHeight && rect.top > menuHeight) { // Check if there's enough space above AND not too close to top
         menuDirection.value = 'up'
     } else {
         menuDirection.value = 'down'
@@ -153,14 +175,14 @@ function determineNextField(adminApproval) {
 function nextRevisedCostLabel(adminApproval) {
     const nextField = determineNextField(adminApproval)
     if (nextField === 'revised_cost_1') return '+ Add Revised Cost 1'
-    if (nextField === 'revised_cost_2') return 'Revises Cost 2'
-    if (nextField === 'revised_cost_3') return 'Revised Cost 3'
+    if (nextField === 'revised_cost_2') return '+ Add Revised Cost 2'
+    if (nextField === 'revised_cost_3') return '+ Add Revised Cost 3'
     return 'All Revised Costs Added'
 }
 
 function openRevisedCostModal(site) {
     const field = determineNextField(site.admin_approval)
-    if (!field) return
+    if (!field) return // Don't open if all fields are filled
     selectedSite.value = site
     revisedCostField.value = field
     showRevisedCostModal.value = true
@@ -179,15 +201,28 @@ function openNewSiteModal() {
     showNewSiteModal.value = true;
 }
 
+function deleteSite(siteId) {
+    if (confirm('Are you sure you want to delete this MHP Site? This action cannot be undone.')) {
+        router.delete(route('mhp.sites.destroy', siteId), {
+            onSuccess: () => {
+                handleUpdated('MHP Site deleted successfully.');
+            },
+            onError: (errors) => {
+                console.error('Error deleting site:', errors);
+                handleUpdated('Failed to delete MHP Site.');
+            }
+        });
+    }
+}
 </script>
 
 <template>
     <side-bar />
 
-    <div class="bg-gray-100 font-sans antialiased text-gray-800 min-h-screen">
+    <div class="bg-gray-50 font-sans antialiased text-gray-800 min-h-screen">
         <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
-            <header class="mb-8">
+            <header class="mb-8 bg-white p-6 rounded-lg shadow-md">
                 <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                     <div>
                         <h1 class="text-3xl font-extrabold tracking-tight text-gray-900">MHP Sites Overview</h1>
@@ -203,6 +238,7 @@ function openNewSiteModal() {
                             <input
                                 type="text"
                                 v-model="searchTerm"
+                                @input="router.get(route('mhp.index'), { search: searchTerm }, { preserveState: true, replace: true })"
                                 placeholder="Search by CBO, Status, or ID..."
                                 class="block w-full rounded-lg border-gray-300 bg-white py-2.5 pl-10 pr-3 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors duration-200"
                             />
@@ -265,6 +301,9 @@ function openNewSiteModal() {
                                                 Manage Financial Installment
                                             </button>
                                         </div>
+                                        <div class="py-1 text-sm text-gray-700">
+                                            <button @click="deleteSite(site.id)" class="w-full text-left block px-4 py-2 hover:bg-red-100 text-red-600">Delete Site</button>
+                                        </div>
                                     </div>
                                 </transition>
                             </div>
@@ -290,7 +329,7 @@ function openNewSiteModal() {
                 </div>
             </div>
 
-            <div class="hidden md:block bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden">
+            <div class="hidden md:block bg-white rounded-xl shadow-xl border border-gray-200">
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                     <tr>
@@ -304,12 +343,10 @@ function openNewSiteModal() {
                     </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
-                    <tr v-for="site in filteredSites" :key="site.id" class="hover:bg-gray-50 transition-colors duration-150 group">
-
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm font-medium text-gray-900">{{ site.cbo?.reference_code ?? 'N/A' }}</div>
-                            <div class="text-xs text-gray-500 mt-0.5">Project ID: {{ site.project_id }}</div>
-                        </td>
+                    <tr v-for="site in filteredSites" :key="site.id" class="hover:bg-indigo-50/20 transition-colors duration-150 group"> <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-medium text-gray-900">{{ site.cbo?.reference_code ?? 'N/A' }}</div>
+                        <div class="text-xs text-gray-500 mt-0.5">Project ID: {{ site.project_id }}</div>
+                    </td>
 
                         <td class="px-6 py-4 whitespace-nowrap">
                             <span :class="getStatusClass(site.status)" class="inline-flex items-center rounded-full px-3 py-1 text-xs font-medium border">
@@ -393,6 +430,9 @@ function openNewSiteModal() {
                                             Manage Financial Installment
                                         </button>
                                     </div>
+                                    <div class="py-1 text-sm text-gray-700">
+                                        <button @click="deleteSite(site.id)" class="w-full text-left block px-4 py-2 hover:bg-red-100 text-red-600">Delete Site</button>
+                                    </div>
                                 </div>
                             </transition>
                         </td>
@@ -401,8 +441,19 @@ function openNewSiteModal() {
                 </table>
             </div>
 
+            <nav v-if="mhpSites.links.length > 3" class="mt-8 flex justify-center">
+                <div class="flex flex-wrap -mb-1">
+                    <template v-for="(link, key) in mhpSites.links" :key="key">
+                        <div v-if="link.url === null" class="mr-1 mb-1 px-4 py-3 text-sm leading-4 text-gray-400 border rounded" v-html="link.label" />
+                        <Link v-else :href="link.url" class="mr-1 mb-1 px-4 py-3 text-sm leading-4 border rounded hover:bg-indigo-500 hover:text-white focus:border-indigo-500 focus:text-indigo-500" :class="{ 'bg-indigo-600 text-white': link.active, 'bg-white text-gray-700 border-gray-300': !link.active }" v-html="link.label" />
+                    </template>
+                </div>
+            </nav>
+
         </div>
     </div>
+
+    <Toast :show="toastVisible" :message="toastMessage" :type="toastType" @hide="toastVisible = false" />
 
     <MhpSiteDetailsModal :show="showDetailsModal" :site="selectedSite" @close="showDetailsModal = false; selectedSite = null" />
     <MhpEditInfoModal :show="showEditInfoModal" :site="selectedSite" @close="showEditInfoModal = false; selectedSite = null" @updated="handleUpdated" />
@@ -411,8 +462,7 @@ function openNewSiteModal() {
     <AddRevisedCostModal v-if="selectedSite" :show="showRevisedCostModal" :site="selectedSite" :field="revisedCostField" @close="showRevisedCostModal = false; selectedSite = null; revisedCostField = ''" @updated="handleUpdated" />
     <MhpReport v-if="selectedSite" :show="showReportModal" :site="selectedSite" @close="showReportModal = false; selectedSite = null" />
     <MhpCompletionForm v-if="selectedSite" :show="showCompletionModal" :mode="completionMode" :site="selectedSite" :mhp-completion="selectedCompletion" @close="showCompletionModal = false" @saved="handleUpdated" />
-    <MhpEmeProgressModal :show="emeModalVisible" :site="selectedSite" @close="emeModalVisible = false" />
-    <OperationalCostModal @saved="handleUpdated" title="Add Operational Cost" :show="operationalCostModalVisible" :site="selectedSite" @close="operationalCostModalVisible = false" />
+    <MhpEmeProgressModal :show="emeModalVisible" :site="selectedSite" @close="emeModalVisible = false" @saved="handleUpdated" /> <OperationalCostModal @saved="handleUpdated" title="Add Operational Cost" :show="operationalCostModalVisible" :site="selectedSite" @close="operationalCostModalVisible = false" />
 
     <ProjectPhysicalProgressManagerModal
         v-if="selectedSite"
@@ -439,13 +489,25 @@ function openNewSiteModal() {
 </template>
 
 <style scoped>
+/* Base button styling */
 button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
 }
 
-button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+/* Enhancements for action menu items */
+.action-menu-container .block {
+    @apply transition-colors duration-100 ease-in-out;
+}
+.action-menu-container .block:hover {
+    @apply bg-indigo-50; /* A lighter hover for menu items */
+}
+
+/* Styles for pagination links */
+.pagination-link {
+    @apply transition-all duration-200;
+}
+.pagination-link:hover {
+    @apply scale-105; /* Subtle scale on hover for pagination */
 }
 </style>
