@@ -9,10 +9,12 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
+use Illuminate\Support\Facades\DB; // Import DB for transactions
+use Illuminate\Support\Facades\Log; // Import Log for error logging
+use Spatie\MediaLibrary\MediaCollections\Models\Media; // Import Media model for direct deletion
 
 class CboDialogueController extends Controller
 {
-
     public function index(Request $request)
     {
         $query = CboDialogue::with('cbo', 'media')->latest();
@@ -33,7 +35,6 @@ class CboDialogueController extends Controller
         ]);
     }
 
-
     public function create()
     {
         $cbos = Cbo::select('id', 'reference_code')->get();
@@ -45,27 +46,36 @@ class CboDialogueController extends Controller
 
     public function store(CboDialogueRequest $request)
     {
+        try {
+            DB::transaction(function () use ($request) {
+                $data = $request->validated();
+                $dialogue = CboDialogue::create([
+                    'cbo_id' => $data['cbo_id'],
+                    'date_of_dialogue' => $data['date_of_dialogue'],
+                    'participants' => $data['participants'],
+                    'remarks' => $data['remarks'] ?? null, // Added remarks from CboDialogueForm
+                ]);
 
-        $data = $request->validated();
+                if ($request->hasFile('attachments')) {
+                    foreach ($request->file('attachments') as $file) {
+                        $dialogue->addMedia($file)->toMediaCollection('attachments');
+                    }
+                }
+            });
 
-        $dialogue = CboDialogue::create([
-            'cbo_id' => $data['cbo_id'],
-            'date_of_dialogue' => $data['date_of_dialogue'],
-            'participants' => $data['participants'],
-        ]);
-
-        if ($request->hasFile('attachments')) {
-            foreach ($request->file('attachments') as $file) {
-                $dialogue->addMedia($file)->toMediaCollection('attachments');
-            }
+            return redirect()->route('cbo.dialogues.index')->with('success', 'Dialogue created.');
+        } catch (FileDoesNotExist | FileIsTooBig $e) {
+            Log::error('File upload error for Dialogue: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'File upload failed: ' . $e->getMessage());
+        } catch (\Exception $e) {
+            Log::error('Error creating Dialogue: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to create Dialogue: ' . $e->getMessage());
         }
-
-        return redirect()->route('cbo.dialogues.index')->with('success', 'Dialogue created.');
-
     }
+
     public function edit(CboDialogue $dialogue)
     {
-        $dialogue->load('cbo', 'media');
+        $dialogue->load('cbo', 'media'); // Make sure 'media' is loaded for attachments
 
         return Inertia::render('CboDialogue/Edit', [
             'dialogue' => $dialogue,
@@ -73,33 +83,61 @@ class CboDialogueController extends Controller
         ]);
     }
 
-
     /**
      * @throws FileDoesNotExist
      * @throws FileIsTooBig
      */
     public function update(CboDialogueRequest $request, CboDialogue $dialogue)
     {
-        $data = $request->validated();
+        try {
+            DB::transaction(function () use ($request, $dialogue) {
+                $data = $request->validated();
+                $dialogue->update([
+                    'cbo_id' => $data['cbo_id'],
+                    'date_of_dialogue' => $data['date_of_dialogue'],
+                    'participants' => $data['participants'],
+                    'remarks' => $data['remarks'] ?? null, // Added remarks
+                ]);
 
-        $dialogue->update([
-            'cbo_id' => $data['cbo_id'],
-            'date_of_dialogue' => $data['date_of_dialogue'],
-            'participants' => $data['participants'],
-        ]);
-        if ($request->filled('removed_attachments')) {
-            foreach ($request->removed_attachments as $id) {
-                $dialogue->getMedia('attachments')->where('id', $id)->first()?->delete();
-            }
-        }
-        if ($request->hasFile('attachments')) {
-            foreach ($request->file('attachments') as $file) {
-                $dialogue->addMedia($file)->toMediaCollection('attachments', 'public');
-            }
-        }
+                // Handle removed attachments
+                if ($request->filled('removed_attachments')) {
+                    Media::whereIn('id', $request->removed_attachments)
+                        ->where('model_type', get_class($dialogue))
+                        ->where('model_id', $dialogue->id)
+                        ->delete();
+                }
 
-        return redirect()->route('cbo.dialogues.index')->with('success', 'Dialogue updated.');
+                // Handle new attachments
+                if ($request->hasFile('attachments')) {
+                    foreach ($request->file('attachments') as $file) {
+                        $dialogue->addMedia($file)->toMediaCollection('attachments'); // Use default disk or specify 'public'
+                    }
+                }
+            });
+
+            return redirect()->route('cbo.dialogues.index')->with('success', 'Dialogue updated.');
+        } catch (FileDoesNotExist | FileIsTooBig $e) {
+            Log::error('File upload error for Dialogue update: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'File upload failed: ' . $e->getMessage());
+        } catch (\Exception $e) {
+            Log::error('Error updating Dialogue: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to update Dialogue: ' . $e->getMessage());
+        }
     }
 
-
+    // NEW: Destroy Method for CboDialogue
+    public function destroy(CboDialogue $dialogue)
+    {
+        try {
+            DB::transaction(function () use ($dialogue) {
+                // Spatie Media Library models automatically delete associated media
+                // when the parent model is deleted. No explicit media deletion needed here.
+                $dialogue->delete();
+            });
+            return redirect()->back()->with('success', 'Dialogue deleted successfully.');
+        } catch (\Exception $e) {
+            Log::error('Error deleting Dialogue: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to delete Dialogue: ' . $e->getMessage());
+        }
+    }
 }

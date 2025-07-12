@@ -15,17 +15,44 @@ class CboController extends Controller
     {
         $this->service = $service;
     }
+    // In CboController.php
+    public function autoSearch(Request $request)
+    {
+        $query = $request->input('search');
+        $cbos = Cbo::where('reference_code', 'like', "%{$query}%")
+            ->orWhere('district', 'like', "%{$query}%")
+            ->limit(10)
+            ->get(['id', 'reference_code']); // Ensure these fields are returned
+        return response()->json($cbos);
+    }
     public function details($id)
     {
         $cbo = Cbo::findOrFail($id);
 
-        return response()->json([
-            'dialogues' => $cbo->dialogues,
-            'trainings' => $cbo->trainings,
-            'exposures' => $cbo->exposureVisits,
+        // Eager load all related models AND their media relationships
+        // This avoids N+1 queries for media when the accessors are called.
+        $cbo->load([
+            'media', // CBO's direct media
+            'dialogues.media',
+            'trainings.media',
+            'exposureVisits.media',
         ]);
-    }
 
+        // Transform CBO's own media (if any)
+        $cbo->cbo_attachments = $cbo->getMedia('attachments')->map(fn ($m) => [
+            'id' => $m->id,
+            'name' => $m->name,
+            'file_name' => $m->file_name,
+            'url' => $m->getUrl(),
+            'size' => $m->size,
+        ]);
+
+        // No need for explicit $cbo->dialogues->transform() etc. here.
+        // The `getAttachmentsAttribute()` accessor on each Dialogue/Training/ExposureVisit model
+        // will automatically format the already eager-loaded `media` relationship when they are serialized to JSON.
+
+        return response()->json($cbo);
+    }
     public function index(Request $request)
     {
         $query = Cbo::query();
@@ -60,6 +87,7 @@ class CboController extends Controller
         try{
             $cbo = $this->service->create($request->all());
             $cbo=Cbo::all();
+
             return Inertia::render('Cbo/List',[
                 'cbos'=>$cbo,
             ]);

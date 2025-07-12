@@ -1,5 +1,6 @@
 <template>
     <div class="max-w-6xl mx-auto py-6">
+       {{dialogues}}
         <h1 class="text-2xl font-bold mb-4">Community Dialogues</h1>
 
         <!-- Filters -->

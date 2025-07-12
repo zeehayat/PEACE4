@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media as SpatieMedia;
 
 class CboExposureVisit extends Model implements HasMedia
 {
@@ -30,5 +31,19 @@ class CboExposureVisit extends Model implements HasMedia
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('attachments');
+    }
+    protected $appends = ['attachments'];
+    public function getAttachmentsAttribute()
+    {
+        // Get media from the 'attachments' collection
+        return $this->getMedia('attachments')->map(function (SpatieMedia $media) { // Changed App\Models\Media to SpatieMedia (the alias)
+            return [
+                'id' => $media->id,
+                'name' => $media->name,
+                'file_name' => $media->file_name,
+                'url' => $media->getUrl(),
+                'size' => $media->size,
+            ];
+        })->toArray(); // Convert to array for consistent JSON output
     }
 }

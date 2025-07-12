@@ -5,7 +5,7 @@ const props = defineProps({
     show: { type: Boolean, default: false },
     maxWidth: { type: String, default: '2xl' },
     closeable: { type: Boolean, default: true },
-    title: { type: String, default: 'Add Progress' },
+    title: { type: String, default: 'Modal Title' }, // Default title for clarity
 })
 
 const emit = defineEmits(['close'])
@@ -30,8 +30,8 @@ const maxWidthClass = computed(() => ({
     'lg': 'sm:max-w-lg',
     'xl': 'sm:max-w-xl',
     '2xl': 'sm:max-w-2xl',
-    '3xl': 'sm:max-w-3xl', // NEW: Added 3xl
-    '4xl': 'sm:max-w-4xl', // NEW: Added 4xl
+    '3xl': 'sm:max-w-3xl',
+    '4xl': 'sm:max-w-4xl',
     '5xl': 'sm:max-w-5xl',
     '6xl': 'sm:max-w-6xl',
     '7xl': 'sm:max-w-7xl',
@@ -42,16 +42,14 @@ const maxWidthClass = computed(() => ({
     <transition name="fade">
         <div
             v-if="show"
-            class="fixed inset-0 z-50 flex items-center justify-center px-4 py-6 bg-black bg-opacity-50 shadow-2xl"
-            aria-modal="true"
+            class="fixed inset-0 z-50 flex items-center justify-center px-4 py-6 bg-black bg-opacity-50 shadow-2xl overflow-y-auto" aria-modal="true"
             role="dialog"
-        >
+            @click.self="close" >
             <div
-                class="relative w-auto rounded-lg shadow-lg transform transition-all bg-white"  :class="maxWidthClass"
+                class="relative w-full rounded-lg shadow-lg transform transition-all bg-white max-h-[95vh] overflow-hidden flex flex-col" :class="maxWidthClass"
                 @click.stop
             >
-                <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-4 text-white font-semibold text-lg flex items-center justify-between rounded-t-lg">
-                    <span>{{title}} </span>
+                <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-4 text-white font-semibold text-lg flex items-center justify-between rounded-t-lg flex-shrink-0"> <span>{{title}} </span>
                     <button
                         @click="close"
                         class="text-white hover:text-gray-200 text-2xl font-bold leading-none focus:outline-none"
@@ -61,8 +59,7 @@ const maxWidthClass = computed(() => ({
                     </button>
                 </div>
 
-                <div class="p-6">
-                    <slot />
+                <div class="p-6 flex-grow overflow-y-auto"> <slot />
                 </div>
             </div>
         </div>
