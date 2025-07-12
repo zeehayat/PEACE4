@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useForm, router, usePage, Link } from '@inertiajs/vue3'
 import axios from 'axios'
 import { toast } from 'vue3-toastify'
@@ -7,11 +7,12 @@ import { toast } from 'vue3-toastify'
 import Modal from '@/Components/Modal.vue'
 import CBODialogueForm from '@/Components/FormComponents/CBODialogueForm.vue'
 import CBOTrainingForm from '@/Pages/CboTraining/Create.vue'
-import CboExposureVisitForm from '@/Components/FormComponents/CBOExposureVisitForm.vue'
+import CboExposureVisitForm from '@/Components/FormComponents/CBOExposureVisitForm.vue' // Reused for edit
 import CboDetails from '@/Pages/Cbo/Partials/CboDetails.vue'
 import CboListCard from '@/Components/CBO/CboListCard.vue';
 import CboDialoguesList from '@/Components/CBO/CboDialoguesList.vue';
 import CboTrainingsList from '@/Components/CBO/CboTrainingsList.vue';
+import CboExposureVisitsList from '@/Components/CBO/CboExposureVisitsList.vue'; // NEW: Import the new exposure visits list component
 import { route } from "ziggy-js"
 
 const props = defineProps({
@@ -24,10 +25,6 @@ const props = defineProps({
         default: () => ({})
     }
 })
-const emit = defineEmits([ // This should also be early
-    'delete-training',
-    'edit-training',
-]);
 const page = usePage()
 
 const filters = ref({
@@ -36,16 +33,16 @@ const filters = ref({
     date_of_formation: page.props.filters?.date_of_formation || '',
 })
 
-const modal = ref(null) // Controls which modal is currently open ('dialogue', 'training-add', 'training-edit', etc.)
-const selectedCbo = ref(null) // Holds the CBO object for details/lists/forms within modals
-const dialogueForm = ref(null) // useForm instance for dialogue creation
-const exposureForm = ref(null) // useForm instance for exposure visit creation
-const selectedTraining = ref(null); // Holds the specific training object when in 'training-edit' mode
+const modal = ref(null)
+const selectedCbo = ref(null)
+const dialogueForm = ref(null)
+const exposureForm = ref(null) // Reused for edit
+const selectedTraining = ref(null);
+const selectedExposureVisit = ref(null); // NEW: Ref for selected exposure visit for edit/delete
 
-const openActionMenuId = ref(null) // Manages which action menu dropdown is open in CboListCard
-const menuDirection = ref('down') // Controls dropdown menu direction (up/down)
+const openActionMenuId = ref(null)
+const menuDirection = ref('down')
 
-// --- Action Menu Toggle Logic ---
 const toggleActionMenu = (cboId, event) => {
     if (openActionMenuId.value === cboId) {
         openActionMenuId.value = null
@@ -55,7 +52,7 @@ const toggleActionMenu = (cboId, event) => {
     const button = event.currentTarget
     const rect = button.getBoundingClientRect()
     const spaceBelow = window.innerHeight - rect.bottom
-    const menuHeight = 250; // Estimated height of the dropdown menu
+    const menuHeight = 250;
 
     if (spaceBelow < menuHeight && rect.top > menuHeight) {
         menuDirection.value = 'up'
@@ -65,7 +62,6 @@ const toggleActionMenu = (cboId, event) => {
     openActionMenuId.value = cboId
 };
 
-// Close action menu when clicking outside
 onMounted(() => {
     document.addEventListener('click', (e) => {
         if (openActionMenuId.value && !e.target.closest('.action-menu-container')) {
@@ -75,49 +71,46 @@ onMounted(() => {
 });
 
 // --- Centralized CBO Data Fetcher for Modals ---
-// This function fetches detailed CBO data (with relationships) and sets modal state
 const fetchCboDetailsAndOpenModal = (cbo, targetModal) => {
-    modal.value = targetModal; // Set the modal to open
+    modal.value = targetModal;
     selectedCbo.value = null; // Clear previous state to show loading message
 
-    axios.get(route('cbo.cbos.details', cbo.id), { params: { _t: Date.now() } }) // Cache busting
+    axios.get(route('cbo.cbos.details', cbo.id), { params: { _t: Date.now() } })
         .then(res => {
-            selectedCbo.value = res.data; // Populate selectedCbo with fetched data
+            selectedCbo.value = res.data;
         })
         .catch((error) => {
             console.error(`Failed to load CBO details for ${targetModal}:`, error);
             toast.error(`Failed to load CBO details for ${targetModal}.`);
-            closeModal(); // Close modal on error
+            closeModal();
         });
 };
 
 // --- Form Submission / Data Reload Handlers ---
-// Handles success from CBO related forms (Dialogue, Training, Exposure) to reload parent CBO data
 const onActivityFormSaved = (message) => {
     toast.success(message);
     closeModal();
-    // Reload the currently selected CBO's details to update the lists/reports in any open modals
     if (selectedCbo.value) {
         axios.get(route('cbo.cbos.details', selectedCbo.value.id), { params: { _t: Date.now() } })
             .then(res => {
-                selectedCbo.value = res.data; // Update selectedCbo with fresh data
+                selectedCbo.value = res.data;
             })
             .catch(error => {
                 console.error("Error reloading CBO data after activity save:", error);
-                router.reload({ only: ['cbos'] }); // Fallback to full page reload
+                router.reload({ only: ['cbos'] });
             });
     } else {
-        router.reload({ only: ['cbos'] }); // Fallback for initial CBO creation
+        router.reload({ only: ['cbos'] });
     }
 };
 
 // --- Modal Close Handler ---
 const closeModal = () => {
     modal.value = null;
-    // Delay clearing selected data to allow modal transition to finish gracefully
     setTimeout(() => {
         selectedCbo.value = null;
         selectedTraining.value = null;
+        selectedExposureVisit.value = null; // NEW: Clear selected exposure visit
     }, 300);
 };
 
@@ -153,7 +146,7 @@ const handleOpenDetails = (cbo) => fetchCboDetailsAndOpenModal(cbo, 'details');
 
 // --- CBO Dialogue Handlers ---
 const handleOpenDialogueForm = (cbo) => {
-    selectedCbo.value = cbo; // Set selectedCbo for context in the form
+    selectedCbo.value = cbo;
     dialogueForm.value = useForm({
         cbo_id: cbo.id,
         date_of_dialogue: '',
@@ -194,7 +187,7 @@ const handleDeleteDialogue = (dialogueId) => {
 
 // --- CBO Training Handlers ---
 const handleOpenTrainingForm = (cbo) => {
-    selectedCbo.value = cbo; // Set selectedCbo for context in the form
+    selectedCbo.value = cbo;
     modal.value = 'training-add';
 };
 
@@ -213,12 +206,11 @@ const handleDeleteTraining = (trainingId) => {
 };
 
 const handleEditTraining = (trainingId) => {
-    // Fetch the specific training data for editing
     axios.get(route('cbo.trainings.show', trainingId))
         .then(res => {
-            selectedTraining.value = res.data; // Set the fetched training data
+            selectedTraining.value = res.data;
             selectedCbo.value = page.props.cbos.find(c => c.id === selectedTraining.value.cbo_id); // Ensure parent CBO is set for context
-            modal.value = 'training-edit'; // Set new modal state for editing
+            modal.value = 'training-edit';
         })
         .catch(error => {
             console.error('Error fetching training for edit:', error);
@@ -227,19 +219,21 @@ const handleEditTraining = (trainingId) => {
 };
 
 
-// --- CBO Exposure Visit Handlers ---
+// --- CBO Exposure Visit Handlers (NEW/UPDATED) ---
 const handleOpenExposureForm = (cbo) => {
-    selectedCbo.value = cbo; // Set selectedCbo for context in the form
+    selectedCbo.value = cbo;
     exposureForm.value = useForm({
+        _method: 'POST', // Default for create
         cbo_id: cbo.id,
         date_of_visit: '',
         participants: '',
+        purpose_of_visit: '', // Assuming this field exists based on CboDetails.vue
         remarks: '',
         attachments: [],
         removed_attachments: [],
         existing_attachments: [],
     });
-    modal.value = 'exposure';
+    modal.value = 'exposure-add'; // NEW: Distinct state for adding exposure visits
 };
 
 const submitExposure = () => {
@@ -252,6 +246,33 @@ const submitExposure = () => {
             toast.error('Please correct the errors.');
         },
     });
+};
+
+const handleViewExposureVisits = (cbo) => fetchCboDetailsAndOpenModal(cbo, 'view-exposure-visits'); // NEW handler
+
+const handleDeleteExposureVisit = (exposureVisitId) => { // NEW handler
+    if (confirm('Are you sure you want to delete this Exposure Visit? This action cannot be undone.')) {
+        router.delete(route('cbo.exposure-visits.destroy', exposureVisitId), {
+            onSuccess: () => onActivityFormSaved('Exposure Visit deleted successfully!'),
+            onError: (errors) => {
+                console.error('Error deleting exposure visit:', errors);
+                toast.error('Failed to delete exposure visit.');
+            }
+        });
+    }
+};
+
+const handleEditExposureVisit = (exposureVisitId) => { // NEW handler
+    axios.get(route('cbo.exposure-visits.show', exposureVisitId))
+        .then(res => {
+            selectedExposureVisit.value = res.data; // Set the fetched exposure visit data
+            selectedCbo.value = page.props.cbos.find(c => c.id === selectedExposureVisit.value.cbo_id); // Ensure parent CBO is set
+            modal.value = 'exposure-edit'; // NEW: Distinct state for editing exposure visits
+        })
+        .catch(error => {
+            console.error('Error fetching exposure visit for edit:', error);
+            toast.error('Failed to load exposure visit for editing.');
+        });
 };
 </script>
 
@@ -266,7 +287,8 @@ const submitExposure = () => {
             <div class="flex flex-col sm:flex-row justify-center gap-4">
                 <Link
                     class="btn-primary-gradient"
-                    :href="route('cbo.cbos.create')" >
+                    :href="route('cbo.cbos.create')"
+                >
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-circle mr-2"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
                     <span>Add New CBO</span>
                 </Link>
@@ -301,7 +323,7 @@ const submitExposure = () => {
                     <input id="district" v-model="filters.district" type="text" class="input-modern pt-4" placeholder="Search District" />
                 </div>
                 <div class="relative">
-                    <label for="date_of_formation" class="input-label">Date of Formation</label>
+                    <label for="date_of_formation" class="block text-sm font-medium text-gray-700 mb-1">Date of Formation</label>
                     <input id="date_of_formation" v-model="filters.date_of_formation" type="date" class="input-modern pt-4" />
                 </div>
                 <div class="flex items-end justify-end md:justify-start">
@@ -329,6 +351,7 @@ const submitExposure = () => {
                 @delete-cbo="handleDeleteCbo"
                 @view-dialogues="handleViewDialogues"
                 @view-trainings="handleViewTrainings"
+                @view-exposure-visits="handleViewExposureVisits"
             />
         </div>
 
@@ -341,17 +364,19 @@ const submitExposure = () => {
         </Modal>
 
         <Modal :show="modal === 'training-add'" @close="closeModal" title="Add CBO Training">
-            <CBOTrainingForm :cboId="selectedCbo.id" mode="create" @success="onTrainingFormSaved" @cancel="closeModal" />
+            <CBOTrainingForm :cboId="selectedCbo.id" mode="create" @success="onActivityFormSaved" @cancel="closeModal" />
         </Modal>
 
         <Modal :show="modal === 'training-edit'" @close="closeModal" title="Edit CBO Training">
-            <CBOTrainingForm :cboId="selectedCbo.id" :training="selectedTraining" mode="edit" @success="onTrainingFormSaved" @cancel="closeModal" />
+            <CBOTrainingForm :cboId="selectedCbo.id" :training="selectedTraining" mode="edit" @success="onActivityFormSaved" @cancel="closeModal" />
         </Modal>
 
 
-        <Modal :show="modal === 'exposure'" @close="closeModal" title="Add CBO Exposure Visit">
-            <CboExposureVisitForm :form="exposureForm" :cbo="selectedCbo" :submit="submitExposure" />
-        </Modal>
+        <Modal :show="modal === 'exposure-add'" @close="closeModal" title="Add CBO Exposure Visit">
+            <CboExposureVisitForm :form="exposureForm" :cbo="selectedCbo" @submit="submitExposure" mode="create" /> </Modal>
+
+        <Modal :show="modal === 'exposure-edit'" @close="closeModal" title="Edit CBO Exposure Visit">
+            <CboExposureVisitForm :form="exposureForm" :cbo="selectedCbo" :exposure-visit="selectedExposureVisit" @submit="submitExposure" mode="edit" /> </Modal>
 
         <Modal :show="modal === 'details'" @close="closeModal" title="CBO Details Report">
             <CboDetails v-if="selectedCbo" :cbo="selectedCbo" />
@@ -372,10 +397,18 @@ const submitExposure = () => {
             />
             <div v-else class="p-4 text-center text-gray-600">Loading trainings...</div>
         </Modal>
+
+        <Modal :show="modal === 'view-exposure-visits'" @close="closeModal" title="CBO Exposure Visits List">
+            <CboExposureVisitsList
+                v-if="selectedCbo && selectedCbo.exposure_visits"
+                :cbo="selectedCbo"
+                @delete-exposure-visit="handleDeleteExposureVisit"
+                @edit-exposure-visit="handleEditExposureVisit"
+            />
+            <div v-else class="p-4 text-center text-gray-600">Loading exposure visits...</div>
+        </Modal>
     </div>
 </template>
-
-
 
 <style scoped>
 /* Modern Input Styling */

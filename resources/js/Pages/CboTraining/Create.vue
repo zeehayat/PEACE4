@@ -3,26 +3,25 @@ import { useForm, router } from '@inertiajs/vue3';
 import { watch, ref } from 'vue';
 import AttachmentUploader from '@/Components/AttachmentComponent/AttachmentUploader.vue';
 import SearchableCboSelect from '@/Components/SearchableCboSelect.vue';
-import DatePicker from '@/Components/DatePicker.vue'; // Assuming this is your date picker component
+import DatePicker from '@/Components/DatePicker.vue';
 
 const props = defineProps({
-    cboId: { // This is the ID of the CBO the training belongs to (needed for new training)
+    cboId: {
         type: [Number, String],
-        required: true, // It's required whether adding or editing, to know the parent CBO context
+        required: true,
     },
-    training: { // The training object to edit (will be null for create mode)
+    training: {
         type: Object,
         default: null,
     },
-    mode: { // Mode of the form: 'create' or 'edit'
+    mode: {
         type: String,
         default: 'create',
     },
 });
 
-const emit = defineEmits(['success', 'cancel']); // Ensure 'cancel' is explicitly emitted
+const emit = defineEmits(['success', 'cancel']);
 
-// Define training types for dropdown
 const trainingTypes = [
     'O&M Training',
     'Electrical Appliance Training',
@@ -35,31 +34,25 @@ const trainingTypes = [
 
 const form = useForm({
     _method: props.mode === 'edit' ? 'PUT' : 'POST',
-    // CORRECTED: Initialize cbo_id correctly for both modes
-    // In edit mode, take cbo_id from the 'training' prop.
-    // In create mode, take cbo_id from the 'cboId' prop.
     cbo_id: props.mode === 'edit' ? props.training?.cbo_id : props.cboId,
     training_type: props.training?.training_type || '',
-
+    training_gender: props.training?.training_gender ? props.training.training_gender.toLowerCase() : '',
     date_of_training: props.training?.date_of_training || '',
     total_participants: props.training?.total_participants || '',
     remarks: props.training?.remarks || '',
-    training_gender: props.training?.training_gender ? props.training.training_gender.toLowerCase() : '', // FIX: Normalize to lowercase for v-model binding
 });
 
 const newAttachments = ref([]);
 const existingAttachments = ref(props.training?.attachments || []);
 const attachmentsToRemove = ref([]);
 
-// Watch for changes in the 'training' prop for dynamic form updates in edit mode
-// This is crucial for when the same modal component is reused for different trainings.
 watch(
     () => props.training,
     (newTraining) => {
-        if (props.mode === 'edit' && newTraining) { // Ensure it's edit mode AND newTraining is not null
-            form.cbo_id = newTraining.cbo_id; // Set CBO ID from the fetched training
+        if (props.mode === 'edit' && newTraining) {
+            form.cbo_id = newTraining.cbo_id;
             form.training_type = newTraining.training_type;
-            form.training_gender = newTraining.training_gender ? newTraining.training_gender.toLowerCase() : ''; // FIX: Normalize in watch too
+            form.training_gender = newTraining.training_gender ? newTraining.training_gender.toLowerCase() : '';
             form.date_of_training = newTraining.date_of_training;
             form.total_participants = newTraining.total_participants;
             form.remarks = newTraining.remarks || '';
@@ -67,15 +60,15 @@ watch(
             newAttachments.value = [];
             attachmentsToRemove.value = [];
         } else if (props.mode === 'create') {
-            form.reset(); // Reset form for fresh creation
-            form.cbo_id = props.cboId; // Re-set CBO ID for new creation if form was reset
+            form.reset();
+            form.cbo_id = props.cboId;
+            form.training_gender = '';
             existingAttachments.value = [];
             newAttachments.value = [];
             attachmentsToRemove.value = [];
-            form.training_gender = '';
         }
     },
-    { immediate: true } // Run immediately when component is mounted/prop changes
+    { immediate: true }
 );
 
 const removeExisting = (file) => {
@@ -86,19 +79,16 @@ const removeExisting = (file) => {
 const submit = () => {
     const submitData = new FormData();
 
-    // Append form fields (excluding _method which Inertia handles for put/post)
     for (const key in form.data()) {
         if (key !== '_method') {
             submitData.append(key, form.data()[key] ?? '');
         }
     }
 
-    // Append new attachments
     newAttachments.value.forEach((file) => {
         submitData.append('attachments[]', file);
     });
 
-    // Append IDs of attachments to be removed
     attachmentsToRemove.value.forEach((id) => {
         submitData.append('removed_attachments[]', id);
     });
@@ -108,20 +98,21 @@ const submit = () => {
         : route('cbo.trainings.update', props.training.id);
 
     form.post(url, {
-        forceFormData: true, // Crucial for file uploads
+
+        forceFormData: true,
         onSuccess: () => {
             emit('success', `Training ${props.mode === 'create' ? 'added' : 'updated'} successfully!`);
-            emit('cancel'); // Emit 'cancel' to close modal on success
+            emit('cancel');
+            console.log(form.data())
         },
         onError: (errors) => {
             console.error('Training form errors:', errors);
-            // You can iterate over errors.form to display them next to fields
         },
     });
 };
 
 const cancelForm = () => {
-    emit('cancel'); // Emits the 'cancel' event to the parent
+    emit('cancel');
 };
 </script>
 
@@ -130,12 +121,20 @@ const cancelForm = () => {
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-3">
             <div class="col-span-full">
                 <label for="cbo_id" class="block text-sm font-medium text-gray-700 mb-1">CBO</label>
-                <SearchableCboSelect
-                    v-model:selected-cbo-id="form.cbo_id"
-                    :initial-cbo-id="form.cbo_id"
-                    :initial-cbo-object="training?.cbo" :disabled="mode === 'edit'"
-                    class="input-compact"
-                />
+                <template v-if="mode === 'edit'">
+                    <div class="input-compact bg-gray-100 text-gray-700 font-semibold cursor-not-allowed flex items-center h-[38px] px-3 py-1.5 rounded-lg">
+                        {{ training?.cbo?.reference_code || training.cbo_id || 'N/A' }}
+                    </div>
+                    <input type="hidden" v-model="form.cbo_id" />
+                </template>
+                <template v-else>
+                    <SearchableCboSelect
+                        v-model:selected-cbo-id="form.cbo_id"
+                        :initial-cbo-id="form.cbo_id"
+                        :initial-cbo-object="training?.cbo"
+                        class="input-compact"
+                    />
+                </template>
                 <div v-if="form.errors.cbo_id" class="text-red-500 text-xs mt-1">{{ form.errors.cbo_id }}</div>
             </div>
 

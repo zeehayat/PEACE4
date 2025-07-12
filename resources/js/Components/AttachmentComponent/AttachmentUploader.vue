@@ -31,8 +31,13 @@ const emit = defineEmits(['update:modelValue', 'removeExisting'])
 
 const pondFiles = ref([])
 
+// CRITICAL FIX: Filter out non-File objects before emitting
 watch(pondFiles, (newVal) => {
-    emit('update:modelValue', newVal.map(file => file.file))
+    const validFiles = newVal
+        .map(file => file.file) // Get the underlying File object from FilePond's internal object
+        .filter(file => file instanceof File); // ONLY include actual File objects
+
+    emit('update:modelValue', validFiles);
 })
 </script>
 
@@ -65,8 +70,7 @@ watch(pondFiles, (newVal) => {
                     </a>
                     <button
                         type="button"
-                        @click="$emit('removeExisting', file)"
-                        class="text-red-500 text-xs hover:underline"
+                        @click="$emit('removeExisting', file.id)" class="text-red-500 text-xs hover:underline"
                     >
                         Remove
                     </button>

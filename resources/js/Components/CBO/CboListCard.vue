@@ -16,7 +16,8 @@ const emit = defineEmits([
     'open-details',
     'delete-cbo',
     'view-dialogues',
-    'view-trainings', // NEW: Emit this event
+    'view-trainings',
+    'view-exposure-visits', // NEW: Emit this event
 ]);
 
 const formattedGender = computed(() => {
@@ -96,12 +97,16 @@ const handleToggleActionMenu = (event) => {
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-graduation-cap"><path d="M21.43 14.7l-4.14 4.14a2.43 2.43 0 0 1-3.42 0L2.79 9.91a2.43 2.43 0 0 1 0-3.42l4.14-4.14a2.43 2.43 0 0 1 3.42 0l7.08 7.08a2.43 2.43 0 0 1 0 3.42ZM22.5 12.5 11.25 1.25"/><path d="M5.62 10.62 1.25 15.01"/><path d="M12.5 22.5 21.21 13.79"/><path d="M18.88 16.88 14.51 21.25"/></svg>
                             Add Training
                         </button>
-                        <button @click="emit('view-trainings', cbo)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-book-open-text"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h6z"/><path d="M10 12H7"/><path d="M13 16h-3"/></svg>
+                        <button @click="emit('view-trainings', cbo)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-book-open-text"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h6z"/><path d="M10 12H7"/><path d="M13 16h-3"/></svg>
                             View Trainings
                         </button>
                         <button @click="emit('open-exposure', cbo)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plane"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-3.5 1.5L13 8 4.8 6.2c-.5-.1-1-.1-1.4.2L.4 7.5c-.3.3-.2.9.2 1.3L5.4 14l-2 2.5c-.3.5-.1 1.1.3 1.5.5.4 1.2.5 1.7.2L7.5 16l2.5 2c.7.6 1.7.7 2.6.5L19.2 17.8c.9-.9 1.2-2.2.4-3.1Z"/><path d="M10.95 20.84 12.22 17.5 15.5 16.22"/></svg>
                             Add Exposure Visit
+                        </button>
+                        <button @click="emit('view-exposure-visits', cbo)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin"><path d="M12 2v20M18 6H6M22 18H2"/></svg>
+                            View Exposure Visits
                         </button>
                     </div>
                     <div class="py-1 text-sm text-gray-700">

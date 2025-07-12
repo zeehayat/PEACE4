@@ -128,6 +128,8 @@ class CboController extends Controller
 
     public function show(Cbo $cbo)
     {
+
+
         return inertia('Cbo/Show', [
             'item' => $cbo->load('media'), // if you want media; optional
         ]);

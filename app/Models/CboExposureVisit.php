@@ -17,26 +17,24 @@ class CboExposureVisit extends Model implements HasMedia
 
     use HasFactory, InteractsWithMedia;
     protected $guarded = [];
-
+    protected $appends=['attachments'];
 
     public function cbo():BelongsTo
     {
         return $this->belongsTo(Cbo::class);
     }
 
-    public function attachments():MorphMany
-    {
-        return $this->morphMany(Attachment::class, 'attachable');
-    }
+
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('attachments');
     }
-    protected $appends = ['attachments'];
+
+
+
     public function getAttachmentsAttribute()
     {
-        // Get media from the 'attachments' collection
-        return $this->getMedia('attachments')->map(function (SpatieMedia $media) { // Changed App\Models\Media to SpatieMedia (the alias)
+        return $this->getMedia('attachments')->map(function (SpatieMedia $media) {
             return [
                 'id' => $media->id,
                 'name' => $media->name,
@@ -44,6 +42,7 @@ class CboExposureVisit extends Model implements HasMedia
                 'url' => $media->getUrl(),
                 'size' => $media->size,
             ];
-        })->toArray(); // Convert to array for consistent JSON output
+        })->toArray();
     }
+
 }

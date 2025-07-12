@@ -5,3 +5,50 @@
 [x-cloak] {
     display: none;
 }
+/* In your resources/css/app.css or a dedicated toastify-overrides.css file */
+
+/* Ensure Toastify icons are correctly sized (from previous fix) */
+.Toastify__toast-icon svg {
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 24px !important;
+    min-height: 24px !important;
+    max-width: 24px !important;
+    max-height: 24px !important;
+    vertical-align: middle;
+}
+
+/* Ensure toast body flex layout aligns correctly */
+.Toastify__toast-body {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+/* CRITICAL FIX: Force Toastify container positioning to top-right */
+.Toastify__toast-container {
+    position: fixed !important; /* Force fixed positioning relative to viewport */
+    top: 1em !important;        /* 16px from top */
+    right: 1em !important;       /* 16px from right */
+    width: 320px !important;     /* Standard toast width */
+    max-width: 90% !important;   /* Prevent overflow on small screens */
+    padding: 0 !important;      /* Remove any conflicting padding */
+    z-index: 9999 !important;    /* Ensure it's on top of everything */
+    pointer-events: none !important; /* Allow clicks through empty space to elements behind */
+}
+
+/* Ensure toasts themselves are visible and correctly positioned within the container */
+.Toastify__toast {
+    position: relative !important; /* Toasts should be relatively positioned within their fixed container */
+    margin-bottom: 0.5em !important; /* Space between toasts */
+    pointer-events: auto !important; /* Re-enable pointer events for the toast itself (close button) */
+    width: 100% !important; /* Fill container width */
+}
+
+/* If toasts appear off-screen due to transforms or transitions, ensure they reset */
+.Toastify__bounce-enter--top-right,
+.Toastify__bounce-exit--top-right {
+    transform: none !important; /* Override any unintended transform that pushes them off-screen */
+    opacity: 1 !important;
+}
