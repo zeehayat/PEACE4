@@ -1,8 +1,8 @@
-import { queryParams, type QueryParams } from './../../../../wayfinder'
+import { queryParams, type QueryParams } from './../../../wayfinder'
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::index
 * @see app/Http/Controllers/MhpAdminApprovalController.php:0
-* @route '/mhp/mhp/admin-approvals'
+* @route '/mhp/admin-approvals'
 */
 export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -14,13 +14,13 @@ export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams 
 
 index.definition = {
     methods: ['get','head'],
-    url: '/mhp/mhp/admin-approvals',
+    url: '/mhp/admin-approvals',
 }
 
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::index
 * @see app/Http/Controllers/MhpAdminApprovalController.php:0
-* @route '/mhp/mhp/admin-approvals'
+* @route '/mhp/admin-approvals'
 */
 index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     return index.definition.url + queryParams(options)
@@ -29,7 +29,7 @@ index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::index
 * @see app/Http/Controllers/MhpAdminApprovalController.php:0
-* @route '/mhp/mhp/admin-approvals'
+* @route '/mhp/admin-approvals'
 */
 index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -42,7 +42,7 @@ index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::index
 * @see app/Http/Controllers/MhpAdminApprovalController.php:0
-* @route '/mhp/mhp/admin-approvals'
+* @route '/mhp/admin-approvals'
 */
 index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -53,62 +53,9 @@ index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 })
 
 /**
-* @see \App\Http\Controllers\MhpAdminApprovalController::create
-* @see app/Http/Controllers/MhpAdminApprovalController.php:0
-* @route '/mhp/mhp/admin-approvals/create'
-*/
-export const create = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: create.url(options),
-    method: 'get',
-})
-
-create.definition = {
-    methods: ['get','head'],
-    url: '/mhp/mhp/admin-approvals/create',
-}
-
-/**
-* @see \App\Http\Controllers\MhpAdminApprovalController::create
-* @see app/Http/Controllers/MhpAdminApprovalController.php:0
-* @route '/mhp/mhp/admin-approvals/create'
-*/
-create.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return create.definition.url + queryParams(options)
-}
-
-/**
-* @see \App\Http\Controllers\MhpAdminApprovalController::create
-* @see app/Http/Controllers/MhpAdminApprovalController.php:0
-* @route '/mhp/mhp/admin-approvals/create'
-*/
-create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: create.url(options),
-    method: 'get',
-})
-
-/**
-* @see \App\Http\Controllers\MhpAdminApprovalController::create
-* @see app/Http/Controllers/MhpAdminApprovalController.php:0
-* @route '/mhp/mhp/admin-approvals/create'
-*/
-create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
-    url: create.url(options),
-    method: 'head',
-})
-
-/**
 * @see \App\Http\Controllers\MhpAdminApprovalController::store
-* @see app/Http/Controllers/MhpAdminApprovalController.php:12
-* @route '/mhp/mhp/admin-approvals'
+* @see app/Http/Controllers/MhpAdminApprovalController.php:14
+* @route '/mhp/admin-approvals'
 */
 export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -120,13 +67,13 @@ export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams 
 
 store.definition = {
     methods: ['post'],
-    url: '/mhp/mhp/admin-approvals',
+    url: '/mhp/admin-approvals',
 }
 
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::store
-* @see app/Http/Controllers/MhpAdminApprovalController.php:12
-* @route '/mhp/mhp/admin-approvals'
+* @see app/Http/Controllers/MhpAdminApprovalController.php:14
+* @route '/mhp/admin-approvals'
 */
 store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     return store.definition.url + queryParams(options)
@@ -134,8 +81,8 @@ store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::store
-* @see app/Http/Controllers/MhpAdminApprovalController.php:12
-* @route '/mhp/mhp/admin-approvals'
+* @see app/Http/Controllers/MhpAdminApprovalController.php:14
+* @route '/mhp/admin-approvals'
 */
 store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -148,7 +95,7 @@ store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::show
 * @see app/Http/Controllers/MhpAdminApprovalController.php:0
-* @route '/mhp/mhp/admin-approvals/{admin_approval}'
+* @route '/mhp/admin-approvals/{admin_approval}'
 */
 export const show = (args: { admin_approval: string | number } | [admin_approval: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -160,13 +107,13 @@ export const show = (args: { admin_approval: string | number } | [admin_approval
 
 show.definition = {
     methods: ['get','head'],
-    url: '/mhp/mhp/admin-approvals/{admin_approval}',
+    url: '/mhp/admin-approvals/{admin_approval}',
 }
 
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::show
 * @see app/Http/Controllers/MhpAdminApprovalController.php:0
-* @route '/mhp/mhp/admin-approvals/{admin_approval}'
+* @route '/mhp/admin-approvals/{admin_approval}'
 */
 show.url = (args: { admin_approval: string | number } | [admin_approval: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
@@ -191,7 +138,7 @@ show.url = (args: { admin_approval: string | number } | [admin_approval: string 
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::show
 * @see app/Http/Controllers/MhpAdminApprovalController.php:0
-* @route '/mhp/mhp/admin-approvals/{admin_approval}'
+* @route '/mhp/admin-approvals/{admin_approval}'
 */
 show.get = (args: { admin_approval: string | number } | [admin_approval: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -204,7 +151,7 @@ show.get = (args: { admin_approval: string | number } | [admin_approval: string 
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::show
 * @see app/Http/Controllers/MhpAdminApprovalController.php:0
-* @route '/mhp/mhp/admin-approvals/{admin_approval}'
+* @route '/mhp/admin-approvals/{admin_approval}'
 */
 show.head = (args: { admin_approval: string | number } | [admin_approval: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -215,78 +162,9 @@ show.head = (args: { admin_approval: string | number } | [admin_approval: string
 })
 
 /**
-* @see \App\Http\Controllers\MhpAdminApprovalController::edit
-* @see app/Http/Controllers/MhpAdminApprovalController.php:0
-* @route '/mhp/mhp/admin-approvals/{admin_approval}/edit'
-*/
-export const edit = (args: { admin_approval: string | number } | [admin_approval: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: edit.url(args, options),
-    method: 'get',
-})
-
-edit.definition = {
-    methods: ['get','head'],
-    url: '/mhp/mhp/admin-approvals/{admin_approval}/edit',
-}
-
-/**
-* @see \App\Http\Controllers\MhpAdminApprovalController::edit
-* @see app/Http/Controllers/MhpAdminApprovalController.php:0
-* @route '/mhp/mhp/admin-approvals/{admin_approval}/edit'
-*/
-edit.url = (args: { admin_approval: string | number } | [admin_approval: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    if (typeof args === 'string' || typeof args === 'number') {
-        args = { admin_approval: args }
-    }
-
-    if (Array.isArray(args)) {
-        args = {
-            admin_approval: args[0],
-        }
-    }
-
-    const parsedArgs = {
-        admin_approval: args.admin_approval,
-    }
-
-    return edit.definition.url
-            .replace('{admin_approval}', parsedArgs.admin_approval.toString())
-            .replace(/\/+$/, '') + queryParams(options)
-}
-
-/**
-* @see \App\Http\Controllers\MhpAdminApprovalController::edit
-* @see app/Http/Controllers/MhpAdminApprovalController.php:0
-* @route '/mhp/mhp/admin-approvals/{admin_approval}/edit'
-*/
-edit.get = (args: { admin_approval: string | number } | [admin_approval: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: edit.url(args, options),
-    method: 'get',
-})
-
-/**
-* @see \App\Http\Controllers\MhpAdminApprovalController::edit
-* @see app/Http/Controllers/MhpAdminApprovalController.php:0
-* @route '/mhp/mhp/admin-approvals/{admin_approval}/edit'
-*/
-edit.head = (args: { admin_approval: string | number } | [admin_approval: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
-    url: edit.url(args, options),
-    method: 'head',
-})
-
-/**
 * @see \App\Http\Controllers\MhpAdminApprovalController::update
-* @see app/Http/Controllers/MhpAdminApprovalController.php:27
-* @route '/mhp/mhp/admin-approvals/{admin_approval}'
+* @see app/Http/Controllers/MhpAdminApprovalController.php:59
+* @route '/mhp/admin-approvals/{admin_approval}'
 */
 export const update = (args: { admin_approval: string | number } | [admin_approval: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -298,13 +176,13 @@ export const update = (args: { admin_approval: string | number } | [admin_approv
 
 update.definition = {
     methods: ['put','patch'],
-    url: '/mhp/mhp/admin-approvals/{admin_approval}',
+    url: '/mhp/admin-approvals/{admin_approval}',
 }
 
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::update
-* @see app/Http/Controllers/MhpAdminApprovalController.php:27
-* @route '/mhp/mhp/admin-approvals/{admin_approval}'
+* @see app/Http/Controllers/MhpAdminApprovalController.php:59
+* @route '/mhp/admin-approvals/{admin_approval}'
 */
 update.url = (args: { admin_approval: string | number } | [admin_approval: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
@@ -328,8 +206,8 @@ update.url = (args: { admin_approval: string | number } | [admin_approval: strin
 
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::update
-* @see app/Http/Controllers/MhpAdminApprovalController.php:27
-* @route '/mhp/mhp/admin-approvals/{admin_approval}'
+* @see app/Http/Controllers/MhpAdminApprovalController.php:59
+* @route '/mhp/admin-approvals/{admin_approval}'
 */
 update.put = (args: { admin_approval: string | number } | [admin_approval: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -341,8 +219,8 @@ update.put = (args: { admin_approval: string | number } | [admin_approval: strin
 
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::update
-* @see app/Http/Controllers/MhpAdminApprovalController.php:27
-* @route '/mhp/mhp/admin-approvals/{admin_approval}'
+* @see app/Http/Controllers/MhpAdminApprovalController.php:59
+* @route '/mhp/admin-approvals/{admin_approval}'
 */
 update.patch = (args: { admin_approval: string | number } | [admin_approval: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -355,7 +233,7 @@ update.patch = (args: { admin_approval: string | number } | [admin_approval: str
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::destroy
 * @see app/Http/Controllers/MhpAdminApprovalController.php:0
-* @route '/mhp/mhp/admin-approvals/{admin_approval}'
+* @route '/mhp/admin-approvals/{admin_approval}'
 */
 export const destroy = (args: { admin_approval: string | number } | [admin_approval: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -367,13 +245,13 @@ export const destroy = (args: { admin_approval: string | number } | [admin_appro
 
 destroy.definition = {
     methods: ['delete'],
-    url: '/mhp/mhp/admin-approvals/{admin_approval}',
+    url: '/mhp/admin-approvals/{admin_approval}',
 }
 
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::destroy
 * @see app/Http/Controllers/MhpAdminApprovalController.php:0
-* @route '/mhp/mhp/admin-approvals/{admin_approval}'
+* @route '/mhp/admin-approvals/{admin_approval}'
 */
 destroy.url = (args: { admin_approval: string | number } | [admin_approval: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
@@ -398,7 +276,7 @@ destroy.url = (args: { admin_approval: string | number } | [admin_approval: stri
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::destroy
 * @see app/Http/Controllers/MhpAdminApprovalController.php:0
-* @route '/mhp/mhp/admin-approvals/{admin_approval}'
+* @route '/mhp/admin-approvals/{admin_approval}'
 */
 destroy.delete = (args: { admin_approval: string | number } | [admin_approval: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -410,10 +288,8 @@ destroy.delete = (args: { admin_approval: string | number } | [admin_approval: s
 
 const adminApprovals = {
     index,
-    create,
     store,
     show,
-    edit,
     update,
     destroy,
 }

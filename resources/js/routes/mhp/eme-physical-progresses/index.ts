@@ -1,4 +1,4 @@
-import { queryParams, type QueryParams } from './../../../../wayfinder'
+import { queryParams, type QueryParams } from './../../../wayfinder'
 /**
 * @see \App\Http\Controllers\MhpEmePhysicalProgressController::index
 * @see app/Http/Controllers/MhpEmePhysicalProgressController.php:10
@@ -408,6 +408,14 @@ destroy.delete = (args: { eme_physical_progress: string | number } | [eme_physic
     method: 'delete',
 })
 
-const MhpEmePhysicalProgressController = { index, create, store, show, edit, update, destroy }
+const emePhysicalProgresses = {
+    index,
+    create,
+    store,
+    show,
+    edit,
+    update,
+    destroy,
+}
 
-export default MhpEmePhysicalProgressController
+export default emePhysicalProgresses

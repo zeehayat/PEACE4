@@ -1,4 +1,4 @@
-import { queryParams, type QueryParams } from './../../../../wayfinder'
+import { queryParams, type QueryParams } from './../../../wayfinder'
 /**
 * @see \App\Http\Controllers\OperationalCostController::index
 * @see app/Http/Controllers/OperationalCostController.php:14
@@ -408,59 +408,14 @@ destroy.delete = (args: { operational_cost: string | number } | [operational_cos
     method: 'delete',
 })
 
-/**
-* @see \App\Http\Controllers\OperationalCostController::expenseTypes
-* @see app/Http/Controllers/OperationalCostController.php:49
-* @route '/mhp/expense-types'
-*/
-export const expenseTypes = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: expenseTypes.url(options),
-    method: 'get',
-})
-
-expenseTypes.definition = {
-    methods: ['get','head'],
-    url: '/mhp/expense-types',
+const operationalCosts = {
+    index,
+    create,
+    store,
+    show,
+    edit,
+    update,
+    destroy,
 }
 
-/**
-* @see \App\Http\Controllers\OperationalCostController::expenseTypes
-* @see app/Http/Controllers/OperationalCostController.php:49
-* @route '/mhp/expense-types'
-*/
-expenseTypes.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return expenseTypes.definition.url + queryParams(options)
-}
-
-/**
-* @see \App\Http\Controllers\OperationalCostController::expenseTypes
-* @see app/Http/Controllers/OperationalCostController.php:49
-* @route '/mhp/expense-types'
-*/
-expenseTypes.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: expenseTypes.url(options),
-    method: 'get',
-})
-
-/**
-* @see \App\Http\Controllers\OperationalCostController::expenseTypes
-* @see app/Http/Controllers/OperationalCostController.php:49
-* @route '/mhp/expense-types'
-*/
-expenseTypes.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
-    url: expenseTypes.url(options),
-    method: 'head',
-})
-
-const OperationalCostController = { index, create, store, show, edit, update, destroy, expenseTypes }
-
-export default OperationalCostController
+export default operationalCosts

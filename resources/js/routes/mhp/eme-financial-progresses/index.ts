@@ -1,4 +1,4 @@
-import { queryParams, type QueryParams } from './../../../../wayfinder'
+import { queryParams, type QueryParams } from './../../../wayfinder'
 /**
 * @see \App\Http\Controllers\MhpEmeFinancialProgressController::index
 * @see app/Http/Controllers/MhpEmeFinancialProgressController.php:11
@@ -408,6 +408,14 @@ destroy.delete = (args: { eme_financial_progress: string | number } | [eme_finan
     method: 'delete',
 })
 
-const MhpEmeFinancialProgressController = { index, create, store, show, edit, update, destroy }
+const emeFinancialProgresses = {
+    index,
+    create,
+    store,
+    show,
+    edit,
+    update,
+    destroy,
+}
 
-export default MhpEmeFinancialProgressController
+export default emeFinancialProgresses

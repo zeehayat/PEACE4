@@ -73,7 +73,11 @@ function openCompletionModal(site, mode = null) {
     completionMode.value = mode || (site.completion ? 'edit' : 'create')
     showCompletionModal.value = true
 }
-
+function openAdminApprovalModal(site, action) {
+    selectedSite.value = site;
+    approvalAction.value = action;
+    showAdminApprovalModal.value = true;
+}
 // New functions to open Manager modals
 function openProjectPhysicalProgressManager(site) {
     selectedSite.value = site;
@@ -96,25 +100,22 @@ onMounted(() => {
 })
 
 // MODIFIED: handleUpdated function for instant updates
-function handleUpdated(message, updatedSiteData = null) {
+function handleUpdated(message, updatedSiteData = null) { // Expects message and optional updatedSiteData
     toastMessage.value = message
     toastType.value = 'success'
     toastVisible.value = true
-    setTimeout(() => (toastVisible.value = false), 3000)
+    setTimeout(() => (toastVisible.value = false), 3000) // Toast hides after 3 seconds
 
+    // This part refreshes data after a successful save/update/delete
     if (updatedSiteData && selectedSite.value) {
-        // If specific data is provided (e.g., from a modal save), update the reactive selectedSite
-        // and also find and update the corresponding site in the main mhpSites.data array.
-        // This ensures the table row immediately reflects changes.
-        Object.assign(selectedSite.value, updatedSiteData); // Update the modal's context
+        Object.assign(selectedSite.value, updatedSiteData);
         const index = props.mhpSites.data.findIndex(s => s.id === updatedSiteData.id);
         if (index !== -1) {
-            Object.assign(props.mhpSites.data[index], updatedSiteData); // Update the main list
+            Object.assign(props.mhpSites.data[index], updatedSiteData);
         }
     } else {
-        // Fallback for actions like creation, deletion, or if updatedSiteData isn't provided
-        // This performs a partial Inertia reload to get fresh data for 'mhpSites' prop.
-        router.reload({ only: ['mhpSites'] });
+        // Fallback or for initial create/delete that doesn't return full updated site object
+        router.reload({ only: ['mhpSites'] }); // Reload sites to get updated progress data
     }
 }
 
@@ -457,7 +458,16 @@ function deleteSite(siteId) {
 
     <MhpSiteDetailsModal :show="showDetailsModal" :site="selectedSite" @close="showDetailsModal = false; selectedSite = null" />
     <MhpEditInfoModal :show="showEditInfoModal" :site="selectedSite" @close="showEditInfoModal = false; selectedSite = null" @updated="handleUpdated" />
-    <MhpAdminApprovalModal v-if="selectedSite" :show="showAdminApprovalModal" :action="approvalAction" :mhp-site-id="selectedSite.id" :approval="selectedSite.admin_approval" :errors="props.errors" @close="showAdminApprovalModal = false; selectedSite = null" @updated="handleUpdated" />
+    <MhpAdminApprovalModal
+        v-if="selectedSite"
+        :show="showAdminApprovalModal"
+        :action="approvalAction"
+        :mhp-site-id="selectedSite.id"
+        :approval="selectedSite.admin_approval"
+        :errors="props.errors"
+        @close="showAdminApprovalModal = false; selectedSite = null" @updated="handleUpdated" />
+
+    <Toast :show="toastVisible" :message="toastMessage" :type="toastType" @hide="toastVisible = false" />
     <MhpApprovalViewModal v-if="selectedSite?.admin_approval" :show="showApprovalViewModal" :approval="selectedSite.admin_approval" @close="showApprovalViewModal = false; selectedSite = null" />
     <AddRevisedCostModal v-if="selectedSite" :show="showRevisedCostModal" :site="selectedSite" :field="revisedCostField" @close="showRevisedCostModal = false; selectedSite = null; revisedCostField = ''" @updated="handleUpdated" />
     <MhpReport v-if="selectedSite" :show="showReportModal" :site="selectedSite" @close="showReportModal = false; selectedSite = null" />
