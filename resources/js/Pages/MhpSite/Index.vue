@@ -215,6 +215,10 @@ function deleteSite(siteId) {
         });
     }
 }
+function openEditInfoModal(site) {
+    selectedSite.value = site;
+    showEditInfoModal.value = true;
+}
 </script>
 
 <template>
@@ -457,7 +461,14 @@ function deleteSite(siteId) {
     <Toast :show="toastVisible" :message="toastMessage" :type="toastType" @hide="toastVisible = false" />
 
     <MhpSiteDetailsModal :show="showDetailsModal" :site="selectedSite" @close="showDetailsModal = false; selectedSite = null" />
-    <MhpEditInfoModal :show="showEditInfoModal" :site="selectedSite" @close="showEditInfoModal = false; selectedSite = null" @updated="handleUpdated" />
+
+        <MhpEditInfoModal
+            v-if="selectedSite"
+            :show="showEditInfoModal"
+            :site="selectedSite"
+            @close="showEditInfoModal = false; selectedSite = null"
+            @updated="handleUpdated"
+        />
     <MhpAdminApprovalModal
         v-if="selectedSite"
         :show="showAdminApprovalModal"

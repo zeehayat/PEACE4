@@ -6,7 +6,7 @@ import SideBar from '@/Components/SideBar.vue'
 import vueFilePond from 'vue-filepond'
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
-
+import WysiwigEditor from "@/Components/WysiwigEditor.vue";
 import 'filepond/dist/filepond.min.css'
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
 
@@ -378,6 +378,7 @@ const submit = () => {
                     </div>
                 </div>
             </div>
+
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Attachments</label>
                 <AttachmentUploader
@@ -394,6 +395,12 @@ const submit = () => {
                 >
                     {{ props.action === 'create' ? '✨ Create MHP Site' : '🔄 Update MHP Site' }}
                 </button>
+            </div>
+            <div class="col-span-full">
+                <label for="remarks" class="block text-sm font-medium text-gray-700 mb-1">Remarks</label>
+                <!-- REPLACE TEXTAREA WITH WYSIWYG EDITOR -->
+                <WysiwigEditor v-model="form.remarks" id="remarks" />
+                <div v-if="form.errors.remarks" class="text-red-500 text-xs mt-1">{{ form.errors.remarks }}</div>
             </div>
         </form>
     </div>
