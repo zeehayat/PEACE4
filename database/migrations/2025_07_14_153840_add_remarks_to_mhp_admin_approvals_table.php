@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('mhp_admin_approvals', function (Blueprint $table) {
             if (!Schema::hasColumn('mhp_admin_approvals', 'remarks')) {
-                $table->text('remarks')->nullable()->after('date_validation_visit_opm'); // Adjust 'after' as appropriate
+                $table->text('remarks')->nullable()->after('mhp_inauguration_date'); // Adjust 'after' as appropriate
             }
         });
     }

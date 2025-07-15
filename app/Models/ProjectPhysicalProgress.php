@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Spatie\MediaLibrary\HasMedia;
@@ -14,8 +15,13 @@ class ProjectPhysicalProgress extends Model implements HasMedia
     /** @use HasFactory<\Database\Factories\ProjectPhysicalProgressFactory> */
     use HasFactory, InteractsWithMedia;
     protected $fillable = [
-        'milestone_percent',
+        'projectable_id',
+        'projectable_type',
+        'progress_percentage',
+        'progress_date',
         'remarks',
+        'progress_type',
+        't_and_d_work_id',
     ];
 
     public function projectable():MorphTo
@@ -23,8 +29,16 @@ class ProjectPhysicalProgress extends Model implements HasMedia
         return $this->morphTo();
     }
 
-    public function attachments():MorphMany
+
+
+    // NEW: Relationship to TAndDWork
+    public function tAndDWork(): BelongsTo
     {
-        return $this->morphMany(Attachment::class, 'attachable');
+        return $this->belongsTo(TAndDWork::class, 't_and_d_work_id');
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('attachments');
     }
 }

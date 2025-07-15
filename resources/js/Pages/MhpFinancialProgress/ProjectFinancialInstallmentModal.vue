@@ -1,198 +1,343 @@
 <script setup>
-import { ref, watch, computed } from 'vue'
-import { useForm, router } from '@inertiajs/vue3'
-import Modal from '@/Components/Modal.vue'
-import AttachmentUploader from '@/Components/AttachmentComponent/AttachmentUploader.vue'
+import { useForm, router } from '@inertiajs/vue3';
+import { ref, watch, computed } from 'vue'; // Added computed
+import AttachmentUploader from '@/Components/AttachmentComponent/AttachmentUploader.vue';
+import DatePicker from '@/Components/DatePicker.vue'; // Assuming DatePicker component exists
 
 const props = defineProps({
-    show: Boolean,
-    site: Object, // The MhpSite object, now including financialInstallments
-    projectFinancialInstallment: Object, // Existing record if editing
-    mode: { type: String, default: 'create' } // 'create' or 'edit'
-})
-
-const emit = defineEmits(['close', 'saved'])
-
-const newAttachments = ref([])
-const existingAttachments = ref([])
-const attachmentsToRemove = ref([])
-
-const form = useForm({
-    projectable_id: props.site?.id,
-    projectable_type: 'App\\Models\\MhpSite',
-    installment_number: '',
-    installment_date: '',
-    installment_amount: '',
-    category: 'general',
-    remarks: '',
-})
-
-// Determine the next available installment number
-const nextInstallmentNumber = computed(() => {
-    if (props.mode === 'edit') {
-        return form.installment_number; // In edit mode, retain current number
-    }
-
-    const existingNumbers = new Set(
-        props.site.financialInstallments?.map(i => i.installment_number) || []
-    );
-    const maxInstallments = 10;
-
-    for (let i = 1; i <= maxInstallments; i++) {
-        if (!existingNumbers.has(i)) {
-            return i;
-        }
-    }
-    return null; // All installments recorded
+    projectableId: { type: [Number, String], required: true },
+    projectableType: { type: String, required: true },
+    installment: { type: Object, default: null }, // Existing installment object for edit mode
+    mode: { type: String, default: 'create' }, // 'create' or 'edit'
 });
 
-// Watch for site changes to initialize form for create mode or reset for edit
+const emit = defineEmits(['success', 'cancel']);
+
+// Define options for progress_type
+const progressTypes = ['Civil', 'T&D'];
+
+// Define fixed KVA options for transformers
+const stepUpKvaOptions = [500, 750, 1000, 1250, 1500, 2000, 2500, 3000, 3500];
+const stepDownKvaOptions = [25, 50, 75, 100, 150, 200];
+
+// Helper to initialize transformer data from JSON for form
+const initializeTransformers = (transformersJson) => {
+    if (Array.isArray(transformersJson)) {
+        return transformersJson.map(item => ({ kva: item.kva, count: item.count || null }));
+    }
+    return [];
+};
+
+
+const form = useForm({
+    _method: props.mode === 'edit' ? 'PUT' : 'POST',
+    projectable_id: props.projectableId,
+    projectable_type: props.projectableType,
+    installment_number: props.installment?.installment_number ?? null,
+    installment_date: props.installment?.installment_date || null,
+    installment_amount: props.installment?.installment_amount ?? null,
+    category: props.installment?.category || '',
+    remarks: props.installment?.remarks || '',
+    progress_type: props.installment?.progress_type || 'Civil', // Initialize to Civil by default
+
+    // T&D Specific Fields (initialize from existing TAndDWork if progress is T&D type)
+    date_of_initiation_of_t_and_d_works: props.installment?.t_and_d_work?.date_of_initiation_of_t_and_d_works || null,
+    step_up_transformers: initializeTransformers(props.installment?.t_and_d_work?.step_up_transformers),
+    step_down_transformers: initializeTransformers(props.installment?.t_and_d_work?.step_down_transformers),
+    ht_poles: props.installment?.t_and_d_work?.ht_poles ?? null,
+    lt_poles: props.installment?.t_and_d_work?.lt_poles ?? null,
+    ht_conductor_length_acsr_km: props.installment?.t_and_d_work?.ht_conductor_length_acsr_km ?? null,
+    ht_conductor_dia: props.installment?.t_and_d_work?.ht_conductor_dia || '',
+    uaac_lt_conductor_length_km: props.installment?.t_and_d_work?.uaac_lt_conductor_length_km ?? null,
+    uaac_lt_conductor_dia: props.installment?.t_and_d_work?.uaac_lt_conductor_dia || '',
+
+    attachments: [],
+    removed_attachments: [],
+});
+
+const existingAttachments = ref(props.installment?.attachments || []);
+
+
+// Watch for prop changes (e.g., when modal is reused for a different installment record)
 watch(
-    () => [props.site, props.projectFinancialInstallment],
-    ([newSite, newInstallment]) => {
-        if (newInstallment) { // Edit mode
-            form.projectable_id = newInstallment.projectable_id;
-            form.projectable_type = newInstallment.projectable_type;
-            form.installment_number = newInstallment.installment_number;
-            form.installment_date = newInstallment.installment_date;
-            form.installment_amount = newInstallment.installment_amount;
-            form.category = newInstallment.category;
-            form.remarks = newInstallment.remarks;
+    () => props.installment,
+    (newInstallment) => {
+        if (props.mode === 'edit' && newInstallment) {
+            form.projectable_id = props.projectableId;
+            form.projectable_type = props.projectableType;
+            form.installment_number = newInstallment.installment_number ?? null;
+            form.installment_date = newInstallment.installment_date || null;
+            form.installment_amount = newInstallment.installment_amount ?? null;
+            form.category = newInstallment.category || '';
+            form.remarks = newInstallment.remarks || '';
+            form.progress_type = newInstallment.progress_type || 'Civil';
+
+            // Re-initialize T&D fields from newInstallment.t_and_d_work
+            form.date_of_initiation_of_t_and_d_works = newInstallment.t_and_d_work?.date_of_initiation_of_t_and_d_works || null;
+            form.step_up_transformers = initializeTransformers(newInstallment.t_and_d_work?.step_up_transformers);
+            form.step_down_transformers = initializeTransformers(newInstallment.t_and_d_work?.step_down_transformers);
+            form.ht_poles = newInstallment.t_and_d_work?.ht_poles ?? null;
+            form.lt_poles = newInstallment.t_and_d_work?.lt_poles ?? null;
+            form.ht_conductor_length_acsr_km = newInstallment.t_and_d_work?.ht_conductor_length_acsr_km ?? null;
+            form.ht_conductor_dia = newInstallment.t_and_d_work?.ht_conductor_dia || '';
+            form.uaac_lt_conductor_length_km = newInstallment.t_and_d_work?.uaac_lt_conductor_length_km ?? null;
+            form.uaac_lt_conductor_dia = newInstallment.t_and_d_work?.uaac_lt_conductor_dia || '';
+
             existingAttachments.value = newInstallment.attachments || [];
-        } else if (newSite) { // Create mode, or reset after edit
-            form.projectable_id = newSite.id;
-            form.projectable_type = 'App\\Models\\MhpSite';
-            form.installment_number = nextInstallmentNumber.value || ''; // Automatically set next installment
-            form.installment_date = '';
-            form.installment_amount = '';
-            form.category = 'general';
-            form.remarks = '';
+            form.attachments = [];
+            form.removed_attachments = [];
+        } else if (props.mode === 'create') {
+            form.reset();
+            form.projectable_id = props.projectableId;
+            form.projectable_type = props.projectableType;
+            form.progress_type = 'Civil';
+            form.attachments = [];
+            form.removed_attachments = [];
             existingAttachments.value = [];
         }
-        newAttachments.value = [];
-        attachmentsToRemove.value = [];
     },
     { immediate: true, deep: true }
 );
 
-const removeExisting = (file) => {
-    attachmentsToRemove.value.push(file.id)
-    existingAttachments.value = existingAttachments.value.filter(f => f.id !== file.id)
-}
+const handleRemoveExistingAttachment = (fileId) => {
+    form.removed_attachments.push(fileId);
+    existingAttachments.value = existingAttachments.value.filter(f => f.id !== fileId);
+};
 
-const submit = () => {
-    const data = new FormData()
-    Object.entries(form.data()).forEach(([key, val]) => {
-        data.append(key, val ?? '')
-    })
-    newAttachments.value.forEach(file => {
-        data.append('attachments[]', file)
-    })
-    attachmentsToRemove.value.forEach(id => {
-        data.append('removed_attachments[]', id)
-    })
+const addTransformer = (type) => {
+    if (type === 'step_up') {
+        form.step_up_transformers.push({ kva: null, count: null });
+    } else if (type === 'step_down') {
+        form.step_down_transformers.push({ kva: null, count: null });
+    }
+};
 
+const removeTransformer = (type, index) => {
+    if (type === 'step_up') {
+        form.step_up_transformers.splice(index, 1);
+    } else if (type === 'step_down') {
+        form.step_down_transformers.splice(index, 1);
+    }
+};
+
+
+const submitForm = () => {
     const url = props.mode === 'create'
-        ? '/mhp/project-financial-installments'
-        : `/mhp/project-financial-installments/${props.projectFinancialInstallment.id}`
+        ? route('mhp.project-financial-installments.store')
+        : route('mhp.project-financial-installments.update', props.installment.id);
 
-    if (props.mode === 'edit') {
-        data.append('_method', 'PUT')
+    const formDataPayload = new FormData();
+
+    for (const key in form.data()) {
+        if (key === 'attachments' || key === 'removed_attachments') {
+            continue;
+        }
+        if (['step_up_transformers', 'step_down_transformers'].includes(key)) {
+            const filteredTransformers = form.data()[key].filter(t => t.kva && t.count);
+            formDataPayload.append(key, JSON.stringify(filteredTransformers));
+        } else {
+            const value = form.data()[key];
+            formDataPayload.append(key, value === null || value === undefined ? '' : value);
+        }
     }
 
-    router.post(url, data, {
-        forceFormData: true,
+    if (props.mode === 'edit') {
+        formDataPayload.append('_method', 'PUT');
+    }
+
+    form.attachments.forEach(file => {
+        if (file instanceof File) {
+            formDataPayload.append('attachments[]', file);
+        } else {
+            console.warn('Financial Installment Form: Skipping invalid new attachment:', file);
+        }
+    });
+
+    form.removed_attachments.forEach(id => {
+        formDataPayload.append('removed_attachments[]', id);
+    });
+
+    router.post(url, formDataPayload, {
         onSuccess: () => {
-            emit('saved', 'Financial installment saved successfully.')
-            emit('close')
+            emit('success', `Financial Installment ${props.mode === 'create' ? 'saved' : 'updated'} successfully!`);
         },
         onError: (errors) => {
-            console.error('Validation Errors:', errors)
-        }
-    })
-}
+            console.error('Financial Installment Form Submission Errors:', errors);
+        },
+    });
+};
 
-// Display existing financial installments for context (optional, but good for user)
-const sortedFinancialInstallments = computed(() => {
-    return [...(props.site.financialInstallments || [])].sort((a, b) => a.installment_number - b.installment_number);
-});
-
-const isMaxInstallmentsReached = computed(() => {
-    return nextInstallmentNumber.value === null && props.mode === 'create';
-});
+const cancelForm = () => {
+    emit('cancel');
+};
 </script>
 
 <template>
-    <Modal :show="show" @close="emit('close')" :title="mode === 'create' ? 'Add Financial Installment' : 'Edit Financial Installment'">
-        <div v-if="isMaxInstallmentsReached" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-            <strong class="font-bold">All Installments Recorded!</strong>
-            <span class="block sm:inline">All 10 financial installments have already been recorded for this project.</span>
-        </div>
-
-        <div v-if="sortedFinancialInstallments.length > 0" class="mb-4 p-3 bg-gray-50 rounded-md">
-            <h4 class="text-sm font-semibold mb-2">Recorded Installments:</h4>
-            <ul class="list-disc list-inside text-sm text-gray-700">
-                <li v-for="i in sortedFinancialInstallments" :key="i.id">
-                    Installment #{{ i.installment_number }} ({{ i.installment_date }}) - Amount: {{ i.installment_amount }} (Category: {{ i.category }})
-                </li>
-            </ul>
-        </div>
-
-
-        <form @submit.prevent="submit" class="space-y-4" :class="{ 'opacity-50': isMaxInstallmentsReached, 'pointer-events-none': isMaxInstallmentsReached }">
-            <div>
-                <label class="block text-sm font-medium text-gray-700">Project Type</label>
-                <input :value="form.projectable_type === 'App\\Models\\MhpSite' ? 'MHP' : 'Irrigation'" type="text" class="input bg-gray-100" readonly />
+    <form @submit.prevent="submitForm" class="p-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-3">
+            <div class="col-span-full">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Project Context</label>
+                <div class="input-compact bg-gray-100 text-gray-700 font-semibold cursor-not-allowed flex items-center h-[38px] px-3 py-1.5 rounded-lg">
+                    {{ projectableType.includes('MhpSite') ? `MHP Site ID: ${projectableId}` : `Irrigation Scheme ID: ${projectableId}` }}
+                </div>
+                <input type="hidden" v-model="form.projectable_id" />
+                <input type="hidden" v-model="form.projectable_type" />
             </div>
+
             <div>
-                <label class="block text-sm font-medium text-gray-700">Installment Number</label>
-                <input v-model="form.installment_number" type="number" min="1" max="10" class="input bg-gray-100" readonly />
+                <label for="installment_number" class="block text-sm font-medium text-gray-700 mb-1">Installment Number</label>
+                <input type="number" id="installment_number" v-model.number="form.installment_number" class="input-compact" />
                 <div v-if="form.errors.installment_number" class="text-red-500 text-xs mt-1">{{ form.errors.installment_number }}</div>
             </div>
+
             <div>
-                <label class="block text-sm font-medium text-gray-700">Installment Date</label>
-                <input v-model="form.installment_date" type="date" class="input" />
+                <label for="installment_date" class="block text-sm font-medium text-gray-700 mb-1">Installment Date</label>
+                <DatePicker v-model="form.installment_date" id="installment_date" class="input-compact" />
                 <div v-if="form.errors.installment_date" class="text-red-500 text-xs mt-1">{{ form.errors.installment_date }}</div>
             </div>
+
             <div>
-                <label class="block text-sm font-medium text-gray-700">Installment Amount</label>
-                <input v-model="form.installment_amount" type="number" step="0.01" class="input" />
+                <label for="installment_amount" class="block text-sm font-medium text-gray-700 mb-1">Installment Amount</label>
+                <input type="number" step="0.01" id="installment_amount" v-model.number="form.installment_amount" class="input-compact" />
                 <div v-if="form.errors.installment_amount" class="text-red-500 text-xs mt-1">{{ form.errors.installment_amount }}</div>
             </div>
+
             <div>
-                <label class="block text-sm font-medium text-gray-700">Category</label>
-                <select v-model="form.category" class="input">
-                    <option value="general">General</option>
-                    <option value="eme">EME</option>
-                    <option value="tnd">T&D</option>
-                </select>
+                <label for="category" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                <input type="text" id="category" v-model="form.category" class="input-compact" />
                 <div v-if="form.errors.category" class="text-red-500 text-xs mt-1">{{ form.errors.category }}</div>
             </div>
+
             <div>
-                <label class="block text-sm font-medium text-gray-700">Remarks</label>
-                <textarea v-model="form.remarks" class="input"></textarea>
+                <label for="remarks" class="block text-sm font-medium text-gray-700 mb-1">Remarks</label>
+                <textarea id="remarks" v-model="form.remarks" rows="3" class="input-compact"></textarea>
                 <div v-if="form.errors.remarks" class="text-red-500 text-xs mt-1">{{ form.errors.remarks }}</div>
             </div>
 
-            <AttachmentUploader
-                v-model="newAttachments"
-                :existing="existingAttachments"
-                @removeExisting="removeExisting"
-            />
-            <div v-if="form.errors['attachments.0']" class="text-red-500 text-xs mt-1">{{ form.errors['attachments.0'] }}</div>
+            <div>
+                <label for="progress_type" class="block text-sm font-medium text-gray-700 mb-1">Progress Type</label>
+                <select id="progress_type" v-model="form.progress_type" class="input-compact">
+                    <option v-for="type in progressTypes" :key="type" :value="type">{{ type }}</option>
+                </select>
+                <div v-if="form.errors.progress_type" class="text-red-500 text-xs mt-1">{{ form.errors.progress_type }}</div>
+            </div>
+        </div>
 
+        <div v-if="form.progress_type === 'T&D'" class="mt-6 border-t pt-6 border-gray-200">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Transmission & Distribution Details</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-3">
+                <div>
+                    <label for="date_of_initiation_of_t_and_d_works" class="block text-sm font-medium text-gray-700 mb-1">Date of T&D Works Initiation</label>
+                    <DatePicker v-model="form.date_of_initiation_of_t_and_d_works" id="date_of_initiation_of_t_and_d_works" class="input-compact" />
+                    <div v-if="form.errors.date_of_initiation_of_t_and_d_works" class="text-red-500 text-xs mt-1">{{ form.errors.date_of_initiation_of_t_and_d_works }}</div>
+                </div>
 
-            <div class="text-right">
-                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" :disabled="form.processing || isMaxInstallmentsReached">
-                    {{ form.processing ? 'Saving...' : (mode === 'create' ? 'Save Installment' : 'Update Installment') }}
+                <div class="col-span-full border-t pt-4 mt-4">
+                    <h4 class="text-base font-medium text-gray-700 mb-2">Step Up Transformers</h4>
+                    <div v-for="(tx, index) in form.step_up_transformers" :key="index" class="grid grid-cols-3 gap-2 items-end mb-2">
+                        <div>
+                            <label :for="`step_up_kva_${index}`" class="block text-xs font-medium text-gray-600 mb-1">KVA Rating</label>
+                            <select :id="`step_up_kva_${index}`" v-model.number="tx.kva" class="input-compact">
+                                <option value="">Select KVA</option>
+                                <option v-for="kva in stepUpKvaOptions" :key="kva" :value="kva">{{ kva }} KVA</option>
+                            </select>
+                            <div v-if="form.errors[`step_up_transformers.${index}.kva`]" class="text-red-500 text-xs mt-1">{{ form.errors[`step_up_transformers.${index}.kva`] }}</div>
+                        </div>
+                        <div>
+                            <label :for="`step_up_count_${index}`" class="block text-xs font-medium text-gray-600 mb-1">Count</label>
+                            <input :id="`step_up_count_${index}`" v-model.number="tx.count" type="number" min="1" class="input-compact" />
+                            <div v-if="form.errors[`step_up_transformers.${index}.count`]" class="text-red-500 text-xs mt-1">{{ form.errors[`step_up_transformers.${index}.count`] }}</div>
+                        </div>
+                        <div class="flex items-end">
+                            <button type="button" @click="removeTransformer('step_up', index)" class="px-2 py-1 bg-red-500 text-white rounded text-xs hover:bg-red-600">Remove</button>
+                        </div>
+                    </div>
+                    <button type="button" @click="addTransformer('step_up')" class="px-3 py-1 bg-gray-200 rounded text-sm hover:bg-gray-300">Add Step Up Transformer</button>
+                </div>
+
+                <div class="col-span-full border-t pt-4 mt-4">
+                    <h4 class="text-base font-medium text-gray-700 mb-2">Step Down Transformers</h4>
+                    <div v-for="(tx, index) in form.step_down_transformers" :key="index" class="grid grid-cols-3 gap-2 items-end mb-2">
+                        <div>
+                            <label :for="`step_down_kva_${index}`" class="block text-xs font-medium text-gray-600 mb-1">KVA Rating</label>
+                            <select :id="`step_down_kva_${index}`" v-model.number="tx.kva" class="input-compact">
+                                <option value="">Select KVA</option>
+                                <option v-for="kva in stepDownKvaOptions" :key="kva" :value="kva">{{ kva }} KVA</option>
+                            </select>
+                            <div v-if="form.errors[`step_down_transformers.${index}.kva`]" class="text-red-500 text-xs mt-1">{{ form.errors[`step_down_transformers.${index}.kva`] }}</div>
+                        </div>
+                        <div>
+                            <label :for="`step_down_count_${index}`" class="block text-xs font-medium text-gray-600 mb-1">Count</label>
+                            <input :id="`step_down_count_${index}`" v-model.number="tx.count" type="number" min="1" class="input-compact" />
+                            <div v-if="form.errors[`step_down_transformers.${index}.count`]" class="text-red-500 text-xs mt-1">{{ form.errors[`step_down_transformers.${index}.count`] }}</div>
+                        </div>
+                        <div class="flex items-end">
+                            <button type="button" @click="removeTransformer('step_down', index)" class="px-2 py-1 bg-red-500 text-white rounded text-xs hover:bg-red-600">Remove</button>
+                        </div>
+                    </div>
+                    <button type="button" @click="addTransformer('step_down')" class="px-3 py-1 bg-gray-200 rounded text-sm hover:bg-gray-300">Add Step Down Transformer</button>
+                </div>
+
+                <div class="col-span-full grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-3 border-t pt-4 mt-4">
+                    <div>
+                        <label for="ht_poles" class="block text-sm font-medium text-gray-700 mb-1">No. of HT Poles</label>
+                        <input type="number" id="ht_poles" v-model.number="form.ht_poles" class="input-compact" />
+                        <div v-if="form.errors.ht_poles" class="text-red-500 text-xs mt-1">{{ form.errors.ht_poles }}</div>
+                    </div>
+                    <div>
+                        <label for="lt_poles" class="block text-sm font-medium text-gray-700 mb-1">No. of LT Poles</label>
+                        <input type="number" id="lt_poles" v-model.number="form.lt_poles" class="input-compact" />
+                        <div v-if="form.errors.lt_poles" class="text-red-500 text-xs mt-1">{{ form.errors.lt_poles }}</div>
+                    </div>
+                    <div>
+                        <label for="ht_conductor_length_acsr_km" class="block text-sm font-medium text-gray-700 mb-1">HT Conductor Length (ACSR) (KM)</label>
+                        <input type="number" step="0.01" id="ht_conductor_length_acsr_km" v-model.number="form.ht_conductor_length_acsr_km" class="input-compact" />
+                        <div v-if="form.errors.ht_conductor_length_acsr_km" class="text-red-500 text-xs mt-1">{{ form.errors.ht_conductor_length_acsr_km }}</div>
+                    </div>
+                    <div>
+                        <label for="ht_conductor_dia" class="block text-sm font-medium text-gray-700 mb-1">HT Conductor Dia</label>
+                        <input type="text" id="ht_conductor_dia" v-model="form.ht_conductor_dia" class="input-compact" />
+                        <div v-if="form.errors.ht_conductor_dia" class="text-red-500 text-xs mt-1">{{ form.errors.ht_conductor_dia }}</div>
+                    </div>
+                    <div>
+                        <label for="uaac_lt_conductor_length_km" class="block text-sm font-medium text-gray-700 mb-1">UAAC/LT Conductor Length (KM)</label>
+                        <input type="number" step="0.01" id="uaac_lt_conductor_length_km" v-model.number="form.uaac_lt_conductor_length_km" class="input-compact" />
+                        <div v-if="form.errors.uaac_lt_conductor_length_km" class="text-red-500 text-xs mt-1">{{ form.errors.uaac_lt_conductor_length_km }}</div>
+                    </div>
+                    <div>
+                        <label for="uaac_lt_conductor_dia" class="block text-sm font-medium text-gray-700 mb-1">UAAC/LT Conductor Dia</label>
+                        <input type="text" id="uaac_lt_conductor_dia" v-model="form.uaac_lt_conductor_dia" class="input-compact" />
+                        <div v-if="form.errors.uaac_lt_conductor_dia" class="text-red-500 text-xs mt-1">{{ form.errors.uaac_lt_conductor_dia }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6">
+                <AttachmentUploader
+                    v-model="form.attachments"
+                    :existing="existingAttachments"
+                    @removeExisting="handleRemoveExistingAttachment"
+                    label="Progress Attachments"
+                />
+                <div v-if="form.errors['attachments.0']" class="text-red-500 text-xs mt-1">{{ form.errors['attachments.0'] }}</div>
+            </div>
+
+            <div class="mt-6 flex justify-end space-x-3">
+                <button type="button" @click="cancelForm" class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Cancel
+                </button>
+                <button type="submit" :disabled="form.processing" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    {{ form.processing ? 'Saving...' : (mode === 'create' ? 'Add Progress' : 'Update Progress') }}
                 </button>
             </div>
-        </form>
-    </Modal>
+    </form>
 </template>
 
 <style scoped>
-.input {
-    @apply w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm;
+.input-compact {
+    @apply appearance-none block w-full px-3 py-1.5 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm;
+}
+label {
+    margin-bottom: 0.25rem;
 }
 </style>
