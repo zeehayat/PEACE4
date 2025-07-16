@@ -1,44 +1,40 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { router, Link } from '@inertiajs/vue3' // Ensure Link is imported for pagination
+import { router, Link } from '@inertiajs/vue3'
 
+import SideBar from "@/Components/SideBar.vue";
+import Toast from '@/Components/Toast.vue';
+import MhpSiteCreateModal from "@/Components/MhpSiteCreateModal.vue";
 import MhpSiteDetailsModal from '@/Components/MhpSiteDetailsModal.vue'
 import MhpEditInfoModal from '@/Components/MhpEditInfoModal.vue'
-import MhpAdminApprovalModal from '@/Components/MhpAdminApprovalModal.vue'
+import MhpAdminApprovalModal from '@/Components/MhpAdminApprovalModal.vue';
 import MhpApprovalViewModal from '@/Components/MhpApprovalViewModal.vue'
 import AddRevisedCostModal from '@/Components/AddRevisedCostModal.vue'
 import MhpReport from '@/Pages/MhpSite/MhpReport.vue'
 import MhpCompletionForm from "@/Pages/MhpCompletion/MhpCompletionForm.vue";
-import SideBar from "@/Components/SideBar.vue";
 import MhpEmeProgressModal from '@/Pages/MhpEmeProgress/MhpEmeProgressModal.vue';
 import OperationalCostModal from '@/Pages/MhpOperationalCost/OperationalCostModal.vue'
-import Toast from '@/Components/Toast.vue'; // Assuming you have a Toast component
 
-// New imports for Manager Modals
-import ProjectPhysicalProgressManagerModal from '@/Pages/MhpPhysicalProgress/ProjectPhysicalProgressModal.vue'
-import ProjectFinancialInstallmentManagerModal from '@/Pages/MhpFinancialProgress/ProjectFinancialInstallmentModal.vue';
-import MhpSiteCreateModal from "@/Components/MhpSiteCreateModal.vue";
+// Import the Physical and Financial Progress Modals
+import ProjectPhysicalProgressModal from '@/Pages/MhpPhysicalProgress/ProjectPhysicalProgressModal.vue';
+import ProjectFinancialInstallmentModal from '@/Pages/ProjectFinancialInstallment/ProjectFinancialInstallmentModal.vue';
 
-const operationalCostModalVisible = ref(false)
-function openOperationalCost(site) {
-    selectedSite.value = site
-    operationalCostModalVisible.value = true
-}
 
 const props = defineProps({
-    mhpSites: Object, // This should be paginated data: { data: [], links: [] }
-    errors: Object,
-    filters: Object, // Added to bind search input
+    mhpSites: Object,
+    filters: Object,
+    errors: Object
 })
 
 const selectedSite = ref(null)
 const toastVisible = ref(false)
 const toastMessage = ref('')
 const toastType = ref('success')
-const searchTerm = ref(props.filters.search || '') // Bind search to filter prop
+const searchTerm = ref(props.filters.search || '')
 const openActionMenuId = ref(null)
-const menuDirection = ref('down') // Controls if menu opens up or down
+const menuDirection = ref('down')
 
+// State for MHP Site specific modals
 const showDetailsModal = ref(false)
 const showEditInfoModal = ref(false)
 const showAdminApprovalModal = ref(false)
@@ -46,52 +42,86 @@ const showApprovalViewModal = ref(false)
 const showRevisedCostModal = ref(false)
 const showReportModal = ref(false)
 const revisedCostField = ref('')
-const approvalAction = ref('create') // 'create' or 'update'
+const approvalAction = ref('create')
 const showCompletionModal = ref(false)
-const completionMode = ref('create') // 'create' or 'edit' or 'view'
-const selectedCompletion = ref(null) // Holds the completion object if editing/viewing
+const completionMode = ref('create')
+const selectedCompletion = ref(null)
 const emeModalVisible = ref(false);
 const showNewSiteModal = ref(false);
+const operationalCostModalVisible = ref(false);
 
-// New refs for Manager modals
+// Refs for Physical Progress modal state management
 const showProjectPhysicalProgressManagerModal = ref(false);
-const showProjectFinancialInstallmentManagerModal = ref(false);
+const physicalProgressModalMode = ref('create'); // 'create' or 'edit'
+const selectedPhysicalProgress = ref(null); // The specific progress object to edit
 
+// Refs for Financial Installment modal state management
+const showProjectFinancialInstallmentManagerModal = ref(false);
+const financialInstallmentModalMode = ref('create'); // 'create' or 'edit'
+const selectedFinancialInstallment = ref(null); // The specific installment object to edit
+
+
+// --- Functions to open various modals ---
+function openOperationalCost(site) {
+    selectedSite.value = site
+    operationalCostModalVisible.value = true
+}
 
 function openEmeProgress(site) {
     selectedSite.value = site;
     emeModalVisible.value = true;
 }
+
 function openCompletionModal(site, mode = null) {
     if (!site) {
         console.error('openCompletionModal called with null site')
         return
     }
-
     selectedSite.value = site
     selectedCompletion.value = site.completion || null
     completionMode.value = mode || (site.completion ? 'edit' : 'create')
     showCompletionModal.value = true
 }
-function openAdminApprovalModal(site, action) {
-    selectedSite.value = site;
-    approvalAction.value = action;
-    showAdminApprovalModal.value = true;
-}
-// New functions to open Manager modals
+
+// Handler for opening Physical Progress modal (ADD mode)
 function openProjectPhysicalProgressManager(site) {
     selectedSite.value = site;
+    physicalProgressModalMode.value = 'create'; // Set mode to create
+    selectedPhysicalProgress.value = null; // Clear any previous selection
     showProjectPhysicalProgressManagerModal.value = true;
 }
 
+// Handler for opening Physical Progress modal (EDIT mode)
+function openProjectPhysicalProgressEdit(site, progress) {
+    selectedSite.value = site;
+    physicalProgressModalMode.value = 'edit';
+    selectedPhysicalProgress.value = progress; // Pass the actual progress object to the modal
+    showProjectPhysicalProgressManagerModal.value = true;
+}
+
+
+// Handler for opening Financial Installment modal (ADD mode)
 function openProjectFinancialInstallmentManager(site) {
     selectedSite.value = site;
+    financialInstallmentModalMode.value = 'create'; // Set mode to create
+    selectedFinancialInstallment.value = null; // Clear any previous selection
+    showProjectFinancialInstallmentManagerModal.value = true;
+}
+
+// Handler for opening Financial Installment modal (EDIT mode)
+function openProjectFinancialInstallmentEdit(site, installment) {
+    selectedSite.value = site;
+    financialInstallmentModalMode.value = 'edit';
+    selectedFinancialInstallment.value = installment; // Pass the actual installment object
     showProjectFinancialInstallmentManagerModal.value = true;
 }
 
 
+function openNewSiteModal() {
+    showNewSiteModal.value = true;
+}
+
 onMounted(() => {
-    // Close menu when clicking outside
     document.addEventListener('click', (e) => {
         if (openActionMenuId.value && !e.target.closest('.action-menu-container')) {
             openActionMenuId.value = null;
@@ -99,14 +129,12 @@ onMounted(() => {
     });
 })
 
-// MODIFIED: handleUpdated function for instant updates
-function handleUpdated(message, updatedSiteData = null) { // Expects message and optional updatedSiteData
+function handleUpdated(message, updatedSiteData = null) {
     toastMessage.value = message
     toastType.value = 'success'
     toastVisible.value = true
-    setTimeout(() => (toastVisible.value = false), 3000) // Toast hides after 3 seconds
+    setTimeout(() => (toastVisible.value = false), 3000)
 
-    // This part refreshes data after a successful save/update/delete
     if (updatedSiteData && selectedSite.value) {
         Object.assign(selectedSite.value, updatedSiteData);
         const index = props.mhpSites.data.findIndex(s => s.id === updatedSiteData.id);
@@ -114,23 +142,16 @@ function handleUpdated(message, updatedSiteData = null) { // Expects message and
             Object.assign(props.mhpSites.data[index], updatedSiteData);
         }
     } else {
-        // Fallback or for initial create/delete that doesn't return full updated site object
-        router.reload({ only: ['mhpSites'] }); // Reload sites to get updated progress data
+        router.reload({ only: ['mhpSites'] });
     }
 }
 
-
 const filteredSites = computed(() => {
-    // Use the `props.mhpSites.data` which comes from the controller's pagination
-    // If no search term, return all data
     if (!searchTerm.value.trim()) return props.mhpSites.data
-
     const term = searchTerm.value.trim().toLowerCase()
     return props.mhpSites.data.filter(site =>
         (site.cbo?.reference_code || '').toLowerCase().includes(term) ||
-        (site.status || '').toLowerCase().includes(term) ||
-        (site.project_id || '').toLowerCase().includes(term) || // Search by Project ID
-        (site.cbo?.district || '').toLowerCase().includes(term) // Search by District via CBO
+        (site.status || '').toLowerCase().includes(term)
     )
 })
 
@@ -138,8 +159,8 @@ function getStatusClass(status) {
     switch (status) {
         case 'New': return 'bg-blue-100 text-blue-800 border border-blue-200';
         case 'Rehab': return 'bg-yellow-100 text-yellow-800 border border-yellow-200';
-        case 'Upgradation': return 'bg-emerald-100 text-emerald-800 border border-emerald-200'; // Changed to emerald for more vibrancy
-        case 'Completed': return 'bg-green-100 text-green-800 border border-green-200'; // Assuming a 'Completed' status
+        case 'Upgradation': return 'bg-emerald-100 text-emerald-800 border border-emerald-200';
+        case 'Completed': return 'bg-green-100 text-green-800 border border-green-200';
         default: return 'bg-gray-100 text-gray-800 border border-gray-200';
     }
 }
@@ -154,9 +175,9 @@ function toggleActionMenu(siteId, event) {
     const rect = button.getBoundingClientRect()
 
     const spaceBelow = window.innerHeight - rect.bottom
-    const menuHeight = 350; // Estimated menu height (adjust if your menu is taller)
+    const menuHeight = 350;
 
-    if (spaceBelow < menuHeight && rect.top > menuHeight) { // Check if there's enough space above AND not too close to top
+    if (spaceBelow < menuHeight && rect.top > spaceBelow) {
         menuDirection.value = 'up'
     } else {
         menuDirection.value = 'down'
@@ -183,13 +204,12 @@ function nextRevisedCostLabel(adminApproval) {
 
 function openRevisedCostModal(site) {
     const field = determineNextField(site.admin_approval)
-    if (!field) return // Don't open if all fields are filled
+    if (!field) return
     selectedSite.value = site
     revisedCostField.value = field
     showRevisedCostModal.value = true
 }
 
-// file icon helper
 function getFileIcon(file) {
     const ext = file.file_name.split('.').pop().toLowerCase()
     if (ext === 'pdf') return '📄'
@@ -197,27 +217,6 @@ function getFileIcon(file) {
     if (['xls', 'xlsx', 'csv'].includes(ext)) return '📊'
     if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext)) return '🖼️'
     return '📁'
-}
-function openNewSiteModal() {
-    showNewSiteModal.value = true;
-}
-
-function deleteSite(siteId) {
-    if (confirm('Are you sure you want to delete this MHP Site? This action cannot be undone.')) {
-        router.delete(route('mhp.sites.destroy', siteId), {
-            onSuccess: () => {
-                handleUpdated('MHP Site deleted successfully.');
-            },
-            onError: (errors) => {
-                console.error('Error deleting site:', errors);
-                handleUpdated('Failed to delete MHP Site.');
-            }
-        });
-    }
-}
-function openEditInfoModal(site) {
-    selectedSite.value = site;
-    showEditInfoModal.value = true;
 }
 </script>
 
@@ -306,9 +305,6 @@ function openEditInfoModal(site) {
                                                 Manage Financial Installment
                                             </button>
                                         </div>
-                                        <div class="py-1 text-sm text-gray-700">
-                                            <button @click="deleteSite(site.id)" class="w-full text-left block px-4 py-2 hover:bg-red-100 text-red-600">Delete Site</button>
-                                        </div>
                                     </div>
                                 </transition>
                             </div>
@@ -334,7 +330,7 @@ function openEditInfoModal(site) {
                 </div>
             </div>
 
-            <div class="hidden md:block bg-white rounded-xl shadow-xl border border-gray-200">
+            <div class="hidden md:block bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden">
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                     <tr>
@@ -348,10 +344,12 @@ function openEditInfoModal(site) {
                     </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
-                    <tr v-for="site in filteredSites" :key="site.id" class="hover:bg-indigo-50/20 transition-colors duration-150 group"> <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm font-medium text-gray-900">{{ site.cbo?.reference_code ?? 'N/A' }}</div>
-                        <div class="text-xs text-gray-500 mt-0.5">Project ID: {{ site.project_id }}</div>
-                    </td>
+                    <tr v-for="site in filteredSites" :key="site.id" class="hover:bg-gray-50 transition-colors duration-150 group">
+
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-gray-900">{{ site.cbo?.reference_code ?? 'N/A' }}</div>
+                            <div class="text-xs text-gray-500 mt-0.5">Project ID: {{ site.project_id }}</div>
+                        </td>
 
                         <td class="px-6 py-4 whitespace-nowrap">
                             <span :class="getStatusClass(site.status)" class="inline-flex items-center rounded-full px-3 py-1 text-xs font-medium border">
@@ -403,7 +401,7 @@ function openEditInfoModal(site) {
                                 <div v-if="openActionMenuId === site.id" :class="['origin-top-right absolute w-56 rounded-xl shadow-xl bg-white ring-1 ring-black ring-opacity-5 z-30 divide-y divide-gray-100', menuDirection === 'up' ? 'bottom-full mb-2 right-0' : 'top-full mt-2 right-0']">
                                     <div class="py-1 text-sm text-gray-700">
                                         <a href="#" @click.prevent="selectedSite = site; showDetailsModal = true" class="block px-4 py-2 hover:bg-gray-100">View Details</a>
-                                        <a href="#" @click.prevent="selectedSite = site; showEditInfoModal = true" class="block px-4 py-2 hover:bg-gray-100">Edit Info</a>
+                                        <a href="#" @click.prevent="openEditInfoModal(site)" class="block px-4 py-2 hover:bg-gray-100">Edit Info</a>
                                         <a v-if="site.admin_approval" href="#" @click.prevent="selectedSite = site; showApprovalViewModal = true" class="block px-4 py-2 hover:bg-gray-100">View Approval</a>
                                         <a href="#" @click.prevent="selectedSite = site; approvalAction = site.admin_approval ? 'update' : 'create'; showAdminApprovalModal = true" class="block px-4 py-2 hover:bg-gray-100">
                                             {{ site.admin_approval ? 'Edit Approval' : '+ Add Approval' }}
@@ -435,9 +433,6 @@ function openEditInfoModal(site) {
                                             Manage Financial Installment
                                         </button>
                                     </div>
-                                    <div class="py-1 text-sm text-gray-700">
-                                        <button @click="deleteSite(site.id)" class="w-full text-left block px-4 py-2 hover:bg-red-100 text-red-600">Delete Site</button>
-                                    </div>
                                 </div>
                             </transition>
                         </td>
@@ -450,7 +445,7 @@ function openEditInfoModal(site) {
                 <div class="flex flex-wrap -mb-1">
                     <template v-for="(link, key) in mhpSites.links" :key="key">
                         <div v-if="link.url === null" class="mr-1 mb-1 px-4 py-3 text-sm leading-4 text-gray-400 border rounded" v-html="link.label" />
-                        <Link v-else :href="link.url" class="mr-1 mb-1 px-4 py-3 text-sm leading-4 border rounded hover:bg-indigo-500 hover:text-white focus:border-indigo-500 focus:text-indigo-500" :class="{ 'bg-indigo-600 text-white': link.active, 'bg-white text-gray-700 border-gray-300': !link.active }" v-html="link.label" />
+                        <Link v-else :href="link.url" class="mr-1 mb-1 px-4 py-3 text-sm leading-4 border rounded hover:bg-white focus:border-indigo-500 focus:text-indigo-500" :class="{ 'bg-white text-indigo-500': link.active }" v-html="link.label" />
                     </template>
                 </div>
             </nav>
@@ -461,74 +456,45 @@ function openEditInfoModal(site) {
     <Toast :show="toastVisible" :message="toastMessage" :type="toastType" @hide="toastVisible = false" />
 
     <MhpSiteDetailsModal :show="showDetailsModal" :site="selectedSite" @close="showDetailsModal = false; selectedSite = null" />
-
-        <MhpEditInfoModal
-            v-if="selectedSite"
-            :show="showEditInfoModal"
-            :site="selectedSite"
-            @close="showEditInfoModal = false; selectedSite = null"
-            @updated="handleUpdated"
-        />
-    <MhpAdminApprovalModal
-        v-if="selectedSite"
-        :show="showAdminApprovalModal"
-        :action="approvalAction"
-        :mhp-site-id="selectedSite.id"
-        :approval="selectedSite.admin_approval"
-        :errors="props.errors"
-        @close="showAdminApprovalModal = false; selectedSite = null" @updated="handleUpdated" />
-
-    <Toast :show="toastVisible" :message="toastMessage" :type="toastType" @hide="toastVisible = false" />
+    <MhpEditInfoModal :show="showEditInfoModal" :site="selectedSite" @close="showEditInfoModal = false; selectedSite = null" @updated="handleUpdated" />
+    <MhpAdminApprovalModal v-if="selectedSite" :show="showAdminApprovalModal" :action="approvalAction" :mhp-site-id="selectedSite.id" :approval="selectedSite.admin_approval" :errors="props.errors" @close="showAdminApprovalModal = false; selectedSite = null" @updated="handleUpdated" />
     <MhpApprovalViewModal v-if="selectedSite?.admin_approval" :show="showApprovalViewModal" :approval="selectedSite.admin_approval" @close="showApprovalViewModal = false; selectedSite = null" />
     <AddRevisedCostModal v-if="selectedSite" :show="showRevisedCostModal" :site="selectedSite" :field="revisedCostField" @close="showRevisedCostModal = false; selectedSite = null; revisedCostField = ''" @updated="handleUpdated" />
     <MhpReport v-if="selectedSite" :show="showReportModal" :site="selectedSite" @close="showReportModal = false; selectedSite = null" />
     <MhpCompletionForm v-if="selectedSite" :show="showCompletionModal" :mode="completionMode" :site="selectedSite" :mhp-completion="selectedCompletion" @close="showCompletionModal = false" @saved="handleUpdated" />
-    <MhpEmeProgressModal :show="emeModalVisible" :site="selectedSite" @close="emeModalVisible = false" @saved="handleUpdated" /> <OperationalCostModal @saved="handleUpdated" title="Add Operational Cost" :show="operationalCostModalVisible" :site="selectedSite" @close="operationalCostModalVisible = false" />
+    <MhpEmeProgressModal :show="emeModalVisible" :site="selectedSite" @close="emeModalVisible = false" @saved="handleUpdated" />
+    <OperationalCostModal @saved="handleUpdated" title="Add Operational Cost" :show="operationalCostModalVisible" :site="selectedSite" @close="operationalCostModalVisible = false" />
+    <MhpSiteCreateModal :show="showNewSiteModal" :errors="props.errors" @close="showNewSiteModal = false" @saved="handleUpdated" />
 
-    <ProjectPhysicalProgressManagerModal
+    <ProjectPhysicalProgressModal
         v-if="selectedSite"
         :show="showProjectPhysicalProgressManagerModal"
         :site="selectedSite"
-        @close="showProjectPhysicalProgressManagerModal = false"
+        :progress="selectedPhysicalProgress"
+        :mode="physicalProgressModalMode"
+        @close="showProjectPhysicalProgressManagerModal = false; selectedPhysicalProgress = null"
         @saved="handleUpdated"
     />
 
-    <ProjectFinancialInstallmentManagerModal
+    <ProjectFinancialInstallmentModal
         v-if="selectedSite"
         :show="showProjectFinancialInstallmentManagerModal"
         :site="selectedSite"
-        @close="showProjectFinancialInstallmentManagerModal = false"
+        :installment="selectedFinancialInstallment"
+        :mode="financialInstallmentModalMode"
+        @close="showProjectFinancialInstallmentManagerModal = false; selectedFinancialInstallment = null"
         @saved="handleUpdated"
     />
-    <MhpSiteCreateModal
-        :show="showNewSiteModal"
-        :errors="props.errors"
-        @close="showNewSiteModal = false"
-        @saved="handleUpdated"
-    />
-
 </template>
 
 <style scoped>
-/* Base button styling */
 button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
 }
 
-/* Enhancements for action menu items */
-.action-menu-container .block {
-    @apply transition-colors duration-100 ease-in-out;
-}
-.action-menu-container .block:hover {
-    @apply bg-indigo-50; /* A lighter hover for menu items */
-}
-
-/* Styles for pagination links */
-.pagination-link {
-    @apply transition-all duration-200;
-}
-.pagination-link:hover {
-    @apply scale-105; /* Subtle scale on hover for pagination */
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 </style>

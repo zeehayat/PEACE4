@@ -112,7 +112,7 @@ class MhpSiteController extends Controller
             return $site;
         });
 
-        return Inertia::render('MhpSite/Index', [
+        return Inertia::render('MHP/Index', [
             'mhpSites' => $mhpSites,
             'filters' => $request->only('cbo', 'status'),
         ]);
