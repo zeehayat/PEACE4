@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('project_physical_progresses', function (Blueprint $table) {
-            if (!Schema::hasColumn('project_physical_progresses', 't_and_d_work_id')) {
+        Schema::table('project_physical_progress', function (Blueprint $table) {
+            if (!Schema::hasColumn('project_physical_progress', 't_and_d_work_id')) {
                 $table->foreignId('t_and_d_work_id')
                     ->nullable()
                     ->constrained('transmission_and_distribution_works') // Foreign key to the new table
@@ -26,8 +26,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('project_physical_progresses', function (Blueprint $table) {
-            if (Schema::hasColumn('project_physical_progresses', 't_and_d_work_id')) {
+        Schema::table('project_physical_progress', function (Blueprint $table) {
+            if (Schema::hasColumn('project_physical_progress', 't_and_d_work_id')) {
                 $table->dropConstrainedForeignId('t_and_d_work_id'); // Correctly drops foreign key constraint
             }
         });

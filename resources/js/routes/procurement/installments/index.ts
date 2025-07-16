@@ -1,7 +1,7 @@
 import { queryParams, type QueryParams } from './../../../wayfinder'
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::index
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:13
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:15
 * @route '/procurement/installments'
 */
 export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -19,7 +19,7 @@ index.definition = {
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::index
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:13
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:15
 * @route '/procurement/installments'
 */
 index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -28,7 +28,7 @@ index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::index
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:13
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:15
 * @route '/procurement/installments'
 */
 index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -41,7 +41,7 @@ index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::index
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:13
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:15
 * @route '/procurement/installments'
 */
 index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -107,7 +107,7 @@ create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::store
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:20
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:22
 * @route '/procurement/installments'
 */
 export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -125,7 +125,7 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::store
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:20
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:22
 * @route '/procurement/installments'
 */
 store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -134,7 +134,7 @@ store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::store
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:20
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:22
 * @route '/procurement/installments'
 */
 store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -147,7 +147,7 @@ store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::show
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:120
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:256
 * @route '/procurement/installments/{installment}'
 */
 export const show = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -165,7 +165,7 @@ show.definition = {
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::show
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:120
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:256
 * @route '/procurement/installments/{installment}'
 */
 show.url = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -190,7 +190,7 @@ show.url = (args: { installment: string | number } | [installment: string | numb
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::show
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:120
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:256
 * @route '/procurement/installments/{installment}'
 */
 show.get = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -203,7 +203,7 @@ show.get = (args: { installment: string | number } | [installment: string | numb
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::show
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:120
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:256
 * @route '/procurement/installments/{installment}'
 */
 show.head = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -285,7 +285,7 @@ edit.head = (args: { installment: string | number } | [installment: string | num
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::update
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:63
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:127
 * @route '/procurement/installments/{installment}'
 */
 export const update = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -303,7 +303,7 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::update
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:63
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:127
 * @route '/procurement/installments/{installment}'
 */
 update.url = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -328,7 +328,7 @@ update.url = (args: { installment: string | number } | [installment: string | nu
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::update
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:63
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:127
 * @route '/procurement/installments/{installment}'
 */
 update.put = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -341,7 +341,7 @@ update.put = (args: { installment: string | number } | [installment: string | nu
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::update
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:63
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:127
 * @route '/procurement/installments/{installment}'
 */
 update.patch = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -354,7 +354,7 @@ update.patch = (args: { installment: string | number } | [installment: string | 
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::destroy
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:109
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:243
 * @route '/procurement/installments/{installment}'
 */
 export const destroy = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -372,7 +372,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::destroy
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:109
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:243
 * @route '/procurement/installments/{installment}'
 */
 destroy.url = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -397,7 +397,7 @@ destroy.url = (args: { installment: string | number } | [installment: string | n
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::destroy
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:109
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:243
 * @route '/procurement/installments/{installment}'
 */
 destroy.delete = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

@@ -323,6 +323,8 @@ const cancelForm = () => {
                     {{ form.processing ? 'Saving...' : (mode === 'create' ? 'Add Progress' : 'Update Progress') }}
                 </button>
             </div>
+        </div>
+        
     </form>
 </template>
 

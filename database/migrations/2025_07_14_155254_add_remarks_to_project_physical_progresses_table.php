@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('project_physical_progresses', function (Blueprint $table) {
+        Schema::table('project_physical_progress', function (Blueprint $table) {
             if (!Schema::hasColumn('project_physical_progresses', 'remarks')) {
                 $table->text('remarks')->nullable()->after('progress_date'); // Adjust 'after' as appropriate
             }
@@ -23,7 +23,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('project_physical_progresses', function (Blueprint $table) {
+        Schema::table('project_physical_progress', function (Blueprint $table) {
             if (Schema::hasColumn('project_physical_progresses', 'remarks')) {
                 $table->dropColumn('remarks');
             }
