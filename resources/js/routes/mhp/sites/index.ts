@@ -1,7 +1,11 @@
 import { queryParams, type QueryParams } from './../../../wayfinder'
+import completion from './completion'
+import physicalProgresses from './physical-progresses'
+import financialInstallments from './financial-installments'
+import tAndDWorks from './t-and-d-works'
 /**
 * @see \App\Http\Controllers\MhpSiteController::index
-* @see app/Http/Controllers/MhpSiteController.php:13
+* @see app/Http/Controllers/MhpSiteController.php:26
 * @route '/mhp/sites'
 */
 export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -19,7 +23,7 @@ index.definition = {
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::index
-* @see app/Http/Controllers/MhpSiteController.php:13
+* @see app/Http/Controllers/MhpSiteController.php:26
 * @route '/mhp/sites'
 */
 index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -28,7 +32,7 @@ index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::index
-* @see app/Http/Controllers/MhpSiteController.php:13
+* @see app/Http/Controllers/MhpSiteController.php:26
 * @route '/mhp/sites'
 */
 index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -41,7 +45,7 @@ index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::index
-* @see app/Http/Controllers/MhpSiteController.php:13
+* @see app/Http/Controllers/MhpSiteController.php:26
 * @route '/mhp/sites'
 */
 index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -54,7 +58,7 @@ index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::create
-* @see app/Http/Controllers/MhpSiteController.php:139
+* @see app/Http/Controllers/MhpSiteController.php:94
 * @route '/mhp/sites/create'
 */
 export const create = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -72,7 +76,7 @@ create.definition = {
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::create
-* @see app/Http/Controllers/MhpSiteController.php:139
+* @see app/Http/Controllers/MhpSiteController.php:94
 * @route '/mhp/sites/create'
 */
 create.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -81,7 +85,7 @@ create.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::create
-* @see app/Http/Controllers/MhpSiteController.php:139
+* @see app/Http/Controllers/MhpSiteController.php:94
 * @route '/mhp/sites/create'
 */
 create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -94,7 +98,7 @@ create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::create
-* @see app/Http/Controllers/MhpSiteController.php:139
+* @see app/Http/Controllers/MhpSiteController.php:94
 * @route '/mhp/sites/create'
 */
 create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -107,7 +111,7 @@ create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::store
-* @see app/Http/Controllers/MhpSiteController.php:143
+* @see app/Http/Controllers/MhpSiteController.php:103
 * @route '/mhp/sites'
 */
 export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -125,7 +129,7 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::store
-* @see app/Http/Controllers/MhpSiteController.php:143
+* @see app/Http/Controllers/MhpSiteController.php:103
 * @route '/mhp/sites'
 */
 store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -134,7 +138,7 @@ store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::store
-* @see app/Http/Controllers/MhpSiteController.php:143
+* @see app/Http/Controllers/MhpSiteController.php:103
 * @route '/mhp/sites'
 */
 store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -147,10 +151,10 @@ store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::show
-* @see app/Http/Controllers/MhpSiteController.php:0
+* @see app/Http/Controllers/MhpSiteController.php:117
 * @route '/mhp/sites/{site}'
 */
-export const show = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+export const show = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
@@ -165,12 +169,16 @@ show.definition = {
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::show
-* @see app/Http/Controllers/MhpSiteController.php:0
+* @see app/Http/Controllers/MhpSiteController.php:117
 * @route '/mhp/sites/{site}'
 */
-show.url = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+show.url = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { site: args }
+    }
+
+    if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+        args = { site: args.id }
     }
 
     if (Array.isArray(args)) {
@@ -180,7 +188,9 @@ show.url = (args: { site: string | number } | [site: string | number ] | string 
     }
 
     const parsedArgs = {
-        site: args.site,
+        site: typeof args.site === 'object'
+        ? args.site.id
+        : args.site,
     }
 
     return show.definition.url
@@ -190,10 +200,10 @@ show.url = (args: { site: string | number } | [site: string | number ] | string 
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::show
-* @see app/Http/Controllers/MhpSiteController.php:0
+* @see app/Http/Controllers/MhpSiteController.php:117
 * @route '/mhp/sites/{site}'
 */
-show.get = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+show.get = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
@@ -203,10 +213,10 @@ show.get = (args: { site: string | number } | [site: string | number ] | string 
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::show
-* @see app/Http/Controllers/MhpSiteController.php:0
+* @see app/Http/Controllers/MhpSiteController.php:117
 * @route '/mhp/sites/{site}'
 */
-show.head = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+show.head = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
 } => ({
@@ -216,10 +226,10 @@ show.head = (args: { site: string | number } | [site: string | number ] | string
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::edit
-* @see app/Http/Controllers/MhpSiteController.php:0
+* @see app/Http/Controllers/MhpSiteController.php:152
 * @route '/mhp/sites/{site}/edit'
 */
-export const edit = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+export const edit = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
@@ -234,12 +244,16 @@ edit.definition = {
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::edit
-* @see app/Http/Controllers/MhpSiteController.php:0
+* @see app/Http/Controllers/MhpSiteController.php:152
 * @route '/mhp/sites/{site}/edit'
 */
-edit.url = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+edit.url = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { site: args }
+    }
+
+    if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+        args = { site: args.id }
     }
 
     if (Array.isArray(args)) {
@@ -249,7 +263,9 @@ edit.url = (args: { site: string | number } | [site: string | number ] | string 
     }
 
     const parsedArgs = {
-        site: args.site,
+        site: typeof args.site === 'object'
+        ? args.site.id
+        : args.site,
     }
 
     return edit.definition.url
@@ -259,10 +275,10 @@ edit.url = (args: { site: string | number } | [site: string | number ] | string 
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::edit
-* @see app/Http/Controllers/MhpSiteController.php:0
+* @see app/Http/Controllers/MhpSiteController.php:152
 * @route '/mhp/sites/{site}/edit'
 */
-edit.get = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+edit.get = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
@@ -272,10 +288,10 @@ edit.get = (args: { site: string | number } | [site: string | number ] | string 
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::edit
-* @see app/Http/Controllers/MhpSiteController.php:0
+* @see app/Http/Controllers/MhpSiteController.php:152
 * @route '/mhp/sites/{site}/edit'
 */
-edit.head = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+edit.head = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
 } => ({
@@ -285,10 +301,10 @@ edit.head = (args: { site: string | number } | [site: string | number ] | string
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::update
-* @see app/Http/Controllers/MhpSiteController.php:188
+* @see app/Http/Controllers/MhpSiteController.php:161
 * @route '/mhp/sites/{site}'
 */
-export const update = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+export const update = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'put',
 } => ({
@@ -303,12 +319,16 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::update
-* @see app/Http/Controllers/MhpSiteController.php:188
+* @see app/Http/Controllers/MhpSiteController.php:161
 * @route '/mhp/sites/{site}'
 */
-update.url = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+update.url = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { site: args }
+    }
+
+    if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+        args = { site: args.id }
     }
 
     if (Array.isArray(args)) {
@@ -318,7 +338,9 @@ update.url = (args: { site: string | number } | [site: string | number ] | strin
     }
 
     const parsedArgs = {
-        site: args.site,
+        site: typeof args.site === 'object'
+        ? args.site.id
+        : args.site,
     }
 
     return update.definition.url
@@ -328,10 +350,10 @@ update.url = (args: { site: string | number } | [site: string | number ] | strin
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::update
-* @see app/Http/Controllers/MhpSiteController.php:188
+* @see app/Http/Controllers/MhpSiteController.php:161
 * @route '/mhp/sites/{site}'
 */
-update.put = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+update.put = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'put',
 } => ({
@@ -341,10 +363,10 @@ update.put = (args: { site: string | number } | [site: string | number ] | strin
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::update
-* @see app/Http/Controllers/MhpSiteController.php:188
+* @see app/Http/Controllers/MhpSiteController.php:161
 * @route '/mhp/sites/{site}'
 */
-update.patch = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+update.patch = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'patch',
 } => ({
@@ -354,10 +376,10 @@ update.patch = (args: { site: string | number } | [site: string | number ] | str
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::destroy
-* @see app/Http/Controllers/MhpSiteController.php:0
+* @see app/Http/Controllers/MhpSiteController.php:175
 * @route '/mhp/sites/{site}'
 */
-export const destroy = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+export const destroy = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'delete',
 } => ({
@@ -372,12 +394,16 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::destroy
-* @see app/Http/Controllers/MhpSiteController.php:0
+* @see app/Http/Controllers/MhpSiteController.php:175
 * @route '/mhp/sites/{site}'
 */
-destroy.url = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+destroy.url = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { site: args }
+    }
+
+    if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+        args = { site: args.id }
     }
 
     if (Array.isArray(args)) {
@@ -387,7 +413,9 @@ destroy.url = (args: { site: string | number } | [site: string | number ] | stri
     }
 
     const parsedArgs = {
-        site: args.site,
+        site: typeof args.site === 'object'
+        ? args.site.id
+        : args.site,
     }
 
     return destroy.definition.url
@@ -397,10 +425,10 @@ destroy.url = (args: { site: string | number } | [site: string | number ] | stri
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::destroy
-* @see app/Http/Controllers/MhpSiteController.php:0
+* @see app/Http/Controllers/MhpSiteController.php:175
 * @route '/mhp/sites/{site}'
 */
-destroy.delete = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+destroy.delete = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'delete',
 } => ({
@@ -416,6 +444,10 @@ const sites = {
     edit,
     update,
     destroy,
+    completion,
+    physicalProgresses,
+    financialInstallments,
+    tAndDWorks,
 }
 
 export default sites

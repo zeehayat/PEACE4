@@ -9,6 +9,7 @@ use App\Http\Controllers\MhpSiteController;
 use App\Http\Controllers\OperationalCostController;
 use App\Http\Controllers\ProjectFinancialInstallmentController;
 use App\Http\Controllers\ProjectPhysicalProgressController;
+use App\Http\Controllers\TAndDWorkController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -47,7 +48,11 @@ Route::middleware(['web'])->group(function () { // Removed specific role middlew
         ]);
 
     // --- MHP Completion ---
-    Route::post('/mhp-completion/store', [MhpCompletionController::class, 'store'])->name('mhp-completion.store');
+    Route::post('sites/{mhpSite}/completion', [MhpCompletionController::class, 'store'])->name('sites.completion.store');
+    Route::put('sites/{mhpSite}/completion/{completion}', [MhpCompletionController::class, 'update'])->name('sites.completion.update');
+    Route::get('sites/{mhpSite}/completion/{completion}', [MhpCompletionController::class, 'show'])->name('sites.completion.show');
+    Route::delete('sites/{mhpSite}/completion/{completion}', [MhpCompletionController::class, 'destroy'])->name('sites.completion.destroy');
+
 
     // --- MHP EME Physical Progress ---
     Route::resource('eme-physical-progresses', MhpEmePhysicalProgressController::class)->names([
@@ -78,22 +83,10 @@ Route::middleware(['web'])->group(function () { // Removed specific role middlew
     Route::get('expense-types', [OperationalCostController::class, 'expenseTypes'])->name('expense-types');
 
     // --- Polymorphic Project Progress (Generic) ---
-    Route::resource('project-physical-progress', ProjectPhysicalProgressController::class)->only(['index', 'store', 'show', 'update', 'destroy'])
-        ->names([
-            'index' => 'project-physical-progress.index',
-            'store' => 'project-physical-progress.store',
-            'show' => 'project-physical-progress.show',
-            'update' => 'project-physical-progress.update',
-            'destroy' => 'project-physical-progress.destroy',
-        ]);
-    Route::resource('project-financial-installments', ProjectFinancialInstallmentController::class)->only(['index', 'store', 'show', 'update', 'destroy'])
-        ->names([
-            'index' => 'project-financial-installments.index',
-            'store' => 'project-financial-installments.store',
-            'show' => 'project-financial-installments.show',
-            'update' => 'project-financial-installments.update',
-            'destroy' => 'project-financial-installments.destroy',
-        ]);
+    Route::resource('sites.physical-progresses', ProjectPhysicalProgressController::class);
+
+    Route::resource('sites.financial-installments', ProjectFinancialInstallmentController::class);
+
 
     // --- Custom Update Revised Cost (Specific to MhpAdminApprovalController) ---
     Route::put('/revise-cost/{mhpSite}/{field}', [MhpAdminApprovalController::class, 'updateRevisedCost'])->name('revise-cost');
@@ -104,3 +97,6 @@ Route::middleware(['web'])->group(function () { // Removed specific role middlew
         return response()->json(['success' => true]);
     })->name('media.destroy');
 });
+
+Route::resource('sites.t-and-d-works', TAndDWorkController::class); // Nested resource
+

@@ -1,16 +1,13 @@
 import { queryParams, type QueryParams } from './../../wayfinder'
 import sites from './sites'
 import adminApprovals from './admin-approvals'
-import mhpCompletion from './mhp-completion'
 import emePhysicalProgresses from './eme-physical-progresses'
 import emeFinancialProgresses from './eme-financial-progresses'
 import operationalCosts from './operational-costs'
-import projectPhysicalProgress from './project-physical-progress'
-import projectFinancialInstallments from './project-financial-installments'
 import media from './media'
 /**
 * @see \App\Http\Controllers\MhpSiteController::index
-* @see app/Http/Controllers/MhpSiteController.php:13
+* @see app/Http/Controllers/MhpSiteController.php:26
 * @route '/mhp'
 */
 export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -28,7 +25,7 @@ index.definition = {
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::index
-* @see app/Http/Controllers/MhpSiteController.php:13
+* @see app/Http/Controllers/MhpSiteController.php:26
 * @route '/mhp'
 */
 index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -37,7 +34,7 @@ index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::index
-* @see app/Http/Controllers/MhpSiteController.php:13
+* @see app/Http/Controllers/MhpSiteController.php:26
 * @route '/mhp'
 */
 index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -50,7 +47,7 @@ index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::index
-* @see app/Http/Controllers/MhpSiteController.php:13
+* @see app/Http/Controllers/MhpSiteController.php:26
 * @route '/mhp'
 */
 index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -116,7 +113,7 @@ expenseTypes.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }
 
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::reviseCost
-* @see app/Http/Controllers/MhpAdminApprovalController.php:108
+* @see app/Http/Controllers/MhpAdminApprovalController.php:95
 * @route '/mhp/revise-cost/{mhpSite}/{field}'
 */
 export const reviseCost = (args: { mhpSite: string | number, field: string | number } | [mhpSite: string | number, field: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -134,7 +131,7 @@ reviseCost.definition = {
 
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::reviseCost
-* @see app/Http/Controllers/MhpAdminApprovalController.php:108
+* @see app/Http/Controllers/MhpAdminApprovalController.php:95
 * @route '/mhp/revise-cost/{mhpSite}/{field}'
 */
 reviseCost.url = (args: { mhpSite: string | number, field: string | number } | [mhpSite: string | number, field: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -158,7 +155,7 @@ reviseCost.url = (args: { mhpSite: string | number, field: string | number } | [
 
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::reviseCost
-* @see app/Http/Controllers/MhpAdminApprovalController.php:108
+* @see app/Http/Controllers/MhpAdminApprovalController.php:95
 * @route '/mhp/revise-cost/{mhpSite}/{field}'
 */
 reviseCost.put = (args: { mhpSite: string | number, field: string | number } | [mhpSite: string | number, field: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -173,13 +170,10 @@ const mhp = {
     sites,
     index,
     adminApprovals,
-    mhpCompletion,
     emePhysicalProgresses,
     emeFinancialProgresses,
     operationalCosts,
     expenseTypes,
-    projectPhysicalProgress,
-    projectFinancialInstallments,
     reviseCost,
     media,
 }

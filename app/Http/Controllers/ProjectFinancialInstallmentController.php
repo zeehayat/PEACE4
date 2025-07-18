@@ -2,263 +2,121 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\IrrigationScheme;
-use App\Models\MhpSite;
+use App\Http\Requests\StoreProjectFinancialInstallmentRequest;
+use App\Http\Requests\UpdateProjectFinancialInstallmentRequest;
+use App\Models\MhpSite; // Assuming financial installments are primarily associated with MHP Sites
 use App\Models\ProjectFinancialInstallment;
-use App\Http\Requests\ProjectFinancialInstallmentRequest; // Assuming this request handles validation
+use App\Services\MhpSiteService; // Import the service
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Inertia\Inertia;
+use Illuminate\Support\Facades\Log;
 
 class ProjectFinancialInstallmentController extends Controller
 {
-    public function index(Request $request)
+    protected $mhpSiteService;
+
+    public function __construct(MhpSiteService $mhpSiteService)
     {
-        // This index method might need adjustment later based on how you want to list them
-        // (e.g., by MHP site, by Irrigation scheme, or all together)
-        $items = ProjectFinancialInstallment::latest()->paginate(10);
-        return inertia('ProjectFinancialInstallment/Index', compact('items')); // Ensure this Inertia page exists or adjust
+        $this->mhpSiteService = $mhpSiteService;
     }
-    public function store(Request $request)
+
+    /**
+     * Display a listing of financial installment entries for a specific MHP Site.
+     * E.g., /mhp/sites/{mhpSite}/financial-installments
+     */
+    public function index(Request $request, MhpSite $mhpSite)
     {
-        $rules = [
-            'projectable_id' => 'required',
-            'projectable_type' => 'required|string',
-            'installment_number' => 'required|integer|min:1',
-            'installment_date' => 'required|date',
-            'installment_amount' => 'required|numeric|min:0',
-            'category' => 'nullable|string|max:255',
-            'remarks' => 'nullable|string|max:1000',
-            'progress_type' => 'required|in:Civil,T&D',
-            'attachments.*' => 'nullable|file|max:20480',
-            'removed_attachments' => 'nullable|array',
-            'removed_attachments.*' => 'exists:media,id',
-        ];
+        $financialInstallments = $mhpSite->financialInstallments()
+            ->with(['activity', 'media']) // Eager load activity details and media
+            ->orderBy('installment_date', 'desc')
+            ->paginate(10);
 
-        if ($request->input('progress_type') === 'T&D') {
-            $rules['date_of_initiation_of_t_and_d_works'] = 'nullable|date';
-            $rules['step_up_transformers'] = 'nullable|array';
-            $rules['step_up_transformers.*.kva'] = 'nullable|integer';
-            $rules['step_up_transformers.*.count'] = 'nullable|integer';
-            $rules['step_down_transformers'] = 'nullable|array';
-            $rules['step_down_transformers.*.kva'] = 'nullable|integer';
-            $rules['step_down_transformers.*.count'] = 'nullable|integer';
-            $rules['ht_poles'] = 'nullable|integer';
-            $rules['lt_poles'] = 'nullable|integer';
-            $rules['ht_conductor_length_acsr_km'] = 'nullable|numeric';
-            $rules['ht_conductor_dia'] = 'nullable|string|max:255';
-            $rules['uaac_lt_conductor_length_km'] = 'nullable|numeric';
-            $rules['uaac_lt_conductor_dia'] = 'nullable|string|max:255';
-        }
+        // Apply accessor for frontend attachments and activity details if needed
+        $financialInstallments->getCollection()->transform(function ($installment) {
+            $installment->attachments = $installment->attachments_frontend;
+            // The 'activity' relation itself will be a TAndDWork model (or null)
+            // You can add specific formatting for activity here if needed for the list view
+            return $installment;
+        });
 
-        $validatedData = $request->validate($rules);
+        // If you're rendering an Inertia page to manage financial installments for a site
+        return Inertia::render('MHP/FinancialInstallment/Index', [
+            'mhpSite' => $mhpSite->only('id', 'project_id', 'name'), // Pass minimal site info
+            'financialInstallments' => $financialInstallments,
+        ]);
+    }
 
+    /**
+     * Show the form for creating a new Financial Installment entry (usually in a modal).
+     */
+    public function create()
+    {
+        // Not directly used if modal handles creation.
+    }
+
+    /**
+     * Store a newly created Project Financial Installment record in storage.
+     * The `projectable_id` and `projectable_type` will be automatically set by the service.
+     */
+    public function store(StoreProjectFinancialInstallmentRequest $request, MhpSite $mhpSite)
+    {
         try {
-            DB::transaction(function () use ($request, $validatedData) {
-                $attachments = $request->file('attachments') ?? [];
-                $removedAttachments = $validatedData['removed_attachments'] ?? [];
-
-                unset($validatedData['attachments']);
-                unset($validatedData['removed_attachments']);
-
-                $tAndDWorkData = [];
-                if ($validatedData['progress_type'] === 'T&D') {
-                    $tAndDWorkData = [
-                        'date_of_initiation_of_t_and_d_works' => $validatedData['date_of_initiation_of_t_and_d_works'] ?? null,
-                        'step_up_transformers' => $validatedData['step_up_transformers'] ?? null,
-                        // FIX: Corrected syntax from 'step_down_transformers'] = to 'step_down_transformers' =>
-                        'step_down_transformers' => $validatedData['step_down_transformers'] ?? null,
-                        'ht_poles' => $validatedData['ht_poles'] ?? null,
-                        // FIX: Corrected syntax from 'lt_poles'] = to 'lt_poles' =>
-                        'lt_poles' => $validatedData['lt_poles'] ?? null,
-                        'ht_conductor_length_acsr_km' => $validatedData['ht_conductor_length_acsr_km'] ?? null,
-                        'ht_conductor_dia' => $validatedData['ht_conductor_dia'] ?? null,
-                        'uaac_lt_conductor_length_km' => $validatedData['uaac_lt_conductor_length_km'] ?? null,
-                        // FIX: Corrected syntax from 'uaac_lt_conductor_dia'] = to 'uaac_lt_conductor_dia' =>
-                        'uaac_lt_conductor_dia' => $validatedData['uaac_lt_conductor_dia'] ?? null,
-                        'remarks' => $validatedData['remarks'] ?? null,
-                    ];
-                    unset($validatedData['date_of_initiation_of_t_and_d_works']);
-                    unset($validatedData['step_up_transformers']);
-                    unset($validatedData['step_down_transformers']);
-                    unset($validatedData['ht_poles']);
-                    unset($validatedData['lt_poles']);
-                    unset($validatedData['ht_conductor_length_acsr_km']);
-                    unset($validatedData['ht_conductor_dia']);
-                    unset($validatedData['uaac_lt_conductor_length_km']);
-                    unset($validatedData['uaac_lt_conductor_dia']);
-                }
-
-                $projectableModel = null;
-                if ($validatedData['projectable_type'] === MhpSite::class) {
-                    $projectableModel = MhpSite::findOrFail($validatedData['projectable_id']);
-                } elseif ($validatedData['projectable_type'] === IrrigationScheme::class) {
-                    $projectableModel = IrrigationScheme::findOrFail($validatedData['projectable_id']);
-                }
-
-                if (!$projectableModel) {
-                    throw new \Exception("Projectable model not found.");
-                }
-
-                $tAndDWork = null;
-                if ($validatedData['progress_type'] === 'T&D') {
-                    $tAndDWork = $projectableModel->tAndDWorks()->create($tAndDWorkData);
-                    $validatedData['t_and_d_work_id'] = $tAndDWork->id;
-                }
-
-                $installment = $projectableModel->financialInstallments()->create($validatedData);
-
-                if (!empty($attachments)) {
-                    foreach ($attachments as $file) {
-                        if ($file instanceof \Illuminate\Http\UploadedFile) {
-                            $installment->addMedia($file)->toMediaCollection('attachments');
-                        }
-                    }
-                }
-            });
-
-            return redirect()->back()->with(['success' => 'Financial Installment created successfully!']);
+            $this->mhpSiteService->createFinancialInstallment($mhpSite, $request->validated());
+            return redirect()->back()->with('success', 'Financial Installment recorded successfully!');
         } catch (\Exception $e) {
-            Log::error('Error creating Financial Installment: ' . $e->getMessage() . ' - File: ' . $e->getFile() . ' - Line: ' . $e->getLine());
-            return redirect()->back()->with('error', 'Failed to create Financial Installment: ' . $e->getMessage());
+            Log::error('Error creating Financial Installment: ' . $e->getMessage(), ['exception' => $e]);
+            return redirect()->back()->with('error', 'Failed to record Financial Installment: ' . $e->getMessage());
         }
     }
 
-    public function update(Request $request, ProjectFinancialInstallment $projectFinancialInstallment)
+    /**
+     * Display the specified Project Financial Installment.
+     */
+    public function show(ProjectFinancialInstallment $financialInstallment)
     {
-        $rules = [
-            'projectable_id' => 'required',
-            'projectable_type' => 'required|string',
-            'installment_number' => 'required|integer|min:1',
-            'installment_date' => 'required|date',
-            'installment_amount' => 'required|numeric|min:0',
-            'category' => 'nullable|string|max:255',
-            'remarks' => 'nullable|string|max:1000',
-            'progress_type' => 'required|in:Civil,T&D',
-            'attachments.*' => 'nullable|file|max:20480',
-            'removed_attachments' => 'nullable|array',
-            'removed_attachments.*' => 'exists:media,id',
-        ];
-
-        if ($request->input('progress_type') === 'T&D') {
-            $rules['date_of_initiation_of_t_and_d_works'] = 'nullable|date';
-            $rules['step_up_transformers'] = 'nullable|array';
-            $rules['step_up_transformers.*.kva'] = 'nullable|integer';
-            $rules['step_up_transformers.*.count'] = 'nullable|integer';
-            $rules['step_down_transformers'] = 'nullable|array';
-            $rules['step_down_transformers.*.kva'] = 'nullable|integer';
-            $rules['step_down_transformers.*.count'] = 'nullable|integer';
-            $rules['ht_poles'] = 'nullable|integer';
-            $rules['lt_poles'] = 'nullable|integer';
-            $rules['ht_conductor_length_acsr_km'] = 'nullable|numeric';
-            $rules['ht_conductor_dia'] = 'nullable|string|max:255';
-            $rules['uaac_lt_conductor_length_km'] = 'nullable|numeric';
-            $rules['uaac_lt_conductor_dia'] = 'nullable|string|max:255';
+        $financialInstallment->load(['activity', 'media']); // Ensure activity details and media are loaded
+        $financialInstallment->attachments = $financialInstallment->attachments_frontend; // Apply accessor
+        // If it's a T&D activity, load its media too
+        if ($financialInstallment->activity_type === \App\Models\TAndDWork::class && $financialInstallment->activity) {
+            $financialInstallment->activity->attachments = $financialInstallment->activity->attachments_frontend;
         }
 
-        $validatedData = $request->validate($rules);
+        return response()->json($financialInstallment); // Return as JSON for modal or API, or render Inertia
+    }
 
+    /**
+     * Show the form for editing the specified Financial Installment.
+     */
+    public function edit(ProjectFinancialInstallment $financialInstallment)
+    {
+        // Not directly used if modal handles editing.
+    }
+
+    /**
+     * Update the specified Project Financial Installment record in storage.
+     */
+    public function update(UpdateProjectFinancialInstallmentRequest $request, ProjectFinancialInstallment $financialInstallment)
+    {
         try {
-            DB::transaction(function () use ($request, $projectFinancialInstallment, $validatedData) {
-                $attachments = $request->file('attachments') ?? [];
-                $removedAttachments = $validatedData['removed_attachments'] ?? [];
-
-                unset($validatedData['attachments']);
-                unset($validatedData['removed_attachments']);
-
-                $tAndDWorkData = [];
-                if ($validatedData['progress_type'] === 'T&D') {
-                    $tAndDWorkData = [
-                        'date_of_initiation_of_t_and_d_works' => $validatedData['date_of_initiation_of_t_and_d_works'] ?? null,
-                        'step_up_transformers' => $validatedData['step_up_transformers'] ?? null,
-                        // FIX: Corrected syntax
-                        'step_down_transformers' => $validatedData['step_down_transformers'] ?? null,
-                        'ht_poles' => $validatedData['ht_poles'] ?? null,
-                        // FIX: Corrected syntax
-                        'lt_poles' => $validatedData['lt_poles'] ?? null,
-                        'ht_conductor_length_acsr_km' => $validatedData['ht_conductor_length_acsr_km'] ?? null,
-                        'ht_conductor_dia' => $validatedData['ht_conductor_dia'] ?? null,
-                        'uaac_lt_conductor_length_km' => $validatedData['uaac_lt_conductor_length_km'] ?? null,
-                        // FIX: Corrected syntax
-                        'uaac_lt_conductor_dia' => $validatedData['uaac_lt_conductor_dia'] ?? null,
-                        'remarks' => $validatedData['remarks'] ?? null,
-                    ];
-                    unset($validatedData['date_of_initiation_of_t_and_d_works']);
-                    unset($validatedData['step_up_transformers']);
-                    unset($validatedData['step_down_transformers']);
-                    unset($validatedData['ht_poles']);
-                    unset($validatedData['lt_poles']);
-                    unset($validatedData['ht_conductor_length_acsr_km']);
-                    unset($validatedData['ht_conductor_dia']);
-                    unset($validatedData['uaac_lt_conductor_length_km']);
-                    unset($validatedData['uaac_lt_conductor_dia']);
-                }
-
-                $progressData = $validatedData;
-                if ($progressData['progress_type'] === 'Civil') {
-                    $progressData['t_and_d_work_id'] = null;
-                }
-                $projectFinancialInstallment->update($progressData);
-
-                if ($validatedData['progress_type'] === 'T&D') {
-                    if ($projectFinancialInstallment->t_and_d_work_id) {
-                        $projectFinancialInstallment->tAndDWork->update($tAndDWorkData);
-                    } else {
-                        $projectableModel = null;
-                        if ($projectFinancialInstallment->projectable_type === MhpSite::class) {
-                            $projectableModel = MhpSite::findOrFail($projectFinancialInstallment->projectable_id);
-                        } elseif ($projectFinancialInstallment->projectable_type === IrrigationScheme::class) {
-                            $projectableModel = IrrigationScheme::findOrFail($projectFinancialInstallment->projectable_id);
-                        }
-                        if ($projectableModel) {
-                            $tAndDWork = $projectableModel->tAndDWorks()->create($tAndDWorkData);
-                            $projectFinancialInstallment->update(['t_and_d_work_id' => $tAndDWork->id]);
-                        }
-                    }
-                }
-
-                if (!empty($removedAttachments)) {
-                    Media::whereIn('id', $removedAttachments)
-                        ->where('model_type', get_class($projectFinancialInstallment))
-                        ->where('model_id', $projectFinancialInstallment->id)
-                        ->delete();
-                }
-
-                if (!empty($attachments)) {
-                    foreach ($attachments as $file) {
-                        if ($file instanceof \Illuminate\Http\UploadedFile) {
-                            $projectFinancialInstallment->addMedia($file)->toMediaCollection('attachments');
-                        }
-                    }
-                }
-            });
-
-            return redirect()->back()->with(['success' => 'Financial Installment updated successfully!']);
+            $this->mhpSiteService->updateFinancialInstallment($financialInstallment, $request->validated());
+            return redirect()->back()->with('success', 'Financial Installment updated successfully!');
         } catch (\Exception $e) {
-            Log::error('Error updating Financial Installment: ' . $e->getMessage() . ' - File: ' . $e->getFile() . ' - Line: ' . $e->getLine());
+            Log::error('Error updating Financial Installment: ' . $e->getMessage(), ['exception' => $e]);
             return redirect()->back()->with('error', 'Failed to update Financial Installment: ' . $e->getMessage());
         }
     }
 
-    public function destroy(ProjectFinancialInstallment $projectFinancialInstallment)
+    /**
+     * Remove the specified Project Financial Installment record from storage.
+     */
+    public function destroy(ProjectFinancialInstallment $financialInstallment)
     {
         try {
-            DB::transaction(function () use ($projectFinancialInstallment) {
-                $projectFinancialInstallment->delete();
-            });
+            $financialInstallment->delete(); // Spatie media will be handled automatically
             return redirect()->back()->with('success', 'Financial Installment deleted successfully!');
         } catch (\Exception $e) {
-            Log::error('Error deleting Financial Installment: ' . $e->getMessage());
+            Log::error('Error deleting Financial Installment: ' . $e->getMessage(), ['exception' => $e]);
             return redirect()->back()->with('error', 'Failed to delete Financial Installment: ' . $e->getMessage());
         }
-    }
-
-    public function show(int $id)
-    {
-        $item = ProjectFinancialInstallment::with('media')->find($id); // Eager load media
-        if (!$item) {
-            abort(404);
-        }
-        return inertia('ProjectFinancialInstallment/Show', compact('item'));
     }
 }

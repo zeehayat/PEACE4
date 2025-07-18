@@ -1,60 +1,88 @@
 <?php
+
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreMhpCompletionRequest;
+use App\Http\Requests\UpdateMhpCompletionRequest;
 use App\Models\MhpCompletion;
-use App\Services\MhpCompletionService;
-use Illuminate\Validation\Rule;
+use App\Models\MhpSite;
+use App\Services\MhpSiteService; // Import the service
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class MhpCompletionController extends Controller
 {
-    protected MhpCompletionService $service;
+    protected $mhpSiteService;
 
-    public function __construct(MhpCompletionService $service)
+    public function __construct(MhpSiteService $mhpSiteService)
     {
-        $this->service = $service;
+        $this->mhpSiteService = $mhpSiteService;
     }
 
+    /**
+     * Display a listing of MHP Completions.
+     * (Often handled via MhpSiteController@index with eager loading, or specific view)
+     */
     public function index()
     {
-        $items = MhpCompletion::latest()->paginate(10);
-        return inertia('MhpCompletions/Index', compact('items'));
+        // Similar to MhpAdminApproval, this might not be directly used as a standalone list.
+        // If it is, you would query MhpCompletion::with('mhpSite')->paginate();
+        return response()->json(['message' => 'MHP Completions index.']);
     }
 
-    public function store(Request $request)
+    /**
+     * Store a newly created MHP Completion in storage.
+     * Note: This acts as 'storeOrUpdate' from the service perspective for HasOne relationship.
+     */
+    public function store(StoreMhpCompletionRequest $request)
     {
-        $validated = $request->validate([
-            'mhp_site_id' => [
-                'required',
-                'exists:mhp_sites,id',
-                Rule::unique('mhp_completions', 'mhp_site_id'),
-            ],
-            'scheme_inauguration_date' => ['nullable', 'date'],
-            'testing_commissioning_date' => ['nullable', 'date'],
-            'handover_date' => ['nullable', 'date'],
-            'remarks' => ['nullable', 'string'],
-        ]);
-
-        $this->service->create($validated);
-
-        return redirect()->back()->with('success', 'MhpCompletion created.');
+        try {
+            $mhpSite = MhpSite::findOrFail($request->mhp_site_id);
+            $this->mhpSiteService->storeOrUpdateMhpCompletion($mhpSite, $request->validated());
+            return redirect()->back()->with('success', 'MHP Completion details saved successfully!');
+        } catch (\Exception $e) {
+            Log::error('Error saving MHP Completion: ' . $e->getMessage(), ['exception' => $e]);
+            return redirect()->back()->with('error', 'Failed to save MHP Completion details: ' . $e->getMessage());
+        }
     }
 
-    public function update(Request $request, MhpCompletion $mhpCompletion)
+    /**
+     * Display the specified MHP Completion.
+     */
+    public function show(MhpCompletion $completion)
     {
-        $this->service->update($mhpCompletion, $request->all());
-        return redirect()->back()->with('success', 'MhpCompletion updated.');
+        $completion->load('media'); // Ensure media is loaded for the view
+        $completion->attachments = $completion->attachments_frontend; // Apply accessor
+        return response()->json($completion); // Or Inertia::render if a dedicated view
     }
 
-    public function destroy(MhpCompletion $mhpCompletion)
+    /**
+     * Update the specified MHP Completion in storage.
+     */
+    public function update(UpdateMhpCompletionRequest $request, MhpCompletion $completion)
     {
-        $this->service->delete($mhpCompletion);
-        return redirect()->back()->with('success', 'MhpCompletion deleted.');
+        try {
+            // Since storeOrUpdateMhpCompletion takes MhpSite, we need to get the parent site
+            $mhpSite = $completion->mhpSite; // Assuming mhpSite relationship is defined in MhpCompletion model
+            $this->mhpSiteService->storeOrUpdateMhpCompletion($mhpSite, $request->validated());
+            return redirect()->back()->with('success', 'MHP Completion details updated successfully!');
+        } catch (\Exception $e) {
+            Log::error('Error updating MHP Completion: ' . $e->getMessage(), ['exception' => $e]);
+            return redirect()->back()->with('error', 'Failed to update MHP Completion details: ' . $e->getMessage());
+        }
     }
 
-    public function show(int $id)
+    /**
+     * Remove the specified MHP Completion from storage.
+     */
+    public function destroy(MhpCompletion $completion)
     {
-        $item = $this->service->find($id);
-        return inertia('MhpCompletions/Show', compact('item'));
+        try {
+            $completion->delete(); // Spatie media will be handled automatically if model uses InteractsWithMedia
+            return redirect()->back()->with('success', 'MHP Completion deleted successfully!');
+        } catch (\Exception $e) {
+            Log::error('Error deleting MHP Completion: ' . $e->getMessage(), ['exception' => $e]);
+            return redirect()->back()->with('error', 'Failed to delete MHP Completion: ' . $e->getMessage());
+        }
     }
 }

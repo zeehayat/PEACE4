@@ -25,6 +25,7 @@
     "dependencies": {
         "@headlessui/vue": "^1.7.23",
         "@tinymce/tinymce-vue": "^6.2.0",
+        "@vuepic/vue-datepicker": "^11.0.2",
         "dayjs": "^1.11.13",
         "filepond": "^4.32.8",
         "filepond-plugin-file-validate-size": "^2.2.8",

@@ -2,233 +2,224 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cbo;
+use App\Http\Requests\StoreMhpSiteRequest;
+use App\Http\Requests\UpdateMhpSiteRequest;
 use App\Models\MhpSite;
-use App\Http\Requests\MhpSiteRequest;
+use App\Services\MhpSiteService; // Import the service
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Log;
 
 class MhpSiteController extends Controller
 {
+    protected $mhpSiteService;
+
+    // Inject the MhpSiteService into the controller
+    public function __construct(MhpSiteService $mhpSiteService)
+    {
+        $this->mhpSiteService = $mhpSiteService;
+    }
+
+    /**
+     * Display a listing of the MHP Sites.
+     */
     public function index(Request $request)
     {
         $query = MhpSite::query()
             ->with([
-                'cbo',
-                'adminApproval.media',
-                'completion.media',  // eager-load completion + its media
-                'media',
-                'physicalProgresses.media', // Eager load physical progress and its media
-                'financialInstallments.media' // Eager load financial installments and its media
+                'cbo', // CRITICAL: Ensure CBO is eager loaded for its reference_code
+                'media', // For direct attachments to the site
+                'adminApproval.media', // For admin approval status and its media
+                'completion.media',    // For completion status and its media
+                'physicalProgresses.media', // For physical progress summary
+                'financialInstallments.media', // For financial installment summary
+                'tAndDWorks.media', // Load T&D works if summary needed
             ]);
 
-        if ($request->filled('cbo')) {
-            $query->whereHas('cbo', fn ($q) =>
-            $q->where('reference_code', 'like', "%{$request->cbo}%")
-            );
+        // Apply filters and search if present
+        if ($request->has('search')) {
+            $searchTerm = $request->input('search');
+            $query->where(function ($q) use ($searchTerm) {
+                $q->whereHas('cbo', function ($cboQuery) use ($searchTerm) {
+                    $cboQuery->where('reference_code', 'like', '%' . $searchTerm . '%');
+                })
+                    ->orWhere('status', 'like', '%' . $searchTerm . '%')
+                    ->orWhereRaw('CONCAT(cbos.reference_code, "/MHP-", mhp_sites.id) LIKE ?', ['%' . $searchTerm . '%']) // Search by project_id
+                    ->orWhere('id', $searchTerm); // Allow searching by MHP Site ID
+            });
         }
 
-        if ($request->filled('status')) {
-            $query->where('status', $request->status);
+        if ($request->has('cbo_id')) {
+            $query->where('cbo_id', $request->input('cbo_id'));
+        }
+
+        if ($request->has('status')) {
+            $query->where('status', $request->input('status'));
         }
 
         $mhpSites = $query->paginate(50)->withQueryString();
 
+        // Transform collection to add frontend-specific accessors
         $mhpSites->getCollection()->transform(function ($site) {
-            // site attachments
-            $site->attachments = $site->getMedia('attachments')->map(fn ($m) => [
-                'id' => $m->id,
-                'name' => $m->name,
-                'file_name' => $m->file_name,
-                'url' => $m->getUrl(),
-                'size' => $m->size,
-            ]);
+            // Apply attachments_frontend accessor for main site media
+            // This is already handled by model's $appends, but explicit transformation is fine for specific views
+            $site->attachments = $site->attachments_frontend;
 
-            // adminApproval attachments
+            // Apply media transformations for nested relationships if needed for list view
             if ($site->adminApproval) {
-                $site->adminApproval->attachments = $site->adminApproval->getMedia('attachments')->map(fn ($m) => [
-                    'id' => $m->id,
-                    'name' => $m->name,
-                    'file_name' => $m->file_name,
-                    'url' => $m->getUrl(),
-                    'size' => $m->size,
-                ]);
+                $site->adminApproval->attachments = $site->adminApproval->attachments_frontend;
             }
-
-            // completion attachments
             if ($site->completion) {
-                $site->completion->attachments = $site->completion->getMedia('attachments')->map(fn ($m) => [
-                    'id' => $m->id,
-                    'name' => $m->name,
-                    'file_name' => $m->file_name,
-                    'url' => $m->getUrl(),
-                    'size' => $m->size,
-                ]);
+                $site->completion->attachments = $site->completion->attachments_frontend;
             }
 
-            // Eager load and map physicalProgresses attachments
-            // This transformation makes sure `site.physicalProgresses` has the `attachments` directly
-            if ($site->physicalProgresses) {
-                $site->physicalProgresses = $site->physicalProgresses->map(fn ($progress) => [
-                    'id' => $progress->id,
-                    'projectable_id' => $progress->projectable_id,
-                    'projectable_type' => $progress->projectable_type,
-                    'progress_percentage' => $progress->progress_percentage,
-                    'progress_date' => $progress->progress_date,
-                    'remarks' => $progress->remarks,
-                    'project_type' => $progress->project_type,
-                    'reference_code' => $progress->reference_code,
-                    'attachments' => $progress->getMedia('attachments')->map(fn ($m) => [
-                        'id' => $m->id,
-                        'name' => $m->file_name,
-                        'url' => $m->getUrl(),
-                    ]),
-                ]);
-            }
-
-            // Eager load and map financialInstallments attachments
-            // This transformation makes sure `site.financialInstallments` has the `attachments` directly
-            if ($site->financialInstallments) {
-                $site->financialInstallments = $site->financialInstallments->map(fn ($installment) => [
-                    'id' => $installment->id,
-                    'projectable_id' => $installment->projectable_id,
-                    'projectable_type' => $installment->projectable_type,
-                    'installment_number' => $installment->installment_number,
-                    'installment_date' => $installment->installment_date,
-                    'installment_amount' => $installment->installment_amount,
-                    'category' => $installment->category,
-                    'remarks' => $installment->remarks,
-                    'attachments' => $installment->getMedia('attachments')->map(fn ($m) => [
-                        'id' => $m->id,
-                        'name' => $m->file_name,
-                        'url' => $m->getUrl(),
-                    ]),
-                ]);
-            }
-
-            // project_id
-            $site->project_id = ($site->cbo->reference_code ?? 'N/A') . '/' . $site->id;
+            // You might add logic here to calculate summary progress or latest entries if not already done by accessors/relationships
+            // For example, getting the latest physical progress record
+            $site->latest_physical_progress = $site->physicalProgresses->sortByDesc('progress_date')->first();
+            $site->latest_financial_installment = $site->financialInstallments->sortByDesc('installment_date')->first();
 
             return $site;
         });
 
+
         return Inertia::render('MHP/Index', [
             'mhpSites' => $mhpSites,
-            'filters' => $request->only('cbo', 'status'),
+            'filters' => $request->only('cbo_id', 'status', 'search'),
         ]);
     }
 
+    /**
+     * Show the form for creating a new MHP Site. (If you have a dedicated create page)
+     */
+    public function create()
+    {
+        // Not used if modal handles creation. If dedicated page, return Inertia render.
+        // return Inertia::render('MHP/Create');
+    }
 
+    /**
+     * Store a newly created MHP Site in storage.
+     */
+    public function store(StoreMhpSiteRequest $request)
+    {
+        try {
+            $this->mhpSiteService->createMhpSite($request->validated());
+            return redirect()->back()->with('success', 'MHP Site created successfully!');
+        } catch (\Exception $e) {
+            Log::error('Error creating MHP Site: ' . $e->getMessage(), ['exception' => $e]);
+            return redirect()->back()->with('error', 'Failed to create MHP Site: ' . $e->getMessage());
+        }
+    }
 
+    /**
+     * Display the specified MHP Site.
+     */
+    public function show(MhpSite $site)
+    {
+        // Load all necessary relationships for a detailed view
+        $site->load([
+            'cbo',
+            'media',
+            'adminApproval.media',
+            'completion.media',
+            'tAndDWorks.media',
+            'physicalProgresses.activity', // Eager load activity details for progress
+            'physicalProgresses.media',
+            'financialInstallments.activity', // Eager load activity details for installments
+            'financialInstallments.media',
+            'operationalCosts.expenseType',
+            'revenueRecords', // Assuming RevenueRecord needs its relations loaded
+            // Add any other relationships needed for a full site detail view
+        ]);
 
-    public function autoSearch(Request $request)
+        // Apply attachments_frontend accessors to loaded relationships for consistency
+        $site->attachments = $site->attachments_frontend;
+        if ($site->adminApproval) $site->adminApproval->attachments = $site->adminApproval->attachments_frontend;
+        if ($site->completion) $site->completion->attachments = $site->completion->attachments_frontend;
+        foreach ($site->tAndDWorks as $tAndD) $tAndD->attachments = $tAndD->attachments_frontend;
+        foreach ($site->physicalProgresses as $progress) $progress->attachments = $progress->attachments_frontend;
+        foreach ($site->financialInstallments as $installment) $installment->attachments = $installment->attachments_frontend;
+        foreach ($site->revenueRecords as $record) $record->attachments = $record->attachments_frontend; // If RevenueRecord is now using Spatie
+
+        return Inertia::render('MHP/Show', [ // Assuming you might have a Show.vue page
+            'mhpSite' => $site,
+        ]);
+    }
+
+    /**
+     * Show the form for editing the specified MHP Site. (If you have a dedicated edit page)
+     */
+    public function edit(MhpSite $site)
+    {
+        // Not used if modal handles editing. If dedicated page, return Inertia render.
+        // return Inertia::render('MHP/Edit', ['site' => $site]);
+    }
+
+    /**
+     * Update the specified MHP Site in storage.
+     */
+    public function update(UpdateMhpSiteRequest $request, MhpSite $site)
+    {
+        try {
+            $this->mhpSiteService->updateMhpSite($site, $request->validated());
+            return redirect()->back()->with('success', 'MHP Site updated successfully!');
+        } catch (\Exception $e) {
+            Log::error('Error updating MHP Site: ' . $e->getMessage(), ['exception' => $e]);
+            return redirect()->back()->with('error', 'Failed to update MHP Site: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Remove the specified MHP Site from storage.
+     */
+    public function destroy(MhpSite $site)
+    {
+        try {
+            $this->mhpSiteService->deleteMhpSite($site);
+            return redirect()->back()->with('success', 'MHP Site deleted successfully!');
+        } catch (\Exception $e) {
+            Log::error('Error deleting MHP Site: ' . $e->getMessage(), ['exception' => $e]);
+            return redirect()->back()->with('error', 'Failed to delete MHP Site: ' . $e->getMessage());
+        }
+    }
+
+    // You might also add custom methods for specific actions that don't fit CRUD
+    // For example, if you had a specific route to 'updateRevisedCost' directly from the controller,
+    // you would refactor it here to call the service method storeOrUpdateAdminApproval or a dedicated method in service.
+    public function updateRevisedCost(Request $request, MhpSite $mhpSite, string $field)
+    {
+        $request->validate([
+            'value' => ['required', 'numeric', 'min:0'],
+        ]);
+
+        try {
+            // Fetch existing approval or create a new one to update a specific field
+            $approvalData = [];
+            $approvalData[$field] = $request->input('value');
+
+            // Pass existing approval if it exists, otherwise it will create new.
+            // Note: This approach assumes you're only updating one field. For multiple, the form is better.
+            $this->mhpSiteService->storeOrUpdateAdminApproval($mhpSite, $approvalData);
+
+            return response()->json(['message' => 'Revised cost updated successfully.']);
+        } catch (\Exception $e) {
+            Log::error('Error updating revised cost: ' . $e->getMessage(), ['exception' => $e]);
+            return response()->json(['error' => 'Failed to update revised cost: ' . $e->getMessage()], 500);
+        }
+    }
+
+    // Helper for CBO select if needed for filters
+    public function getCbos(Request $request)
     {
         $search = $request->input('search');
-
-        $cbos = Cbo::query()
-            ->when($search, fn ($q) =>
-            $q->where('reference_code', 'like', "%{$search}%")
-            )
-            ->orderBy('reference_code')
-            ->limit(20)
-            ->get(['id', 'reference_code']); // fetch only necessary columns
+        $cbos = \App\Models\Cbo::query()
+            ->when($search, function ($query) use ($search) {
+                $query->where('reference_code', 'like', '%' . $search . '%');
+            })
+            ->select('id', 'reference_code')
+            ->limit(10)
+            ->get();
 
         return response()->json($cbos);
     }
-
-    public function create() {
-        return Inertia::render('MhpSite/MhpSite');
-    }
-
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'cbo_id' => 'required|exists:cbos,id',
-            'population' => 'nullable|numeric',
-            'grid_status' => 'required|string',
-            'status' => 'required|string',
-            'existing_capacity_kw' => 'nullable|numeric',
-            'planned_capacity_kw' => 'nullable|numeric',
-            'head_ft' => 'nullable|numeric',
-            'design_discharge_cusecs' => 'nullable|numeric',
-            'channel_length_km' => 'nullable|numeric',
-            'tl_ht_km' => 'nullable|numeric',
-            'tl_lt_km' => 'nullable|numeric',
-            'transformers' => 'nullable|numeric',
-            'turbine_type' => 'nullable|string',
-            'alternator_type' => 'nullable|string',
-            'accessible' => 'nullable|string',
-            'domestic_units' => 'nullable|numeric',
-            'commercial_units' => 'nullable|numeric',
-            'estimated_cost' => 'nullable|numeric',
-            'per_kw_cost' => 'nullable|numeric',
-            'total_hh' => 'nullable|numeric',
-            'avg_hh_size' => 'nullable|numeric',
-            'cost_per_capita' => 'nullable|numeric',
-            'tentative_completion_date' => 'required|date',
-            'month_year_establishment' => 'required|date',
-            'established_by' => 'required|string',
-            'attachments.*' => 'nullable|file|max:20480', // max 20MB per file
-        ]);
-        unset($validated['attachments']);
-
-        $site = MhpSite::create($validated);
-
-        if ($request->hasFile('attachments')) {
-            foreach ($request->file('attachments') as $file) {
-                $site->addMedia($file)->toMediaCollection('attachments');
-            }
-        }
-
-        return redirect()->route('mhp.mhp-sites.index')->with('success', 'MHP Site created!');
-    }
-
-
-
-    public function update(Request $request, $id)
-    {
-        $site = MhpSite::findOrFail($id);
-
-        $validated = $request->validate([
-            'cbo_id' => 'required|exists:cbos,id',
-            'population' => 'nullable|numeric',
-            'grid_status' => 'nullable|string|max:255',
-            'status' => 'nullable|string|max:255',
-            'existing_capacity_kw' => 'nullable|numeric',
-            'planned_capacity_kw' => 'nullable|numeric',
-            'head_ft' => 'nullable|numeric',
-            'design_discharge_cusecs' => 'nullable|numeric',
-            'channel_length_km' => 'nullable|numeric',
-            'tl_ht_km' => 'nullable|numeric',
-            'tl_lt_km' => 'nullable|numeric',
-            'transformers' => 'nullable|numeric',
-            'turbine_type' => 'nullable|string|max:255',
-            'alternator_type' => 'nullable|string|max:255',
-            'accessible' => 'nullable|string|in:YES,NO',
-            'domestic_units' => 'nullable|numeric',
-            'commercial_units' => 'nullable|numeric',
-            'estimated_cost' => 'nullable|numeric',
-            'per_kw_cost' => 'nullable|numeric',
-            'total_hh' => 'nullable|numeric',
-            'avg_hh_size' => 'nullable|numeric',
-            'cost_per_capita' => 'nullable|numeric',
-            'tentative_completion_date' => 'nullable|date',
-            'established_by' => 'nullable|string|max:255',
-            'month_year_establishment' => 'nullable|date',
-            'attachments.*' => 'nullable|file|max:20480',
-        ]);
-        unset($validated['attachments']);
-
-        $site->update($validated);
-
-        if ($request->hasFile('attachments')) {
-            foreach ($request->file('attachments') as $file) {
-                $site->addMedia($file)->toMediaCollection('attachments');
-            }
-        }
-
-        return back()->with('success', 'MHP site updated successfully.');
-    }
-
-
 }

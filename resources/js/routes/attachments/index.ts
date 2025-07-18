@@ -113,7 +113,7 @@ show.head = (args: { attachment: string | number } | [attachment: string | numbe
 * @see app/Http/Controllers/AttachmentController.php:35
 * @route '/attachments/{attachment}'
 */
-export const destroy = (args: { attachment: number | { id: number } } | [attachment: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+export const destroy = (args: { attachment: string | number | { id: string | number } } | [attachment: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'delete',
 } => ({
@@ -131,7 +131,7 @@ destroy.definition = {
 * @see app/Http/Controllers/AttachmentController.php:35
 * @route '/attachments/{attachment}'
 */
-destroy.url = (args: { attachment: number | { id: number } } | [attachment: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+destroy.url = (args: { attachment: string | number | { id: string | number } } | [attachment: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { attachment: args }
     }
@@ -162,7 +162,7 @@ destroy.url = (args: { attachment: number | { id: number } } | [attachment: numb
 * @see app/Http/Controllers/AttachmentController.php:35
 * @route '/attachments/{attachment}'
 */
-destroy.delete = (args: { attachment: number | { id: number } } | [attachment: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+destroy.delete = (args: { attachment: string | number | { id: string | number } } | [attachment: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'delete',
 } => ({

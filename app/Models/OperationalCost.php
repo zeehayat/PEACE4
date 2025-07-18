@@ -5,14 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
+// Removed Spatie\MediaLibrary traits/interfaces if they were there and not needed, based on your provided file.
+// If you want OperationalCost to have attachments, add HasMedia and InteractsWithMedia and their methods.
 
-class OperationalCost extends Model implements HasMedia
+class OperationalCost extends Model
 {
-    /** @use HasFactory<\Database\Factories\OperationalCostFactory> */
-    use HasFactory, InteractsWithMedia;
+    use HasFactory;
 
     public $table = 'operational_costs';
     protected $fillable = [
@@ -23,12 +21,19 @@ class OperationalCost extends Model implements HasMedia
         'remarks'
     ];
 
-    public function mhpSite():BelongsTo
+    protected $casts = [
+        'cost_date' => 'date',
+        'amount' => 'decimal:2',
+    ];
+
+
+    public function mhpSite(): BelongsTo
     {
         return $this->belongsTo(MhpSite::class);
     }
-    public function expenseType(): BelongsTo {
+
+    public function expenseType(): BelongsTo
+    {
         return $this->belongsTo(ExpenseType::class);
     }
-
 }

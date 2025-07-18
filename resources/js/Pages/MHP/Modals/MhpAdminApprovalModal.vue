@@ -1,30 +1,41 @@
 <script setup>
-import Modal from '@/Components/Modal.vue'; // Global Modal component
-import MhpAdminApprovalForm from '@/Pages/MHP/Forms/MhpAdminApprovalForm.vue'; // The form for MHP Admin Approval
+import Modal from '@/Components/Modal.vue';
+import MhpAdminApprovalForm from '@/Pages/MHP/Forms/MhpAdminApprovalForm.vue';
 
 const props = defineProps({
     show: Boolean, // Controls modal visibility
-    action: { type: String, default: 'create' }, // 'create' or 'update'
-    mhpSiteId: { type: [String, Number], required: true }, // The MHP Site ID
-    approval: { type: Object, default: null }, // Existing approval object for edit mode
+    mhpSiteId: {
+        type: Number,
+        required: true,
+    },
+    approval: {
+        type: Object,
+        default: null, // Existing approval object for edit mode
+    },
+    action: {
+        type: String,
+        default: 'create', // 'create' or 'update'
+    },
 });
 
-const emit = defineEmits(['close', 'updated']); // 'updated' event from form bubbles up
+const emit = defineEmits(['close', 'updated']);
 
-// Handle success event from MhpAdminApprovalForm
 const handleFormSuccess = (message) => {
-    emit('updated', message); // Pass message up to MHP/Index.vue
-    emit('close'); // Close the modal
+    emit('updated', message);
+    emit('close');
 };
 
-// Handle cancel event from MhpAdminApprovalForm
 const handleFormCancel = () => {
-    emit('close'); // Close the modal
+    emit('close');
 };
+
+const modalTitle = computed(() => {
+    return props.action === 'update' ? 'Edit MHP Admin Approval' : 'Add MHP Admin Approval';
+});
 </script>
 
 <template>
-    <Modal :show="show" @close="handleFormCancel" :maxWidth="'3xl'" :title="`${action === 'create' ? 'Add' : 'Edit'} MHP Admin Approval`">
+    <Modal :show="show" @close="handleFormCancel" :maxWidth="'4xl'" :title="modalTitle">
         <div class="p-6 overflow-y-auto max-h-[85vh]">
             <MhpAdminApprovalForm
                 :mhp-site-id="mhpSiteId"

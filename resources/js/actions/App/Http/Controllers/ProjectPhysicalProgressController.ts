@@ -1,103 +1,204 @@
 import { queryParams, type QueryParams } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\ProjectPhysicalProgressController::index
-* @see app/Http/Controllers/ProjectPhysicalProgressController.php:24
-* @route '/mhp/project-physical-progress'
+* @see app/Http/Controllers/ProjectPhysicalProgressController.php:27
+* @route '/mhp/sites/{site}/physical-progresses'
 */
-export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+export const index = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: index.url(options),
+    url: index.url(args, options),
     method: 'get',
 })
 
 index.definition = {
     methods: ['get','head'],
-    url: '/mhp/project-physical-progress',
+    url: '/mhp/sites/{site}/physical-progresses',
 }
 
 /**
 * @see \App\Http\Controllers\ProjectPhysicalProgressController::index
-* @see app/Http/Controllers/ProjectPhysicalProgressController.php:24
-* @route '/mhp/project-physical-progress'
+* @see app/Http/Controllers/ProjectPhysicalProgressController.php:27
+* @route '/mhp/sites/{site}/physical-progresses'
 */
-index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return index.definition.url + queryParams(options)
+index.url = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { site: args }
+    }
+
+    if (Array.isArray(args)) {
+        args = {
+            site: args[0],
+        }
+    }
+
+    const parsedArgs = {
+        site: args.site,
+    }
+
+    return index.definition.url
+            .replace('{site}', parsedArgs.site.toString())
+            .replace(/\/+$/, '') + queryParams(options)
 }
 
 /**
 * @see \App\Http\Controllers\ProjectPhysicalProgressController::index
-* @see app/Http/Controllers/ProjectPhysicalProgressController.php:24
-* @route '/mhp/project-physical-progress'
+* @see app/Http/Controllers/ProjectPhysicalProgressController.php:27
+* @route '/mhp/sites/{site}/physical-progresses'
 */
-index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+index.get = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: index.url(options),
+    url: index.url(args, options),
     method: 'get',
 })
 
 /**
 * @see \App\Http\Controllers\ProjectPhysicalProgressController::index
-* @see app/Http/Controllers/ProjectPhysicalProgressController.php:24
-* @route '/mhp/project-physical-progress'
+* @see app/Http/Controllers/ProjectPhysicalProgressController.php:27
+* @route '/mhp/sites/{site}/physical-progresses'
 */
-index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+index.head = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
 } => ({
-    url: index.url(options),
+    url: index.url(args, options),
+    method: 'head',
+})
+
+/**
+* @see \App\Http\Controllers\ProjectPhysicalProgressController::create
+* @see app/Http/Controllers/ProjectPhysicalProgressController.php:52
+* @route '/mhp/sites/{site}/physical-progresses/create'
+*/
+export const create = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: create.url(args, options),
+    method: 'get',
+})
+
+create.definition = {
+    methods: ['get','head'],
+    url: '/mhp/sites/{site}/physical-progresses/create',
+}
+
+/**
+* @see \App\Http\Controllers\ProjectPhysicalProgressController::create
+* @see app/Http/Controllers/ProjectPhysicalProgressController.php:52
+* @route '/mhp/sites/{site}/physical-progresses/create'
+*/
+create.url = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { site: args }
+    }
+
+    if (Array.isArray(args)) {
+        args = {
+            site: args[0],
+        }
+    }
+
+    const parsedArgs = {
+        site: args.site,
+    }
+
+    return create.definition.url
+            .replace('{site}', parsedArgs.site.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\ProjectPhysicalProgressController::create
+* @see app/Http/Controllers/ProjectPhysicalProgressController.php:52
+* @route '/mhp/sites/{site}/physical-progresses/create'
+*/
+create.get = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: create.url(args, options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\ProjectPhysicalProgressController::create
+* @see app/Http/Controllers/ProjectPhysicalProgressController.php:52
+* @route '/mhp/sites/{site}/physical-progresses/create'
+*/
+create.head = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: create.url(args, options),
     method: 'head',
 })
 
 /**
 * @see \App\Http\Controllers\ProjectPhysicalProgressController::store
-* @see app/Http/Controllers/ProjectPhysicalProgressController.php:48
-* @route '/mhp/project-physical-progress'
+* @see app/Http/Controllers/ProjectPhysicalProgressController.php:61
+* @route '/mhp/sites/{site}/physical-progresses'
 */
-export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+export const store = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
 } => ({
-    url: store.url(options),
+    url: store.url(args, options),
     method: 'post',
 })
 
 store.definition = {
     methods: ['post'],
-    url: '/mhp/project-physical-progress',
+    url: '/mhp/sites/{site}/physical-progresses',
 }
 
 /**
 * @see \App\Http\Controllers\ProjectPhysicalProgressController::store
-* @see app/Http/Controllers/ProjectPhysicalProgressController.php:48
-* @route '/mhp/project-physical-progress'
+* @see app/Http/Controllers/ProjectPhysicalProgressController.php:61
+* @route '/mhp/sites/{site}/physical-progresses'
 */
-store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return store.definition.url + queryParams(options)
+store.url = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { site: args }
+    }
+
+    if (Array.isArray(args)) {
+        args = {
+            site: args[0],
+        }
+    }
+
+    const parsedArgs = {
+        site: args.site,
+    }
+
+    return store.definition.url
+            .replace('{site}', parsedArgs.site.toString())
+            .replace(/\/+$/, '') + queryParams(options)
 }
 
 /**
 * @see \App\Http\Controllers\ProjectPhysicalProgressController::store
-* @see app/Http/Controllers/ProjectPhysicalProgressController.php:48
-* @route '/mhp/project-physical-progress'
+* @see app/Http/Controllers/ProjectPhysicalProgressController.php:61
+* @route '/mhp/sites/{site}/physical-progresses'
 */
-store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+store.post = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
 } => ({
-    url: store.url(options),
+    url: store.url(args, options),
     method: 'post',
 })
 
 /**
 * @see \App\Http\Controllers\ProjectPhysicalProgressController::show
-* @see app/Http/Controllers/ProjectPhysicalProgressController.php:43
-* @route '/mhp/project-physical-progress/{project_physical_progress}'
+* @see app/Http/Controllers/ProjectPhysicalProgressController.php:75
+* @route '/mhp/sites/{site}/physical-progresses/{physical_progress}'
 */
-export const show = (args: { project_physical_progress: string | number } | [project_physical_progress: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+export const show = (args: { site: string | number, physical_progress: string | number } | [site: string | number, physical_progress: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
@@ -107,40 +208,39 @@ export const show = (args: { project_physical_progress: string | number } | [pro
 
 show.definition = {
     methods: ['get','head'],
-    url: '/mhp/project-physical-progress/{project_physical_progress}',
+    url: '/mhp/sites/{site}/physical-progresses/{physical_progress}',
 }
 
 /**
 * @see \App\Http\Controllers\ProjectPhysicalProgressController::show
-* @see app/Http/Controllers/ProjectPhysicalProgressController.php:43
-* @route '/mhp/project-physical-progress/{project_physical_progress}'
+* @see app/Http/Controllers/ProjectPhysicalProgressController.php:75
+* @route '/mhp/sites/{site}/physical-progresses/{physical_progress}'
 */
-show.url = (args: { project_physical_progress: string | number } | [project_physical_progress: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    if (typeof args === 'string' || typeof args === 'number') {
-        args = { project_physical_progress: args }
-    }
-
+show.url = (args: { site: string | number, physical_progress: string | number } | [site: string | number, physical_progress: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (Array.isArray(args)) {
         args = {
-            project_physical_progress: args[0],
+            site: args[0],
+            physical_progress: args[1],
         }
     }
 
     const parsedArgs = {
-        project_physical_progress: args.project_physical_progress,
+        site: args.site,
+        physical_progress: args.physical_progress,
     }
 
     return show.definition.url
-            .replace('{project_physical_progress}', parsedArgs.project_physical_progress.toString())
+            .replace('{site}', parsedArgs.site.toString())
+            .replace('{physical_progress}', parsedArgs.physical_progress.toString())
             .replace(/\/+$/, '') + queryParams(options)
 }
 
 /**
 * @see \App\Http\Controllers\ProjectPhysicalProgressController::show
-* @see app/Http/Controllers/ProjectPhysicalProgressController.php:43
-* @route '/mhp/project-physical-progress/{project_physical_progress}'
+* @see app/Http/Controllers/ProjectPhysicalProgressController.php:75
+* @route '/mhp/sites/{site}/physical-progresses/{physical_progress}'
 */
-show.get = (args: { project_physical_progress: string | number } | [project_physical_progress: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+show.get = (args: { site: string | number, physical_progress: string | number } | [site: string | number, physical_progress: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
@@ -150,10 +250,10 @@ show.get = (args: { project_physical_progress: string | number } | [project_phys
 
 /**
 * @see \App\Http\Controllers\ProjectPhysicalProgressController::show
-* @see app/Http/Controllers/ProjectPhysicalProgressController.php:43
-* @route '/mhp/project-physical-progress/{project_physical_progress}'
+* @see app/Http/Controllers/ProjectPhysicalProgressController.php:75
+* @route '/mhp/sites/{site}/physical-progresses/{physical_progress}'
 */
-show.head = (args: { project_physical_progress: string | number } | [project_physical_progress: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+show.head = (args: { site: string | number, physical_progress: string | number } | [site: string | number, physical_progress: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
 } => ({
@@ -162,11 +262,79 @@ show.head = (args: { project_physical_progress: string | number } | [project_phy
 })
 
 /**
-* @see \App\Http\Controllers\ProjectPhysicalProgressController::update
-* @see app/Http/Controllers/ProjectPhysicalProgressController.php:151
-* @route '/mhp/project-physical-progress/{project_physical_progress}'
+* @see \App\Http\Controllers\ProjectPhysicalProgressController::edit
+* @see app/Http/Controllers/ProjectPhysicalProgressController.php:90
+* @route '/mhp/sites/{site}/physical-progresses/{physical_progress}/edit'
 */
-export const update = (args: { project_physical_progress: string | number } | [project_physical_progress: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+export const edit = (args: { site: string | number, physical_progress: string | number } | [site: string | number, physical_progress: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: edit.url(args, options),
+    method: 'get',
+})
+
+edit.definition = {
+    methods: ['get','head'],
+    url: '/mhp/sites/{site}/physical-progresses/{physical_progress}/edit',
+}
+
+/**
+* @see \App\Http\Controllers\ProjectPhysicalProgressController::edit
+* @see app/Http/Controllers/ProjectPhysicalProgressController.php:90
+* @route '/mhp/sites/{site}/physical-progresses/{physical_progress}/edit'
+*/
+edit.url = (args: { site: string | number, physical_progress: string | number } | [site: string | number, physical_progress: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (Array.isArray(args)) {
+        args = {
+            site: args[0],
+            physical_progress: args[1],
+        }
+    }
+
+    const parsedArgs = {
+        site: args.site,
+        physical_progress: args.physical_progress,
+    }
+
+    return edit.definition.url
+            .replace('{site}', parsedArgs.site.toString())
+            .replace('{physical_progress}', parsedArgs.physical_progress.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\ProjectPhysicalProgressController::edit
+* @see app/Http/Controllers/ProjectPhysicalProgressController.php:90
+* @route '/mhp/sites/{site}/physical-progresses/{physical_progress}/edit'
+*/
+edit.get = (args: { site: string | number, physical_progress: string | number } | [site: string | number, physical_progress: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: edit.url(args, options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\ProjectPhysicalProgressController::edit
+* @see app/Http/Controllers/ProjectPhysicalProgressController.php:90
+* @route '/mhp/sites/{site}/physical-progresses/{physical_progress}/edit'
+*/
+edit.head = (args: { site: string | number, physical_progress: string | number } | [site: string | number, physical_progress: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: edit.url(args, options),
+    method: 'head',
+})
+
+/**
+* @see \App\Http\Controllers\ProjectPhysicalProgressController::update
+* @see app/Http/Controllers/ProjectPhysicalProgressController.php:98
+* @route '/mhp/sites/{site}/physical-progresses/{physical_progress}'
+*/
+export const update = (args: { site: string | number, physical_progress: string | number } | [site: string | number, physical_progress: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'put',
 } => ({
@@ -176,40 +344,39 @@ export const update = (args: { project_physical_progress: string | number } | [p
 
 update.definition = {
     methods: ['put','patch'],
-    url: '/mhp/project-physical-progress/{project_physical_progress}',
+    url: '/mhp/sites/{site}/physical-progresses/{physical_progress}',
 }
 
 /**
 * @see \App\Http\Controllers\ProjectPhysicalProgressController::update
-* @see app/Http/Controllers/ProjectPhysicalProgressController.php:151
-* @route '/mhp/project-physical-progress/{project_physical_progress}'
+* @see app/Http/Controllers/ProjectPhysicalProgressController.php:98
+* @route '/mhp/sites/{site}/physical-progresses/{physical_progress}'
 */
-update.url = (args: { project_physical_progress: string | number } | [project_physical_progress: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    if (typeof args === 'string' || typeof args === 'number') {
-        args = { project_physical_progress: args }
-    }
-
+update.url = (args: { site: string | number, physical_progress: string | number } | [site: string | number, physical_progress: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (Array.isArray(args)) {
         args = {
-            project_physical_progress: args[0],
+            site: args[0],
+            physical_progress: args[1],
         }
     }
 
     const parsedArgs = {
-        project_physical_progress: args.project_physical_progress,
+        site: args.site,
+        physical_progress: args.physical_progress,
     }
 
     return update.definition.url
-            .replace('{project_physical_progress}', parsedArgs.project_physical_progress.toString())
+            .replace('{site}', parsedArgs.site.toString())
+            .replace('{physical_progress}', parsedArgs.physical_progress.toString())
             .replace(/\/+$/, '') + queryParams(options)
 }
 
 /**
 * @see \App\Http\Controllers\ProjectPhysicalProgressController::update
-* @see app/Http/Controllers/ProjectPhysicalProgressController.php:151
-* @route '/mhp/project-physical-progress/{project_physical_progress}'
+* @see app/Http/Controllers/ProjectPhysicalProgressController.php:98
+* @route '/mhp/sites/{site}/physical-progresses/{physical_progress}'
 */
-update.put = (args: { project_physical_progress: string | number } | [project_physical_progress: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+update.put = (args: { site: string | number, physical_progress: string | number } | [site: string | number, physical_progress: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'put',
 } => ({
@@ -219,10 +386,10 @@ update.put = (args: { project_physical_progress: string | number } | [project_ph
 
 /**
 * @see \App\Http\Controllers\ProjectPhysicalProgressController::update
-* @see app/Http/Controllers/ProjectPhysicalProgressController.php:151
-* @route '/mhp/project-physical-progress/{project_physical_progress}'
+* @see app/Http/Controllers/ProjectPhysicalProgressController.php:98
+* @route '/mhp/sites/{site}/physical-progresses/{physical_progress}'
 */
-update.patch = (args: { project_physical_progress: string | number } | [project_physical_progress: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+update.patch = (args: { site: string | number, physical_progress: string | number } | [site: string | number, physical_progress: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'patch',
 } => ({
@@ -232,10 +399,10 @@ update.patch = (args: { project_physical_progress: string | number } | [project_
 
 /**
 * @see \App\Http\Controllers\ProjectPhysicalProgressController::destroy
-* @see app/Http/Controllers/ProjectPhysicalProgressController.php:266
-* @route '/mhp/project-physical-progress/{project_physical_progress}'
+* @see app/Http/Controllers/ProjectPhysicalProgressController.php:112
+* @route '/mhp/sites/{site}/physical-progresses/{physical_progress}'
 */
-export const destroy = (args: { project_physical_progress: string | number } | [project_physical_progress: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+export const destroy = (args: { site: string | number, physical_progress: string | number } | [site: string | number, physical_progress: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'delete',
 } => ({
@@ -245,40 +412,39 @@ export const destroy = (args: { project_physical_progress: string | number } | [
 
 destroy.definition = {
     methods: ['delete'],
-    url: '/mhp/project-physical-progress/{project_physical_progress}',
+    url: '/mhp/sites/{site}/physical-progresses/{physical_progress}',
 }
 
 /**
 * @see \App\Http\Controllers\ProjectPhysicalProgressController::destroy
-* @see app/Http/Controllers/ProjectPhysicalProgressController.php:266
-* @route '/mhp/project-physical-progress/{project_physical_progress}'
+* @see app/Http/Controllers/ProjectPhysicalProgressController.php:112
+* @route '/mhp/sites/{site}/physical-progresses/{physical_progress}'
 */
-destroy.url = (args: { project_physical_progress: string | number } | [project_physical_progress: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    if (typeof args === 'string' || typeof args === 'number') {
-        args = { project_physical_progress: args }
-    }
-
+destroy.url = (args: { site: string | number, physical_progress: string | number } | [site: string | number, physical_progress: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (Array.isArray(args)) {
         args = {
-            project_physical_progress: args[0],
+            site: args[0],
+            physical_progress: args[1],
         }
     }
 
     const parsedArgs = {
-        project_physical_progress: args.project_physical_progress,
+        site: args.site,
+        physical_progress: args.physical_progress,
     }
 
     return destroy.definition.url
-            .replace('{project_physical_progress}', parsedArgs.project_physical_progress.toString())
+            .replace('{site}', parsedArgs.site.toString())
+            .replace('{physical_progress}', parsedArgs.physical_progress.toString())
             .replace(/\/+$/, '') + queryParams(options)
 }
 
 /**
 * @see \App\Http\Controllers\ProjectPhysicalProgressController::destroy
-* @see app/Http/Controllers/ProjectPhysicalProgressController.php:266
-* @route '/mhp/project-physical-progress/{project_physical_progress}'
+* @see app/Http/Controllers/ProjectPhysicalProgressController.php:112
+* @route '/mhp/sites/{site}/physical-progresses/{physical_progress}'
 */
-destroy.delete = (args: { project_physical_progress: string | number } | [project_physical_progress: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+destroy.delete = (args: { site: string | number, physical_progress: string | number } | [site: string | number, physical_progress: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'delete',
 } => ({
@@ -286,6 +452,6 @@ destroy.delete = (args: { project_physical_progress: string | number } | [projec
     method: 'delete',
 })
 
-const ProjectPhysicalProgressController = { index, store, show, update, destroy }
+const ProjectPhysicalProgressController = { index, create, store, show, edit, update, destroy }
 
 export default ProjectPhysicalProgressController

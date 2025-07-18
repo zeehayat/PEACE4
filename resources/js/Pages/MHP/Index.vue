@@ -1,139 +1,148 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import { router, Link, usePage } from '@inertiajs/vue3'
+import { ref, computed, watch, onMounted } from 'vue';
+import { router, Link, usePage } from '@inertiajs/vue3';
 
-import SideBar from "@/Components/SideBar.vue"; // Global component
-import Toast from '@/Components/Toast.vue'; // Global component
+import SideBar from "@/Components/SideBar.vue";
+import Toast from '@/Components/Toast.vue';
+import Pagination from '@/Components/Pagination.vue'; // Assuming you have a Pagination component
 
-// MHP-specific Components and Modals (from new structure)
-import MhpSiteListCard from '@/Pages/MHP/Components/MhpSiteListCard.vue'; // New component, relative path
-
-// Placeholders for MHP Modals (will be created in subsequent phases)
+// MHP-specific Components and Modals from new structure
+import MhpSiteListCard from '@/Pages/MHP/Components/MhpSiteListCard.vue';
 import MhpSiteCreateModal from '@/Pages/MHP/Modals/MhpSiteCreateModal.vue';
 import MhpEditInfoModal from '@/Pages/MHP/Modals/MhpEditInfoModal.vue';
-// import MhpAdminApprovalModal from '@/Pages/MHP/Modals/MhpAdminApprovalModal.vue';
-// import ProjectPhysicalProgressModal from '@/Pages/MHP/Modals/ProjectPhysicalProgressModal.vue';
-// import ProjectFinancialInstallmentModal from '@/Pages/MHP/Modals/ProjectFinancialInstallmentModal.vue';
-// import MhpSiteDetailsModal from '@/Pages/MHP/Modals/MhpSiteDetailsModal.vue';
-// import MhpApprovalViewModal from '@/Pages/MHP/Modals/MhpApprovalViewModal.vue';
-// import AddRevisedCostModal from '@/Pages/MHP/Modals/AddRevisedCostModal.vue';
-// import MhpReportModal from '@/Pages/MHP/Modals/MhpReportModal.vue';
-// import MhpCompletionModal from '@/Pages/MHP/Modals/MhpCompletionModal.vue';
-// import MhpEmeProgressModal from '@/Pages/MHP/Modals/MhpEmeProgressModal.vue';
-// import OperationalCostModal from '@/Pages/MHP/Modals/OperationalCostModal.vue';
+import MhpAdminApprovalModal from '@/Pages/MHP/Modals/MhpAdminApprovalModal.vue';
+import MhpApprovalViewModal from '@/Pages/MHP/Modals/MhpApprovalViewModal.vue';
+import TAndDWorkModal from '@/Pages/MHP/Modals/TAndDWorkModal.vue';
+import TAndDWorkViewModal from '@/Pages/MHP/Modals/TAndDWorkViewModal.vue';
+import ProjectPhysicalProgressModal from '@/Pages/MHP/Modals/ProjectPhysicalProgressModal.vue';
+import ProjectFinancialInstallmentModal from '@/Pages/MHP/Modals/ProjectFinancialInstallmentModal.vue';
+import MhpCompletionModal from '@/Pages/MHP/Modals/MhpCompletionModal.vue'; // New modal for completion
 
+// Placeholders for other modals you might implement
+// import MhpSiteDetailsModal from '@/Pages/MHP/Modals/MhpSiteDetailsModal.vue';
+// import AddRevisedCostModal from '@/Pages/MHP/Modals/AddRevisedCostModal.vue'; // Consolidated into MhpAdminApprovalModal
+// import MhpReportModal from '@/Pages/MHP/Modals/MhpReportModal.vue';
+// import MhpEmeProgressModal from '@/Pages/MHP/Modals/MhpEmeProgressModal.vue'; // If different from ProjectPhysicalProgress
+// import OperationalCostModal from '@/Pages/MHP/Modals/OperationalCostModal.vue'; // If different from ProjectFinancialInstallment
 
 const props = defineProps({
     mhpSites: Object, // Paginated data for MHP Sites
     filters: Object,
-    errors: Object // Validation errors from backend
-})
-const page = usePage() // To access shared Inertia props if needed
+    errors: Object, // Validation errors from backend
+});
+
+const page = usePage();
 
 // --- Reactive State Variables ---
-const selectedSite = ref(null) // The MHP Site object currently selected for modal/action
-const toastVisible = ref(false)
-const toastMessage = ref('')
-const toastType = ref('success')
-const searchTerm = ref(props.filters.search || '') // For search filter
-const openActionMenuId = ref(null) // For controlling which action menu is open in MhpSiteListCard
-const menuDirection = ref('down') // For controlling action menu dropdown direction
+const selectedSite = ref(null); // The MHP Site object currently selected for modal/action
+const selectedTAndDWork = ref(null); // For editing/viewing a specific T&D work
+const selectedPhysicalProgress = ref(null); // For editing/viewing a specific Physical Progress
+const selectedFinancialInstallment = ref(null); // For editing/viewing a specific Financial Installment
+const selectedCompletion = ref(null); // For editing/viewing a specific Completion record
 
-// Modal Visibility Control (true to show, false to hide)
-const showSiteCreateModal = ref(false); // For adding new site
-const showEditInfoModal = ref(false); // For editing site info
-const showAdminApprovalModal = ref(false); // For managing admin approval
+const toastVisible = ref(false);
+const toastMessage = ref('');
+const toastType = ref('success');
+const searchTerm = ref(props.filters.search || '');
+const openActionMenuId = ref(null); // For controlling which action menu is open in MhpSiteListCard
+const menuDirection = ref('down'); // For controlling action menu dropdown direction
+
+// Modal Visibility Control
+const showSiteCreateModal = ref(false);
+const showEditInfoModal = ref(false);
+const showAdminApprovalModal = ref(false);
 const approvalAction = ref('create'); // 'create' or 'update' for admin approval form
-
-// Placeholder for other modals (will be added as we create them)
-const showDetailsModal = ref(false);
 const showApprovalViewModal = ref(false);
-const showRevisedCostModal = ref(false);
-const revisedCostField = ref('');
+const showTAndDWorkModal = ref(false);
+const tAndDWorkAction = ref('create'); // 'create' or 'update' for T&D form
+const showTAndDWorkViewModal = ref(false);
+const showProjectPhysicalProgressModal = ref(false); // Manages list and add/edit form
+const showProjectFinancialInstallmentModal = ref(false); // Manages list and add/edit form
+const showMhpCompletionModal = ref(false);
+const completionAction = ref('create'); // 'create' or 'update' for completion form
+
+
+// Placeholders for other modals that need flags
+const showSiteDetailsModal = ref(false);
+const showRevisedCostModal = ref(false); // This action is usually part of MhpAdminApprovalModal now
 const showReportModal = ref(false);
-const showCompletionModal = ref(false);
-const completionMode = ref('create');
-const selectedCompletion = ref(null);
-const showEmeProgressModal = ref(false);
+const showEmeProgressModal = ref(false); // If different from ProjectPhysicalProgress
 const showOperationalCostModal = ref(false);
-
-const showProjectPhysicalProgressModal = ref(false);
-const physicalProgressModalMode = ref('create');
-const selectedPhysicalProgress = ref(null);
-
-const showProjectFinancialInstallmentModal = ref(false);
-const financialInstallmentModalMode = ref('create');
-const selectedFinancialInstallment = ref(null);
 
 
 // --- Centralized Handlers ---
 
 // Handles updates (success messages, data reloads) from various forms/modals
 function handleUpdated(message, updatedSiteData = null) {
-    toastMessage.value = message
-    toastType.value = 'success'
-    toastVisible.value = true
-    setTimeout(() => (toastVisible.value = false), 3000) // Hide toast after 3 seconds
+    toastMessage.value = message;
+    toastType.value = 'success';
+    toastVisible.value = true;
+    setTimeout(() => (toastVisible.value = false), 3000);
 
-    if (updatedSiteData && selectedSite.value && updatedSiteData.id === selectedSite.value.id) {
-        // If a specific site was updated, and it's the one currently selected in modal,
-        // update it directly to reflect changes instantly without full reload.
-        Object.assign(selectedSite.value, updatedSiteData);
-        // Also update in the main mhpSites array if it exists there
-        const index = props.mhpSites.data.findIndex(s => s.id === updatedSiteData.id);
-        if (index !== -1) {
-            Object.assign(props.mhpSites.data[index], updatedSiteData);
-        }
-    } else {
-        // Fallback: For creation, deletion, or if the update doesn't return full site data,
-        // reload the main mhpSites list.
-        router.reload({ only: ['mhpSites'] });
-    }
+    // After an update/creation, it's generally safest to reload the main list
+    // to ensure all aggregate data (like latest progress summaries) is fresh.
+    // If performance is an issue for large lists, more granular updates can be implemented.
+    router.reload({ only: ['mhpSites'], preserveState: true });
+
+    // Optional: If you only updated the 'selectedSite' and want to reflect changes instantly in the modal
+    // before a full reload completes, you could update the selectedSite object itself.
+    // However, `router.reload` on `mhpSites` is generally preferred for consistency.
+    // if (updatedSiteData && selectedSite.value && updatedSiteData.id === selectedSite.value.id) {
+    //     Object.assign(selectedSite.value, updatedSiteData);
+    // }
 }
 
 // Closes any open modal and clears selected data
 function closeModal() {
-    // Clear all modal visibility refs
     showSiteCreateModal.value = false;
     showEditInfoModal.value = false;
     showAdminApprovalModal.value = false;
-    showDetailsModal.value = false;
     showApprovalViewModal.value = false;
-    showRevisedCostModal.value = false;
-    showReportModal.value = false;
-    showCompletionModal.value = false;
-    showEmeProgressModal.value = false;
-    showOperationalCostModal.value = false;
+    showTAndDWorkModal.value = false;
+    showTAndDWorkViewModal.value = false;
     showProjectPhysicalProgressModal.value = false;
     showProjectFinancialInstallmentModal.value = false;
+    showMhpCompletionModal.value = false;
 
     // Clear selected data after a slight delay to allow modal transition
     setTimeout(() => {
         selectedSite.value = null;
-        selectedCompletion.value = null;
+        selectedTAndDWork.value = null;
         selectedPhysicalProgress.value = null;
         selectedFinancialInstallment.value = null;
+        selectedCompletion.value = null;
     }, 300);
 }
 
 
-// --- Handlers for Site Actions (emitted by MhpSiteListCard) ---
-// These functions are called when actions are performed on individual site cards.
-// They typically set 'selectedSite.value' and control modal visibility/mode.
+// --- Handlers for Site Actions (emitted by MhpSiteListCard and used by table) ---
+
+function toggleActionMenu(siteId, event) {
+    if (openActionMenuId.value === siteId) {
+        openActionMenuId.value = null;
+        return;
+    }
+    const button = event.currentTarget;
+    const rect = button.getBoundingClientRect();
+    const spaceBelow = window.innerHeight - rect.bottom;
+    const menuHeight = 350; // Estimated action menu height
+    menuDirection.value = (spaceBelow < menuHeight && rect.top > spaceBelow) ? 'up' : 'down';
+    openActionMenuId.value = siteId;
+}
 
 function handleViewDetails(site) {
-    selectedSite.value = site; // Set the site to view
-    showDetailsModal.value = true;
+    selectedSite.value = site;
+    showSiteDetailsModal.value = true; // Implement MhpSiteDetailsModal.vue if needed
 }
 
 function handleEditInfo(site) {
-    selectedSite.value = site; // Set the site to edit
+    selectedSite.value = site;
     showEditInfoModal.value = true;
 }
 
-function handleAddEditApproval(site, action) {
+function handleAddEditApproval(site) {
     selectedSite.value = site;
-    approvalAction.value = action;
+    approvalAction.value = site.admin_approval ? 'update' : 'create';
     showAdminApprovalModal.value = true;
 }
 
@@ -144,43 +153,41 @@ function handleViewApproval(site) {
 
 function handleOpenRevisedCostModal(site) {
     selectedSite.value = site;
-    revisedCostField.value = site.admin_approval ? nextRevisedCostLabel(site.admin_approval) : 'revised_cost_1'; // Use the helper
-    showRevisedCostModal.value = true;
+    // Note: The revised cost update is integrated into MhpAdminApprovalModal's form.
+    // This function would typically open the AdminApprovalModal directly,
+    // possibly pre-selecting the next available revised cost field for focus if possible.
+    // For simplicity, we'll just open the main AdminApprovalModal.
+    handleAddEditApproval(site); // Re-use the existing approval modal handler
 }
 
 function handleViewReport(site) {
     selectedSite.value = site;
-    showReportModal.value = true;
+    showReportModal.value = true; // Implement MhpReportModal.vue if needed
 }
 
-function handleAddEditViewCompletion(site, mode = null) {
+function handleAddEditViewCompletion(site) {
     selectedSite.value = site;
-    selectedCompletion.value = site.completion || null;
-    completionMode.value = mode || (site.completion ? 'edit' : 'create');
-    showCompletionModal.value = true;
+    completionAction.value = site.completion ? 'update' : 'create';
+    showMhpCompletionModal.value = true;
 }
 
 function handleOpenEmeProgress(site) {
     selectedSite.value = site;
-    showEmeProgressModal.value = true;
+    showEmeProgressModal.value = true; // Placeholder for EME, could use ProjectPhysicalProgressModal
 }
 
 function handleOpenOperationalCost(site) {
     selectedSite.value = site;
-    showOperationalCostModal.value = true;
+    showOperationalCostModal.value = true; // Placeholder for Operational Cost
 }
 
 function handleManagePhysicalProgress(site) {
     selectedSite.value = site;
-    physicalProgressModalMode.value = 'create'; // Default to create mode
-    selectedPhysicalProgress.value = null; // Ensure no specific progress is selected for new entry
     showProjectPhysicalProgressModal.value = true;
 }
 
 function handleManageFinancialInstallment(site) {
     selectedSite.value = site;
-    financialInstallmentModalMode.value = 'create'; // Default to create mode
-    selectedFinancialInstallment.value = null; // Ensure no specific installment is selected for new entry
     showProjectFinancialInstallmentModal.value = true;
 }
 
@@ -190,62 +197,75 @@ function handleDeleteSite(siteId) {
             onSuccess: () => handleUpdated('MHP Site deleted successfully!'),
             onError: (errors) => {
                 console.error('Error deleting MHP Site:', errors);
-                toast.error('Failed to delete MHP Site.');
+                toastMessage.value = 'Failed to delete MHP Site.';
+                toastType.value = 'error';
+                toastVisible.value = true;
+                setTimeout(() => (toastVisible.value = false), 3000);
             }
         });
     }
 }
 
+// Handler to open the "New Site" modal
+const openNewSiteModal = () => {
+    selectedSite.value = null; // Ensure no site is selected for new creation
+    showSiteCreateModal.value = true;
+};
 
-// --- Filter and Display Helpers (mostly computed properties) ---
+// --- Filter and Display Helpers (from previous Index.vue) ---
 const filteredSites = computed(() => {
-    if (!searchTerm.value.trim()) return props.mhpSites.data
-    const term = searchTerm.value.trim().toLowerCase()
+    // The mhpSites prop is already paginated, so filteredSites here is just
+    // for client-side search on the *current page's* data.
+    // For server-side filtering, router.get should be used.
+    if (!searchTerm.value.trim()) return props.mhpSites.data;
+    const term = searchTerm.value.trim().toLowerCase();
     return props.mhpSites.data.filter(site =>
         (site.cbo?.reference_code || '').toLowerCase().includes(term) ||
         (site.status || '').toLowerCase().includes(term) ||
         (site.project_id || '').toLowerCase().includes(term) // Search by project_id
-    )
-})
-function toggleActionMenu(){
-    alert('H')
-}
-// Helper for status badge styling
+    );
+});
+
 function getStatusClass(status) {
     switch (status) {
         case 'New': return 'bg-blue-100 text-blue-800 border border-blue-200';
-        case 'Rehab': return 'bg-yellow-100 text-yellow-800 border border-yellow-200';
+        case 'Rehabilitation': return 'bg-yellow-100 text-yellow-800 border border-yellow-200'; // Corrected to Rehabilitation
         case 'Upgradation': return 'bg-emerald-100 text-emerald-800 border border-emerald-200';
         case 'Completed': return 'bg-green-100 text-green-800 border border-green-200';
         default: return 'bg-gray-100 text-gray-800 border border-gray-200';
     }
 }
 
-// Helper for revised cost label (used in MhpSiteListCard)
+// Helper for next revised cost label (from MhpSiteListCard, moved here as global helper)
 function determineNextField(adminApproval) {
-    if (!adminApproval) return 'revised_cost_1'
-    if (!adminApproval.revised_cost_1) return 'revised_cost_1'
-    if (!adminApproval.revised_cost_2) return 'revised_cost_2'
-    if (!adminApproval.revised_cost_3) return 'revised_cost_3'
-    return null
+    if (!adminApproval) return 'revised_cost_1';
+    if (!adminApproval.revised_cost_1) return 'revised_cost_1';
+    if (!adminApproval.revised_cost_2) return 'revised_cost_2';
+    if (!adminApproval.revised_cost_3) return 'revised_cost_3';
+    return null;
 }
 function nextRevisedCostLabel(adminApproval) {
-    const nextField = determineNextField(adminApproval)
-    if (nextField === 'revised_cost_1') return '+ Add Revised Cost 1'
-    if (nextField === 'revised_cost_2') return 'Revises Cost 2'
-    if (nextField === 'revised_cost_3') return 'Revised Cost 3'
-    return 'All Revised Costs Added'
+    const nextField = determineNextField(adminApproval);
+    if (nextField === 'revised_cost_1') return '+ Add Revised Cost 1';
+    if (nextField === 'revised_cost_2') return '+ Add Revised Cost 2';
+    if (nextField === 'revised_cost_3') return '+ Add Revised Cost 3';
+    return 'All Revised Costs Added';
 }
 
-// Helper to get file icon (used in MhpSiteListCard)
+// Helper to get file icon (from MhpSiteListCard, moved here as global helper)
 function getFileIcon(file) {
-    const ext = file.file_name.split('.').pop().toLowerCase()
-    if (ext === 'pdf') return '📄'
-    if (['doc', 'docx'].includes(ext)) return '📝'
-    if (['xls', 'xlsx', 'csv'].includes(ext)) return '📊' // Added csv
-    if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext)) return '🖼️'
-    return '📁'
+    const ext = file.file_name.split('.').pop().toLowerCase();
+    if (ext === 'pdf') return '📄';
+    if (['doc', 'docx'].includes(ext)) return '📝';
+    if (['xls', 'xlsx', 'csv'].includes(ext)) return '📊';
+    if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext)) return '🖼️';
+    return '📁';
 }
+
+// Handle pagination link clicks
+const handlePagination = (url) => {
+    router.get(url, { search: searchTerm.value }, { preserveState: true, replace: true });
+};
 </script>
 
 <template>
@@ -270,7 +290,7 @@ function getFileIcon(file) {
                             <input
                                 type="text"
                                 v-model="searchTerm"
-                                @input="router.get(route('mhp.index'), { search: searchTerm }, { preserveState: true, replace: true })"
+                                @input="router.get(route('mhp.sites.index'), { search: searchTerm }, { preserveState: true, replace: true })"
                                 placeholder="Search by CBO, Status, or ID..."
                                 class="block w-full rounded-lg border-gray-300 bg-white py-2.5 pl-10 pr-3 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors duration-200"
                             />
@@ -357,15 +377,15 @@ function getFileIcon(file) {
 
                         <td class="px-6 py-4">
                             <div class="space-y-1 text-sm">
-                                <div v-if="site.physicalProgresses && site.physicalProgresses.length">
+                                <div v-if="site.latest_physical_progress">
                                     <p class="font-semibold text-gray-800">Latest Physical:</p>
-                                    <span class="text-xs text-gray-600">{{ site.physicalProgresses[site.physicalProgresses.length - 1].progress_percentage }}% on {{ site.physicalProgresses[site.physicalProgresses.length - 1].progress_date }}</span>
+                                    <span class="text-xs text-gray-600">{{ site.latest_physical_progress.progress_percentage }}% on {{ new Date(site.latest_physical_progress.progress_date).toLocaleDateString() }} ({{ site.latest_physical_progress.payment_for }})</span>
                                 </div>
                                 <div v-else class="text-gray-400 text-xs">— No Physical Progress</div>
 
-                                <div v-if="site.financialInstallments && site.financialInstallments.length" class="pt-1 border-t border-gray-100 mt-1">
+                                <div v-if="site.latest_financial_installment" class="pt-1 border-t border-gray-100 mt-1">
                                     <p class="font-semibold text-gray-800">Latest Financial:</p>
-                                    <span class="text-xs text-gray-600">Inst. #{{ site.financialInstallments[site.financialInstallments.length - 1].installment_number }} ({{ site.financialInstallments[site.financialInstallments.length - 1].installment_amount }})</span>
+                                    <span class="text-xs text-gray-600">Inst. #{{ site.latest_financial_installment.installment_number }} ({{ site.latest_financial_installment.installment_amount }}) ({{ site.latest_financial_installment.payment_for }})</span>
                                 </div>
                                 <div v-else class="text-gray-400 text-xs">— No Financial Installments</div>
                             </div>
@@ -378,41 +398,64 @@ function getFileIcon(file) {
                             <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
                                 <div v-if="openActionMenuId === site.id" :class="['origin-top-right absolute w-56 rounded-xl shadow-xl bg-white ring-1 ring-black ring-opacity-5 z-30 divide-y divide-gray-100', menuDirection === 'up' ? 'bottom-full mb-2 right-0' : 'top-full mt-2 right-0']">
                                     <div class="py-1 text-sm text-gray-700">
-                                        <button @click="handleViewDetails(site)" class="w-full text-left block px-4 py-2 hover:bg-gray-100">View Details</button>
-                                        <button @click="handleEditInfo(site)" class="w-full text-left block px-4 py-2 hover:bg-gray-100">Edit Info</button>
-                                        <button v-if="site.admin_approval" @click="handleViewApproval(site)" class="w-full text-left block px-4 py-2 hover:bg-gray-100">View Approval</button>
-                                        <button @click="handleAddEditApproval(site, site.admin_approval ? 'update' : 'create')" class="w-full text-left block px-4 py-2 hover:bg-gray-100">
+                                        <button @click="handleViewDetails(site)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                                            View Details
+                                        </button>
+                                        <button @click="handleEditInfo(site)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="M15 5l4 4"/></svg>
+                                            Edit Info
+                                        </button>
+                                        <button v-if="site.admin_approval" @click="handleViewApproval(site)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                                            View Approval
+                                        </button>
+                                        <button @click="handleAddEditApproval(site)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-circle"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
                                             {{ site.admin_approval ? 'Edit Approval' : '+ Add Approval' }}
                                         </button>
-                                        <button @click="handleOpenRevisedCostModal(site)" :class="{ 'opacity-50 cursor-not-allowed': !determineNextField(site.admin_approval) }" class="w-full text-left block px-4 py-2 hover:bg-gray-100">
+                                        <button @click="handleOpenRevisedCostModal(site)" :class="{ 'opacity-50 cursor-not-allowed': !determineNextField(site.admin_approval) }" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2" :disabled="!determineNextField(site.admin_approval)">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dollar-sign"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                                             {{ nextRevisedCostLabel(site.admin_approval) }}
                                         </button>
                                     </div>
                                     <div class="py-1 text-sm text-gray-700">
-                                        <button @click="handleViewReport(site)" class="w-full text-left block px-4 py-2 hover:bg-gray-100">View Report</button>
-                                        <button @click="handleAddEditViewCompletion(site)" class="w-full text-left block px-4 py-2 hover:bg-gray-100">
+                                        <button @click="handleViewReport(site)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>
+                                            View Report
+                                        </button>
+                                        <button @click="handleAddEditViewCompletion(site)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-square"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
                                             {{ site.completion ? 'Edit Completion' : '+ Add Completion' }}
                                         </button>
-                                        <button v-if="site.completion" @click="handleAddEditViewCompletion(site, 'view')" class="w-full text-left block px-4 py-2 hover:bg-gray-100">
+                                        <button v-if="site.completion" @click="handleViewCompletion(site)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
                                             View Completion
                                         </button>
                                     </div>
                                     <div class="py-1 text-sm text-gray-700">
-                                        <button @click="handleOpenEmeProgress(site)" class="w-full text-left block px-4 py-2 hover:bg-gray-100">
+                                        <button @click="handleOpenEmeProgress(site)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-activity"><path d="M22 12H2"/><path d="M17 5 22 12 17 19"/><path d="M7 5 2 12 7 19"/></svg>
                                             EME Progress
                                         </button>
-                                        <button @click="handleOpenOperationalCost(site)" class="w-full text-left block px-4 py-2 hover:bg-gray-100">
+                                        <button @click="handleOpenOperationalCost(site)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dollar-sign"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                                             Operational Costs
                                         </button>
-                                        <button @click="handleManagePhysicalProgress(site)" class="w-full text-left block px-4 py-2 hover:bg-gray-100">
+                                        <button @click="handleManagePhysicalProgress(site)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bar-chart-2"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
                                             Manage Physical Progress
                                         </button>
-                                        <button @click="handleManageFinancialInstallment(site)" class="w-full text-left block px-4 py-2 hover:bg-gray-100">
+                                        <button @click="handleManageFinancialInstallment(site)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wallet"><path d="M21 12V7H5a2 2 0 0 0 0 4h16v-1a2 2 0 0 0-2-2H5a2 2 0 0 0 0 4h16v-1a2 2 0 0 0-2-2Z"/><path d="M10 12v.01"/></svg>
                                             Manage Financial Installment
                                         </button>
                                     </div>
                                     <div class="py-1 text-sm text-gray-700">
-                                        <button @click="handleDeleteSite(site.id)" class="w-full text-left block px-4 py-2 hover:bg-red-100 text-red-600">Delete Site</button>
+                                        <button @click="handleDeleteSite(site.id)" class="w-full text-left block px-4 py-2 hover:bg-red-100 text-red-600 flex items-center gap-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                                            Delete Site
+                                        </button>
                                     </div>
                                 </div>
                             </transition>
@@ -422,77 +465,90 @@ function getFileIcon(file) {
                 </table>
             </div>
 
-            <nav v-if="mhpSites.links.length > 3" class="mt-8 flex justify-center">
-                <div class="flex flex-wrap -mb-1">
-                    <template v-for="(link, key) in mhpSites.links" :key="key">
-                        <div v-if="link.url === null" class="mr-1 mb-1 px-4 py-3 text-sm leading-4 text-gray-400 border rounded" v-html="link.label" />
-                        <Link v-else :href="link.url" class="mr-1 mb-1 px-4 py-3 text-sm leading-4 border rounded hover:bg-white focus:border-indigo-500 focus:text-indigo-500" :class="{ 'bg-white text-indigo-500': link.active }" v-html="link.label" />
-                    </template>
-                </div>
-            </nav>
+            <Pagination :links="mhpSites.links" @pagination-link-clicked="handlePagination" class="mt-8" />
 
         </div>
     </div>
 
     <Toast :show="toastVisible" :message="toastMessage" :type="toastType" @hide="toastVisible = false" />
 
-    <MhpSiteDetailsModal
-        v-if="showDetailsModal && selectedSite"
-        :show="showDetailsModal"
-        :site="selectedSite"
-        @close="closeModal"
-    />
+    <MhpSiteCreateModal :show="showSiteCreateModal" @close="closeModal" @saved="handleUpdated" />
 
-    <MhpEditInfoModal
-        v-if="showEditInfoModal && selectedSite"
-        :show="showEditInfoModal"
-        :site="selectedSite"
-        @close="closeModal"
-        @updated="handleUpdated"
-    />
+    <MhpEditInfoModal v-if="selectedSite" :show="showEditInfoModal" :site="selectedSite" @close="closeModal" @updated="handleUpdated" />
 
-    <MhpAdminApprovalModal
-        v-if="showAdminApprovalModal && selectedSite"
-        :show="showAdminApprovalModal"
-        :action="approvalAction"
-        :mhp-site-id="selectedSite.id"
-        :approval="selectedSite.admin_approval"
-        @close="closeModal"
-        @updated="handleUpdated"
-    />
+    <MhpAdminApprovalModal v-if="selectedSite" :show="showAdminApprovalModal" :action="approvalAction" :mhp-site-id="selectedSite.id" :approval="selectedSite.admin_approval" @close="closeModal" @updated="handleUpdated" />
 
-    <MhpSiteCreateModal
-        :show="showSiteCreateModal"
-        @close="closeModal"
-        @saved="handleUpdated"
-    />
+    <MhpApprovalViewModal v-if="selectedSite && selectedSite.admin_approval" :show="showApprovalViewModal" :approval="selectedSite.admin_approval" @close="closeModal" />
 
-    <ProjectPhysicalProgressModal
-        v-if="showProjectPhysicalProgressModal && selectedSite"
-        :show="showProjectPhysicalProgressModal"
-        :site="selectedSite"
-        :progress="selectedPhysicalProgress"
-        :mode="physicalProgressModalMode"
-        @close="closeModal"
-        @saved="handleUpdated"
-    />
+    <TAndDWorkModal v-if="selectedSite" :show="showTAndDWorkModal" :mhp-site-id="selectedSite.id" :t-and-d-work="selectedTAndDWork" :action="tAndDWorkAction" @close="closeModal" @updated="handleUpdated" />
+    <TAndDWorkViewModal v-if="selectedTAndDWork" :show="showTAndDWorkViewModal" :t-and-d-work="selectedTAndDWork" @close="closeModal" />
 
-    <ProjectFinancialInstallmentModal
-        v-if="showProjectFinancialInstallmentModal && selectedSite"
-        :show="showProjectFinancialInstallmentModal"
-        :site="selectedSite"
-        :installment="selectedFinancialInstallment"
-        :mode="financialInstallmentModalMode"
-        @close="closeModal"
-        @saved="handleUpdated"
-    />
+    <ProjectPhysicalProgressModal v-if="selectedSite" :show="showProjectPhysicalProgressModal" :site="selectedSite" @close="closeModal" @saved="handleUpdated" />
+
+    <ProjectFinancialInstallmentModal v-if="selectedSite" :show="showProjectFinancialInstallmentModal" :site="selectedSite" @close="closeModal" @saved="handleUpdated" />
+
+    <MhpCompletionModal v-if="selectedSite" :show="showMhpCompletionModal" :site="selectedSite" :completion="selectedSite.completion" :action="completionAction" @close="closeModal" @saved="handleUpdated" />
+
+
 </template>
 
 <style scoped>
+/* Scoped styles for the Index page */
 button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
 }
 
-/* Ensure no conflicting styles that affect z-index or fixed positioning of toasts/modals */
+.action-menu-container {
+    /* To ensure the dropdown menu appears above other elements */
+    position: relative;
+    z-index: 10; /* Adjust as needed */
+}
+
+/* Base styles for the root element of FilePond.
+   These styles were in MhpSiteListCard.vue earlier, moving them here
+   if they are general styles for FilePond instances across the app.
+   If FilePond has unique styling per component, keep them locally.
+*/
+.filepond-wrapper {
+    --filepond-font-family: 'Inter', sans-serif;
+    --filepond-label-color: #475569; /* slate-600 */
+}
+
+.filepond--root {
+    font-family: var(--filepond-font-family);
+    background-color: #f8fafc; /* slate-50 */
+    border-radius: 0.75rem; /* rounded-xl */
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+.filepond--panel-root {
+    background-color: #f1f5f9; /* slate-100 */
+    border-radius: 0.5rem; /* rounded-lg */
+    border: 2px dashed #cbd5e1; /* slate-300 */
+    transition: all 0.2s ease-in-out;
+}
+
+.filepond--panel-root:hover,
+.filepond--drophover .filepond--panel-root {
+    border-color: #6366f1; /* indigo-500 */
+    background-color: #eef2ff; /* indigo-50 */
+}
+
+.filepond--label-action {
+    text-decoration: none;
+}
+
+.filepond--item-panel {
+    background-color: #e2e8f0; /* slate-200 */
+    border-radius: 0.5rem;
+}
+
+.filepond--file-info, .filepond--image-edit-button {
+    color: var(--filepond-label-color);
+}
+.filepond--file-action-button {
+    background-color: rgba(0,0,0,0.5);
+    color: white;
+}
 </style>
