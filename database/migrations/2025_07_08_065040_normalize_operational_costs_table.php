@@ -85,7 +85,7 @@ return new class extends Migration
             $table->timestamps();
 
             // Add foreign key constraints
-            $table->foreign('mhp_site_id','tmp_key')->references('id')->on('mhp_sites')->onDelete('cascade');
+            $table->foreign('mhp_site_id','fk_tmp_key')->references('id')->on('mhp_sites')->onDelete('cascade');
             $table->foreign('expense_type_id')->references('id')->on('expense_types')->onDelete('cascade');
         });
 

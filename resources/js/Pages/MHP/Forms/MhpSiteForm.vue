@@ -75,9 +75,9 @@ const handleAttachmentsToDelete = (ids) => {
 };
 
 // Handle CBO selection
-const handleCboSelected = (cbo) => {
-    form.cbo_id = cbo ? cbo.id : null;
-};
+// const handleCboSelected = (cbo) => {
+//     form.cbo_id = cbo ? cbo.id : null;
+// };
 
 const handleSubmit = () => {
     const url = isEditMode.value
@@ -176,8 +176,7 @@ onMounted(() => {
                 <SearchableCboSelect
                     id="cbo_id"
                     :initial-cbo="site ? site.cbo : null"
-                    @cbo-selected="handleCboSelected"
-                    :class="{ 'border-red-500': form.errors.cbo_id }"
+                    v-model="form.cbo_id" :class="{ 'border-red-500': form.errors.cbo_id }"
                 />
                 <InputError class="mt-2" :message="form.errors.cbo_id" />
             </div>

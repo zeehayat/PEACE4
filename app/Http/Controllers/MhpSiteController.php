@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMhpSiteRequest;
 use App\Http\Requests\UpdateMhpSiteRequest;
+use App\Models\Cbo;
 use App\Models\MhpSite;
 use App\Services\MhpSiteService; // Import the service
 use Illuminate\Http\Request;
@@ -212,14 +213,18 @@ class MhpSiteController extends Controller
     public function getCbos(Request $request)
     {
         $search = $request->input('search');
-        $cbos = \App\Models\Cbo::query()
+
+        $cbos = Cbo::query()
             ->when($search, function ($query) use ($search) {
-                $query->where('reference_code', 'like', '%' . $search . '%');
+                // Ensure 'reference_code' exists on your Cbo model/table
+                $query->where('reference_code', 'like', '%' . $search . '%')
+                    ->orWhere('village', 'like', '%' . $search . '%'); // Or any other searchable field
             })
-            ->select('id', 'reference_code')
-            ->limit(10)
+            ->select('id', 'reference_code') // Crucial: Select 'id' and 'reference_code'
+            ->limit(10) // Limit results for performance
             ->get();
 
-        return response()->json($cbos);
+        // Very important: return a JSON response directly
+        return response()->json($cbos); // The frontend expects an array of CBO objects
     }
 }

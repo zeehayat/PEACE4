@@ -1,13 +1,13 @@
 import { queryParams, type QueryParams } from './../../wayfinder'
 import sites from './sites'
 import adminApprovals from './admin-approvals'
+import media from './media'
 import emePhysicalProgresses from './eme-physical-progresses'
 import emeFinancialProgresses from './eme-financial-progresses'
 import operationalCosts from './operational-costs'
-import media from './media'
 /**
 * @see \App\Http\Controllers\MhpSiteController::index
-* @see app/Http/Controllers/MhpSiteController.php:26
+* @see app/Http/Controllers/MhpSiteController.php:27
 * @route '/mhp'
 */
 export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -25,7 +25,7 @@ index.definition = {
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::index
-* @see app/Http/Controllers/MhpSiteController.php:26
+* @see app/Http/Controllers/MhpSiteController.php:27
 * @route '/mhp'
 */
 index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -34,7 +34,7 @@ index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::index
-* @see app/Http/Controllers/MhpSiteController.php:26
+* @see app/Http/Controllers/MhpSiteController.php:27
 * @route '/mhp'
 */
 index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -47,7 +47,7 @@ index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::index
-* @see app/Http/Controllers/MhpSiteController.php:26
+* @see app/Http/Controllers/MhpSiteController.php:27
 * @route '/mhp'
 */
 index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -55,59 +55,6 @@ index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     method: 'head',
 } => ({
     url: index.url(options),
-    method: 'head',
-})
-
-/**
-* @see \App\Http\Controllers\OperationalCostController::expenseTypes
-* @see app/Http/Controllers/OperationalCostController.php:49
-* @route '/mhp/expense-types'
-*/
-export const expenseTypes = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: expenseTypes.url(options),
-    method: 'get',
-})
-
-expenseTypes.definition = {
-    methods: ['get','head'],
-    url: '/mhp/expense-types',
-}
-
-/**
-* @see \App\Http\Controllers\OperationalCostController::expenseTypes
-* @see app/Http/Controllers/OperationalCostController.php:49
-* @route '/mhp/expense-types'
-*/
-expenseTypes.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return expenseTypes.definition.url + queryParams(options)
-}
-
-/**
-* @see \App\Http\Controllers\OperationalCostController::expenseTypes
-* @see app/Http/Controllers/OperationalCostController.php:49
-* @route '/mhp/expense-types'
-*/
-expenseTypes.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: expenseTypes.url(options),
-    method: 'get',
-})
-
-/**
-* @see \App\Http\Controllers\OperationalCostController::expenseTypes
-* @see app/Http/Controllers/OperationalCostController.php:49
-* @route '/mhp/expense-types'
-*/
-expenseTypes.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
-    url: expenseTypes.url(options),
     method: 'head',
 })
 
@@ -166,16 +113,69 @@ reviseCost.put = (args: { mhpSite: string | number, field: string | number } | [
     method: 'put',
 })
 
+/**
+* @see \App\Http\Controllers\OperationalCostController::expenseTypes
+* @see app/Http/Controllers/OperationalCostController.php:49
+* @route '/mhp/expense-types'
+*/
+export const expenseTypes = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: expenseTypes.url(options),
+    method: 'get',
+})
+
+expenseTypes.definition = {
+    methods: ['get','head'],
+    url: '/mhp/expense-types',
+}
+
+/**
+* @see \App\Http\Controllers\OperationalCostController::expenseTypes
+* @see app/Http/Controllers/OperationalCostController.php:49
+* @route '/mhp/expense-types'
+*/
+expenseTypes.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return expenseTypes.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\OperationalCostController::expenseTypes
+* @see app/Http/Controllers/OperationalCostController.php:49
+* @route '/mhp/expense-types'
+*/
+expenseTypes.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: expenseTypes.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\OperationalCostController::expenseTypes
+* @see app/Http/Controllers/OperationalCostController.php:49
+* @route '/mhp/expense-types'
+*/
+expenseTypes.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: expenseTypes.url(options),
+    method: 'head',
+})
+
 const mhp = {
     sites,
     index,
     adminApprovals,
+    reviseCost,
+    media,
     emePhysicalProgresses,
     emeFinancialProgresses,
     operationalCosts,
     expenseTypes,
-    reviseCost,
-    media,
 }
 
 export default mhp

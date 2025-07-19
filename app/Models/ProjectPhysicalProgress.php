@@ -12,6 +12,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media as SpatieMedia;
 class ProjectPhysicalProgress extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
+    protected $table = 'project_physical_progresses';
 
     protected $fillable = [
         'projectable_id',

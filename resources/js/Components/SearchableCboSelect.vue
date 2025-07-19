@@ -40,7 +40,8 @@ const fetchOptions = debounce(async (newQuery) => {
 
     loading.value = true
     try {
-        const { data } = await axios.get(route('cbo.cbos.auto-search', { search: newQuery })) // Using named route
+        const { data } = await axios.get(route('mhp.sites.getCbos', { search: newQuery }))
+
         options.value = data
     } catch (e) {
         console.error('Error fetching CBO options:', e)

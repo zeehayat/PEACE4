@@ -28,10 +28,11 @@ createInertiaApp({
         return createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
+            .component('FilePond', FilePond)
             .mount(el);
     },
     progress: {
         color: '#4B5563',
     },
-})    .component('FilePond', FilePond) // Register globally
+})
 ;

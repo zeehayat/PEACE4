@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Cbo;
 use App\Models\MhpSite;
 use App\Models\ProjectFinancialInstallment;
 use App\Models\ProjectPhysicalProgress;
@@ -33,6 +34,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Relation::enforceMorphMap([
+            'cbo' => Cbo::class,
             'mhp_site' => MhpSite::class,
             't_and_d_work' => TAndDWork::class,
             'physical_progress' => ProjectPhysicalProgress::class, // The type used for activity() morph

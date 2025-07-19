@@ -14,7 +14,8 @@ class StoreMhpSiteRequest extends FormRequest
     {
         // Adjust authorization logic as per your application's roles/permissions
         // For now, assuming authenticated users with MHP-related roles can create.
-        return $this->user()->hasAnyRole(['mhp', 'mhp-irrigation', 'root', 'admin']);
+      //  return $this->user()->hasAnyRole(['mhp', 'mhp-irrigation', 'root', 'admin']);
+        return true;
     }
 
     /**
