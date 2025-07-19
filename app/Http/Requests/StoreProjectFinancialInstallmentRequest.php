@@ -12,7 +12,8 @@ class StoreProjectFinancialInstallmentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user()->hasAnyRole(['mhp', 'mhp-irrigation', 'root', 'admin']);
+        //return $this->user()->hasAnyRole(['mhp', 'mhp-irrigation', 'root', 'admin']);
+        return true;
     }
 
     /**

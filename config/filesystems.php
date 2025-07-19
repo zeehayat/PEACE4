@@ -68,7 +68,7 @@ return [
             'endpoint' => env('R2_ENDPOINT'), // THIS IS CRUCIAL FOR R2
             'url' => env('R2_PUBLIC_URL'), // Optional, but good for direct URL generation
             'visibility' => 'public', // Or 'private' depending on your use case
-            'throw' => false,
+            'throw' => true,
             'use_path_style_endpoint' => false, // Usually false for R2
         ],
 

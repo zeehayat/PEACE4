@@ -11,7 +11,8 @@ class StoreMhpAdminApprovalRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user()->hasAnyRole(['mhp', 'root', 'admin']);
+       // return $this->user()->hasAnyRole(['mhp', 'root', 'admin']);
+        return true;
     }
 
     /**

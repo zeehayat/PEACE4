@@ -1,7 +1,8 @@
 <script setup>
 import { computed } from 'vue';
 import Modal from '@/Components/Modal.vue';
-import AttachmentViewer from '@/Components/AttachmentComponent/AttachmentViewer.vue'; // Assuming this exists
+import AttachmentViewer from '@/Components/AttachmentComponent/AttachmentViewer.vue';
+import PrimaryButton from "@/Components/PrimaryButton.vue"; // Assuming this exists
 
 const props = defineProps({
     show: Boolean,

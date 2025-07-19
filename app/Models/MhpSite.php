@@ -122,7 +122,7 @@ class MhpSite extends Model implements HasMedia
     // Accessor for formatted attachments for frontend
     protected $appends = ['attachments_frontend', 'project_id'];
 
-    public function getAttachmentsFrontendAttribute()
+    public function getAttachmentsFrontendAttribute():array
     {
         return $this->getMedia('attachments')->map(fn (SpatieMedia $media) => [
             'id' => $media->id,

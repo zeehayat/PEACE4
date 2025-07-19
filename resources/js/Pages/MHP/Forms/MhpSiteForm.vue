@@ -66,12 +66,14 @@ const siteStatusOptions = ['New', 'Rehabilitation', 'Upgradation'];
 const accessibleOptions = ['Yes', 'No']; // Assuming 'accessible' is 'Yes'/'No'
 
 // Handle attachment changes from AttachmentUploader
-const handleFilePondUpdate = (files) => {
-    form.attachments = files.map(fileItem => fileItem.file);
-};
 
-const handleAttachmentsToDelete = (ids) => {
-    form.attachments_to_delete = ids;
+
+// In resources/js/Pages/MHP/Forms/MhpSiteForm.vue script
+const handleAttachmentsToDelete = (id) => {
+    console.log('Request to delete attachment ID:', id);
+    form.attachments_to_delete.push(id);
+    // Optimistically update the UI: remove the deleted attachment from existingAttachments
+    existingAttachments.value = existingAttachments.value.filter(att => att.id !== id);
 };
 
 // Handle CBO selection
@@ -80,6 +82,9 @@ const handleAttachmentsToDelete = (ids) => {
 // };
 
 const handleSubmit = () => {
+    console.log('Final form data before POST:', form.data()); // Inspect entire form data
+    console.log('Attachments array before POST:', form.attachments); // Specifically check attachments
+
     const url = isEditMode.value
         ? route('mhp.sites.update', props.site.id)
         : route('mhp.sites.store');
@@ -147,14 +152,20 @@ watch(() => props.site, (newSite) => {
         form.physical_completion_date = newSite.physical_completion_date;
         form.remarks = newSite.remarks;
         existingAttachments.value = newSite.attachments_frontend;
-        form.attachments_to_delete = []; // Reset on new site prop
-        form.attachments = []; // Reset on new site prop
+
+
+        existingAttachments.value = newSite.attachments_frontend;
+        form.attachments_to_delete = []; // Reset this array for new edit sessions
+        form.attachments = []; // Clear new files for new edit sessions
         form.clearErrors();
     } else {
         // Reset form for create mode if site prop becomes null
         isEditMode.value = false;
         form.reset();
         existingAttachments.value = [];
+
+        form.attachments_to_delete = [];
+        form.attachments = [];
         form.clearErrors();
     }
 }, { immediate: true }); // Run immediately on component mount
@@ -503,9 +514,9 @@ onMounted(() => {
         <div class="mt-6">
             <InputLabel value="Attachments" />
             <AttachmentUploader
+                v-model="form.attachments"
                 :existing-attachments="existingAttachments"
-                @update-files="handleFilePondUpdate"
-                @delete-existing-attachments="handleAttachmentsToDelete"
+                @remove-existing="handleAttachmentsToDelete"
                 :error-message="form.errors.attachments"
             />
             <InputError class="mt-2" :message="form.errors.attachments" />

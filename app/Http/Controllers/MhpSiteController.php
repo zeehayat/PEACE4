@@ -28,13 +28,18 @@ class MhpSiteController extends Controller
     {
         $query = MhpSite::query()
             ->with([
-                'cbo', // CRITICAL: Ensure CBO is eager loaded for its reference_code
-                'media', // For direct attachments to the site
+                'cbo',
+                'media', // <--- THIS IS CRUCIAL: Ensure 'media' is here for MhpSite's own attachments
                 'adminApproval.media', // For admin approval status and its media
                 'completion.media',    // For completion status and its media
-                'physicalProgresses.media', // For physical progress summary
-                'financialInstallments.media', // For financial installment summary
-                'tAndDWorks.media', // Load T&D works if summary needed
+                'tAndDWorks.media',    // Load T&D works and their media
+                'physicalProgresses.activity', // Eager load the polymorphic activity
+                'physicalProgresses.media',    // Eager load physical progress's media
+                'financialInstallments.activity', // Eager load the polymorphic activity
+                'financialInstallments.media',    // Eager load financial installment's media
+                'operationalCosts.expenseType',
+                'revenueRecords', // Load revenue records
+                'revenueRecords.media',
             ]);
 
         // Apply filters and search if present
@@ -61,21 +66,33 @@ class MhpSiteController extends Controller
         $mhpSites = $query->paginate(50)->withQueryString();
 
         // Transform collection to add frontend-specific accessors
+        // The transformation for 'attachments' on the $site object itself is often
+        // automatically handled by the $appends property in the model, but it's fine here.
+        // Ensure media is attached to individual site objects
         $mhpSites->getCollection()->transform(function ($site) {
-            // Apply attachments_frontend accessor for main site media
-            // This is already handled by model's $appends, but explicit transformation is fine for specific views
-            $site->attachments = $site->attachments_frontend;
+            // This line is often redundant if 'attachments_frontend' is in $appends
+            // and model is serialized, but doesn't hurt.
+            // $site->attachments = $site->attachments_frontend;
 
-            // Apply media transformations for nested relationships if needed for list view
+            // Ensure media is attached to nested relationships if they are used in list summary
             if ($site->adminApproval) {
                 $site->adminApproval->attachments = $site->adminApproval->attachments_frontend;
             }
             if ($site->completion) {
                 $site->completion->attachments = $site->completion->attachments_frontend;
             }
+            // Add similar for TAndDWorks, physicalProgresses, etc. if you show their attachments in the main list
+            // (Though physical/financial progress attachments are typically in their respective modals)
 
-            // You might add logic here to calculate summary progress or latest entries if not already done by accessors/relationships
-            // For example, getting the latest physical progress record
+            // For nested attachments, ensure their models also have $appends or manually transform
+            // Example for T&D if you were showing them directly in the main list:
+            // if ($site->tAndDWorks) {
+            //     $site->tAndDWorks->each(fn($td) => $td->attachments = $td->attachments_frontend);
+            // }
+            // Same for physicalProgresses, financialInstallments if their media is displayed directly in list summary.
+            // For the purpose of the details modal, they are loaded by MhpSiteController@show anyway.
+
+            // Calculate latest progress summaries for display in table
             $site->latest_physical_progress = $site->physicalProgresses->sortByDesc('progress_date')->first();
             $site->latest_financial_installment = $site->financialInstallments->sortByDesc('installment_date')->first();
 

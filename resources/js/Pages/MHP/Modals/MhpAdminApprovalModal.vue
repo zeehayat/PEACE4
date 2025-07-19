@@ -1,6 +1,7 @@
 <script setup>
 import Modal from '@/Components/Modal.vue';
 import MhpAdminApprovalForm from '@/Pages/MHP/Forms/MhpAdminApprovalForm.vue';
+import {computed} from "vue";
 
 const props = defineProps({
     show: Boolean, // Controls modal visibility

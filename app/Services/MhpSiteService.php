@@ -7,32 +7,54 @@ use App\Models\MhpAdminApproval;
 use App\Models\TAndDWork;
 use App\Models\ProjectPhysicalProgress;
 use App\Models\ProjectFinancialInstallment;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Throwable;
+// Import the Spatie Media model if you want to use it for type hinting within the loop
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Illuminate\Support\Facades\Log; // Ensure Log is imported
 
 class MhpSiteService
 {
     /**
-     * Create a new MHP Site and its related data.
-     *
-     * @param array $data Data for MhpSite creation.
-     * @return MhpSite
-     * @throws Throwable
+     * ... (createMhpSite method remains the same) ...
      */
     public function createMhpSite(array $data): MhpSite
     {
         return DB::transaction(function () use ($data) {
             $site = MhpSite::create($data);
-
-            if (isset($data['attachments'])) {
-                foreach ($data['attachments'] as $attachment) {
-                    $site->addMedia($attachment)->toMediaCollection('attachments');
+            Log::info('MhpSite created:', ['site_id' => $site->id, 'attachments_count_in_data' => count($data['attachments'] ?? [])]);
+            Log::info('R2 Config at Runtime:', [
+                'key' => Config::get('filesystems.disks.cloudflare_r2.key'),
+                'secret' => Config::get('filesystems.disks.cloudflare_r2.secret'),
+                'endpoint' => Config::get('filesystems.disks.cloudflare_r2.endpoint'),
+                'bucket' => Config::get('filesystems.disks.cloudflare_r2.bucket'),
+                'media_disk_name' => Config::get('media-library.disk_name'),
+                'throw_exceptions' => Config::get('filesystems.disks.cloudflare_r2.throw'), // Verify this is true
+            ]);
+            if (isset($data['attachments']) && is_array($data['attachments'])) {
+                foreach ($data['attachments'] as $index => $attachment) {
+                    try {
+                        Log::info('Attempting to add media for site:', ['site_id' => $site->id, 'file_name' => $attachment->getClientOriginalName(), 'index' => $index]);
+                        $media = $site->addMedia($attachment)->toMediaCollection('attachments');
+                        Log::info('Media added successfully:', ['media_id' => $media->id, 'file_name' => $media->file_name]);
+                    } catch (Throwable $e) {
+                        Log::error('Explicit Media Add Error:', [ // Add explicit error log here
+                            'site_id' => $site->id,
+                            'file_name' => $attachment->getClientOriginalName() ?? 'N/A',
+                            'error' => $e->getMessage(),
+                            'trace' => $e->getTraceAsString(),
+                        ]);
+                        throw $e;
+                    }
                 }
+            } else {
+                Log::info('No attachments found in data for MhpSite creation.');
             }
-
             return $site;
         });
     }
+
 
     /**
      * Update an existing MHP Site and its related data.
@@ -47,8 +69,13 @@ class MhpSiteService
         return DB::transaction(function () use ($site, $data) {
             $site->update($data);
 
-            if (isset($data['attachments_to_delete'])) {
-                $site->deleteMedia($data['attachments_to_delete']);
+            if (isset($data['attachments_to_delete']) && is_array($data['attachments_to_delete'])) {
+                // MODIFIED: Iterate over the array and delete each media item by ID
+                foreach ($data['attachments_to_delete'] as $mediaId) {
+                    // Spatie Media Library's deleteMedia method on the model
+                    // accepts an ID or a Media object.
+                    $site->deleteMedia($mediaId);
+                }
             }
             if (isset($data['attachments'])) {
                 foreach ($data['attachments'] as $attachment) {
@@ -76,8 +103,10 @@ class MhpSiteService
                 $data
             );
 
-            if (isset($data['attachments_to_delete'])) {
-                $approval->deleteMedia($data['attachments_to_delete']);
+            if (isset($data['attachments_to_delete']) && is_array($data['attachments_to_delete'])) {
+                foreach ($data['attachments_to_delete'] as $mediaId) {
+                    $approval->deleteMedia($mediaId);
+                }
             }
             if (isset($data['attachments'])) {
                 foreach ($data['attachments'] as $attachment) {
@@ -125,8 +154,10 @@ class MhpSiteService
         return DB::transaction(function () use ($tAndDWork, $data) {
             $tAndDWork->update($data);
 
-            if (isset($data['attachments_to_delete'])) {
-                $tAndDWork->deleteMedia($data['attachments_to_delete']);
+            if (isset($data['attachments_to_delete']) && is_array($data['attachments_to_delete'])) {
+                foreach ($data['attachments_to_delete'] as $mediaId) {
+                    $tAndDWork->deleteMedia($mediaId);
+                }
             }
             if (isset($data['attachments'])) {
                 foreach ($data['attachments'] as $attachment) {
@@ -155,14 +186,11 @@ class MhpSiteService
 
             // Handle activity polymorphic relation based on payment_for
             if ($data['payment_for'] === 'T&D') {
-                // activity_id and activity_type should be set by the request
-                // We validate this in the form request
-                // Ensure activity_type is correctly mapped for TAndDWork
                 if (!isset($data['activity_type']) || $data['activity_type'] !== TAndDWork::class) {
                     $data['activity_type'] = TAndDWork::class;
                 }
             } else {
-                // For EME and Civil, there's no linked activity_id/type
+                // For EME and Civil, activity_id/type should be null
                 $data['activity_id'] = null;
                 $data['activity_type'] = null;
             }
@@ -206,8 +234,10 @@ class MhpSiteService
 
             $progress->update($data);
 
-            if (isset($data['attachments_to_delete'])) {
-                $progress->deleteMedia($data['attachments_to_delete']);
+            if (isset($data['attachments_to_delete']) && is_array($data['attachments_to_delete'])) {
+                foreach ($data['attachments_to_delete'] as $mediaId) {
+                    $progress->deleteMedia($mediaId);
+                }
             }
             if (isset($data['attachments'])) {
                 foreach ($data['attachments'] as $attachment) {
@@ -236,7 +266,6 @@ class MhpSiteService
 
             // Handle activity polymorphic relation based on payment_for
             if ($data['payment_for'] === 'T&D') {
-                // Ensure activity_type is correctly mapped for TAndDWork
                 if (!isset($data['activity_type']) || $data['activity_type'] !== TAndDWork::class) {
                     $data['activity_type'] = TAndDWork::class;
                 }
@@ -284,8 +313,10 @@ class MhpSiteService
 
             $installment->update($data);
 
-            if (isset($data['attachments_to_delete'])) {
-                $installment->deleteMedia($data['attachments_to_delete']);
+            if (isset($data['attachments_to_delete']) && is_array($data['attachments_to_delete'])) {
+                foreach ($data['attachments_to_delete'] as $mediaId) {
+                    $installment->deleteMedia($mediaId);
+                }
             }
             if (isset($data['attachments'])) {
                 foreach ($data['attachments'] as $attachment) {
@@ -313,8 +344,10 @@ class MhpSiteService
                 $data
             );
 
-            if (isset($data['attachments_to_delete'])) {
-                $completion->deleteMedia($data['attachments_to_delete']);
+            if (isset($data['attachments_to_delete']) && is_array($data['attachments_to_delete'])) {
+                foreach ($data['attachments_to_delete'] as $mediaId) {
+                    $completion->deleteMedia($mediaId);
+                }
             }
             if (isset($data['attachments'])) {
                 foreach ($data['attachments'] as $attachment) {
@@ -326,15 +359,16 @@ class MhpSiteService
         });
     }
 
-    // Add methods for deleting entities if they have complex logic (e.g., related data cleanup)
-    // For simple deletes, it can often be handled directly in the controller or a policy.
+    /**
+     * Add methods for deleting entities if they have complex logic (e.g., related data cleanup)
+     * For simple deletes, it can often be handled directly in the controller or a policy.
+     */
     public function deleteMhpSite(MhpSite $site): bool
     {
         return DB::transaction(function () use ($site) {
             // Spatie Media Library automatically handles media deletion on model delete
             // due to InteractsWithMedia trait when using model events, but explicit is also fine.
-            // $site->clearMediaCollection('attachments');
-
+            // $site->clearMediaCollection('attachments'); // If you want to force clear before delete
             return $site->delete();
         });
     }
@@ -349,6 +383,4 @@ class MhpSiteService
             return $tAndDWork->delete();
         });
     }
-
-    // You might add similar delete methods for PhysicalProgress, FinancialInstallment etc.
 }

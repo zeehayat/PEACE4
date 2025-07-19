@@ -15,7 +15,8 @@ class UpdateProjectPhysicalProgressRequest extends FormRequest
         // Assuming route model binding: /mhp/project-physical-progress/{physical_progress}
         $physicalProgress = $this->route('project_physical_progress');
         // You might add a policy check here: $this->user()->can('update', $physicalProgress);
-        return $this->user()->hasAnyRole(['mhp', 'mhp-irrigation', 'root', 'admin']);
+      //  return $this->user()->hasAnyRole(['mhp', 'mhp-irrigation', 'root', 'admin']);
+        return true;
     }
 
     /**

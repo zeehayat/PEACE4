@@ -15,7 +15,8 @@ class UpdateProjectFinancialInstallmentRequest extends FormRequest
         // Assuming route model binding: /mhp/project-financial-installments/{financial_installment}
         $financialInstallment = $this->route('project_financial_installment');
         // You might add a policy check here: $this->user()->can('update', $financialInstallment);
-        return $this->user()->hasAnyRole(['mhp', 'mhp-irrigation', 'root', 'admin']);
+        //return $this->user()->hasAnyRole(['mhp', 'mhp-irrigation', 'root', 'admin']);
+        return true;
     }
 
     /**

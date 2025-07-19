@@ -17,6 +17,29 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 
+Route::get('/test-r2-upload', function() {
+    $testContent = 'Hello from Laravel to Cloudflare R2! ' . now();
+    $testFileName = 'test_upload_' . time() . '.txt';
+
+    try {
+        // Attempt to put file directly using the 'cloudflare_r2' disk
+        $success = Storage::disk('cloudflare_r2')->put($testFileName, $testContent);
+
+        if ($success) {
+            Log::info('R2 Direct Upload Success!', ['file' => $testFileName, 'url' => Storage::disk('cloudflare_r2')->url($testFileName)]);
+            return "Direct upload to R2 succeeded! Check your R2 bucket. File: " . $testFileName;
+        } else {
+            Log::error('R2 Direct Upload Failed! (returned false)');
+            return "Direct upload to R2 failed (returned false). Check Laravel logs for more info.";
+        }
+    } catch (\Exception $e) {
+        Log::error('R2 Direct Upload Exception:', [
+            'error' => $e->getMessage(),
+            'trace' => $e->getTraceAsString(),
+        ]);
+        return "Direct upload to R2 threw an exception: " . $e->getMessage() . " (Check logs)";
+    }
+});
 
 // Procurment Stub
 Route::middleware(['role:procurement|mhp|mhp-irrigation|cbo-mhp-irrigation|root|admin'])->prefix('procurement')->name('procurement.')->group(function () {
