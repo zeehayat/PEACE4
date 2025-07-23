@@ -12,10 +12,10 @@ class StoreMhpSiteRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        // Adjust authorization logic as per your application's roles/permissions
-        // For now, assuming authenticated users with MHP-related roles can create.
-      //  return $this->user()->hasAnyRole(['mhp', 'mhp-irrigation', 'root', 'admin']);
+        // For now, returning true as ACL is not implemented. Revert to authorization logic later.
         return true;
+        // Example with user roles (if re-enabled later):
+        // return $this->user()->hasAnyRole(['mhp', 'mhp-irrigation', 'root', 'admin']);
     }
 
     /**
@@ -29,7 +29,7 @@ class StoreMhpSiteRequest extends FormRequest
             'established_by' => ['nullable', 'string', 'max:255'],
             'population' => ['nullable', 'integer', 'min:0'],
             'grid_status' => ['required', Rule::in(['On-Grid', 'Off-Grid', 'Partially on-Grid'])],
-            'status' => ['required', Rule::in(['New', 'Rehabilitation', 'Upgradation'])],
+            'status' => ['required', Rule::in(['New', 'Rehabilitation', 'Upgradation'])], // Ensure 'Rehabilitation' matches enum
             'existing_capacity_kw' => ['nullable', 'numeric', 'min:0'],
             'planned_capacity_kw' => ['nullable', 'numeric', 'min:0'],
             'head_ft' => ['nullable', 'numeric', 'min:0'],
@@ -39,7 +39,7 @@ class StoreMhpSiteRequest extends FormRequest
             'tl_lt_km' => ['nullable', 'numeric', 'min:0'],
             'turbine_type' => ['nullable', 'string', 'max:255'],
             'alternator_type' => ['nullable', 'string', 'max:255'],
-            'accessible' => ['nullable', Rule::in(['Yes', 'No'])], // Assuming these are the only values
+            'accessible' => ['nullable', Rule::in(['Yes', 'No'])],
             'domestic_units' => ['nullable', 'integer', 'min:0'],
             'commercial_units' => ['nullable', 'integer', 'min:0'],
             'estimated_cost' => ['nullable', 'numeric', 'min:0'],
@@ -51,10 +51,35 @@ class StoreMhpSiteRequest extends FormRequest
             'financial_initiation_date' => ['nullable', 'date'],
             'physical_completion_date' => ['nullable', 'date', 'after_or_equal:financial_initiation_date'],
             'remarks' => ['nullable', 'string'],
-            'attachments' => ['nullable', 'array'], // For Spatie Media Library
-            'attachments.*' => ['file', 'max:10240'], // Max 10MB per file
+
+            // --- NEW FIELDS VALIDATION RULES ---
+            'observed_discharge' => ['nullable', 'numeric', 'min:0'],
+            'intake_details' => ['nullable', 'string'],
+            'settling_basin_details' => ['nullable', 'string'],
+            'approach_culvert_details' => ['nullable', 'string'],
+            'headrace_channel_details' => ['nullable', 'string'],
+            'aqueduct_details' => ['nullable', 'string'],
+            'tailrace_details' => ['nullable', 'string'],
+            'spillway_details' => ['nullable', 'string'],
+            'retaining_walls_details' => ['nullable', 'string'],
+            'design_net_head' => ['nullable', 'numeric', 'min:0'],
+            'proposed_capacity_kw' => ['nullable', 'numeric', 'min:0'],
+            'length_ft' => ['nullable', 'numeric', 'min:0'],
+            'bottom_width_ft' => ['nullable', 'numeric', 'min:0'],
+            'design_depth_ft' => ['nullable', 'numeric', 'min:0'],
+            'freeboard_ft' => ['nullable', 'numeric', 'min:0'],
+            'velocity_ft_per_sec' => ['nullable', 'numeric', 'min:0'],
+
+            // --- ATTACHMENTS VALIDATION ---
+            'attachments' => ['nullable', 'array'], // Array of new files to upload
+            'attachments.*' => ['file', 'max:10240'], // Max 10MB per file, adjust as needed
+            // No attachments_to_delete for store request
         ];
     }
+
+    /**
+     * Get the validation messages that apply to the request.
+     */
     public function messages(): array
     {
         return [
@@ -66,6 +91,11 @@ class StoreMhpSiteRequest extends FormRequest
             'attachments.*.max' => 'Each attachment may not be larger than 10 MB.',
             'tentative_completion_date.after_or_equal' => 'The tentative completion date must be after or equal to the establishment date.',
             'physical_completion_date.after_or_equal' => 'The physical completion date must be after or equal to the financial initiation date.',
+            // Add custom messages for new fields if desired
+            '*.numeric' => 'The :attribute must be a number.',
+            '*.min' => 'The :attribute must be at least :min.',
+            '*.string' => 'The :attribute must be a string.',
+            '*.date' => 'The :attribute must be a valid date.',
         ];
     }
 }

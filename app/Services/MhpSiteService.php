@@ -128,9 +128,18 @@ class MhpSiteService
      */
     public function createTAndDWork(MhpSite $site, array $data): TAndDWork
     {
+        Log::info('--- MhpSiteService: createTAndDWork triggered ---');
+        Log::info('Site ID for T&D work:', ['site_id' => $site->id]);
+        Log::info('Initial data for T&D work:', $data);
         return DB::transaction(function () use ($site, $data) {
             $tAndDWork = $site->tAndDWorks()->create($data); // Automatically sets projectable_id/type
 
+            Log::info('T&D Work created. Inspecting saved model:', [
+                'id' => $tAndDWork->id,
+                'projectable_id' => $tAndDWork->projectable_id,
+                'projectable_type' => $tAndDWork->projectable_type,
+                'name' => $tAndDWork->name,
+            ]);
             if (isset($data['attachments'])) {
                 foreach ($data['attachments'] as $attachment) {
                     $tAndDWork->addMedia($attachment)->toMediaCollection('attachments');
@@ -179,10 +188,14 @@ class MhpSiteService
      */
     public function createPhysicalProgress(MhpSite $site, array $data): ProjectPhysicalProgress
     {
+        Log::info('--- MhpSiteService: createPhysicalProgress triggered ---');
+        Log::info('Site ID for Physical Progress:', ['site_id' => $site->id]);
+        Log::info('Initial data for Physical Progress:', $data);
         return DB::transaction(function () use ($site, $data) {
             // Set projectable for the progress record
             $data['projectable_id'] = $site->id;
             $data['projectable_type'] = MhpSite::class;
+            Log::info('Data for Physical Progress AFTER projectable assignment:', $data); // Log data after assignment
 
             // Handle activity polymorphic relation based on payment_for
             if ($data['payment_for'] === 'T&D') {
@@ -196,6 +209,12 @@ class MhpSiteService
             }
 
             $progress = ProjectPhysicalProgress::create($data);
+            Log::info('Physical Progress created. Inspecting saved model:', [
+                'id' => $progress->id,
+                'projectable_id' => $progress->projectable_id,
+                'projectable_type' => $progress->projectable_type,
+                'progress_percentage' => $progress->progress_percentage,
+            ]);
 
             if (isset($data['attachments'])) {
                 foreach ($data['attachments'] as $attachment) {
@@ -217,6 +236,7 @@ class MhpSiteService
      */
     public function updatePhysicalProgress(ProjectPhysicalProgress $progress, array $data): ProjectPhysicalProgress
     {
+
         return DB::transaction(function () use ($progress, $data) {
             // Ensure projectable is not changed
             unset($data['projectable_id']);
@@ -259,10 +279,14 @@ class MhpSiteService
      */
     public function createFinancialInstallment(MhpSite $site, array $data): ProjectFinancialInstallment
     {
+        Log::info('--- MhpSiteService: createFinancialInstallment triggered ---');
+        Log::info('Site ID for Financial Installment:', ['site_id' => $site->id]);
+        Log::info('Initial data for Financial Installment:', $data); // Log data before modification
         return DB::transaction(function () use ($site, $data) {
             // Set projectable for the installment record
             $data['projectable_id'] = $site->id;
             $data['projectable_type'] = MhpSite::class;
+            Log::info('Data for Financial Installment AFTER projectable assignment:', $data); // Log data after assignment
 
             // Handle activity polymorphic relation based on payment_for
             if ($data['payment_for'] === 'T&D') {
@@ -275,6 +299,13 @@ class MhpSiteService
             }
 
             $installment = ProjectFinancialInstallment::create($data);
+
+            Log::info('Financial Installment created. Inspecting saved model:', [
+                'id' => $installment->id,
+                'projectable_id' => $installment->projectable_id,
+                'projectable_type' => $installment->projectable_type,
+                'installment_amount' => $installment->installment_amount,
+            ]);
 
             if (isset($data['attachments'])) {
                 foreach ($data['attachments'] as $attachment) {

@@ -99,4 +99,36 @@ Route::get('sites/get-cbos', [MhpSiteController::class, 'getCbos'])->name('sites
     ]);
     Route::get('expense-types', [OperationalCostController::class, 'expenseTypes'])->name('expense-types');
 
+
 //}); // End of the single middleware group
+Route::middleware([
+    // Removed roles, but if you re-add 'web' middleware later, ensure it's here
+    \Illuminate\Session\Middleware\StartSession::class, // Keep this for session
+])->group(function () {
+
+    // ... (MHP Sites, Admin Approvals, Completion routes) ...
+
+    // --- T&D Works Resource (Nested under sites) ---
+    // Explicitly name the parent parameter 'site' to match the model binding
+    Route::resource('sites.t-and-d-works', TAndDWorkController::class)->parameters([
+        't-and-d-works' => 't_and_d_work', // default
+        'sites' => 'site', // <--- ADD THIS LINE to explicitly name the parent parameter
+    ]);
+
+    // --- Project Physical Progress (Nested under sites) ---
+    // Explicitly name the parent parameter 'site'
+    Route::resource('sites.physical-progresses', ProjectPhysicalProgressController::class)->parameters([
+        'physical-progresses' => 'physical_progress', // default
+        'sites' => 'site', // <--- ADD THIS LINE
+    ]);
+
+    // --- Project Financial Installments (Nested under sites) ---
+    // Explicitly name the parent parameter 'site'
+    Route::resource('sites.financial-installments', ProjectFinancialInstallmentController::class)->parameters([
+        'financial-installments' => 'financial_installment', // default
+        'sites' => 'site', // <--- ADD THIS LINE
+    ]);
+
+    // ... (other routes) ...
+
+});

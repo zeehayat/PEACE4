@@ -16,7 +16,6 @@ class MhpSite extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
 
-    // Using $fillable for explicit control (recommended over $guarded = [])
     protected $fillable = [
         'cbo_id',
         'month_year_establishment',
@@ -43,9 +42,29 @@ class MhpSite extends Model implements HasMedia
         'avg_hh_size',
         'cost_per_capita',
         'tentative_completion_date',
-        'financial_initiation_date', // Added from DB schema
-        'physical_completion_date',   // Added from DB schema
+        'financial_initiation_date',
+        'physical_completion_date',
         'remarks',
+
+        // --- NEW FIELDS FROM MIGRATION ---
+        'observed_discharge',
+        'intake_details',
+        'settling_basin_details',
+        'approach_culvert_details',
+        'headrace_channel_details',
+        'aqueduct_details',
+        'tailrace_details',
+        'spillway_details',
+        'retaining_walls_details',
+        'design_net_head',
+        'proposed_capacity_kw',
+        'length_ft',
+        'bottom_width_ft',
+        'design_depth_ft',
+        'freeboard_ft',
+        'velocity_ft_per_sec',
+        // 'tentative_completion_years', // Excluded as per discussion
+        // 'tentative_completion_months', // Excluded as per discussion
     ];
 
     protected $casts = [
@@ -64,10 +83,22 @@ class MhpSite extends Model implements HasMedia
         'per_kw_cost' => 'decimal:2',
         'avg_hh_size' => 'decimal:2',
         'cost_per_capita' => 'decimal:2',
-        'population' => 'integer', // Cast population to integer
-        'total_hh' => 'integer',   // Cast total_hh to integer
+        'population' => 'integer',
+        'total_hh' => 'integer',
         'domestic_units' => 'integer',
         'commercial_units' => 'integer',
+
+        // --- NEW FIELDS CASTS ---
+        'observed_discharge' => 'decimal:2',
+        'design_net_head' => 'decimal:2',
+        'proposed_capacity_kw' => 'decimal:2',
+        'length_ft' => 'decimal:2',
+        'bottom_width_ft' => 'decimal:2',
+        'design_depth_ft' => 'decimal:2',
+        'freeboard_ft' => 'decimal:2',
+        'velocity_ft_per_sec' => 'decimal:2',
+        // 'tentative_completion_years' => 'integer', // Excluded as per discussion
+        // 'tentative_completion_months' => 'integer', // Excluded as per discussion
     ];
 
     // --- Relationships ---
@@ -122,7 +153,7 @@ class MhpSite extends Model implements HasMedia
     // Accessor for formatted attachments for frontend
     protected $appends = ['attachments_frontend', 'project_id'];
 
-    public function getAttachmentsFrontendAttribute():array
+    public function getAttachmentsFrontendAttribute(): array
     {
         return $this->getMedia('attachments')->map(fn (SpatieMedia $media) => [
             'id' => $media->id,

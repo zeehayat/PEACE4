@@ -19,6 +19,7 @@ class TAndDWork extends Model implements HasMedia
     protected $fillable = [
         'projectable_id',
         'projectable_type',
+
         'name',
         'date_of_initiation',
         'step_up_transformers',
