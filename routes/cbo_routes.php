@@ -6,6 +6,7 @@ use App\Http\Controllers\CboDialogueController;
 use App\Http\Controllers\CboExposureVisitController;
 use App\Http\Controllers\CboTrainingController;
 use App\Http\Controllers\ReportController;
+use Illuminate\Support\Facades\Route;
 
 // IMPORTANT: All routes in this file already have
 // a URL prefix of '/cbo' (e.g., /cbo/...)

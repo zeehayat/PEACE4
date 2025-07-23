@@ -19,12 +19,15 @@ const handleFormCancel = () => {
 </script>
 
 <template>
-    <Modal :show="show" @close="handleFormCancel" :maxWidth="'4xl'" title="Create New MHP Site">
-        <div class="p-6 overflow-y-auto max-h-[85vh]">
+    <Modal class="bg-blue-800 shadow-2xl drop-shadow-2xl border border-b-8 border-orange-700 " :show="show" @close="handleFormCancel" title="Create New MHP Site">
+
+        <div class="bg-orange-600 max-h-1">&nbsp;</div>
+        <div class="p-6 overflow-y-auto rounded  ">
             <MhpSiteForm
                 :site="null"
             @success="handleFormSuccess"
             @cancel="handleFormCancel"
+                class="shadow-2xl rounded-2xl border-gray-500 border-2"
             />
         </div>
     </Modal>

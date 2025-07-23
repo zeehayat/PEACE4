@@ -180,14 +180,15 @@ onMounted(() => {
 </script>
 
 <template>
-    <form @submit.prevent="handleSubmit" class="p-6 space-y-6">
+
+    <form @submit.prevent="handleSubmit" class="p-6 space-y-6 bg-linear-to-r from-cyan-400 via-blue-400 to-indigo-400">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-                <InputLabel for="cbo_id" value="CBO" />
+                <InputLabel for="cbo_id" value="" />
                 <SearchableCboSelect
                     id="cbo_id"
                     :initial-cbo="site ? site.cbo : null"
-                    v-model="form.cbo_id" :class="{ 'border-red-500': form.errors.cbo_id }"
+                    v-model="form.cbo_id" :class="{ 'border-red-500 rounded': form.errors.cbo_id }"
                 />
                 <InputError class="mt-2" :message="form.errors.cbo_id" />
             </div>
@@ -210,7 +211,7 @@ onMounted(() => {
                     v-model="form.established_by"
                     type="text"
                     class="mt-1 block w-full"
-                    :class="{ 'border-red-500': form.errors.established_by }"
+                    :class="{ 'border-red-500 ': form.errors.established_by }"
                 />
                 <InputError class="mt-2" :message="form.errors.established_by" />
             </div>
@@ -533,6 +534,7 @@ onMounted(() => {
             </button>
             <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                 {{ isEditMode ? 'Update Site' : 'Create Site' }}
+
             </PrimaryButton>
         </div>
     </form>

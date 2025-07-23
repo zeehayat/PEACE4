@@ -95,7 +95,7 @@ onUnmounted(() => document.removeEventListener('keydown', (e) => {
                     :class="maxWidthClass"
                     class="mb-6 bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:w-full sm:mx-auto"
                 >
-                    <div class="flex items-center justify-between p-4 border-b modal-header"> <h3 class="text-lg font-semibold text-gray-900">{{ title }}</h3>
+                    <div class="flex items-center justify-between p-4 border-b modal-header"> <h3 class=" font-extrabold md:text-2xl text-blue-950 ">{{ title }}</h3>
                         <button @click="close" class="text-gray-400 hover:text-gray-600">
                             <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
                         </button>

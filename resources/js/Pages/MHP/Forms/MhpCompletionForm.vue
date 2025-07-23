@@ -111,7 +111,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <form @submit.prevent="handleSubmit" class="p-6 space-y-6">
+    <form @submit.prevent="handleSubmit" class="p-6 space-y-6 bg-linear-to-r from-cyan-400 via-blue-400 to-indigo-400">
         <input type="hidden" v-model="form.mhp_site_id" />
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">

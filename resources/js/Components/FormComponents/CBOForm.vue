@@ -1,4 +1,5 @@
 <template>
+    <div class="flex place-content-center items-center md:p-5 shadow-2xl rounded-2xl">
     <form @submit.prevent="submit">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
@@ -97,6 +98,7 @@
             </button>
         </div>
     </form>
+    </div>
 </template>
 
 <script setup>

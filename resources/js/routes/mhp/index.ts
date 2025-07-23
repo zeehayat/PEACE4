@@ -60,7 +60,7 @@ index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::reviseCost
-* @see app/Http/Controllers/MhpAdminApprovalController.php:95
+* @see app/Http/Controllers/MhpAdminApprovalController.php:99
 * @route '/mhp/revise-cost/{mhpSite}/{field}'
 */
 export const reviseCost = (args: { mhpSite: string | number, field: string | number } | [mhpSite: string | number, field: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -78,7 +78,7 @@ reviseCost.definition = {
 
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::reviseCost
-* @see app/Http/Controllers/MhpAdminApprovalController.php:95
+* @see app/Http/Controllers/MhpAdminApprovalController.php:99
 * @route '/mhp/revise-cost/{mhpSite}/{field}'
 */
 reviseCost.url = (args: { mhpSite: string | number, field: string | number } | [mhpSite: string | number, field: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -102,7 +102,7 @@ reviseCost.url = (args: { mhpSite: string | number, field: string | number } | [
 
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::reviseCost
-* @see app/Http/Controllers/MhpAdminApprovalController.php:95
+* @see app/Http/Controllers/MhpAdminApprovalController.php:99
 * @route '/mhp/revise-cost/{mhpSite}/{field}'
 */
 reviseCost.put = (args: { mhpSite: string | number, field: string | number } | [mhpSite: string | number, field: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

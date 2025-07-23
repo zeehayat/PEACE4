@@ -37,6 +37,7 @@ class MhpAdminApprovalController extends Controller
      */
     public function store(StoreMhpAdminApprovalRequest $request)
     {
+        dd($request);
         try {
             $mhpSite = MhpSite::findOrFail($request->mhp_site_id);
             $this->mhpSiteService->storeOrUpdateAdminApproval($mhpSite, $request->validated());
@@ -62,6 +63,9 @@ class MhpAdminApprovalController extends Controller
      */
     public function update(UpdateMhpAdminApprovalRequest $request, MhpAdminApproval $adminApproval)
     {
+        dd(['request'=>$request,
+            'adminApproval'=>$adminApproval
+            ]);
         try {
             // Since storeOrUpdateAdminApproval takes MhpSite, we need to get the parent site
             $mhpSite = $adminApproval->mhpSite; // Assuming mhpSite relationship is defined in MhpAdminApproval model

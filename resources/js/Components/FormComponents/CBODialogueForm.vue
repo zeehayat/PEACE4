@@ -1,5 +1,7 @@
 <template>
-    <form @submit.prevent="submit" class="space-y-6">
+   <div class="flex place-content-center items-center">
+
+    <form @submit.prevent="submit" class="space-y-6 md-p-5 bg-gray-400 shadow-2xl">
         <!-- CBO (read-only) -->
         <div>
             <label class="block text-sm font-medium">CBO</label>
@@ -53,6 +55,7 @@
             </button>
         </div>
     </form>
+   </div>
 </template>
 
 <script setup>

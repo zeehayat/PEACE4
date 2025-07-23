@@ -5,45 +5,9 @@
         <CBOForm :form="form" :errors="form.errors" :submit="submit" />
 
         <!-- Tabs -->
-        <div class="mt-8">
-            <div class="flex space-x-4 border-b mb-4">
-                <button
-                    class="py-2 px-4 font-medium"
-                    :class="{ 'border-b-2 border-blue-600 text-blue-600': activeTab === 'dialogue' }"
-                    @click="activeTab = 'dialogue'"
-                >
-                    Dialogue
-                </button>
-                <button
-                    class="py-2 px-4 font-medium"
-                    :class="{ 'border-b-2 border-blue-600 text-blue-600': activeTab === 'exposure' }"
-                    @click="activeTab = 'exposure'"
-                >
-                    Exposure Visit
-                </button>
-            </div>
 
-            <!-- Tab Content -->
-            <div>
-                <button class="btn" @click="showModal = true">
-                    + Add {{ activeTab === 'dialogue' ? 'Dialogue' : 'Exposure Visit' }}
-                </button>
-            </div>
-        </div>
 
         <!-- Modal -->
-        <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-50 z-40 flex items-center justify-center">
-            <div class="bg-white p-6 rounded-lg shadow-xl max-w-xl w-full relative z-50">
-                <button @click="showModal = false" class="absolute top-2 right-2 text-gray-500 hover:text-black">&times;</button>
-
-                <component
-                    :is="activeTab === 'dialogue' ? 'CBODialogueForm' : 'CBOExposureVisitForm'"
-                    :form="activityForm"
-                    :cbo="cbo"
-                    :submit="handleActivitySubmit"
-                />
-            </div>
-        </div>
     </div>
 </template>
 
@@ -85,7 +49,7 @@ const activityForm = useForm({
 })
 
 function submit() {
-    form.post(route('cbo.cbo.store'), {
+    form.post('/cbo/cbos', {
         onSuccess: (page) => {
             toast('CBO saved Succesfully')
             cbo.value = page.props?.cbo || page.props?.data?.cbo || null
