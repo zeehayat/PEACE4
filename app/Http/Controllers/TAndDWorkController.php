@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreTAndDWorkRequest;
+use App\Http\Requests\TAndDWorkRequest;
 use App\Http\Requests\UpdateTAndDWorkRequest;
 use App\Models\MhpSite; // Assuming T&D works are primarily associated with MHP Sites for now
 use App\Models\TAndDWork;
@@ -18,6 +18,8 @@ class TAndDWorkController extends Controller
     public function __construct(MhpSiteService $mhpSiteService)
     {
         $this->mhpSiteService = $mhpSiteService;
+
+
     }
 
     /**
@@ -76,17 +78,37 @@ class TAndDWorkController extends Controller
     /**
      * Store a newly created T&D Work in storage.
      */
-    public function store(StoreTAndDWorkRequest $request, MhpSite $mhpSite)
+    public function store(TAndDWorkRequest $request, MhpSite $site) // Laravel tries to bind $site here
     {
+        Log::info('TAndDWorkController@store: Initial $site object from route binding:', ['id' => $site->id ?? 'null', 'exists' => $site->exists]);
+
+        // If route model binding failed, $site might be an empty instance.
+        // We need to ensure it's a valid, existing model before passing to service.
+        if (!$site->exists && $request->has('projectable_id')) {
+            $resolvedSite = MhpSite::find($request->input('projectable_id'));
+            if ($resolvedSite) {
+                $site = $resolvedSite; // Reassign $site to the found model
+                Log::info('TAndDWorkController@store: $site resolved from request data fallback.', ['id' => $site->id]);
+            } else {
+                Log::error('TAndDWorkController@store: Parent MHP Site not found from request data.', ['projectable_id' => $request->input('projectable_id')]);
+                return redirect()->back()->with('error', 'Parent MHP Site not found.');
+            }
+        } elseif (!$site->exists) {
+            // This case means $site was not bound and projectable_id wasn't in request
+            Log::error('TAndDWorkController@store: Parent MHP Site could not be resolved by any means.', ['route_param_site_id' => $site->id ?? 'null', 'request_data' => $request->all()]);
+            return redirect()->back()->with('error', 'Parent MHP Site could not be resolved.');
+        }
+
+        // At this point, $site is guaranteed to be a valid MhpSite instance.
         try {
-            // The service method expects the MhpSite instance
-            $this->mhpSiteService->createTAndDWork($mhpSite, $request->validated());
+            $this->mhpSiteService->createTAndDWork($site, $request->validated());
             return redirect()->back()->with('success', 'T&D Work created successfully!');
         } catch (\Exception $e) {
             Log::error('Error creating T&D Work: ' . $e->getMessage(), ['exception' => $e]);
             return redirect()->back()->with('error', 'Failed to create T&D Work: ' . $e->getMessage());
         }
     }
+
 
     /**
      * Display the specified T&D Work.
@@ -109,7 +131,8 @@ class TAndDWorkController extends Controller
     /**
      * Update the specified T&D Work in storage.
      */
-    public function update(UpdateTAndDWorkRequest $request, TAndDWork $tAndDWork)
+
+    public function update(UpdateTAndDWorkRequest $request, MhpSite $site, TAndDWork $tAndDWork)
     {
         try {
             $this->mhpSiteService->updateTAndDWork($tAndDWork, $request->validated());

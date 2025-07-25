@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Database\Eloquent\Relations\Relation; // <--- ADD THIS IMPORT
 
 class StoreTAndDWorkRequest extends FormRequest
 {
@@ -21,11 +22,13 @@ class StoreTAndDWorkRequest extends FormRequest
      */
     public function rules(): array
     {
+
+
         // The projectable_id and projectable_type will likely come from the route or hidden fields
         // e.g., for MHP, projectable_id will be mhp_site_id, projectable_type will be 'App\Models\MhpSite'
         return [
-            'projectable_id' => ['required', 'integer'],
-            'projectable_type' => ['required', 'string', Rule::in(['App\\Models\\MhpSite', 'App\\Models\\IrrigationScheme'])],
+            'projectable_id' => ['nullable', 'integer'],
+            'projectable_type' => ['nullable', 'string', Rule::in(['App\\Models\\MhpSite', 'App\\Models\\IrrigationScheme'])],
             'name' => ['nullable', 'string', 'max:255'],
             'date_of_initiation' => ['nullable', 'date'],
             'step_up_transformers' => ['nullable', 'array'],

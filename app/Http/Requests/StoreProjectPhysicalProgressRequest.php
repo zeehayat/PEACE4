@@ -22,9 +22,10 @@ class StoreProjectPhysicalProgressRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'projectable_id' => ['required', 'integer'],
-            'projectable_type' => ['required', 'string', Rule::in(['App\\Models\\MhpSite', 'App\\Models\\IrrigationScheme'])],
+            'projectable_id' => ['nullable', 'integer'], // Changed from 'required'
+            'projectable_type' => ['nullable', 'string', Rule::in(['App\\Models\\MhpSite', 'App\\Models\\IrrigationScheme'])], // Changed from 'required'
             'progress_percentage' => ['required', 'numeric', 'min:0', 'max:100'],
+
             'progress_date' => ['required', 'date'],
             'remarks' => ['nullable', 'string'],
             'payment_for' => ['required', Rule::in(['T&D', 'EME', 'Civil'])],

@@ -111,8 +111,8 @@ Route::middleware([
     // --- T&D Works Resource (Nested under sites) ---
     // Explicitly name the parent parameter 'site' to match the model binding
     Route::resource('sites.t-and-d-works', TAndDWorkController::class)->parameters([
-        't-and-d-works' => 't_and_d_work', // default
-        'sites' => 'site', // <--- ADD THIS LINE to explicitly name the parent parameter
+        't-and-d-works' => 't_and_d_work', // <--- Explicitly define the child parameter name
+        'sites' => 'site',
     ]);
 
     // --- Project Physical Progress (Nested under sites) ---

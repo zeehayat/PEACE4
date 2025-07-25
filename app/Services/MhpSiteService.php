@@ -129,10 +129,18 @@ class MhpSiteService
     public function createTAndDWork(MhpSite $site, array $data): TAndDWork
     {
         Log::info('--- MhpSiteService: createTAndDWork triggered ---');
-        Log::info('Site ID for T&D work:', ['site_id' => $site->id]);
-        Log::info('Initial data for T&D work:', $data);
+        Log::info('Site object received by service:', ['id' => $site->id, 'exists' => $site->exists]);
+        Log::info('Initial data for T&D work (before MorphMany create):', $data);
+
         return DB::transaction(function () use ($site, $data) {
-            $tAndDWork = $site->tAndDWorks()->create($data); // Automatically sets projectable_id/type
+            // When using $site->tAndDWorks()->create($data), Laravel automatically
+            // sets projectable_id and projectable_type based on the $site model.
+            // Ensure $data does NOT contain projectable_id/type from the request,
+            // as the relationship will set it. If it's in $data, it might conflict.
+            unset($data['projectable_id']);
+            unset($data['projectable_type']);
+
+            $tAndDWork = $site->tAndDWorks()->create($data);
 
             Log::info('T&D Work created. Inspecting saved model:', [
                 'id' => $tAndDWork->id,
@@ -140,15 +148,36 @@ class MhpSiteService
                 'projectable_type' => $tAndDWork->projectable_type,
                 'name' => $tAndDWork->name,
             ]);
-            if (isset($data['attachments'])) {
+
+            if (isset($data['attachments']) && is_array($data['attachments'])) {
                 foreach ($data['attachments'] as $attachment) {
-                    $tAndDWork->addMedia($attachment)->toMediaCollection('attachments');
+                    if ($attachment instanceof \Illuminate\Http\UploadedFile) {
+                        try {
+                            $media = $tAndDWork->addMedia($attachment)->toMediaCollection('attachments');
+                            Log::info('Media added for T&D Work:', ['media_id' => $media->id, 'file_name' => $media->file_name]);
+                        } catch (Throwable $e) {
+                            Log::error('Error adding media for T&D Work:', [
+                                'error' => $e->getMessage(),
+                                'file_name' => $attachment->getClientOriginalName() ?? 'N/A',
+                                'trace' => $e->getTraceAsString(),
+                            ]);
+                            throw $e;
+                        }
+                    } else {
+                        Log::warning('Skipping non-UploadedFile attachment for T&D Work:', ['type' => gettype($attachment), 'attachment' => $attachment]);
+                    }
                 }
+            } else {
+                Log::info('No new attachments provided for T&D Work.');
             }
 
             return $tAndDWork;
         });
     }
+
+    // ... (similar checks for createPhysicalProgress and createFinancialInstallment) ...
+    // For these, you explicitly set $data['projectable_id'] and $data['projectable_type']
+
 
     /**
      * Update an existing T&D Work record.

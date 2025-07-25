@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\MhpSite;
-use App\Models\Cbo; // Import Cbo model
+use App\Models\Cbo;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class MhpSiteFactory extends Factory
@@ -12,13 +12,19 @@ class MhpSiteFactory extends Factory
 
     public function definition(): array
     {
-        $establishmentDate = $this->faker->dateTimeBetween('-2 years', 'now');
-        $financialInitiationDate = $this->faker->dateTimeBetween($establishmentDate, '+1 month');
-        $tentativeCompletionDate = $this->faker->dateTimeBetween($establishmentDate, '+3 years');
-        $physicalCompletionDate = $this->faker->dateTimeBetween($financialInitiationDate, $tentativeCompletionDate); // Ensure it's after financial init
-        return [
-            'cbo_id' => Cbo::factory(), // Automatically create a Cbo
+        // Generate a base date
+        $baseDate = $this->faker->dateTimeBetween('-5 years', 'now');
 
+        // Ensure subsequent dates are always after the previous one
+        $monthYearEstablishment = clone $baseDate; // Use this as the earliest date
+
+        $financialInitiationDate = (clone $monthYearEstablishment)->modify('+1 month'); // At least 1 month after establishment
+        $tentativeCompletionDate = (clone $financialInitiationDate)->modify('+6 months'); // At least 6 months after financial init
+        $physicalCompletionDate = (clone $tentativeCompletionDate)->modify('+1 month'); // At least 1 month after tentative completion
+
+        return [
+            'cbo_id' => Cbo::factory(),
+            'month_year_establishment' => $monthYearEstablishment->format('Y-m-d'),
             'established_by' => $this->faker->company,
             'population' => $this->faker->numberBetween(100, 5000),
             'grid_status' => $this->faker->randomElement(['On-Grid', 'Off-Grid', 'Partially on-Grid']),
@@ -40,12 +46,10 @@ class MhpSiteFactory extends Factory
             'total_hh' => $this->faker->numberBetween(10, 500),
             'avg_hh_size' => $this->faker->randomFloat(2, 4, 8),
             'cost_per_capita' => $this->faker->randomFloat(2, 100, 10000),
-            'month_year_establishment' => $establishmentDate->format('Y-m-d'),
             'tentative_completion_date' => $tentativeCompletionDate->format('Y-m-d'),
             'financial_initiation_date' => $financialInitiationDate->format('Y-m-d'),
             'physical_completion_date' => $physicalCompletionDate->format('Y-m-d'),
             'remarks' => $this->faker->sentence(),
-            // New fields
             'observed_discharge' => $this->faker->randomFloat(2, 1, 25),
             'intake_details' => $this->faker->paragraph(1),
             'settling_basin_details' => $this->faker->paragraph(1),
