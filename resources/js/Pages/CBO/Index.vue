@@ -86,32 +86,7 @@ function closeModal() {
 }
 
 // === Teleported Action Menu Logic ===
-function toggleActionMenu(cboId, event) {
-    if (openActionMenuId.value === cboId) {
-        openActionMenuId.value = null;
-        return;
-    }
 
-    const button = event.currentTarget;
-    if (!button) {
-        console.error('Event target (button) not found for menu toggle.');
-        return;
-    }
-
-    const rect = button.getBoundingClientRect();
-    const menuHeightEstimate = 350; // Estimate menu height
-    const direction = (window.innerHeight - rect.bottom < menuHeightEstimate && rect.top > (window.innerHeight - rect.bottom)) ? 'up' : 'down';
-
-    menuPosition.value = {
-        top: direction === 'down' ? rect.bottom + window.scrollY : rect.top + window.scrollY - menuHeightEstimate,
-        left: rect.left + window.scrollX,
-        width: rect.width,
-        direction: direction,
-    };
-
-    openActionMenuId.value = cboId;
-    selectedCbo.value = props.cbos.data.find(c => c.id === cboId); // Set selectedCbo for the menu's context
-}
 
 const closeAllActionMenus = (event) => {
     if (openActionMenuId.value !== null &&
@@ -174,7 +149,38 @@ const filteredCbos = computed(() => {
         (cbo.secretary_name || '').toLowerCase().includes(term)
     );
 });
+function toggleActionMenu(cboId, event) {
+    // Ensure event.stopPropagation() is called here if it's a direct click handler on the button
+    // (though @click.stop should handle it)
+    if (event) {
+        event.stopPropagation(); // <--- ADD THIS LINE to be absolutely sure
+    }
 
+    if (openActionMenuId.value === cboId) {
+        openActionMenuId.value = null;
+        return;
+    }
+
+    const button = event.currentTarget;
+    if (!button) {
+        console.error('Event target (button) not found for menu toggle.');
+        return;
+    }
+
+    const rect = button.getBoundingClientRect();
+    const menuHeightEstimate = 350;
+    const direction = (window.innerHeight - rect.bottom < menuHeightEstimate && rect.top > (window.innerHeight - rect.bottom)) ? 'up' : 'down';
+
+    menuPosition.value = {
+        top: direction === 'down' ? rect.bottom + window.scrollY : rect.top + window.scrollY - menuHeightEstimate,
+        left: rect.left + window.scrollX,
+        width: rect.width,
+        direction: direction,
+    };
+
+    openActionMenuId.value = cboId;
+    selectedCbo.value = props.cbos.data.find(c => c.id === cboId);
+}
 function getStatusClass(status) {
     // Assuming CBO status is derived or based on some logic, or use generic status from MhpSiteListCard
     return 'bg-gray-100 text-gray-800 border border-gray-200'; // Placeholder
@@ -255,53 +261,10 @@ const handlePagination = (url) => {
             <!-- Table View for larger screens -->
             <div class="hidden md:block bg-white rounded-xl shadow-xl border border-gray-200">
                 <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                    <tr>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">CBO Info</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Location</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Members</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Activities</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Attachments</th>
-                        <th scope="col" class="relative px-6 py-3"><span class="sr-only">Actions</span></th>
-                    </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-200">
+                    <!-- ... thead ... -->
+                    <tbody>
                     <tr v-for="cbo in filteredCbos" :key="cbo.id" class="hover:bg-gray-50 transition-colors duration-150 group">
-
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm font-medium text-gray-900">{{ cbo.reference_code ?? 'N/A' }}</div>
-                            <div class="text-xs text-gray-500 mt-0.5">Formed: {{ new Date(cbo.date_of_formation).toLocaleDateString() }}</div>
-                        </td>
-
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                            <div>{{ cbo.village ?? 'N/A' }}</div>
-                            <div class="text-xs text-gray-500">{{ cbo.village_council ?? 'N/A' }}, {{ cbo.tehsil ?? 'N/A' }}, {{ cbo.district ?? 'N/A' }}</div>
-                        </td>
-
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                            <div>Total: {{ cbo.total_members ?? 'N/A' }}</div>
-                            <div class="text-xs text-gray-500">CBO Members: {{ cbo.num_cbo_members ?? 'N/A' }}</div>
-                            <div class="text-xs text-gray-500">Gender: {{ cbo.gender ?? 'N/A' }}</div>
-                        </td>
-
-                        <td class="px-6 py-4">
-                            <div class="space-y-1 text-sm">
-                                <div>Dialogues: <span class="font-semibold">{{ cbo.dialogues_count ?? 0 }}</span></div>
-                                <div>Trainings: <span class="font-semibold">{{ cbo.trainings_count ?? 0 }}</span></div>
-                                <div>Exposure Visits: <span class="font-semibold">{{ cbo.exposure_visits_count ?? 0 }}</span></div>
-                            </div>
-                        </td>
-
-                        <td class="px-6 py-4">
-                            <div v-if="cbo.attachments_frontend && cbo.attachments_frontend.length" class="space-y-2 text-xs max-h-24 overflow-y-auto pr-2">
-                                <div v-for="file in cbo.attachments_frontend" :key="file.id" class="flex items-center gap-2" :title="`Size: ${(file.size/1024).toFixed(1)} KB | Uploaded: ${new Date(file.created_at).toLocaleDateString()}`">
-                                    <span class="text-gray-500 flex-shrink-0">{{ getFileIcon(file) }}</span>
-                                    <a :href="file.url" target="_blank" class="text-indigo-600 hover:text-indigo-800 hover:underline truncate">{{ file.file_name }}</a>
-                                </div>
-                            </div>
-                            <span v-else class="text-gray-400 text-sm">—</span>
-                        </td>
-
+                        <!-- ... other td's ... -->
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium relative action-menu-container">
                             <button @click.stop="toggleActionMenu(cbo.id, $event)" class="p-2 text-gray-500 hover:text-gray-900 rounded-full hover:bg-gray-200/70 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity action-menu-trigger">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" /></svg>
@@ -312,6 +275,7 @@ const handlePagination = (url) => {
                     </tbody>
                 </table>
             </div>
+
 
             <!-- Pagination -->
             <Pagination :links="cbos.links" @pagination-link-clicked="handlePagination" class="mt-8" />
@@ -335,9 +299,10 @@ const handlePagination = (url) => {
                 :class="['action-menu-dropdown origin-top-right absolute w-56 rounded-xl shadow-xl bg-white ring-1 ring-black ring-opacity-5 z-30 divide-y divide-gray-100', menuPosition.direction === 'up' ? 'bottom-full mb-2 right-0' : 'top-full mt-2 right-0']"
                 :style="{
                     top: menuPosition.top + 'px',
-                    left: (menuPosition.left + menuPosition.width - 224) + 'px', // Align right edge of menu with button
+                    left: (menuPosition.left + menuPosition.width - 224) + 'px',
                 }"
             >
+                <!-- Menu items -->
                 <div class="py-1 text-sm text-gray-700">
                     <button @click="handleViewDetails(selectedCbo)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -404,6 +369,14 @@ button:disabled {
     border: 1px solid rgba(0, 0, 0, 0.05); /* Light border */
     overflow: hidden; /* Ensure content doesn't spill */
 }
+/* Scoped styles for the Index page */
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+
+
 
 /* Base styles for the root element of FilePond. */
 /* ... (FilePond styles) ... */

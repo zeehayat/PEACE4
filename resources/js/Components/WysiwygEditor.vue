@@ -85,7 +85,7 @@ onBeforeUnmount(() => {
                 content_style: 'body { font-family:Inter,sans-serif; font-size:14px }',
                 ...options,
             }"
-            @change="handleEditorChange" <!-- Still use @change to trigger handler -->
+            @change="handleEditorChange"
         ref="editorRef"
         />
     </div>
