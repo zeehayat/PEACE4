@@ -14,10 +14,11 @@ class CboTrainingFactory extends Factory
     {
         return [
             'cbo_id' => Cbo::factory(),
-            'training_type' => $this->faker->randomElement(['O&M Training', 'Electrical Appliance Training']),
-            'training_gender' => $this->faker->randomElement(['male', 'female', 'mixed']),
+            'training_type' => $this->faker->randomElement(['O&M Training', 'Electrical Appliance']), // FIX: Use exact enum values
+            'training_gender' => $this->faker->randomElement(['Male', 'Female', 'Mixed']), // FIX: Use exact enum values
             'date_of_training' => $this->faker->date(),
-            'total_participants' => $this->faker->numberBetween(10, 50),
+            'total_participants' => $this->faker->numberBetween(1, 30),
+            'remarks' => $this->faker->sentence(),
         ];
     }
 }

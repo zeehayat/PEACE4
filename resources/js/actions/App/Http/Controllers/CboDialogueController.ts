@@ -1,123 +1,413 @@
 import { queryParams, type QueryParams } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\CboDialogueController::index
-* @see app/Http/Controllers/CboDialogueController.php:18
-* @route '/cbo/dialogues'
+* @see app/Http/Controllers/CboDialogueController.php:27
+* @route '/cbo/cbos/{cbo}/dialogues'
 */
-export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+const index031f8caf5d7727210ffcf4f9d65d1082 = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: index.url(options),
+    url: index031f8caf5d7727210ffcf4f9d65d1082.url(args, options),
     method: 'get',
 })
 
-index.definition = {
+index031f8caf5d7727210ffcf4f9d65d1082.definition = {
+    methods: ['get','head'],
+    url: '/cbo/cbos/{cbo}/dialogues',
+}
+
+/**
+* @see \App\Http\Controllers\CboDialogueController::index
+* @see app/Http/Controllers/CboDialogueController.php:27
+* @route '/cbo/cbos/{cbo}/dialogues'
+*/
+index031f8caf5d7727210ffcf4f9d65d1082.url = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { cbo: args }
+    }
+
+    if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+        args = { cbo: args.id }
+    }
+
+    if (Array.isArray(args)) {
+        args = {
+            cbo: args[0],
+        }
+    }
+
+    const parsedArgs = {
+        cbo: typeof args.cbo === 'object'
+        ? args.cbo.id
+        : args.cbo,
+    }
+
+    return index031f8caf5d7727210ffcf4f9d65d1082.definition.url
+            .replace('{cbo}', parsedArgs.cbo.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\CboDialogueController::index
+* @see app/Http/Controllers/CboDialogueController.php:27
+* @route '/cbo/cbos/{cbo}/dialogues'
+*/
+index031f8caf5d7727210ffcf4f9d65d1082.get = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: index031f8caf5d7727210ffcf4f9d65d1082.url(args, options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\CboDialogueController::index
+* @see app/Http/Controllers/CboDialogueController.php:27
+* @route '/cbo/cbos/{cbo}/dialogues'
+*/
+index031f8caf5d7727210ffcf4f9d65d1082.head = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: index031f8caf5d7727210ffcf4f9d65d1082.url(args, options),
+    method: 'head',
+})
+
+/**
+* @see \App\Http\Controllers\CboDialogueController::index
+* @see app/Http/Controllers/CboDialogueController.php:27
+* @route '/cbo/dialogues'
+*/
+const indexe565fdccfde12fb729cafeb96b2662f3 = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: indexe565fdccfde12fb729cafeb96b2662f3.url(options),
+    method: 'get',
+})
+
+indexe565fdccfde12fb729cafeb96b2662f3.definition = {
     methods: ['get','head'],
     url: '/cbo/dialogues',
 }
 
 /**
 * @see \App\Http\Controllers\CboDialogueController::index
-* @see app/Http/Controllers/CboDialogueController.php:18
+* @see app/Http/Controllers/CboDialogueController.php:27
 * @route '/cbo/dialogues'
 */
-index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return index.definition.url + queryParams(options)
+indexe565fdccfde12fb729cafeb96b2662f3.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return indexe565fdccfde12fb729cafeb96b2662f3.definition.url + queryParams(options)
 }
 
 /**
 * @see \App\Http\Controllers\CboDialogueController::index
-* @see app/Http/Controllers/CboDialogueController.php:18
+* @see app/Http/Controllers/CboDialogueController.php:27
 * @route '/cbo/dialogues'
 */
-index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+indexe565fdccfde12fb729cafeb96b2662f3.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: index.url(options),
+    url: indexe565fdccfde12fb729cafeb96b2662f3.url(options),
     method: 'get',
 })
 
 /**
 * @see \App\Http\Controllers\CboDialogueController::index
-* @see app/Http/Controllers/CboDialogueController.php:18
+* @see app/Http/Controllers/CboDialogueController.php:27
 * @route '/cbo/dialogues'
 */
-index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+indexe565fdccfde12fb729cafeb96b2662f3.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
 } => ({
-    url: index.url(options),
+    url: indexe565fdccfde12fb729cafeb96b2662f3.url(options),
+    method: 'head',
+})
+
+export const index = {
+    '/cbo/cbos/{cbo}/dialogues': index031f8caf5d7727210ffcf4f9d65d1082,
+    '/cbo/dialogues': indexe565fdccfde12fb729cafeb96b2662f3,
+}
+
+/**
+* @see \App\Http\Controllers\CboDialogueController::create
+* @see app/Http/Controllers/CboDialogueController.php:49
+* @route '/cbo/cbos/{cbo}/dialogues/create'
+*/
+export const create = (args: { cbo: string | number } | [cbo: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: create.url(args, options),
+    method: 'get',
+})
+
+create.definition = {
+    methods: ['get','head'],
+    url: '/cbo/cbos/{cbo}/dialogues/create',
+}
+
+/**
+* @see \App\Http\Controllers\CboDialogueController::create
+* @see app/Http/Controllers/CboDialogueController.php:49
+* @route '/cbo/cbos/{cbo}/dialogues/create'
+*/
+create.url = (args: { cbo: string | number } | [cbo: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { cbo: args }
+    }
+
+    if (Array.isArray(args)) {
+        args = {
+            cbo: args[0],
+        }
+    }
+
+    const parsedArgs = {
+        cbo: args.cbo,
+    }
+
+    return create.definition.url
+            .replace('{cbo}', parsedArgs.cbo.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\CboDialogueController::create
+* @see app/Http/Controllers/CboDialogueController.php:49
+* @route '/cbo/cbos/{cbo}/dialogues/create'
+*/
+create.get = (args: { cbo: string | number } | [cbo: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: create.url(args, options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\CboDialogueController::create
+* @see app/Http/Controllers/CboDialogueController.php:49
+* @route '/cbo/cbos/{cbo}/dialogues/create'
+*/
+create.head = (args: { cbo: string | number } | [cbo: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: create.url(args, options),
     method: 'head',
 })
 
 /**
 * @see \App\Http\Controllers\CboDialogueController::store
-* @see app/Http/Controllers/CboDialogueController.php:47
-* @route '/cbo/dialogues'
+* @see app/Http/Controllers/CboDialogueController.php:57
+* @route '/cbo/cbos/{cbo}/dialogues'
 */
-export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+const store031f8caf5d7727210ffcf4f9d65d1082 = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
 } => ({
-    url: store.url(options),
+    url: store031f8caf5d7727210ffcf4f9d65d1082.url(args, options),
     method: 'post',
 })
 
-store.definition = {
+store031f8caf5d7727210ffcf4f9d65d1082.definition = {
+    methods: ['post'],
+    url: '/cbo/cbos/{cbo}/dialogues',
+}
+
+/**
+* @see \App\Http\Controllers\CboDialogueController::store
+* @see app/Http/Controllers/CboDialogueController.php:57
+* @route '/cbo/cbos/{cbo}/dialogues'
+*/
+store031f8caf5d7727210ffcf4f9d65d1082.url = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { cbo: args }
+    }
+
+    if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+        args = { cbo: args.id }
+    }
+
+    if (Array.isArray(args)) {
+        args = {
+            cbo: args[0],
+        }
+    }
+
+    const parsedArgs = {
+        cbo: typeof args.cbo === 'object'
+        ? args.cbo.id
+        : args.cbo,
+    }
+
+    return store031f8caf5d7727210ffcf4f9d65d1082.definition.url
+            .replace('{cbo}', parsedArgs.cbo.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\CboDialogueController::store
+* @see app/Http/Controllers/CboDialogueController.php:57
+* @route '/cbo/cbos/{cbo}/dialogues'
+*/
+store031f8caf5d7727210ffcf4f9d65d1082.post = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'post',
+} => ({
+    url: store031f8caf5d7727210ffcf4f9d65d1082.url(args, options),
+    method: 'post',
+})
+
+/**
+* @see \App\Http\Controllers\CboDialogueController::store
+* @see app/Http/Controllers/CboDialogueController.php:57
+* @route '/cbo/dialogues'
+*/
+const storee565fdccfde12fb729cafeb96b2662f3 = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'post',
+} => ({
+    url: storee565fdccfde12fb729cafeb96b2662f3.url(options),
+    method: 'post',
+})
+
+storee565fdccfde12fb729cafeb96b2662f3.definition = {
     methods: ['post'],
     url: '/cbo/dialogues',
 }
 
 /**
 * @see \App\Http\Controllers\CboDialogueController::store
-* @see app/Http/Controllers/CboDialogueController.php:47
+* @see app/Http/Controllers/CboDialogueController.php:57
 * @route '/cbo/dialogues'
 */
-store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return store.definition.url + queryParams(options)
+storee565fdccfde12fb729cafeb96b2662f3.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return storee565fdccfde12fb729cafeb96b2662f3.definition.url + queryParams(options)
 }
 
 /**
 * @see \App\Http\Controllers\CboDialogueController::store
-* @see app/Http/Controllers/CboDialogueController.php:47
+* @see app/Http/Controllers/CboDialogueController.php:57
 * @route '/cbo/dialogues'
 */
-store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+storee565fdccfde12fb729cafeb96b2662f3.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
 } => ({
-    url: store.url(options),
+    url: storee565fdccfde12fb729cafeb96b2662f3.url(options),
     method: 'post',
+})
+
+export const store = {
+    '/cbo/cbos/{cbo}/dialogues': store031f8caf5d7727210ffcf4f9d65d1082,
+    '/cbo/dialogues': storee565fdccfde12fb729cafeb96b2662f3,
+}
+
+/**
+* @see \App\Http\Controllers\CboDialogueController::show
+* @see app/Http/Controllers/CboDialogueController.php:72
+* @route '/cbo/cbos/{cbo}/dialogues/{dialogue}'
+*/
+const showa037e525e26537c393c0e02d32798579 = (args: { cbo: string | number, dialogue: number | { id: number } } | [cbo: string | number, dialogue: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: showa037e525e26537c393c0e02d32798579.url(args, options),
+    method: 'get',
+})
+
+showa037e525e26537c393c0e02d32798579.definition = {
+    methods: ['get','head'],
+    url: '/cbo/cbos/{cbo}/dialogues/{dialogue}',
+}
+
+/**
+* @see \App\Http\Controllers\CboDialogueController::show
+* @see app/Http/Controllers/CboDialogueController.php:72
+* @route '/cbo/cbos/{cbo}/dialogues/{dialogue}'
+*/
+showa037e525e26537c393c0e02d32798579.url = (args: { cbo: string | number, dialogue: number | { id: number } } | [cbo: string | number, dialogue: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (Array.isArray(args)) {
+        args = {
+            cbo: args[0],
+            dialogue: args[1],
+        }
+    }
+
+    const parsedArgs = {
+        cbo: args.cbo,
+        dialogue: typeof args.dialogue === 'object'
+        ? args.dialogue.id
+        : args.dialogue,
+    }
+
+    return showa037e525e26537c393c0e02d32798579.definition.url
+            .replace('{cbo}', parsedArgs.cbo.toString())
+            .replace('{dialogue}', parsedArgs.dialogue.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\CboDialogueController::show
+* @see app/Http/Controllers/CboDialogueController.php:72
+* @route '/cbo/cbos/{cbo}/dialogues/{dialogue}'
+*/
+showa037e525e26537c393c0e02d32798579.get = (args: { cbo: string | number, dialogue: number | { id: number } } | [cbo: string | number, dialogue: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: showa037e525e26537c393c0e02d32798579.url(args, options),
+    method: 'get',
 })
 
 /**
 * @see \App\Http\Controllers\CboDialogueController::show
-* @see app/Http/Controllers/CboDialogueController.php:0
+* @see app/Http/Controllers/CboDialogueController.php:72
+* @route '/cbo/cbos/{cbo}/dialogues/{dialogue}'
+*/
+showa037e525e26537c393c0e02d32798579.head = (args: { cbo: string | number, dialogue: number | { id: number } } | [cbo: string | number, dialogue: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: showa037e525e26537c393c0e02d32798579.url(args, options),
+    method: 'head',
+})
+
+/**
+* @see \App\Http\Controllers\CboDialogueController::show
+* @see app/Http/Controllers/CboDialogueController.php:72
 * @route '/cbo/dialogues/{dialogue}'
 */
-export const show = (args: { dialogue: string | number } | [dialogue: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+const show523efafa3ddca46e6b143ff99a59dac8 = (args: { dialogue: number | { id: number } } | [dialogue: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: show.url(args, options),
+    url: show523efafa3ddca46e6b143ff99a59dac8.url(args, options),
     method: 'get',
 })
 
-show.definition = {
+show523efafa3ddca46e6b143ff99a59dac8.definition = {
     methods: ['get','head'],
     url: '/cbo/dialogues/{dialogue}',
 }
 
 /**
 * @see \App\Http\Controllers\CboDialogueController::show
-* @see app/Http/Controllers/CboDialogueController.php:0
+* @see app/Http/Controllers/CboDialogueController.php:72
 * @route '/cbo/dialogues/{dialogue}'
 */
-show.url = (args: { dialogue: string | number } | [dialogue: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+show523efafa3ddca46e6b143ff99a59dac8.url = (args: { dialogue: number | { id: number } } | [dialogue: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { dialogue: args }
+    }
+
+    if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+        args = { dialogue: args.id }
     }
 
     if (Array.isArray(args)) {
@@ -127,38 +417,187 @@ show.url = (args: { dialogue: string | number } | [dialogue: string | number ] |
     }
 
     const parsedArgs = {
-        dialogue: args.dialogue,
+        dialogue: typeof args.dialogue === 'object'
+        ? args.dialogue.id
+        : args.dialogue,
     }
 
-    return show.definition.url
+    return show523efafa3ddca46e6b143ff99a59dac8.definition.url
             .replace('{dialogue}', parsedArgs.dialogue.toString())
             .replace(/\/+$/, '') + queryParams(options)
 }
 
 /**
 * @see \App\Http\Controllers\CboDialogueController::show
-* @see app/Http/Controllers/CboDialogueController.php:0
+* @see app/Http/Controllers/CboDialogueController.php:72
 * @route '/cbo/dialogues/{dialogue}'
 */
-show.get = (args: { dialogue: string | number } | [dialogue: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+show523efafa3ddca46e6b143ff99a59dac8.get = (args: { dialogue: number | { id: number } } | [dialogue: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: show.url(args, options),
+    url: show523efafa3ddca46e6b143ff99a59dac8.url(args, options),
     method: 'get',
 })
 
 /**
 * @see \App\Http\Controllers\CboDialogueController::show
-* @see app/Http/Controllers/CboDialogueController.php:0
+* @see app/Http/Controllers/CboDialogueController.php:72
 * @route '/cbo/dialogues/{dialogue}'
 */
-show.head = (args: { dialogue: string | number } | [dialogue: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+show523efafa3ddca46e6b143ff99a59dac8.head = (args: { dialogue: number | { id: number } } | [dialogue: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
 } => ({
-    url: show.url(args, options),
+    url: show523efafa3ddca46e6b143ff99a59dac8.url(args, options),
     method: 'head',
+})
+
+export const show = {
+    '/cbo/cbos/{cbo}/dialogues/{dialogue}': showa037e525e26537c393c0e02d32798579,
+    '/cbo/dialogues/{dialogue}': show523efafa3ddca46e6b143ff99a59dac8,
+}
+
+/**
+* @see \App\Http\Controllers\CboDialogueController::edit
+* @see app/Http/Controllers/CboDialogueController.php:82
+* @route '/cbo/cbos/{cbo}/dialogues/{dialogue}/edit'
+*/
+export const edit = (args: { cbo: string | number, dialogue: number | { id: number } } | [cbo: string | number, dialogue: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: edit.url(args, options),
+    method: 'get',
+})
+
+edit.definition = {
+    methods: ['get','head'],
+    url: '/cbo/cbos/{cbo}/dialogues/{dialogue}/edit',
+}
+
+/**
+* @see \App\Http\Controllers\CboDialogueController::edit
+* @see app/Http/Controllers/CboDialogueController.php:82
+* @route '/cbo/cbos/{cbo}/dialogues/{dialogue}/edit'
+*/
+edit.url = (args: { cbo: string | number, dialogue: number | { id: number } } | [cbo: string | number, dialogue: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (Array.isArray(args)) {
+        args = {
+            cbo: args[0],
+            dialogue: args[1],
+        }
+    }
+
+    const parsedArgs = {
+        cbo: args.cbo,
+        dialogue: typeof args.dialogue === 'object'
+        ? args.dialogue.id
+        : args.dialogue,
+    }
+
+    return edit.definition.url
+            .replace('{cbo}', parsedArgs.cbo.toString())
+            .replace('{dialogue}', parsedArgs.dialogue.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\CboDialogueController::edit
+* @see app/Http/Controllers/CboDialogueController.php:82
+* @route '/cbo/cbos/{cbo}/dialogues/{dialogue}/edit'
+*/
+edit.get = (args: { cbo: string | number, dialogue: number | { id: number } } | [cbo: string | number, dialogue: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: edit.url(args, options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\CboDialogueController::edit
+* @see app/Http/Controllers/CboDialogueController.php:82
+* @route '/cbo/cbos/{cbo}/dialogues/{dialogue}/edit'
+*/
+edit.head = (args: { cbo: string | number, dialogue: number | { id: number } } | [cbo: string | number, dialogue: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: edit.url(args, options),
+    method: 'head',
+})
+
+/**
+* @see \App\Http\Controllers\CboDialogueController::update
+* @see app/Http/Controllers/CboDialogueController.php:90
+* @route '/cbo/cbos/{cbo}/dialogues/{dialogue}'
+*/
+const updatea037e525e26537c393c0e02d32798579 = (args: { cbo: number | { id: number }, dialogue: number | { id: number } } | [cbo: number | { id: number }, dialogue: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'put',
+} => ({
+    url: updatea037e525e26537c393c0e02d32798579.url(args, options),
+    method: 'put',
+})
+
+updatea037e525e26537c393c0e02d32798579.definition = {
+    methods: ['put','patch'],
+    url: '/cbo/cbos/{cbo}/dialogues/{dialogue}',
+}
+
+/**
+* @see \App\Http\Controllers\CboDialogueController::update
+* @see app/Http/Controllers/CboDialogueController.php:90
+* @route '/cbo/cbos/{cbo}/dialogues/{dialogue}'
+*/
+updatea037e525e26537c393c0e02d32798579.url = (args: { cbo: number | { id: number }, dialogue: number | { id: number } } | [cbo: number | { id: number }, dialogue: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (Array.isArray(args)) {
+        args = {
+            cbo: args[0],
+            dialogue: args[1],
+        }
+    }
+
+    const parsedArgs = {
+        cbo: typeof args.cbo === 'object'
+        ? args.cbo.id
+        : args.cbo,
+        dialogue: typeof args.dialogue === 'object'
+        ? args.dialogue.id
+        : args.dialogue,
+    }
+
+    return updatea037e525e26537c393c0e02d32798579.definition.url
+            .replace('{cbo}', parsedArgs.cbo.toString())
+            .replace('{dialogue}', parsedArgs.dialogue.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\CboDialogueController::update
+* @see app/Http/Controllers/CboDialogueController.php:90
+* @route '/cbo/cbos/{cbo}/dialogues/{dialogue}'
+*/
+updatea037e525e26537c393c0e02d32798579.put = (args: { cbo: number | { id: number }, dialogue: number | { id: number } } | [cbo: number | { id: number }, dialogue: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'put',
+} => ({
+    url: updatea037e525e26537c393c0e02d32798579.url(args, options),
+    method: 'put',
+})
+
+/**
+* @see \App\Http\Controllers\CboDialogueController::update
+* @see app/Http/Controllers/CboDialogueController.php:90
+* @route '/cbo/cbos/{cbo}/dialogues/{dialogue}'
+*/
+updatea037e525e26537c393c0e02d32798579.patch = (args: { cbo: number | { id: number }, dialogue: number | { id: number } } | [cbo: number | { id: number }, dialogue: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'patch',
+} => ({
+    url: updatea037e525e26537c393c0e02d32798579.url(args, options),
+    method: 'patch',
 })
 
 /**
@@ -166,15 +605,15 @@ show.head = (args: { dialogue: string | number } | [dialogue: string | number ] 
 * @see app/Http/Controllers/CboDialogueController.php:90
 * @route '/cbo/dialogues/{dialogue}'
 */
-export const update = (args: { dialogue: number | { id: number } } | [dialogue: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+const update523efafa3ddca46e6b143ff99a59dac8 = (args: { dialogue: number | { id: number } } | [dialogue: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'put',
 } => ({
-    url: update.url(args, options),
+    url: update523efafa3ddca46e6b143ff99a59dac8.url(args, options),
     method: 'put',
 })
 
-update.definition = {
+update523efafa3ddca46e6b143ff99a59dac8.definition = {
     methods: ['put','patch'],
     url: '/cbo/dialogues/{dialogue}',
 }
@@ -184,7 +623,7 @@ update.definition = {
 * @see app/Http/Controllers/CboDialogueController.php:90
 * @route '/cbo/dialogues/{dialogue}'
 */
-update.url = (args: { dialogue: number | { id: number } } | [dialogue: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+update523efafa3ddca46e6b143ff99a59dac8.url = (args: { dialogue: number | { id: number } } | [dialogue: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { dialogue: args }
     }
@@ -205,7 +644,7 @@ update.url = (args: { dialogue: number | { id: number } } | [dialogue: number | 
         : args.dialogue,
     }
 
-    return update.definition.url
+    return update523efafa3ddca46e6b143ff99a59dac8.definition.url
             .replace('{dialogue}', parsedArgs.dialogue.toString())
             .replace(/\/+$/, '') + queryParams(options)
 }
@@ -215,11 +654,11 @@ update.url = (args: { dialogue: number | { id: number } } | [dialogue: number | 
 * @see app/Http/Controllers/CboDialogueController.php:90
 * @route '/cbo/dialogues/{dialogue}'
 */
-update.put = (args: { dialogue: number | { id: number } } | [dialogue: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+update523efafa3ddca46e6b143ff99a59dac8.put = (args: { dialogue: number | { id: number } } | [dialogue: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'put',
 } => ({
-    url: update.url(args, options),
+    url: update523efafa3ddca46e6b143ff99a59dac8.url(args, options),
     method: 'put',
 })
 
@@ -228,38 +667,102 @@ update.put = (args: { dialogue: number | { id: number } } | [dialogue: number | 
 * @see app/Http/Controllers/CboDialogueController.php:90
 * @route '/cbo/dialogues/{dialogue}'
 */
-update.patch = (args: { dialogue: number | { id: number } } | [dialogue: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+update523efafa3ddca46e6b143ff99a59dac8.patch = (args: { dialogue: number | { id: number } } | [dialogue: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'patch',
 } => ({
-    url: update.url(args, options),
+    url: update523efafa3ddca46e6b143ff99a59dac8.url(args, options),
     method: 'patch',
+})
+
+export const update = {
+    '/cbo/cbos/{cbo}/dialogues/{dialogue}': updatea037e525e26537c393c0e02d32798579,
+    '/cbo/dialogues/{dialogue}': update523efafa3ddca46e6b143ff99a59dac8,
+}
+
+/**
+* @see \App\Http\Controllers\CboDialogueController::destroy
+* @see app/Http/Controllers/CboDialogueController.php:106
+* @route '/cbo/cbos/{cbo}/dialogues/{dialogue}'
+*/
+const destroya037e525e26537c393c0e02d32798579 = (args: { cbo: number | { id: number }, dialogue: number | { id: number } } | [cbo: number | { id: number }, dialogue: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'delete',
+} => ({
+    url: destroya037e525e26537c393c0e02d32798579.url(args, options),
+    method: 'delete',
+})
+
+destroya037e525e26537c393c0e02d32798579.definition = {
+    methods: ['delete'],
+    url: '/cbo/cbos/{cbo}/dialogues/{dialogue}',
+}
+
+/**
+* @see \App\Http\Controllers\CboDialogueController::destroy
+* @see app/Http/Controllers/CboDialogueController.php:106
+* @route '/cbo/cbos/{cbo}/dialogues/{dialogue}'
+*/
+destroya037e525e26537c393c0e02d32798579.url = (args: { cbo: number | { id: number }, dialogue: number | { id: number } } | [cbo: number | { id: number }, dialogue: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (Array.isArray(args)) {
+        args = {
+            cbo: args[0],
+            dialogue: args[1],
+        }
+    }
+
+    const parsedArgs = {
+        cbo: typeof args.cbo === 'object'
+        ? args.cbo.id
+        : args.cbo,
+        dialogue: typeof args.dialogue === 'object'
+        ? args.dialogue.id
+        : args.dialogue,
+    }
+
+    return destroya037e525e26537c393c0e02d32798579.definition.url
+            .replace('{cbo}', parsedArgs.cbo.toString())
+            .replace('{dialogue}', parsedArgs.dialogue.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\CboDialogueController::destroy
+* @see app/Http/Controllers/CboDialogueController.php:106
+* @route '/cbo/cbos/{cbo}/dialogues/{dialogue}'
+*/
+destroya037e525e26537c393c0e02d32798579.delete = (args: { cbo: number | { id: number }, dialogue: number | { id: number } } | [cbo: number | { id: number }, dialogue: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'delete',
+} => ({
+    url: destroya037e525e26537c393c0e02d32798579.url(args, options),
+    method: 'delete',
 })
 
 /**
 * @see \App\Http\Controllers\CboDialogueController::destroy
-* @see app/Http/Controllers/CboDialogueController.php:129
+* @see app/Http/Controllers/CboDialogueController.php:106
 * @route '/cbo/dialogues/{dialogue}'
 */
-export const destroy = (args: { dialogue: number | { id: number } } | [dialogue: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+const destroy523efafa3ddca46e6b143ff99a59dac8 = (args: { dialogue: number | { id: number } } | [dialogue: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'delete',
 } => ({
-    url: destroy.url(args, options),
+    url: destroy523efafa3ddca46e6b143ff99a59dac8.url(args, options),
     method: 'delete',
 })
 
-destroy.definition = {
+destroy523efafa3ddca46e6b143ff99a59dac8.definition = {
     methods: ['delete'],
     url: '/cbo/dialogues/{dialogue}',
 }
 
 /**
 * @see \App\Http\Controllers\CboDialogueController::destroy
-* @see app/Http/Controllers/CboDialogueController.php:129
+* @see app/Http/Controllers/CboDialogueController.php:106
 * @route '/cbo/dialogues/{dialogue}'
 */
-destroy.url = (args: { dialogue: number | { id: number } } | [dialogue: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+destroy523efafa3ddca46e6b143ff99a59dac8.url = (args: { dialogue: number | { id: number } } | [dialogue: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { dialogue: args }
     }
@@ -280,24 +783,29 @@ destroy.url = (args: { dialogue: number | { id: number } } | [dialogue: number |
         : args.dialogue,
     }
 
-    return destroy.definition.url
+    return destroy523efafa3ddca46e6b143ff99a59dac8.definition.url
             .replace('{dialogue}', parsedArgs.dialogue.toString())
             .replace(/\/+$/, '') + queryParams(options)
 }
 
 /**
 * @see \App\Http\Controllers\CboDialogueController::destroy
-* @see app/Http/Controllers/CboDialogueController.php:129
+* @see app/Http/Controllers/CboDialogueController.php:106
 * @route '/cbo/dialogues/{dialogue}'
 */
-destroy.delete = (args: { dialogue: number | { id: number } } | [dialogue: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+destroy523efafa3ddca46e6b143ff99a59dac8.delete = (args: { dialogue: number | { id: number } } | [dialogue: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'delete',
 } => ({
-    url: destroy.url(args, options),
+    url: destroy523efafa3ddca46e6b143ff99a59dac8.url(args, options),
     method: 'delete',
 })
 
-const CboDialogueController = { index, store, show, update, destroy }
+export const destroy = {
+    '/cbo/cbos/{cbo}/dialogues/{dialogue}': destroya037e525e26537c393c0e02d32798579,
+    '/cbo/dialogues/{dialogue}': destroy523efafa3ddca46e6b143ff99a59dac8,
+}
+
+const CboDialogueController = { index, create, store, show, edit, update, destroy }
 
 export default CboDialogueController

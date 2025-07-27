@@ -2,128 +2,120 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CboExposureVisitRequest;
-use App\Models\CboExposureVisit;
-use App\Models\Cbo; // Ensure Cbo model is imported
-use App\Services\CboExposureVisitService;
+use App\Http\Requests\StoreCboExposureVisitRequest;
+use App\Http\Requests\UpdateCboExposureVisitRequest;
+use App\Models\Cbo; // Import the parent Cbo model
+use App\Models\CboExposureVisit; // Import the CboExposureVisit model
+use App\Services\CboService; // Import the CboService
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Illuminate\Support\Facades\DB; // For transactions
-use Illuminate\Support\Facades\Log; // For logging
-use Spatie\MediaLibrary\MediaCollections\Models\Media; // For direct deletion
+use Illuminate\Support\Facades\Log;
 
 class CboExposureVisitController extends Controller
 {
-    public function __construct(protected CboExposureVisitService $service) {}
+    protected $cboService;
 
-    public function index(Request $request)
+    public function __construct(CboService $cboService)
     {
-        // This index method might be used for a general list of all exposure visits
-        // For the CBO-specific list, data comes via CboController@details
-        $visits = CboExposureVisit::with('cbo', 'media')->latest()->paginate(10);
-        return Inertia::render('CboExposureVisit/Index', [
-            'visits' => $visits,
+        $this->cboService = $cboService;
+    }
+
+    /**
+     * Display a listing of CBO Exposure Visits for a specific CBO.
+     * E.g., /cbo/cbos/{cbo}/exposure-visits
+     */
+    public function index(Request $request, Cbo $cbo)
+    {
+        $exposureVisits = $cbo->exposureVisits()
+            ->with('media') // Eager load attachments
+            ->orderBy('date_of_visit', 'desc')
+            ->paginate(10);
+
+        // Apply accessor for frontend attachments
+        $exposureVisits->getCollection()->transform(function ($visit) {
+            $visit->attachments = $visit->attachments_frontend;
+            return $visit;
+        });
+
+        return Inertia::render('CBO/ExposureVisits/Index', [ // Assuming a dedicated index page
+            'cbo' => $cbo->only('id', 'reference_code'),
+            'exposureVisits' => $exposureVisits,
         ]);
     }
 
-    // NEW: Show method to fetch a single Exposure Visit for editing
-    public function show(CboExposureVisit $exposureVisit) // Route Model Binding
+    /**
+     * Show the form for creating a new CBO Exposure Visit.
+     */
+    public function create()
     {
-        Log::info("CboExposureVisitController@show called for Exposure Visit ID: {$exposureVisit->id}");
-        // Eager load the CBO relationship for display and media for attachments
-        $exposureVisit->load('cbo', 'media');
-        // The accessor will handle formatting 'media' into 'attachments'
-        return response()->json($exposureVisit);
+        // Not directly used if modal handles creation.
     }
 
-    public function store(CboExposureVisitRequest $request)
+    /**
+     * Store a newly created CBO Exposure Visit in storage.
+     */
+    public function store(StoreCboExposureVisitRequest $request, Cbo $cbo)
     {
         try {
-            DB::transaction(function () use ($request) {
-                $data = $request->validated();
-
-                // CRITICAL FIX: Remove 'attachments' and 'removed_attachments' from $data
-                // before passing to create. These are handled by Spatie Media Library.
-                $attachments = $data['attachments'] ?? [];
-                $removedAttachments = $data['removed_attachments'] ?? [];
-
-                unset($data['attachments']);
-                unset($data['removed_attachments']);
-
-                $visit = $this->service->create($data); // This now only contains database columns
-
-                // Handle new attachments
-                if (!empty($attachments)) {
-                    foreach ($attachments as $file) {
-                        // Ensure it's a valid File object (from frontend filter)
-                        if ($file instanceof \Illuminate\Http\UploadedFile) { // Check for UploadedFile instance
-                            $visit->addMedia($file)->toMediaCollection('attachments');
-                        } else {
-                            Log::warning("Skipping invalid file in store: " . (is_object($file) ? get_class($file) : gettype($file)));
-                        }
-                    }
-                }
-            });
-            return redirect()->back()->with('success', 'Exposure Visit created successfully!');
+            $this->cboService->createCboExposureVisit($cbo, $request->validated());
+            return redirect()->back()->with('success', 'CBO Exposure Visit created successfully!');
         } catch (\Exception $e) {
-            Log::error('Error creating Exposure Visit: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Failed to create Exposure Visit: ' . $e->getMessage());
+            Log::error('Error creating CBO Exposure Visit: ' . $e->getMessage(), ['exception' => $e]);
+            return redirect()->back()->with('error', 'Failed to create CBO Exposure Visit: ' . $e->getMessage());
         }
     }
 
-    public function update(CboExposureVisitRequest $request, CboExposureVisit $exposureVisit)
+    /**
+     * Display the specified CBO Exposure Visit.
+     */
+    public function show(CboExposureVisit $exposureVisit)
     {
+        $exposureVisit->load('media'); // Ensure media is loaded
+        $exposureVisit->attachments = $exposureVisit->attachments_frontend; // Apply accessor
+        return response()->json($exposureVisit); // Return as JSON for modal or API
+    }
+
+    /**
+     * Show the form for editing the specified CBO Exposure Visit.
+     */
+    public function edit(CboExposureVisit $exposureVisit)
+    {
+        // Not directly used if modal handles editing.
+    }
+
+    /**
+     * Update the specified CBO Exposure Visit in storage.
+     */
+    public function update(UpdateCboExposureVisitRequest $request, Cbo $cbo, CboExposureVisit $exposureVisit)
+    {
+        // Ensure the visit belongs to the correct CBO
+        if ($exposureVisit->cbo_id !== $cbo->id) {
+            return redirect()->back()->with('error', 'Exposure Visit not found for this CBO.');
+        }
         try {
-            DB::transaction(function () use ($request, $exposureVisit) {
-                $data = $request->validated();
-
-                // CRITICAL FIX: Extract attachments data before update
-                $attachments = $data['attachments'] ?? [];
-                $removedAttachments = $data['removed_attachments'] ?? [];
-
-                unset($data['attachments']);
-                unset($data['removed_attachments']);
-
-                // Update the model with only the database columns
-                $exposureVisit->update($data);
-
-                // Handle removed attachments
-                if (!empty($removedAttachments)) {
-                    Media::whereIn('id', $removedAttachments)
-                        ->where('model_type', get_class($exposureVisit))
-                        ->where('model_id', $exposureVisit->id)
-                        ->delete();
-                }
-
-                // Handle new attachments
-                if (!empty($attachments)) {
-                    foreach ($attachments as $file) {
-                        if ($file instanceof \Illuminate\Http\UploadedFile) {
-                            $exposureVisit->addMedia($file)->toMediaCollection('attachments');
-                        } else {
-                            Log::warning("Skipping invalid file in update: " . (is_object($file) ? get_class($file) : gettype($file)));
-                        }
-                    }
-                }
-            });
-            return redirect()->back()->with('success', 'Exposure Visit updated successfully!');
+            $this->cboService->updateCboExposureVisit($exposureVisit, $request->validated());
+            return redirect()->back()->with('success', 'CBO Exposure Visit updated successfully!');
         } catch (\Exception $e) {
-            Log::error('Error updating Exposure Visit: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Failed to update Exposure Visit: ' . $e->getMessage());
+            Log::error('Error updating CBO Exposure Visit: ' . $e->getMessage(), ['exception' => $e]);
+            return redirect()->back()->with('error', 'Failed to update CBO Exposure Visit: ' . $e->getMessage());
         }
     }
 
-    public function destroy(CboExposureVisit $exposureVisit)
+    /**
+     * Remove the specified CBO Exposure Visit from storage.
+     */
+    public function destroy(Cbo $cbo, CboExposureVisit $exposureVisit)
     {
-        Log::info("Attempting to delete Exposure Visit with ID: {$exposureVisit->id}");
+        // Ensure the visit belongs to the correct CBO before deleting
+        if ($exposureVisit->cbo_id !== $cbo->id) {
+            return redirect()->back()->with('error', 'Exposure Visit not found for this CBO.');
+        }
         try {
-            DB::transaction(function () use ($exposureVisit) {
-                $exposureVisit->delete(); // Spatie Media Library handles media deletion
-            });
-            return redirect()->back()->with('success', 'Exposure Visit deleted successfully!');
+            $this->cboService->deleteCboExposureVisit($exposureVisit);
+            return redirect()->back()->with('success', 'CBO Exposure Visit deleted successfully!');
         } catch (\Exception $e) {
-            Log::error('Error deleting Exposure Visit: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Failed to delete Exposure Visit: ' . $e->getMessage());
+            Log::error('Error deleting CBO Exposure Visit: ' . $e->getMessage(), ['exception' => $e]);
+            return redirect()->back()->with('error', 'Failed to delete CBO Exposure Visit: ' . $e->getMessage());
         }
     }
 }

@@ -17,8 +17,8 @@ import IrrigationAdminApprovalController from './IrrigationAdminApprovalControll
 import IrrigationCompletionController from './IrrigationCompletionController'
 import CboController from './CboController'
 import CboDialogueController from './CboDialogueController'
-import CboTrainingController from './CboTrainingController'
 import CboExposureVisitController from './CboExposureVisitController'
+import CboTrainingController from './CboTrainingController'
 import ReportController from './ReportController'
 
 const Controllers = {
@@ -41,8 +41,8 @@ const Controllers = {
     IrrigationCompletionController,
     CboController,
     CboDialogueController,
-    CboTrainingController,
     CboExposureVisitController,
+    CboTrainingController,
     ReportController,
 }
 

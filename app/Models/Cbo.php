@@ -11,59 +11,89 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media as SpatieMedia;
 
 class Cbo extends Model implements HasMedia
 {
-    /** @use HasFactory<\Database\Factories\CboFactory> */
-    use HasFactory, interactsWithMedia;
+    use HasFactory, InteractsWithMedia;
+
+    protected $table = 'cbos';
+
     protected $fillable = [
-        'reference_code', 'district', 'tehsil', 'village_council', 'village',
-        'date_of_formation', 'total_members', 'gender', 'num_cbo_members',
-        'president_name', 'president_contact', 'secretary_name', 'secretary_contact',
+        'reference_code',
+        'district',
+        'tehsil',
+        'village_council',
+        'village',
+        'date_of_formation',
+        'total_members',
+        'gender',
+        'num_cbo_members',
+        'president_name',
+        'president_contact',
+        'secretary_name',
+        'secretary_contact',
+        'remarks', // Added remarks field
     ];
 
-    public function dialogues():HasMany
-    {
-        return $this->hasMany(CboDialogue::class);
-    }
+    protected $casts = [
+        'date_of_formation' => 'date',
+        'total_members' => 'integer',
+        'num_cbo_members' => 'integer',
+        'gender' => 'string', // Cast enum to string
+    ];
 
-    public function exposureVisits():HasMany
-    {
-        return $this->hasMany(CboExposureVisit::class);
-    }
-
-    public function trainings():HasMany
-    {
-        return $this->hasMany(CboTraining::class);
-    }
-
+    /**
+     * The "booting" method of the model.
+     * Ensures related media is deleted when CBO is deleted.
+     */
     protected static function boot()
     {
         parent::boot();
 
         static::deleting(function ($cbo) {
-            // Delete all related dialogues, trainings, and exposure visits
-            // Their own media will be deleted automatically due to HasMedia trait.
-            $cbo->dialogues()->delete();
-            $cbo->trainings()->delete();
-            $cbo->exposureVisits()->delete();
+            // While database foreign keys handle record deletion (ON DELETE CASCADE),
+            // calling delete() on related models here ensures their own 'deleting' model events fire.
+            // This is crucial for Spatie Media Library to delete associated media files from storage.
+            // We use each(fn($child) => $child->delete()) to trigger model events for each child.
+            $cbo->dialogues->each(fn ($dialogue) => $dialogue->delete());
+            $cbo->trainings->each(fn ($training) => $training->delete());
+            $cbo->exposureVisits->each(fn ($visit) => $visit->delete());
+
             // If CBO has direct media, it will be deleted automatically by InteractsWithMedia
         });
     }
 
-    // Accessor for CBO's own attachments (if used in frontend)
-    protected $appends = ['cbo_attachments_frontend']; // Use a different name to avoid conflict with $cbo->attachments if that's standard for Spatie
-
-    public function registerMediaCollections(): void
+    // --- Relationships ---
+    public function dialogues(): HasMany
     {
-        $this->addMediaCollection('attachments');
+        return $this->hasMany(CboDialogue::class);
     }
 
-    public function getCboAttachmentsFrontendAttribute():array
+    public function exposureVisits(): HasMany
     {
-        return $this->getMedia('attachments')->map(fn ($m) => [
-            'id' => $m->id,
-            'name' => $m->name,
-            'file_name' => $m->file_name,
-            'url' => $m->getUrl(),
-            'size' => $m->size,
+        return $this->hasMany(CboExposureVisit::class);
+    }
+
+    public function trainings(): HasMany
+    {
+        return $this->hasMany(CboTraining::class);
+    }
+
+    // --- Spatie Media Library ---
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('attachments'); // Main attachments for the CBO
+    }
+
+    // Accessor for formatted attachments for frontend
+    protected $appends = ['attachments_frontend']; // Append formatted attachments
+
+    public function getAttachmentsFrontendAttribute(): array
+    {
+        return $this->getMedia('attachments')->map(fn (SpatieMedia $media) => [
+            'id' => $media->id,
+            'name' => $media->name,
+            'file_name' => $media->file_name,
+            'url' => $media->getUrl(),
+            'size' => $media->size,
+            'mime_type' => $media->mime_type,
         ])->toArray();
     }
 }

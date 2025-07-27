@@ -16,8 +16,19 @@ class CboExposureVisit extends Model implements HasMedia
 
 
     use HasFactory, InteractsWithMedia;
-    protected $guarded = [];
-    protected $appends=['attachments'];
+    protected $fillable = [
+        'cbo_id',
+        'participants',
+        'purpose_of_visit',
+        'remarks', // Already exists
+        'date_of_visit',
+    ];
+    protected $casts = [
+        'participants' => 'integer',
+        'date_of_visit' => 'date',
+    ];
+
+
 
     public function cbo():BelongsTo
     {
@@ -25,24 +36,24 @@ class CboExposureVisit extends Model implements HasMedia
     }
 
 
+    // --- Spatie Media Library ---
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('attachments');
+        $this->addMediaCollection('attachments'); // Attachments for exposure visit
     }
 
+    protected $appends = ['attachments_frontend'];
 
-
-    public function getAttachmentsAttribute()
+    public function getAttachmentsFrontendAttribute(): array
     {
-        return $this->getMedia('attachments')->map(function (SpatieMedia $media) {
-            return [
-                'id' => $media->id,
-                'name' => $media->name,
-                'file_name' => $media->file_name,
-                'url' => $media->getUrl(),
-                'size' => $media->size,
-            ];
-        })->toArray();
+        return $this->getMedia('attachments')->map(fn (SpatieMedia $media) => [
+            'id' => $media->id,
+            'name' => $media->name,
+            'file_name' => $media->file_name,
+            'url' => $media->getUrl(),
+            'size' => $media->size,
+            'mime_type' => $media->mime_type,
+        ])->toArray();
     }
 
 }

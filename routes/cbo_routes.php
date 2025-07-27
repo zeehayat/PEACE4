@@ -16,14 +16,23 @@ use App\Http\Controllers\ReportController;
 Route::middleware(['web'])->group(function () {
     // --- CBO (Main Resource) ---
     // URI: /cbo/cbos, Names: cbo.cbos.index, cbo.cbos.show, etc.
-    Route::resource('cbos', CboController::class)->names([
-        'index' => 'cbos.index',    // Becomes cbo.cbos.index
-        'create' => 'cbos.create',  // Becomes cbo.cbos.create
-        'store' => 'cbos.store',
-        'show' => 'cbos.show',      // Becomes cbo.cbos.show
-        'edit' => 'cbos.edit',
-        'update' => 'cbos.update',
-        'destroy' => 'cbos.destroy',
+    Route::middleware(['web'])->group(function () { // Add specific middleware if needed
+        Route::resource('cbos', CboController::class); // Main CBO resource
+        Route::get('cbos/auto-search', [CboController::class, 'getCbos'])->name('cbos.auto-search'); // For frontend searchables
+    });
+    Route::resource('cbos.dialogues', CboDialogueController::class)->parameters([
+        'dialogues' => 'dialogue', // Explicitly name child parameter
+        'cbos' => 'cbo', // Explicitly name parent parameter
+    ]);
+
+    Route::resource('cbos.exposure-visits', CboExposureVisitController::class)->parameters([
+        'exposure-visits' => 'exposure_visit', // Explicitly name child parameter
+        'cbos' => 'cbo', // Explicitly name parent parameter
+    ]);
+
+    Route::resource('cbos.trainings', CboTrainingController::class)->parameters([
+        'trainings' => 'training', // Explicitly name child parameter
+        'cbos' => 'cbo', // Explicitly name parent parameter
     ]);
 
     // Custom route for CBO Details (if it fetches full details for modals)

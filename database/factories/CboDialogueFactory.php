@@ -13,9 +13,14 @@ class CboDialogueFactory extends Factory
     public function definition(): array
     {
         return [
-            'cbo_id' => Cbo::factory(),
-            'dialogue_date' => $this->faker->date(),
-            'participants' => $this->faker->numberBetween(10, 100),
+            'cbo_id' => Cbo::factory(), // Automatically create a Cbo
+            'date_of_dialogue' => $this->faker->date(), // FIX: Use correct column name
+            'participants' => $this->faker->numberBetween(5, 50),
+            'remarks' => $this->faker->sentence(),
         ];
     }
 }
+
+
+
+

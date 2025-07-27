@@ -16,29 +16,30 @@ class CboTraining extends Model implements HasMedia
 
     protected $fillable = ['cbo_id', 'training_type', 'training_gender', 'date_of_training', 'total_participants','remarks'];
 
-    protected $appends = ['attachments'];
+
 
     public function cbo(): BelongsTo
     {
         return $this->belongsTo(Cbo::class);
     }
 
+    // --- Spatie Media Library ---
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('attachments');
+        $this->addMediaCollection('attachments'); // Attachments for training
     }
 
-    public function getAttachmentsAttribute():array
+    protected $appends = ['attachments_frontend'];
+
+    public function getAttachmentsFrontendAttribute(): array
     {
-        // CRITICAL FIX: Change the type hint in the closure's argument
-        return $this->getMedia('attachments')->map(function (SpatieMedia $media) { // Changed 'App\Models\Media' to 'SpatieMedia'
-            return [
-                'id' => $media->id,
-                'name' => $media->name,
-                'file_name' => $media->file_name,
-                'url' => $media->getUrl(),
-                'size' => $media->size,
-            ];
-        })->toArray();
+        return $this->getMedia('attachments')->map(fn (SpatieMedia $media) => [
+            'id' => $media->id,
+            'name' => $media->name,
+            'file_name' => $media->file_name,
+            'url' => $media->getUrl(),
+            'size' => $media->size,
+            'mime_type' => $media->mime_type,
+        ])->toArray();
     }
 }
