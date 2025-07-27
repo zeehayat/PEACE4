@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch, onMounted, onBeforeUnmount } from 'vue';
-import Editor from '@tinymce/tinymce-vue'; // Import TinyMCE Vue component
+import Editor from '@tinymce/tinymce-vue';
 import InputLabel from '@/Components/InputLabel.vue'; // Ensure InputLabel is imported
 
 const props = defineProps({
@@ -42,18 +42,19 @@ const content = ref(props.modelValue);
 
 // Watch for external modelValue changes and update internal content
 watch(() => props.modelValue, (newVal) => {
+    // Check if the editor is ready and content actually needs updating
     if (editorRef.value && editorRef.value.editor && newVal !== editorRef.value.editor.getContent()) {
         editorRef.value.editor.setContent(newVal || ''); // Update editor content if modelValue changes externally
     }
     content.value = newVal; // Keep internal ref in sync
 });
 
-// FIX: Get content from the editor instance
-const handleEditorChange = (editor) => { // The 'editor' instance is passed as the argument
-    const newContent = editor.getContent(); // Get the HTML content as a string
-    if (newContent !== content.value) { // Prevent infinite loop if content is the same
-        content.value = newContent;
-        emit('update:modelValue', newContent); // Emit the string content
+// FIX: Revert to handle the content string directly.
+// The @tinymce/tinymce-vue component's v-model handles getting the content from the editor.
+const handleEditorChange = (value) => { // 'value' here should already be the string content
+    if (value !== content.value) { // Prevent infinite loop if content is the same
+        content.value = value;
+        emit('update:modelValue', value); // Emit the string content
     }
 };
 
@@ -84,7 +85,7 @@ onBeforeUnmount(() => {
                 content_style: 'body { font-family:Inter,sans-serif; font-size:14px }',
                 ...options,
             }"
-            @change="handleEditorChange"
+            @change="handleEditorChange" <!-- Still use @change to trigger handler -->
         ref="editorRef"
         />
     </div>
