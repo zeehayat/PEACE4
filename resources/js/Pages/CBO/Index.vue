@@ -4,60 +4,35 @@ import { router, Link, usePage } from '@inertiajs/vue3';
 
 import SideBar from "@/Components/SideBar.vue";
 import Toast from '@/Components/Toast.vue';
-import Pagination from '@/Components/Pagination.vue'; // Assuming this component exists
+import Pagination from '@/Components/Pagination.vue';
 
-// CBO-specific Components and Modals
 import CboListCard from '@/Pages/CBO/Components/CboListCard.vue';
-// Modals (will be created in subsequent steps)
 import CboCreateModal from '@/Pages/CBO/Modals/CboCreateModal.vue';
 import CboEditModal from '@/Pages/CBO/Modals/CboEditModal.vue';
 import CboDetailsModal from '@/Pages/CBO/Modals/CboDetailsModal.vue';
-// Related entity modals (will be created later)
-// import CboDialogueModal from '@/Pages/CBO/Modals/CboDialogueModal.vue';
-// import CboDialogueListModal from '@/Pages/CBO/Modals/CboDialogueListModal.vue';
-// import CboExposureVisitModal from '@/Pages/CBO/Modals/CboExposureVisitModal.vue';
-// import CboExposureVisitListModal from '@/Pages/CBO/Modals/CboExposureVisitListModal.vue';
-// import CboTrainingModal from '@/Pages/CBO/Modals/CboTrainingModal.vue';
-// import CboTrainingListModal from '@/Pages/CBO/Modals/CboTrainingListModal.vue';
-
 
 const props = defineProps({
     cbos: Object, // Paginated data for CBOs
     filters: Object,
-    errors: Object, // Validation errors from backend
+    errors: Object,
 });
 
 const page = usePage();
 
-// --- Reactive State Variables ---
-const selectedCbo = ref(null); // The CBO object currently selected for modal/action
+const selectedCbo = ref(null);
 
 const toastVisible = ref(false);
 const toastMessage = ref('');
 const toastType = ref('success');
 const searchTerm = ref(props.filters.search || '');
 
-// === State for Teleported Action Menu ===
-const openActionMenuId = ref(null); // ID of the currently open menu
-const menuPosition = ref({ top: 0, left: 0, width: 0, direction: 'down' }); // Stores position for teleported menu
-// ========================================
+const openActionMenuId = ref(null);
+const menuPosition = ref({ top: 0, left: 0, width: 0, direction: 'down' });
 
-// Modal Visibility Control flags
 const showCboCreateModal = ref(false);
 const showCboEditModal = ref(false);
 const showCboDetailsModal = ref(false);
-// Related entity modals (flags will be added here later)
-// const showCboDialogueModal = ref(false);
-// const showCboDialogueListModal = ref(false);
-// const showCboExposureVisitModal = ref(false);
-// const showCboExposureVisitListModal = ref(false);
-// const showCboTrainingModal = ref(false);
-// const showCboTrainingListModal = ref(false);
 
-
-// --- Centralized Handlers ---
-
-// Handles updates (success messages, data reloads) from various forms/modals
 function handleUpdated(message) {
     toastMessage.value = message;
     toastType.value = 'success';
@@ -67,93 +42,20 @@ function handleUpdated(message) {
     router.reload({ only: ['cbos'], preserveState: true });
 }
 
-// Closes any open modal and clears selected data
 function closeModal() {
     showCboCreateModal.value = false;
     showCboEditModal.value = false;
     showCboDetailsModal.value = false;
-    // Close other related entity modals here when implemented
-    // showCboDialogueModal.value = false;
-    // showCboDialogueListModal.value = false;
-    // ...
 
-    // Reset selectedCbo and other specific selected items only after modal transitions
     setTimeout(() => {
         selectedCbo.value = null;
-        // Also ensure the menu is closed if it was open for the closed modal's CBO
         openActionMenuId.value = null;
     }, 300);
 }
 
-// === Teleported Action Menu Logic ===
-
-
-const closeAllActionMenus = (event) => {
-    if (openActionMenuId.value !== null &&
-        !event.target.closest('.action-menu-trigger') &&
-        !event.target.closest('.action-menu-dropdown')
-    ) {
-        openActionMenuId.value = null;
-    }
-};
-
-onMounted(() => {
-    document.addEventListener('click', closeAllActionMenus);
-});
-
-onBeforeUnmount(() => {
-    document.removeEventListener('click', closeAllActionMenus);
-});
-// ====================================
-
-
-// --- Handlers for CBO Actions (emitted by CboListCard and used by table) ---
-
-function handleViewDetails(cbo) { selectedCbo.value = cbo; showCboDetailsModal.value = true; openActionMenuId.value = null; }
-function handleEditCbo(cbo) { selectedCbo.value = cbo; showCboEditModal.value = true; openActionMenuId.value = null; }
-function handleAddDialogue(cbo) { selectedCbo.value = cbo; /* showCboDialogueModal.value = true; */ openActionMenuId.value = null; } // Placeholder
-function handleListDialogues(cbo) { selectedCbo.value = cbo; /* showCboDialogueListModal.value = true; */ openActionMenuId.value = null; } // Placeholder
-function handleAddExposureVisit(cbo) { selectedCbo.value = cbo; /* showCboExposureVisitModal.value = true; */ openActionMenuId.value = null; } // Placeholder
-function handleListExposureVisits(cbo) { selectedCbo.value = cbo; /* showCboExposureVisitListModal.value = true; */ openActionMenuId.value = null; } // Placeholder
-function handleAddTraining(cbo) { selectedCbo.value = cbo; /* showCboTrainingModal.value = true; */ openActionMenuId.value = null; } // Placeholder
-function handleListTrainings(cbo) { selectedCbo.value = cbo; /* showCboTrainingListModal.value = true; */ openActionMenuId.value = null; } // Placeholder
-
-function handleDeleteCbo(cboId) {
-    openActionMenuId.value = null; // Close menu immediately on delete click
-    if (confirm('Are you sure you want to delete this CBO? This action cannot be undone.')) {
-        router.delete(route('cbo.cbos.destroy', cboId), {
-            onSuccess: () => handleUpdated('CBO deleted successfully!'),
-            onError: (errors) => {
-                console.error('Error deleting CBO:', errors);
-                toastMessage.value = 'Failed to delete CBO.';
-                toastType.value = 'error';
-                toastVisible.value = true;
-                setTimeout(() => (toastVisible.value = false), 3000);
-            }
-        });
-    }
-}
-
-const openNewCboModal = () => { selectedCbo.value = null; showCboCreateModal.value = true; openActionMenuId.value = null; };
-
-// --- Filter and Display Helpers ---
-const filteredCbos = computed(() => {
-    if (!searchTerm.value.trim()) return props.cbos.data;
-    const term = searchTerm.value.trim().toLowerCase();
-    return props.cbos.data.filter(cbo =>
-        (cbo.reference_code || '').toLowerCase().includes(term) ||
-        (cbo.district || '').toLowerCase().includes(term) ||
-        (cbo.tehsil || '').toLowerCase().includes(term) ||
-        (cbo.village || '').toLowerCase().includes(term) ||
-        (cbo.president_name || '').toLowerCase().includes(term) ||
-        (cbo.secretary_name || '').toLowerCase().includes(term)
-    );
-});
 function toggleActionMenu(cboId, event) {
-    // Ensure event.stopPropagation() is called here if it's a direct click handler on the button
-    // (though @click.stop should handle it)
     if (event) {
-        event.stopPropagation(); // <--- ADD THIS LINE to be absolutely sure
+        event.stopPropagation();
     }
 
     if (openActionMenuId.value === cboId) {
@@ -181,9 +83,72 @@ function toggleActionMenu(cboId, event) {
     openActionMenuId.value = cboId;
     selectedCbo.value = props.cbos.data.find(c => c.id === cboId);
 }
+
+const closeAllActionMenus = (event) => {
+    if (openActionMenuId.value !== null &&
+        !event.target.closest('.action-menu-trigger') &&
+        !event.target.closest('.action-menu-dropdown')
+    ) {
+        openActionMenuId.value = null;
+    }
+};
+
+onMounted(() => {
+    document.addEventListener('click', closeAllActionMenus);
+    console.log('CBO Index page mounted. Full cbos prop:', props.cbos);
+    console.log('CBO Index page mounted. cbos.data:', props.cbos?.data);
+});
+
+onBeforeUnmount(() => {
+    document.removeEventListener('click', closeAllActionMenus);
+});
+
+function handleViewDetails(cbo) { selectedCbo.value = cbo; showCboDetailsModal.value = true; openActionMenuId.value = null; }
+function handleEditCbo(cbo) { selectedCbo.value = cbo; showCboEditModal.value = true; openActionMenuId.value = null; }
+function handleAddDialogue(cbo) { selectedCbo.value = cbo; /* showCboDialogueModal.value = true; */ openActionMenuId.value = null; }
+function handleListDialogues(cbo) { selectedCbo.value = cbo; /* showCboDialogueListModal.value = true; */ openActionMenuId.value = null; }
+function handleAddExposureVisit(cbo) { selectedCbo.value = cbo; /* showCboExposureVisitModal.value = true; */ openActionMenuId.value = null; }
+function handleListExposureVisits(cbo) { selectedCbo.value = cbo; /* showCboExposureVisitListModal.value = true; */ openActionMenuId.value = null; }
+function handleAddTraining(cbo) { selectedCbo.value = cbo; /* showCboTrainingModal.value = true; */ openActionMenuId.value = null; }
+function handleListTrainings(cbo) { selectedCbo.value = cbo; /* showCboTrainingListModal.value = true; */ openActionMenuId.value = null; }
+
+function handleDeleteCbo(cboId) {
+    openActionMenuId.value = null;
+    if (confirm('Are you sure you want to delete this CBO? This action cannot be undone.')) {
+        router.delete(route('cbo.cbos.destroy', cboId), {
+            onSuccess: () => handleUpdated('CBO deleted successfully!'),
+            onError: (errors) => {
+                console.error('Error deleting CBO:', errors);
+                toastMessage.value = 'Failed to delete CBO.';
+                toastType.value = 'error';
+                toastVisible.value = true;
+                setTimeout(() => (toastVisible.value = false), 3000);
+            }
+        });
+    }
+}
+
+const openNewCboModal = () => { selectedCbo.value = null; showCboCreateModal.value = true; openActionMenuId.value = null; };
+
+const filteredCbos = computed(() => {
+    const data = props.cbos?.data || [];
+    console.log('CBO Index: filteredCbos computed - props.cbos.data (raw):', data);
+    if (!searchTerm.value.trim()) return data;
+    const term = searchTerm.value.trim().toLowerCase();
+    const filtered = data.filter(cbo =>
+        (cbo.reference_code || '').toLowerCase().includes(term) ||
+        (cbo.district || '').toLowerCase().includes(term) ||
+        (cbo.tehsil || '').toLowerCase().includes(term) ||
+        (cbo.village || '').toLowerCase().includes(term) ||
+        (cbo.president_name || '').toLowerCase().includes(term) ||
+        (cbo.secretary_name || '').toLowerCase().includes(term)
+    );
+    console.log('CBO Index: filteredCbos computed - filtered result:', filtered);
+    return filtered;
+});
+
 function getStatusClass(status) {
-    // Assuming CBO status is derived or based on some logic, or use generic status from MhpSiteListCard
-    return 'bg-gray-100 text-gray-800 border border-gray-200'; // Placeholder
+    return 'bg-gray-100 text-gray-800 border border-gray-200';
 }
 
 function getFileIcon(file) {
@@ -207,34 +172,7 @@ const handlePagination = (url) => {
         <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
             <header class="mb-8 bg-white p-6 rounded-lg shadow-md">
-                <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-                    <div>
-                        <h1 class="text-3xl font-extrabold tracking-tight text-gray-900">CBOs Overview</h1>
-                        <p class="mt-1 text-base text-gray-600">Centralized management for Community Based Organizations and their activities.</p>
-                    </div>
-                    <div class="flex w-full md:w-auto items-center gap-x-3">
-                        <div class="relative flex-grow">
-                            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                                <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <input
-                                type="text"
-                                v-model="searchTerm"
-                                @input="router.get(route('cbo.cbos.index'), { search: searchTerm }, { preserveState: true, replace: true })"
-                                placeholder="Search by CBO, District, Village..."
-                                class="block w-full rounded-lg border-gray-300 bg-white py-2.5 pl-10 pr-3 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors duration-200"
-                            />
-                        </div>
-                        <button @click="openNewCboModal" class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-colors duration-200 flex-shrink-0">
-                            <svg class="-ml-0.5 mr-2 h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-                            </svg>
-                            <span>New CBO</span>
-                        </button>
-                    </div>
-                </div>
+                <!-- ... (header content) ... -->
             </header>
 
             <!-- Card View for smaller screens -->
@@ -256,21 +194,78 @@ const handlePagination = (url) => {
                     @list-trainings="handleListTrainings"
                     @delete-cbo="handleDeleteCbo"
                 />
+                <p v-if="filteredCbos.length === 0" class="text-center py-4 text-gray-500 col-span-full">No CBOs found to display (Card View).</p>
             </div>
 
             <!-- Table View for larger screens -->
-            <div class="hidden md:block bg-white rounded-xl shadow-xl border border-gray-200">
+            <!-- Removed hidden md:block for debugging, add it back when done -->
+            <div class="bg-white rounded-xl shadow-xl border border-gray-200">
+
                 <table class="min-w-full divide-y divide-gray-200">
-                    <!-- ... thead ... -->
-                    <tbody>
+                    <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">CBO Info</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Location</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Members</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Activities</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Attachments</th>
+                        <th scope="col" class="relative px-6 py-3"><span class="sr-only">Actions</span></th>
+                    </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
                     <tr v-for="cbo in filteredCbos" :key="cbo.id" class="hover:bg-gray-50 transition-colors duration-150 group">
-                        <!-- ... other td's ... -->
+                        <!-- CBO Info Column -->
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-gray-900">{{ cbo.reference_code ?? 'N/A' }}</div>
+                            <div class="text-xs text-gray-500 mt-0.5">Formed: {{ new Date(cbo.date_of_formation).toLocaleDateString() }}</div>
+                            <div class="text-xs text-gray-500 mt-0.5">President: {{ cbo.president_name ?? 'N/A' }} ({{ cbo.president_contact ?? 'N/A' }})</div>
+                            <div class="text-xs text-gray-500 mt-0.5">Secretary: {{ cbo.secretary_name ?? 'N/A' }} ({{ cbo.secretary_contact ?? 'N/A' }})</div>
+                        </td>
+
+                        <!-- Location Column -->
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                            <div>{{ cbo.village ?? 'N/A' }}</div>
+                            <div class="text-xs text-gray-500">{{ cbo.village_council ?? 'N/A' }}, {{ cbo.tehsil ?? 'N/A' }}, {{ cbo.district ?? 'N/A' }}</div>
+                        </td>
+
+                        <!-- Members Column -->
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                            <div>Total: {{ cbo.total_members ?? 'N/A' }}</div>
+                            <div class="text-xs text-gray-500">CBO Members: {{ cbo.num_cbo_members ?? 'N/A' }}</div>
+                            <div class="text-xs text-gray-500">Gender: {{ cbo.gender ?? 'N/A' }}</div>
+                        </td>
+
+                        <!-- Activities Column -->
+                        <td class="px-6 py-4">
+                            <div class="space-y-1 text-sm">
+                                <div>Dialogues: <span class="font-semibold">{{ cbo.dialogues_count ?? 0 }}</span></div>
+                                <div>Trainings: <span class="font-semibold">{{ cbo.trainings_count ?? 0 }}</span></div>
+                                <div>Exposure Visits: <span class="font-semibold">{{ cbo.exposure_visits_count ?? 0 }}</span></div>
+                            </div>
+                        </td>
+
+                        <!-- Attachments Column -->
+                        <td class="px-6 py-4">
+                            <div v-if="cbo.attachments_frontend && cbo.attachments_frontend.length" class="space-y-2 text-xs max-h-24 overflow-y-auto pr-2">
+                                <div v-for="file in cbo.attachments_frontend" :key="file.id" class="flex items-center gap-2" :title="`Size: ${(file.size/1024).toFixed(1)} KB | Uploaded: ${new Date(file.created_at).toLocaleDateString()}`">
+                                    <span class="text-gray-500 flex-shrink-0">{{ getFileIcon(file) }}</span>
+                                    <a :href="file.url" target="_blank" class="text-indigo-600 hover:text-indigo-800 hover:underline truncate">{{ file.file_name }}</a>
+                                </div>
+                            </div>
+                            <span v-else class="text-gray-400 text-sm">—</span>
+                        </td>
+
+                        <!-- Actions Column -->
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium relative action-menu-container">
                             <button @click.stop="toggleActionMenu(cbo.id, $event)" class="p-2 text-gray-500 hover:text-gray-900 rounded-full hover:bg-gray-200/70 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity action-menu-trigger">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" /></svg>
                             </button>
                             <!-- The menu div is now teleported from Index.vue -->
                         </td>
+                    </tr>
+                    <!-- Fallback row if no CBOs found -->
+                    <tr v-if="filteredCbos.length === 0">
+                        <td colspan="6" class="px-6 py-4 text-center text-gray-500">No CBOs found to display.</td>
                     </tr>
                     </tbody>
                 </table>
@@ -349,35 +344,3 @@ const handlePagination = (url) => {
         </transition>
     </Teleport>
 </template>
-
-<style scoped>
-/* Scoped styles for the Index page */
-button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-.action-menu-trigger {
-    /* Styles for the 3-dots button */
-}
-
-.action-menu-dropdown {
-    z-index: 1000; /* Ensure this is higher than anything else */
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* Tailwind shadow-lg */
-    border-radius: 0.5rem; /* Tailwind rounded-xl */
-    background-color: #fff; /* White background */
-    border: 1px solid rgba(0, 0, 0, 0.05); /* Light border */
-    overflow: hidden; /* Ensure content doesn't spill */
-}
-/* Scoped styles for the Index page */
-button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-
-
-
-/* Base styles for the root element of FilePond. */
-/* ... (FilePond styles) ... */
-</style>
