@@ -54,7 +54,7 @@ index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\CboDialogueController::store
-* @see app/Http/Controllers/CboDialogueController.php:57
+* @see app/Http/Controllers/CboDialogueController.php:72
 * @route '/cbo/dialogues'
 */
 export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -72,7 +72,7 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\CboDialogueController::store
-* @see app/Http/Controllers/CboDialogueController.php:57
+* @see app/Http/Controllers/CboDialogueController.php:72
 * @route '/cbo/dialogues'
 */
 store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -81,7 +81,7 @@ store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 
 /**
 * @see \App\Http\Controllers\CboDialogueController::store
-* @see app/Http/Controllers/CboDialogueController.php:57
+* @see app/Http/Controllers/CboDialogueController.php:72
 * @route '/cbo/dialogues'
 */
 store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -94,7 +94,7 @@ store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\CboDialogueController::show
-* @see app/Http/Controllers/CboDialogueController.php:72
+* @see app/Http/Controllers/CboDialogueController.php:92
 * @route '/cbo/dialogues/{dialogue}'
 */
 export const show = (args: { dialogue: number | { id: number } } | [dialogue: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -112,7 +112,7 @@ show.definition = {
 
 /**
 * @see \App\Http\Controllers\CboDialogueController::show
-* @see app/Http/Controllers/CboDialogueController.php:72
+* @see app/Http/Controllers/CboDialogueController.php:92
 * @route '/cbo/dialogues/{dialogue}'
 */
 show.url = (args: { dialogue: number | { id: number } } | [dialogue: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -143,7 +143,7 @@ show.url = (args: { dialogue: number | { id: number } } | [dialogue: number | { 
 
 /**
 * @see \App\Http\Controllers\CboDialogueController::show
-* @see app/Http/Controllers/CboDialogueController.php:72
+* @see app/Http/Controllers/CboDialogueController.php:92
 * @route '/cbo/dialogues/{dialogue}'
 */
 show.get = (args: { dialogue: number | { id: number } } | [dialogue: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -156,7 +156,7 @@ show.get = (args: { dialogue: number | { id: number } } | [dialogue: number | { 
 
 /**
 * @see \App\Http\Controllers\CboDialogueController::show
-* @see app/Http/Controllers/CboDialogueController.php:72
+* @see app/Http/Controllers/CboDialogueController.php:92
 * @route '/cbo/dialogues/{dialogue}'
 */
 show.head = (args: { dialogue: number | { id: number } } | [dialogue: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -169,7 +169,7 @@ show.head = (args: { dialogue: number | { id: number } } | [dialogue: number | {
 
 /**
 * @see \App\Http\Controllers\CboDialogueController::update
-* @see app/Http/Controllers/CboDialogueController.php:90
+* @see app/Http/Controllers/CboDialogueController.php:110
 * @route '/cbo/dialogues/{dialogue}'
 */
 export const update = (args: { dialogue: number | { id: number } } | [dialogue: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -187,7 +187,7 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\CboDialogueController::update
-* @see app/Http/Controllers/CboDialogueController.php:90
+* @see app/Http/Controllers/CboDialogueController.php:110
 * @route '/cbo/dialogues/{dialogue}'
 */
 update.url = (args: { dialogue: number | { id: number } } | [dialogue: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -218,7 +218,7 @@ update.url = (args: { dialogue: number | { id: number } } | [dialogue: number | 
 
 /**
 * @see \App\Http\Controllers\CboDialogueController::update
-* @see app/Http/Controllers/CboDialogueController.php:90
+* @see app/Http/Controllers/CboDialogueController.php:110
 * @route '/cbo/dialogues/{dialogue}'
 */
 update.put = (args: { dialogue: number | { id: number } } | [dialogue: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -231,7 +231,7 @@ update.put = (args: { dialogue: number | { id: number } } | [dialogue: number | 
 
 /**
 * @see \App\Http\Controllers\CboDialogueController::update
-* @see app/Http/Controllers/CboDialogueController.php:90
+* @see app/Http/Controllers/CboDialogueController.php:110
 * @route '/cbo/dialogues/{dialogue}'
 */
 update.patch = (args: { dialogue: number | { id: number } } | [dialogue: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -244,7 +244,7 @@ update.patch = (args: { dialogue: number | { id: number } } | [dialogue: number 
 
 /**
 * @see \App\Http\Controllers\CboDialogueController::destroy
-* @see app/Http/Controllers/CboDialogueController.php:106
+* @see app/Http/Controllers/CboDialogueController.php:126
 * @route '/cbo/dialogues/{dialogue}'
 */
 export const destroy = (args: { dialogue: number | { id: number } } | [dialogue: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -262,7 +262,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\CboDialogueController::destroy
-* @see app/Http/Controllers/CboDialogueController.php:106
+* @see app/Http/Controllers/CboDialogueController.php:126
 * @route '/cbo/dialogues/{dialogue}'
 */
 destroy.url = (args: { dialogue: number | { id: number } } | [dialogue: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -293,7 +293,7 @@ destroy.url = (args: { dialogue: number | { id: number } } | [dialogue: number |
 
 /**
 * @see \App\Http\Controllers\CboDialogueController::destroy
-* @see app/Http/Controllers/CboDialogueController.php:106
+* @see app/Http/Controllers/CboDialogueController.php:126
 * @route '/cbo/dialogues/{dialogue}'
 */
 destroy.delete = (args: { dialogue: number | { id: number } } | [dialogue: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

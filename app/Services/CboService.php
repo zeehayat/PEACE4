@@ -24,18 +24,30 @@ class CboService
      */
     public function createCbo(array $data): Cbo
     {
+
         Log::info('CboService: createCbo triggered.', ['data_keys' => array_keys($data)]);
+        Log::info('Attachments count in createCbo data:', ['count' => count($data['attachments'] ?? [])]);
         return DB::transaction(function () use ($data) {
             $cbo = Cbo::create($data);
+            Log::info('CBO model created in DB:', ['cbo_id' => $cbo->id]);
 
             if (isset($data['attachments']) && is_array($data['attachments'])) {
                 foreach ($data['attachments'] as $attachment) {
                     if ($attachment instanceof UploadedFile) {
                         try {
+                            Log::info('Attempting to add media for CBO:', ['cbo_id' => $cbo->id, 'file_name' => $attachment->getClientOriginalName(), 'index' => $index]);
+
                             $cbo->addMedia($attachment)->toMediaCollection('attachments');
+
+
                             Log::info('CBO media added.', ['cbo_id' => $cbo->id, 'file' => $attachment->getClientOriginalName()]);
                         } catch (Throwable $e) {
-                            Log::error('Error adding media for CBO.', ['cbo_id' => $cbo->id, 'file' => $attachment->getClientOriginalName(), 'error' => $e->getMessage()]);
+                            Log::error('ERROR: Failed to add media for CBO.', [
+                                'cbo_id' => $cbo->id,
+                                'file_name' => $attachment->getClientOriginalName() ?? 'N/A',
+                                'error' => $e->getMessage(),
+                                'trace' => $e->getTraceAsString(),
+                            ]);
                             throw $e;
                         }
                     }
@@ -114,6 +126,7 @@ class CboService
         Log::info('CboService: createCboDialogue triggered.', ['cbo_id' => $cbo->id, 'data_keys' => array_keys($data)]);
         return DB::transaction(function () use ($cbo, $data) {
             $dialogue = $cbo->dialogues()->create($data); // Automatically sets cbo_id
+            Log::info('CboService: CboDialogue created in DB.', ['dialogue_id' => $dialogue->id, 'cbo_id_saved' => $dialogue->cbo_id]);
 
             if (isset($data['attachments']) && is_array($data['attachments'])) {
                 foreach ($data['attachments'] as $attachment) {

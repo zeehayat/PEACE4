@@ -26,10 +26,25 @@ class CboDialogueController extends Controller
      */
     public function index(Request $request, Cbo $cbo)
     {
-        $dialogues = $cbo->dialogues()
-            ->with('media') // Eager load attachments
-            ->orderBy('date_of_dialogue', 'desc')
-            ->paginate(10);
+        $query = $cbo->dialogues()->with('media');
+
+        // Check if the request is for pure data (e.g., from a modal fetching list)
+        if ($request->has('only-data')) {
+            $dialogues = $query->orderBy('date_of_dialogue', 'desc')->get(); // Get all results, not paginated for options
+
+            // Apply accessor for frontend attachments
+            $dialogues->transform(function ($dialogue) {
+                $dialogue->attachments = $dialogue->attachments_frontend;
+                return $dialogue;
+            });
+
+            return response()->json([
+                'dialogues' => $dialogues, // Return the raw collection data
+            ]);
+        }
+
+        // Original Inertia rendering for the dedicated index page (if it exists)
+        $dialogues = $query->orderBy('date_of_dialogue', 'desc')->paginate(10); // Paginate for full page view
 
         // Apply accessor for frontend attachments
         $dialogues->getCollection()->transform(function ($dialogue) {
@@ -37,8 +52,8 @@ class CboDialogueController extends Controller
             return $dialogue;
         });
 
-        return Inertia::render('CBO/Dialogues/Index', [ // Assuming a dedicated index page for dialogues
-            'cbo' => $cbo->only('id', 'reference_code'), // Pass minimal parent CBO info
+        return Inertia::render('CBO/Dialogues/Index', [
+            'cbo' => $cbo->only('id', 'reference_code'),
             'dialogues' => $dialogues,
         ]);
     }
@@ -56,12 +71,17 @@ class CboDialogueController extends Controller
      */
     public function store(StoreCboDialogueRequest $request, Cbo $cbo)
     {
+        Log::info('CboDialogueController@store: Request received.', ['cbo_id' => $cbo->id, 'request_data' => $request->validated()]);
+
         try {
             // The service method expects the Cbo instance
-            $this->cboService->createCboDialogue($cbo, $request->validated());
+            $dialogue=$this->cboService->createCboDialogue($cbo, $request->validated());
+            Log::info('CboDialogueController@store: Dialogue created via service.', ['dialogue_id' => $dialogue->id]);
+
             return redirect()->back()->with('success', 'CBO Dialogue created successfully!');
         } catch (\Exception $e) {
             Log::error('Error creating CBO Dialogue: ' . $e->getMessage(), ['exception' => $e]);
+
             return redirect()->back()->with('error', 'Failed to create CBO Dialogue: ' . $e->getMessage());
         }
     }

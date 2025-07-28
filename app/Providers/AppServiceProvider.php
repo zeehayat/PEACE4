@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use App\Models\Cbo;
+use App\Models\CboDialogue;
+use App\Models\CboExposureVisit;
+use App\Models\CboTraining;
 use App\Models\MhpAdminApproval;
 use App\Models\MhpSite;
 use App\Models\ProjectFinancialInstallment;
@@ -40,7 +43,10 @@ class AppServiceProvider extends ServiceProvider
             't_and_d_work' => TAndDWork::class,
             'physical_progress' => ProjectPhysicalProgress::class, // The type used for activity() morph
             'financial_installment' => ProjectFinancialInstallment::class, // The type used for activity() morph
-            'mhp_admin_approval'=>MhpAdminApproval::class
+            'mhp_admin_approval'=>MhpAdminApproval::class,
+            'cbo_dialogue' => CboDialogue::class,
+            'cbo_exposure_visit' => CboExposureVisit::class, // <--- ADD THIS LINE
+            'cbo_training' => CboTraining::class, // <--- ADD THIS LINE
             // Add other models that are polymorphic 'projectable' types if they exist (e.g., 'irrigation_scheme' => App\Models\IrrigationScheme::class)
         ]);
     }

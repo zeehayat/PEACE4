@@ -1,16 +1,18 @@
 <script setup>
 import { reactive, watch, ref, computed } from 'vue';
 import { router } from '@inertiajs/vue3';
+import axios from 'axios';
 
 import Modal from '@/Components/Modal.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import DangerButton from '@/Components/DangerButton.vue';
-import CboDialogueForm from '@/Pages/CBO/Forms/CboDialogueForm.vue';
+import CboDialogueForm from '@/Pages/CBO/Forms/CboDialogueForms.vue';
 import AttachmentViewer from '@/Components/AttachmentComponent/AttachmentViewer.vue';
+import CboDialogueViewModal from '@/Pages/CBO/Modals/CboDialogueViewModal.vue'; // <--- ADD THIS IMPORT
 
 const props = defineProps({
-    show: Boolean, // Controls modal visibility
-    cbo: { // The CBO object whose dialogues we are managing
+    show: Boolean,
+    cbo: {
         type: Object,
         required: true,
     },
@@ -19,50 +21,53 @@ const props = defineProps({
 const emit = defineEmits(['close', 'saved']);
 
 const isLoadingDialogues = ref(true);
-const dialogues = ref([]); // Local state for the list of dialogue entries
-const showForm = ref(false); // Controls visibility of the form within this modal
-const selectedDialogue = ref(null); // The dialogue item being edited (or null for new)
-const formMode = ref('create'); // 'create' or 'update' for the form
+const dialogues = ref([]);
+const showForm = ref(false);
+const selectedDialogue = ref(null);
+const formMode = ref('create');
 
-// Fetch dialogues for the current CBO
+const showDialogueViewModal = ref(false); // <--- NEW: Flag for the view modal
+
+const formatNullableDate = (dateString) => {
+    if (!dateString) return 'N/A';
+    try {
+        const date = new Date(dateString);
+        if (isNaN(date.getTime())) {
+            return 'Invalid Date';
+        }
+        return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    } catch (e) {
+        console.error('Error parsing date:', dateString, e);
+        return 'Invalid Date';
+    }
+};
+
 const fetchDialogues = async () => {
     isLoadingDialogues.value = true;
     try {
-        const response = await router.get(
-            route('cbo.cbos.dialogues.index', { cbo: props.cbo.id }),
-            {},
-            {
-                preserveState: true,
-                preserveScroll: true,
-                replace: true,
-                onSuccess: (page) => {
-                    dialogues.value = page.props.dialogues.data;
-                },
-                onError: (errors) => {
-                    console.error('Error fetching CBO dialogues:', errors);
-                }
-            }
+        const response = await axios.get(
+            route('cbo.cbos.dialogues.index', { cbo: props.cbo.id, 'only-data': true })
         );
+        dialogues.value = response.data.dialogues;
     } catch (error) {
-        console.error('API call failed to fetch CBO dialogues:', error);
+        console.error('Error fetching CBO dialogues:', error);
     } finally {
         isLoadingDialogues.value = false;
     }
 };
 
-// Watch for modal visibility to fetch data when it opens
 watch(() => props.show, (newVal) => {
     if (newVal && props.cbo) {
         fetchDialogues();
-        showForm.value = false; // Start by showing the list, not the form
+        showForm.value = false;
         selectedDialogue.value = null;
         formMode.value = 'create';
+        showDialogueViewModal.value = false; // Ensure view modal is closed on main modal open
     } else {
-        dialogues.value = []; // Clear data when modal closes
+        dialogues.value = [];
     }
 });
 
-// Handlers for managing the form state
 const openCreateForm = () => {
     selectedDialogue.value = null;
     formMode.value = 'create';
@@ -75,29 +80,34 @@ const openEditForm = (dialogue) => {
     showForm.value = true;
 };
 
+// NEW: Handler to open the view modal for a specific dialogue
+const openViewDialogueModal = (dialogue) => {
+    selectedDialogue.value = dialogue; // Set the dialogue to view
+    showDialogueViewModal.value = true; // Open the view modal
+};
+
 const handleFormSuccess = (message) => {
-    showForm.value = false; // Hide form, show list
-    selectedDialogue.value = null; // Clear selected item
-    fetchDialogues(); // Re-fetch list to show updated data
-    emit('saved', message); // Notify parent (Index.vue) for toast
+    showForm.value = false;
+    selectedDialogue.value = null;
+    fetchDialogues();
+    emit('saved', message);
 };
 
 const handleFormCancel = () => {
-    showForm.value = false; // Hide form, show list
-    selectedDialogue.value = null; // Clear selected item
+    showForm.value = false;
+    selectedDialogue.value = null;
 };
 
 const handleDeleteDialogue = (dialogueId) => {
     if (confirm('Are you sure you want to delete this dialogue entry?')) {
-        router.delete(route('cbo.cbos.dialogues.destroy', { cbo: props.cbo.id, dialogue: dialogueId }), {
-            onSuccess: () => {
+        axios.delete(route('cbo.cbos.dialogues.destroy', { cbo: props.cbo.id, dialogue: dialogueId }))
+            .then(response => {
                 emit('saved', 'Dialogue deleted successfully!');
-                fetchDialogues(); // Re-fetch the list
-            },
-            onError: (errors) => {
-                console.error('Error deleting dialogue:', errors);
-            }
-        });
+                fetchDialogues();
+            })
+            .catch(error => {
+                console.error('Error deleting dialogue:', error);
+            });
     }
 };
 
@@ -136,10 +146,11 @@ const modalTitle = computed(() => {
                     <div v-for="dialogue in dialogues" :key="dialogue.id" class="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
                         <div class="flex justify-between items-start mb-2">
                             <div>
-                                <p class="text-lg font-semibold text-indigo-700">Dialogue on {{ new Date(dialogue.date_of_dialogue).toLocaleDateString() }}</p>
+                                <p class="text-lg font-semibold text-indigo-700">Dialogue on {{ formatNullableDate(dialogue.date_of_dialogue) }}</p>
                                 <p class="text-sm text-gray-600">Participants: {{ dialogue.participants ?? 'N/A' }}</p>
                             </div>
                             <div class="flex space-x-2">
+                                <PrimaryButton @click="openViewDialogueModal(dialogue)" class="px-3 py-1 text-sm">View</PrimaryButton> <!-- NEW: View Button -->
                                 <PrimaryButton @click="openEditForm(dialogue)" class="px-3 py-1 text-sm">Edit</PrimaryButton>
                                 <DangerButton @click="handleDeleteDialogue(dialogue.id)" class="px-3 py-1 text-sm">Delete</DangerButton>
                             </div>
@@ -166,6 +177,9 @@ const modalTitle = computed(() => {
             />
         </div>
     </Modal>
+
+    <!-- NEW: CboDialogueViewModal -->
+    <CboDialogueViewModal v-if="selectedDialogue" :show="showDialogueViewModal" :dialogue="selectedDialogue" @close="showDialogueViewModal = false" />
 </template>
 
 <style scoped>

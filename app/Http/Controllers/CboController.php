@@ -27,10 +27,10 @@ class CboController extends Controller
     {
         $query = Cbo::query()
             ->with([
-                'media', // Eager load CBO's own media
-                'dialogues.media', // Eager load dialogues and their media
-                'exposureVisits.media', // Eager load exposure visits and their media
-                'trainings.media', // Eager load trainings and their media
+                'media',
+                'dialogues.media',
+                'exposureVisits.media',
+                'trainings.media',
             ]);
 
         // Apply filters and search if present
@@ -52,14 +52,15 @@ class CboController extends Controller
         }
         // Add more filters as needed (e.g., tehsil, village_council, gender)
 
-        $cbos = $query->paginate(10)->withQueryString(); // Paginate results
+        $cbos = $query->paginate(10)->withQueryString();
+
+        Log::info('CboController@index: CBOs BEFORE transformation:', ['data' => $cbos->toArray()['data'] ?? []]); // Check raw data
 
         // Transform collection to add frontend-specific accessors
         $cbos->getCollection()->transform(function ($cbo) {
-            // Attachments for CBO itself (handled by $appends)
-            // $cbo->attachments = $cbo->attachments_frontend;
+            // Log the CBO object *inside* the transform closure
+            Log::info('CboController@index: Transforming CBO:', ['cbo_id' => $cbo->id, 'reference_code' => $cbo->reference_code]);
 
-            // Attachments for related models if needed in the main list summary
             if ($cbo->dialogues) {
                 $cbo->dialogues->each(fn($d) => $d->attachments = $d->attachments_frontend);
             }
@@ -70,7 +71,6 @@ class CboController extends Controller
                 $cbo->trainings->each(fn($t) => $t->attachments = $t->attachments_frontend);
             }
 
-            // You might add summary data here, e.g., total dialogues count
             $cbo->dialogues_count = $cbo->dialogues->count();
             $cbo->trainings_count = $cbo->trainings->count();
             $cbo->exposure_visits_count = $cbo->exposureVisits->count();
@@ -78,9 +78,11 @@ class CboController extends Controller
             return $cbo;
         });
 
+        Log::info('CboController@index: CBOs AFTER transformation:', ['data' => $cbos->toArray()['data'] ?? []]); // Check transformed data
+
         return Inertia::render('CBO/Index', [
             'cbos' => $cbos,
-            'filters' => $request->only('search', 'district'), // Pass filters back to frontend
+            'filters' => $request->only('search', 'district'),
         ]);
     }
 

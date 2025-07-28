@@ -54,7 +54,7 @@ index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\CboTrainingController::store
-* @see app/Http/Controllers/CboTrainingController.php:57
+* @see app/Http/Controllers/CboTrainingController.php:74
 * @route '/cbo/trainings'
 */
 export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -72,7 +72,7 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\CboTrainingController::store
-* @see app/Http/Controllers/CboTrainingController.php:57
+* @see app/Http/Controllers/CboTrainingController.php:74
 * @route '/cbo/trainings'
 */
 store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -81,7 +81,7 @@ store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 
 /**
 * @see \App\Http\Controllers\CboTrainingController::store
-* @see app/Http/Controllers/CboTrainingController.php:57
+* @see app/Http/Controllers/CboTrainingController.php:74
 * @route '/cbo/trainings'
 */
 store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -94,7 +94,7 @@ store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\CboTrainingController::show
-* @see app/Http/Controllers/CboTrainingController.php:71
+* @see app/Http/Controllers/CboTrainingController.php:88
 * @route '/cbo/trainings/{training}'
 */
 export const show = (args: { training: number | { id: number } } | [training: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -112,7 +112,7 @@ show.definition = {
 
 /**
 * @see \App\Http\Controllers\CboTrainingController::show
-* @see app/Http/Controllers/CboTrainingController.php:71
+* @see app/Http/Controllers/CboTrainingController.php:88
 * @route '/cbo/trainings/{training}'
 */
 show.url = (args: { training: number | { id: number } } | [training: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -143,7 +143,7 @@ show.url = (args: { training: number | { id: number } } | [training: number | { 
 
 /**
 * @see \App\Http\Controllers\CboTrainingController::show
-* @see app/Http/Controllers/CboTrainingController.php:71
+* @see app/Http/Controllers/CboTrainingController.php:88
 * @route '/cbo/trainings/{training}'
 */
 show.get = (args: { training: number | { id: number } } | [training: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -156,7 +156,7 @@ show.get = (args: { training: number | { id: number } } | [training: number | { 
 
 /**
 * @see \App\Http\Controllers\CboTrainingController::show
-* @see app/Http/Controllers/CboTrainingController.php:71
+* @see app/Http/Controllers/CboTrainingController.php:88
 * @route '/cbo/trainings/{training}'
 */
 show.head = (args: { training: number | { id: number } } | [training: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -169,7 +169,7 @@ show.head = (args: { training: number | { id: number } } | [training: number | {
 
 /**
 * @see \App\Http\Controllers\CboTrainingController::update
-* @see app/Http/Controllers/CboTrainingController.php:89
+* @see app/Http/Controllers/CboTrainingController.php:106
 * @route '/cbo/trainings/{training}'
 */
 export const update = (args: { training: number | { id: number } } | [training: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -187,7 +187,7 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\CboTrainingController::update
-* @see app/Http/Controllers/CboTrainingController.php:89
+* @see app/Http/Controllers/CboTrainingController.php:106
 * @route '/cbo/trainings/{training}'
 */
 update.url = (args: { training: number | { id: number } } | [training: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -218,7 +218,7 @@ update.url = (args: { training: number | { id: number } } | [training: number | 
 
 /**
 * @see \App\Http\Controllers\CboTrainingController::update
-* @see app/Http/Controllers/CboTrainingController.php:89
+* @see app/Http/Controllers/CboTrainingController.php:106
 * @route '/cbo/trainings/{training}'
 */
 update.put = (args: { training: number | { id: number } } | [training: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -231,7 +231,7 @@ update.put = (args: { training: number | { id: number } } | [training: number | 
 
 /**
 * @see \App\Http\Controllers\CboTrainingController::update
-* @see app/Http/Controllers/CboTrainingController.php:89
+* @see app/Http/Controllers/CboTrainingController.php:106
 * @route '/cbo/trainings/{training}'
 */
 update.patch = (args: { training: number | { id: number } } | [training: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -244,7 +244,7 @@ update.patch = (args: { training: number | { id: number } } | [training: number 
 
 /**
 * @see \App\Http\Controllers\CboTrainingController::destroy
-* @see app/Http/Controllers/CboTrainingController.php:107
+* @see app/Http/Controllers/CboTrainingController.php:124
 * @route '/cbo/trainings/{training}'
 */
 export const destroy = (args: { training: number | { id: number } } | [training: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -262,7 +262,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\CboTrainingController::destroy
-* @see app/Http/Controllers/CboTrainingController.php:107
+* @see app/Http/Controllers/CboTrainingController.php:124
 * @route '/cbo/trainings/{training}'
 */
 destroy.url = (args: { training: number | { id: number } } | [training: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -293,7 +293,7 @@ destroy.url = (args: { training: number | { id: number } } | [training: number |
 
 /**
 * @see \App\Http\Controllers\CboTrainingController::destroy
-* @see app/Http/Controllers/CboTrainingController.php:107
+* @see app/Http/Controllers/CboTrainingController.php:124
 * @route '/cbo/trainings/{training}'
 */
 destroy.delete = (args: { training: number | { id: number } } | [training: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

@@ -26,10 +26,27 @@ class CboTrainingController extends Controller
      */
     public function index(Request $request, Cbo $cbo)
     {
-        $trainings = $cbo->trainings()
-            ->with('media') // Eager load attachments
-            ->orderBy('date_of_training', 'desc')
-            ->paginate(10);
+        $query = $cbo->trainings()->with('media');
+
+        // Check if the request is for pure data (e.g., from a modal fetching list)
+        if ($request->has('only-data')) {
+            Log::info('CboTrainingController@index: Request has only-data, returning JSON.');
+            $trainings = $query->orderBy('date_of_training', 'desc')->get(); // Get all results, not paginated for options
+
+            // Apply accessor for frontend attachments
+            $trainings->transform(function ($training) {
+                $training->attachments = $training->attachments_frontend;
+                return $training;
+            });
+
+            return response()->json([
+                'trainings' => $trainings, // Return the raw collection data
+            ]);
+        }
+
+        // Original Inertia rendering for the dedicated index page (if it exists)
+        Log::info('CboTrainingController@index: Request does NOT have only-data, rendering Inertia page.');
+        $trainings = $query->orderBy('date_of_training', 'desc')->paginate(10); // Paginate for full page view
 
         // Apply accessor for frontend attachments
         $trainings->getCollection()->transform(function ($training) {
@@ -37,7 +54,7 @@ class CboTrainingController extends Controller
             return $training;
         });
 
-        return Inertia::render('CBO/Trainings/Index', [ // Assuming a dedicated index page
+        return Inertia::render('CBO/Trainings/Index', [
             'cbo' => $cbo->only('id', 'reference_code'),
             'trainings' => $trainings,
         ]);

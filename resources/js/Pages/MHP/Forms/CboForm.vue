@@ -27,9 +27,10 @@ const genderOptions = ['Male', 'Female', 'Mixed'];
 
 const isEditMode = ref(!!props.cbo);
 
-const existingAttachments = ref([]); // Initialize as empty array, filled by watcher
+const existingAttachments = ref([]); // Initialized as empty array, filled by watch
 
 // Initialize form with default empty values.
+// The watcher will populate it with prop data.
 const form = useForm({
     reference_code: '',
     district: '',
@@ -49,7 +50,7 @@ const form = useForm({
     attachments_to_delete: [],
 });
 
-// Watch for prop.cbo changes to update the form (for edit mode when switching CBOs or modal opens)
+// === REVISED WATCH FOR PROPS.CBO (Most Robust Approach) ===
 watch(() => props.cbo, (newCbo) => {
     console.log('--- CboForm: props.cbo watcher triggered ---');
     console.log('New CBO prop:', newCbo);
@@ -57,6 +58,7 @@ watch(() => props.cbo, (newCbo) => {
     isEditMode.value = !!newCbo; // Update edit mode flag
 
     // Directly assign values to the form object's properties
+    // This avoids potential issues with form.fill() or form.defaults()
     form.reference_code = newCbo ? newCbo.reference_code : '';
     form.district = newCbo ? newCbo.district : '';
     form.tehsil = newCbo ? newCbo.tehsil : '';
@@ -72,12 +74,9 @@ watch(() => props.cbo, (newCbo) => {
     form.secretary_contact = newCbo ? newCbo.secretary_contact : '';
     form.remarks = newCbo ? newCbo.remarks : '';
 
-    // FIX: Only clear form.attachments and attachments_to_delete if entering CREATE mode
-    // or if you want to explicitly clear any previous user-selected files when opening EDIT.
-    // If you want to allow user to keep files selected from previous session, remove this.
-    // For a clean slate on modal open (common behavior), keep these lines.
-    form.attachments = []; // Clear new attachments for a fresh edit/create session
-    form.attachments_to_delete = []; // Reset attachments to delete for a fresh session
+    // Always clear attachments and attachments_to_delete for new session
+    form.attachments = [];
+    form.attachments_to_delete = [];
 
     // Update existing attachments separately
     existingAttachments.value = newCbo ? newCbo.attachments_frontend : [];
@@ -102,7 +101,7 @@ const handleAttachmentsToDelete = (id) => {
 const handleSubmit = () => {
     console.log('--- CboForm: handleSubmit triggered ---');
     console.log('Form data before POST:', form.data());
-    console.log('Attachments array before POST:', form.attachments); // CRITICAL: Check this log
+    console.log('Attachments array before POST:', form.attachments);
 
     const url = isEditMode.value
         ? route('cbo.cbos.update', props.cbo.id)

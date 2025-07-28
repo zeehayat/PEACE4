@@ -1,20 +1,29 @@
 <script setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue';
+import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import { router, Link, usePage } from '@inertiajs/vue3';
 
 import SideBar from "@/Components/SideBar.vue";
 import Toast from '@/Components/Toast.vue';
 import Pagination from '@/Components/Pagination.vue';
 
+// CBO-specific Components and Modals
+import CboDialogueModal from "@/Pages/CBO/Modals/CboDialogueModal.vue";
 import CboListCard from '@/Pages/CBO/Components/CboListCard.vue';
 import CboCreateModal from '@/Pages/CBO/Modals/CboCreateModal.vue';
 import CboEditModal from '@/Pages/CBO/Modals/CboEditModal.vue';
 import CboDetailsModal from '@/Pages/CBO/Modals/CboDetailsModal.vue';
+import CboExposureVistModal from '@/Pages/CBO/Modals/CboExposureVisitModal.vue'
+
+// Related entity modals (will be created later)
+
+
+ import CboTrainingModal from '@/Pages/CBO/Modals/CboTrainingModal.vue';
+
 
 const props = defineProps({
     cbos: Object, // Paginated data for CBOs
     filters: Object,
-    errors: Object,
+    errors: Object, // Validation errors from backend
 });
 
 const page = usePage();
@@ -32,6 +41,10 @@ const menuPosition = ref({ top: 0, left: 0, width: 0, direction: 'down' });
 const showCboCreateModal = ref(false);
 const showCboEditModal = ref(false);
 const showCboDetailsModal = ref(false);
+const showCboDialogueModal = ref(false); // <--- ENSURE THIS IS DECLARED AND INITIALIZED
+const showCboExposureVisitModal = ref(false); // Placeholder flag
+const showCboTrainingModal = ref(false); // Placeholder flag
+
 
 function handleUpdated(message) {
     toastMessage.value = message;
@@ -46,14 +59,17 @@ function closeModal() {
     showCboCreateModal.value = false;
     showCboEditModal.value = false;
     showCboDetailsModal.value = false;
+    showCboDialogueModal.value = false; // Close dialogue modal
+    showCboExposureVisitModal.value = false; // Close exposure visit modal
+    showCboTrainingModal.value = false; // Close training modal
 
     setTimeout(() => {
         selectedCbo.value = null;
-        openActionMenuId.value = null;
+        openActionMenuId.value = null; // Ensure menu is closed when any modal closes
     }, 300);
 }
 
-function toggleActionMenu(cboId, event) {
+async function toggleActionMenu(cboId, event) {
     if (event) {
         event.stopPropagation();
     }
@@ -63,9 +79,20 @@ function toggleActionMenu(cboId, event) {
         return;
     }
 
+    const cboToOpen = props.cbos.data.find(c => c.id === cboId);
+    if (!cboToOpen) {
+        console.error('CBO not found for action menu:', cboId);
+        return;
+    }
+    selectedCbo.value = cboToOpen;
+
+    await nextTick();
+
     const button = event.currentTarget;
     if (!button) {
-        console.error('Event target (button) not found for menu toggle.');
+      //  console.error('Event target (button) not found for menu toggle.');
+        menuPosition.value = { top: 0, left: 0, width: 0, direction: 'down' };
+        openActionMenuId.value = cboId;
         return;
     }
 
@@ -81,7 +108,6 @@ function toggleActionMenu(cboId, event) {
     };
 
     openActionMenuId.value = cboId;
-    selectedCbo.value = props.cbos.data.find(c => c.id === cboId);
 }
 
 const closeAllActionMenus = (event) => {
@@ -95,8 +121,8 @@ const closeAllActionMenus = (event) => {
 
 onMounted(() => {
     document.addEventListener('click', closeAllActionMenus);
-    console.log('CBO Index page mounted. Full cbos prop:', props.cbos);
-    console.log('CBO Index page mounted. cbos.data:', props.cbos?.data);
+    //console.log('CBO Index page mounted. Full cbos prop:', props.cbos);
+    //console.log('CBO Index page mounted. cbos.data:', props.cbos?.data);
 });
 
 onBeforeUnmount(() => {
@@ -105,11 +131,33 @@ onBeforeUnmount(() => {
 
 function handleViewDetails(cbo) { selectedCbo.value = cbo; showCboDetailsModal.value = true; openActionMenuId.value = null; }
 function handleEditCbo(cbo) { selectedCbo.value = cbo; showCboEditModal.value = true; openActionMenuId.value = null; }
-function handleAddDialogue(cbo) { selectedCbo.value = cbo; /* showCboDialogueModal.value = true; */ openActionMenuId.value = null; }
-function handleListDialogues(cbo) { selectedCbo.value = cbo; /* showCboDialogueListModal.value = true; */ openActionMenuId.value = null; }
-function handleAddExposureVisit(cbo) { selectedCbo.value = cbo; /* showCboExposureVisitModal.value = true; */ openActionMenuId.value = null; }
-function handleListExposureVisits(cbo) { selectedCbo.value = cbo; /* showCboExposureVisitListModal.value = true; */ openActionMenuId.value = null; }
-function handleAddTraining(cbo) { selectedCbo.value = cbo; /* showCboTrainingModal.value = true; */ openActionMenuId.value = null; }
+
+function handleAddDialogue(cbo) {
+
+    selectedCbo.value = cbo;
+    showCboDialogueModal.value = true; // <--- This must be set to true
+    openActionMenuId.value = null; // Close action menu
+    //console.log('Index.vue: showCboDialogueModal status after click:', showCboDialogueModal.value); // Add this log
+}
+function handleListDialogues(cbo) {
+    //console.log('Index.vue: handleListDialogues called');
+    selectedCbo.value = cbo;
+    showCboDialogueModal.value = true; // <--- This opens the modal to show the list
+    openActionMenuId.value = null; // Close action menu
+    //console.log('Index.vue: showCboDialogueModal status after list click:', showCboDialogueModal.value);
+}
+function handleAddExposureVisit(cbo) { selectedCbo.value = cbo; showCboExposureVisitModal.value = true; openActionMenuId.value = null; }
+function handleListExposureVisits(cbo) { selectedCbo.value = cbo;
+console.log('Handle Exposure Visits')
+    showCboExposureVisitListModal.value = true;
+    openActionMenuId.value = null;
+}
+function handleAddTraining(cbo) {
+console.log('Handle Training')
+    selectedCbo.value = cbo;
+    showCboTrainingModal.value = true;
+    openActionMenuId.value = null;
+}
 function handleListTrainings(cbo) { selectedCbo.value = cbo; /* showCboTrainingListModal.value = true; */ openActionMenuId.value = null; }
 
 function handleDeleteCbo(cboId) {
@@ -172,7 +220,34 @@ const handlePagination = (url) => {
         <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
             <header class="mb-8 bg-white p-6 rounded-lg shadow-md">
-                <!-- ... (header content) ... -->
+                <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                    <div>
+                        <h1 class="text-3xl font-extrabold tracking-tight text-gray-900">CBOs Overview</h1>
+                        <p class="mt-1 text-base text-gray-600">Centralized management for Community Based Organizations and their activities.</p>
+                    </div>
+                    <div class="flex w-full md:w-auto items-center gap-x-3">
+                        <div class="relative flex-grow">
+                            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                                <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <input
+                                type="text"
+                                v-model="searchTerm"
+                                @input="router.get(route('cbo.cbos.index'), { search: searchTerm }, { preserveState: true, replace: true })"
+                                placeholder="Search by CBO, District, Village..."
+                                class="block w-full rounded-lg border-gray-300 bg-white py-2.5 pl-10 pr-3 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors duration-200"
+                            />
+                        </div>
+                        <button @click="openNewCboModal" class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-colors duration-200 flex-shrink-0">
+                            <svg class="-ml-0.5 mr-2 h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
+                            </svg>
+                            <span>New CBO</span>
+                        </button>
+                    </div>
+                </div>
             </header>
 
             <!-- Card View for smaller screens -->
@@ -198,8 +273,7 @@ const handlePagination = (url) => {
             </div>
 
             <!-- Table View for larger screens -->
-            <!-- Removed hidden md:block for debugging, add it back when done -->
-            <div class="bg-white rounded-xl shadow-xl border border-gray-200">
+            <div class="bg-white rounded-xl shadow-xl border border-gray-200"> <!-- REMOVED hidden md:block -->
 
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
@@ -285,7 +359,22 @@ const handlePagination = (url) => {
     <CboCreateModal :show="showCboCreateModal" @close="closeModal" @saved="handleUpdated" />
     <CboEditModal v-if="selectedCbo" :show="showCboEditModal" :cbo="selectedCbo" @close="closeModal" @updated="handleUpdated" />
     <CboDetailsModal v-if="selectedCbo" :show="showCboDetailsModal" :cbo="selectedCbo" @close="closeModal" />
+    <CboDialogueModal v-if="selectedCbo" :show="showCboDialogueModal" :cbo="selectedCbo" @close="closeModal" @saved="handleUpdated" />
+    <CboExposureVistModal
+        v-if="selectedCbo"
+        :show="showCboExposureVisitModal"
+        :cbo="selectedCbo"
+        @close="closeModal"
+        @saved="handleUpdated"
+    />
 
+    <CboTrainingModal
+        v-if="selectedCbo"
+        :show="showCboTrainingModal"
+        :cbo="selectedCbo"
+        @close="closeModal"
+        @saved="handleUpdated"
+    />
     <!-- Teleported Action Menu -->
     <Teleport to="body">
         <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
