@@ -134,7 +134,7 @@ export const index = {
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::create
-* @see app/Http/Controllers/CboExposureVisitController.php:49
+* @see app/Http/Controllers/CboExposureVisitController.php:67
 * @route '/cbo/cbos/{cbo}/exposure-visits/create'
 */
 export const create = (args: { cbo: string | number } | [cbo: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -152,7 +152,7 @@ create.definition = {
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::create
-* @see app/Http/Controllers/CboExposureVisitController.php:49
+* @see app/Http/Controllers/CboExposureVisitController.php:67
 * @route '/cbo/cbos/{cbo}/exposure-visits/create'
 */
 create.url = (args: { cbo: string | number } | [cbo: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -177,7 +177,7 @@ create.url = (args: { cbo: string | number } | [cbo: string | number ] | string 
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::create
-* @see app/Http/Controllers/CboExposureVisitController.php:49
+* @see app/Http/Controllers/CboExposureVisitController.php:67
 * @route '/cbo/cbos/{cbo}/exposure-visits/create'
 */
 create.get = (args: { cbo: string | number } | [cbo: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -190,7 +190,7 @@ create.get = (args: { cbo: string | number } | [cbo: string | number ] | string 
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::create
-* @see app/Http/Controllers/CboExposureVisitController.php:49
+* @see app/Http/Controllers/CboExposureVisitController.php:67
 * @route '/cbo/cbos/{cbo}/exposure-visits/create'
 */
 create.head = (args: { cbo: string | number } | [cbo: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -203,7 +203,7 @@ create.head = (args: { cbo: string | number } | [cbo: string | number ] | string
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::store
-* @see app/Http/Controllers/CboExposureVisitController.php:57
+* @see app/Http/Controllers/CboExposureVisitController.php:75
 * @route '/cbo/cbos/{cbo}/exposure-visits'
 */
 const store5798374b3be59e1c441e31da433bdb22 = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -221,7 +221,7 @@ store5798374b3be59e1c441e31da433bdb22.definition = {
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::store
-* @see app/Http/Controllers/CboExposureVisitController.php:57
+* @see app/Http/Controllers/CboExposureVisitController.php:75
 * @route '/cbo/cbos/{cbo}/exposure-visits'
 */
 store5798374b3be59e1c441e31da433bdb22.url = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -252,7 +252,7 @@ store5798374b3be59e1c441e31da433bdb22.url = (args: { cbo: number | { id: number 
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::store
-* @see app/Http/Controllers/CboExposureVisitController.php:57
+* @see app/Http/Controllers/CboExposureVisitController.php:75
 * @route '/cbo/cbos/{cbo}/exposure-visits'
 */
 store5798374b3be59e1c441e31da433bdb22.post = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -265,7 +265,7 @@ store5798374b3be59e1c441e31da433bdb22.post = (args: { cbo: number | { id: number
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::store
-* @see app/Http/Controllers/CboExposureVisitController.php:57
+* @see app/Http/Controllers/CboExposureVisitController.php:75
 * @route '/cbo/exposure-visits'
 */
 const storeed304c0f4df50e1922f5ea08f10fad8d = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -283,7 +283,7 @@ storeed304c0f4df50e1922f5ea08f10fad8d.definition = {
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::store
-* @see app/Http/Controllers/CboExposureVisitController.php:57
+* @see app/Http/Controllers/CboExposureVisitController.php:75
 * @route '/cbo/exposure-visits'
 */
 storeed304c0f4df50e1922f5ea08f10fad8d.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -292,7 +292,7 @@ storeed304c0f4df50e1922f5ea08f10fad8d.url = (options?: { query?: QueryParams, me
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::store
-* @see app/Http/Controllers/CboExposureVisitController.php:57
+* @see app/Http/Controllers/CboExposureVisitController.php:75
 * @route '/cbo/exposure-visits'
 */
 storeed304c0f4df50e1922f5ea08f10fad8d.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -310,7 +310,7 @@ export const store = {
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::show
-* @see app/Http/Controllers/CboExposureVisitController.php:71
+* @see app/Http/Controllers/CboExposureVisitController.php:89
 * @route '/cbo/cbos/{cbo}/exposure-visits/{exposure_visit}'
 */
 const show6ec9c7f06aad7bed784e05b63fb13570 = (args: { cbo: string | number, exposure_visit: string | number } | [cbo: string | number, exposure_visit: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -328,7 +328,7 @@ show6ec9c7f06aad7bed784e05b63fb13570.definition = {
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::show
-* @see app/Http/Controllers/CboExposureVisitController.php:71
+* @see app/Http/Controllers/CboExposureVisitController.php:89
 * @route '/cbo/cbos/{cbo}/exposure-visits/{exposure_visit}'
 */
 show6ec9c7f06aad7bed784e05b63fb13570.url = (args: { cbo: string | number, exposure_visit: string | number } | [cbo: string | number, exposure_visit: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -352,7 +352,7 @@ show6ec9c7f06aad7bed784e05b63fb13570.url = (args: { cbo: string | number, exposu
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::show
-* @see app/Http/Controllers/CboExposureVisitController.php:71
+* @see app/Http/Controllers/CboExposureVisitController.php:89
 * @route '/cbo/cbos/{cbo}/exposure-visits/{exposure_visit}'
 */
 show6ec9c7f06aad7bed784e05b63fb13570.get = (args: { cbo: string | number, exposure_visit: string | number } | [cbo: string | number, exposure_visit: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -365,7 +365,7 @@ show6ec9c7f06aad7bed784e05b63fb13570.get = (args: { cbo: string | number, exposu
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::show
-* @see app/Http/Controllers/CboExposureVisitController.php:71
+* @see app/Http/Controllers/CboExposureVisitController.php:89
 * @route '/cbo/cbos/{cbo}/exposure-visits/{exposure_visit}'
 */
 show6ec9c7f06aad7bed784e05b63fb13570.head = (args: { cbo: string | number, exposure_visit: string | number } | [cbo: string | number, exposure_visit: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -378,7 +378,7 @@ show6ec9c7f06aad7bed784e05b63fb13570.head = (args: { cbo: string | number, expos
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::show
-* @see app/Http/Controllers/CboExposureVisitController.php:71
+* @see app/Http/Controllers/CboExposureVisitController.php:89
 * @route '/cbo/exposure-visits/{exposure_visit}'
 */
 const show5b1d27f73d1bd37a151a590bc78dc805 = (args: { exposure_visit: string | number } | [exposure_visit: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -396,7 +396,7 @@ show5b1d27f73d1bd37a151a590bc78dc805.definition = {
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::show
-* @see app/Http/Controllers/CboExposureVisitController.php:71
+* @see app/Http/Controllers/CboExposureVisitController.php:89
 * @route '/cbo/exposure-visits/{exposure_visit}'
 */
 show5b1d27f73d1bd37a151a590bc78dc805.url = (args: { exposure_visit: string | number } | [exposure_visit: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -421,7 +421,7 @@ show5b1d27f73d1bd37a151a590bc78dc805.url = (args: { exposure_visit: string | num
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::show
-* @see app/Http/Controllers/CboExposureVisitController.php:71
+* @see app/Http/Controllers/CboExposureVisitController.php:89
 * @route '/cbo/exposure-visits/{exposure_visit}'
 */
 show5b1d27f73d1bd37a151a590bc78dc805.get = (args: { exposure_visit: string | number } | [exposure_visit: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -434,7 +434,7 @@ show5b1d27f73d1bd37a151a590bc78dc805.get = (args: { exposure_visit: string | num
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::show
-* @see app/Http/Controllers/CboExposureVisitController.php:71
+* @see app/Http/Controllers/CboExposureVisitController.php:89
 * @route '/cbo/exposure-visits/{exposure_visit}'
 */
 show5b1d27f73d1bd37a151a590bc78dc805.head = (args: { exposure_visit: string | number } | [exposure_visit: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -452,7 +452,7 @@ export const show = {
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::edit
-* @see app/Http/Controllers/CboExposureVisitController.php:81
+* @see app/Http/Controllers/CboExposureVisitController.php:99
 * @route '/cbo/cbos/{cbo}/exposure-visits/{exposure_visit}/edit'
 */
 export const edit = (args: { cbo: string | number, exposure_visit: string | number } | [cbo: string | number, exposure_visit: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -470,7 +470,7 @@ edit.definition = {
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::edit
-* @see app/Http/Controllers/CboExposureVisitController.php:81
+* @see app/Http/Controllers/CboExposureVisitController.php:99
 * @route '/cbo/cbos/{cbo}/exposure-visits/{exposure_visit}/edit'
 */
 edit.url = (args: { cbo: string | number, exposure_visit: string | number } | [cbo: string | number, exposure_visit: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -494,7 +494,7 @@ edit.url = (args: { cbo: string | number, exposure_visit: string | number } | [c
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::edit
-* @see app/Http/Controllers/CboExposureVisitController.php:81
+* @see app/Http/Controllers/CboExposureVisitController.php:99
 * @route '/cbo/cbos/{cbo}/exposure-visits/{exposure_visit}/edit'
 */
 edit.get = (args: { cbo: string | number, exposure_visit: string | number } | [cbo: string | number, exposure_visit: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -507,7 +507,7 @@ edit.get = (args: { cbo: string | number, exposure_visit: string | number } | [c
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::edit
-* @see app/Http/Controllers/CboExposureVisitController.php:81
+* @see app/Http/Controllers/CboExposureVisitController.php:99
 * @route '/cbo/cbos/{cbo}/exposure-visits/{exposure_visit}/edit'
 */
 edit.head = (args: { cbo: string | number, exposure_visit: string | number } | [cbo: string | number, exposure_visit: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -520,7 +520,7 @@ edit.head = (args: { cbo: string | number, exposure_visit: string | number } | [
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::update
-* @see app/Http/Controllers/CboExposureVisitController.php:89
+* @see app/Http/Controllers/CboExposureVisitController.php:107
 * @route '/cbo/cbos/{cbo}/exposure-visits/{exposure_visit}'
 */
 const update6ec9c7f06aad7bed784e05b63fb13570 = (args: { cbo: number | { id: number }, exposure_visit: string | number } | [cbo: number | { id: number }, exposure_visit: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -538,7 +538,7 @@ update6ec9c7f06aad7bed784e05b63fb13570.definition = {
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::update
-* @see app/Http/Controllers/CboExposureVisitController.php:89
+* @see app/Http/Controllers/CboExposureVisitController.php:107
 * @route '/cbo/cbos/{cbo}/exposure-visits/{exposure_visit}'
 */
 update6ec9c7f06aad7bed784e05b63fb13570.url = (args: { cbo: number | { id: number }, exposure_visit: string | number } | [cbo: number | { id: number }, exposure_visit: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -564,7 +564,7 @@ update6ec9c7f06aad7bed784e05b63fb13570.url = (args: { cbo: number | { id: number
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::update
-* @see app/Http/Controllers/CboExposureVisitController.php:89
+* @see app/Http/Controllers/CboExposureVisitController.php:107
 * @route '/cbo/cbos/{cbo}/exposure-visits/{exposure_visit}'
 */
 update6ec9c7f06aad7bed784e05b63fb13570.put = (args: { cbo: number | { id: number }, exposure_visit: string | number } | [cbo: number | { id: number }, exposure_visit: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -577,7 +577,7 @@ update6ec9c7f06aad7bed784e05b63fb13570.put = (args: { cbo: number | { id: number
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::update
-* @see app/Http/Controllers/CboExposureVisitController.php:89
+* @see app/Http/Controllers/CboExposureVisitController.php:107
 * @route '/cbo/cbos/{cbo}/exposure-visits/{exposure_visit}'
 */
 update6ec9c7f06aad7bed784e05b63fb13570.patch = (args: { cbo: number | { id: number }, exposure_visit: string | number } | [cbo: number | { id: number }, exposure_visit: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -590,7 +590,7 @@ update6ec9c7f06aad7bed784e05b63fb13570.patch = (args: { cbo: number | { id: numb
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::update
-* @see app/Http/Controllers/CboExposureVisitController.php:89
+* @see app/Http/Controllers/CboExposureVisitController.php:107
 * @route '/cbo/exposure-visits/{exposure_visit}'
 */
 const update5b1d27f73d1bd37a151a590bc78dc805 = (args: { exposure_visit: string | number } | [exposure_visit: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -608,7 +608,7 @@ update5b1d27f73d1bd37a151a590bc78dc805.definition = {
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::update
-* @see app/Http/Controllers/CboExposureVisitController.php:89
+* @see app/Http/Controllers/CboExposureVisitController.php:107
 * @route '/cbo/exposure-visits/{exposure_visit}'
 */
 update5b1d27f73d1bd37a151a590bc78dc805.url = (args: { exposure_visit: string | number } | [exposure_visit: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -633,7 +633,7 @@ update5b1d27f73d1bd37a151a590bc78dc805.url = (args: { exposure_visit: string | n
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::update
-* @see app/Http/Controllers/CboExposureVisitController.php:89
+* @see app/Http/Controllers/CboExposureVisitController.php:107
 * @route '/cbo/exposure-visits/{exposure_visit}'
 */
 update5b1d27f73d1bd37a151a590bc78dc805.put = (args: { exposure_visit: string | number } | [exposure_visit: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -646,7 +646,7 @@ update5b1d27f73d1bd37a151a590bc78dc805.put = (args: { exposure_visit: string | n
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::update
-* @see app/Http/Controllers/CboExposureVisitController.php:89
+* @see app/Http/Controllers/CboExposureVisitController.php:107
 * @route '/cbo/exposure-visits/{exposure_visit}'
 */
 update5b1d27f73d1bd37a151a590bc78dc805.patch = (args: { exposure_visit: string | number } | [exposure_visit: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -664,7 +664,7 @@ export const update = {
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::destroy
-* @see app/Http/Controllers/CboExposureVisitController.php:107
+* @see app/Http/Controllers/CboExposureVisitController.php:125
 * @route '/cbo/cbos/{cbo}/exposure-visits/{exposure_visit}'
 */
 const destroy6ec9c7f06aad7bed784e05b63fb13570 = (args: { cbo: number | { id: number }, exposure_visit: string | number } | [cbo: number | { id: number }, exposure_visit: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -682,7 +682,7 @@ destroy6ec9c7f06aad7bed784e05b63fb13570.definition = {
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::destroy
-* @see app/Http/Controllers/CboExposureVisitController.php:107
+* @see app/Http/Controllers/CboExposureVisitController.php:125
 * @route '/cbo/cbos/{cbo}/exposure-visits/{exposure_visit}'
 */
 destroy6ec9c7f06aad7bed784e05b63fb13570.url = (args: { cbo: number | { id: number }, exposure_visit: string | number } | [cbo: number | { id: number }, exposure_visit: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -708,7 +708,7 @@ destroy6ec9c7f06aad7bed784e05b63fb13570.url = (args: { cbo: number | { id: numbe
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::destroy
-* @see app/Http/Controllers/CboExposureVisitController.php:107
+* @see app/Http/Controllers/CboExposureVisitController.php:125
 * @route '/cbo/cbos/{cbo}/exposure-visits/{exposure_visit}'
 */
 destroy6ec9c7f06aad7bed784e05b63fb13570.delete = (args: { cbo: number | { id: number }, exposure_visit: string | number } | [cbo: number | { id: number }, exposure_visit: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -721,7 +721,7 @@ destroy6ec9c7f06aad7bed784e05b63fb13570.delete = (args: { cbo: number | { id: nu
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::destroy
-* @see app/Http/Controllers/CboExposureVisitController.php:107
+* @see app/Http/Controllers/CboExposureVisitController.php:125
 * @route '/cbo/exposure-visits/{exposure_visit}'
 */
 const destroy5b1d27f73d1bd37a151a590bc78dc805 = (args: { exposure_visit: string | number } | [exposure_visit: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -739,7 +739,7 @@ destroy5b1d27f73d1bd37a151a590bc78dc805.definition = {
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::destroy
-* @see app/Http/Controllers/CboExposureVisitController.php:107
+* @see app/Http/Controllers/CboExposureVisitController.php:125
 * @route '/cbo/exposure-visits/{exposure_visit}'
 */
 destroy5b1d27f73d1bd37a151a590bc78dc805.url = (args: { exposure_visit: string | number } | [exposure_visit: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -764,7 +764,7 @@ destroy5b1d27f73d1bd37a151a590bc78dc805.url = (args: { exposure_visit: string | 
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::destroy
-* @see app/Http/Controllers/CboExposureVisitController.php:107
+* @see app/Http/Controllers/CboExposureVisitController.php:125
 * @route '/cbo/exposure-visits/{exposure_visit}'
 */
 destroy5b1d27f73d1bd37a151a590bc78dc805.delete = (args: { exposure_visit: string | number } | [exposure_visit: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

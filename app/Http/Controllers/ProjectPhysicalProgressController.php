@@ -24,25 +24,51 @@ class ProjectPhysicalProgressController extends Controller
      * Display a listing of physical progress entries for a specific MHP Site.
      * E.g., /mhp/sites/{mhpSite}/physical-progresses
      */
-    public function index(Request $request, MhpSite $mhpSite)
+    public function index(Request $request, MhpSite $site)
     {
-        $physicalProgresses = $mhpSite->physicalProgresses()
-            ->with(['activity', 'media']) // Eager load activity details and media
-            ->orderBy('progress_date', 'desc')
-            ->paginate(10);
+        $query = $site->physicalProgresses()->with(['activity.media', 'media']);
 
-        // Apply accessor for frontend attachments and activity details if needed
+        // FIX: Add filtering by 'payment_for' if requested
+        if ($request->has('payment_for')) {
+            $query->where('payment_for', $request->input('payment_for'));
+            Log::info('ProjectPhysicalProgressController@index: Filtering by payment_for.', ['payment_for' => $request->input('payment_for')]);
+        }
+
+        // Check if the request is for pure data (e.g., from a modal fetching list)
+        if ($request->has('only-data')) {
+            Log::info('ProjectPhysicalProgressController@index: Request has only-data, returning JSON.');
+            $progresses = $query->orderBy('progress_date', 'desc')->get();
+
+            $progresses->transform(function ($progress) {
+                $progress->attachments = $progress->attachments_frontend;
+                // Ensure activity media is also transformed if needed for display
+                if ($progress->activity) {
+                    $progress->activity->attachments = $progress->activity->attachments_frontend;
+                }
+                return $progress;
+            });
+
+            return response()->json([
+                'physicalProgresses' => $progresses, // Return the raw collection data
+            ]);
+        }
+
+        // If 'only-data' is NOT present, then render the full Inertia page.
+        Log::info('ProjectPhysicalProgressController@index: Request does NOT have only-data, rendering Inertia page.');
+        $physicalProgresses = $query->orderBy('progress_date', 'desc')->paginate(10);
+
         $physicalProgresses->getCollection()->transform(function ($progress) {
             $progress->attachments = $progress->attachments_frontend;
-            // The 'activity' relation itself will be a TAndDWork model (or null)
-            // You can add specific formatting for activity here if needed for the list view
+            if ($progress->activity) {
+                $progress->activity->attachments = $progress->activity->attachments_frontend;
+            }
             return $progress;
         });
 
-        // If you're rendering an Inertia page to manage physical progress for a site
-        return Inertia::render('MHP/PhysicalProgress/Index', [
-            'mhpSite' => $mhpSite->only('id', 'project_id', 'name'), // Pass minimal site info
+        return Inertia::render('MHP/PhysicalProgress/Index', [ // Assuming a dedicated index page
+            'site' => $site->only('id', 'project_id', 'cbo.reference_code'),
             'physicalProgresses' => $physicalProgresses,
+            'filters' => $request->only('payment_for'),
         ]);
     }
 

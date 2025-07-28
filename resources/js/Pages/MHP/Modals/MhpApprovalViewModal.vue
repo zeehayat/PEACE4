@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import {computed, onMounted} from 'vue';
 import Modal from '@/Components/Modal.vue';
 import AttachmentViewer from '@/Components/AttachmentComponent/AttachmentViewer.vue';
 import PrimaryButton from "@/Components/PrimaryButton.vue"; // Assuming this exists
@@ -28,6 +28,10 @@ const formatNullableCurrency = (value) => {
 
 const hasRemarks = computed(() => {
     return props.approval.remarks && props.approval.remarks.trim() !== '';
+});
+onMounted(() => {
+    console.log('MhpApprovalViewModal: Mounted. Approval prop:', props.approval); // CRITICAL: Check this
+    console.log('MhpApprovalViewModal: Attachments to display:', props.approval?.attachments_frontend); // CRITICAL: Check this
 });
 </script>
 

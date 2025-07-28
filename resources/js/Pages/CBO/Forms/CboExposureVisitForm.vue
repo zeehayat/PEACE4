@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, watch, ref, onMounted } from 'vue';
+import { reactive, watch, ref, onMounted, nextTick } from 'vue'; // Import nextTick
 import { useForm } from '@inertiajs/vue3';
 
 import InputError from '@/Components/InputError.vue';
@@ -13,39 +13,78 @@ import AttachmentUploader from '@/Components/AttachmentComponent/AttachmentUploa
 const props = defineProps({
     cboId: {
         type: Number,
-        required: true, // The parent CBO ID
+        required: true,
     },
     exposureVisit: {
         type: Object,
-        default: null, // Existing exposure visit object for edit mode
+        default: null,
     },
     mode: {
         type: String,
-        default: 'create', // 'create' or 'update'
+        default: 'create',
     },
 });
 
 const emit = defineEmits(['success', 'cancel']);
 
 const isEditMode = ref(props.mode === 'update');
-const existingAttachments = ref(props.exposureVisit ? props.exposureVisit.attachments_frontend : []);
+const existingAttachments = ref([]);
 
-const form = useForm({
-    cbo_id: props.cboId,
-    date_of_visit: props.exposureVisit ? props.exposureVisit.date_of_visit : null,
-    participants: props.exposureVisit ? props.exposureVisit.participants : null,
-    purpose_of_visit: props.exposureVisit ? props.exposureVisit.purpose_of_visit : '',
-    remarks: props.exposureVisit ? props.exposureVisit.remarks : '',
-    attachments: [],
-    attachments_to_delete: [],
+function getInitialFormData(visit) {
+    return {
+        cbo_id: props.cboId,
+        date_of_visit: visit ? visit.date_of_visit : null,
+        participants: visit ? visit.participants : null,
+        purpose_of_visit: visit ? visit.purpose_of_visit : '',
+        remarks: visit ? visit.remarks : '',
+        attachments: [],
+        attachments_to_delete: [],
+    };
+}
+
+const form = useForm(getInitialFormData(props.exposureVisit));
+
+// FIX: Wrap the watcher logic in nextTick
+watch(() => props.exposureVisit, async (newVal) => { // Make watcher async
+    console.log('--- CboExposureVisitForm: props.exposureVisit watcher triggered ---');
+    console.log('Watcher received newVal (exposureVisit prop):', newVal);
+
+    isEditMode.value = !!newVal;
+
+    // Defer execution to ensure `form` is fully reactive/initialized
+    await nextTick(); // <--- ADD THIS LINE
+
+    // Set the new default values for the form based on the prop
+    form.defaults(getInitialFormData(newVal));
+
+    // Reset the form to apply the new defaults and clear any dirty state/errors
+    form.reset();
+
+    // Update existing attachments separately
+    existingAttachments.value = newVal ? newVal.attachments_frontend : [];
+
+    form.clearErrors(); // Clear any previous validation errors
+    console.log('CboExposureVisitForm: Form and attachments initialized based on new prop.');
+}, { immediate: true });
+
+onMounted(() => {
+    console.log('--- CboExposureVisitForm: Mounted ---');
+    console.log('CboExposureVisitForm: Initial form.data() on mount:', form.data());
+    console.log('CboExposureVisitForm: Initial existingAttachments on mount:', existingAttachments.value);
 });
 
 const handleAttachmentsToDelete = (id) => {
+    console.log('--- CboExposureVisitForm: handleAttachmentsToDelete called ---');
+    console.log('Deleting attachment ID:', id);
     form.attachments_to_delete.push(id);
     existingAttachments.value = existingAttachments.value.filter(att => att.id !== id);
 };
 
 const handleSubmit = () => {
+    console.log('--- CboExposureVisitForm: handleSubmit triggered ---');
+    console.log('Form data before POST:', form.data());
+    console.log('Attachments array before POST:', form.attachments);
+
     const url = isEditMode.value
         ? route('cbo.cbos.exposure-visits.update', { cbo: props.cboId, 'exposure_visit': props.exposureVisit.id })
         : route('cbo.cbos.exposure-visits.store', { cbo: props.cboId });
@@ -57,12 +96,14 @@ const handleSubmit = () => {
         return data;
     }).post(url, {
         onSuccess: () => {
+            console.log('--- CboExposureVisitForm: Submission Success ---');
             form.reset();
             existingAttachments.value = [];
             form.attachments_to_delete = [];
             emit('success', isEditMode.value ? 'Exposure Visit updated successfully!' : 'Exposure Visit added successfully!');
         },
         onError: (errors) => {
+            console.error('--- CboExposureVisitForm: Submission Error ---');
             console.error('Form errors:', errors);
         },
         preserveScroll: true,
@@ -71,46 +112,12 @@ const handleSubmit = () => {
 };
 
 const handleCancel = () => {
+    console.log('--- CboExposureVisitForm: Cancel triggered ---');
     form.reset();
     existingAttachments.value = [];
     form.attachments_to_delete = [];
     emit('cancel');
 };
-
-watch(() => props.exposureVisit, (newVal) => {
-    if (newVal) {
-        isEditMode.value = true;
-        form.fill({
-            cbo_id: props.cboId,
-            date_of_visit: newVal.date_of_visit,
-            participants: newVal.participants,
-            purpose_of_visit: newVal.purpose_of_visit,
-            remarks: newVal.remarks,
-            attachments: [],
-            attachments_to_delete: [],
-        });
-        existingAttachments.value = newVal.attachments_frontend;
-        form.clearErrors();
-    } else {
-        isEditMode.value = false;
-        form.reset();
-        form.cbo_id = props.cboId;
-        existingAttachments.value = [];
-        form.attachments = [];
-        form.attachments_to_delete = [];
-        form.clearErrors();
-    }
-}, { immediate: true });
-
-onMounted(() => {
-    if (!isEditMode.value && props.exposureVisit === null) {
-        form.reset();
-        form.cbo_id = props.cboId;
-        existingAttachments.value = [];
-        form.attachments = [];
-        form.attachments_to_delete = [];
-    }
-});
 </script>
 
 <template>

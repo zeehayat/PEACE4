@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, watch, ref, onMounted } from 'vue';
+import { reactive, watch, ref, onMounted, nextTick } from 'vue'; // Import nextTick
 import { useForm } from '@inertiajs/vue3';
 
 import InputError from '@/Components/InputError.vue';
@@ -29,29 +29,70 @@ const props = defineProps({
 const emit = defineEmits(['success', 'cancel']);
 
 const isEditMode = ref(props.mode === 'update');
-const existingAttachments = ref(props.training ? props.training.attachments_frontend : []); // Initial population
-
-const form = useForm({
-    cbo_id: props.cboId,
-    date_of_training: props.training ? props.training.date_of_training : null,
-    training_type: props.training ? props.training.training_type : 'O&M Training',
-    training_gender: props.training ? props.training.training_gender : 'Mixed',
-    total_participants: props.training ? props.training.total_participants : null,
-    remarks: props.training ? props.training.remarks : '',
-    attachments: [],
-    attachments_to_delete: [],
-});
+const existingAttachments = ref([]); // Initialized as empty array, filled by watcher
 
 // Options for select inputs
 const trainingTypeOptions = ['O&M Training', 'Electrical Appliance'];
 const trainingGenderOptions = ['Male', 'Female', 'Mixed'];
 
+// Function to get the initial data for the form based on a training object or null
+function getInitialFormData(training) {
+    return {
+        cbo_id: props.cboId,
+        date_of_training: training ? training.date_of_training : null,
+        training_type: training ? training.training_type : 'O&M Training',
+        training_gender: training ? training.training_gender : 'Mixed',
+        total_participants: training ? training.total_participants : null,
+        remarks: training ? training.remarks : '',
+        attachments: [],
+        attachments_to_delete: [],
+    };
+}
+
+// Initialize form using a function to ensure it's always a useForm instance
+const form = useForm(getInitialFormData(props.training));
+
+// Watch for prop.training changes to update the form
+watch(() => props.training, async (newVal) => { // Make watcher async
+    console.log('--- CboTrainingForm: props.training watcher triggered ---');
+    console.log('Watcher received newVal (training prop):', newVal);
+
+    isEditMode.value = !!newVal;
+
+    // Defer execution to ensure `form` is fully reactive/initialized
+    await nextTick(); // <--- ADD THIS LINE
+
+    // Set the new default values for the form based on the prop
+    form.defaults(getInitialFormData(newVal));
+
+    // Reset the form to apply the new defaults and clear any dirty state/errors
+    form.reset();
+
+    // Update existing attachments separately
+    existingAttachments.value = newVal ? newVal.attachments_frontend : [];
+
+    form.clearErrors();
+    console.log('CboTrainingForm: Form and attachments initialized based on new prop.');
+}, { immediate: true });
+
+onMounted(() => {
+    console.log('--- CboTrainingForm: Mounted ---');
+    console.log('CboTrainingForm: Initial form.data() on mount:', form.data());
+    console.log('CboTrainingForm: Initial existingAttachments on mount:', existingAttachments.value);
+});
+
 const handleAttachmentsToDelete = (id) => {
+    console.log('--- CboTrainingForm: handleAttachmentsToDelete called ---');
+    console.log('Deleting attachment ID:', id);
     form.attachments_to_delete.push(id);
     existingAttachments.value = existingAttachments.value.filter(att => att.id !== id);
 };
 
 const handleSubmit = () => {
+    console.log('--- CboTrainingForm: handleSubmit triggered ---');
+    console.log('Form data before POST:', form.data());
+    console.log('Attachments array before POST:', form.attachments);
+
     const url = isEditMode.value
         ? route('cbo.cbos.trainings.update', { cbo: props.cboId, training: props.training.id })
         : route('cbo.cbos.trainings.store', { cbo: props.cboId });
@@ -63,12 +104,14 @@ const handleSubmit = () => {
         return data;
     }).post(url, {
         onSuccess: () => {
+            console.log('--- CboTrainingForm: Submission Success ---');
             form.reset();
             existingAttachments.value = [];
             form.attachments_to_delete = [];
             emit('success', isEditMode.value ? 'Training updated successfully!' : 'Training added successfully!');
         },
         onError: (errors) => {
+            console.error('--- CboTrainingForm: Submission Error ---');
             console.error('Form errors:', errors);
         },
         preserveScroll: true,
@@ -77,55 +120,12 @@ const handleSubmit = () => {
 };
 
 const handleCancel = () => {
+    console.log('--- CboTrainingForm: Cancel triggered ---');
     form.reset();
     existingAttachments.value = [];
     form.attachments_to_delete = [];
     emit('cancel');
 };
-
-// === DEBUGGING WATCHER ===
-watch(() => props.training, (newVal) => {
-    console.log('--- CboTrainingForm: props.training watcher triggered ---');
-    console.log('Watcher received newVal (training prop):', newVal); // CRITICAL: Check this
-
-    isEditMode.value = !!newVal;
-
-    if (newVal) {
-        // Direct assignment to form fields
-        form.cbo_id = props.cboId; // Ensure cbo_id is always set
-        form.date_of_training = newVal.date_of_training;
-        form.training_type = newVal.training_type;
-        form.training_gender = newVal.training_gender;
-        form.total_participants = newVal.total_participants;
-        form.remarks = newVal.remarks;
-
-        // Clear new attachments and deletions for a fresh edit session
-        form.attachments = [];
-        form.attachments_to_delete = [];
-
-        // Populate existing attachments
-        existingAttachments.value = newVal.attachments_frontend;
-
-        form.clearErrors();
-        console.log('CboTrainingForm: Form fields after direct assignment:', form.data()); // Check assigned data
-        console.log('CboTrainingForm: existingAttachments after update:', existingAttachments.value); // Check attachments
-    } else {
-        // Reset for create mode
-        form.reset();
-        form.cbo_id = props.cboId;
-        existingAttachments.value = [];
-        form.attachments = [];
-        form.attachments_to_delete = [];
-        form.clearErrors();
-        console.log('CboTrainingForm: Form reset for create mode.');
-    }
-}, { immediate: true });
-
-onMounted(() => {
-    console.log('--- CboTrainingForm: Mounted ---');
-    console.log('CboTrainingForm: Initial form.data() on mount:', form.data()); // Check initial form state
-    console.log('CboTrainingForm: Initial existingAttachments on mount:', existingAttachments.value); // Check initial attachments
-});
 </script>
 
 <template>

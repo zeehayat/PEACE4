@@ -26,10 +26,28 @@ class CboExposureVisitController extends Controller
      */
     public function index(Request $request, Cbo $cbo)
     {
-        $exposureVisits = $cbo->exposureVisits()
-            ->with('media') // Eager load attachments
-            ->orderBy('date_of_visit', 'desc')
-            ->paginate(10);
+        $query = $cbo->exposureVisits()->with('media');
+
+        // FIX: Check if the request is for pure data (e.g., from a modal fetching list)
+        if ($request->has('only-data')) {
+            Log::info('CboExposureVisitController@index: Request has only-data, returning JSON.');
+            $visits = $query->orderBy('date_of_visit', 'desc')->get(); // Get all results, not paginated for options
+
+            // Apply accessor for frontend attachments
+            $visits->transform(function ($visit) {
+                $visit->attachments = $visit->attachments_frontend;
+                return $visit;
+            });
+
+            return response()->json([
+                'exposureVisits' => $visits, // Return the raw collection data
+            ]);
+        }
+
+        // If 'only-data' is NOT present, then render the full Inertia page.
+        // This means CBO/ExposureVisits/Index.vue must be a full Inertia page with a Layout.
+        Log::info('CboExposureVisitController@index: Request does NOT have only-data, rendering Inertia page.');
+        $exposureVisits = $query->orderBy('date_of_visit', 'desc')->paginate(10); // Paginate for full page view
 
         // Apply accessor for frontend attachments
         $exposureVisits->getCollection()->transform(function ($visit) {
@@ -37,7 +55,7 @@ class CboExposureVisitController extends Controller
             return $visit;
         });
 
-        return Inertia::render('CBO/ExposureVisits/Index', [ // Assuming a dedicated index page
+        return Inertia::render('CBO/ExposureVisits/Index', [
             'cbo' => $cbo->only('id', 'reference_code'),
             'exposureVisits' => $exposureVisits,
         ]);
