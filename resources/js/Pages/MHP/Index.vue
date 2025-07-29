@@ -14,7 +14,7 @@ import MhpAdminApprovalModal from '@/Pages/MHP/Modals/MhpAdminApprovalModal.vue'
 import MhpApprovalViewModal from '@/Pages/MHP/Modals/MhpApprovalViewModal.vue';
 import TAndDWorkModal from '@/Pages/MHP/Modals/TAndDWorkModal.vue';
 import TAndDWorkViewModal from '@/Pages/MHP/Modals/TAndDWorkViewModal.vue';
-import ProjectPhysicalProgressModal from '@/Pages/MHP/Modals/ProjectPhysicalProgressModal.vue'; // <--- Ensure this is imported
+import ProjectPhysicalProgressModal from '@/Pages/MHP/Modals/ProjectPhysicalProgressModal.vue';
 import ProjectFinancialInstallmentModal from '@/Pages/MHP/Modals/ProjectFinancialInstallmentModal.vue';
 import MhpCompletionModal from '@/Pages/MHP/Modals/MhpCompletionModal.vue';
 import MhpSiteDetailsModal from '@/Pages/MHP/Modals/MhpSiteDetailsModal.vue';
@@ -55,15 +55,18 @@ const showApprovalViewModal = ref(false);
 const showTAndDWorkModal = ref(false);
 const tAndDWorkAction = ref('create');
 const showTAndDWorkViewModal = ref(false);
-const showProjectPhysicalProgressModal = ref(false); // <--- ENSURE THIS IS DECLARED
+const showProjectPhysicalProgressModal = ref(false);
 const showProjectFinancialInstallmentModal = ref(false);
 const showMhpCompletionModal = ref(false);
 const completionAction = ref('create');
 
 const showMhpSiteDetailsModal = ref(false);
 const showReportModal = ref(false);
-const showEmeProgressModal = ref(false); // <--- ENSURE THIS IS DECLARED
+const showEmeProgressModal = ref(false);
 const showOperationalCostModal = ref(false);
+
+// FIX: New ref to store the type of progress being managed (e.g., 'EME', 'Civil', 'T&D')
+const progressType = ref(null);
 
 
 // --- Centralized Handlers ---
@@ -91,6 +94,9 @@ function closeModal() {
     showReportModal.value = false;
     showEmeProgressModal.value = false; // Close EME Progress modal
     showOperationalCostModal.value = false;
+
+    // FIX: Reset progressType when any modal closes
+    progressType.value = null;
 
     setTimeout(() => {
         selectedSite.value = null;
@@ -173,19 +179,39 @@ function handleAddTAndDWork(site) { selectedSite.value = site; selectedTAndDWork
 function handleEditTAndDWork(site, tAndDWork) { selectedSite.value = site; selectedTAndDWork.value = tAndDWork; tAndDWorkAction.value = 'update'; showTAndDWorkModal.value = true; openActionMenuId.value = null; }
 function handleViewTAndDWork(site, tAndDWork) { selectedSite.value = site; selectedTAndDWork.value = tAndDWork; showTAndDWorkViewModal.value = true; openActionMenuId.value = null; }
 
-// FIX: Update handleOpenEmeProgress to pass type and open ProjectPhysicalProgressModal
+// FIX: Update handleOpenEmeProgress to set progressType and open ProjectPhysicalProgressModal
 function handleOpenEmeProgress(site) {
     console.log('Index.vue: handleOpenEmeProgress called');
     selectedSite.value = site;
-    showProjectPhysicalProgressModal.value = true; // <--- Open ProjectPhysicalProgressModal
-    selectedPhysicalProgress.value = null; // Ensure no specific progress is selected for new entry
+    progressType.value = 'EME'; // <--- Set the type for the modal
+    showProjectPhysicalProgressModal.value = true;
+    selectedPhysicalProgress.value = null;
     openActionMenuId.value = null;
-    // You might pass a 'type' prop to the modal to indicate it's for EME
-    // e.g., showProjectPhysicalProgressModal.value = { type: 'eme' };
 }
 
 function handleOpenOperationalCost(site) { selectedSite.value = site; showOperationalCostModal.value = true; openActionMenuId.value = null; }
-function handleManagePhysicalProgress(site) { selectedSite.value = site; showProjectPhysicalProgressModal.value = true; openActionMenuId.value = null; }
+
+// FIX: Update handleManagePhysicalProgress to set progressType and open ProjectPhysicalProgressModal
+function handleManagePhysicalProgress(site) {
+    console.log('Index.vue: handleManagePhysicalProgress called');
+    selectedSite.value = site;
+    progressType.value = 'Civil'; // <--- Set the type for Civil progress
+    showProjectPhysicalProgressModal.value = true;
+    selectedPhysicalProgress.value = null;
+    openActionMenuId.value = null;
+}
+
+// FIX: Add handleManageTAndDProgress (if you want a list of T&D progresses)
+function handleManageTAndDProgress(site) {
+    console.log('Index.vue: handleManageTAndDProgress called');
+    selectedSite.value = site;
+    progressType.value = 'T&D'; // <--- Set the type for T&D progress
+    showProjectPhysicalProgressModal.value = true;
+    selectedPhysicalProgress.value = null;
+    openActionMenuId.value = null;
+}
+
+
 function handleManageFinancialInstallment(site) { selectedSite.value = site; showProjectFinancialInstallmentModal.value = true; openActionMenuId.value = null; }
 
 function handleDeleteSite(siteId) {
@@ -407,11 +433,21 @@ const handlePagination = (url) => {
     <MhpApprovalViewModal v-if="selectedSite && selectedSite.admin_approval" :show="showApprovalViewModal" :approval="selectedSite.admin_approval" @close="closeModal" />
     <TAndDWorkModal v-if="selectedSite" :show="showTAndDWorkModal" :mhp-site-id="selectedSite.id" :t-and-d-work="selectedTAndDWork" :action="tAndDWorkAction" @close="closeModal" @updated="handleUpdated" />
     <TAndDWorkViewModal v-if="selectedTAndDWork" :show="showTAndDWorkViewModal" :t-and-d-work="selectedTAndDWork" @close="closeModal" />
-    <ProjectPhysicalProgressModal v-if="selectedSite" :show="showProjectPhysicalProgressModal" :site="selectedSite" @close="closeModal" @saved="handleUpdated" />
+
+    <!-- FIX: Pass the 'type' prop to ProjectPhysicalProgressModal -->
+    <ProjectPhysicalProgressModal
+        v-if="selectedSite"
+        :show="showProjectPhysicalProgressModal"
+        :site="selectedSite"
+        :progress-type="progressType"
+    @close="closeModal"
+    @saved="handleUpdated"
+    />
+
     <ProjectFinancialInstallmentModal v-if="selectedSite" :show="showProjectFinancialInstallmentModal" :site="selectedSite" @close="closeModal" @saved="handleUpdated" />
     <MhpCompletionModal v-if="selectedSite" :show="showMhpCompletionModal" :site="selectedSite" :completion="selectedSite.completion" :action="completionAction" @close="closeModal" @saved="handleUpdated" />
     <MhpSiteDetailsModal v-if="selectedSite" :show="showMhpSiteDetailsModal" :site="selectedSite" @close="closeModal" />
-    <MhpReportModal v-if="selectedSite" :show="showReportModal" :site="selectedSite" @close="closeModal" /> <!-- <--- ADDED THIS MODAL -->
+    <MhpReportModal v-if="selectedSite" :show="showReportModal" :site="selectedSite" @close="closeModal" />
 
     <!-- Teleported Action Menu -->
     <Teleport to="body">
@@ -452,7 +488,7 @@ const handlePagination = (url) => {
                         View Report
                     </button>
                     <button @click="handleAddEditViewCompletion(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-square"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-square"><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/><polyline points="9 11 12 14 22 4"/></svg>
                         {{ selectedSite.completion ? 'Edit Completion' : '+ Add Completion' }}
                     </button>
                     <button v-if="selectedSite.completion" @click="handleViewCompletion(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">

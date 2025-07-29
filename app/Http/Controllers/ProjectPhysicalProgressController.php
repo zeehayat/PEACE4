@@ -65,7 +65,7 @@ class ProjectPhysicalProgressController extends Controller
             return $progress;
         });
 
-        return Inertia::render('MHP/PhysicalProgress/Index', [ // Assuming a dedicated index page
+        return Inertia::render('MHP/Index', [ // Assuming a dedicated index page
             'site' => $site->only('id', 'project_id', 'cbo.reference_code'),
             'physicalProgresses' => $physicalProgresses,
             'filters' => $request->only('payment_for'),
