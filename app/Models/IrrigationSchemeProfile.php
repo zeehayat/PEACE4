@@ -5,51 +5,49 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media as SpatieMedia;
 
-class IrrigationAdminApproval extends Model implements HasMedia
+class IrrigationSchemeProfile extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
 
     protected $fillable = [
         'irrigation_scheme_id',
-        'approved_vendor',
-        'approved_cost',
+        'beneficiary_farmers',
+        'channel_length_km',
+        'land_area_hectares',
+        'month_year_establishment',
+        'established_by',
         'date_technical_surveys',
-        'date_design_estimates_submission_psu',
-        'date_validation_visit_psu',
+        'northening',
+        'easting',
+        'elevation',
     ];
 
     protected $casts = [
-        'approved_cost' => 'decimal:2',
+        'month_year_establishment' => 'date',
         'date_technical_surveys' => 'date',
-        'date_design_estimates_submission_psu' => 'date',
-        'date_validation_visit_psu' => 'date',
+        'channel_length_km' => 'decimal:2',
+        'land_area_hectares' => 'decimal:2',
+        'northening' => 'decimal:6',
+        'easting' => 'decimal:6',
+        'elevation' => 'decimal:2',
     ];
 
     /**
-     * Get the irrigation scheme that this approval belongs to.
+     * Get the irrigation scheme that owns the profile.
      */
     public function irrigationScheme(): BelongsTo
     {
         return $this->belongsTo(IrrigationScheme::class);
     }
 
-    /**
-     * Get the cost revisions for this approval (polymorphic relationship).
-     */
-    public function costRevisions(): MorphMany
-    {
-        return $this->morphMany(IrrigationCostRevision::class, 'approvable');
-    }
-
     // --- Spatie Media Library ---
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('attachments');
+        $this->addMediaCollection('attachments'); // Attachments for the scheme profile
     }
 
     protected $appends = ['attachments_frontend'];

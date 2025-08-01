@@ -4,46 +4,35 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media as SpatieMedia;
 
-class IrrigationAdminApproval extends Model implements HasMedia
+class IrrigationCostRevision extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
 
     protected $fillable = [
-        'irrigation_scheme_id',
-        'approved_vendor',
-        'approved_cost',
-        'date_technical_surveys',
-        'date_design_estimates_submission_psu',
-        'date_validation_visit_psu',
+        'approvable_id',
+        'approvable_type',
+        'revision_number',
+        'revised_cost',
+        'approved_on',
+        'remarks',
     ];
 
     protected $casts = [
-        'approved_cost' => 'decimal:2',
-        'date_technical_surveys' => 'date',
-        'date_design_estimates_submission_psu' => 'date',
-        'date_validation_visit_psu' => 'date',
+        'revised_cost' => 'decimal:2',
+        'approved_on' => 'date',
     ];
 
     /**
-     * Get the irrigation scheme that this approval belongs to.
+     * Get the parent model that this cost revision belongs to.
      */
-    public function irrigationScheme(): BelongsTo
+    public function approvable(): MorphTo
     {
-        return $this->belongsTo(IrrigationScheme::class);
-    }
-
-    /**
-     * Get the cost revisions for this approval (polymorphic relationship).
-     */
-    public function costRevisions(): MorphMany
-    {
-        return $this->morphMany(IrrigationCostRevision::class, 'approvable');
+        return $this->morphTo();
     }
 
     // --- Spatie Media Library ---

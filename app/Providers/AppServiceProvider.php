@@ -6,6 +6,9 @@ use App\Models\Cbo;
 use App\Models\CboDialogue;
 use App\Models\CboExposureVisit;
 use App\Models\CboTraining;
+use App\Models\IrrigationAdminApproval;
+use App\Models\IrrigationCostRevision;
+use App\Models\IrrigationScheme;
 use App\Models\MhpAdminApproval;
 use App\Models\MhpSite;
 use App\Models\ProjectFinancialInstallment;
@@ -39,15 +42,17 @@ class AppServiceProvider extends ServiceProvider
 
         Relation::enforceMorphMap([
             'cbo' => Cbo::class,
+            'cbo_dialogue' => CboDialogue::class,
+            'cbo_exposure_visit' => CboExposureVisit::class,
+            'cbo_training' => CboTraining::class,
             'mhp_site' => MhpSite::class,
             't_and_d_work' => TAndDWork::class,
-            'physical_progress' => ProjectPhysicalProgress::class, // The type used for activity() morph
-            'financial_installment' => ProjectFinancialInstallment::class, // The type used for activity() morph
-            'mhp_admin_approval'=>MhpAdminApproval::class,
-            'cbo_dialogue' => CboDialogue::class,
-            'cbo_exposure_visit' => CboExposureVisit::class, // <--- ADD THIS LINE
-            'cbo_training' => CboTraining::class, // <--- ADD THIS LINE
-            // Add other models that are polymorphic 'projectable' types if they exist (e.g., 'irrigation_scheme' => App\Models\IrrigationScheme::class)
+            'physical_progress' => ProjectPhysicalProgress::class,
+            'financial_installment' => ProjectFinancialInstallment::class,
+            'mhp_admin_approval' => MhpAdminApproval::class,
+            'irrigation_scheme' => IrrigationScheme::class,
+            'irrigation_admin_approval' => IrrigationAdminApproval::class, // <--- ADD THIS LINE
+            'irrigation_cost_revision' => IrrigationCostRevision::class, // <--- ADD THIS LINE
         ]);
     }
 }
