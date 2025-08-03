@@ -26,9 +26,9 @@ const page = usePage();
 const isEditMode = ref(!!props.scheme);
 const existingAttachments = ref([]);
 
-const schemeTypeOptions = ['New', 'Rehabilitation']; // Example options, adjust as needed
-const subSchemeTypeOptions = ['Sub A', 'Sub B', 'Sub C']; // Example options, adjust as needed
-const statusOptions = ['New', 'Active', 'Inactive']; // Example options, adjust as needed
+//const schemeTypeOptions = ['New', 'Rehabilitation']; // Example options, adjust as needed
+//const subSchemeTypeOptions = ['Sub A', 'Sub B', 'Sub C']; // Example options, adjust as needed
+const statusOptions = ['New', 'Rehabilitation']; // Example options, adjust as needed
 
 // Function to get the initial data for the form based on a scheme object or null
 function getInitialFormData(scheme) {
@@ -108,7 +108,7 @@ const handleCancel = () => {
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- CBO -->
             <div>
-                <InputLabel for="cbo_id" value="CBO" />
+                <InputLabel for="cbo_id" value="" />
                 <SearchableCboSelect
                     id="cbo_id"
                     v-model="form.cbo_id"
@@ -119,12 +119,12 @@ const handleCancel = () => {
             </div>
 
             <!-- Scheme Type -->
-            <div>
+            <div class="hidden">
                 <InputLabel for="scheme_type" value="Scheme Type" />
-                <SelectInput
+                <TextInput
                     id="scheme_type"
                     v-model="form.scheme_type"
-                    :options="schemeTypeOptions"
+
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.scheme_type }"
                 />
@@ -132,12 +132,12 @@ const handleCancel = () => {
             </div>
 
             <!-- Sub Scheme Type -->
-            <div>
+            <div class="hidden">
                 <InputLabel for="sub_scheme_type" value="Sub Scheme Type" />
-                <SelectInput
+                <TextInput
                     id="sub_scheme_type"
                     v-model="form.sub_scheme_type"
-                    :options="subSchemeTypeOptions"
+
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.sub_scheme_type }"
                 />

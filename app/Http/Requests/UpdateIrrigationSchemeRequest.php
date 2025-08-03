@@ -23,7 +23,7 @@ class UpdateIrrigationSchemeRequest extends FormRequest
         return [
             // Core Irrigation Scheme fields
             'cbo_id' => ['required', 'exists:cbos,id'],
-            'scheme_type' => ['required', 'string', 'max:255'],
+            'scheme_type' => ['nullable', 'string', 'max:255'],
             'sub_scheme_type' => ['nullable', 'string', 'max:255'],
             'status' => ['required', 'string', 'max:255'],
             'remarks' => ['nullable', 'string'],

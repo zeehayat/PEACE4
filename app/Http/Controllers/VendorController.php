@@ -1,48 +1,34 @@
-
 <?php
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Vendor;
-use App\Services\VendorService;
+use Illuminate\Http\Request;
 
 class VendorController extends Controller
 {
-    protected VendorService $service;
-
-    public function __construct(VendorService $service)
+    /**
+     * Get vendors for a searchable select input.
+     * This is an API endpoint.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getVendors(Request $request)
     {
-        $this->service = $service;
-    }
+        $search = $request->input('search');
 
-    public function index()
-    {
-        $items = Vendor::latest()->paginate(10);
-        return inertia('Vendors/Index', compact('items'));
-    }
+        $vendors = Vendor::query()
+            ->when($search, function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('contact_person', 'like', '%' . $search . '%')
+                    ->orWhere('phone', 'like', '%' . $search . '%')
+                    ->orWhere('email', 'like', '%' . $search . '%');
+            })
+            ->select('id', 'name', 'contact_person', 'phone', 'email')
+            ->limit(10)
+            ->get();
 
-    public function store(Request $request)
-    {
-        $this->service->create($request->all());
-        return redirect()->back()->with('success', 'Vendor created.');
-    }
-
-    public function update(Request $request, Vendor $vendor)
-    {
-        $this->service->update($vendor, $request->all());
-        return redirect()->back()->with('success', 'Vendor updated.');
-    }
-
-    public function destroy(Vendor $vendor)
-    {
-        $this->service->delete($vendor);
-        return redirect()->back()->with('success', 'Vendor deleted.');
-    }
-
-    public function show(int $id)
-    {
-        $item = $this->service->find($id);
-        return inertia('Vendors/Show', compact('item'));
+        return response()->json($vendors);
     }
 }

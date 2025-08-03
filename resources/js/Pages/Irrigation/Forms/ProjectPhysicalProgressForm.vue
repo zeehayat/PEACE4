@@ -22,7 +22,7 @@ const emit = defineEmits(['success', 'cancel']);
 const isEditMode = ref(props.mode === 'update');
 const existingAttachments = ref([]);
 
-const paymentForOptions = ['Civil', 'EME', 'T&D']; // Assumes T&D progress is also tracked here
+const paymentForOptions = []; // Assumes T&D progress is also tracked here
 
 function getInitialFormData(progress) {
     return {
@@ -122,10 +122,10 @@ const handleCancel = () => {
             <!-- Payment For -->
             <div>
                 <InputLabel for="payment_for" value="Payment For" />
-                <SelectInput
+                <TextInput disabled="disabled"
                     id="payment_for"
                     v-model="form.payment_for"
-                    :options="paymentForOptions"
+
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.payment_for }"
                 />

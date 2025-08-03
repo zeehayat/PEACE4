@@ -4,6 +4,7 @@ import ProjectFinancialInstallmentController from './ProjectFinancialInstallment
 import UserController from './UserController'
 import AttachmentController from './AttachmentController'
 import MhpSiteController from './MhpSiteController'
+import VendorController from './VendorController'
 import MhpAdminApprovalController from './MhpAdminApprovalController'
 import MhpCompletionController from './MhpCompletionController'
 import TAndDWorkController from './TAndDWorkController'
@@ -14,6 +15,7 @@ import OperationalCostController from './OperationalCostController'
 import IrrigationSchemeController from './IrrigationSchemeController'
 import IrrigationAdminApprovalController from './IrrigationAdminApprovalController'
 import IrrigationCostRevisionController from './IrrigationCostRevisionController'
+import IrrigationSchemeContractController from './IrrigationSchemeContractController'
 import CboController from './CboController'
 import CboDialogueController from './CboDialogueController'
 import CboExposureVisitController from './CboExposureVisitController'
@@ -27,6 +29,7 @@ const Controllers = {
     UserController,
     AttachmentController,
     MhpSiteController,
+    VendorController,
     MhpAdminApprovalController,
     MhpCompletionController,
     TAndDWorkController,
@@ -37,6 +40,7 @@ const Controllers = {
     IrrigationSchemeController,
     IrrigationAdminApprovalController,
     IrrigationCostRevisionController,
+    IrrigationSchemeContractController,
     CboController,
     CboDialogueController,
     CboExposureVisitController,

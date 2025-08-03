@@ -4,7 +4,7 @@ import Modal from '@/Components/Modal.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import DangerButton from '@/Components/DangerButton.vue';
 import IrrigationAdminApprovalForm from '@/Pages/Irrigation/Forms/IrrigationAdminApprovalForm.vue';
-import IrrigationCostRevisionForm from '@/Pages/Irrigation/Forms/IrrigationCostRevisionForm.vue'; // <--- NEW IMPORT
+import IrrigationCostRevisionForm from '@/Pages/Irrigation/Forms/IrrigationCostRevisionForm.vue';
 import AttachmentViewer from '@/Components/AttachmentComponent/AttachmentViewer.vue';
 import axios from 'axios';
 import { router } from '@inertiajs/vue3';
@@ -18,9 +18,9 @@ const props = defineProps({
 
 const emit = defineEmits(['close', 'updated']);
 
-const showCostRevisionForm = ref(false); // Controls the visibility of the nested form
-const costRevisions = ref([]); // Stores the list of cost revisions
-const selectedCostRevision = ref(null); // The revision being edited
+const showCostRevisionForm = ref(false);
+const costRevisions = ref([]);
+const selectedCostRevision = ref(null);
 const costRevisionMode = ref('create');
 
 const modalTitle = computed(() => {
@@ -74,7 +74,6 @@ const openEditRevisionForm = (revision) => {
 const handleRevisionFormSuccess = (message) => {
     showCostRevisionForm.value = false;
     fetchCostRevisions();
-    // Also update the main approval form with the latest cost (optional, for UX)
     emit('updated', message);
 };
 const handleRevisionFormCancel = () => {
@@ -94,6 +93,15 @@ const handleDeleteRevision = (revisionId) => {
     }
 };
 
+// Handlers for the main Admin Approval form
+const handleFormSuccess = (message) => {
+    emit('updated', message);
+    emit('close');
+};
+const handleFormCancel = () => {
+    emit('close');
+};
+
 
 // Watch for prop.show to trigger data fetching
 watch(() => props.show, (newVal) => {
@@ -101,14 +109,14 @@ watch(() => props.show, (newVal) => {
         fetchCostRevisions();
         showCostRevisionForm.value = false;
     } else {
-        costRevisions.value = []; // Clear state when modal closes
+        costRevisions.value = [];
     }
 }, { immediate: true });
 
 </script>
 
 <template>
-    <Modal :show="show" @close="emit('close')" :maxWidth="'5xl'" :title="modalTitle">
+    <Modal :show="show" @close="handleFormCancel" :maxWidth="'5xl'" :title="modalTitle">
         <div v-if="showCostRevisionForm">
             <IrrigationCostRevisionForm
                 :approval-id="props.approval.id"

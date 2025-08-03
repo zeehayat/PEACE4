@@ -12,6 +12,7 @@ use App\Http\Controllers\ProjectCostRevisionController;
 use App\Http\Controllers\ProjectFinancialInstallmentController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VendorController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -83,3 +84,8 @@ Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth');
 
 // Auto Search
 Route::get('/cbos/auto-search', [MhpSiteController::class, 'autoSearch']);
+
+Route::middleware(['web'])->group(function(){
+    Route::get('vendors/auto-search', [VendorController::class, 'getVendors'])->name('vendors.auto-search');
+
+});

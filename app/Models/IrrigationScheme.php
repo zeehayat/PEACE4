@@ -19,10 +19,14 @@ class IrrigationScheme extends Model implements HasMedia
         'cbo_id',
         'status',
         'remarks',
+        'scheme_type', // <--- ADDED
+        'sub_scheme_type', // <--- ADDED
+        'number_of_watercourses', // <--- ADDED
+        'water_availability_cusecs', // <--- ADDED
     ];
 
     protected $casts = [
-        // No specific casts needed for the core fields
+        'water_availability_cusecs' => 'decimal:2', // <--- ADDED
     ];
 
     protected static function boot()
@@ -30,11 +34,26 @@ class IrrigationScheme extends Model implements HasMedia
         parent::boot();
 
         static::deleting(function ($scheme) {
-            $scheme->profile->delete();
-            $scheme->adminApproval->delete();
-            $scheme->completion->delete(); // <--- Add this to cascade delete completion record
-            $scheme->physicalProgresses->each(fn ($progress) => $progress->delete());
-            $scheme->financialInstallments->each(fn ($installment) => $installment->delete());
+            if ($scheme->profile) {
+                $scheme->profile->delete();
+            }
+            if ($scheme->adminApproval) {
+                $scheme->adminApproval->delete();
+            }
+            if ($scheme->irrigation_completion) {
+                $scheme->irrigation_completion->delete();
+            }
+            if ($scheme->irrigationSchemeContract) {
+                $scheme->irrigationSchemeContract->delete();
+            }
+
+            // For MorphMany relationships, check if the collection is not empty
+            if ($scheme->physicalProgresses) {
+                $scheme->physicalProgresses->each(fn ($progress) => $progress->delete());
+            }
+            if ($scheme->financialInstallments) {
+                $scheme->financialInstallments->each(fn ($installment) => $installment->delete());
+            }
         });
     }
 

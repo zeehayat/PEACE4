@@ -1,107 +1,93 @@
 <script setup>
-import { reactive, watch, ref, onMounted, computed } from 'vue';
-import { useForm, usePage } from '@inertiajs/vue3';
-import axios from 'axios';
+import { reactive, watch, ref, onMounted, nextTick } from 'vue';
+import { useForm } from '@inertiajs/vue3';
 
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
+import TextArea from '@/Components/TextArea.vue';
 import DatePicker from '@/Components/DatePicker.vue';
-import WysiwygEditor from '@/Components/WysiwygEditor.vue';
 import AttachmentUploader from '@/Components/AttachmentComponent/AttachmentUploader.vue';
-import SearchableVendorSelect from '@/Components/SearchableVendorSelect.vue'; // Assuming a SearchableVendorSelect component exists
+import WysiwygEditor from '@/Components/WysiwygEditor.vue';
+import SearchableVendorSelect from '@/Components/SearchableVendorSelect.vue';
+import DangerButton from "@/Components/DangerButton.vue";
 
 const props = defineProps({
-    irrigationSchemeId: {
-        type: Number,
-        required: true, // The parent Irrigation Scheme ID
-    },
-    approval: {
-        type: Object,
-        default: null, // Existing approval object for update mode
-    },
-    action: {
-        type: String,
-        default: 'create', // 'create' or 'update'
-    },
+    irrigationSchemeId: { type: Number, required: true },
+    approval: { type: Object, default: null }, // This prop carries the existing approval object
+    action: { type: String, default: 'create' }, // 'create' or 'update'
 });
 
 const emit = defineEmits(['success', 'cancel']);
 
 const isEditMode = ref(props.action === 'update');
-
 const existingAttachments = ref([]);
-const existingCostRevisionAttachments = ref([]);
-
-const costRevisions = ref([]); // Local state for the list of cost revisions
-const showCostRevisionForm = ref(false);
-const selectedCostRevision = ref(null);
-const costRevisionMode = ref('create');
 
 const form = useForm({
     irrigation_scheme_id: props.irrigationSchemeId,
-    approved_vendor: props.approval?.approved_vendor ?? null,
-    vendor_id: props.approval?.vendor_id ?? null,
-    approved_cost: props.approval?.approved_cost ?? null,
-    date_technical_surveys: props.approval?.date_technical_surveys ?? null,
-    date_design_estimates_submission_psu: props.approval?.date_design_estimates_submission_psu ?? null,
-    date_validation_visit_psu: props.approval?.date_validation_visit_psu ?? null,
-    attachments: [],
-    attachments_to_delete: [],
-});
-
-const revisionForm = useForm({
-    approvable_id: props.approval?.id,
-    approvable_type: props.approval?.id ? 'irrigation_admin_approval' : null,
-    revision_number: null,
-    revised_cost: null,
-    approved_on: null,
+    approved_vendor: '',
+    vendor_id: null,
+    approved_cost: null,
+    date_technical_surveys: null,
+    date_design_estimates_submission_psu: null,
+    date_validation_visit_psu: null,
     remarks: '',
     attachments: [],
     attachments_to_delete: [],
 });
 
+// Watch for changes in the 'approval' prop to initialize the form
+watch(() => props.approval, (newApproval) => {
+    console.log('--- IrrigationAdminApprovalForm: props.approval watcher triggered ---');
+    console.log('Watcher received newApproval prop:', newApproval);
 
-// Helper function to format nullable dates for display
-const formatNullableDate = (dateString) => {
-    if (!dateString) return 'N/A';
-    try {
-        const date = new Date(dateString);
-        if (isNaN(date.getTime())) {
-            return 'Invalid Date';
-        }
-        return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-    } catch (e) {
-        console.error('Error parsing date:', dateString, e);
-        return 'Invalid Date';
-    }
-};
+    isEditMode.value = !!newApproval;
 
-const fetchCostRevisions = async () => {
-    if (!props.approval?.id) {
-        costRevisions.value = [];
-        return;
-    }
-    try {
-        const response = await axios.get(
-            route('irrigation.admin-approvals.cost-revisions.index', { admin_approval: props.approval.id, 'only-data': true })
-        );
-        costRevisions.value = response.data.costRevisions ?? [];
-    } catch (error) {
-        console.error('Error fetching cost revisions:', error);
-    }
-};
+    // Use form.defaults and form.reset for a robust reset mechanism
+    form.defaults({
+        irrigation_scheme_id: props.irrigationSchemeId,
+        approved_vendor: newApproval?.approved_vendor ?? '',
+        vendor_id: newApproval?.vendor_id ?? null,
+        approved_cost: newApproval?.approved_cost ?? null,
+        date_technical_surveys: newApproval?.date_technical_surveys ?? null,
+        date_design_estimates_submission_psu: newApproval?.date_design_estimates_submission_psu ?? null,
+        date_validation_visit_psu: newApproval?.date_validation_visit_psu ?? null,
+        remarks: newApproval?.remarks ?? '',
+        attachments: [],
+        attachments_to_delete: [],
+    });
+
+    form.reset();
+
+    // Update existing attachments separately and safely
+    existingAttachments.value = newApproval?.attachments_frontend ?? [];
+
+    form.clearErrors();
+    console.log('IrrigationAdminApprovalForm: Form and attachments initialized based on new prop.');
+}, { immediate: true });
+
+onMounted(() => {
+    console.log('--- IrrigationAdminApprovalForm: Mounted ---');
+    console.log('IrrigationAdminApprovalForm: Initial form.data() on mount:', form.data());
+    console.log('IrrigationAdminApprovalForm: Initial existingAttachments on mount:', existingAttachments.value);
+});
 
 const handleAttachmentsToDelete = (id) => {
+    console.log('--- IrrigationAdminApprovalForm: handleAttachmentsToDelete called ---');
+    console.log('Deleting attachment ID:', id);
     form.attachments_to_delete.push(id);
     existingAttachments.value = existingAttachments.value.filter(att => att.id !== id);
 };
 
 const handleSubmit = () => {
+    console.log('--- IrrigationAdminApprovalForm: handleSubmit triggered ---');
+    console.log('Form data before POST:', form.data());
+    console.log('Attachments array before POST:', form.attachments);
+
     const url = isEditMode.value
-        ? route('irrigation.schemes.admin-approvals.update', { scheme: props.irrigationSchemeId, admin_approval: props.approval.id })
-        : route('irrigation.schemes.admin-approvals.store', { scheme: props.irrigationSchemeId });
+        ? route('irrigation.admin-approvals.update', { scheme: props.irrigationSchemeId, admin_approval: props.approval.id })
+        : route('irrigation.admin-approvals.store', { scheme: props.irrigationSchemeId });
 
     form.transform((data) => {
         if (isEditMode.value) {
@@ -110,9 +96,14 @@ const handleSubmit = () => {
         return data;
     }).post(url, {
         onSuccess: () => {
+            console.log('--- IrrigationAdminApprovalForm: Submission Success ---');
+            form.reset();
+            existingAttachments.value = [];
+            form.attachments_to_delete = [];
             emit('success', isEditMode.value ? 'Admin Approval updated successfully!' : 'Admin Approval created successfully!');
         },
         onError: (errors) => {
+            console.error('--- IrrigationAdminApprovalForm: Submission Error ---');
             console.error('Form errors:', errors);
         },
         preserveScroll: true,
@@ -121,36 +112,12 @@ const handleSubmit = () => {
 };
 
 const handleCancel = () => {
+    console.log('--- IrrigationAdminApprovalForm: Cancel triggered ---');
     form.reset();
+    existingAttachments.value = [];
+    form.attachments_to_delete = [];
     emit('cancel');
 };
-
-const openCreateRevisionForm = () => {
-    selectedCostRevision.value = null;
-    costRevisionMode.value = 'create';
-    showCostRevisionForm.value = true;
-};
-const openEditRevisionForm = (revision) => {
-    selectedCostRevision.value = revision;
-    costRevisionMode.value = 'update';
-    showCostRevisionForm.value = true;
-};
-const handleRevisionFormSuccess = () => {
-    showCostRevisionForm.value = false;
-    fetchCostRevisions();
-};
-const handleRevisionFormCancel = () => {
-    showCostRevisionForm.value = false;
-};
-
-// Watch for prop.approval changes to re-initialize form
-watch(() => props.approval, (newVal) => {
-    isEditMode.value = !!newVal;
-    form.fill(getInitialFormData(newVal));
-    existingAttachments.value = newVal?.attachments_frontend ?? [];
-    form.clearErrors();
-    fetchCostRevisions(); // Fetch revisions when approval changes
-}, { immediate: true });
 </script>
 
 <template>
@@ -208,12 +175,12 @@ watch(() => props.approval, (newVal) => {
             </div>
             <!-- Vendor ID (linked to Vendors table) -->
             <div>
-                <InputLabel for="vendor_id" value="Vendor" />
+                <InputLabel for="vendor_id" value="Select Vendor" />
                 <SearchableVendorSelect
                     id="vendor_id"
                     v-model="form.vendor_id"
                     :initial-vendor="approval?.vendor"
-                    :class="{ 'border-red-500': form.errors.vendor_id }"
+                    :error-message="form.errors.vendor_id"
                 />
                 <InputError class="mt-2" :message="form.errors.vendor_id" />
             </div>
@@ -254,6 +221,7 @@ watch(() => props.approval, (newVal) => {
                         <div>
                             <p class="font-semibold">Revision #{{ revision.revision_number }}</p>
                             <p class="text-sm">Cost: PKR {{ revision.revised_cost }} on {{ formatNullableDate(revision.approved_on) }}</p>
+                            <p v-if="revision.remarks" class="text-xs text-gray-600 mt-1" v-html="revision.remarks"></p>
                         </div>
                         <div class="flex space-x-2">
                             <PrimaryButton @click="openEditRevisionForm(revision)" class="px-3 py-1 text-sm">Edit</PrimaryButton>

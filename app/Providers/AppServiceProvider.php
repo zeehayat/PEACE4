@@ -10,6 +10,7 @@ use App\Models\IrrigationAdminApproval;
 use App\Models\IrrigationCompletion;
 use App\Models\IrrigationCostRevision;
 use App\Models\IrrigationScheme;
+use App\Models\IrrigationSchemeProfile;
 use App\Models\MhpAdminApproval;
 use App\Models\MhpSite;
 use App\Models\ProjectFinancialInstallment;
@@ -55,6 +56,8 @@ class AppServiceProvider extends ServiceProvider
             'irrigation_admin_approval' => IrrigationAdminApproval::class,
             'irrigation_cost_revision' => IrrigationCostRevision::class,
             'irrigation_completion' => IrrigationCompletion::class,
+            'irrigation_scheme_profile' => IrrigationSchemeProfile::class, // <--- ADD THIS LINE
+
         ]);
     }
 }
