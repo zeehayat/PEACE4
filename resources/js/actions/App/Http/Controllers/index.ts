@@ -12,9 +12,8 @@ import MhpEmePhysicalProgressController from './MhpEmePhysicalProgressController
 import MhpEmeFinancialProgressController from './MhpEmeFinancialProgressController'
 import OperationalCostController from './OperationalCostController'
 import IrrigationSchemeController from './IrrigationSchemeController'
-import IrrigationSchemeContractController from './IrrigationSchemeContractController'
 import IrrigationAdminApprovalController from './IrrigationAdminApprovalController'
-import IrrigationCompletionController from './IrrigationCompletionController'
+import IrrigationCostRevisionController from './IrrigationCostRevisionController'
 import CboController from './CboController'
 import CboDialogueController from './CboDialogueController'
 import CboExposureVisitController from './CboExposureVisitController'
@@ -36,9 +35,8 @@ const Controllers = {
     MhpEmeFinancialProgressController,
     OperationalCostController,
     IrrigationSchemeController,
-    IrrigationSchemeContractController,
     IrrigationAdminApprovalController,
-    IrrigationCompletionController,
+    IrrigationCostRevisionController,
     CboController,
     CboDialogueController,
     CboExposureVisitController,

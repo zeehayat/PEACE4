@@ -1,26 +1,41 @@
 <?php
 
-use App\Http\Controllers\IrrigationSchemeContractController;
-use App\Http\Controllers\IrrigationSchemeController; // Import the controller
-use App\Http\Controllers\IrrigationAdminApprovalController;
-use App\Http\Controllers\IrrigationCompletionController;
 use Illuminate\Support\Facades\Route;
 
-// Irrigation Routes
-//Route::middleware(['role:irrigation|mhp-irrigation|cbo-mhp-irrigation|root|admin'])->group(function () {
-    Route::resource('irrigation-schemes', IrrigationSchemeController::class);
+// Import all controllers
+use App\Http\Controllers\IrrigationSchemeController;
+use App\Http\Controllers\IrrigationAdminApprovalController;
+use App\Http\Controllers\ProjectPhysicalProgressController;
+use App\Http\Controllers\ProjectFinancialInstallmentController;
+use App\Http\Controllers\IrrigationCostRevisionController;
 
-    // TODO: Add irrigation specific resource routes for admin approvals and completions when implemented
-    // Route::resource('admin-approvals', IrrigationAdminApprovalController::class);
-    // Route::resource('completions', IrrigationCompletionController::class);
-//});
+// All routes within this file will inherit the 'irrigation' prefix and 'irrigation.' name from the configuration
+Route::middleware(['web'])->group(function () {
 
-Route::resource('irrigation-schemes', IrrigationSchemeController::class);
-Route::resource('irrigation-scheme-contracts', IrrigationSchemeContractController::class); // New resource route
+    // Main Irrigation Scheme resource
+    Route::resource('schemes', IrrigationSchemeController::class);
 
-// Existing irrigation-specific resource routes
-Route::resource('admin-approvals', IrrigationAdminApprovalController::class);
-Route::resource('completions', IrrigationCompletionController::class); // Assuming this is also a resource
+    // Get irrigation schemes for searchable select input (if needed)
+    Route::get('schemes/auto-search', [IrrigationSchemeController::class, 'getSchemes'])->name('schemes.auto-search');
 
-// A route for the main index page, if different from resource index
-Route::get('/index', [IrrigationSchemeController::class, 'index'])->name('index');
+    // Nested resources for ProjectPhysicalProgress and ProjectFinancialInstallment
+    Route::resource('schemes.physical-progresses', ProjectPhysicalProgressController::class)->parameters([
+        'physical-progresses' => 'physical_progress',
+        'schemes' => 'scheme', // Explicitly name parent parameter for binding
+    ]);
+    Route::resource('schemes.financial-installments', ProjectFinancialInstallmentController::class)->parameters([
+        'financial-installments' => 'financial_installment',
+        'schemes' => 'scheme', // Explicitly name parent parameter for binding
+    ]);
+
+    // Nested resources for Admin Approvals and their Cost Revisions
+    Route::resource('schemes.admin-approvals', IrrigationAdminApprovalController::class)->parameters([
+        'admin-approvals' => 'admin_approval',
+        'schemes' => 'scheme',
+    ]);
+    Route::resource('admin-approvals.cost-revisions', IrrigationCostRevisionController::class)->parameters([
+        'cost-revisions' => 'cost_revision',
+        'admin-approvals' => 'admin_approval',
+    ]);
+
+});

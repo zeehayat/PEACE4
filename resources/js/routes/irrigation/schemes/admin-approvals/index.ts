@@ -452,6 +452,14 @@ destroy.delete = (args: { scheme: string | number, admin_approval: string | numb
     method: 'delete',
 })
 
-const IrrigationAdminApprovalController = { index, create, store, show, edit, update, destroy }
+const adminApprovals = {
+    index,
+    create,
+    store,
+    show,
+    edit,
+    update,
+    destroy,
+}
 
-export default IrrigationAdminApprovalController
+export default adminApprovals

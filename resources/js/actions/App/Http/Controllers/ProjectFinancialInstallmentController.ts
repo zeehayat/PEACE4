@@ -121,9 +121,79 @@ index6bba40a7c50536e3b59dcae230e3c8d8.head = (args: { site: string | number } | 
     method: 'head',
 })
 
+/**
+* @see \App\Http\Controllers\ProjectFinancialInstallmentController::index
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:27
+* @route '/irrigation/schemes/{scheme}/financial-installments'
+*/
+const index2e643ab1a2447810be00b9e3429e4139 = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: index2e643ab1a2447810be00b9e3429e4139.url(args, options),
+    method: 'get',
+})
+
+index2e643ab1a2447810be00b9e3429e4139.definition = {
+    methods: ['get','head'],
+    url: '/irrigation/schemes/{scheme}/financial-installments',
+}
+
+/**
+* @see \App\Http\Controllers\ProjectFinancialInstallmentController::index
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:27
+* @route '/irrigation/schemes/{scheme}/financial-installments'
+*/
+index2e643ab1a2447810be00b9e3429e4139.url = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { scheme: args }
+    }
+
+    if (Array.isArray(args)) {
+        args = {
+            scheme: args[0],
+        }
+    }
+
+    const parsedArgs = {
+        scheme: args.scheme,
+    }
+
+    return index2e643ab1a2447810be00b9e3429e4139.definition.url
+            .replace('{scheme}', parsedArgs.scheme.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\ProjectFinancialInstallmentController::index
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:27
+* @route '/irrigation/schemes/{scheme}/financial-installments'
+*/
+index2e643ab1a2447810be00b9e3429e4139.get = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: index2e643ab1a2447810be00b9e3429e4139.url(args, options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\ProjectFinancialInstallmentController::index
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:27
+* @route '/irrigation/schemes/{scheme}/financial-installments'
+*/
+index2e643ab1a2447810be00b9e3429e4139.head = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: index2e643ab1a2447810be00b9e3429e4139.url(args, options),
+    method: 'head',
+})
+
 export const index = {
     '/procurement/installments': index1aed2288615d1efbbb4b89735fbdc34b,
     '/mhp/sites/{site}/financial-installments': index6bba40a7c50536e3b59dcae230e3c8d8,
+    '/irrigation/schemes/{scheme}/financial-installments': index2e643ab1a2447810be00b9e3429e4139,
 }
 
 /**
@@ -248,9 +318,79 @@ create137796d9a177d53cea5f5d56cdabef1f.head = (args: { site: string | number } |
     method: 'head',
 })
 
+/**
+* @see \App\Http\Controllers\ProjectFinancialInstallmentController::create
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:52
+* @route '/irrigation/schemes/{scheme}/financial-installments/create'
+*/
+const create3ef8da8389ba021ed7555c35cefd24a9 = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: create3ef8da8389ba021ed7555c35cefd24a9.url(args, options),
+    method: 'get',
+})
+
+create3ef8da8389ba021ed7555c35cefd24a9.definition = {
+    methods: ['get','head'],
+    url: '/irrigation/schemes/{scheme}/financial-installments/create',
+}
+
+/**
+* @see \App\Http\Controllers\ProjectFinancialInstallmentController::create
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:52
+* @route '/irrigation/schemes/{scheme}/financial-installments/create'
+*/
+create3ef8da8389ba021ed7555c35cefd24a9.url = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { scheme: args }
+    }
+
+    if (Array.isArray(args)) {
+        args = {
+            scheme: args[0],
+        }
+    }
+
+    const parsedArgs = {
+        scheme: args.scheme,
+    }
+
+    return create3ef8da8389ba021ed7555c35cefd24a9.definition.url
+            .replace('{scheme}', parsedArgs.scheme.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\ProjectFinancialInstallmentController::create
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:52
+* @route '/irrigation/schemes/{scheme}/financial-installments/create'
+*/
+create3ef8da8389ba021ed7555c35cefd24a9.get = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: create3ef8da8389ba021ed7555c35cefd24a9.url(args, options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\ProjectFinancialInstallmentController::create
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:52
+* @route '/irrigation/schemes/{scheme}/financial-installments/create'
+*/
+create3ef8da8389ba021ed7555c35cefd24a9.head = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: create3ef8da8389ba021ed7555c35cefd24a9.url(args, options),
+    method: 'head',
+})
+
 export const create = {
     '/procurement/installments/create': create42c02200557b7f167ed49ed8585c59f3,
     '/mhp/sites/{site}/financial-installments/create': create137796d9a177d53cea5f5d56cdabef1f,
+    '/irrigation/schemes/{scheme}/financial-installments/create': create3ef8da8389ba021ed7555c35cefd24a9,
 }
 
 /**
@@ -349,9 +489,66 @@ store6bba40a7c50536e3b59dcae230e3c8d8.post = (args: { site: string | number } | 
     method: 'post',
 })
 
+/**
+* @see \App\Http\Controllers\ProjectFinancialInstallmentController::store
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:61
+* @route '/irrigation/schemes/{scheme}/financial-installments'
+*/
+const store2e643ab1a2447810be00b9e3429e4139 = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'post',
+} => ({
+    url: store2e643ab1a2447810be00b9e3429e4139.url(args, options),
+    method: 'post',
+})
+
+store2e643ab1a2447810be00b9e3429e4139.definition = {
+    methods: ['post'],
+    url: '/irrigation/schemes/{scheme}/financial-installments',
+}
+
+/**
+* @see \App\Http\Controllers\ProjectFinancialInstallmentController::store
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:61
+* @route '/irrigation/schemes/{scheme}/financial-installments'
+*/
+store2e643ab1a2447810be00b9e3429e4139.url = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { scheme: args }
+    }
+
+    if (Array.isArray(args)) {
+        args = {
+            scheme: args[0],
+        }
+    }
+
+    const parsedArgs = {
+        scheme: args.scheme,
+    }
+
+    return store2e643ab1a2447810be00b9e3429e4139.definition.url
+            .replace('{scheme}', parsedArgs.scheme.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\ProjectFinancialInstallmentController::store
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:61
+* @route '/irrigation/schemes/{scheme}/financial-installments'
+*/
+store2e643ab1a2447810be00b9e3429e4139.post = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'post',
+} => ({
+    url: store2e643ab1a2447810be00b9e3429e4139.url(args, options),
+    method: 'post',
+})
+
 export const store = {
     '/procurement/installments': store1aed2288615d1efbbb4b89735fbdc34b,
     '/mhp/sites/{site}/financial-installments': store6bba40a7c50536e3b59dcae230e3c8d8,
+    '/irrigation/schemes/{scheme}/financial-installments': store2e643ab1a2447810be00b9e3429e4139,
 }
 
 /**
@@ -491,9 +688,78 @@ showd20e48c044f75a94f8b889ebee9e4342.head = (args: { site: string | number, fina
     method: 'head',
 })
 
+/**
+* @see \App\Http\Controllers\ProjectFinancialInstallmentController::show
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:75
+* @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
+*/
+const show4026e600c5446cb4231cd37d2dfa6e1d = (args: { scheme: string | number, financial_installment: string | number } | [scheme: string | number, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: show4026e600c5446cb4231cd37d2dfa6e1d.url(args, options),
+    method: 'get',
+})
+
+show4026e600c5446cb4231cd37d2dfa6e1d.definition = {
+    methods: ['get','head'],
+    url: '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}',
+}
+
+/**
+* @see \App\Http\Controllers\ProjectFinancialInstallmentController::show
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:75
+* @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
+*/
+show4026e600c5446cb4231cd37d2dfa6e1d.url = (args: { scheme: string | number, financial_installment: string | number } | [scheme: string | number, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (Array.isArray(args)) {
+        args = {
+            scheme: args[0],
+            financial_installment: args[1],
+        }
+    }
+
+    const parsedArgs = {
+        scheme: args.scheme,
+        financial_installment: args.financial_installment,
+    }
+
+    return show4026e600c5446cb4231cd37d2dfa6e1d.definition.url
+            .replace('{scheme}', parsedArgs.scheme.toString())
+            .replace('{financial_installment}', parsedArgs.financial_installment.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\ProjectFinancialInstallmentController::show
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:75
+* @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
+*/
+show4026e600c5446cb4231cd37d2dfa6e1d.get = (args: { scheme: string | number, financial_installment: string | number } | [scheme: string | number, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: show4026e600c5446cb4231cd37d2dfa6e1d.url(args, options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\ProjectFinancialInstallmentController::show
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:75
+* @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
+*/
+show4026e600c5446cb4231cd37d2dfa6e1d.head = (args: { scheme: string | number, financial_installment: string | number } | [scheme: string | number, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: show4026e600c5446cb4231cd37d2dfa6e1d.url(args, options),
+    method: 'head',
+})
+
 export const show = {
     '/procurement/installments/{installment}': showa29f368bae2630b6f68ec4eefe40c7d5,
     '/mhp/sites/{site}/financial-installments/{financial_installment}': showd20e48c044f75a94f8b889ebee9e4342,
+    '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}': show4026e600c5446cb4231cd37d2dfa6e1d,
 }
 
 /**
@@ -633,9 +899,78 @@ edit1fd2b4241ecd8a0fffbbc5653d9a0b5b.head = (args: { site: string | number, fina
     method: 'head',
 })
 
+/**
+* @see \App\Http\Controllers\ProjectFinancialInstallmentController::edit
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:90
+* @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}/edit'
+*/
+const edit2b67493bb34c0546412e22c0f80a7eac = (args: { scheme: string | number, financial_installment: string | number } | [scheme: string | number, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: edit2b67493bb34c0546412e22c0f80a7eac.url(args, options),
+    method: 'get',
+})
+
+edit2b67493bb34c0546412e22c0f80a7eac.definition = {
+    methods: ['get','head'],
+    url: '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}/edit',
+}
+
+/**
+* @see \App\Http\Controllers\ProjectFinancialInstallmentController::edit
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:90
+* @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}/edit'
+*/
+edit2b67493bb34c0546412e22c0f80a7eac.url = (args: { scheme: string | number, financial_installment: string | number } | [scheme: string | number, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (Array.isArray(args)) {
+        args = {
+            scheme: args[0],
+            financial_installment: args[1],
+        }
+    }
+
+    const parsedArgs = {
+        scheme: args.scheme,
+        financial_installment: args.financial_installment,
+    }
+
+    return edit2b67493bb34c0546412e22c0f80a7eac.definition.url
+            .replace('{scheme}', parsedArgs.scheme.toString())
+            .replace('{financial_installment}', parsedArgs.financial_installment.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\ProjectFinancialInstallmentController::edit
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:90
+* @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}/edit'
+*/
+edit2b67493bb34c0546412e22c0f80a7eac.get = (args: { scheme: string | number, financial_installment: string | number } | [scheme: string | number, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: edit2b67493bb34c0546412e22c0f80a7eac.url(args, options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\ProjectFinancialInstallmentController::edit
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:90
+* @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}/edit'
+*/
+edit2b67493bb34c0546412e22c0f80a7eac.head = (args: { scheme: string | number, financial_installment: string | number } | [scheme: string | number, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: edit2b67493bb34c0546412e22c0f80a7eac.url(args, options),
+    method: 'head',
+})
+
 export const edit = {
     '/procurement/installments/{installment}/edit': editdd6c2ab2ee9e7cf8314c04c35dbade35,
     '/mhp/sites/{site}/financial-installments/{financial_installment}/edit': edit1fd2b4241ecd8a0fffbbc5653d9a0b5b,
+    '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}/edit': edit2b67493bb34c0546412e22c0f80a7eac,
 }
 
 /**
@@ -775,9 +1110,78 @@ updated20e48c044f75a94f8b889ebee9e4342.patch = (args: { site: string | number, f
     method: 'patch',
 })
 
+/**
+* @see \App\Http\Controllers\ProjectFinancialInstallmentController::update
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:98
+* @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
+*/
+const update4026e600c5446cb4231cd37d2dfa6e1d = (args: { scheme: string | number, financial_installment: string | number } | [scheme: string | number, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'put',
+} => ({
+    url: update4026e600c5446cb4231cd37d2dfa6e1d.url(args, options),
+    method: 'put',
+})
+
+update4026e600c5446cb4231cd37d2dfa6e1d.definition = {
+    methods: ['put','patch'],
+    url: '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}',
+}
+
+/**
+* @see \App\Http\Controllers\ProjectFinancialInstallmentController::update
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:98
+* @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
+*/
+update4026e600c5446cb4231cd37d2dfa6e1d.url = (args: { scheme: string | number, financial_installment: string | number } | [scheme: string | number, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (Array.isArray(args)) {
+        args = {
+            scheme: args[0],
+            financial_installment: args[1],
+        }
+    }
+
+    const parsedArgs = {
+        scheme: args.scheme,
+        financial_installment: args.financial_installment,
+    }
+
+    return update4026e600c5446cb4231cd37d2dfa6e1d.definition.url
+            .replace('{scheme}', parsedArgs.scheme.toString())
+            .replace('{financial_installment}', parsedArgs.financial_installment.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\ProjectFinancialInstallmentController::update
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:98
+* @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
+*/
+update4026e600c5446cb4231cd37d2dfa6e1d.put = (args: { scheme: string | number, financial_installment: string | number } | [scheme: string | number, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'put',
+} => ({
+    url: update4026e600c5446cb4231cd37d2dfa6e1d.url(args, options),
+    method: 'put',
+})
+
+/**
+* @see \App\Http\Controllers\ProjectFinancialInstallmentController::update
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:98
+* @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
+*/
+update4026e600c5446cb4231cd37d2dfa6e1d.patch = (args: { scheme: string | number, financial_installment: string | number } | [scheme: string | number, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'patch',
+} => ({
+    url: update4026e600c5446cb4231cd37d2dfa6e1d.url(args, options),
+    method: 'patch',
+})
+
 export const update = {
     '/procurement/installments/{installment}': updatea29f368bae2630b6f68ec4eefe40c7d5,
     '/mhp/sites/{site}/financial-installments/{financial_installment}': updated20e48c044f75a94f8b889ebee9e4342,
+    '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}': update4026e600c5446cb4231cd37d2dfa6e1d,
 }
 
 /**
@@ -891,9 +1295,65 @@ destroyd20e48c044f75a94f8b889ebee9e4342.delete = (args: { site: string | number,
     method: 'delete',
 })
 
+/**
+* @see \App\Http\Controllers\ProjectFinancialInstallmentController::destroy
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:112
+* @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
+*/
+const destroy4026e600c5446cb4231cd37d2dfa6e1d = (args: { scheme: string | number, financial_installment: string | number } | [scheme: string | number, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'delete',
+} => ({
+    url: destroy4026e600c5446cb4231cd37d2dfa6e1d.url(args, options),
+    method: 'delete',
+})
+
+destroy4026e600c5446cb4231cd37d2dfa6e1d.definition = {
+    methods: ['delete'],
+    url: '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}',
+}
+
+/**
+* @see \App\Http\Controllers\ProjectFinancialInstallmentController::destroy
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:112
+* @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
+*/
+destroy4026e600c5446cb4231cd37d2dfa6e1d.url = (args: { scheme: string | number, financial_installment: string | number } | [scheme: string | number, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (Array.isArray(args)) {
+        args = {
+            scheme: args[0],
+            financial_installment: args[1],
+        }
+    }
+
+    const parsedArgs = {
+        scheme: args.scheme,
+        financial_installment: args.financial_installment,
+    }
+
+    return destroy4026e600c5446cb4231cd37d2dfa6e1d.definition.url
+            .replace('{scheme}', parsedArgs.scheme.toString())
+            .replace('{financial_installment}', parsedArgs.financial_installment.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\ProjectFinancialInstallmentController::destroy
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:112
+* @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
+*/
+destroy4026e600c5446cb4231cd37d2dfa6e1d.delete = (args: { scheme: string | number, financial_installment: string | number } | [scheme: string | number, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'delete',
+} => ({
+    url: destroy4026e600c5446cb4231cd37d2dfa6e1d.url(args, options),
+    method: 'delete',
+})
+
 export const destroy = {
     '/procurement/installments/{installment}': destroya29f368bae2630b6f68ec4eefe40c7d5,
     '/mhp/sites/{site}/financial-installments/{financial_installment}': destroyd20e48c044f75a94f8b889ebee9e4342,
+    '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}': destroy4026e600c5446cb4231cd37d2dfa6e1d,
 }
 
 const ProjectFinancialInstallmentController = { index, create, store, show, edit, update, destroy }

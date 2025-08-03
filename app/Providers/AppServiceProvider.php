@@ -7,6 +7,7 @@ use App\Models\CboDialogue;
 use App\Models\CboExposureVisit;
 use App\Models\CboTraining;
 use App\Models\IrrigationAdminApproval;
+use App\Models\IrrigationCompletion;
 use App\Models\IrrigationCostRevision;
 use App\Models\IrrigationScheme;
 use App\Models\MhpAdminApproval;
@@ -51,8 +52,9 @@ class AppServiceProvider extends ServiceProvider
             'financial_installment' => ProjectFinancialInstallment::class,
             'mhp_admin_approval' => MhpAdminApproval::class,
             'irrigation_scheme' => IrrigationScheme::class,
-            'irrigation_admin_approval' => IrrigationAdminApproval::class, // <--- ADD THIS LINE
-            'irrigation_cost_revision' => IrrigationCostRevision::class, // <--- ADD THIS LINE
+            'irrigation_admin_approval' => IrrigationAdminApproval::class,
+            'irrigation_cost_revision' => IrrigationCostRevision::class,
+            'irrigation_completion' => IrrigationCompletion::class,
         ]);
     }
 }

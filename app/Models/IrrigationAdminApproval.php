@@ -16,7 +16,8 @@ class IrrigationAdminApproval extends Model implements HasMedia
 
     protected $fillable = [
         'irrigation_scheme_id',
-        'approved_vendor',
+        'approved_vendor', // This varchar field remains
+        'vendor_id', // <--- ADD THIS FOREIGN KEY
         'approved_cost',
         'date_technical_surveys',
         'date_design_estimates_submission_psu',
@@ -30,17 +31,17 @@ class IrrigationAdminApproval extends Model implements HasMedia
         'date_validation_visit_psu' => 'date',
     ];
 
-    /**
-     * Get the irrigation scheme that this approval belongs to.
-     */
     public function irrigationScheme(): BelongsTo
     {
         return $this->belongsTo(IrrigationScheme::class);
     }
 
-    /**
-     * Get the cost revisions for this approval (polymorphic relationship).
-     */
+    // Relationship to the new Vendor model
+    public function vendor(): BelongsTo
+    {
+        return $this->belongsTo(Vendor::class);
+    }
+
     public function costRevisions(): MorphMany
     {
         return $this->morphMany(IrrigationCostRevision::class, 'approvable');

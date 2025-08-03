@@ -1,4 +1,7 @@
-import { queryParams, type QueryParams } from './../../../../wayfinder'
+import { queryParams, type QueryParams } from './../../../wayfinder'
+import physicalProgresses from './physical-progresses'
+import financialInstallments from './financial-installments'
+import adminApprovals from './admin-approvals'
 /**
 * @see \App\Http\Controllers\IrrigationSchemeController::index
 * @see app/Http/Controllers/IrrigationSchemeController.php:14
@@ -409,58 +412,70 @@ destroy.delete = (args: { scheme: string | number } | [scheme: string | number ]
 })
 
 /**
-* @see \App\Http\Controllers\IrrigationSchemeController::getSchemes
+* @see \App\Http\Controllers\IrrigationSchemeController::autoSearch
 * @see app/Http/Controllers/IrrigationSchemeController.php:0
 * @route '/irrigation/schemes/auto-search'
 */
-export const getSchemes = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+export const autoSearch = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: getSchemes.url(options),
+    url: autoSearch.url(options),
     method: 'get',
 })
 
-getSchemes.definition = {
+autoSearch.definition = {
     methods: ['get','head'],
     url: '/irrigation/schemes/auto-search',
 }
 
 /**
-* @see \App\Http\Controllers\IrrigationSchemeController::getSchemes
+* @see \App\Http\Controllers\IrrigationSchemeController::autoSearch
 * @see app/Http/Controllers/IrrigationSchemeController.php:0
 * @route '/irrigation/schemes/auto-search'
 */
-getSchemes.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return getSchemes.definition.url + queryParams(options)
+autoSearch.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return autoSearch.definition.url + queryParams(options)
 }
 
 /**
-* @see \App\Http\Controllers\IrrigationSchemeController::getSchemes
+* @see \App\Http\Controllers\IrrigationSchemeController::autoSearch
 * @see app/Http/Controllers/IrrigationSchemeController.php:0
 * @route '/irrigation/schemes/auto-search'
 */
-getSchemes.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+autoSearch.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: getSchemes.url(options),
+    url: autoSearch.url(options),
     method: 'get',
 })
 
 /**
-* @see \App\Http\Controllers\IrrigationSchemeController::getSchemes
+* @see \App\Http\Controllers\IrrigationSchemeController::autoSearch
 * @see app/Http/Controllers/IrrigationSchemeController.php:0
 * @route '/irrigation/schemes/auto-search'
 */
-getSchemes.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+autoSearch.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
 } => ({
-    url: getSchemes.url(options),
+    url: autoSearch.url(options),
     method: 'head',
 })
 
-const IrrigationSchemeController = { index, create, store, show, edit, update, destroy, getSchemes }
+const schemes = {
+    index,
+    create,
+    store,
+    show,
+    edit,
+    update,
+    destroy,
+    autoSearch,
+    physicalProgresses,
+    financialInstallments,
+    adminApprovals,
+}
 
-export default IrrigationSchemeController
+export default schemes

@@ -31,8 +31,8 @@ class IrrigationScheme extends Model implements HasMedia
 
         static::deleting(function ($scheme) {
             $scheme->profile->delete();
-            // We need to trigger the deletion of the approval record to cascade its children
-            $scheme->adminApproval->delete(); // <--- Delete the related approval record
+            $scheme->adminApproval->delete();
+            $scheme->completion->delete(); // <--- Add this to cascade delete completion record
             $scheme->physicalProgresses->each(fn ($progress) => $progress->delete());
             $scheme->financialInstallments->each(fn ($installment) => $installment->delete());
         });
@@ -49,10 +49,15 @@ class IrrigationScheme extends Model implements HasMedia
         return $this->hasOne(IrrigationSchemeProfile::class);
     }
 
-    // Relationship to the new approval table
     public function adminApproval(): HasOne
     {
         return $this->hasOne(IrrigationAdminApproval::class);
+    }
+
+    // NEW: Relationship to IrrigationCompletion
+    public function irrigation_completion(): HasOne
+    {
+        return $this->hasOne(IrrigationCompletion::class);
     }
 
     public function physicalProgresses(): MorphMany
