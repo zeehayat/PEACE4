@@ -19,6 +19,7 @@ import ProjectFinancialInstallmentModal from '@/Pages/MHP/Modals/ProjectFinancia
 import MhpCompletionModal from '@/Pages/MHP/Modals/MhpCompletionModal.vue';
 import MhpSiteDetailsModal from '@/Pages/MHP/Modals/MhpSiteDetailsModal.vue';
 import MhpReportModal from '@/Pages/MHP/Modals/MhpReportModal.vue';
+import AppLayout from "@/Layouts/AppLayout.vue";
 
 
 const props = defineProps({
@@ -284,7 +285,14 @@ const handlePagination = (url) => {
 </script>
 
 <template>
-    <side-bar />
+    <AppLayout title="Dashboard">
+        <template #header >
+            <div class="bg-indigo-800 p-5 flex place-content-center items-center">
+
+            <h2 class="text-4xl font-extrabold text-indigo-400 border-collapse">SRSP PEACE 2</h2>
+            </div>
+
+        </template>
 
     <div class="bg-gray-50 font-sans antialiased text-gray-800 min-h-screen">
         <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
@@ -535,4 +543,5 @@ const handlePagination = (url) => {
             </div>
         </transition>
     </Teleport>
+    </AppLayout>
 </template>

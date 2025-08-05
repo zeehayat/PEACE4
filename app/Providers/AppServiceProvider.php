@@ -16,6 +16,7 @@ use App\Models\MhpSite;
 use App\Models\ProjectFinancialInstallment;
 use App\Models\ProjectPhysicalProgress;
 use App\Models\TAndDWork;
+use App\Models\Vendor;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
 use Inertia\Inertia;
@@ -56,7 +57,10 @@ class AppServiceProvider extends ServiceProvider
             'irrigation_admin_approval' => IrrigationAdminApproval::class,
             'irrigation_cost_revision' => IrrigationCostRevision::class,
             'irrigation_completion' => IrrigationCompletion::class,
-            'irrigation_scheme_profile' => IrrigationSchemeProfile::class, // <--- ADD THIS LINE
+            'irrigation_scheme_profile' => IrrigationSchemeProfile::class,
+            'vendor' => Vendor::class,
+            'lrm_committee' => LrmCommittee::class, // <--- ADD THIS LINE
+
 
         ]);
     }

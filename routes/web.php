@@ -89,3 +89,16 @@ Route::middleware(['web'])->group(function(){
     Route::get('vendors/auto-search', [VendorController::class, 'getVendors'])->name('vendors.auto-search');
 
 });
+
+
+
+// All routes within this file will inherit the 'web' middleware
+Route::middleware(['web'])->group(function () {
+    // ... other routes ...
+
+    // Vendor module routes
+    Route::resource('vendors', VendorController::class)->names('vendor.vendors'); // Namespaced route names
+
+    // Specific API endpoint for searchable select (already provided, ensuring consistency)
+    Route::get('vendors/auto-search', [VendorController::class, 'getVendors'])->name('vendors.auto-search');
+});

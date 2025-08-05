@@ -4,6 +4,7 @@ use App\Providers\ServiceBindingProvider;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Support\Facades\Route;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -25,6 +26,10 @@ return Application::configure(basePath: dirname(__DIR__))
                 ->prefix('cbo')
                 ->name('cbo.')
                 ->group(base_path('routes/cbo_routes.php'));
+            Route::middleware('web')
+                ->prefix('lrm')
+                ->name('lrm.')
+                ->group(base_path('routes/lrm_routes.php'));
         }
     )
     ->withMiddleware(function (Middleware $middleware): void {
