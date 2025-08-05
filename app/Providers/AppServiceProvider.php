@@ -11,11 +11,13 @@ use App\Models\IrrigationCompletion;
 use App\Models\IrrigationCostRevision;
 use App\Models\IrrigationScheme;
 use App\Models\IrrigationSchemeProfile;
+use App\Models\LrmCommittee;
 use App\Models\MhpAdminApproval;
 use App\Models\MhpSite;
 use App\Models\ProjectFinancialInstallment;
 use App\Models\ProjectPhysicalProgress;
 use App\Models\TAndDWork;
+use App\Models\User;
 use App\Models\Vendor;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
@@ -59,7 +61,9 @@ class AppServiceProvider extends ServiceProvider
             'irrigation_completion' => IrrigationCompletion::class,
             'irrigation_scheme_profile' => IrrigationSchemeProfile::class,
             'vendor' => Vendor::class,
-            'lrm_committee' => LrmCommittee::class, // <--- ADD THIS LINE
+            'lrm_committee' => LrmCommittee::class,
+            'user' => User::class,
+
 
 
         ]);

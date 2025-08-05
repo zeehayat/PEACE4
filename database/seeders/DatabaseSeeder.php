@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,25 +11,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
         $this->call([
-            CboSeeder::class,
-            CboDialogueSeeder::class,
-            CboExposureVisitSeeder::class,
-            CboTrainingSeeder::class,
-            MhpSiteSeeder::class,
-            IrrigationSchemeSeeder::class,
-            AttachmentSeeder::class,
-            MhpCompletionSeeder::class,
-            IrrigationCompletionSeeder::class,
-            OperationalCostSeeder::class,
-            RevenueRecordSeeder::class,
-            ProcurementSeeder::class,
-
-
-
+            DistrictSeeder::class, // Must run first to create districts
+            RolesAndPermissionsSeeder::class, // Needs districts for users
+            VendorSeeder::class, // Needs to run before IrrigationSchemeSeeder for vendors
+            CboSeeder::class, // Needs districts
+            MhpSiteSeeder::class, // Needs CBOs
+            IrrigationSchemeSeeder::class, // Needs CBOs and Vendors
+            LrmCommitteeSeeder::class, // Needs CBOs
         ]);
-
     }
 }

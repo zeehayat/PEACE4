@@ -12,12 +12,24 @@ class IrrigationSchemeFactory extends Factory
 
     public function definition(): array
     {
+        $cbo = Cbo::factory()->create();
+
         return [
-            'cbo_id' => Cbo::factory(),
+            'cbo_id' => $cbo->id,
+            'scheme_type' => $this->faker->randomElement(['Gravity', 'Lift', 'Mixed']),
+            'sub_scheme_type' => $this->faker->randomElement(['Channel', 'Pipeline', 'Drip']),
+            // FIX: Use only the allowed enum values for 'status'
             'status' => $this->faker->randomElement(['New', 'Rehabilitation']),
-            'beneficiary_farmers' => $this->faker->numberBetween(10, 100),
-            'channel_length_km' => $this->faker->randomFloat(2, 0.1, 10),
-            'land_area_hectares' => $this->faker->randomFloat(2, 0.1, 50),
+            'number_of_watercourses' => $this->faker->numberBetween(1, 10),
+            'water_availability_cusecs' => $this->faker->randomFloat(2, 1, 50),
+            'remarks' => $this->faker->paragraph(),
         ];
+    }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (IrrigationScheme $scheme) {
+            \App\Models\IrrigationSchemeProfile::factory()->create(['irrigation_scheme_id' => $scheme->id]);
+        });
     }
 }

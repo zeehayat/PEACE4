@@ -4,35 +4,29 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\MhpSite;
+use App\Models\Cbo;
 use App\Models\MhpAdminApproval;
-use App\Models\ProjectCostRevision;
-use App\Models\ProjectFinancialInstallment;
+use App\Models\TAndDWork;
 use App\Models\ProjectPhysicalProgress;
+use App\Models\ProjectFinancialInstallment;
 
 class MhpSiteSeeder extends Seeder
 {
+    /**
+     * Run the database seeds.
+     */
     public function run(): void
     {
-        MhpSite::factory()
-            ->count(5)
-            ->create()
-            ->each(function ($site) {
+        // Create MHP Sites linked to CBOs
+        MhpSite::factory()->count(10)->create()->each(function ($site) {
+            // Create Admin Approval (50% chance)
+            if (rand(0, 1)) {
                 $approval = MhpAdminApproval::factory()->create(['mhp_site_id' => $site->id]);
-
-                ProjectCostRevision::factory()->count(2)->create([
-                    'approvable_id' => $approval->id,
-                    'approvable_type' => get_class($approval),
-                ]);
-
-                ProjectFinancialInstallment::factory()->count(3)->create([
-                    'projectable_id' => $site->id,
-                    'projectable_type' => get_class($site),
-                ]);
-
-                ProjectPhysicalProgress::factory()->count(4)->create([
-                    'projectable_id' => $site->id,
-                    'projectable_type' => get_class($site),
-                ]);
-            });
+                // Add some T&D work, Physical Progress, Financial Installments
+                TAndDWork::factory()->count(rand(0, 1))->create(['projectable_id' => $site->id, 'projectable_type' => MhpSite::class]);
+                ProjectPhysicalProgress::factory()->count(rand(1, 3))->create(['projectable_id' => $site->id, 'projectable_type' => MhpSite::class]);
+                ProjectFinancialInstallment::factory()->count(rand(1, 3))->create(['projectable_id' => $site->id, 'projectable_type' => MhpSite::class]);
+            }
+        });
     }
 }
