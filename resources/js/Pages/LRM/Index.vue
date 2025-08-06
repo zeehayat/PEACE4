@@ -11,6 +11,7 @@ import LrmListCard from '@/Pages/LRM/Components/LrmListCard.vue'; // For mobile 
 import LrmCommitteeCreateModal from '@/Pages/LRM/Modals/LrmCommitteeCreateModal.vue';
 import LrmCommitteeEditModal from '@/Pages/LRM/Modals/LrmCommitteeEditModal.vue';
 import LrmCommitteeDetailsModal from '@/Pages/LRM/Modals/LrmCommitteeDetailsModal.vue';
+import AppLayout from "@/Layouts/AppLayout.vue";
 
 
 const props = defineProps({
@@ -177,7 +178,10 @@ const handlePagination = (url) => {
 </script>
 
 <template>
-    <side-bar />
+    <AppLayout title="Dashboard">
+        <template #header>
+            <h2 class="text-4xl font-extrabold text-indigo-700 border-collapse">SRSP PEACE 2</h2>
+        </template>
 
     <div class="bg-gray-50 font-sans antialiased text-gray-800 min-h-screen">
         <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
@@ -329,4 +333,5 @@ const handlePagination = (url) => {
             </div>
         </transition>
     </Teleport>
+    </AppLayout>
 </template>
