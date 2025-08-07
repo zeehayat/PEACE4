@@ -15,10 +15,11 @@ class LrmCommitteeController extends Controller
 {
     protected $lrmService;
 
-    // Inject the LrmService into the controller
     public function __construct(LrmService $lrmService)
     {
         $this->lrmService = $lrmService;
+        // FIX: Apply policy middleware for LrmCommittee model
+        $this->authorizeResource(LrmCommittee::class, 'lrm_committee');
     }
 
     /**
@@ -27,7 +28,17 @@ class LrmCommitteeController extends Controller
     public function index(Request $request)
     {
         $query = LrmCommittee::query()
-            ->with(['cbo', 'media']); // Eager load CBO and LRM Committee's own media
+            ->with(['cbo', 'media']);
+
+        // --- ACL: Scope by district for DISTRICT roles ---
+        $user = Auth::user();
+        if ($user->hasAnyRole(['M&E-DISTRICT', 'Engineer-DISTRICT', 'KPO-DISTRICT', 'Viewer-DISTRICT'])) {
+            $query->whereHas('cbo', function ($q) use ($user) {
+                $q->where('district', $user->district->name);
+            });
+            Log::info('LrmCommitteeController@index: Scoping LRM Committees by user district.', ['user_id' => $user->id, 'district' => $user->district->name]);
+        }
+        // --- END ACL ---
 
         // Apply filters and search if present
         if ($request->has('search')) {
@@ -43,19 +54,16 @@ class LrmCommitteeController extends Controller
         if ($request->has('cbo_id')) {
             $query->where('cbo_id', $request->input('cbo_id'));
         }
-        // Add more filters as needed (e.g., date ranges, specific plant types)
 
-        $lrmCommittees = $query->paginate(10)->withQueryString(); // Paginate results
+        $lrmCommittees = $query->paginate(10)->withQueryString();
 
-        // Transform collection to add frontend-specific accessors
         $lrmCommittees->getCollection()->transform(function ($lrmCommittee) {
-            // attachments_frontend is already appended via $appends in the model
             return $lrmCommittee;
         });
 
         return Inertia::render('LRM/Index', [
             'lrmCommittees' => $lrmCommittees,
-            'filters' => $request->only('search', 'cbo_id'), // Pass filters back to frontend
+            'filters' => $request->only('search', 'cbo_id'),
         ]);
     }
 

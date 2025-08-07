@@ -6,12 +6,9 @@ import AttachmentController from './AttachmentController'
 import MhpSiteController from './MhpSiteController'
 import VendorController from './VendorController'
 import MhpAdminApprovalController from './MhpAdminApprovalController'
-import MhpCompletionController from './MhpCompletionController'
 import TAndDWorkController from './TAndDWorkController'
 import ProjectPhysicalProgressController from './ProjectPhysicalProgressController'
-import MhpEmePhysicalProgressController from './MhpEmePhysicalProgressController'
-import MhpEmeFinancialProgressController from './MhpEmeFinancialProgressController'
-import OperationalCostController from './OperationalCostController'
+import MhpCompletionController from './MhpCompletionController'
 import IrrigationSchemeController from './IrrigationSchemeController'
 import IrrigationAdminApprovalController from './IrrigationAdminApprovalController'
 import IrrigationCostRevisionController from './IrrigationCostRevisionController'
@@ -32,12 +29,9 @@ const Controllers = {
     MhpSiteController,
     VendorController,
     MhpAdminApprovalController,
-    MhpCompletionController,
     TAndDWorkController,
     ProjectPhysicalProgressController,
-    MhpEmePhysicalProgressController,
-    MhpEmeFinancialProgressController,
-    OperationalCostController,
+    MhpCompletionController,
     IrrigationSchemeController,
     IrrigationAdminApprovalController,
     IrrigationCostRevisionController,

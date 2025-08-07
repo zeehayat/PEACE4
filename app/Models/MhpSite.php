@@ -174,4 +174,10 @@ class MhpSite extends Model implements HasMedia
         }
         return ($this->cbo->reference_code ?? 'N/A') . '/MHP-' . $this->id;
     }
+    public function latestPhysicalProgress(): HasOne
+    {
+        return $this->hasOne(ProjectPhysicalProgress::class, 'projectable_id')
+            ->where('projectable_type', MhpSite::class)
+            ->latest('progress_date');
+    }
 }

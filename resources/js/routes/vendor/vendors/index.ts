@@ -1,7 +1,7 @@
 import { queryParams, type QueryParams } from './../../../wayfinder'
 /**
 * @see \App\Http\Controllers\VendorController::index
-* @see app/Http/Controllers/VendorController.php:26
+* @see app/Http/Controllers/VendorController.php:27
 * @route '/vendors'
 */
 export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -19,7 +19,7 @@ index.definition = {
 
 /**
 * @see \App\Http\Controllers\VendorController::index
-* @see app/Http/Controllers/VendorController.php:26
+* @see app/Http/Controllers/VendorController.php:27
 * @route '/vendors'
 */
 index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -28,7 +28,7 @@ index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 
 /**
 * @see \App\Http\Controllers\VendorController::index
-* @see app/Http/Controllers/VendorController.php:26
+* @see app/Http/Controllers/VendorController.php:27
 * @route '/vendors'
 */
 index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -41,7 +41,7 @@ index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\VendorController::index
-* @see app/Http/Controllers/VendorController.php:26
+* @see app/Http/Controllers/VendorController.php:27
 * @route '/vendors'
 */
 index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -107,7 +107,7 @@ create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\VendorController::store
-* @see app/Http/Controllers/VendorController.php:66
+* @see app/Http/Controllers/VendorController.php:67
 * @route '/vendors'
 */
 export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -125,7 +125,7 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\VendorController::store
-* @see app/Http/Controllers/VendorController.php:66
+* @see app/Http/Controllers/VendorController.php:67
 * @route '/vendors'
 */
 store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -134,7 +134,7 @@ store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 
 /**
 * @see \App\Http\Controllers\VendorController::store
-* @see app/Http/Controllers/VendorController.php:66
+* @see app/Http/Controllers/VendorController.php:67
 * @route '/vendors'
 */
 store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -147,7 +147,7 @@ store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\VendorController::show
-* @see app/Http/Controllers/VendorController.php:80
+* @see app/Http/Controllers/VendorController.php:81
 * @route '/vendors/{vendor}'
 */
 export const show = (args: { vendor: number | { id: number } } | [vendor: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -165,7 +165,7 @@ show.definition = {
 
 /**
 * @see \App\Http\Controllers\VendorController::show
-* @see app/Http/Controllers/VendorController.php:80
+* @see app/Http/Controllers/VendorController.php:81
 * @route '/vendors/{vendor}'
 */
 show.url = (args: { vendor: number | { id: number } } | [vendor: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -196,7 +196,7 @@ show.url = (args: { vendor: number | { id: number } } | [vendor: number | { id: 
 
 /**
 * @see \App\Http\Controllers\VendorController::show
-* @see app/Http/Controllers/VendorController.php:80
+* @see app/Http/Controllers/VendorController.php:81
 * @route '/vendors/{vendor}'
 */
 show.get = (args: { vendor: number | { id: number } } | [vendor: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -209,7 +209,7 @@ show.get = (args: { vendor: number | { id: number } } | [vendor: number | { id: 
 
 /**
 * @see \App\Http\Controllers\VendorController::show
-* @see app/Http/Controllers/VendorController.php:80
+* @see app/Http/Controllers/VendorController.php:81
 * @route '/vendors/{vendor}'
 */
 show.head = (args: { vendor: number | { id: number } } | [vendor: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -291,7 +291,7 @@ edit.head = (args: { vendor: string | number } | [vendor: string | number ] | st
 
 /**
 * @see \App\Http\Controllers\VendorController::update
-* @see app/Http/Controllers/VendorController.php:89
+* @see app/Http/Controllers/VendorController.php:90
 * @route '/vendors/{vendor}'
 */
 export const update = (args: { vendor: number | { id: number } } | [vendor: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -309,7 +309,7 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\VendorController::update
-* @see app/Http/Controllers/VendorController.php:89
+* @see app/Http/Controllers/VendorController.php:90
 * @route '/vendors/{vendor}'
 */
 update.url = (args: { vendor: number | { id: number } } | [vendor: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -340,7 +340,7 @@ update.url = (args: { vendor: number | { id: number } } | [vendor: number | { id
 
 /**
 * @see \App\Http\Controllers\VendorController::update
-* @see app/Http/Controllers/VendorController.php:89
+* @see app/Http/Controllers/VendorController.php:90
 * @route '/vendors/{vendor}'
 */
 update.put = (args: { vendor: number | { id: number } } | [vendor: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -353,7 +353,7 @@ update.put = (args: { vendor: number | { id: number } } | [vendor: number | { id
 
 /**
 * @see \App\Http\Controllers\VendorController::update
-* @see app/Http/Controllers/VendorController.php:89
+* @see app/Http/Controllers/VendorController.php:90
 * @route '/vendors/{vendor}'
 */
 update.patch = (args: { vendor: number | { id: number } } | [vendor: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -366,7 +366,7 @@ update.patch = (args: { vendor: number | { id: number } } | [vendor: number | { 
 
 /**
 * @see \App\Http\Controllers\VendorController::destroy
-* @see app/Http/Controllers/VendorController.php:103
+* @see app/Http/Controllers/VendorController.php:104
 * @route '/vendors/{vendor}'
 */
 export const destroy = (args: { vendor: number | { id: number } } | [vendor: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -384,7 +384,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\VendorController::destroy
-* @see app/Http/Controllers/VendorController.php:103
+* @see app/Http/Controllers/VendorController.php:104
 * @route '/vendors/{vendor}'
 */
 destroy.url = (args: { vendor: number | { id: number } } | [vendor: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -415,7 +415,7 @@ destroy.url = (args: { vendor: number | { id: number } } | [vendor: number | { i
 
 /**
 * @see \App\Http\Controllers\VendorController::destroy
-* @see app/Http/Controllers/VendorController.php:103
+* @see app/Http/Controllers/VendorController.php:104
 * @route '/vendors/{vendor}'
 */
 destroy.delete = (args: { vendor: number | { id: number } } | [vendor: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

@@ -1,60 +1,118 @@
 import { queryParams, type QueryParams } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\VendorController::getVendors
-* @see app/Http/Controllers/VendorController.php:122
+* @see app/Http/Controllers/VendorController.php:123
 * @route '/vendors/auto-search'
 */
-export const getVendors = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+const getVendors9644c18b1ac37a68170a3e1b642b65e8 = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: getVendors.url(options),
+    url: getVendors9644c18b1ac37a68170a3e1b642b65e8.url(options),
     method: 'get',
 })
 
-getVendors.definition = {
+getVendors9644c18b1ac37a68170a3e1b642b65e8.definition = {
     methods: ['get','head'],
     url: '/vendors/auto-search',
 }
 
 /**
 * @see \App\Http\Controllers\VendorController::getVendors
-* @see app/Http/Controllers/VendorController.php:122
+* @see app/Http/Controllers/VendorController.php:123
 * @route '/vendors/auto-search'
 */
-getVendors.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return getVendors.definition.url + queryParams(options)
+getVendors9644c18b1ac37a68170a3e1b642b65e8.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return getVendors9644c18b1ac37a68170a3e1b642b65e8.definition.url + queryParams(options)
 }
 
 /**
 * @see \App\Http\Controllers\VendorController::getVendors
-* @see app/Http/Controllers/VendorController.php:122
+* @see app/Http/Controllers/VendorController.php:123
 * @route '/vendors/auto-search'
 */
-getVendors.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+getVendors9644c18b1ac37a68170a3e1b642b65e8.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
-    url: getVendors.url(options),
+    url: getVendors9644c18b1ac37a68170a3e1b642b65e8.url(options),
     method: 'get',
 })
 
 /**
 * @see \App\Http\Controllers\VendorController::getVendors
-* @see app/Http/Controllers/VendorController.php:122
+* @see app/Http/Controllers/VendorController.php:123
 * @route '/vendors/auto-search'
 */
-getVendors.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+getVendors9644c18b1ac37a68170a3e1b642b65e8.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
 } => ({
-    url: getVendors.url(options),
+    url: getVendors9644c18b1ac37a68170a3e1b642b65e8.url(options),
     method: 'head',
 })
 
 /**
+* @see \App\Http\Controllers\VendorController::getVendors
+* @see app/Http/Controllers/VendorController.php:123
+* @route '/mhp/vendors/auto-search'
+*/
+const getVendorsf9ee5a1e010cd2fed4db63e497821604 = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: getVendorsf9ee5a1e010cd2fed4db63e497821604.url(options),
+    method: 'get',
+})
+
+getVendorsf9ee5a1e010cd2fed4db63e497821604.definition = {
+    methods: ['get','head'],
+    url: '/mhp/vendors/auto-search',
+}
+
+/**
+* @see \App\Http\Controllers\VendorController::getVendors
+* @see app/Http/Controllers/VendorController.php:123
+* @route '/mhp/vendors/auto-search'
+*/
+getVendorsf9ee5a1e010cd2fed4db63e497821604.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return getVendorsf9ee5a1e010cd2fed4db63e497821604.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\VendorController::getVendors
+* @see app/Http/Controllers/VendorController.php:123
+* @route '/mhp/vendors/auto-search'
+*/
+getVendorsf9ee5a1e010cd2fed4db63e497821604.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: getVendorsf9ee5a1e010cd2fed4db63e497821604.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\VendorController::getVendors
+* @see app/Http/Controllers/VendorController.php:123
+* @route '/mhp/vendors/auto-search'
+*/
+getVendorsf9ee5a1e010cd2fed4db63e497821604.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: getVendorsf9ee5a1e010cd2fed4db63e497821604.url(options),
+    method: 'head',
+})
+
+export const getVendors = {
+    '/vendors/auto-search': getVendors9644c18b1ac37a68170a3e1b642b65e8,
+    '/mhp/vendors/auto-search': getVendorsf9ee5a1e010cd2fed4db63e497821604,
+}
+
+/**
 * @see \App\Http\Controllers\VendorController::index
-* @see app/Http/Controllers/VendorController.php:26
+* @see app/Http/Controllers/VendorController.php:27
 * @route '/vendors'
 */
 export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -72,7 +130,7 @@ index.definition = {
 
 /**
 * @see \App\Http\Controllers\VendorController::index
-* @see app/Http/Controllers/VendorController.php:26
+* @see app/Http/Controllers/VendorController.php:27
 * @route '/vendors'
 */
 index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -81,7 +139,7 @@ index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 
 /**
 * @see \App\Http\Controllers\VendorController::index
-* @see app/Http/Controllers/VendorController.php:26
+* @see app/Http/Controllers/VendorController.php:27
 * @route '/vendors'
 */
 index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -94,7 +152,7 @@ index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\VendorController::index
-* @see app/Http/Controllers/VendorController.php:26
+* @see app/Http/Controllers/VendorController.php:27
 * @route '/vendors'
 */
 index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -160,7 +218,7 @@ create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\VendorController::store
-* @see app/Http/Controllers/VendorController.php:66
+* @see app/Http/Controllers/VendorController.php:67
 * @route '/vendors'
 */
 export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -178,7 +236,7 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\VendorController::store
-* @see app/Http/Controllers/VendorController.php:66
+* @see app/Http/Controllers/VendorController.php:67
 * @route '/vendors'
 */
 store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -187,7 +245,7 @@ store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 
 /**
 * @see \App\Http\Controllers\VendorController::store
-* @see app/Http/Controllers/VendorController.php:66
+* @see app/Http/Controllers/VendorController.php:67
 * @route '/vendors'
 */
 store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -200,7 +258,7 @@ store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\VendorController::show
-* @see app/Http/Controllers/VendorController.php:80
+* @see app/Http/Controllers/VendorController.php:81
 * @route '/vendors/{vendor}'
 */
 export const show = (args: { vendor: number | { id: number } } | [vendor: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -218,7 +276,7 @@ show.definition = {
 
 /**
 * @see \App\Http\Controllers\VendorController::show
-* @see app/Http/Controllers/VendorController.php:80
+* @see app/Http/Controllers/VendorController.php:81
 * @route '/vendors/{vendor}'
 */
 show.url = (args: { vendor: number | { id: number } } | [vendor: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -249,7 +307,7 @@ show.url = (args: { vendor: number | { id: number } } | [vendor: number | { id: 
 
 /**
 * @see \App\Http\Controllers\VendorController::show
-* @see app/Http/Controllers/VendorController.php:80
+* @see app/Http/Controllers/VendorController.php:81
 * @route '/vendors/{vendor}'
 */
 show.get = (args: { vendor: number | { id: number } } | [vendor: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -262,7 +320,7 @@ show.get = (args: { vendor: number | { id: number } } | [vendor: number | { id: 
 
 /**
 * @see \App\Http\Controllers\VendorController::show
-* @see app/Http/Controllers/VendorController.php:80
+* @see app/Http/Controllers/VendorController.php:81
 * @route '/vendors/{vendor}'
 */
 show.head = (args: { vendor: number | { id: number } } | [vendor: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -344,7 +402,7 @@ edit.head = (args: { vendor: string | number } | [vendor: string | number ] | st
 
 /**
 * @see \App\Http\Controllers\VendorController::update
-* @see app/Http/Controllers/VendorController.php:89
+* @see app/Http/Controllers/VendorController.php:90
 * @route '/vendors/{vendor}'
 */
 export const update = (args: { vendor: number | { id: number } } | [vendor: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -362,7 +420,7 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\VendorController::update
-* @see app/Http/Controllers/VendorController.php:89
+* @see app/Http/Controllers/VendorController.php:90
 * @route '/vendors/{vendor}'
 */
 update.url = (args: { vendor: number | { id: number } } | [vendor: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -393,7 +451,7 @@ update.url = (args: { vendor: number | { id: number } } | [vendor: number | { id
 
 /**
 * @see \App\Http\Controllers\VendorController::update
-* @see app/Http/Controllers/VendorController.php:89
+* @see app/Http/Controllers/VendorController.php:90
 * @route '/vendors/{vendor}'
 */
 update.put = (args: { vendor: number | { id: number } } | [vendor: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -406,7 +464,7 @@ update.put = (args: { vendor: number | { id: number } } | [vendor: number | { id
 
 /**
 * @see \App\Http\Controllers\VendorController::update
-* @see app/Http/Controllers/VendorController.php:89
+* @see app/Http/Controllers/VendorController.php:90
 * @route '/vendors/{vendor}'
 */
 update.patch = (args: { vendor: number | { id: number } } | [vendor: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -419,7 +477,7 @@ update.patch = (args: { vendor: number | { id: number } } | [vendor: number | { 
 
 /**
 * @see \App\Http\Controllers\VendorController::destroy
-* @see app/Http/Controllers/VendorController.php:103
+* @see app/Http/Controllers/VendorController.php:104
 * @route '/vendors/{vendor}'
 */
 export const destroy = (args: { vendor: number | { id: number } } | [vendor: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -437,7 +495,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\VendorController::destroy
-* @see app/Http/Controllers/VendorController.php:103
+* @see app/Http/Controllers/VendorController.php:104
 * @route '/vendors/{vendor}'
 */
 destroy.url = (args: { vendor: number | { id: number } } | [vendor: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -468,7 +526,7 @@ destroy.url = (args: { vendor: number | { id: number } } | [vendor: number | { i
 
 /**
 * @see \App\Http\Controllers\VendorController::destroy
-* @see app/Http/Controllers/VendorController.php:103
+* @see app/Http/Controllers/VendorController.php:104
 * @route '/vendors/{vendor}'
 */
 destroy.delete = (args: { vendor: number | { id: number } } | [vendor: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

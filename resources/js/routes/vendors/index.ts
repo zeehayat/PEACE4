@@ -1,7 +1,7 @@
 import { queryParams, type QueryParams } from './../../wayfinder'
 /**
 * @see \App\Http\Controllers\VendorController::autoSearch
-* @see app/Http/Controllers/VendorController.php:122
+* @see app/Http/Controllers/VendorController.php:123
 * @route '/vendors/auto-search'
 */
 export const autoSearch = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -19,7 +19,7 @@ autoSearch.definition = {
 
 /**
 * @see \App\Http\Controllers\VendorController::autoSearch
-* @see app/Http/Controllers/VendorController.php:122
+* @see app/Http/Controllers/VendorController.php:123
 * @route '/vendors/auto-search'
 */
 autoSearch.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -28,7 +28,7 @@ autoSearch.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) =
 
 /**
 * @see \App\Http\Controllers\VendorController::autoSearch
-* @see app/Http/Controllers/VendorController.php:122
+* @see app/Http/Controllers/VendorController.php:123
 * @route '/vendors/auto-search'
 */
 autoSearch.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -41,7 +41,7 @@ autoSearch.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): 
 
 /**
 * @see \App\Http\Controllers\VendorController::autoSearch
-* @see app/Http/Controllers/VendorController.php:122
+* @see app/Http/Controllers/VendorController.php:123
 * @route '/vendors/auto-search'
 */
 autoSearch.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

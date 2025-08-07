@@ -14,10 +14,11 @@ class VendorController extends Controller
 {
     protected $vendorService;
 
-    // Inject the VendorService into the controller
     public function __construct(VendorService $vendorService)
     {
         $this->vendorService = $vendorService;
+        // FIX: Apply policy middleware for Vendor model
+        $this->authorizeResource(Vendor::class, 'vendor');
     }
 
     /**
@@ -25,8 +26,10 @@ class VendorController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Vendor::query()
-            ->with('media'); // Eager load vendor's own media
+        $query = Vendor::query()->with('media');
+
+        // Vendors are assumed to be accessible globally to all roles with 'view vendor' permission
+        // No district scoping needed here.
 
         // Apply filters and search if present
         if ($request->has('search')) {
@@ -44,21 +47,19 @@ class VendorController extends Controller
         if ($request->has('status')) {
             $query->where('status', $request->input('status'));
         }
-        // Add more filters as needed
 
-        $vendors = $query->paginate(10)->withQueryString(); // Paginate results
+        $vendors = $query->paginate(10)->withQueryString();
 
-        // Transform collection to add frontend-specific accessors
         $vendors->getCollection()->transform(function ($vendor) {
-            // attachments_frontend is already appended via $appends in the model
             return $vendor;
         });
 
         return Inertia::render('Vendor/Index', [
             'vendors' => $vendors,
-            'filters' => $request->only('search', 'status'), // Pass filters back to frontend
+            'filters' => $request->only('search', 'status'),
         ]);
     }
+
 
     /**
      * Store a newly created Vendor in storage.

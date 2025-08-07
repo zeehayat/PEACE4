@@ -17,6 +17,8 @@ class IrrigationSchemeController extends Controller
     public function __construct(IrrigationService $irrigationService)
     {
         $this->irrigationService = $irrigationService;
+        // FIX: Apply policy middleware for IrrigationScheme model
+        $this->authorizeResource(IrrigationScheme::class, 'scheme');
     }
 
     /**
@@ -30,11 +32,21 @@ class IrrigationSchemeController extends Controller
                 'profile',
                 'media',
                 'adminApproval.media',
-                // FIX: Remove 'irrigationSchemeContract' from eager loading in the index view
-                'irrigation_completion.media', // FIX: Use the correct relationship name
+                'irrigation_completion.media',
+                'irrigationSchemeContract.media',
                 'physicalProgresses.media',
                 'financialInstallments.media',
             ]);
+
+        // --- ACL: Scope by district for DISTRICT roles ---
+        $user = Auth::user();
+        if ($user->hasAnyRole(['M&E-DISTRICT', 'Engineer-DISTRICT', 'KPO-DISTRICT', 'Viewer-DISTRICT'])) {
+            $query->whereHas('cbo', function ($q) use ($user) {
+                $q->where('district', $user->district->name);
+            });
+            Log::info('IrrigationSchemeController@index: Scoping Irrigation Schemes by user district.', ['user_id' => $user->id, 'district' => $user->district->name]);
+        }
+        // --- END ACL ---
 
         if ($request->has('search')) {
             $searchTerm = $request->input('search');
@@ -47,7 +59,6 @@ class IrrigationSchemeController extends Controller
         $irrigationSchemes = $query->paginate(50)->withQueryString();
 
         $irrigationSchemes->getCollection()->transform(function ($scheme) {
-            // Transform related media to be available as a simple attachments_frontend array
             if ($scheme->profile) {
                 $scheme->profile->attachments = $scheme->profile->attachments_frontend;
             }
@@ -61,7 +72,6 @@ class IrrigationSchemeController extends Controller
                 $scheme->irrigationSchemeContract->attachments = $scheme->irrigationSchemeContract->attachments_frontend;
             }
 
-            // Add summary counts for the list view
             $scheme->physical_progress_count = $scheme->physicalProgresses->count();
             $scheme->financial_installments_count = $scheme->financialInstallments->count();
             return $scheme;
