@@ -9,8 +9,7 @@ use App\Models\ProjectFinancialInstallment;
 use App\Services\MhpSiteService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-
-use Illuminate\Support\Facades\Gate;
+use App\Http\Controllers\Controller;
 
 class MhpFinancialInstallmentController extends Controller
 {

@@ -9,7 +9,7 @@ use App\Models\ProjectFinancialInstallment;
 use App\Services\IrrigationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
 
 class IrrigationFinancialProgressController extends Controller
