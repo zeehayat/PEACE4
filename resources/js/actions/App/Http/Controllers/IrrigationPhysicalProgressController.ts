@@ -468,14 +468,6 @@ destroy.delete = (args: { scheme: number | { id: number }, physical_progress: st
     method: 'delete',
 })
 
-const physicalProgresses = {
-    index,
-    create,
-    store,
-    show,
-    edit,
-    update,
-    destroy,
-}
+const IrrigationPhysicalProgressController = { index, create, store, show, edit, update, destroy }
 
-export default physicalProgresses
+export default IrrigationPhysicalProgressController

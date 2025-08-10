@@ -19,14 +19,14 @@ class IrrigationScheme extends Model implements HasMedia
         'cbo_id',
         'status',
         'remarks',
-        'scheme_type', // <--- ADDED
-        'sub_scheme_type', // <--- ADDED
-        'number_of_watercourses', // <--- ADDED
-        'water_availability_cusecs', // <--- ADDED
+        'scheme_type',
+        'sub_scheme_type',
+        'number_of_watercourses',
+        'water_availability_cusecs',
     ];
 
     protected $casts = [
-        'water_availability_cusecs' => 'decimal:2', // <--- ADDED
+        'water_availability_cusecs' => 'decimal:2',
     ];
 
     protected static function boot()
@@ -34,6 +34,7 @@ class IrrigationScheme extends Model implements HasMedia
         parent::boot();
 
         static::deleting(function ($scheme) {
+            // FIX: Add a null-safe check before deleting related records.
             if ($scheme->profile) {
                 $scheme->profile->delete();
             }
@@ -47,7 +48,7 @@ class IrrigationScheme extends Model implements HasMedia
                 $scheme->irrigationSchemeContract->delete();
             }
 
-            // For MorphMany relationships, check if the collection is not empty
+            // For MorphMany relationships, delete all records in the collection
             if ($scheme->physicalProgresses) {
                 $scheme->physicalProgresses->each(fn ($progress) => $progress->delete());
             }
@@ -73,10 +74,15 @@ class IrrigationScheme extends Model implements HasMedia
         return $this->hasOne(IrrigationAdminApproval::class);
     }
 
-    // NEW: Relationship to IrrigationCompletion
     public function irrigation_completion(): HasOne
     {
         return $this->hasOne(IrrigationCompletion::class);
+    }
+
+    // FIX: Add the missing irrigationSchemeContract relationship
+    public function irrigationSchemeContract(): HasOne
+    {
+        return $this->hasOne(IrrigationSchemeContract::class);
     }
 
     public function physicalProgresses(): MorphMany

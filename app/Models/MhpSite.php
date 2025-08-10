@@ -180,4 +180,10 @@ class MhpSite extends Model implements HasMedia
             ->where('projectable_type', MhpSite::class)
             ->latest('progress_date');
     }
+    public function latestFinancialInstallment(): HasOne
+    {
+        return $this->hasOne(ProjectFinancialInstallment::class, 'projectable_id')
+            ->where('projectable_type', MhpSite::class)
+            ->latest('installment_date');
+    }
 }

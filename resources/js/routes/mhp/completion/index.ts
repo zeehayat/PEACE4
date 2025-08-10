@@ -1,4 +1,4 @@
-import { queryParams, type QueryParams } from './../../../../wayfinder'
+import { queryParams, type QueryParams } from './../../../wayfinder'
 /**
 * @see \App\Http\Controllers\MhpCompletionController::index
 * @see app/Http/Controllers/MhpCompletionController.php:26

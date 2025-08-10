@@ -1,7 +1,7 @@
-import lrm from './lrm'
+import committees from './committees'
 
 const lrm = {
-    lrm,
+    committees,
 }
 
 export default lrm

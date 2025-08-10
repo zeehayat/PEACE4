@@ -468,14 +468,6 @@ destroy.delete = (args: { scheme: number | { id: number }, financial_installment
     method: 'delete',
 })
 
-const financialInstallments = {
-    index,
-    create,
-    store,
-    show,
-    edit,
-    update,
-    destroy,
-}
+const IrrigationFinancialProgressController = { index, create, store, show, edit, update, destroy }
 
-export default financialInstallments
+export default IrrigationFinancialProgressController

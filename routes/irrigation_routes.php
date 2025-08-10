@@ -1,36 +1,37 @@
 <?php
 
-use App\Http\Controllers\IrrigationSchemeContractController;
 use Illuminate\Support\Facades\Route;
 
-// Import all controllers
+// Import all controllers for the Irrigation module
 use App\Http\Controllers\IrrigationSchemeController;
 use App\Http\Controllers\IrrigationAdminApprovalController;
-use App\Http\Controllers\ProjectPhysicalProgressController;
-use App\Http\Controllers\ProjectFinancialInstallmentController;
+use App\Http\Controllers\IrrigationPhysicalProgressController;
+use App\Http\Controllers\IrrigationFinancialProgressController;
 use App\Http\Controllers\IrrigationCostRevisionController;
+use App\Http\Controllers\IrrigationSchemeContractController;
 
-// All routes within this file will inherit the 'irrigation' prefix and 'irrigation.' name from the configuration
-Route::middleware(['web'])->group(function () {
 
-    // Main Irrigation Scheme resource
-    Route::resource('schemes', IrrigationSchemeController::class);
+// All routes are placed in a group to apply common middleware
+Route::middleware(['web', 'auth'])->group(function () {
 
-    // Get irrigation schemes for searchable select input (if needed)
+    // Custom route for fetching schemes for searchable selects
+    // This more specific route must be defined before the general resource route
     Route::get('schemes/auto-search', [IrrigationSchemeController::class, 'getSchemes'])->name('schemes.auto-search');
 
     // Nested resources for Admin Approvals
     Route::resource('schemes.admin-approvals', IrrigationAdminApprovalController::class)->parameters([
         'admin-approvals' => 'admin_approval',
-        'schemes' => 'scheme', // <--- This parameter name must match the controller parameter
+        'schemes' => 'scheme',
     ]);
 
-    // Nested resources for ProjectPhysicalProgress and ProjectFinancialInstallment
-    Route::resource('schemes.physical-progresses', ProjectPhysicalProgressController::class)->parameters([
+    // Nested resources for ProjectPhysicalProgress
+    Route::resource('schemes.physical-progresses', IrrigationPhysicalProgressController::class)->parameters([
         'physical-progresses' => 'physical_progress',
         'schemes' => 'scheme',
     ]);
-    Route::resource('schemes.financial-installments', ProjectFinancialInstallmentController::class)->parameters([
+
+    // Nested resources for ProjectFinancialInstallment
+    Route::resource('schemes.financial-installments', IrrigationFinancialProgressController::class)->parameters([
         'financial-installments' => 'financial_installment',
         'schemes' => 'scheme',
     ]);
@@ -43,8 +44,11 @@ Route::middleware(['web'])->group(function () {
 
     // Nested resources for Scheme Contracts
     Route::resource('schemes.contracts', IrrigationSchemeContractController::class)->parameters([
-        'contracts' => 'contract', // Use 'contract' for the child model
-        'schemes' => 'scheme', // Use 'scheme' for the parent model
+        'contracts' => 'contract',
+        'schemes' => 'scheme',
     ]);
 
+    // Main Irrigation Scheme resource
+    // FIX: This general resource route is now placed last to avoid conflicts
+    Route::resource('schemes', IrrigationSchemeController::class);
 });

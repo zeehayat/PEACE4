@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMhpSiteRequest;
 use App\Http\Requests\UpdateMhpSiteRequest;
+use App\Models\Cbo;
 use App\Models\MhpSite;
 use App\Services\MhpSiteService;
 use Illuminate\Http\Request;
@@ -11,7 +12,8 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Models\District;
-use Illuminate\Routing\Controller; // Ensure this is imported
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 
 class MhpSiteController extends Controller
 {
@@ -20,7 +22,9 @@ class MhpSiteController extends Controller
     public function __construct(MhpSiteService $mhpSiteService)
     {
         $this->mhpSiteService = $mhpSiteService;
-        // We will apply permission middleware on the routes directly instead of using authorizeResource.
+
+        // This single line applies all policy checks for the resource controller.
+        $this->authorizeResource(MhpSite::class, 'site');
     }
 
     /**
@@ -29,8 +33,14 @@ class MhpSiteController extends Controller
     public function index(Request $request)
     {
         $query = MhpSite::query()
-            ->with(['cbo', 'media', 'adminApproval.media',                 'latestPhysicalProgress'
-                , 'latest_financial_installment', 'completion']);
+            ->with([
+                'cbo',
+                'media',
+                'adminApproval.media',
+                'latestPhysicalProgress',
+                'latestFinancialInstallment',
+                'completion',
+            ]);
 
         $user = Auth::user();
         if ($user->hasAnyRole(['M&E-DISTRICT', 'Engineer-DISTRICT', 'KPO-DISTRICT', 'Viewer-DISTRICT'])) {
@@ -43,8 +53,7 @@ class MhpSiteController extends Controller
         if ($request->has('search')) {
             $searchTerm = $request->input('search');
             $query->where(function ($q) use ($searchTerm) {
-                $q->where('project_id', 'like', '%' . $searchTerm . '%')
-                    ->orWhere('status', 'like', '%' . $searchTerm . '%')
+                $q->orWhere('status', 'like', '%' . $searchTerm . '%')
                     ->orWhereHas('cbo', function ($cboQuery) use ($searchTerm) {
                         $cboQuery->where('reference_code', 'like', '%' . $searchTerm . '%')
                             ->orWhere('village', 'like', '%' . $searchTerm . '%')
@@ -55,15 +64,15 @@ class MhpSiteController extends Controller
 
         $mhpSites = $query->paginate(10)->withQueryString();
 
-        return Inertia::render('MHP/Index', ['mhpSites' => $mhpSites, 'filters' => $request->only('search')]);
+        return Inertia::render('MHP/Index', [
+            'mhpSites' => $mhpSites,
+            'filters' => $request->only('search'),
+        ]);
     }
 
-    /**
-     * Store a newly created MHP Site in storage.
-     */
+
     public function store(StoreMhpSiteRequest $request)
     {
-        // Permission check is now handled by route middleware
         try {
             $this->mhpSiteService->createMhpSite($request->validated());
             return redirect()->route('mhp.sites.index')->with('success', 'MHP Site created successfully!');
@@ -73,49 +82,34 @@ class MhpSiteController extends Controller
         }
     }
 
-    /**
-     * Display the specified MHP Site.
-     */
     public function show(MhpSite $site)
     {
-        // Permission check is now handled by route middleware
-        $site->load(['cbo', 'media', 'adminApproval.media', 'latest_physical_progress', 'latest_financial_installment', 'completion']);
+        $site->load(['cbo', 'media', 'adminApproval.media', 'latestPhysicalProgress', 'latestFinancialInstallment', 'completion']);
         return response()->json(['site' => $site]);
     }
 
-    /**
-     * Update the specified MHP Site in storage.
-     */
     public function update(UpdateMhpSiteRequest $request, MhpSite $site)
     {
-        // Permission check is now handled by route middleware
         try {
             $this->mhpSiteService->updateMhpSite($site, $request->validated());
             return redirect()->route('mhp.sites.index')->with('success', 'MHP Site updated successfully!');
         } catch (\Exception $e) {
-            Log::error('Error updating MHP Site: ' . $e->getMessage(), ['exception' => $e]);
+            Log::error('Error updating MHP Site: ' . e->getMessage(), ['exception' => $e]);
             return redirect()->back()->with('error', 'Failed to update MHP Site: ' . $e->getMessage());
         }
     }
 
-    /**
-     * Remove the specified MHP Site from storage.
-     */
     public function destroy(MhpSite $site)
     {
-        // Permission check is now handled by route middleware
         try {
             $this->mhpSiteService->deleteMhpSite($site);
             return redirect()->route('mhp.sites.index')->with('success', 'MHP Site deleted successfully!');
         } catch (\Exception $e) {
-            Log::error('Error deleting MHP Site: ' . $e->getMessage(), ['exception' => $e]);
+            Log::error('Error deleting MHP Site: ' . e->getMessage(), ['exception' => $e]);
             return redirect()->back()->with('error', 'Failed to delete MHP Site: ' . $e->getMessage());
         }
     }
 
-    /**
-     * Get MHP sites for a searchable select input.
-     */
     public function getSites(Request $request)
     {
         $query = MhpSite::query();
@@ -141,5 +135,40 @@ class MhpSiteController extends Controller
             ->get();
 
         return response()->json($sites);
+    }
+    /**
+     * Get CBOs for a searchable select input.
+     * This is a utility function used by the frontend.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getCbos(Request $request)
+    {
+        $query = Cbo::query();
+        ;
+        // Scope the query by the user's district if they have a DISTRICT role
+        $user = Auth::user();
+        if ($user->hasAnyRole(['M&E-DISTRICT', 'Engineer-DISTRICT', 'KPO-DISTRICT', 'Viewer-DISTRICT'])) {
+            $query->where('district', $user->district->name);
+        }
+
+        $search = $request->input('search');
+
+        $cbos = $query
+            ->when($search, function ($query) use ($search) {
+                $query->where('reference_code', 'like', '%' . $search . '%')
+                    ->orWhere('village', 'like', '%' . $search . '%')
+                    ->orWhere('district', 'like', '%' . $search . '%')
+                    ->orWhere('tehsil', 'like', '%' . $search . '%')
+                    ->orWhere('village_council', 'like', '%' . $search . '%')
+                    ->orWhere('president_name', 'like', '%' . $search . '%')
+                    ->orWhere('secretary_name', 'like', '%' . $search . '%');
+            })
+            ->select('id', 'reference_code', 'district', 'tehsil', 'village_council', 'village')
+            ->limit(10)
+            ->get();
+
+        return response()->json($cbos);
     }
 }

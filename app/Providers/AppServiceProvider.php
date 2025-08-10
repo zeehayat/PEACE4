@@ -10,6 +10,7 @@ use App\Models\IrrigationAdminApproval;
 use App\Models\IrrigationCompletion;
 use App\Models\IrrigationCostRevision;
 use App\Models\IrrigationScheme;
+use App\Models\IrrigationSchemeContract;
 use App\Models\IrrigationSchemeProfile;
 use App\Models\LrmCommittee;
 use App\Models\MhpAdminApproval;
@@ -63,6 +64,7 @@ class AppServiceProvider extends ServiceProvider
             'vendor' => Vendor::class,
             'lrm_committee' => LrmCommittee::class,
             'user' => User::class,
+            'irrigation_scheme_contract' => IrrigationSchemeContract::class,
 
 
 

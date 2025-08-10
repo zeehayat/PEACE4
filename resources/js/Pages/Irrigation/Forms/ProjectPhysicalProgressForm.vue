@@ -15,6 +15,7 @@ const props = defineProps({
     schemeId: { type: Number, required: true },
     progress: { type: Object, default: null },
     mode: { type: String, default: 'create' },
+    progressType: { type: String, default: 'Civil' }, // New prop for type
 });
 
 const emit = defineEmits(['success', 'cancel']);
@@ -22,7 +23,8 @@ const emit = defineEmits(['success', 'cancel']);
 const isEditMode = ref(props.mode === 'update');
 const existingAttachments = ref([]);
 
-const paymentForOptions = []; // Assumes T&D progress is also tracked here
+// Update the paymentForOptions array to include all types
+const paymentForOptions = ['Civil', 'EME', 'T&D'];
 
 function getInitialFormData(progress) {
     return {
@@ -31,7 +33,7 @@ function getInitialFormData(progress) {
         progress_percentage: progress ? progress.progress_percentage : null,
         progress_date: progress ? progress.progress_date : null,
         remarks: progress ? progress.remarks : '',
-        payment_for: progress ? progress.payment_for : 'Civil',
+        payment_for: progress ? progress.payment_for : props.progressType, // Use the new prop
         attachments: [],
         attachments_to_delete: [],
     };
@@ -122,12 +124,13 @@ const handleCancel = () => {
             <!-- Payment For -->
             <div>
                 <InputLabel for="payment_for" value="Payment For" />
-                <TextInput disabled="disabled"
-                    id="payment_for"
-                    v-model="form.payment_for"
-
-                    class="mt-1 block w-full"
-                    :class="{ 'border-red-500': form.errors.payment_for }"
+                <!-- Change TextInput to SelectInput to use the prop value -->
+                <SelectInput disabled="disabled"
+                             id="payment_for"
+                             v-model="form.payment_for"
+                             :options="paymentForOptions"
+                             class="mt-1 block w-full"
+                             :class="{ 'border-red-500': form.errors.payment_for }"
                 />
                 <InputError class="mt-2" :message="form.errors.payment_for" />
             </div>

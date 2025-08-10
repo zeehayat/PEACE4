@@ -86,6 +86,7 @@ class ProjectPhysicalProgressController extends Controller
      */
     public function store(StoreProjectPhysicalProgressRequest $request, MhpSite $mhpSite)
     {
+
         try {
             $this->mhpSiteService->createPhysicalProgress($mhpSite, $request->validated());
             return redirect()->back()->with('success', 'Physical Progress recorded successfully!');

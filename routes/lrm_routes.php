@@ -8,5 +8,5 @@ Route::middleware(['web'])->group(function () {
     // ... other routes ...
 
     // LRM module routes
-    Route::resource('lrm-committees', LrmCommitteeController::class)->names('lrm.committees'); // Namespaced route names
+    Route::resource('lrm-committees', LrmCommitteeController::class)->names('committees'); // Namespaced route names
 });
