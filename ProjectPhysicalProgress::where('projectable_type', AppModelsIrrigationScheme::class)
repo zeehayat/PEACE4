@@ -1,0 +1,15 @@
+[90m= [39m[34;4mApp\Models\IrrigationScheme[39;24m {#6642
+    [34mid[39m: [35m11[39m,
+    [34mcbo_id[39m: [35m42[39m,
+    [34mstatus[39m: "[32mRehabilitation[39m",
+    [34mscheme_type[39m: "[32mGravity[39m",
+    [34msub_scheme_type[39m: "[32mChannel[39m",
+    [34mnumber_of_watercourses[39m: [35m8[39m,
+    [34mwater_availability_cusecs[39m: "[32m34.54[39m",
+    [34mremarks[39m: "[32mEum dolorem quas dolorem et qui expedita. Temporibus rerum beatae impedit possimus molestias quis. Iure magnam id praesentium iure aspernatur occaecati.[39m",
+    [34mcreated_at[39m: "[32m2025-08-11 12:39:52[39m",
+    [34mupdated_at[39m: "[32m2025-08-11 12:39:52[39m",
+    [34mlatestPhysicalProgress[39m: [36mnull[39m,
+    +[1mattachments_frontend[22m: [],
+  }
+

@@ -26,6 +26,7 @@ class ProjectPhysicalProgressController extends Controller
      */
     public function index(Request $request, MhpSite $site)
     {
+
         $query = $site->physicalProgresses()->with(['activity.media', 'media']);
 
         // FIX: Add filtering by 'payment_for' if requested

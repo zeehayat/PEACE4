@@ -5,7 +5,6 @@ import tAndDWorks from './t-and-d-works'
 import physicalProgresses from './physical-progresses'
 import financialInstallments from './financial-installments'
 import completion from './completion'
-import contracts from './contracts'
 import media from './media'
 
 const mhp = {
@@ -16,7 +15,6 @@ const mhp = {
     physicalProgresses,
     financialInstallments,
     completion,
-    contracts,
     media,
 }
 

@@ -134,10 +134,6 @@ class MhpSite extends Model implements HasMedia
     }
 
     // Polymorphic relationships to Physical and Financial Progress
-    public function physicalProgresses(): MorphMany
-    {
-        return $this->morphMany(ProjectPhysicalProgress::class, 'projectable');
-    }
 
     public function financialInstallments(): MorphMany
     {
@@ -174,12 +170,17 @@ class MhpSite extends Model implements HasMedia
         }
         return ($this->cbo->reference_code ?? 'N/A') . '/MHP-' . $this->id;
     }
-    public function latestPhysicalProgress(): HasOne
+    public function physicalProgresses()
     {
-        return $this->hasOne(ProjectPhysicalProgress::class, 'projectable_id')
-            ->where('projectable_type', MhpSite::class)
-            ->latest('progress_date');
+        return $this->morphMany(\App\Models\ProjectPhysicalProgress::class, 'projectable');
     }
+
+    public function latestPhysicalProgress()
+    {
+        return $this->morphOne(\App\Models\ProjectPhysicalProgress::class, 'projectable')
+            ->latestOfMany('progress_date');
+    }
+
     public function latestFinancialInstallment(): HasOne
     {
         return $this->hasOne(ProjectFinancialInstallment::class, 'projectable_id')

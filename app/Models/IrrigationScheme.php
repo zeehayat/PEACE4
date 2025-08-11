@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media as SpatieMedia;
@@ -34,7 +35,6 @@ class IrrigationScheme extends Model implements HasMedia
         parent::boot();
 
         static::deleting(function ($scheme) {
-            // FIX: Add a null-safe check before deleting related records.
             if ($scheme->profile) {
                 $scheme->profile->delete();
             }
@@ -48,7 +48,6 @@ class IrrigationScheme extends Model implements HasMedia
                 $scheme->irrigationSchemeContract->delete();
             }
 
-            // For MorphMany relationships, delete all records in the collection
             if ($scheme->physicalProgresses) {
                 $scheme->physicalProgresses->each(fn ($progress) => $progress->delete());
             }
@@ -79,22 +78,35 @@ class IrrigationScheme extends Model implements HasMedia
         return $this->hasOne(IrrigationCompletion::class);
     }
 
-    // FIX: Add the missing irrigationSchemeContract relationship
     public function irrigationSchemeContract(): HasOne
     {
         return $this->hasOne(IrrigationSchemeContract::class);
     }
 
-    public function physicalProgresses(): MorphMany
-    {
-        return $this->morphMany(ProjectPhysicalProgress::class, 'projectable');
-    }
+
 
     public function financialInstallments(): MorphMany
     {
         return $this->morphMany(ProjectFinancialInstallment::class, 'projectable');
     }
 
+    // FIX: Add custom relationships for fetching the latest records
+    public function physicalProgresses()
+    {
+        return $this->morphMany(\App\Models\ProjectPhysicalProgress::class, 'projectable');
+    }
+
+    public function latestPhysicalProgress()
+    {
+        return $this->morphOne(\App\Models\ProjectPhysicalProgress::class, 'projectable')
+            ->latestOfMany('progress_date');
+    }
+
+    public function latestFinancialInstallment(): MorphOne
+    {
+        return $this->morphOne(\App\Models\ProjectFinancialInstallment::class, 'projectable')
+            ->latestOfMany('installment_date');
+    }
     // --- Spatie Media Library ---
     public function registerMediaCollections(): void
     {

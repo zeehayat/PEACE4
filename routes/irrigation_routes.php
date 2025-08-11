@@ -25,7 +25,9 @@ Route::middleware(['web', 'auth'])->group(function () {
     ]);
 
     // Nested resources for ProjectPhysicalProgress
-    Route::resource('schemes.physical-progresses', IrrigationPhysicalProgressController::class)->parameters([
+    Route::resource('schemes.physical-progresses', IrrigationPhysicalProgressController::class)
+        ->shallow()
+        ->parameters([
         'physical-progresses' => 'physical_progress',
         'schemes' => 'scheme',
     ]);

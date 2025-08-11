@@ -39,8 +39,8 @@ class IrrigationSchemeController extends Controller
                 'adminApproval.media',
                 'irrigation_completion.media',
                 'irrigationSchemeContract.media',
-                'physicalProgresses.media',
-                'financialInstallments.media',
+                'latestPhysicalProgress',
+                'latestFinancialInstallment',
             ]);
 
         $user = Auth::user();
@@ -60,32 +60,7 @@ class IrrigationSchemeController extends Controller
         }
 
         $irrigationSchemes = $query->paginate(50)->withQueryString();
-
-        $irrigationSchemes->getCollection()->transform(function ($scheme) {
-            if ($scheme->profile) {
-                $scheme->profile->attachments = $scheme->profile->attachments_frontend;
-            }
-            if ($scheme->adminApproval) {
-                $scheme->adminApproval->attachments = $scheme->adminApproval->attachments_frontend;
-            }
-            if ($scheme->irrigation_completion) {
-                $scheme->irrigation_completion->attachments = $scheme->irrigation_completion->attachments_frontend;
-            }
-            if ($scheme->irrigationSchemeContract) {
-                $scheme->irrigationSchemeContract->attachments = $scheme->irrigationSchemeContract->attachments_frontend;
-            }
-
-            $scheme->physical_progress_count = $scheme->physicalProgresses->count();
-            $scheme->financial_installments_count = $scheme->financialInstallments->count();
-
-            // FIX: Eager load the latest physical and financial progress
-            $scheme->latest_physical_progress = $scheme->physicalProgresses()->latest('progress_date')->first();
-            $scheme->latest_financial_installment = $scheme->financialInstallments()->latest('installment_date')->first();
-
-            return $scheme;
-        });
-
-        dd($irrigationSchemes);
+       // dd($irrigationSchemes->where('id', 11)->first()->latestPhysicalProgress);
 
         return Inertia::render('Irrigation/Index', [
             'irrigationSchemes' => $irrigationSchemes,
@@ -114,7 +89,7 @@ class IrrigationSchemeController extends Controller
     public function show(IrrigationScheme $scheme)
     {
         // Policy check for viewing a specific scheme is automatically handled by authorizeResource.
-        $scheme->load(['cbo', 'profile.media', 'media', 'adminApproval.media', 'irrigation_completion.media', 'irrigationSchemeContract.media', 'physicalProgresses.media', 'financialInstallments.media']);
+        $scheme->load(['cbo', 'profile.media', 'media', 'adminApproval.media', 'irrigation_completion.media', 'irrigationSchemeContract.media', 'physicalProgresses.media', 'financialInstallments.media', 'latestPhysicalProgress', 'latestFinancialInstallment']);
         return response()->json(['scheme' => $scheme]);
     }
 

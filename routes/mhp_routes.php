@@ -10,7 +10,7 @@ use App\Http\Controllers\ProjectPhysicalProgressController;
 use App\Http\Controllers\ProjectFinancialInstallmentController;
 use App\Http\Controllers\MhpCompletionController;
 use App\Http\Controllers\VendorController;
-use App\Http\Controllers\MhpSchemeContractController;
+// use App\Http\Controllers\MhpSchemeContractController;
 
 
 // All routes are placed in a group to apply common middleware
@@ -45,7 +45,9 @@ Route::middleware(['web', 'auth'])->group(function () {
 
     // Project Physical Progress
     // FIX: Removed the redundant 'mhp.' prefix from the names() method.
-    Route::resource('sites.physical-progresses', ProjectPhysicalProgressController::class)->names('physical-progresses')->parameters([
+    Route::resource('sites.physical-progresses', ProjectPhysicalProgressController::class)->names('physical-progresses')
+        ->shallow()
+        ->parameters([
         'physical-progresses' => 'physical_progress',
         'sites' => 'site',
     ]);
@@ -66,10 +68,10 @@ Route::middleware(['web', 'auth'])->group(function () {
 
     // MHP Scheme Contract
     // FIX: Removed the redundant 'mhp.' prefix from the names() method.
-    Route::resource('sites.contracts', MhpSchemeContractController::class)->names('contracts')->parameters([
-        'contracts' => 'contract',
-        'sites' => 'site',
-    ]);
+    // Route::resource('sites.contracts', MhpSchemeContractController::class)->names('contracts')->parameters([
+    //     'contracts' => 'contract',
+    //     'sites' => 'site',
+    // ]);
 
     // General Media Deletion
     Route::delete('media/{media}', function (\Spatie\MediaLibrary\MediaCollections\Models\Media $media) {

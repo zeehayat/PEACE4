@@ -15,8 +15,7 @@ class ProjectPhysicalProgress extends Model implements HasMedia
     protected $table = 'project_physical_progresses';
 
     protected $fillable = [
-        'projectable_id',
-        'projectable_type',
+
         'progress_percentage',
         'progress_date',
         'remarks',
@@ -30,6 +29,7 @@ class ProjectPhysicalProgress extends Model implements HasMedia
         'progress_date' => 'date',
         'payment_for' => 'string',
     ];
+    protected $guarded = ['projectable_type', 'projectable_id'];
 
     public function projectable(): MorphTo
     {

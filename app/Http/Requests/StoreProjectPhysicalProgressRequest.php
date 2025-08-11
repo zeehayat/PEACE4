@@ -27,9 +27,9 @@ class StoreProjectPhysicalProgressRequest extends FormRequest
 
 
         return [
-            'projectable_id' => ['required', 'integer'],
+           // 'projectable_id' => ['required', 'integer'],
             // FIX: Validate against the morph map keys, not the class names
-            'projectable_type' => ['required', 'string', Rule::in($morphMapKeys)],
+            //'projectable_type' => ['required', 'string', Rule::in($morphMapKeys)],
             'progress_percentage' => ['required', 'numeric', 'min:0', 'max:100'],
             'progress_date' => ['required', 'date'],
             'remarks' => ['nullable', 'string'],
@@ -41,18 +41,24 @@ class StoreProjectPhysicalProgressRequest extends FormRequest
         ];
 
         // Conditional validation based on 'payment_for'
-        if ($this->input('payment_for') === 'T&D') {
-            $rules['activity_id'] = ['required', 'exists:transmission_and_distribution_works,id'];
-            $rules['activity_type'] = ['required', 'string', Rule::in(['App\\Models\\TAndDWork'])];
-        } else {
-            // For EME and Civil, activity_id/type should be null
-            $rules['activity_id'] = ['nullable'];
-            $rules['activity_type'] = ['nullable'];
-        }
+//        if ($this->input('payment_for') === 'T&D') {
+//            $rules['activity_id'] = ['required', 'exists:transmission_and_distribution_works,id'];
+//            $rules['activity_type'] = ['required', 'string', Rule::in(['App\\Models\\TAndDWork'])];
+//        } else {
+//            // For EME and Civil, activity_id/type should be null
+//            $rules['activity_id'] = ['nullable'];
+//            $rules['activity_type'] = ['nullable'];
+//        }
 
-        return $rules;
+//        return $rules;
     }
-
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'projectable_type' => null,
+            'projectable_id'   => null,
+        ]);
+    }
     public function messages(): array
     {
         return [

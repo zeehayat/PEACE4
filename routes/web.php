@@ -13,6 +13,7 @@ use App\Http\Controllers\ProjectFinancialInstallmentController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VendorController;
+use App\Models\IrrigationScheme;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -102,3 +103,17 @@ Route::middleware(['web'])->group(function () {
     // Specific API endpoint for searchable select (already provided, ensuring consistency)
     Route::get('vendors/auto-search', [VendorController::class, 'getVendors'])->name('vendors.auto-search');
 });
+
+//Route::get('/tinker',function(){
+//
+//
+//    $scheme = IrrigationScheme::first(); // or create one
+//    $progress = $scheme->physicalProgresses()->create([
+//        'progress_percentage' => 50,
+//        'progress_date' => now(),
+//        'remarks' => 'Test record',
+//        'payment_for' => 'Civil',
+//    ]);
+//
+//    dd($progress->projectable_type);
+//});

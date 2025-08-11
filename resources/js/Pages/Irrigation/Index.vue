@@ -98,6 +98,7 @@ async function toggleActionMenu(schemeId, event) {
         console.error('Irrigation Scheme not found for action menu:', schemeId);
         return;
     }
+
     selectedScheme.value = schemeToOpen;
     selectedAdminApproval.value = schemeToOpen.admin_approval;
     selectedSchemeContract.value = schemeToOpen.irrigation_scheme_contract;
@@ -279,6 +280,7 @@ const handlePagination = (url) => {
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                     <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">ID</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Scheme Info</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Location</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Details</th>
@@ -288,6 +290,9 @@ const handlePagination = (url) => {
                     </thead>
                     <tbody class="divide-y divide-gray-200">
                     <tr v-for="scheme in filteredSchemes" :key="scheme.id" class="hover:bg-gray-50 transition-colors duration-150 group">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-gray-900">{{ scheme.id }}</div>
+                        </td>
 
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm font-medium text-gray-900">{{ scheme.cbo?.reference_code ?? 'N/A' }}</div>
