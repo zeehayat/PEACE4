@@ -164,7 +164,7 @@ class IrrigationService
     public function createPhysicalProgress(IrrigationScheme $scheme, array $data): ProjectPhysicalProgress
     {
         Log::info('IrrigationService: createPhysicalProgress triggered.', ['scheme_id' => $scheme->id]);
-        dd(['scheme'=>$scheme, 'data'=>$data]);
+
         return DB::transaction(function () use ($scheme, $data) {
             // Explicitly set the polymorphic parent data from the scheme instance
             $data['projectable_id'] = $scheme->id;

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -21,14 +22,20 @@ class StoreProjectPhysicalProgressRequest extends FormRequest
      */
     public function rules(): array
     {
-        $rules = [
-            'projectable_id' => ['nullable', 'integer'], // Changed from 'required'
-            'projectable_type' => ['nullable', 'string', Rule::in(['App\\Models\\MhpSite', 'App\\Models\\IrrigationScheme'])], // Changed from 'required'
-            'progress_percentage' => ['required', 'numeric', 'min:0', 'max:100'],
 
+        $morphMapKeys = array_keys(Relation::morphMap() ?? []);
+
+
+        return [
+            'projectable_id' => ['required', 'integer'],
+            // FIX: Validate against the morph map keys, not the class names
+            'projectable_type' => ['required', 'string', Rule::in($morphMapKeys)],
+            'progress_percentage' => ['required', 'numeric', 'min:0', 'max:100'],
             'progress_date' => ['required', 'date'],
             'remarks' => ['nullable', 'string'],
-            'payment_for' => ['required', Rule::in(['T&D', 'EME', 'Civil'])],
+            'payment_for' => ['required', 'string', 'max:255'],
+            'activity_id' => ['nullable', 'integer'],
+            'activity_type' => ['nullable', 'string'],
             'attachments' => ['nullable', 'array'],
             'attachments.*' => ['file', 'max:10240'],
         ];

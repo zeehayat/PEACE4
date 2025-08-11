@@ -55,6 +55,11 @@ const handleAttachmentsToDelete = (id) => {
 };
 
 const handleSubmit = () => {
+    // FIX: Stop form submission and log data instead
+    console.log('--- ProjectPhysicalProgressForm: Submitting the following data ---');
+    console.log(form.data());
+
+    //To re-enable submission, uncomment the code below:
     const url = isEditMode.value
         ? route('irrigation.schemes.physical-progresses.update', { scheme: props.schemeId, physical_progress: props.progress.id })
         : route('irrigation.schemes.physical-progresses.store', { scheme: props.schemeId });

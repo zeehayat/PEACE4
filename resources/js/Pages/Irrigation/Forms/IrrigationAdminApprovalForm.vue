@@ -5,13 +5,13 @@ import { useForm } from '@inertiajs/vue3';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import DangerButton from '@/Components/DangerButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import TextArea from '@/Components/TextArea.vue';
 import DatePicker from '@/Components/DatePicker.vue';
 import AttachmentUploader from '@/Components/AttachmentComponent/AttachmentUploader.vue';
 import WysiwygEditor from '@/Components/WysiwygEditor.vue';
 import SearchableVendorSelect from '@/Components/SearchableVendorSelect.vue';
-import DangerButton from "@/Components/DangerButton.vue";
 
 const props = defineProps({
     irrigationSchemeId: { type: Number, required: true },
@@ -37,14 +37,8 @@ const form = useForm({
     attachments_to_delete: [],
 });
 
-// Watch for changes in the 'approval' prop to initialize the form
 watch(() => props.approval, (newApproval) => {
-    console.log('--- IrrigationAdminApprovalForm: props.approval watcher triggered ---');
-    console.log('Watcher received newApproval prop:', newApproval);
-
     isEditMode.value = !!newApproval;
-
-    // Use form.defaults and form.reset for a robust reset mechanism
     form.defaults({
         irrigation_scheme_id: props.irrigationSchemeId,
         approved_vendor: newApproval?.approved_vendor ?? '',
@@ -57,37 +51,24 @@ watch(() => props.approval, (newApproval) => {
         attachments: [],
         attachments_to_delete: [],
     });
-
     form.reset();
-
-    // Update existing attachments separately and safely
     existingAttachments.value = newApproval?.attachments_frontend ?? [];
-
     form.clearErrors();
-    console.log('IrrigationAdminApprovalForm: Form and attachments initialized based on new prop.');
 }, { immediate: true });
 
 onMounted(() => {
-    console.log('--- IrrigationAdminApprovalForm: Mounted ---');
-    console.log('IrrigationAdminApprovalForm: Initial form.data() on mount:', form.data());
-    console.log('IrrigationAdminApprovalForm: Initial existingAttachments on mount:', existingAttachments.value);
+    // The watcher handles form initialization on mount and prop changes.
 });
 
 const handleAttachmentsToDelete = (id) => {
-    console.log('--- IrrigationAdminApprovalForm: handleAttachmentsToDelete called ---');
-    console.log('Deleting attachment ID:', id);
     form.attachments_to_delete.push(id);
     existingAttachments.value = existingAttachments.value.filter(att => att.id !== id);
 };
 
 const handleSubmit = () => {
-    console.log('--- IrrigationAdminApprovalForm: handleSubmit triggered ---');
-    console.log('Form data before POST:', form.data());
-    console.log('Attachments array before POST:', form.attachments);
-
     const url = isEditMode.value
-        ? route('irrigation.admin-approvals.update', { scheme: props.irrigationSchemeId, admin_approval: props.approval.id })
-        : route('irrigation.admin-approvals.store', { scheme: props.irrigationSchemeId });
+        ? route('irrigation.schemes.admin-approvals.update', { scheme: props.irrigationSchemeId, admin_approval: props.approval.id })
+        : route('irrigation.schemes.admin-approvals.store', { scheme: props.irrigationSchemeId });
 
     form.transform((data) => {
         if (isEditMode.value) {
@@ -96,14 +77,12 @@ const handleSubmit = () => {
         return data;
     }).post(url, {
         onSuccess: () => {
-            console.log('--- IrrigationAdminApprovalForm: Submission Success ---');
             form.reset();
             existingAttachments.value = [];
             form.attachments_to_delete = [];
             emit('success', isEditMode.value ? 'Admin Approval updated successfully!' : 'Admin Approval created successfully!');
         },
         onError: (errors) => {
-            console.error('--- IrrigationAdminApprovalForm: Submission Error ---');
             console.error('Form errors:', errors);
         },
         preserveScroll: true,
@@ -112,7 +91,6 @@ const handleSubmit = () => {
 };
 
 const handleCancel = () => {
-    console.log('--- IrrigationAdminApprovalForm: Cancel triggered ---');
     form.reset();
     existingAttachments.value = [];
     form.attachments_to_delete = [];
@@ -201,38 +179,6 @@ const handleCancel = () => {
             </div>
         </div>
 
-        <!-- Cost Revisions Section -->
-        <div v-if="isEditMode" class="mt-8 border-t pt-6">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-semibold text-gray-800">Cost Revisions</h3>
-                <PrimaryButton @click="openCreateRevisionForm" :disabled="showCostRevisionForm">
-                    + Add New Revision
-                </PrimaryButton>
-            </div>
-
-            <div v-if="showCostRevisionForm">
-                <!-- Placeholder for Cost Revision Form -->
-                <p>Cost Revision Form will go here</p>
-            </div>
-
-            <div v-else>
-                <div v-if="costRevisions.length > 0">
-                    <div v-for="revision in costRevisions" :key="revision.id" class="border rounded-md p-4 mb-2 flex justify-between items-center bg-gray-50">
-                        <div>
-                            <p class="font-semibold">Revision #{{ revision.revision_number }}</p>
-                            <p class="text-sm">Cost: PKR {{ revision.revised_cost }} on {{ formatNullableDate(revision.approved_on) }}</p>
-                            <p v-if="revision.remarks" class="text-xs text-gray-600 mt-1" v-html="revision.remarks"></p>
-                        </div>
-                        <div class="flex space-x-2">
-                            <PrimaryButton @click="openEditRevisionForm(revision)" class="px-3 py-1 text-sm">Edit</PrimaryButton>
-                            <DangerButton @click="handleDeleteRevision(revision.id)" class="px-3 py-1 text-sm">Delete</DangerButton>
-                        </div>
-                    </div>
-                </div>
-                <p v-else class="text-gray-500 text-center">No cost revisions have been recorded.</p>
-            </div>
-        </div>
-
         <!-- Attachments Section for Admin Approval -->
         <div class="mt-6">
             <InputLabel value="Attachments" />
@@ -259,7 +205,3 @@ const handleCancel = () => {
         </div>
     </form>
 </template>
-
-<style scoped>
-/* No specific scoped styles needed here */
-</style>

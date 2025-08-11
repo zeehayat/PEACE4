@@ -6,7 +6,7 @@ import axios from 'axios';
 import Modal from '@/Components/Modal.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import DangerButton from '@/Components/DangerButton.vue';
-import ProjectPhysicalProgressForm from '@/Pages/Irrigation/Forms/ProjectPhysicalProgressForm.vue'; // Ensure this path is correct
+import ProjectPhysicalProgressForm from '@/Pages/Irrigation/Forms/ProjectPhysicalProgressForm.vue';
 import AttachmentViewer from '@/Components/AttachmentComponent/AttachmentViewer.vue';
 
 const props = defineProps({
@@ -38,6 +38,7 @@ const formatNullableDate = (dateString) => {
     }
 };
 
+// FIX: This method will now ensure it fetches the latest data
 const fetchProgresses = async () => {
     isLoadingProgress.value = true;
     try {
@@ -45,6 +46,7 @@ const fetchProgresses = async () => {
             route('irrigation.schemes.physical-progresses.index', { scheme: props.scheme.id, 'only-data': true })
         );
         physicalProgresses.value = response.data.physicalProgresses ?? [];
+        console.log('Fetched physical progress data:', physicalProgresses.value); // Debugging log
     } catch (error) {
         console.error('Error fetching physical progress:', error);
     } finally {
@@ -76,8 +78,8 @@ const openEditForm = (progress) => {
 const handleFormSuccess = (message) => {
     showForm.value = false;
     selectedProgress.value = null;
-    fetchProgresses();
-    emit('saved', message);
+    fetchProgresses(); // FIX: Call the fetch method to update the list
+    emit('saved', message); // Emit saved event to the parent
 };
 const handleFormCancel = () => {
     showForm.value = false;

@@ -18,9 +18,9 @@ const props = defineProps({
 
 const emit = defineEmits(['close', 'updated']);
 
-const showCostRevisionForm = ref(false);
-const costRevisions = ref([]);
-const selectedCostRevision = ref(null);
+const showCostRevisionForm = ref(false); // Manages the visibility of the cost revision form
+const costRevisions = ref([]); // Stores the list of cost revisions
+const selectedCostRevision = ref(null); // The revision being edited
 const costRevisionMode = ref('create');
 
 const modalTitle = computed(() => {
@@ -44,7 +44,6 @@ const formatNullableDate = (dateString) => {
     }
 };
 
-// Fetch cost revisions for the current approval
 const fetchCostRevisions = async () => {
     if (!props.approval?.id) {
         costRevisions.value = [];
@@ -60,7 +59,6 @@ const fetchCostRevisions = async () => {
     }
 };
 
-// Handlers for cost revision form
 const openCreateRevisionForm = () => {
     selectedCostRevision.value = null;
     costRevisionMode.value = 'create';
@@ -93,7 +91,6 @@ const handleDeleteRevision = (revisionId) => {
     }
 };
 
-// Handlers for the main Admin Approval form
 const handleFormSuccess = (message) => {
     emit('updated', message);
     emit('close');
@@ -102,8 +99,6 @@ const handleFormCancel = () => {
     emit('close');
 };
 
-
-// Watch for prop.show to trigger data fetching
 watch(() => props.show, (newVal) => {
     if (newVal) {
         fetchCostRevisions();
@@ -112,7 +107,6 @@ watch(() => props.show, (newVal) => {
         costRevisions.value = [];
     }
 }, { immediate: true });
-
 </script>
 
 <template>
@@ -135,6 +129,7 @@ watch(() => props.show, (newVal) => {
                 @cancel="handleFormCancel"
             />
 
+            <!-- FIX: Move cost revision list to the modal, as it manages the state -->
             <div v-if="props.approval" class="p-6 mt-4 border-t">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-xl font-semibold text-gray-800">Cost Revisions</h3>
@@ -161,7 +156,3 @@ watch(() => props.show, (newVal) => {
         </div>
     </Modal>
 </template>
-
-<style scoped>
-/* No specific scoped styles needed here */
-</style>

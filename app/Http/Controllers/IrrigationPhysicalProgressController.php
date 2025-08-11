@@ -20,16 +20,11 @@ class IrrigationPhysicalProgressController extends Controller
     {
         $this->irrigationService = $irrigationService;
 
-        // This single line applies all policy checks for the resource controller.
         $this->authorizeResource(ProjectPhysicalProgress::class, 'physical_progress');
     }
 
-    /**
-     * Display a listing of physical progress records for a specific irrigation scheme.
-     */
     public function index(Request $request, IrrigationScheme $scheme)
     {
-        // The policy check for 'viewAny' is now automatically handled.
         $query = $scheme->physicalProgresses()->with('media');
 
         if ($request->has('payment_for')) {
@@ -51,12 +46,8 @@ class IrrigationPhysicalProgressController extends Controller
         return redirect()->route('irrigation.schemes.index');
     }
 
-    /**
-     * Store a newly created physical progress record for an irrigation scheme.
-     */
     public function store(StoreProjectPhysicalProgressRequest $request, IrrigationScheme $scheme)
     {
-        // Policy check for creating is automatically handled.
         try {
             $this->irrigationService->createPhysicalProgress($scheme, $request->validated());
             return redirect()->back()->with('success', 'Physical Progress recorded successfully!');
@@ -66,12 +57,8 @@ class IrrigationPhysicalProgressController extends Controller
         }
     }
 
-    /**
-     * Update the specified physical progress record.
-     */
     public function update(UpdateProjectPhysicalProgressRequest $request, IrrigationScheme $scheme, ProjectPhysicalProgress $physicalProgress)
     {
-        // Policy check for updating is automatically handled.
         try {
             $this->irrigationService->updatePhysicalProgress($physicalProgress, $request->validated());
             return redirect()->back()->with('success', 'Physical Progress updated successfully!');
@@ -81,12 +68,8 @@ class IrrigationPhysicalProgressController extends Controller
         }
     }
 
-    /**
-     * Remove the specified physical progress record.
-     */
     public function destroy(IrrigationScheme $scheme, ProjectPhysicalProgress $physicalProgress)
     {
-        // Policy check for deleting is automatically handled.
         try {
             $physicalProgress->delete();
             return redirect()->back()->with('success', 'Physical Progress deleted successfully!');
