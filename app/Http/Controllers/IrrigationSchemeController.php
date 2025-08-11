@@ -77,8 +77,15 @@ class IrrigationSchemeController extends Controller
 
             $scheme->physical_progress_count = $scheme->physicalProgresses->count();
             $scheme->financial_installments_count = $scheme->financialInstallments->count();
+
+            // FIX: Eager load the latest physical and financial progress
+            $scheme->latest_physical_progress = $scheme->physicalProgresses()->latest('progress_date')->first();
+            $scheme->latest_financial_installment = $scheme->financialInstallments()->latest('installment_date')->first();
+
             return $scheme;
         });
+
+        dd($irrigationSchemes);
 
         return Inertia::render('Irrigation/Index', [
             'irrigationSchemes' => $irrigationSchemes,
