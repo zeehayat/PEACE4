@@ -104,7 +104,7 @@ const onActivityFormSaved = (message) => {
     }
 };
 
-// --- Modal Close Handler ---
+// --- Modals Close Handler ---
 const closeModal = () => {
     modal.value = null;
     setTimeout(() => {

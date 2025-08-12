@@ -1,5 +1,5 @@
 <script setup>
-import Modal from '@/Components/Modal.vue'; // Use the shared Modal component
+import Modal from '@/Components/Modal.vue'; // Use the shared Modals component
 import MhpSiteEditForm from '@/Pages/MhpSite/MhpSiteEditForm.vue'; // Import the new form component
 
 const props = defineProps({
@@ -37,5 +37,5 @@ const handleFormCancel = () => {
 </template>
 
 <style scoped>
-/* No specific scoped styles needed here, as styling is handled by Modal.vue and MhpSiteEditForm.vue */
+/* No specific scoped styles needed here, as styling is handled by Modals.vue and MhpSiteEditForm.vue */
 </style>

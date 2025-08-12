@@ -75,7 +75,7 @@ const tabClass = (tab) => [
     activeTab.value === tab ? 'border-blue-500 font-bold' : 'border-transparent text-gray-500',
 ]
 
-// Modal control
+// Modals control
 const showModal = (type) => {
     modal.value = type
 

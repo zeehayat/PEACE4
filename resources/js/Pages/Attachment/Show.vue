@@ -36,7 +36,7 @@
         <Modal :show="true" @close="showModal = false">
             <CBOExposureVisitForm :form="activityForm" :cbo="cbo" @submit="handleActivitySubmit" />
         </Modal>
-        <!-- Modal -->
+        <!-- Modals -->
         <Modal :show="showModal" @close="showModal = false">
             <template #default>
                 <component

@@ -33,5 +33,5 @@ const handleFormCancel = () => {
 </template>
 
 <style scoped>
-/* No specific styles needed here, as styling is primarily handled by Modal.vue and MhpSiteForm.vue */
+/* No specific styles needed here, as styling is primarily handled by Modals.vue and MhpSiteForm.vue */
 </style>

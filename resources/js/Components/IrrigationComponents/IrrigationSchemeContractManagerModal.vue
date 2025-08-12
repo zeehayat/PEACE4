@@ -10,7 +10,7 @@
  */
 
 import { ref, computed, onMounted } from 'vue' // Vue reactivity fundamentals
-import Modal from '@/Components/Modal.vue' // Base Modal component
+import Modal from '@/Components/Modal.vue' // Base Modals component
 import IrrigationSchemeContractForm from '@/Components/Shared/Forms/IrrigationSchemeContractForm.vue'; // The contract form
 
 // ---------------------------------------------------------------------

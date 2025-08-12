@@ -35,7 +35,7 @@ const openActionMenuId = ref(null); // ID of the currently open menu
 const menuPosition = ref({ top: 0, left: 0, width: 0, direction: 'down' }); // Stores position for teleported menu
 // ========================================
 
-// Modal Visibility Control flags
+// Modals Visibility Control flags
 const showVendorCreateModal = ref(false);
 const showVendorEditModal = ref(false);
 const showVendorDetailsModal = ref(false);

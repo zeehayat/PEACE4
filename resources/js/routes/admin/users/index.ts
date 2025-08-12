@@ -1,8 +1,8 @@
-import { queryParams, type QueryParams } from './../../wayfinder'
+import { queryParams, type QueryParams } from './../../../wayfinder'
 /**
 * @see \App\Http\Controllers\UserController::index
 * @see app/Http/Controllers/UserController.php:28
-* @route '/users'
+* @route '/admin/users'
 */
 export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -14,13 +14,13 @@ export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams 
 
 index.definition = {
     methods: ['get','head'],
-    url: '/users',
+    url: '/admin/users',
 }
 
 /**
 * @see \App\Http\Controllers\UserController::index
 * @see app/Http/Controllers/UserController.php:28
-* @route '/users'
+* @route '/admin/users'
 */
 index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     return index.definition.url + queryParams(options)
@@ -29,7 +29,7 @@ index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 /**
 * @see \App\Http\Controllers\UserController::index
 * @see app/Http/Controllers/UserController.php:28
-* @route '/users'
+* @route '/admin/users'
 */
 index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -42,7 +42,7 @@ index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 /**
 * @see \App\Http\Controllers\UserController::index
 * @see app/Http/Controllers/UserController.php:28
-* @route '/users'
+* @route '/admin/users'
 */
 index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -55,7 +55,7 @@ index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 /**
 * @see \App\Http\Controllers\UserController::create
 * @see app/Http/Controllers/UserController.php:0
-* @route '/users/create'
+* @route '/admin/users/create'
 */
 export const create = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -67,13 +67,13 @@ export const create = (options?: { query?: QueryParams, mergeQuery?: QueryParams
 
 create.definition = {
     methods: ['get','head'],
-    url: '/users/create',
+    url: '/admin/users/create',
 }
 
 /**
 * @see \App\Http\Controllers\UserController::create
 * @see app/Http/Controllers/UserController.php:0
-* @route '/users/create'
+* @route '/admin/users/create'
 */
 create.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     return create.definition.url + queryParams(options)
@@ -82,7 +82,7 @@ create.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 /**
 * @see \App\Http\Controllers\UserController::create
 * @see app/Http/Controllers/UserController.php:0
-* @route '/users/create'
+* @route '/admin/users/create'
 */
 create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -95,7 +95,7 @@ create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 /**
 * @see \App\Http\Controllers\UserController::create
 * @see app/Http/Controllers/UserController.php:0
-* @route '/users/create'
+* @route '/admin/users/create'
 */
 create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -108,7 +108,7 @@ create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 /**
 * @see \App\Http\Controllers\UserController::store
 * @see app/Http/Controllers/UserController.php:55
-* @route '/users'
+* @route '/admin/users'
 */
 export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -120,13 +120,13 @@ export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams 
 
 store.definition = {
     methods: ['post'],
-    url: '/users',
+    url: '/admin/users',
 }
 
 /**
 * @see \App\Http\Controllers\UserController::store
 * @see app/Http/Controllers/UserController.php:55
-* @route '/users'
+* @route '/admin/users'
 */
 store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     return store.definition.url + queryParams(options)
@@ -135,7 +135,7 @@ store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 /**
 * @see \App\Http\Controllers\UserController::store
 * @see app/Http/Controllers/UserController.php:55
-* @route '/users'
+* @route '/admin/users'
 */
 store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -148,7 +148,7 @@ store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 /**
 * @see \App\Http\Controllers\UserController::show
 * @see app/Http/Controllers/UserController.php:70
-* @route '/users/{user}'
+* @route '/admin/users/{user}'
 */
 export const show = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -160,13 +160,13 @@ export const show = (args: { user: number | { id: number } } | [user: number | {
 
 show.definition = {
     methods: ['get','head'],
-    url: '/users/{user}',
+    url: '/admin/users/{user}',
 }
 
 /**
 * @see \App\Http\Controllers\UserController::show
 * @see app/Http/Controllers/UserController.php:70
-* @route '/users/{user}'
+* @route '/admin/users/{user}'
 */
 show.url = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
@@ -197,7 +197,7 @@ show.url = (args: { user: number | { id: number } } | [user: number | { id: numb
 /**
 * @see \App\Http\Controllers\UserController::show
 * @see app/Http/Controllers/UserController.php:70
-* @route '/users/{user}'
+* @route '/admin/users/{user}'
 */
 show.get = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -210,7 +210,7 @@ show.get = (args: { user: number | { id: number } } | [user: number | { id: numb
 /**
 * @see \App\Http\Controllers\UserController::show
 * @see app/Http/Controllers/UserController.php:70
-* @route '/users/{user}'
+* @route '/admin/users/{user}'
 */
 show.head = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -223,7 +223,7 @@ show.head = (args: { user: number | { id: number } } | [user: number | { id: num
 /**
 * @see \App\Http\Controllers\UserController::edit
 * @see app/Http/Controllers/UserController.php:0
-* @route '/users/{user}/edit'
+* @route '/admin/users/{user}/edit'
 */
 export const edit = (args: { user: string | number } | [user: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -235,13 +235,13 @@ export const edit = (args: { user: string | number } | [user: string | number ] 
 
 edit.definition = {
     methods: ['get','head'],
-    url: '/users/{user}/edit',
+    url: '/admin/users/{user}/edit',
 }
 
 /**
 * @see \App\Http\Controllers\UserController::edit
 * @see app/Http/Controllers/UserController.php:0
-* @route '/users/{user}/edit'
+* @route '/admin/users/{user}/edit'
 */
 edit.url = (args: { user: string | number } | [user: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
@@ -266,7 +266,7 @@ edit.url = (args: { user: string | number } | [user: string | number ] | string 
 /**
 * @see \App\Http\Controllers\UserController::edit
 * @see app/Http/Controllers/UserController.php:0
-* @route '/users/{user}/edit'
+* @route '/admin/users/{user}/edit'
 */
 edit.get = (args: { user: string | number } | [user: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -279,7 +279,7 @@ edit.get = (args: { user: string | number } | [user: string | number ] | string 
 /**
 * @see \App\Http\Controllers\UserController::edit
 * @see app/Http/Controllers/UserController.php:0
-* @route '/users/{user}/edit'
+* @route '/admin/users/{user}/edit'
 */
 edit.head = (args: { user: string | number } | [user: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -292,7 +292,7 @@ edit.head = (args: { user: string | number } | [user: string | number ] | string
 /**
 * @see \App\Http\Controllers\UserController::update
 * @see app/Http/Controllers/UserController.php:80
-* @route '/users/{user}'
+* @route '/admin/users/{user}'
 */
 export const update = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -304,13 +304,13 @@ export const update = (args: { user: number | { id: number } } | [user: number |
 
 update.definition = {
     methods: ['put','patch'],
-    url: '/users/{user}',
+    url: '/admin/users/{user}',
 }
 
 /**
 * @see \App\Http\Controllers\UserController::update
 * @see app/Http/Controllers/UserController.php:80
-* @route '/users/{user}'
+* @route '/admin/users/{user}'
 */
 update.url = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
@@ -341,7 +341,7 @@ update.url = (args: { user: number | { id: number } } | [user: number | { id: nu
 /**
 * @see \App\Http\Controllers\UserController::update
 * @see app/Http/Controllers/UserController.php:80
-* @route '/users/{user}'
+* @route '/admin/users/{user}'
 */
 update.put = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -354,7 +354,7 @@ update.put = (args: { user: number | { id: number } } | [user: number | { id: nu
 /**
 * @see \App\Http\Controllers\UserController::update
 * @see app/Http/Controllers/UserController.php:80
-* @route '/users/{user}'
+* @route '/admin/users/{user}'
 */
 update.patch = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -367,7 +367,7 @@ update.patch = (args: { user: number | { id: number } } | [user: number | { id: 
 /**
 * @see \App\Http\Controllers\UserController::destroy
 * @see app/Http/Controllers/UserController.php:95
-* @route '/users/{user}'
+* @route '/admin/users/{user}'
 */
 export const destroy = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
@@ -379,13 +379,13 @@ export const destroy = (args: { user: number | { id: number } } | [user: number 
 
 destroy.definition = {
     methods: ['delete'],
-    url: '/users/{user}',
+    url: '/admin/users/{user}',
 }
 
 /**
 * @see \App\Http\Controllers\UserController::destroy
 * @see app/Http/Controllers/UserController.php:95
-* @route '/users/{user}'
+* @route '/admin/users/{user}'
 */
 destroy.url = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
@@ -416,7 +416,7 @@ destroy.url = (args: { user: number | { id: number } } | [user: number | { id: n
 /**
 * @see \App\Http\Controllers\UserController::destroy
 * @see app/Http/Controllers/UserController.php:95
-* @route '/users/{user}'
+* @route '/admin/users/{user}'
 */
 destroy.delete = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,

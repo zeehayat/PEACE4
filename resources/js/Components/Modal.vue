@@ -16,7 +16,7 @@ const props = defineProps({
     },
     title: { // Add a title prop for the modal header
         type: String,
-        default: 'Modal Title',
+        default: 'Modals Title',
     },
 });
 

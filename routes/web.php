@@ -104,6 +104,13 @@ Route::middleware(['web'])->group(function () {
     Route::get('vendors/auto-search', [VendorController::class, 'getVendors'])->name('vendors.auto-search');
 });
 
+Route::middleware(['web', 'auth', 'role:Admin|Root'])->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('users', UserController::class);
+    // You might also add routes for roles and permissions here later
+    // Route::resource('roles', RoleController::class);
+    // Route::get('permissions', [PermissionController::class, 'index']);
+});
+
 //Route::get('/tinker',function(){
 //
 //
