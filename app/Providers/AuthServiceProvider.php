@@ -62,9 +62,13 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // This Gate rule grants the 'Super Admin' role all permissions
+        // This Gate rule grants full access to specified roles
         Gate::before(function (User $user, string $ability) {
-            return $user->hasRole('Super Admin') ? true : null;
+            // ADD 'Root' TO THIS ARRAY
+            if ($user->hasAnyRole(['Super Admin', 'Root'])) {
+                return true;
+            }
+            return null;
         });
     }
 }
