@@ -3,15 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\MhpEmePhysicalProgress;
+use App\Models\MhpSite;
 use Illuminate\Http\Request;
 
 class MhpEmePhysicalProgressController extends Controller
 {
     public function index(Request $request)
     {
-        $siteId = $request->get('site_id');
+        $site = MhpSite::findOrFail($request->get('site_id'));
+        $this->authorize('viewAny', [MhpEmePhysicalProgress::class, $site]);
+        //$siteId = $request->get('site_id');
 
-        $progresses = MhpEmePhysicalProgress::where('mhp_site_id', $siteId)
+        $progresses = MhpEmePhysicalProgress::where('mhp_site_id', $site->id)
             ->orderBy('milestone_percent')
             ->with('media')
             ->get();
@@ -29,7 +32,8 @@ class MhpEmePhysicalProgressController extends Controller
             'remarks' => 'nullable|string',
             'attachments.*' => 'file|max:10240'
         ]);
-
+        $site = MhpSite::findOrFail($validated['mhp_site_id']);
+        $this->authorize('create', [MhpEmePhysicalProgress::class, $site]);
         $progress = MhpEmePhysicalProgress::create($validated);
 
         if ($request->hasFile('attachments')) {
@@ -43,6 +47,8 @@ class MhpEmePhysicalProgressController extends Controller
 
     public function update(Request $request, MhpEmePhysicalProgress $progress)
     {
+        $this->authorize('update', $progress);
+
         $validated = $request->validate([
             'date' => 'nullable|date',
             'works' => 'nullable|string',
@@ -63,6 +69,8 @@ class MhpEmePhysicalProgressController extends Controller
 
     public function destroy(MhpEmePhysicalProgress $progress)
     {
+        $this->authorize('delete', $progress);
+
         $progress->delete();
         return back()->with('success', 'Physical progress deleted.');
     }

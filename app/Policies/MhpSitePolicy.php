@@ -11,13 +11,12 @@ class MhpSitePolicy
     use HandlesAuthorization;
 
     /**
-     * Perform pre-authorization checks.
-     * The Root role can perform any action.
+     * The 'before' method handles the Root user. This remains unchanged.
      */
     public function before(User $user, string $ability): bool|null
     {
         if ($user->hasRole('Root')) {
-            return true; // Root can do anything
+            return true;
         }
         return null;
     }
@@ -27,8 +26,7 @@ class MhpSitePolicy
      */
     public function viewAny(User $user): bool
     {
-        // HO roles can view all sites. District roles' views are scoped by the controller.
-        return $user->hasAnyRole(['M&E-HO', 'Engineer-HO', 'KPO-HO', 'Viewer-HO', 'M&E-DISTRICT', 'Engineer-DISTRICT', 'KPO-DISTRICT', 'Viewer-DISTRICT']);
+        return $user->can('mhp_site_view');
     }
 
     /**
@@ -36,13 +34,17 @@ class MhpSitePolicy
      */
     public function view(User $user, MhpSite $mhpSite): bool
     {
-        // HO roles can view any site.
-        if ($user->hasAnyRole(['M&E-HO', 'Engineer-HO', 'KPO-HO', 'Viewer-HO'])) {
+        if (! $user->can('mhp_site_view')) {
+            return false;
+        }
+
+        // Head Office roles can view any site.
+        if ($user->hasAnyRole(['M&E-HO', 'Engineer-HO', 'KPO-HO', 'Viewer-HO', 'Super Admin'])) {
             return true;
         }
+
         // District roles can only view sites in their assigned district.
         if ($user->hasAnyRole(['M&E-DISTRICT', 'Engineer-DISTRICT', 'KPO-DISTRICT', 'Viewer-DISTRICT'])) {
-            // Assumes MhpSite has a Cbo relationship that has a district_id
             return $user->district_id === $mhpSite->cbo->district_id;
         }
 
@@ -54,19 +56,24 @@ class MhpSitePolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasAnyRole(['KPO-DISTRICT', 'Engineer-HO', 'Engineer-DISTRICT']);
+        return $user->can('mhp_site_create');
     }
 
     /**
-     * Determine whether the user can update a MHP site.
+     * Determine whether the user can update an MHP site.
      */
     public function update(User $user, MhpSite $mhpSite): bool
     {
-        // Admin and HO Engineers can update any site.
-        if ($user->hasAnyRole(['Admin', 'M&E-HO', 'Engineer-HO'])) {
+        if (! $user->can('mhp_site_update')) {
+            return false;
+        }
+
+        // Head Office roles can update any site.
+        if ($user->hasAnyRole(['M&E-HO', 'Engineer-HO', 'Super Admin'])) {
             return true;
         }
-        // District Engineers can only update sites in their district.
+
+        // District roles can only update sites in their district.
         if ($user->hasRole('Engineer-DISTRICT')) {
             return $user->district_id === $mhpSite->cbo->district_id;
         }
@@ -75,15 +82,20 @@ class MhpSitePolicy
     }
 
     /**
-     * Determine whether the user can delete a MHP site.
+     * Determine whether the user can delete an MHP site.
      */
     public function delete(User $user, MhpSite $mhpSite): bool
     {
-        // Admin and HO Engineers can delete any site.
-        if ($user->hasAnyRole(['Admin', 'M&E-HO', 'Engineer-HO'])) {
+        if (! $user->can('mhp_site_delete')) {
+            return false;
+        }
+
+        // Head Office roles can delete any site.
+        if ($user->hasAnyRole(['M&E-HO', 'Engineer-HO', 'Super Admin'])) {
             return true;
         }
-        // District Engineers can only delete sites in their district.
+
+        // District roles can only delete sites in their district.
         if ($user->hasRole('Engineer-DISTRICT')) {
             return $user->district_id === $mhpSite->cbo->district_id;
         }

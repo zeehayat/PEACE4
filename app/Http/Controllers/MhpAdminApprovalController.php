@@ -39,6 +39,7 @@ class MhpAdminApprovalController extends Controller
     {
         try {
             $mhpSite = MhpSite::findOrFail($request->mhp_site_id);
+            $this->authorize('create', [MhpAdminApproval::class, $mhpSite]);
             $this->mhpSiteService->storeOrUpdateAdminApproval($mhpSite, $request->validated());
             return redirect()->back()->with('success', 'MHP Admin Approval created successfully!');
         } catch (\Exception $e) {
@@ -52,6 +53,7 @@ class MhpAdminApprovalController extends Controller
      */
     public function show(MhpAdminApproval $adminApproval)
     {
+        $this->authorize('view', $adminApproval);
         $adminApproval->load('media'); // Ensure media is loaded for the view
         $adminApproval->attachments = $adminApproval->attachments_frontend; // Apply accessor
         return response()->json($adminApproval); // Or Inertia::render if a dedicated view
@@ -64,6 +66,7 @@ class MhpAdminApprovalController extends Controller
     {
         try {
             // Since storeOrUpdateAdminApproval takes MhpSite, we need to get the parent site
+            $this->authorize('update', $adminApproval);
             $mhpSite = $adminApproval->mhpSite; // Assuming mhpSite relationship is defined in MhpAdminApproval model
             $this->mhpSiteService->storeOrUpdateAdminApproval($mhpSite, $request->validated());
             return redirect()->back()->with('success', 'MHP Admin Approval updated successfully!');
@@ -80,6 +83,7 @@ class MhpAdminApprovalController extends Controller
     public function destroy(MhpAdminApproval $adminApproval)
     {
         try {
+            $this->authorize('delete', $adminApproval);
             $adminApproval->delete(); // Spatie media will be handled automatically if model uses InteractsWithMedia
             return redirect()->back()->with('success', 'MHP Admin Approval deleted successfully!');
         } catch (\Exception $e) {
@@ -103,6 +107,10 @@ class MhpAdminApprovalController extends Controller
         try {
             $mhpSite = MhpSite::findOrFail($request->mhp_site_id);
             $updateData = [$request->field => $request->value];
+            $adminApproval = $mhpSite->adminApproval ?? $mhpSite;
+
+            $this->authorize('update', $adminApproval);
+
             $this->mhpSiteService->storeOrUpdateAdminApproval($mhpSite, $updateData);
 
             return response()->json(['message' => 'Revised cost updated successfully.']);

@@ -36,7 +36,10 @@ class MhpCompletionController extends Controller
      */
     public function store(StoreMhpCompletionRequest $request)
     {
+
         try {
+            $mhpSite = MhpSite::findOrFail($request->mhp_site_id);
+            $this->authorize('create', [MhpCompletion::class, $mhpSite]);
             $mhpSite = MhpSite::findOrFail($request->mhp_site_id);
             $this->mhpSiteService->storeOrUpdateMhpCompletion($mhpSite, $request->validated());
             return redirect()->back()->with('success', 'MHP Completion details saved successfully!');
@@ -51,6 +54,8 @@ class MhpCompletionController extends Controller
      */
     public function show(MhpCompletion $completion)
     {
+        $this->authorize('view', $completion);
+
         $completion->load('media'); // Ensure media is loaded for the view
         $completion->attachments = $completion->attachments_frontend; // Apply accessor
         return response()->json($completion); // Or Inertia::render if a dedicated view
@@ -62,6 +67,8 @@ class MhpCompletionController extends Controller
     public function update(UpdateMhpCompletionRequest $request, MhpCompletion $completion)
     {
         try {
+            $this->authorize('update', $completion);
+
             // Since storeOrUpdateMhpCompletion takes MhpSite, we need to get the parent site
             $mhpSite = $completion->mhpSite; // Assuming mhpSite relationship is defined in MhpCompletion model
             $this->mhpSiteService->storeOrUpdateMhpCompletion($mhpSite, $request->validated());
@@ -78,6 +85,8 @@ class MhpCompletionController extends Controller
     public function destroy(MhpCompletion $completion)
     {
         try {
+            $this->authorize('delete', $completion);
+
             $completion->delete(); // Spatie media will be handled automatically if model uses InteractsWithMedia
             return redirect()->back()->with('success', 'MHP Completion deleted successfully!');
         } catch (\Exception $e) {

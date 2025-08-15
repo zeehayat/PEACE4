@@ -32,7 +32,7 @@ class MhpSiteController extends Controller
      */
     public function index(Request $request)
     {
-        $query = MhpSite::query()
+        $query = MhpSite::query()->forUser(Auth::user())
             ->with([
                 'cbo',
                 'media',
@@ -41,6 +41,7 @@ class MhpSiteController extends Controller
                 'latestFinancialInstallment',
                 'completion',
             ]);
+
 
         $user = Auth::user();
         if ($user->hasAnyRole(['M&E-DISTRICT', 'Engineer-DISTRICT', 'KPO-DISTRICT', 'Viewer-DISTRICT'])) {
@@ -112,14 +113,10 @@ class MhpSiteController extends Controller
 
     public function getSites(Request $request)
     {
-        $query = MhpSite::query();
-        $user = Auth::user();
-        if ($user->hasAnyRole(['M&E-DISTRICT', 'Engineer-DISTRICT', 'KPO-DISTRICT', 'Viewer-DISTRICT'])) {
-            $query->whereHas('cbo', function ($q) use ($user) {
-                $q->where('district', $user->district->name);
-            });
-        }
+        $this->authorize('viewAny', MhpSite::class);
 
+        // 2. Scope the query using our new reusable scope.
+        $query = MhpSite::query()->forUser(Auth::user());
         $search = $request->input('search');
 
         $sites = $query
@@ -145,13 +142,11 @@ class MhpSiteController extends Controller
      */
     public function getCbos(Request $request)
     {
-        $query = Cbo::query();
-        ;
-        // Scope the query by the user's district if they have a DISTRICT role
-        $user = Auth::user();
-        if ($user->hasAnyRole(['M&E-DISTRICT', 'Engineer-DISTRICT', 'KPO-DISTRICT', 'Viewer-DISTRICT'])) {
-            $query->where('district', $user->district->name);
-        }
+        // Authorize: Ensure the user has permission to view CBOs.
+        $this->authorize('viewAny', Cbo::class);
+
+        // Use the Cbo model's own scope for consistency.
+        $query = Cbo::query()->forUser(Auth::user());
 
         $search = $request->input('search');
 

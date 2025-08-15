@@ -28,17 +28,9 @@ class CboController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Cbo::query()
+        $query = Cbo::query()->forUser(Auth::user())
             ->with(['media', 'dialogues.media', 'exposureVisits.media', 'trainings.media']);
 
-        // --- ACL: Scope by district for DISTRICT roles ---
-        $user = Auth::user();
-        if ($user->hasAnyRole(['M&E-DISTRICT', 'Engineer-DISTRICT', 'KPO-DISTRICT', 'Viewer-DISTRICT'])) {
-            // Assuming CBO has 'district' column matching District name from users table
-            $query->where('district', $user->district->name);
-            Log::info('CboController@index: Scoping CBOs by user district.', ['user_id' => $user->id, 'district' => $user->district->name]);
-        }
-        // --- END ACL ---
 
         // Apply filters and search if present
         if ($request->has('search')) {
@@ -134,11 +126,12 @@ class CboController extends Controller
     public function getCbos(Request $request)
     {
         // For searchable selects, we also need to apply district scoping
-        $query = Cbo::query();
-        $user = Auth::user();
-        if ($user->hasAnyRole(['M&E-DISTRICT', 'Engineer-DISTRICT', 'KPO-DISTRICT', 'Viewer-DISTRICT'])) {
-            $query->where('district', $user->district->name);
-        }
+        // 1. Authorize: Secure the endpoint.
+        // This ensures only users with 'cbo_view' permission can access this.
+        $this->authorize('viewAny', Cbo::class);
+
+        // 2. Scope the query using our new reusable scope.
+        $query = Cbo::query()->forUser(Auth::user());
 
         $search = $request->input('search');
 

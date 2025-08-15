@@ -10,10 +10,6 @@ class IrrigationSchemePolicy
 {
     use HandlesAuthorization;
 
-    /**
-     * Perform pre-authorization checks.
-     * The Root role can perform any action.
-     */
     public function before(User $user, string $ability): bool|null
     {
         if ($user->hasRole('Root')) {
@@ -22,24 +18,22 @@ class IrrigationSchemePolicy
         return null;
     }
 
-    /**
-     * Determine whether the user can view any irrigation schemes.
-     */
     public function viewAny(User $user): bool
     {
-        // HO roles can view all schemes. District roles' views are scoped by the controller.
-        return $user->hasAnyRole(['M&E-HO', 'Engineer-HO', 'KPO-HO', 'Viewer-HO', 'M&E-DISTRICT', 'Engineer-DISTRICT', 'KPO-DISTRICT', 'Viewer-DISTRICT']);
+        return $user->can('irrigation_scheme_view');
     }
 
-    /**
-     * Determine whether the user can view a specific irrigation scheme.
-     */
     public function view(User $user, IrrigationScheme $irrigationScheme): bool
     {
-        // HO roles can view any scheme.
-        if ($user->hasAnyRole(['M&E-HO', 'Engineer-HO', 'KPO-HO', 'Viewer-HO'])) {
+        if (! $user->can('irrigation_scheme_view')) {
+            return false;
+        }
+
+        // Head Office roles can view any scheme.
+        if ($user->hasAnyRole(['M&E-HO', 'Engineer-HO', 'KPO-HO', 'Viewer-HO', 'Super Admin'])) {
             return true;
         }
+
         // District roles can only view schemes in their assigned district.
         if ($user->hasAnyRole(['M&E-DISTRICT', 'Engineer-DISTRICT', 'KPO-DISTRICT', 'Viewer-DISTRICT'])) {
             return $user->district_id === $irrigationScheme->cbo->district_id;
@@ -48,23 +42,22 @@ class IrrigationSchemePolicy
         return false;
     }
 
-    /**
-     * Determine whether the user can create irrigation schemes.
-     */
     public function create(User $user): bool
     {
-        return $user->hasAnyRole(['KPO-DISTRICT', 'Engineer-HO', 'Engineer-DISTRICT']);
+        return $user->can('irrigation_scheme_create');
     }
 
-    /**
-     * Determine whether the user can update an irrigation scheme.
-     */
     public function update(User $user, IrrigationScheme $irrigationScheme): bool
     {
+        if (! $user->can('irrigation_scheme_update')) {
+            return false;
+        }
+
         // Admin and HO Engineers can update any scheme.
-        if ($user->hasAnyRole(['Admin', 'Engineer-HO'])) {
+        if ($user->hasAnyRole(['Super Admin', 'Engineer-HO'])) {
             return true;
         }
+
         // District Engineers can only update schemes in their district.
         if ($user->hasRole('Engineer-DISTRICT')) {
             return $user->district_id === $irrigationScheme->cbo->district_id;
@@ -73,15 +66,17 @@ class IrrigationSchemePolicy
         return false;
     }
 
-    /**
-     * Determine whether the user can delete an irrigation scheme.
-     */
     public function delete(User $user, IrrigationScheme $irrigationScheme): bool
     {
+        if (! $user->can('irrigation_scheme_delete')) {
+            return false;
+        }
+
         // Admin and HO Engineers can delete any scheme.
-        if ($user->hasAnyRole(['Admin', 'Engineer-HO'])) {
+        if ($user->hasAnyRole(['Super Admin', 'Engineer-HO'])) {
             return true;
         }
+
         // District Engineers can only delete schemes in their district.
         if ($user->hasRole('Engineer-DISTRICT')) {
             return $user->district_id === $irrigationScheme->cbo->district_id;

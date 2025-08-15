@@ -47,5 +47,7 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withProviders([
         ServiceBindingProvider::class, // 👈 Add your custom provider here
+        App\Providers\AuthServiceProvider::class,
+
     ])
     ->create();

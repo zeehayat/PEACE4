@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Query\Builder;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media as SpatieMedia;
@@ -100,7 +101,20 @@ class MhpSite extends Model implements HasMedia
         // 'tentative_completion_years' => 'integer', // Excluded as per discussion
         // 'tentative_completion_months' => 'integer', // Excluded as per discussion
     ];
-
+    /**
+     * Scope a query to only include MHP Sites appropriate for the given user.
+     */
+    public function scopeForUser(Builder $query, User $user): void
+    {
+        // If the user has a district-level role, join with the CBO table
+        // and filter by the user's district.
+        if ($user->hasAnyRole(['M&E-DISTRICT', 'Engineer-DISTRICT', 'KPO-DISTRICT', 'Viewer-DISTRICT'])) {
+            $query->whereHas('cbo', function (Builder $cboQuery) use ($user) {
+                $cboQuery->where('district', $user->district->name);
+            });
+        }
+        // Head Office users will see all sites because the condition is false for them.
+    }
     // --- Relationships ---
     public function cbo(): BelongsTo
     {

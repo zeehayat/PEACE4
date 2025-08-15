@@ -110,7 +110,7 @@ create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\CboController::store
-* @see app/Http/Controllers/CboController.php:79
+* @see app/Http/Controllers/CboController.php:71
 * @route '/cbo/cbos'
 */
 export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -128,7 +128,7 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\CboController::store
-* @see app/Http/Controllers/CboController.php:79
+* @see app/Http/Controllers/CboController.php:71
 * @route '/cbo/cbos'
 */
 store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -137,7 +137,7 @@ store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 
 /**
 * @see \App\Http\Controllers\CboController::store
-* @see app/Http/Controllers/CboController.php:79
+* @see app/Http/Controllers/CboController.php:71
 * @route '/cbo/cbos'
 */
 store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -150,7 +150,7 @@ store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\CboController::show
-* @see app/Http/Controllers/CboController.php:94
+* @see app/Http/Controllers/CboController.php:86
 * @route '/cbo/cbos/{cbo}'
 */
 export const show = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -168,7 +168,7 @@ show.definition = {
 
 /**
 * @see \App\Http\Controllers\CboController::show
-* @see app/Http/Controllers/CboController.php:94
+* @see app/Http/Controllers/CboController.php:86
 * @route '/cbo/cbos/{cbo}'
 */
 show.url = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -199,7 +199,7 @@ show.url = (args: { cbo: number | { id: number } } | [cbo: number | { id: number
 
 /**
 * @see \App\Http\Controllers\CboController::show
-* @see app/Http/Controllers/CboController.php:94
+* @see app/Http/Controllers/CboController.php:86
 * @route '/cbo/cbos/{cbo}'
 */
 show.get = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -212,7 +212,7 @@ show.get = (args: { cbo: number | { id: number } } | [cbo: number | { id: number
 
 /**
 * @see \App\Http\Controllers\CboController::show
-* @see app/Http/Controllers/CboController.php:94
+* @see app/Http/Controllers/CboController.php:86
 * @route '/cbo/cbos/{cbo}'
 */
 show.head = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -294,7 +294,7 @@ edit.head = (args: { cbo: string | number } | [cbo: string | number ] | string |
 
 /**
 * @see \App\Http\Controllers\CboController::update
-* @see app/Http/Controllers/CboController.php:104
+* @see app/Http/Controllers/CboController.php:96
 * @route '/cbo/cbos/{cbo}'
 */
 export const update = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -312,7 +312,7 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\CboController::update
-* @see app/Http/Controllers/CboController.php:104
+* @see app/Http/Controllers/CboController.php:96
 * @route '/cbo/cbos/{cbo}'
 */
 update.url = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -343,7 +343,7 @@ update.url = (args: { cbo: number | { id: number } } | [cbo: number | { id: numb
 
 /**
 * @see \App\Http\Controllers\CboController::update
-* @see app/Http/Controllers/CboController.php:104
+* @see app/Http/Controllers/CboController.php:96
 * @route '/cbo/cbos/{cbo}'
 */
 update.put = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -356,7 +356,7 @@ update.put = (args: { cbo: number | { id: number } } | [cbo: number | { id: numb
 
 /**
 * @see \App\Http\Controllers\CboController::update
-* @see app/Http/Controllers/CboController.php:104
+* @see app/Http/Controllers/CboController.php:96
 * @route '/cbo/cbos/{cbo}'
 */
 update.patch = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -369,7 +369,7 @@ update.patch = (args: { cbo: number | { id: number } } | [cbo: number | { id: nu
 
 /**
 * @see \App\Http\Controllers\CboController::destroy
-* @see app/Http/Controllers/CboController.php:119
+* @see app/Http/Controllers/CboController.php:111
 * @route '/cbo/cbos/{cbo}'
 */
 export const destroy = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -387,7 +387,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\CboController::destroy
-* @see app/Http/Controllers/CboController.php:119
+* @see app/Http/Controllers/CboController.php:111
 * @route '/cbo/cbos/{cbo}'
 */
 destroy.url = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -418,7 +418,7 @@ destroy.url = (args: { cbo: number | { id: number } } | [cbo: number | { id: num
 
 /**
 * @see \App\Http\Controllers\CboController::destroy
-* @see app/Http/Controllers/CboController.php:119
+* @see app/Http/Controllers/CboController.php:111
 * @route '/cbo/cbos/{cbo}'
 */
 destroy.delete = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

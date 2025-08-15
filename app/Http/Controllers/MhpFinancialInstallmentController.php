@@ -18,7 +18,9 @@ class MhpFinancialInstallmentController extends Controller
     public function __construct(MhpSiteService $mhpSiteService)
     {
         $this->mhpSiteService = $mhpSiteService;
-        $this->authorizeResource(ProjectFinancialInstallment::class, 'financial_installment');
+        $this->authorizeResource(ProjectFinancialInstallment::class, 'financial_installment', [
+            'except' => ['index', 'store'],
+        ]);
     }
 
     /**
@@ -26,6 +28,8 @@ class MhpFinancialInstallmentController extends Controller
      */
     public function index(Request $request, MhpSite $site)
     {
+        $this->authorize('viewAny', [ProjectFinancialInstallment::class, $site]);
+
         $query = $site->financialInstallments()->with('media');
 
         if ($request->has('payment_for')) {
@@ -52,6 +56,8 @@ class MhpFinancialInstallmentController extends Controller
      */
     public function store(StoreProjectFinancialInstallmentRequest $request, MhpSite $site)
     {
+        $this->authorize('create', [ProjectFinancialInstallment::class, $site]);
+
         try {
             $this->mhpSiteService->createFinancialInstallment($site, $request->validated());
             return redirect()->back()->with('success', 'Financial Installment recorded successfully!');
@@ -66,6 +72,8 @@ class MhpFinancialInstallmentController extends Controller
      */
     public function update(UpdateProjectFinancialInstallmentRequest $request, MhpSite $site, ProjectFinancialInstallment $financialInstallment)
     {
+        $this->authorize('update', $financialInstallment);
+
         try {
             $this->mhpSiteService->updateFinancialInstallment($financialInstallment, $request->validated());
             return redirect()->back()->with('success', 'Financial Installment updated successfully!');
@@ -80,6 +88,8 @@ class MhpFinancialInstallmentController extends Controller
      */
     public function destroy(MhpSite $site, ProjectFinancialInstallment $financialInstallment)
     {
+        $this->authorize('delete', $financialInstallment);
+
         try {
             $financialInstallment->delete();
             return redirect()->back()->with('success', 'Financial Installment deleted successfully!');

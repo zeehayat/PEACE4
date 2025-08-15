@@ -20,20 +20,28 @@ class ProjectFinancialInstallmentPolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->can('manage mhp financial installment') || $user->can('manage irrigation financial installment');
+        return $user->can('financial_installment_manage');
     }
+
+
 
     public function create(User $user): bool
     {
-        return $user->can('manage mhp financial installment') || $user->can('manage irrigation financial installment');
+        return $user->can('financial_installment_manage');
     }
 
     public function update(User $user, ProjectFinancialInstallment $installment): bool
     {
-        if ($user->hasAnyRole(['Admin', 'M&E-HO'])) {
+        if (! $user->can('financial_installment_manage')) {
+            return false;
+        }
+
+        // Head Office roles can manage any installment.
+        if ($user->hasAnyRole(['Super Admin', 'M&E-HO'])) {
             return true;
         }
 
+        // District roles can only manage installments in their district.
         if ($user->hasAnyRole(['M&E-DISTRICT', 'Engineer-DISTRICT'])) {
             return $user->district_id === $installment->projectable->cbo->district_id;
         }
@@ -43,10 +51,16 @@ class ProjectFinancialInstallmentPolicy
 
     public function delete(User $user, ProjectFinancialInstallment $installment): bool
     {
-        if ($user->hasAnyRole(['Admin', 'M&E-HO'])) {
+        if (! $user->can('financial_installment_manage')) {
+            return false;
+        }
+
+        // Head Office roles can manage any installment.
+        if ($user->hasAnyRole(['Super Admin', 'M&E-HO'])) {
             return true;
         }
 
+        // District roles can only manage installments in their district.
         if ($user->hasAnyRole(['M&E-DISTRICT', 'Engineer-DISTRICT'])) {
             return $user->district_id === $installment->projectable->cbo->district_id;
         }

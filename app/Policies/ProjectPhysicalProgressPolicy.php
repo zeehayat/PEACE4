@@ -20,22 +20,27 @@ class ProjectPhysicalProgressPolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->can('manage mhp physical progress') || $user->can('manage irrigation physical progress');
+        return $user->can('physical_progress_manage');
     }
 
     public function create(User $user): bool
     {
-        return $user->can('manage mhp physical progress') || $user->can('manage irrigation physical progress');
+        return $user->can('physical_progress_manage');
     }
 
     public function update(User $user, ProjectPhysicalProgress $progress): bool
     {
-        if ($user->hasAnyRole(['Admin', 'M&E-HO'])) {
+        if (! $user->can('physical_progress_manage')) {
+            return false;
+        }
+
+        // Head Office roles can manage any progress report.
+        if ($user->hasAnyRole(['Super Admin', 'M&E-HO'])) {
             return true;
         }
 
+        // District roles can only manage progress for projects in their district.
         if ($user->hasAnyRole(['M&E-DISTRICT', 'Engineer-DISTRICT'])) {
-            // Check if the related project (MHP or Irrigation) is in the user's district.
             return $user->district_id === $progress->projectable->cbo->district_id;
         }
 
@@ -44,10 +49,16 @@ class ProjectPhysicalProgressPolicy
 
     public function delete(User $user, ProjectPhysicalProgress $progress): bool
     {
-        if ($user->hasAnyRole(['Admin', 'M&E-HO'])) {
+        if (! $user->can('physical_progress_manage')) {
+            return false;
+        }
+
+        // Head Office roles can manage any progress report.
+        if ($user->hasAnyRole(['Super Admin', 'M&E-HO'])) {
             return true;
         }
 
+        // District roles can only manage progress for projects in their district.
         if ($user->hasAnyRole(['M&E-DISTRICT', 'Engineer-DISTRICT'])) {
             return $user->district_id === $progress->projectable->cbo->district_id;
         }

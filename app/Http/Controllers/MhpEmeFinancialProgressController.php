@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MhpAdminApproval;
 use App\Models\MhpEmeFinancialProgress;
+use App\Models\MhpSite;
 use Illuminate\Http\Request;
 
 class MhpEmeFinancialProgressController extends Controller
@@ -11,6 +12,7 @@ class MhpEmeFinancialProgressController extends Controller
     public function index(Request $request)
     {
         $siteId = $request->get('site_id');
+        $this->authorize('viewAny', [MhpEmeFinancialProgress::class, $site]);
 
         $progresses = MhpEmeFinancialProgress::where('mhp_site_id', $siteId)
             ->orderBy('installment_number')
@@ -52,6 +54,9 @@ class MhpEmeFinancialProgressController extends Controller
         ]);
 
         $progress = MhpEmeFinancialProgress::create($validated);
+        $site = MhpSite::findOrFail($validated['mhp_site_id']);
+
+        $this->authorize('create', [MhpEmeFinancialProgress::class, $site]);
 
         if ($request->hasFile('attachments')) {
             foreach ($request->file('attachments') as $file) {
@@ -64,6 +69,8 @@ class MhpEmeFinancialProgressController extends Controller
 
     public function update(Request $request, MhpEmeFinancialProgress $progress)
     {
+        $this->authorize('update', $progress);
+
         $validated = $request->validate([
             'initiation_date' => 'nullable|date',
             'date' => 'nullable|date',
@@ -86,6 +93,8 @@ class MhpEmeFinancialProgressController extends Controller
 
     public function destroy(MhpEmeFinancialProgress $progress)
     {
+        $this->authorize('delete', $progress);
+
         $progress->delete();
         return back()->with('success', 'Financial progress deleted.');
     }

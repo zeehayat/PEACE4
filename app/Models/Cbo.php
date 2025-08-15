@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media as SpatieMedia;
-
+use Illuminate\Database\Eloquent\Builder;
 class Cbo extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
@@ -59,7 +59,18 @@ class Cbo extends Model implements HasMedia
             // If CBO has direct media, it will be deleted automatically by InteractsWithMedia
         });
     }
-
+    /**
+     * Scope a query to only include CBOs appropriate for the given user.
+     */
+    public function scopeForUser(Builder $query, User $user): void
+    {
+        // If the user is a district-level user, only show CBOs from their district.
+        // Head Office users will not have these roles, so the condition will be false and they'll see all CBOs.
+        if ($user->hasAnyRole(['M&E-DISTRICT', 'Engineer-DISTRICT', 'KPO-DISTRICT', 'Viewer-DISTRICT'])) {
+            // NOTE: Your current schema uses a string name. A `district_id` foreign key would be a good future improvement.
+            $query->where('district', $user->district->name);
+        }
+    }
     // --- Relationships ---
     public function dialogues(): HasMany
     {
