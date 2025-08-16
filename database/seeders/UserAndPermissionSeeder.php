@@ -1,56 +1,40 @@
 <?php
+
 namespace Database\Seeders;
-use App\Models\User;
+
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\PermissionRegistrar;
 
 class UserAndPermissionSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
-        // Define roles
-        $roles = ['root', 'admin', 'mhp', 'irrigation', 'mhp-irrigation', 'cbo', 'cbo-mhp-irrigation', 'procurement', 'kpo', 'reporter'];
-        foreach ($roles as $role) {
-            Role::firstOrCreate(['name' => $role]);
-        }
+        // Reset cached roles and permissions
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // Define permissions
-        $permissions = [
-            'view_cbo', 'create_cbo', 'update_cbo', 'delete_cbo',
-            'view_mhp', 'create_mhp', 'update_mhp', 'delete_mhp',
-            'view_procurement', 'create_procurement', 'update_procurement', 'delete_procurement',
-            'manage_users', 'assign_roles'
-        ];
-        foreach ($permissions as $permission) {
-            Permission::firstOrCreate(['name' => $permission]);
-        }
+        // 1. Create the single permission we need for the test
+        $permission = Permission::firstOrCreate(['name' => 'user_manage', 'guard_name' => 'web']);
 
-        // Assign permissions to roles
-        Role::findByName('admin')->givePermissionTo($permissions);
-        Role::findByName('root')->givePermissionTo($permissions);
-        Role::findByName('cbo')->givePermissionTo(['view_cbo', 'create_cbo']);
-        Role::findByName('mhp')->givePermissionTo(['view_mhp', 'create_mhp']);
-        Role::findByName('procurement')->givePermissionTo(['view_procurement']);
+        // 2. Create the Root role
+        $rootRole = Role::firstOrCreate(['name' => 'Root', 'guard_name' => 'web']);
 
-        // Create example users
-        $admin = User::firstOrCreate(
-            ['email' => 'admin@example.com'],
-            ['name' => 'Admin User', 'password' => Hash::make('password')]
+        // 3. EXPLICITLY give the permission to the role
+        $rootRole->givePermissionTo($permission);
+
+        // 4. Create the root user
+        $rootUser = User::updateOrCreate(
+            ['email' => 'root@srsp.pk'],
+            [
+                'name' => 'Root User',
+                'password' => Hash::make('password'),
+            ]
         );
-        $admin->assignRole('admin');
 
-        $cboUser = User::firstOrCreate(
-            ['email' => 'cbo@example.com'],
-            ['name' => 'CBO Officer', 'password' => Hash::make('password')]
-        );
-        $cboUser->assignRole('cbo');
-
-        $root = User::firstOrCreate(
-            ['email' => 'root@example.com'],
-            ['name' => 'Root User', 'password' => Hash::make('password')]
-        );
-        $root->assignRole('root');
+        // 5. Assign the role to the user
+        $rootUser->assignRole($rootRole);
     }
 }

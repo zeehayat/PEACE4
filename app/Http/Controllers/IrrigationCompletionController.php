@@ -1,9 +1,12 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\IrrigationScheme;
 use Illuminate\Http\Request;
 use App\Models\IrrigationCompletion;
 use App\Services\IrrigationCompletionService;
+use Illuminate\Support\Facades\DB;
+use Log;
 
 class IrrigationCompletionController extends Controller
 {
@@ -35,6 +38,8 @@ class IrrigationCompletionController extends Controller
             'handover_to_community_date' => ['nullable', 'date'],
             'attachments.*' => 'nullable|file|max:20480',
         ]);
+        $irrigationScheme = IrrigationScheme::findOrFail($validated['irrigation_scheme_id']);
+        $this->authorize('create', [IrrigationCompletion::class, $irrigationScheme]);
 
         try {
             DB::transaction(function () use ($request, $validated) {
@@ -57,6 +62,8 @@ class IrrigationCompletionController extends Controller
 
     public function update(Request $request, IrrigationCompletion $irrigationCompletion)
     {
+        $this->authorize('update', $irrigationCompletion);
+
         $validated = $request->validate([
             'irrigation_scheme_id' => [
                 'required',
@@ -99,6 +106,8 @@ class IrrigationCompletionController extends Controller
 
     public function destroy(IrrigationCompletion $irrigationCompletion)
     {
+        $this->authorize('delete', $irrigationCompletion);
+
         try {
             $this->service->delete($irrigationCompletion);
             return redirect()->back()->with('success', 'Irrigation Completion deleted.');
@@ -108,9 +117,11 @@ class IrrigationCompletionController extends Controller
         }
     }
 
-    public function show(int $id)
+    public function show(IrrigationCompletion $irrigationCompletion)
     {
-        $item = IrrigationCompletion::with('media')->findOrFail($id);
+        $this->authorize('view', $irrigationCompletion);
+
+        $item = IrrigationCompletion::with('media')->findOrFail($irrigationCompletion);
         return inertia('IrrigationCompletions/Show', compact('item'));
     }
 }

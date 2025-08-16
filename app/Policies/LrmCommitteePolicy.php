@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Models\LrmCommittee;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class LrmCommitteePolicy
+class LrmCommitteePolicy extends BasePolicy
 {
     use HandlesAuthorization;
 

@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Models\IrrigationScheme;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class IrrigationSchemePolicy
+class IrrigationSchemePolicy extends BasePolicy
 {
     use HandlesAuthorization;
 

@@ -23,6 +23,7 @@ class IrrigationSchemeController extends Controller
 
         // This single line applies all policy checks for the resource controller.
         $this->authorizeResource(IrrigationScheme::class, 'scheme');
+
     }
 
     /**
@@ -31,7 +32,7 @@ class IrrigationSchemeController extends Controller
     public function index(Request $request)
     {
         // The policy check for 'viewAny' is now automatically handled.
-        $query = IrrigationScheme::query()
+        $query = IrrigationScheme::query()->forUser(Auth::user())
             ->with([
                 'cbo',
                 'profile',
@@ -42,6 +43,7 @@ class IrrigationSchemeController extends Controller
                 'latestPhysicalProgress',
                 'latestFinancialInstallment',
             ]);
+
 
         $user = Auth::user();
         if ($user->hasAnyRole(['M&E-DISTRICT', 'Engineer-DISTRICT', 'KPO-DISTRICT', 'Viewer-DISTRICT'])) {
@@ -131,6 +133,7 @@ class IrrigationSchemeController extends Controller
         // Policy check for the ability to view any scheme is still needed here.
         // It's a best practice to protect API endpoints as well.
         $this->authorize('viewAny', IrrigationScheme::class);
+
 
         $query = IrrigationScheme::query();
         $user = Auth::user();

@@ -20,6 +20,7 @@ class LrmCommitteeController extends Controller
         $this->lrmService = $lrmService;
         // FIX: Apply policy middleware for LrmCommittee model
         $this->authorizeResource(LrmCommittee::class, 'lrm_committee');
+
     }
 
     /**
@@ -27,7 +28,7 @@ class LrmCommitteeController extends Controller
      */
     public function index(Request $request)
     {
-        $query = LrmCommittee::query()
+        $query = LrmCommittee::query()->forUser(Auth::user())
             ->with(['cbo', 'media']);
 
         // --- ACL: Scope by district for DISTRICT roles ---

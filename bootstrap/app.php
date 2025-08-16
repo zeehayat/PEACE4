@@ -30,9 +30,14 @@ return Application::configure(basePath: dirname(__DIR__))
                 ->prefix('lrm')
                 ->name('lrm.')
                 ->group(base_path('routes/lrm_routes.php'));
+            Route::middleware(['web','auth'])
+                ->prefix('admin')
+                ->name('admin.')
+                ->group(base_path('routes/admin_routes.php'));
         }
     )
     ->withMiddleware(function (Middleware $middleware): void {
+
         $middleware->alias([
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,

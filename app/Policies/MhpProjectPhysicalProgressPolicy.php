@@ -5,7 +5,7 @@ namespace App\Policies;
 use App\Models\MhpSite;
 use App\Models\User;
 
-class MhpProjectPhysicalProgressPolicy
+class MhpProjectPhysicalProgressPolicy extends BasePolicy
 {
     /**
      * Determine whether the user can create physical progress for a site.

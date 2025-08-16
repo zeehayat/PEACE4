@@ -6,7 +6,7 @@ use App\Models\MhpCompletion;
 use App\Models\MhpSite;
 use App\Models\User;
 
-class MhpCompletionPolicy
+class MhpCompletionPolicy extends BasePolicy
 {
     /**
      * The 'before' method handles the Root user.

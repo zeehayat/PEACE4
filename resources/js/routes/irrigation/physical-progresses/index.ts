@@ -139,7 +139,7 @@ edit.head = (args: { physical_progress: string | number } | [physical_progress: 
 
 /**
 * @see \App\Http\Controllers\IrrigationPhysicalProgressController::update
-* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:60
+* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:65
 * @route '/irrigation/physical-progresses/{physical_progress}'
 */
 export const update = (args: { physical_progress: string | number } | [physical_progress: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -157,7 +157,7 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\IrrigationPhysicalProgressController::update
-* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:60
+* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:65
 * @route '/irrigation/physical-progresses/{physical_progress}'
 */
 update.url = (args: { physical_progress: string | number } | [physical_progress: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -182,7 +182,7 @@ update.url = (args: { physical_progress: string | number } | [physical_progress:
 
 /**
 * @see \App\Http\Controllers\IrrigationPhysicalProgressController::update
-* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:60
+* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:65
 * @route '/irrigation/physical-progresses/{physical_progress}'
 */
 update.put = (args: { physical_progress: string | number } | [physical_progress: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -195,7 +195,7 @@ update.put = (args: { physical_progress: string | number } | [physical_progress:
 
 /**
 * @see \App\Http\Controllers\IrrigationPhysicalProgressController::update
-* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:60
+* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:65
 * @route '/irrigation/physical-progresses/{physical_progress}'
 */
 update.patch = (args: { physical_progress: string | number } | [physical_progress: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -208,7 +208,7 @@ update.patch = (args: { physical_progress: string | number } | [physical_progres
 
 /**
 * @see \App\Http\Controllers\IrrigationPhysicalProgressController::destroy
-* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:71
+* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:76
 * @route '/irrigation/physical-progresses/{physical_progress}'
 */
 export const destroy = (args: { physical_progress: string | number } | [physical_progress: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -226,7 +226,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\IrrigationPhysicalProgressController::destroy
-* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:71
+* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:76
 * @route '/irrigation/physical-progresses/{physical_progress}'
 */
 destroy.url = (args: { physical_progress: string | number } | [physical_progress: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -251,7 +251,7 @@ destroy.url = (args: { physical_progress: string | number } | [physical_progress
 
 /**
 * @see \App\Http\Controllers\IrrigationPhysicalProgressController::destroy
-* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:71
+* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:76
 * @route '/irrigation/physical-progresses/{physical_progress}'
 */
 destroy.delete = (args: { physical_progress: string | number } | [physical_progress: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

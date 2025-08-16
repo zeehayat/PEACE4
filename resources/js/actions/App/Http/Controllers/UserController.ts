@@ -112,7 +112,7 @@ export const index = {
 
 /**
 * @see \App\Http\Controllers\UserController::create
-* @see app/Http/Controllers/UserController.php:0
+* @see app/Http/Controllers/UserController.php:43
 * @route '/users/create'
 */
 const create4c3b757682cdf8159eca3c699fa8561d = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -130,7 +130,7 @@ create4c3b757682cdf8159eca3c699fa8561d.definition = {
 
 /**
 * @see \App\Http\Controllers\UserController::create
-* @see app/Http/Controllers/UserController.php:0
+* @see app/Http/Controllers/UserController.php:43
 * @route '/users/create'
 */
 create4c3b757682cdf8159eca3c699fa8561d.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -139,7 +139,7 @@ create4c3b757682cdf8159eca3c699fa8561d.url = (options?: { query?: QueryParams, m
 
 /**
 * @see \App\Http\Controllers\UserController::create
-* @see app/Http/Controllers/UserController.php:0
+* @see app/Http/Controllers/UserController.php:43
 * @route '/users/create'
 */
 create4c3b757682cdf8159eca3c699fa8561d.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -152,7 +152,7 @@ create4c3b757682cdf8159eca3c699fa8561d.get = (options?: { query?: QueryParams, m
 
 /**
 * @see \App\Http\Controllers\UserController::create
-* @see app/Http/Controllers/UserController.php:0
+* @see app/Http/Controllers/UserController.php:43
 * @route '/users/create'
 */
 create4c3b757682cdf8159eca3c699fa8561d.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -165,7 +165,7 @@ create4c3b757682cdf8159eca3c699fa8561d.head = (options?: { query?: QueryParams, 
 
 /**
 * @see \App\Http\Controllers\UserController::create
-* @see app/Http/Controllers/UserController.php:0
+* @see app/Http/Controllers/UserController.php:43
 * @route '/admin/users/create'
 */
 const createfc6379518d81ffb45812390708708699 = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -183,7 +183,7 @@ createfc6379518d81ffb45812390708708699.definition = {
 
 /**
 * @see \App\Http\Controllers\UserController::create
-* @see app/Http/Controllers/UserController.php:0
+* @see app/Http/Controllers/UserController.php:43
 * @route '/admin/users/create'
 */
 createfc6379518d81ffb45812390708708699.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -192,7 +192,7 @@ createfc6379518d81ffb45812390708708699.url = (options?: { query?: QueryParams, m
 
 /**
 * @see \App\Http\Controllers\UserController::create
-* @see app/Http/Controllers/UserController.php:0
+* @see app/Http/Controllers/UserController.php:43
 * @route '/admin/users/create'
 */
 createfc6379518d81ffb45812390708708699.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -205,7 +205,7 @@ createfc6379518d81ffb45812390708708699.get = (options?: { query?: QueryParams, m
 
 /**
 * @see \App\Http\Controllers\UserController::create
-* @see app/Http/Controllers/UserController.php:0
+* @see app/Http/Controllers/UserController.php:43
 * @route '/admin/users/create'
 */
 createfc6379518d81ffb45812390708708699.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -223,7 +223,7 @@ export const create = {
 
 /**
 * @see \App\Http\Controllers\UserController::store
-* @see app/Http/Controllers/UserController.php:55
+* @see app/Http/Controllers/UserController.php:56
 * @route '/users'
 */
 const storef3226fdeff9ce7ee16d16e95535a5cd7 = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -241,7 +241,7 @@ storef3226fdeff9ce7ee16d16e95535a5cd7.definition = {
 
 /**
 * @see \App\Http\Controllers\UserController::store
-* @see app/Http/Controllers/UserController.php:55
+* @see app/Http/Controllers/UserController.php:56
 * @route '/users'
 */
 storef3226fdeff9ce7ee16d16e95535a5cd7.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -250,7 +250,7 @@ storef3226fdeff9ce7ee16d16e95535a5cd7.url = (options?: { query?: QueryParams, me
 
 /**
 * @see \App\Http\Controllers\UserController::store
-* @see app/Http/Controllers/UserController.php:55
+* @see app/Http/Controllers/UserController.php:56
 * @route '/users'
 */
 storef3226fdeff9ce7ee16d16e95535a5cd7.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -263,7 +263,7 @@ storef3226fdeff9ce7ee16d16e95535a5cd7.post = (options?: { query?: QueryParams, m
 
 /**
 * @see \App\Http\Controllers\UserController::store
-* @see app/Http/Controllers/UserController.php:55
+* @see app/Http/Controllers/UserController.php:56
 * @route '/admin/users'
 */
 const store0f75ade977685d683ee05b2bbb858e0a = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -281,7 +281,7 @@ store0f75ade977685d683ee05b2bbb858e0a.definition = {
 
 /**
 * @see \App\Http\Controllers\UserController::store
-* @see app/Http/Controllers/UserController.php:55
+* @see app/Http/Controllers/UserController.php:56
 * @route '/admin/users'
 */
 store0f75ade977685d683ee05b2bbb858e0a.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -290,7 +290,7 @@ store0f75ade977685d683ee05b2bbb858e0a.url = (options?: { query?: QueryParams, me
 
 /**
 * @see \App\Http\Controllers\UserController::store
-* @see app/Http/Controllers/UserController.php:55
+* @see app/Http/Controllers/UserController.php:56
 * @route '/admin/users'
 */
 store0f75ade977685d683ee05b2bbb858e0a.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -308,10 +308,10 @@ export const store = {
 
 /**
 * @see \App\Http\Controllers\UserController::show
-* @see app/Http/Controllers/UserController.php:70
+* @see app/Http/Controllers/UserController.php:0
 * @route '/users/{user}'
 */
-const show22cfa6015ee43519048c9d8befe0827b = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+const show22cfa6015ee43519048c9d8befe0827b = (args: { user: string | number } | [user: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
@@ -326,16 +326,12 @@ show22cfa6015ee43519048c9d8befe0827b.definition = {
 
 /**
 * @see \App\Http\Controllers\UserController::show
-* @see app/Http/Controllers/UserController.php:70
+* @see app/Http/Controllers/UserController.php:0
 * @route '/users/{user}'
 */
-show22cfa6015ee43519048c9d8befe0827b.url = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+show22cfa6015ee43519048c9d8befe0827b.url = (args: { user: string | number } | [user: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { user: args }
-    }
-
-    if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
-        args = { user: args.id }
     }
 
     if (Array.isArray(args)) {
@@ -345,9 +341,7 @@ show22cfa6015ee43519048c9d8befe0827b.url = (args: { user: number | { id: number 
     }
 
     const parsedArgs = {
-        user: typeof args.user === 'object'
-        ? args.user.id
-        : args.user,
+        user: args.user,
     }
 
     return show22cfa6015ee43519048c9d8befe0827b.definition.url
@@ -357,10 +351,10 @@ show22cfa6015ee43519048c9d8befe0827b.url = (args: { user: number | { id: number 
 
 /**
 * @see \App\Http\Controllers\UserController::show
-* @see app/Http/Controllers/UserController.php:70
+* @see app/Http/Controllers/UserController.php:0
 * @route '/users/{user}'
 */
-show22cfa6015ee43519048c9d8befe0827b.get = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+show22cfa6015ee43519048c9d8befe0827b.get = (args: { user: string | number } | [user: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
@@ -370,10 +364,10 @@ show22cfa6015ee43519048c9d8befe0827b.get = (args: { user: number | { id: number 
 
 /**
 * @see \App\Http\Controllers\UserController::show
-* @see app/Http/Controllers/UserController.php:70
+* @see app/Http/Controllers/UserController.php:0
 * @route '/users/{user}'
 */
-show22cfa6015ee43519048c9d8befe0827b.head = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+show22cfa6015ee43519048c9d8befe0827b.head = (args: { user: string | number } | [user: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
 } => ({
@@ -383,10 +377,10 @@ show22cfa6015ee43519048c9d8befe0827b.head = (args: { user: number | { id: number
 
 /**
 * @see \App\Http\Controllers\UserController::show
-* @see app/Http/Controllers/UserController.php:70
+* @see app/Http/Controllers/UserController.php:0
 * @route '/admin/users/{user}'
 */
-const showcf5fe9d4954e09f7b2634c0176ca7135 = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+const showcf5fe9d4954e09f7b2634c0176ca7135 = (args: { user: string | number } | [user: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
@@ -401,16 +395,12 @@ showcf5fe9d4954e09f7b2634c0176ca7135.definition = {
 
 /**
 * @see \App\Http\Controllers\UserController::show
-* @see app/Http/Controllers/UserController.php:70
+* @see app/Http/Controllers/UserController.php:0
 * @route '/admin/users/{user}'
 */
-showcf5fe9d4954e09f7b2634c0176ca7135.url = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+showcf5fe9d4954e09f7b2634c0176ca7135.url = (args: { user: string | number } | [user: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { user: args }
-    }
-
-    if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
-        args = { user: args.id }
     }
 
     if (Array.isArray(args)) {
@@ -420,9 +410,7 @@ showcf5fe9d4954e09f7b2634c0176ca7135.url = (args: { user: number | { id: number 
     }
 
     const parsedArgs = {
-        user: typeof args.user === 'object'
-        ? args.user.id
-        : args.user,
+        user: args.user,
     }
 
     return showcf5fe9d4954e09f7b2634c0176ca7135.definition.url
@@ -432,10 +420,10 @@ showcf5fe9d4954e09f7b2634c0176ca7135.url = (args: { user: number | { id: number 
 
 /**
 * @see \App\Http\Controllers\UserController::show
-* @see app/Http/Controllers/UserController.php:70
+* @see app/Http/Controllers/UserController.php:0
 * @route '/admin/users/{user}'
 */
-showcf5fe9d4954e09f7b2634c0176ca7135.get = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+showcf5fe9d4954e09f7b2634c0176ca7135.get = (args: { user: string | number } | [user: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
@@ -445,10 +433,10 @@ showcf5fe9d4954e09f7b2634c0176ca7135.get = (args: { user: number | { id: number 
 
 /**
 * @see \App\Http\Controllers\UserController::show
-* @see app/Http/Controllers/UserController.php:70
+* @see app/Http/Controllers/UserController.php:0
 * @route '/admin/users/{user}'
 */
-showcf5fe9d4954e09f7b2634c0176ca7135.head = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+showcf5fe9d4954e09f7b2634c0176ca7135.head = (args: { user: string | number } | [user: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
 } => ({
@@ -606,7 +594,7 @@ export const edit = {
 
 /**
 * @see \App\Http\Controllers\UserController::update
-* @see app/Http/Controllers/UserController.php:80
+* @see app/Http/Controllers/UserController.php:65
 * @route '/users/{user}'
 */
 const update22cfa6015ee43519048c9d8befe0827b = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -624,7 +612,7 @@ update22cfa6015ee43519048c9d8befe0827b.definition = {
 
 /**
 * @see \App\Http\Controllers\UserController::update
-* @see app/Http/Controllers/UserController.php:80
+* @see app/Http/Controllers/UserController.php:65
 * @route '/users/{user}'
 */
 update22cfa6015ee43519048c9d8befe0827b.url = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -655,7 +643,7 @@ update22cfa6015ee43519048c9d8befe0827b.url = (args: { user: number | { id: numbe
 
 /**
 * @see \App\Http\Controllers\UserController::update
-* @see app/Http/Controllers/UserController.php:80
+* @see app/Http/Controllers/UserController.php:65
 * @route '/users/{user}'
 */
 update22cfa6015ee43519048c9d8befe0827b.put = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -668,7 +656,7 @@ update22cfa6015ee43519048c9d8befe0827b.put = (args: { user: number | { id: numbe
 
 /**
 * @see \App\Http\Controllers\UserController::update
-* @see app/Http/Controllers/UserController.php:80
+* @see app/Http/Controllers/UserController.php:65
 * @route '/users/{user}'
 */
 update22cfa6015ee43519048c9d8befe0827b.patch = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -681,7 +669,7 @@ update22cfa6015ee43519048c9d8befe0827b.patch = (args: { user: number | { id: num
 
 /**
 * @see \App\Http\Controllers\UserController::update
-* @see app/Http/Controllers/UserController.php:80
+* @see app/Http/Controllers/UserController.php:65
 * @route '/admin/users/{user}'
 */
 const updatecf5fe9d4954e09f7b2634c0176ca7135 = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -699,7 +687,7 @@ updatecf5fe9d4954e09f7b2634c0176ca7135.definition = {
 
 /**
 * @see \App\Http\Controllers\UserController::update
-* @see app/Http/Controllers/UserController.php:80
+* @see app/Http/Controllers/UserController.php:65
 * @route '/admin/users/{user}'
 */
 updatecf5fe9d4954e09f7b2634c0176ca7135.url = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -730,7 +718,7 @@ updatecf5fe9d4954e09f7b2634c0176ca7135.url = (args: { user: number | { id: numbe
 
 /**
 * @see \App\Http\Controllers\UserController::update
-* @see app/Http/Controllers/UserController.php:80
+* @see app/Http/Controllers/UserController.php:65
 * @route '/admin/users/{user}'
 */
 updatecf5fe9d4954e09f7b2634c0176ca7135.put = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -743,7 +731,7 @@ updatecf5fe9d4954e09f7b2634c0176ca7135.put = (args: { user: number | { id: numbe
 
 /**
 * @see \App\Http\Controllers\UserController::update
-* @see app/Http/Controllers/UserController.php:80
+* @see app/Http/Controllers/UserController.php:65
 * @route '/admin/users/{user}'
 */
 updatecf5fe9d4954e09f7b2634c0176ca7135.patch = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -761,7 +749,7 @@ export const update = {
 
 /**
 * @see \App\Http\Controllers\UserController::destroy
-* @see app/Http/Controllers/UserController.php:95
+* @see app/Http/Controllers/UserController.php:74
 * @route '/users/{user}'
 */
 const destroy22cfa6015ee43519048c9d8befe0827b = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -779,7 +767,7 @@ destroy22cfa6015ee43519048c9d8befe0827b.definition = {
 
 /**
 * @see \App\Http\Controllers\UserController::destroy
-* @see app/Http/Controllers/UserController.php:95
+* @see app/Http/Controllers/UserController.php:74
 * @route '/users/{user}'
 */
 destroy22cfa6015ee43519048c9d8befe0827b.url = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -810,7 +798,7 @@ destroy22cfa6015ee43519048c9d8befe0827b.url = (args: { user: number | { id: numb
 
 /**
 * @see \App\Http\Controllers\UserController::destroy
-* @see app/Http/Controllers/UserController.php:95
+* @see app/Http/Controllers/UserController.php:74
 * @route '/users/{user}'
 */
 destroy22cfa6015ee43519048c9d8befe0827b.delete = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -823,7 +811,7 @@ destroy22cfa6015ee43519048c9d8befe0827b.delete = (args: { user: number | { id: n
 
 /**
 * @see \App\Http\Controllers\UserController::destroy
-* @see app/Http/Controllers/UserController.php:95
+* @see app/Http/Controllers/UserController.php:74
 * @route '/admin/users/{user}'
 */
 const destroycf5fe9d4954e09f7b2634c0176ca7135 = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -841,7 +829,7 @@ destroycf5fe9d4954e09f7b2634c0176ca7135.definition = {
 
 /**
 * @see \App\Http\Controllers\UserController::destroy
-* @see app/Http/Controllers/UserController.php:95
+* @see app/Http/Controllers/UserController.php:74
 * @route '/admin/users/{user}'
 */
 destroycf5fe9d4954e09f7b2634c0176ca7135.url = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -872,7 +860,7 @@ destroycf5fe9d4954e09f7b2634c0176ca7135.url = (args: { user: number | { id: numb
 
 /**
 * @see \App\Http\Controllers\UserController::destroy
-* @see app/Http/Controllers/UserController.php:95
+* @see app/Http/Controllers/UserController.php:74
 * @route '/admin/users/{user}'
 */
 destroycf5fe9d4954e09f7b2634c0176ca7135.delete = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

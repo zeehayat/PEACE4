@@ -43,6 +43,9 @@ class HandleInertiaRequests extends Middleware
                 'success' => fn () => $request->session()->get('success'),
                 'error' => fn () => $request->session()->get('error'),
             ],
+            'auth.user.can' => $request->user() ? $request->user()->getAllPermissions()->mapWithKeys(function ($permission) {
+                return [$permission->name => true];
+            }) : [],
         ]);
     }
 }

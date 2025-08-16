@@ -2,14 +2,14 @@
 
 namespace App\Policies;
 
-use App\Models\User;
 use App\Models\ProjectPhysicalProgress;
-use Illuminate\Auth\Access\HandlesAuthorization;
+use App\Models\User;
+use App\Models\MhpSite;
+use App\Models\IrrigationScheme;
+use Illuminate\Database\Eloquent\Model;
 
-class ProjectPhysicalProgressPolicy
+class ProjectPhysicalProgressPolicy extends BasePolicy
 {
-    use HandlesAuthorization;
-
     public function before(User $user, string $ability): bool|null
     {
         if ($user->hasRole('Root')) {
@@ -18,51 +18,25 @@ class ProjectPhysicalProgressPolicy
         return null;
     }
 
-    public function viewAny(User $user): bool
+    public function viewAny(User $user, Model $project): bool
     {
-        return $user->can('physical_progress_manage');
+        return $user->can('view', $project);
     }
 
-    public function create(User $user): bool
+    public function create(User $user, Model $project): bool
     {
-        return $user->can('physical_progress_manage');
+        return $user->can('update', $project);
     }
 
     public function update(User $user, ProjectPhysicalProgress $progress): bool
     {
-        if (! $user->can('physical_progress_manage')) {
-            return false;
-        }
-
-        // Head Office roles can manage any progress report.
-        if ($user->hasAnyRole(['Super Admin', 'M&E-HO'])) {
-            return true;
-        }
-
-        // District roles can only manage progress for projects in their district.
-        if ($user->hasAnyRole(['M&E-DISTRICT', 'Engineer-DISTRICT'])) {
-            return $user->district_id === $progress->projectable->cbo->district_id;
-        }
-
-        return false;
+        // 'projectable' will be either an MhpSite or an IrrigationScheme model.
+        // We just pass it to the gate, which will find the correct policy (MhpSitePolicy or IrrigationSchemePolicy).
+        return $user->can('update', $progress->projectable);
     }
 
     public function delete(User $user, ProjectPhysicalProgress $progress): bool
     {
-        if (! $user->can('physical_progress_manage')) {
-            return false;
-        }
-
-        // Head Office roles can manage any progress report.
-        if ($user->hasAnyRole(['Super Admin', 'M&E-HO'])) {
-            return true;
-        }
-
-        // District roles can only manage progress for projects in their district.
-        if ($user->hasAnyRole(['M&E-DISTRICT', 'Engineer-DISTRICT'])) {
-            return $user->district_id === $progress->projectable->cbo->district_id;
-        }
-
-        return false;
+        return $user->can('update', $progress->projectable);
     }
 }

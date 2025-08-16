@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Models\MhpSite;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class MhpSitePolicy
+class MhpSitePolicy extends BasePolicy
 {
     use HandlesAuthorization;
 

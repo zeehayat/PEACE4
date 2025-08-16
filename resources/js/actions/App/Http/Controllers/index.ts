@@ -21,6 +21,7 @@ import CboExposureVisitController from './CboExposureVisitController'
 import CboTrainingController from './CboTrainingController'
 import ReportController from './ReportController'
 import LrmCommitteeController from './LrmCommitteeController'
+import RoleController from './RoleController'
 
 const Controllers = {
     Auth,
@@ -46,6 +47,7 @@ const Controllers = {
     CboTrainingController,
     ReportController,
     LrmCommitteeController,
+    RoleController,
 }
 
 export default Controllers

@@ -6,7 +6,7 @@ use App\Models\MhpEmePhysicalProgress;
 use App\Models\MhpSite;
 use App\Models\User;
 
-class MhpEmePhysicalProgressPolicy
+class MhpEmePhysicalProgressPolicy extends BasePolicy
 {
     /**
      * The 'before' method handles the Root user.

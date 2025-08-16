@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\IrrigationScheme;
 use Illuminate\Http\Request;
 use App\Models\IrrigationAdminApproval;
 use App\Services\IrrigationAdminApprovalService;
@@ -36,6 +37,8 @@ class IrrigationAdminApprovalController extends Controller
             'date_validation_visit_opm' => 'nullable|date',
             'attachments.*' => 'nullable|file|max:20480',
         ]);
+        $irrigationScheme = IrrigationScheme::findOrFail($validated['irrigation_scheme_id']);
+        $this->authorize('create', [IrrigationAdminApproval::class, $irrigationScheme]);
 
         try {
             DB::transaction(function () use ($request, $validated) {
@@ -72,6 +75,7 @@ class IrrigationAdminApprovalController extends Controller
             'removed_attachments' => 'nullable|array',
             'removed_attachments.*' => 'exists:media,id',
         ]);
+        $this->authorize('update', $irrigationAdminApproval);
 
         try {
             DB::transaction(function () use ($request, $irrigationAdminApproval, $validated) {
@@ -99,6 +103,8 @@ class IrrigationAdminApprovalController extends Controller
 
     public function destroy(IrrigationAdminApproval $irrigationAdminApproval)
     {
+        $this->authorize('delete', $irrigationAdminApproval);
+
         try {
             $this->service->delete($irrigationAdminApproval);
             return redirect()->back()->with('success', 'Irrigation Admin Approval deleted.');
@@ -108,9 +114,10 @@ class IrrigationAdminApprovalController extends Controller
         }
     }
 
-    public function show(int $id)
+    public function show(IrrigationAdminApproval $irrigationAdminApproval)
     {
-        $item = IrrigationAdminApproval::with('media')->findOrFail($id);
-        return inertia('IrrigationAdminApprovals/Show', compact('item'));
+        $this->authorize('view', $irrigationAdminApproval);
+        $item = IrrigationAdminApproval::with('media')->findOrFail($irrigationAdminApproval);
+        return inertia('Irrigation/Forms/IrrigationAdminApprovalForm', compact('item'));
     }
 }

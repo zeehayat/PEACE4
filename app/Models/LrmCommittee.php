@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media as SpatieMedia;
-
+use Illuminate\Database\Eloquent\Builder;
 class LrmCommittee extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
@@ -49,7 +49,16 @@ class LrmCommittee extends Model implements HasMedia
             // you'd add $lrmCommittee->relatedModels->each(fn($model) => $model->delete()); here.
         });
     }
-
+    public function scopeForUser(Builder $query, User $user): void
+    {
+        // If the user has a district-level role, filter by the user's district.
+        if ($user->hasAnyRole(['M&E-DISTRICT', 'Engineer-DISTRICT', 'KPO-DISTRICT', 'Viewer-DISTRICT'])) {
+            $query->whereHas('cbo', function (Builder $cboQuery) use ($user) {
+                $cboQuery->where('district', $user->district->name);
+            });
+        }
+        // Head Office users will see all committees.
+    }
     // --- Relationships ---
     public function cbo(): BelongsTo
     {

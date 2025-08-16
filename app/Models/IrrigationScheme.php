@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media as SpatieMedia;
-
+use Illuminate\Database\Eloquent\Builder;
 class IrrigationScheme extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
@@ -55,6 +55,17 @@ class IrrigationScheme extends Model implements HasMedia
                 $scheme->financialInstallments->each(fn ($installment) => $installment->delete());
             }
         });
+    }
+    public function scopeForUser(Builder $query, User $user): void
+    {
+        // If the user has a district-level role, join with the CBO table
+        // and filter by the user's district.
+        if ($user->hasAnyRole(['M&E-DISTRICT', 'Engineer-DISTRICT', 'KPO-DISTRICT', 'Viewer-DISTRICT'])) {
+            $query->whereHas('cbo', function (Builder $cboQuery) use ($user) {
+                $cboQuery->where('district', $user->district->name);
+            });
+        }
+        // Head Office users will see all schemes because the condition is false for them.
     }
 
     // --- Relationships ---

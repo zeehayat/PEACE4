@@ -13,6 +13,8 @@ class IrrigationSchemeContractController extends Controller
 {
     public function index(Request $request)
     {
+        $this->authorize('viewAny', IrrigationSchemeContract::class);
+
         // Typically, this index would be filtered by irrigation_scheme_id
         $query = IrrigationSchemeContract::query()->with(['irrigationScheme', 'vendor']);
 
@@ -36,6 +38,8 @@ class IrrigationSchemeContractController extends Controller
             'contract_amount' => 'nullable|numeric|min:0',
         ]);
 
+        $irrigationScheme = IrrigationScheme::findOrFail($validated['irrigation_scheme_id']);
+        $this->authorize('create', [IrrigationSchemeContract::class, $irrigationScheme]);
         try {
             DB::transaction(function () use ($validated) {
                 IrrigationSchemeContract::create($validated);
@@ -49,6 +53,8 @@ class IrrigationSchemeContractController extends Controller
 
     public function update(Request $request, IrrigationSchemeContract $irrigationSchemeContract)
     {
+        $this->authorize('update', $irrigationSchemeContract);
+
         $validated = $request->validate([
             'irrigation_scheme_id' => 'required|exists:irrigation_schemes,id',
             'vendor_id' => 'required|exists:vendors,id',
@@ -69,6 +75,8 @@ class IrrigationSchemeContractController extends Controller
 
     public function destroy(IrrigationSchemeContract $irrigationSchemeContract)
     {
+        $this->authorize('delete', $irrigationSchemeContract);
+
         try {
             DB::transaction(function () use ($irrigationSchemeContract) {
                 $irrigationSchemeContract->delete();
@@ -82,6 +90,8 @@ class IrrigationSchemeContractController extends Controller
 
     public function show(IrrigationSchemeContract $irrigationSchemeContract)
     {
+        $this->authorize('view', $irrigationSchemeContract);
+
         // Load relationships for show view
         $irrigationSchemeContract->load(['irrigationScheme', 'vendor']);
         return Inertia::render('IrrigationSchemeContract/Show', ['irrigationSchemeContract' => $irrigationSchemeContract]);

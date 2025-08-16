@@ -6,7 +6,7 @@ use App\Models\MhpEmeFinancialProgress;
 use App\Models\MhpSite;
 use App\Models\User;
 
-class MhpEmeFinancialProgressPolicy
+class MhpEmeFinancialProgressPolicy extends BasePolicy
 {
     /**
      * The 'before' method handles the Root user.

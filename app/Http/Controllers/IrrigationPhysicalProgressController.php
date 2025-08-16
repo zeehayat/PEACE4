@@ -21,10 +21,13 @@ class IrrigationPhysicalProgressController extends Controller
         $this->irrigationService = $irrigationService;
 
         $this->authorizeResource(ProjectPhysicalProgress::class, 'physical_progress');
+
     }
 
     public function index(Request $request, IrrigationScheme $scheme)
     {
+        $this->authorize('viewAny', [ProjectPhysicalProgress::class, $scheme]);
+
         $query = $scheme->physicalProgresses()->with('media');
 
         if ($request->has('payment_for')) {
@@ -48,6 +51,8 @@ class IrrigationPhysicalProgressController extends Controller
 
     public function store(StoreProjectPhysicalProgressRequest $request, IrrigationScheme $scheme)
     {
+        $this->authorize('create', [ProjectPhysicalProgress::class, $scheme]);
+
         try {
             $this->irrigationService->createPhysicalProgress($scheme, $request->validated());
             return redirect()->back()->with('success', 'Physical Progress recorded successfully!');

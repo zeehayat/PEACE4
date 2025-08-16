@@ -2,14 +2,12 @@
 
 namespace App\Policies;
 
-use App\Models\User;
 use App\Models\ProjectFinancialInstallment;
-use Illuminate\Auth\Access\HandlesAuthorization;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 
-class ProjectFinancialInstallmentPolicy
+class ProjectFinancialInstallmentPolicy extends BasePolicy
 {
-    use HandlesAuthorization;
-
     public function before(User $user, string $ability): bool|null
     {
         if ($user->hasRole('Root')) {
@@ -18,53 +16,25 @@ class ProjectFinancialInstallmentPolicy
         return null;
     }
 
-    public function viewAny(User $user): bool
+    public function viewAny(User $user, Model $project): bool
     {
-        return $user->can('financial_installment_manage');
+        return $user->can('view', $project);
     }
 
-
-
-    public function create(User $user): bool
+    public function create(User $user, Model $project): bool
     {
-        return $user->can('financial_installment_manage');
+        return $user->can('update', $project);
     }
 
     public function update(User $user, ProjectFinancialInstallment $installment): bool
     {
-        if (! $user->can('financial_installment_manage')) {
-            return false;
-        }
-
-        // Head Office roles can manage any installment.
-        if ($user->hasAnyRole(['Super Admin', 'M&E-HO'])) {
-            return true;
-        }
-
-        // District roles can only manage installments in their district.
-        if ($user->hasAnyRole(['M&E-DISTRICT', 'Engineer-DISTRICT'])) {
-            return $user->district_id === $installment->projectable->cbo->district_id;
-        }
-
-        return false;
+        // 'projectable' will be either an MhpSite or an IrrigationScheme model.
+        // We pass it to the gate, which finds the correct policy for the parent model.
+        return $user->can('update', $installment->projectable);
     }
 
     public function delete(User $user, ProjectFinancialInstallment $installment): bool
     {
-        if (! $user->can('financial_installment_manage')) {
-            return false;
-        }
-
-        // Head Office roles can manage any installment.
-        if ($user->hasAnyRole(['Super Admin', 'M&E-HO'])) {
-            return true;
-        }
-
-        // District roles can only manage installments in their district.
-        if ($user->hasAnyRole(['M&E-DISTRICT', 'Engineer-DISTRICT'])) {
-            return $user->district_id === $installment->projectable->cbo->district_id;
-        }
-
-        return false;
+        return $user->can('update', $installment->projectable);
     }
 }

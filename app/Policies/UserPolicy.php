@@ -5,7 +5,7 @@ namespace App\Policies;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class UserPolicy
+class UserPolicy extends BasePolicy
 {
     use HandlesAuthorization;
 
@@ -29,6 +29,8 @@ class UserPolicy
 
     public function create(User $user): bool
     {
+       // return true;
+
         return $user->can('user_manage');
     }
 

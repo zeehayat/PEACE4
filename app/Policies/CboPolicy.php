@@ -21,7 +21,7 @@ Single Source of Truth: The logic here is now simple and clean.
 The complex business rules ("Which roles can update CBOs?") are now defined in exactly one place: your PermissionsSeeder.php.
 If we need to grant a new role cbo_update permission, we'll make the change there, and this policy will work automatically without any edits. ✨
  */
-class CboPolicy
+class CboPolicy  extends BasePolicy
 {
     use HandlesAuthorization;
 

@@ -7,7 +7,7 @@ use App\Models\MhpSite;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class MhpAdminApprovalPolicy
+class MhpAdminApprovalPolicy extends BasePolicy
 {
     /**
      * The 'before' method handles the Root user.

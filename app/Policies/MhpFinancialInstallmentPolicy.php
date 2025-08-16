@@ -6,7 +6,7 @@ use App\Models\ProjectFinancialInstallment;
 use App\Models\MhpSite;
 use App\Models\User;
 
-class MhpFinancialInstallmentPolicy
+class MhpFinancialInstallmentPolicy extends BasePolicy
 {
     /**
      * The 'before' method handles the Root user.
