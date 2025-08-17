@@ -27,7 +27,7 @@ const form = useForm({
     password_confirmation: '',
     district_id: props.user?.district_id || null,
     roles: props.user?.roles.map(role => role.name) || [],
-    permissions: props.user?.permissions.map(permission => permission.name) || [],
+    permissions: props.user?.permissions?.map(permission => permission.name) || [],
 });
 
 watch(() => props.user, (newUser) => {

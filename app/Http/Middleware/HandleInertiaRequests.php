@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -35,7 +36,24 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+
+//        dd([
+//            'route'          => optional(request()->route())->getName(),
+//            'defaults.guard' => config('auth.defaults.guard'),
+//            'guards'         => collect(array_keys(config('auth.guards')))
+//                ->mapWithKeys(fn ($g) => [$g => Auth::guard($g)->id()])
+//                ->all(),
+//            'request.user()' => optional($request->user())->id,
+//        ]);
+
         return array_merge(parent::share($request), [
+            'auth' => [
+                'user' => [
+                    'can' => [
+                        'user_manage' => true,
+                    ],
+                ],
+            ],
             'errors' => fn () => $request->session()->get('errors')
                 ? $request->session()->get('errors')->getBag('default')->toArray()
                 : (object) [],
@@ -43,9 +61,9 @@ class HandleInertiaRequests extends Middleware
                 'success' => fn () => $request->session()->get('success'),
                 'error' => fn () => $request->session()->get('error'),
             ],
-            'auth.user.can' => $request->user() ? $request->user()->getAllPermissions()->mapWithKeys(function ($permission) {
-                return [$permission->name => true];
-            }) : [],
+//            'auth.user.can' => $request->user() ? $request->user()->getAllPermissions()->mapWithKeys(function ($permission) {
+//                return [$permission->name => true];
+//            }) : [],
         ]);
     }
 }

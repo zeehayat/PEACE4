@@ -41,11 +41,10 @@ class UserService
             $roles = $data['roles'] ?? null;
             $permissions = $data['permissions'] ?? null;
 
-            if (isset($data['password'])) {
+            if (empty($data['password'])) {
+                unset($data['password']);
+            } else {
                 $data['password'] = Hash::make($data['password']);
-            }
-            if (isset($data['password_confirmation'])) {
-                unset($data['password_confirmation']);
             }
 
             $user->update($data);

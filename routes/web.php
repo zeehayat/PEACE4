@@ -18,6 +18,12 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+Route::middleware(['web', 'auth'])->get('/auth-probe', function () {
+    // If this dd shows your user, the session + guard are fine.
+    dd('Auth::id()', Auth::id(), 'guard', config('auth.defaults.guard'));
+    return Inertia::render('Probe/Index');
+});
+
 
 Route::get('/test-r2-upload', function() {
     $testContent = 'Hello from Laravel to Cloudflare R2! ' . now();

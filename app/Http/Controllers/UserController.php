@@ -25,18 +25,24 @@ class UserController extends Controller
         $this->authorizeResource(User::class, 'user');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        dd(Auth::user()->getRoleNames());
+        $query = User::query()->with(['roles', 'permissions']);
 
-        // authorizeResource handles the 'viewAny' check
-        $users = User::query()->with('roles')->paginate(10);
+        if ($request->has('search')) {
+            $query->where('name', 'like', '%' . $request->input('search') . '%');
+        }
+
+        $users = $query->paginate(10)->withQueryString();
 
         return Inertia::render('Admin/Users/Index', [
             'users' => $users,
             'roles' => Role::all(['id', 'name']),
             'districts' => KpDistrict::toSelectArray(),
-            // No need to pass all permissions here unless your form needs them
+            'filters' => $request->only('search'),
+            'can' => [
+                'user_manage' => $request->user()->can('user_manage'),
+            ]
         ]);
     }
 
@@ -56,26 +62,21 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         // authorizeResource handles this, but we can be explicit.
-        $this->authorize('create', User::class);
-
         $this->userService->createUser($request->validated());
         return redirect()->route('admin.users.index')->with('success', 'User created successfully!');
+       // return redirect()->route('admin.users.index')->with('success', 'User created successfully!');
     }
 
     public function update(UpdateUserRequest $request, User $user)
     {
         // authorizeResource handles this, but we can be explicit.
-        $this->authorize('update', $user);
-
         $this->userService->updateUser($user, $request->validated());
         return redirect()->route('admin.users.index')->with('success', 'User updated successfully!');
+       // return redirect()->route('admin.users.index')->with('success', 'User updated successfully!');
     }
 
     public function destroy(User $user)
     {
-        // authorizeResource handles this, but we can be explicit.
-        $this->authorize('delete', $user);
-
         $this->userService->deleteUser($user);
         return redirect()->route('admin.users.index')->with('success', 'User deleted successfully!');
     }

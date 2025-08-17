@@ -36,15 +36,17 @@ return Application::configure(basePath: dirname(__DIR__))
                 ->group(base_path('routes/admin_routes.php'));
         }
     )
-    ->withMiddleware(function (Middleware $middleware): void {
+    ->withMiddleware(function (Middleware $middleware) {
+        // THIS IS THE STANDARD JETSTREAM/INERTIA SETUP
+        $middleware->web(append: [
+            \App\Http\Middleware\HandleInertiaRequests::class,
+        ]);
 
         $middleware->alias([
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
         ]);
-        $middleware->append(\App\Http\Middleware\HandleInertiaRequests::class);
-
     })
 
     ->withExceptions(function (Exceptions $exceptions): void {

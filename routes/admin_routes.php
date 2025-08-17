@@ -25,3 +25,10 @@ Route::resource('users', UserController::class);
 
 // Role & Permission Management Routes
 Route::resource('roles', RoleController::class)->except(['show']);
+
+Route::get('/test-auth', function () {
+    if (auth()->user()->hasRole('Root')) {
+        return "User has Root role. Checking permission...";
+    }
+    return "User does NOT have Root role.";
+});

@@ -15,9 +15,10 @@ const props = defineProps({
 });
 
 const page = usePage();
+console.log('Auth Object:', page.props.auth);
 
 // Helper to check for permission
-const canManageRoles = ()-&gt; page.props.auth.user.can.role_manage;
+const canManageRoles = ()=> page.props.auth.user.can.role_manage;
 
 const showCreateModal = ref(false);
 const showEditModal = ref(false);
@@ -26,28 +27,28 @@ const selectedRole = ref(null);
 
 const form = useForm({});
 
-const openNewRoleModal = () =&gt; {
+const openNewRoleModal = () =>gt; {
     selectedRole.value = null;
     showCreateModal.value = true;
 };
 
-const editRole = (role) =&gt; {
+const editRole = (role) =>gt; {
     selectedRole.value = { ...role };
     showEditModal.value = true;
 };
 
-const confirmDeleteRole = (role) =&gt; {
+const confirmDeleteRole = (role) =>gt; {
     selectedRole.value = role;
     showDeleteModal.value = true;
 };
 
-const deleteRole = () =&gt; {
+const deleteRole = () => {
     form.delete(route('admin.roles.destroy', selectedRole.value.id), {
-        onSuccess: () =&gt; showDeleteModal.value = false,
+        onSuccess: () => showDeleteModal.value = false,
 });
 };
 
-const closeModal = () =&gt; {
+const closeModal = () => {
     showCreateModal.value = false;
     showEditModal.value = false;
     showDeleteModal.value = false;

@@ -21,9 +21,11 @@ class UserAndPermissionSeeder extends Seeder
 
         // 2. Create the Root role
         $rootRole = Role::firstOrCreate(['name' => 'Root', 'guard_name' => 'web']);
+        $superAdminRole = Role::firstOrCreate(['name' => 'Super Admin', 'guard_name' => 'web']);
 
         // 3. EXPLICITLY give the permission to the role
-        $rootRole->givePermissionTo($permission);
+        $superAdminRole->givePermissionTo(['user_manage', 'role_manage']);
+
 
         // 4. Create the root user
         $rootUser = User::updateOrCreate(

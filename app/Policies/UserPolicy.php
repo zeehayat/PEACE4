@@ -19,19 +19,19 @@ class UserPolicy extends BasePolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->can('user_manage');
+        return $user->hasPermissionTo('user_manage');
     }
 
     public function view(User $user, User $model): bool
     {
-        return $user->can('user_manage');
+        return $user->hasPermissionTo('user_manage');
     }
 
     public function create(User $user): bool
     {
        // return true;
 
-        return $user->can('user_manage');
+        return $user->hasPermissionTo('user_manage');
     }
 
     public function update(User $user, User $model): bool
@@ -46,7 +46,7 @@ class UserPolicy extends BasePolicy
             return false;
         }
 
-        return $user->can('user_manage');
+        return $user->hasPermissionTo('user_manage');
     }
 
     public function delete(User $user, User $model): bool
@@ -61,6 +61,6 @@ class UserPolicy extends BasePolicy
             return false;
         }
 
-        return $user->can('user_manage');
+        return $user->hasPermissionTo('user_manage');
     }
 }

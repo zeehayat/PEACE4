@@ -1,6 +1,6 @@
 import { queryParams, type QueryParams } from './../wayfinder'
 /**
-* @see routes/web.php:66
+* @see routes/web.php:72
 * @route '/login'
 */
 export const login = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -17,7 +17,7 @@ login.definition = {
 }
 
 /**
-* @see routes/web.php:66
+* @see routes/web.php:72
 * @route '/login'
 */
 login.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -25,7 +25,7 @@ login.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 }
 
 /**
-* @see routes/web.php:66
+* @see routes/web.php:72
 * @route '/login'
 */
 login.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -37,7 +37,7 @@ login.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 })
 
 /**
-* @see routes/web.php:66
+* @see routes/web.php:72
 * @route '/login'
 */
 login.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -102,7 +102,7 @@ register.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 })
 
 /**
-* @see routes/web.php:76
+* @see routes/web.php:82
 * @route '/dashboard'
 */
 export const dashboard = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -119,7 +119,7 @@ dashboard.definition = {
 }
 
 /**
-* @see routes/web.php:76
+* @see routes/web.php:82
 * @route '/dashboard'
 */
 dashboard.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -127,7 +127,7 @@ dashboard.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) =>
 }
 
 /**
-* @see routes/web.php:76
+* @see routes/web.php:82
 * @route '/dashboard'
 */
 dashboard.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -139,7 +139,7 @@ dashboard.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 })
 
 /**
-* @see routes/web.php:76
+* @see routes/web.php:82
 * @route '/dashboard'
 */
 dashboard.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
