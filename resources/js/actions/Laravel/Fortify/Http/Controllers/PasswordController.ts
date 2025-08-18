@@ -1,9 +1,9 @@
 import { queryParams, type QueryParams } from './../../../../../wayfinder'
 /**
 * @see \Laravel\Fortify\Http\Controllers\PasswordController::update
-* @see vendor/laravel/fortify/src/Http/Controllers/PasswordController.php:22
-* @route '/user/password'
-*/
+ * @see vendor/laravel/fortify/src/Http/Controllers/PasswordController.php:22
+ * @route '/user/password'
+ */
 export const update = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'put',
@@ -19,18 +19,18 @@ update.definition = {
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\PasswordController::update
-* @see vendor/laravel/fortify/src/Http/Controllers/PasswordController.php:22
-* @route '/user/password'
-*/
+ * @see vendor/laravel/fortify/src/Http/Controllers/PasswordController.php:22
+ * @route '/user/password'
+ */
 update.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     return update.definition.url + queryParams(options)
 }
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\PasswordController::update
-* @see vendor/laravel/fortify/src/Http/Controllers/PasswordController.php:22
-* @route '/user/password'
-*/
+ * @see vendor/laravel/fortify/src/Http/Controllers/PasswordController.php:22
+ * @route '/user/password'
+ */
 update.put = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'put',
@@ -38,7 +38,6 @@ update.put = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: update.url(options),
     method: 'put',
 })
-
 const PasswordController = { update }
 
 export default PasswordController

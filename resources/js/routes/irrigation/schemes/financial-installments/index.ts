@@ -1,9 +1,9 @@
 import { queryParams, type QueryParams } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\IrrigationFinancialProgressController::index
-* @see app/Http/Controllers/IrrigationFinancialProgressController.php:28
-* @route '/irrigation/schemes/{scheme}/financial-installments'
-*/
+ * @see app/Http/Controllers/IrrigationFinancialProgressController.php:28
+ * @route '/irrigation/schemes/{scheme}/financial-installments'
+ */
 export const index = (args: { scheme: number | { id: number } } | [scheme: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -19,29 +19,29 @@ index.definition = {
 
 /**
 * @see \App\Http\Controllers\IrrigationFinancialProgressController::index
-* @see app/Http/Controllers/IrrigationFinancialProgressController.php:28
-* @route '/irrigation/schemes/{scheme}/financial-installments'
-*/
+ * @see app/Http/Controllers/IrrigationFinancialProgressController.php:28
+ * @route '/irrigation/schemes/{scheme}/financial-installments'
+ */
 index.url = (args: { scheme: number | { id: number } } | [scheme: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { scheme: args }
     }
 
-    if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
-        args = { scheme: args.id }
-    }
-
+            if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+            args = { scheme: args.id }
+        }
+    
     if (Array.isArray(args)) {
         args = {
-            scheme: args[0],
-        }
+                    scheme: args[0],
+                }
     }
 
     const parsedArgs = {
-        scheme: typeof args.scheme === 'object'
-        ? args.scheme.id
-        : args.scheme,
-    }
+                        scheme: typeof args.scheme === 'object'
+                ? args.scheme.id
+                : args.scheme,
+                }
 
     return index.definition.url
             .replace('{scheme}', parsedArgs.scheme.toString())
@@ -50,9 +50,9 @@ index.url = (args: { scheme: number | { id: number } } | [scheme: number | { id:
 
 /**
 * @see \App\Http\Controllers\IrrigationFinancialProgressController::index
-* @see app/Http/Controllers/IrrigationFinancialProgressController.php:28
-* @route '/irrigation/schemes/{scheme}/financial-installments'
-*/
+ * @see app/Http/Controllers/IrrigationFinancialProgressController.php:28
+ * @route '/irrigation/schemes/{scheme}/financial-installments'
+ */
 index.get = (args: { scheme: number | { id: number } } | [scheme: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -60,12 +60,11 @@ index.get = (args: { scheme: number | { id: number } } | [scheme: number | { id:
     url: index.url(args, options),
     method: 'get',
 })
-
 /**
 * @see \App\Http\Controllers\IrrigationFinancialProgressController::index
-* @see app/Http/Controllers/IrrigationFinancialProgressController.php:28
-* @route '/irrigation/schemes/{scheme}/financial-installments'
-*/
+ * @see app/Http/Controllers/IrrigationFinancialProgressController.php:28
+ * @route '/irrigation/schemes/{scheme}/financial-installments'
+ */
 index.head = (args: { scheme: number | { id: number } } | [scheme: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -76,9 +75,9 @@ index.head = (args: { scheme: number | { id: number } } | [scheme: number | { id
 
 /**
 * @see \App\Http\Controllers\IrrigationFinancialProgressController::create
-* @see app/Http/Controllers/IrrigationFinancialProgressController.php:0
-* @route '/irrigation/schemes/{scheme}/financial-installments/create'
-*/
+ * @see app/Http/Controllers/IrrigationFinancialProgressController.php:0
+ * @route '/irrigation/schemes/{scheme}/financial-installments/create'
+ */
 export const create = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -94,23 +93,24 @@ create.definition = {
 
 /**
 * @see \App\Http\Controllers\IrrigationFinancialProgressController::create
-* @see app/Http/Controllers/IrrigationFinancialProgressController.php:0
-* @route '/irrigation/schemes/{scheme}/financial-installments/create'
-*/
+ * @see app/Http/Controllers/IrrigationFinancialProgressController.php:0
+ * @route '/irrigation/schemes/{scheme}/financial-installments/create'
+ */
 create.url = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { scheme: args }
     }
 
+    
     if (Array.isArray(args)) {
         args = {
-            scheme: args[0],
-        }
+                    scheme: args[0],
+                }
     }
 
     const parsedArgs = {
-        scheme: args.scheme,
-    }
+                        scheme: args.scheme,
+                }
 
     return create.definition.url
             .replace('{scheme}', parsedArgs.scheme.toString())
@@ -119,9 +119,9 @@ create.url = (args: { scheme: string | number } | [scheme: string | number ] | s
 
 /**
 * @see \App\Http\Controllers\IrrigationFinancialProgressController::create
-* @see app/Http/Controllers/IrrigationFinancialProgressController.php:0
-* @route '/irrigation/schemes/{scheme}/financial-installments/create'
-*/
+ * @see app/Http/Controllers/IrrigationFinancialProgressController.php:0
+ * @route '/irrigation/schemes/{scheme}/financial-installments/create'
+ */
 create.get = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -129,12 +129,11 @@ create.get = (args: { scheme: string | number } | [scheme: string | number ] | s
     url: create.url(args, options),
     method: 'get',
 })
-
 /**
 * @see \App\Http\Controllers\IrrigationFinancialProgressController::create
-* @see app/Http/Controllers/IrrigationFinancialProgressController.php:0
-* @route '/irrigation/schemes/{scheme}/financial-installments/create'
-*/
+ * @see app/Http/Controllers/IrrigationFinancialProgressController.php:0
+ * @route '/irrigation/schemes/{scheme}/financial-installments/create'
+ */
 create.head = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -145,9 +144,9 @@ create.head = (args: { scheme: string | number } | [scheme: string | number ] | 
 
 /**
 * @see \App\Http\Controllers\IrrigationFinancialProgressController::store
-* @see app/Http/Controllers/IrrigationFinancialProgressController.php:54
-* @route '/irrigation/schemes/{scheme}/financial-installments'
-*/
+ * @see app/Http/Controllers/IrrigationFinancialProgressController.php:54
+ * @route '/irrigation/schemes/{scheme}/financial-installments'
+ */
 export const store = (args: { scheme: number | { id: number } } | [scheme: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
@@ -163,29 +162,29 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\IrrigationFinancialProgressController::store
-* @see app/Http/Controllers/IrrigationFinancialProgressController.php:54
-* @route '/irrigation/schemes/{scheme}/financial-installments'
-*/
+ * @see app/Http/Controllers/IrrigationFinancialProgressController.php:54
+ * @route '/irrigation/schemes/{scheme}/financial-installments'
+ */
 store.url = (args: { scheme: number | { id: number } } | [scheme: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { scheme: args }
     }
 
-    if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
-        args = { scheme: args.id }
-    }
-
+            if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+            args = { scheme: args.id }
+        }
+    
     if (Array.isArray(args)) {
         args = {
-            scheme: args[0],
-        }
+                    scheme: args[0],
+                }
     }
 
     const parsedArgs = {
-        scheme: typeof args.scheme === 'object'
-        ? args.scheme.id
-        : args.scheme,
-    }
+                        scheme: typeof args.scheme === 'object'
+                ? args.scheme.id
+                : args.scheme,
+                }
 
     return store.definition.url
             .replace('{scheme}', parsedArgs.scheme.toString())
@@ -194,9 +193,9 @@ store.url = (args: { scheme: number | { id: number } } | [scheme: number | { id:
 
 /**
 * @see \App\Http\Controllers\IrrigationFinancialProgressController::store
-* @see app/Http/Controllers/IrrigationFinancialProgressController.php:54
-* @route '/irrigation/schemes/{scheme}/financial-installments'
-*/
+ * @see app/Http/Controllers/IrrigationFinancialProgressController.php:54
+ * @route '/irrigation/schemes/{scheme}/financial-installments'
+ */
 store.post = (args: { scheme: number | { id: number } } | [scheme: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
@@ -207,9 +206,9 @@ store.post = (args: { scheme: number | { id: number } } | [scheme: number | { id
 
 /**
 * @see \App\Http\Controllers\IrrigationFinancialProgressController::show
-* @see app/Http/Controllers/IrrigationFinancialProgressController.php:0
-* @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
-*/
+ * @see app/Http/Controllers/IrrigationFinancialProgressController.php:0
+ * @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
+ */
 export const show = (args: { scheme: string | number, financial_installment: string | number } | [scheme: string | number, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -225,21 +224,21 @@ show.definition = {
 
 /**
 * @see \App\Http\Controllers\IrrigationFinancialProgressController::show
-* @see app/Http/Controllers/IrrigationFinancialProgressController.php:0
-* @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
-*/
+ * @see app/Http/Controllers/IrrigationFinancialProgressController.php:0
+ * @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
+ */
 show.url = (args: { scheme: string | number, financial_installment: string | number } | [scheme: string | number, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (Array.isArray(args)) {
         args = {
-            scheme: args[0],
-            financial_installment: args[1],
-        }
+                    scheme: args[0],
+                    financial_installment: args[1],
+                }
     }
 
     const parsedArgs = {
-        scheme: args.scheme,
-        financial_installment: args.financial_installment,
-    }
+                        scheme: args.scheme,
+                                financial_installment: args.financial_installment,
+                }
 
     return show.definition.url
             .replace('{scheme}', parsedArgs.scheme.toString())
@@ -249,9 +248,9 @@ show.url = (args: { scheme: string | number, financial_installment: string | num
 
 /**
 * @see \App\Http\Controllers\IrrigationFinancialProgressController::show
-* @see app/Http/Controllers/IrrigationFinancialProgressController.php:0
-* @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
-*/
+ * @see app/Http/Controllers/IrrigationFinancialProgressController.php:0
+ * @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
+ */
 show.get = (args: { scheme: string | number, financial_installment: string | number } | [scheme: string | number, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -259,12 +258,11 @@ show.get = (args: { scheme: string | number, financial_installment: string | num
     url: show.url(args, options),
     method: 'get',
 })
-
 /**
 * @see \App\Http\Controllers\IrrigationFinancialProgressController::show
-* @see app/Http/Controllers/IrrigationFinancialProgressController.php:0
-* @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
-*/
+ * @see app/Http/Controllers/IrrigationFinancialProgressController.php:0
+ * @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
+ */
 show.head = (args: { scheme: string | number, financial_installment: string | number } | [scheme: string | number, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -275,9 +273,9 @@ show.head = (args: { scheme: string | number, financial_installment: string | nu
 
 /**
 * @see \App\Http\Controllers\IrrigationFinancialProgressController::edit
-* @see app/Http/Controllers/IrrigationFinancialProgressController.php:0
-* @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}/edit'
-*/
+ * @see app/Http/Controllers/IrrigationFinancialProgressController.php:0
+ * @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}/edit'
+ */
 export const edit = (args: { scheme: string | number, financial_installment: string | number } | [scheme: string | number, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -293,21 +291,21 @@ edit.definition = {
 
 /**
 * @see \App\Http\Controllers\IrrigationFinancialProgressController::edit
-* @see app/Http/Controllers/IrrigationFinancialProgressController.php:0
-* @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}/edit'
-*/
+ * @see app/Http/Controllers/IrrigationFinancialProgressController.php:0
+ * @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}/edit'
+ */
 edit.url = (args: { scheme: string | number, financial_installment: string | number } | [scheme: string | number, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (Array.isArray(args)) {
         args = {
-            scheme: args[0],
-            financial_installment: args[1],
-        }
+                    scheme: args[0],
+                    financial_installment: args[1],
+                }
     }
 
     const parsedArgs = {
-        scheme: args.scheme,
-        financial_installment: args.financial_installment,
-    }
+                        scheme: args.scheme,
+                                financial_installment: args.financial_installment,
+                }
 
     return edit.definition.url
             .replace('{scheme}', parsedArgs.scheme.toString())
@@ -317,9 +315,9 @@ edit.url = (args: { scheme: string | number, financial_installment: string | num
 
 /**
 * @see \App\Http\Controllers\IrrigationFinancialProgressController::edit
-* @see app/Http/Controllers/IrrigationFinancialProgressController.php:0
-* @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}/edit'
-*/
+ * @see app/Http/Controllers/IrrigationFinancialProgressController.php:0
+ * @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}/edit'
+ */
 edit.get = (args: { scheme: string | number, financial_installment: string | number } | [scheme: string | number, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -327,12 +325,11 @@ edit.get = (args: { scheme: string | number, financial_installment: string | num
     url: edit.url(args, options),
     method: 'get',
 })
-
 /**
 * @see \App\Http\Controllers\IrrigationFinancialProgressController::edit
-* @see app/Http/Controllers/IrrigationFinancialProgressController.php:0
-* @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}/edit'
-*/
+ * @see app/Http/Controllers/IrrigationFinancialProgressController.php:0
+ * @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}/edit'
+ */
 edit.head = (args: { scheme: string | number, financial_installment: string | number } | [scheme: string | number, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -343,9 +340,9 @@ edit.head = (args: { scheme: string | number, financial_installment: string | nu
 
 /**
 * @see \App\Http\Controllers\IrrigationFinancialProgressController::update
-* @see app/Http/Controllers/IrrigationFinancialProgressController.php:68
-* @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
-*/
+ * @see app/Http/Controllers/IrrigationFinancialProgressController.php:68
+ * @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
+ */
 export const update = (args: { scheme: number | { id: number }, financial_installment: string | number } | [scheme: number | { id: number }, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'put',
@@ -361,23 +358,23 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\IrrigationFinancialProgressController::update
-* @see app/Http/Controllers/IrrigationFinancialProgressController.php:68
-* @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
-*/
+ * @see app/Http/Controllers/IrrigationFinancialProgressController.php:68
+ * @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
+ */
 update.url = (args: { scheme: number | { id: number }, financial_installment: string | number } | [scheme: number | { id: number }, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (Array.isArray(args)) {
         args = {
-            scheme: args[0],
-            financial_installment: args[1],
-        }
+                    scheme: args[0],
+                    financial_installment: args[1],
+                }
     }
 
     const parsedArgs = {
-        scheme: typeof args.scheme === 'object'
-        ? args.scheme.id
-        : args.scheme,
-        financial_installment: args.financial_installment,
-    }
+                        scheme: typeof args.scheme === 'object'
+                ? args.scheme.id
+                : args.scheme,
+                                financial_installment: args.financial_installment,
+                }
 
     return update.definition.url
             .replace('{scheme}', parsedArgs.scheme.toString())
@@ -387,9 +384,9 @@ update.url = (args: { scheme: number | { id: number }, financial_installment: st
 
 /**
 * @see \App\Http\Controllers\IrrigationFinancialProgressController::update
-* @see app/Http/Controllers/IrrigationFinancialProgressController.php:68
-* @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
-*/
+ * @see app/Http/Controllers/IrrigationFinancialProgressController.php:68
+ * @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
+ */
 update.put = (args: { scheme: number | { id: number }, financial_installment: string | number } | [scheme: number | { id: number }, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'put',
@@ -397,12 +394,11 @@ update.put = (args: { scheme: number | { id: number }, financial_installment: st
     url: update.url(args, options),
     method: 'put',
 })
-
 /**
 * @see \App\Http\Controllers\IrrigationFinancialProgressController::update
-* @see app/Http/Controllers/IrrigationFinancialProgressController.php:68
-* @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
-*/
+ * @see app/Http/Controllers/IrrigationFinancialProgressController.php:68
+ * @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
+ */
 update.patch = (args: { scheme: number | { id: number }, financial_installment: string | number } | [scheme: number | { id: number }, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'patch',
@@ -413,9 +409,9 @@ update.patch = (args: { scheme: number | { id: number }, financial_installment: 
 
 /**
 * @see \App\Http\Controllers\IrrigationFinancialProgressController::destroy
-* @see app/Http/Controllers/IrrigationFinancialProgressController.php:82
-* @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
-*/
+ * @see app/Http/Controllers/IrrigationFinancialProgressController.php:82
+ * @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
+ */
 export const destroy = (args: { scheme: number | { id: number }, financial_installment: string | number } | [scheme: number | { id: number }, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'delete',
@@ -431,23 +427,23 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\IrrigationFinancialProgressController::destroy
-* @see app/Http/Controllers/IrrigationFinancialProgressController.php:82
-* @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
-*/
+ * @see app/Http/Controllers/IrrigationFinancialProgressController.php:82
+ * @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
+ */
 destroy.url = (args: { scheme: number | { id: number }, financial_installment: string | number } | [scheme: number | { id: number }, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (Array.isArray(args)) {
         args = {
-            scheme: args[0],
-            financial_installment: args[1],
-        }
+                    scheme: args[0],
+                    financial_installment: args[1],
+                }
     }
 
     const parsedArgs = {
-        scheme: typeof args.scheme === 'object'
-        ? args.scheme.id
-        : args.scheme,
-        financial_installment: args.financial_installment,
-    }
+                        scheme: typeof args.scheme === 'object'
+                ? args.scheme.id
+                : args.scheme,
+                                financial_installment: args.financial_installment,
+                }
 
     return destroy.definition.url
             .replace('{scheme}', parsedArgs.scheme.toString())
@@ -457,9 +453,9 @@ destroy.url = (args: { scheme: number | { id: number }, financial_installment: s
 
 /**
 * @see \App\Http\Controllers\IrrigationFinancialProgressController::destroy
-* @see app/Http/Controllers/IrrigationFinancialProgressController.php:82
-* @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
-*/
+ * @see app/Http/Controllers/IrrigationFinancialProgressController.php:82
+ * @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
+ */
 destroy.delete = (args: { scheme: number | { id: number }, financial_installment: string | number } | [scheme: number | { id: number }, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'delete',
@@ -467,15 +463,14 @@ destroy.delete = (args: { scheme: number | { id: number }, financial_installment
     url: destroy.url(args, options),
     method: 'delete',
 })
-
 const financialInstallments = {
     index,
-    create,
-    store,
-    show,
-    edit,
-    update,
-    destroy,
+create,
+store,
+show,
+edit,
+update,
+destroy,
 }
 
 export default financialInstallments

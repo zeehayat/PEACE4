@@ -16,17 +16,17 @@ const props = defineProps({
 
 const emit = defineEmits(['close']);
 
-const isEditMode = computed(() =&gt; !!props.role);
+const isEditMode = computed(() => !!props.role);
 
 const form = useForm({
         name: props.role?.name || '',
-        permissions: props.role?.permissions.map(p =&gt; p.name) || [],
+        permissions: props.role?.permissions.map(p => p.name) || [],
     });
 
-const submit = () =&gt; {
+const submit = () => {
     const routeName = isEditMode.value ? 'admin.roles.update' : 'admin.roles.store';
     const options = {
-            onSuccess: () =&gt; emit('close'),
+            onSuccess: () => emit('close'),
         };
 
     if (isEditMode.value) {
