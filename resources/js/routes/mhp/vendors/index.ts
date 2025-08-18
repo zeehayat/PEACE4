@@ -1,9 +1,9 @@
 import { queryParams, type QueryParams } from './../../../wayfinder'
 /**
 * @see \App\Http\Controllers\VendorController::autoSearch
-* @see app/Http/Controllers/VendorController.php:123
-* @route '/mhp/vendors/auto-search'
-*/
+ * @see app/Http/Controllers/VendorController.php:123
+ * @route '/mhp/vendors/auto-search'
+ */
 export const autoSearch = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -19,18 +19,18 @@ autoSearch.definition = {
 
 /**
 * @see \App\Http\Controllers\VendorController::autoSearch
-* @see app/Http/Controllers/VendorController.php:123
-* @route '/mhp/vendors/auto-search'
-*/
+ * @see app/Http/Controllers/VendorController.php:123
+ * @route '/mhp/vendors/auto-search'
+ */
 autoSearch.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     return autoSearch.definition.url + queryParams(options)
 }
 
 /**
 * @see \App\Http\Controllers\VendorController::autoSearch
-* @see app/Http/Controllers/VendorController.php:123
-* @route '/mhp/vendors/auto-search'
-*/
+ * @see app/Http/Controllers/VendorController.php:123
+ * @route '/mhp/vendors/auto-search'
+ */
 autoSearch.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -38,12 +38,11 @@ autoSearch.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): 
     url: autoSearch.url(options),
     method: 'get',
 })
-
 /**
 * @see \App\Http\Controllers\VendorController::autoSearch
-* @see app/Http/Controllers/VendorController.php:123
-* @route '/mhp/vendors/auto-search'
-*/
+ * @see app/Http/Controllers/VendorController.php:123
+ * @route '/mhp/vendors/auto-search'
+ */
 autoSearch.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -51,7 +50,6 @@ autoSearch.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }):
     url: autoSearch.url(options),
     method: 'head',
 })
-
 const vendors = {
     autoSearch,
 }

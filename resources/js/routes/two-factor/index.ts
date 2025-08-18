@@ -2,9 +2,9 @@ import { queryParams, type QueryParams } from './../../wayfinder'
 import login from './login'
 /**
 * @see \Laravel\Fortify\Http\Controllers\TwoFactorAuthenticatedSessionController::login
-* @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorAuthenticatedSessionController.php:42
-* @route '/two-factor-challenge'
-*/
+ * @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorAuthenticatedSessionController.php:42
+ * @route '/two-factor-challenge'
+ */
 export const login = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -20,18 +20,18 @@ login.definition = {
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\TwoFactorAuthenticatedSessionController::login
-* @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorAuthenticatedSessionController.php:42
-* @route '/two-factor-challenge'
-*/
+ * @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorAuthenticatedSessionController.php:42
+ * @route '/two-factor-challenge'
+ */
 login.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     return login.definition.url + queryParams(options)
 }
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\TwoFactorAuthenticatedSessionController::login
-* @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorAuthenticatedSessionController.php:42
-* @route '/two-factor-challenge'
-*/
+ * @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorAuthenticatedSessionController.php:42
+ * @route '/two-factor-challenge'
+ */
 login.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -39,12 +39,11 @@ login.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: login.url(options),
     method: 'get',
 })
-
 /**
 * @see \Laravel\Fortify\Http\Controllers\TwoFactorAuthenticatedSessionController::login
-* @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorAuthenticatedSessionController.php:42
-* @route '/two-factor-challenge'
-*/
+ * @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorAuthenticatedSessionController.php:42
+ * @route '/two-factor-challenge'
+ */
 login.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -55,9 +54,9 @@ login.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\TwoFactorAuthenticationController::enable
-* @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorAuthenticationController.php:21
-* @route '/user/two-factor-authentication'
-*/
+ * @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorAuthenticationController.php:21
+ * @route '/user/two-factor-authentication'
+ */
 export const enable = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
@@ -73,18 +72,18 @@ enable.definition = {
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\TwoFactorAuthenticationController::enable
-* @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorAuthenticationController.php:21
-* @route '/user/two-factor-authentication'
-*/
+ * @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorAuthenticationController.php:21
+ * @route '/user/two-factor-authentication'
+ */
 enable.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     return enable.definition.url + queryParams(options)
 }
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\TwoFactorAuthenticationController::enable
-* @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorAuthenticationController.php:21
-* @route '/user/two-factor-authentication'
-*/
+ * @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorAuthenticationController.php:21
+ * @route '/user/two-factor-authentication'
+ */
 enable.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
@@ -95,9 +94,9 @@ enable.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\ConfirmedTwoFactorAuthenticationController::confirm
-* @see vendor/laravel/fortify/src/Http/Controllers/ConfirmedTwoFactorAuthenticationController.php:19
-* @route '/user/confirmed-two-factor-authentication'
-*/
+ * @see vendor/laravel/fortify/src/Http/Controllers/ConfirmedTwoFactorAuthenticationController.php:19
+ * @route '/user/confirmed-two-factor-authentication'
+ */
 export const confirm = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
@@ -113,18 +112,18 @@ confirm.definition = {
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\ConfirmedTwoFactorAuthenticationController::confirm
-* @see vendor/laravel/fortify/src/Http/Controllers/ConfirmedTwoFactorAuthenticationController.php:19
-* @route '/user/confirmed-two-factor-authentication'
-*/
+ * @see vendor/laravel/fortify/src/Http/Controllers/ConfirmedTwoFactorAuthenticationController.php:19
+ * @route '/user/confirmed-two-factor-authentication'
+ */
 confirm.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     return confirm.definition.url + queryParams(options)
 }
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\ConfirmedTwoFactorAuthenticationController::confirm
-* @see vendor/laravel/fortify/src/Http/Controllers/ConfirmedTwoFactorAuthenticationController.php:19
-* @route '/user/confirmed-two-factor-authentication'
-*/
+ * @see vendor/laravel/fortify/src/Http/Controllers/ConfirmedTwoFactorAuthenticationController.php:19
+ * @route '/user/confirmed-two-factor-authentication'
+ */
 confirm.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
@@ -135,9 +134,9 @@ confirm.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\TwoFactorAuthenticationController::disable
-* @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorAuthenticationController.php:35
-* @route '/user/two-factor-authentication'
-*/
+ * @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorAuthenticationController.php:35
+ * @route '/user/two-factor-authentication'
+ */
 export const disable = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'delete',
@@ -153,18 +152,18 @@ disable.definition = {
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\TwoFactorAuthenticationController::disable
-* @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorAuthenticationController.php:35
-* @route '/user/two-factor-authentication'
-*/
+ * @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorAuthenticationController.php:35
+ * @route '/user/two-factor-authentication'
+ */
 disable.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     return disable.definition.url + queryParams(options)
 }
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\TwoFactorAuthenticationController::disable
-* @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorAuthenticationController.php:35
-* @route '/user/two-factor-authentication'
-*/
+ * @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorAuthenticationController.php:35
+ * @route '/user/two-factor-authentication'
+ */
 disable.delete = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'delete',
@@ -175,9 +174,9 @@ disable.delete = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): 
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\TwoFactorQrCodeController::qrCode
-* @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorQrCodeController.php:16
-* @route '/user/two-factor-qr-code'
-*/
+ * @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorQrCodeController.php:16
+ * @route '/user/two-factor-qr-code'
+ */
 export const qrCode = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -193,18 +192,18 @@ qrCode.definition = {
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\TwoFactorQrCodeController::qrCode
-* @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorQrCodeController.php:16
-* @route '/user/two-factor-qr-code'
-*/
+ * @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorQrCodeController.php:16
+ * @route '/user/two-factor-qr-code'
+ */
 qrCode.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     return qrCode.definition.url + queryParams(options)
 }
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\TwoFactorQrCodeController::qrCode
-* @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorQrCodeController.php:16
-* @route '/user/two-factor-qr-code'
-*/
+ * @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorQrCodeController.php:16
+ * @route '/user/two-factor-qr-code'
+ */
 qrCode.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -212,12 +211,11 @@ qrCode.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: qrCode.url(options),
     method: 'get',
 })
-
 /**
 * @see \Laravel\Fortify\Http\Controllers\TwoFactorQrCodeController::qrCode
-* @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorQrCodeController.php:16
-* @route '/user/two-factor-qr-code'
-*/
+ * @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorQrCodeController.php:16
+ * @route '/user/two-factor-qr-code'
+ */
 qrCode.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -228,9 +226,9 @@ qrCode.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\TwoFactorSecretKeyController::secretKey
-* @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorSecretKeyController.php:18
-* @route '/user/two-factor-secret-key'
-*/
+ * @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorSecretKeyController.php:18
+ * @route '/user/two-factor-secret-key'
+ */
 export const secretKey = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -246,18 +244,18 @@ secretKey.definition = {
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\TwoFactorSecretKeyController::secretKey
-* @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorSecretKeyController.php:18
-* @route '/user/two-factor-secret-key'
-*/
+ * @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorSecretKeyController.php:18
+ * @route '/user/two-factor-secret-key'
+ */
 secretKey.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     return secretKey.definition.url + queryParams(options)
 }
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\TwoFactorSecretKeyController::secretKey
-* @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorSecretKeyController.php:18
-* @route '/user/two-factor-secret-key'
-*/
+ * @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorSecretKeyController.php:18
+ * @route '/user/two-factor-secret-key'
+ */
 secretKey.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -265,12 +263,11 @@ secretKey.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: secretKey.url(options),
     method: 'get',
 })
-
 /**
 * @see \Laravel\Fortify\Http\Controllers\TwoFactorSecretKeyController::secretKey
-* @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorSecretKeyController.php:18
-* @route '/user/two-factor-secret-key'
-*/
+ * @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorSecretKeyController.php:18
+ * @route '/user/two-factor-secret-key'
+ */
 secretKey.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -281,9 +278,9 @@ secretKey.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): 
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\RecoveryCodeController::recoveryCodes
-* @see vendor/laravel/fortify/src/Http/Controllers/RecoveryCodeController.php:20
-* @route '/user/two-factor-recovery-codes'
-*/
+ * @see vendor/laravel/fortify/src/Http/Controllers/RecoveryCodeController.php:20
+ * @route '/user/two-factor-recovery-codes'
+ */
 export const recoveryCodes = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -299,18 +296,18 @@ recoveryCodes.definition = {
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\RecoveryCodeController::recoveryCodes
-* @see vendor/laravel/fortify/src/Http/Controllers/RecoveryCodeController.php:20
-* @route '/user/two-factor-recovery-codes'
-*/
+ * @see vendor/laravel/fortify/src/Http/Controllers/RecoveryCodeController.php:20
+ * @route '/user/two-factor-recovery-codes'
+ */
 recoveryCodes.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     return recoveryCodes.definition.url + queryParams(options)
 }
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\RecoveryCodeController::recoveryCodes
-* @see vendor/laravel/fortify/src/Http/Controllers/RecoveryCodeController.php:20
-* @route '/user/two-factor-recovery-codes'
-*/
+ * @see vendor/laravel/fortify/src/Http/Controllers/RecoveryCodeController.php:20
+ * @route '/user/two-factor-recovery-codes'
+ */
 recoveryCodes.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -318,12 +315,11 @@ recoveryCodes.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }
     url: recoveryCodes.url(options),
     method: 'get',
 })
-
 /**
 * @see \Laravel\Fortify\Http\Controllers\RecoveryCodeController::recoveryCodes
-* @see vendor/laravel/fortify/src/Http/Controllers/RecoveryCodeController.php:20
-* @route '/user/two-factor-recovery-codes'
-*/
+ * @see vendor/laravel/fortify/src/Http/Controllers/RecoveryCodeController.php:20
+ * @route '/user/two-factor-recovery-codes'
+ */
 recoveryCodes.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -331,15 +327,14 @@ recoveryCodes.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams 
     url: recoveryCodes.url(options),
     method: 'head',
 })
-
 const twoFactor = {
     login,
-    enable,
-    confirm,
-    disable,
-    qrCode,
-    secretKey,
-    recoveryCodes,
+enable,
+confirm,
+disable,
+qrCode,
+secretKey,
+recoveryCodes,
 }
 
 export default twoFactor

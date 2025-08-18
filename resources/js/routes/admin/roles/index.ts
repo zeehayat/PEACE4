@@ -1,9 +1,9 @@
 import { queryParams, type QueryParams } from './../../../wayfinder'
 /**
 * @see \App\Http\Controllers\RoleController::index
-* @see app/Http/Controllers/RoleController.php:21
-* @route '/admin/roles'
-*/
+ * @see app/Http/Controllers/RoleController.php:21
+ * @route '/admin/roles'
+ */
 export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -19,18 +19,18 @@ index.definition = {
 
 /**
 * @see \App\Http\Controllers\RoleController::index
-* @see app/Http/Controllers/RoleController.php:21
-* @route '/admin/roles'
-*/
+ * @see app/Http/Controllers/RoleController.php:21
+ * @route '/admin/roles'
+ */
 index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     return index.definition.url + queryParams(options)
 }
 
 /**
 * @see \App\Http\Controllers\RoleController::index
-* @see app/Http/Controllers/RoleController.php:21
-* @route '/admin/roles'
-*/
+ * @see app/Http/Controllers/RoleController.php:21
+ * @route '/admin/roles'
+ */
 index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -38,12 +38,11 @@ index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: index.url(options),
     method: 'get',
 })
-
 /**
 * @see \App\Http\Controllers\RoleController::index
-* @see app/Http/Controllers/RoleController.php:21
-* @route '/admin/roles'
-*/
+ * @see app/Http/Controllers/RoleController.php:21
+ * @route '/admin/roles'
+ */
 index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -54,9 +53,9 @@ index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\RoleController::create
-* @see app/Http/Controllers/RoleController.php:0
-* @route '/admin/roles/create'
-*/
+ * @see app/Http/Controllers/RoleController.php:0
+ * @route '/admin/roles/create'
+ */
 export const create = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -72,18 +71,18 @@ create.definition = {
 
 /**
 * @see \App\Http\Controllers\RoleController::create
-* @see app/Http/Controllers/RoleController.php:0
-* @route '/admin/roles/create'
-*/
+ * @see app/Http/Controllers/RoleController.php:0
+ * @route '/admin/roles/create'
+ */
 create.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     return create.definition.url + queryParams(options)
 }
 
 /**
 * @see \App\Http\Controllers\RoleController::create
-* @see app/Http/Controllers/RoleController.php:0
-* @route '/admin/roles/create'
-*/
+ * @see app/Http/Controllers/RoleController.php:0
+ * @route '/admin/roles/create'
+ */
 create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -91,12 +90,11 @@ create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: create.url(options),
     method: 'get',
 })
-
 /**
 * @see \App\Http\Controllers\RoleController::create
-* @see app/Http/Controllers/RoleController.php:0
-* @route '/admin/roles/create'
-*/
+ * @see app/Http/Controllers/RoleController.php:0
+ * @route '/admin/roles/create'
+ */
 create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -107,9 +105,9 @@ create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\RoleController::store
-* @see app/Http/Controllers/RoleController.php:42
-* @route '/admin/roles'
-*/
+ * @see app/Http/Controllers/RoleController.php:42
+ * @route '/admin/roles'
+ */
 export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
@@ -125,18 +123,18 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\RoleController::store
-* @see app/Http/Controllers/RoleController.php:42
-* @route '/admin/roles'
-*/
+ * @see app/Http/Controllers/RoleController.php:42
+ * @route '/admin/roles'
+ */
 store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     return store.definition.url + queryParams(options)
 }
 
 /**
 * @see \App\Http\Controllers\RoleController::store
-* @see app/Http/Controllers/RoleController.php:42
-* @route '/admin/roles'
-*/
+ * @see app/Http/Controllers/RoleController.php:42
+ * @route '/admin/roles'
+ */
 store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
@@ -147,9 +145,9 @@ store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\RoleController::edit
-* @see app/Http/Controllers/RoleController.php:0
-* @route '/admin/roles/{role}/edit'
-*/
+ * @see app/Http/Controllers/RoleController.php:0
+ * @route '/admin/roles/{role}/edit'
+ */
 export const edit = (args: { role: string | number } | [role: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -165,23 +163,24 @@ edit.definition = {
 
 /**
 * @see \App\Http\Controllers\RoleController::edit
-* @see app/Http/Controllers/RoleController.php:0
-* @route '/admin/roles/{role}/edit'
-*/
+ * @see app/Http/Controllers/RoleController.php:0
+ * @route '/admin/roles/{role}/edit'
+ */
 edit.url = (args: { role: string | number } | [role: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { role: args }
     }
 
+    
     if (Array.isArray(args)) {
         args = {
-            role: args[0],
-        }
+                    role: args[0],
+                }
     }
 
     const parsedArgs = {
-        role: args.role,
-    }
+                        role: args.role,
+                }
 
     return edit.definition.url
             .replace('{role}', parsedArgs.role.toString())
@@ -190,9 +189,9 @@ edit.url = (args: { role: string | number } | [role: string | number ] | string 
 
 /**
 * @see \App\Http\Controllers\RoleController::edit
-* @see app/Http/Controllers/RoleController.php:0
-* @route '/admin/roles/{role}/edit'
-*/
+ * @see app/Http/Controllers/RoleController.php:0
+ * @route '/admin/roles/{role}/edit'
+ */
 edit.get = (args: { role: string | number } | [role: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -200,12 +199,11 @@ edit.get = (args: { role: string | number } | [role: string | number ] | string 
     url: edit.url(args, options),
     method: 'get',
 })
-
 /**
 * @see \App\Http\Controllers\RoleController::edit
-* @see app/Http/Controllers/RoleController.php:0
-* @route '/admin/roles/{role}/edit'
-*/
+ * @see app/Http/Controllers/RoleController.php:0
+ * @route '/admin/roles/{role}/edit'
+ */
 edit.head = (args: { role: string | number } | [role: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -216,9 +214,9 @@ edit.head = (args: { role: string | number } | [role: string | number ] | string
 
 /**
 * @see \App\Http\Controllers\RoleController::update
-* @see app/Http/Controllers/RoleController.php:57
-* @route '/admin/roles/{role}'
-*/
+ * @see app/Http/Controllers/RoleController.php:57
+ * @route '/admin/roles/{role}'
+ */
 export const update = (args: { role: number | { id: number } } | [role: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'put',
@@ -234,29 +232,29 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\RoleController::update
-* @see app/Http/Controllers/RoleController.php:57
-* @route '/admin/roles/{role}'
-*/
+ * @see app/Http/Controllers/RoleController.php:57
+ * @route '/admin/roles/{role}'
+ */
 update.url = (args: { role: number | { id: number } } | [role: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { role: args }
     }
 
-    if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
-        args = { role: args.id }
-    }
-
+            if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+            args = { role: args.id }
+        }
+    
     if (Array.isArray(args)) {
         args = {
-            role: args[0],
-        }
+                    role: args[0],
+                }
     }
 
     const parsedArgs = {
-        role: typeof args.role === 'object'
-        ? args.role.id
-        : args.role,
-    }
+                        role: typeof args.role === 'object'
+                ? args.role.id
+                : args.role,
+                }
 
     return update.definition.url
             .replace('{role}', parsedArgs.role.toString())
@@ -265,9 +263,9 @@ update.url = (args: { role: number | { id: number } } | [role: number | { id: nu
 
 /**
 * @see \App\Http\Controllers\RoleController::update
-* @see app/Http/Controllers/RoleController.php:57
-* @route '/admin/roles/{role}'
-*/
+ * @see app/Http/Controllers/RoleController.php:57
+ * @route '/admin/roles/{role}'
+ */
 update.put = (args: { role: number | { id: number } } | [role: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'put',
@@ -275,12 +273,11 @@ update.put = (args: { role: number | { id: number } } | [role: number | { id: nu
     url: update.url(args, options),
     method: 'put',
 })
-
 /**
 * @see \App\Http\Controllers\RoleController::update
-* @see app/Http/Controllers/RoleController.php:57
-* @route '/admin/roles/{role}'
-*/
+ * @see app/Http/Controllers/RoleController.php:57
+ * @route '/admin/roles/{role}'
+ */
 update.patch = (args: { role: number | { id: number } } | [role: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'patch',
@@ -291,9 +288,9 @@ update.patch = (args: { role: number | { id: number } } | [role: number | { id: 
 
 /**
 * @see \App\Http\Controllers\RoleController::destroy
-* @see app/Http/Controllers/RoleController.php:72
-* @route '/admin/roles/{role}'
-*/
+ * @see app/Http/Controllers/RoleController.php:72
+ * @route '/admin/roles/{role}'
+ */
 export const destroy = (args: { role: number | { id: number } } | [role: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'delete',
@@ -309,29 +306,29 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\RoleController::destroy
-* @see app/Http/Controllers/RoleController.php:72
-* @route '/admin/roles/{role}'
-*/
+ * @see app/Http/Controllers/RoleController.php:72
+ * @route '/admin/roles/{role}'
+ */
 destroy.url = (args: { role: number | { id: number } } | [role: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { role: args }
     }
 
-    if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
-        args = { role: args.id }
-    }
-
+            if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+            args = { role: args.id }
+        }
+    
     if (Array.isArray(args)) {
         args = {
-            role: args[0],
-        }
+                    role: args[0],
+                }
     }
 
     const parsedArgs = {
-        role: typeof args.role === 'object'
-        ? args.role.id
-        : args.role,
-    }
+                        role: typeof args.role === 'object'
+                ? args.role.id
+                : args.role,
+                }
 
     return destroy.definition.url
             .replace('{role}', parsedArgs.role.toString())
@@ -340,9 +337,9 @@ destroy.url = (args: { role: number | { id: number } } | [role: number | { id: n
 
 /**
 * @see \App\Http\Controllers\RoleController::destroy
-* @see app/Http/Controllers/RoleController.php:72
-* @route '/admin/roles/{role}'
-*/
+ * @see app/Http/Controllers/RoleController.php:72
+ * @route '/admin/roles/{role}'
+ */
 destroy.delete = (args: { role: number | { id: number } } | [role: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'delete',
@@ -350,14 +347,13 @@ destroy.delete = (args: { role: number | { id: number } } | [role: number | { id
     url: destroy.url(args, options),
     method: 'delete',
 })
-
 const roles = {
     index,
-    create,
-    store,
-    edit,
-    update,
-    destroy,
+create,
+store,
+edit,
+update,
+destroy,
 }
 
 export default roles

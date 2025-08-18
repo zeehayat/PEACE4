@@ -1,9 +1,9 @@
 import { queryParams, type QueryParams } from './../../wayfinder'
 /**
 * @see \App\Http\Controllers\AttachmentController::store
-* @see app/Http/Controllers/AttachmentController.php:23
-* @route '/attachments'
-*/
+ * @see app/Http/Controllers/AttachmentController.php:23
+ * @route '/attachments'
+ */
 export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
@@ -19,18 +19,18 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\AttachmentController::store
-* @see app/Http/Controllers/AttachmentController.php:23
-* @route '/attachments'
-*/
+ * @see app/Http/Controllers/AttachmentController.php:23
+ * @route '/attachments'
+ */
 store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     return store.definition.url + queryParams(options)
 }
 
 /**
 * @see \App\Http\Controllers\AttachmentController::store
-* @see app/Http/Controllers/AttachmentController.php:23
-* @route '/attachments'
-*/
+ * @see app/Http/Controllers/AttachmentController.php:23
+ * @route '/attachments'
+ */
 store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
@@ -41,9 +41,9 @@ store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\AttachmentController::show
-* @see app/Http/Controllers/AttachmentController.php:41
-* @route '/attachments/{attachment}'
-*/
+ * @see app/Http/Controllers/AttachmentController.php:41
+ * @route '/attachments/{attachment}'
+ */
 export const show = (args: { attachment: string | number } | [attachment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -59,23 +59,24 @@ show.definition = {
 
 /**
 * @see \App\Http\Controllers\AttachmentController::show
-* @see app/Http/Controllers/AttachmentController.php:41
-* @route '/attachments/{attachment}'
-*/
+ * @see app/Http/Controllers/AttachmentController.php:41
+ * @route '/attachments/{attachment}'
+ */
 show.url = (args: { attachment: string | number } | [attachment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { attachment: args }
     }
 
+    
     if (Array.isArray(args)) {
         args = {
-            attachment: args[0],
-        }
+                    attachment: args[0],
+                }
     }
 
     const parsedArgs = {
-        attachment: args.attachment,
-    }
+                        attachment: args.attachment,
+                }
 
     return show.definition.url
             .replace('{attachment}', parsedArgs.attachment.toString())
@@ -84,9 +85,9 @@ show.url = (args: { attachment: string | number } | [attachment: string | number
 
 /**
 * @see \App\Http\Controllers\AttachmentController::show
-* @see app/Http/Controllers/AttachmentController.php:41
-* @route '/attachments/{attachment}'
-*/
+ * @see app/Http/Controllers/AttachmentController.php:41
+ * @route '/attachments/{attachment}'
+ */
 show.get = (args: { attachment: string | number } | [attachment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -94,12 +95,11 @@ show.get = (args: { attachment: string | number } | [attachment: string | number
     url: show.url(args, options),
     method: 'get',
 })
-
 /**
 * @see \App\Http\Controllers\AttachmentController::show
-* @see app/Http/Controllers/AttachmentController.php:41
-* @route '/attachments/{attachment}'
-*/
+ * @see app/Http/Controllers/AttachmentController.php:41
+ * @route '/attachments/{attachment}'
+ */
 show.head = (args: { attachment: string | number } | [attachment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -110,9 +110,9 @@ show.head = (args: { attachment: string | number } | [attachment: string | numbe
 
 /**
 * @see \App\Http\Controllers\AttachmentController::destroy
-* @see app/Http/Controllers/AttachmentController.php:35
-* @route '/attachments/{attachment}'
-*/
+ * @see app/Http/Controllers/AttachmentController.php:35
+ * @route '/attachments/{attachment}'
+ */
 export const destroy = (args: { attachment: string | number | { id: string | number } } | [attachment: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'delete',
@@ -128,29 +128,29 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\AttachmentController::destroy
-* @see app/Http/Controllers/AttachmentController.php:35
-* @route '/attachments/{attachment}'
-*/
+ * @see app/Http/Controllers/AttachmentController.php:35
+ * @route '/attachments/{attachment}'
+ */
 destroy.url = (args: { attachment: string | number | { id: string | number } } | [attachment: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { attachment: args }
     }
 
-    if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
-        args = { attachment: args.id }
-    }
-
+            if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+            args = { attachment: args.id }
+        }
+    
     if (Array.isArray(args)) {
         args = {
-            attachment: args[0],
-        }
+                    attachment: args[0],
+                }
     }
 
     const parsedArgs = {
-        attachment: typeof args.attachment === 'object'
-        ? args.attachment.id
-        : args.attachment,
-    }
+                        attachment: typeof args.attachment === 'object'
+                ? args.attachment.id
+                : args.attachment,
+                }
 
     return destroy.definition.url
             .replace('{attachment}', parsedArgs.attachment.toString())
@@ -159,9 +159,9 @@ destroy.url = (args: { attachment: string | number | { id: string | number } } |
 
 /**
 * @see \App\Http\Controllers\AttachmentController::destroy
-* @see app/Http/Controllers/AttachmentController.php:35
-* @route '/attachments/{attachment}'
-*/
+ * @see app/Http/Controllers/AttachmentController.php:35
+ * @route '/attachments/{attachment}'
+ */
 destroy.delete = (args: { attachment: string | number | { id: string | number } } | [attachment: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'delete',
@@ -169,11 +169,10 @@ destroy.delete = (args: { attachment: string | number | { id: string | number } 
     url: destroy.url(args, options),
     method: 'delete',
 })
-
 const attachments = {
     store,
-    show,
-    destroy,
+show,
+destroy,
 }
 
 export default attachments
