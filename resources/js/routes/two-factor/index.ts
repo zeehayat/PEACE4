@@ -228,7 +228,7 @@ qrCode.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\TwoFactorSecretKeyController::secretKey
-* @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorSecretKeyController.php:18
+* @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorSecretKeyController.php:16
 * @route '/user/two-factor-secret-key'
 */
 export const secretKey = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -246,7 +246,7 @@ secretKey.definition = {
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\TwoFactorSecretKeyController::secretKey
-* @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorSecretKeyController.php:18
+* @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorSecretKeyController.php:16
 * @route '/user/two-factor-secret-key'
 */
 secretKey.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -255,7 +255,7 @@ secretKey.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) =>
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\TwoFactorSecretKeyController::secretKey
-* @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorSecretKeyController.php:18
+* @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorSecretKeyController.php:16
 * @route '/user/two-factor-secret-key'
 */
 secretKey.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -268,7 +268,7 @@ secretKey.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\TwoFactorSecretKeyController::secretKey
-* @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorSecretKeyController.php:18
+* @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorSecretKeyController.php:16
 * @route '/user/two-factor-secret-key'
 */
 secretKey.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -281,7 +281,7 @@ secretKey.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): 
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\RecoveryCodeController::recoveryCodes
-* @see vendor/laravel/fortify/src/Http/Controllers/RecoveryCodeController.php:20
+* @see vendor/laravel/fortify/src/Http/Controllers/RecoveryCodeController.php:18
 * @route '/user/two-factor-recovery-codes'
 */
 export const recoveryCodes = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -299,7 +299,7 @@ recoveryCodes.definition = {
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\RecoveryCodeController::recoveryCodes
-* @see vendor/laravel/fortify/src/Http/Controllers/RecoveryCodeController.php:20
+* @see vendor/laravel/fortify/src/Http/Controllers/RecoveryCodeController.php:18
 * @route '/user/two-factor-recovery-codes'
 */
 recoveryCodes.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -308,7 +308,7 @@ recoveryCodes.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\RecoveryCodeController::recoveryCodes
-* @see vendor/laravel/fortify/src/Http/Controllers/RecoveryCodeController.php:20
+* @see vendor/laravel/fortify/src/Http/Controllers/RecoveryCodeController.php:18
 * @route '/user/two-factor-recovery-codes'
 */
 recoveryCodes.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -321,7 +321,7 @@ recoveryCodes.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\RecoveryCodeController::recoveryCodes
-* @see vendor/laravel/fortify/src/Http/Controllers/RecoveryCodeController.php:20
+* @see vendor/laravel/fortify/src/Http/Controllers/RecoveryCodeController.php:18
 * @route '/user/two-factor-recovery-codes'
 */
 recoveryCodes.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

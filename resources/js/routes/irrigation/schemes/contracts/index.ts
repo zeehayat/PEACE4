@@ -1,9 +1,9 @@
 import { queryParams, type QueryParams } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\IrrigationSchemeContractController::index
- * @see app/Http/Controllers/IrrigationSchemeContractController.php:14
- * @route '/irrigation/schemes/{scheme}/contracts'
- */
+* @see app/Http/Controllers/IrrigationSchemeContractController.php:14
+* @route '/irrigation/schemes/{scheme}/contracts'
+*/
 export const index = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -19,24 +19,23 @@ index.definition = {
 
 /**
 * @see \App\Http\Controllers\IrrigationSchemeContractController::index
- * @see app/Http/Controllers/IrrigationSchemeContractController.php:14
- * @route '/irrigation/schemes/{scheme}/contracts'
- */
+* @see app/Http/Controllers/IrrigationSchemeContractController.php:14
+* @route '/irrigation/schemes/{scheme}/contracts'
+*/
 index.url = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { scheme: args }
     }
 
-    
     if (Array.isArray(args)) {
         args = {
-                    scheme: args[0],
-                }
+            scheme: args[0],
+        }
     }
 
     const parsedArgs = {
-                        scheme: args.scheme,
-                }
+        scheme: args.scheme,
+    }
 
     return index.definition.url
             .replace('{scheme}', parsedArgs.scheme.toString())
@@ -45,9 +44,9 @@ index.url = (args: { scheme: string | number } | [scheme: string | number ] | st
 
 /**
 * @see \App\Http\Controllers\IrrigationSchemeContractController::index
- * @see app/Http/Controllers/IrrigationSchemeContractController.php:14
- * @route '/irrigation/schemes/{scheme}/contracts'
- */
+* @see app/Http/Controllers/IrrigationSchemeContractController.php:14
+* @route '/irrigation/schemes/{scheme}/contracts'
+*/
 index.get = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -55,11 +54,12 @@ index.get = (args: { scheme: string | number } | [scheme: string | number ] | st
     url: index.url(args, options),
     method: 'get',
 })
+
 /**
 * @see \App\Http\Controllers\IrrigationSchemeContractController::index
- * @see app/Http/Controllers/IrrigationSchemeContractController.php:14
- * @route '/irrigation/schemes/{scheme}/contracts'
- */
+* @see app/Http/Controllers/IrrigationSchemeContractController.php:14
+* @route '/irrigation/schemes/{scheme}/contracts'
+*/
 index.head = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -70,9 +70,9 @@ index.head = (args: { scheme: string | number } | [scheme: string | number ] | s
 
 /**
 * @see \App\Http\Controllers\IrrigationSchemeContractController::create
- * @see app/Http/Controllers/IrrigationSchemeContractController.php:0
- * @route '/irrigation/schemes/{scheme}/contracts/create'
- */
+* @see app/Http/Controllers/IrrigationSchemeContractController.php:0
+* @route '/irrigation/schemes/{scheme}/contracts/create'
+*/
 export const create = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -88,24 +88,23 @@ create.definition = {
 
 /**
 * @see \App\Http\Controllers\IrrigationSchemeContractController::create
- * @see app/Http/Controllers/IrrigationSchemeContractController.php:0
- * @route '/irrigation/schemes/{scheme}/contracts/create'
- */
+* @see app/Http/Controllers/IrrigationSchemeContractController.php:0
+* @route '/irrigation/schemes/{scheme}/contracts/create'
+*/
 create.url = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { scheme: args }
     }
 
-    
     if (Array.isArray(args)) {
         args = {
-                    scheme: args[0],
-                }
+            scheme: args[0],
+        }
     }
 
     const parsedArgs = {
-                        scheme: args.scheme,
-                }
+        scheme: args.scheme,
+    }
 
     return create.definition.url
             .replace('{scheme}', parsedArgs.scheme.toString())
@@ -114,9 +113,9 @@ create.url = (args: { scheme: string | number } | [scheme: string | number ] | s
 
 /**
 * @see \App\Http\Controllers\IrrigationSchemeContractController::create
- * @see app/Http/Controllers/IrrigationSchemeContractController.php:0
- * @route '/irrigation/schemes/{scheme}/contracts/create'
- */
+* @see app/Http/Controllers/IrrigationSchemeContractController.php:0
+* @route '/irrigation/schemes/{scheme}/contracts/create'
+*/
 create.get = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -124,11 +123,12 @@ create.get = (args: { scheme: string | number } | [scheme: string | number ] | s
     url: create.url(args, options),
     method: 'get',
 })
+
 /**
 * @see \App\Http\Controllers\IrrigationSchemeContractController::create
- * @see app/Http/Controllers/IrrigationSchemeContractController.php:0
- * @route '/irrigation/schemes/{scheme}/contracts/create'
- */
+* @see app/Http/Controllers/IrrigationSchemeContractController.php:0
+* @route '/irrigation/schemes/{scheme}/contracts/create'
+*/
 create.head = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -139,9 +139,9 @@ create.head = (args: { scheme: string | number } | [scheme: string | number ] | 
 
 /**
 * @see \App\Http\Controllers\IrrigationSchemeContractController::store
- * @see app/Http/Controllers/IrrigationSchemeContractController.php:32
- * @route '/irrigation/schemes/{scheme}/contracts'
- */
+* @see app/Http/Controllers/IrrigationSchemeContractController.php:32
+* @route '/irrigation/schemes/{scheme}/contracts'
+*/
 export const store = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
@@ -157,24 +157,23 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\IrrigationSchemeContractController::store
- * @see app/Http/Controllers/IrrigationSchemeContractController.php:32
- * @route '/irrigation/schemes/{scheme}/contracts'
- */
+* @see app/Http/Controllers/IrrigationSchemeContractController.php:32
+* @route '/irrigation/schemes/{scheme}/contracts'
+*/
 store.url = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { scheme: args }
     }
 
-    
     if (Array.isArray(args)) {
         args = {
-                    scheme: args[0],
-                }
+            scheme: args[0],
+        }
     }
 
     const parsedArgs = {
-                        scheme: args.scheme,
-                }
+        scheme: args.scheme,
+    }
 
     return store.definition.url
             .replace('{scheme}', parsedArgs.scheme.toString())
@@ -183,9 +182,9 @@ store.url = (args: { scheme: string | number } | [scheme: string | number ] | st
 
 /**
 * @see \App\Http\Controllers\IrrigationSchemeContractController::store
- * @see app/Http/Controllers/IrrigationSchemeContractController.php:32
- * @route '/irrigation/schemes/{scheme}/contracts'
- */
+* @see app/Http/Controllers/IrrigationSchemeContractController.php:32
+* @route '/irrigation/schemes/{scheme}/contracts'
+*/
 store.post = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
@@ -196,9 +195,9 @@ store.post = (args: { scheme: string | number } | [scheme: string | number ] | s
 
 /**
 * @see \App\Http\Controllers\IrrigationSchemeContractController::show
- * @see app/Http/Controllers/IrrigationSchemeContractController.php:91
- * @route '/irrigation/schemes/{scheme}/contracts/{contract}'
- */
+* @see app/Http/Controllers/IrrigationSchemeContractController.php:91
+* @route '/irrigation/schemes/{scheme}/contracts/{contract}'
+*/
 export const show = (args: { scheme: string | number, contract: string | number } | [scheme: string | number, contract: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -214,21 +213,21 @@ show.definition = {
 
 /**
 * @see \App\Http\Controllers\IrrigationSchemeContractController::show
- * @see app/Http/Controllers/IrrigationSchemeContractController.php:91
- * @route '/irrigation/schemes/{scheme}/contracts/{contract}'
- */
+* @see app/Http/Controllers/IrrigationSchemeContractController.php:91
+* @route '/irrigation/schemes/{scheme}/contracts/{contract}'
+*/
 show.url = (args: { scheme: string | number, contract: string | number } | [scheme: string | number, contract: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (Array.isArray(args)) {
         args = {
-                    scheme: args[0],
-                    contract: args[1],
-                }
+            scheme: args[0],
+            contract: args[1],
+        }
     }
 
     const parsedArgs = {
-                        scheme: args.scheme,
-                                contract: args.contract,
-                }
+        scheme: args.scheme,
+        contract: args.contract,
+    }
 
     return show.definition.url
             .replace('{scheme}', parsedArgs.scheme.toString())
@@ -238,9 +237,9 @@ show.url = (args: { scheme: string | number, contract: string | number } | [sche
 
 /**
 * @see \App\Http\Controllers\IrrigationSchemeContractController::show
- * @see app/Http/Controllers/IrrigationSchemeContractController.php:91
- * @route '/irrigation/schemes/{scheme}/contracts/{contract}'
- */
+* @see app/Http/Controllers/IrrigationSchemeContractController.php:91
+* @route '/irrigation/schemes/{scheme}/contracts/{contract}'
+*/
 show.get = (args: { scheme: string | number, contract: string | number } | [scheme: string | number, contract: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -248,11 +247,12 @@ show.get = (args: { scheme: string | number, contract: string | number } | [sche
     url: show.url(args, options),
     method: 'get',
 })
+
 /**
 * @see \App\Http\Controllers\IrrigationSchemeContractController::show
- * @see app/Http/Controllers/IrrigationSchemeContractController.php:91
- * @route '/irrigation/schemes/{scheme}/contracts/{contract}'
- */
+* @see app/Http/Controllers/IrrigationSchemeContractController.php:91
+* @route '/irrigation/schemes/{scheme}/contracts/{contract}'
+*/
 show.head = (args: { scheme: string | number, contract: string | number } | [scheme: string | number, contract: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -263,9 +263,9 @@ show.head = (args: { scheme: string | number, contract: string | number } | [sch
 
 /**
 * @see \App\Http\Controllers\IrrigationSchemeContractController::edit
- * @see app/Http/Controllers/IrrigationSchemeContractController.php:0
- * @route '/irrigation/schemes/{scheme}/contracts/{contract}/edit'
- */
+* @see app/Http/Controllers/IrrigationSchemeContractController.php:0
+* @route '/irrigation/schemes/{scheme}/contracts/{contract}/edit'
+*/
 export const edit = (args: { scheme: string | number, contract: string | number } | [scheme: string | number, contract: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -281,21 +281,21 @@ edit.definition = {
 
 /**
 * @see \App\Http\Controllers\IrrigationSchemeContractController::edit
- * @see app/Http/Controllers/IrrigationSchemeContractController.php:0
- * @route '/irrigation/schemes/{scheme}/contracts/{contract}/edit'
- */
+* @see app/Http/Controllers/IrrigationSchemeContractController.php:0
+* @route '/irrigation/schemes/{scheme}/contracts/{contract}/edit'
+*/
 edit.url = (args: { scheme: string | number, contract: string | number } | [scheme: string | number, contract: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (Array.isArray(args)) {
         args = {
-                    scheme: args[0],
-                    contract: args[1],
-                }
+            scheme: args[0],
+            contract: args[1],
+        }
     }
 
     const parsedArgs = {
-                        scheme: args.scheme,
-                                contract: args.contract,
-                }
+        scheme: args.scheme,
+        contract: args.contract,
+    }
 
     return edit.definition.url
             .replace('{scheme}', parsedArgs.scheme.toString())
@@ -305,9 +305,9 @@ edit.url = (args: { scheme: string | number, contract: string | number } | [sche
 
 /**
 * @see \App\Http\Controllers\IrrigationSchemeContractController::edit
- * @see app/Http/Controllers/IrrigationSchemeContractController.php:0
- * @route '/irrigation/schemes/{scheme}/contracts/{contract}/edit'
- */
+* @see app/Http/Controllers/IrrigationSchemeContractController.php:0
+* @route '/irrigation/schemes/{scheme}/contracts/{contract}/edit'
+*/
 edit.get = (args: { scheme: string | number, contract: string | number } | [scheme: string | number, contract: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -315,11 +315,12 @@ edit.get = (args: { scheme: string | number, contract: string | number } | [sche
     url: edit.url(args, options),
     method: 'get',
 })
+
 /**
 * @see \App\Http\Controllers\IrrigationSchemeContractController::edit
- * @see app/Http/Controllers/IrrigationSchemeContractController.php:0
- * @route '/irrigation/schemes/{scheme}/contracts/{contract}/edit'
- */
+* @see app/Http/Controllers/IrrigationSchemeContractController.php:0
+* @route '/irrigation/schemes/{scheme}/contracts/{contract}/edit'
+*/
 edit.head = (args: { scheme: string | number, contract: string | number } | [scheme: string | number, contract: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -330,9 +331,9 @@ edit.head = (args: { scheme: string | number, contract: string | number } | [sch
 
 /**
 * @see \App\Http\Controllers\IrrigationSchemeContractController::update
- * @see app/Http/Controllers/IrrigationSchemeContractController.php:54
- * @route '/irrigation/schemes/{scheme}/contracts/{contract}'
- */
+* @see app/Http/Controllers/IrrigationSchemeContractController.php:54
+* @route '/irrigation/schemes/{scheme}/contracts/{contract}'
+*/
 export const update = (args: { scheme: string | number, contract: string | number } | [scheme: string | number, contract: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'put',
@@ -348,21 +349,21 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\IrrigationSchemeContractController::update
- * @see app/Http/Controllers/IrrigationSchemeContractController.php:54
- * @route '/irrigation/schemes/{scheme}/contracts/{contract}'
- */
+* @see app/Http/Controllers/IrrigationSchemeContractController.php:54
+* @route '/irrigation/schemes/{scheme}/contracts/{contract}'
+*/
 update.url = (args: { scheme: string | number, contract: string | number } | [scheme: string | number, contract: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (Array.isArray(args)) {
         args = {
-                    scheme: args[0],
-                    contract: args[1],
-                }
+            scheme: args[0],
+            contract: args[1],
+        }
     }
 
     const parsedArgs = {
-                        scheme: args.scheme,
-                                contract: args.contract,
-                }
+        scheme: args.scheme,
+        contract: args.contract,
+    }
 
     return update.definition.url
             .replace('{scheme}', parsedArgs.scheme.toString())
@@ -372,9 +373,9 @@ update.url = (args: { scheme: string | number, contract: string | number } | [sc
 
 /**
 * @see \App\Http\Controllers\IrrigationSchemeContractController::update
- * @see app/Http/Controllers/IrrigationSchemeContractController.php:54
- * @route '/irrigation/schemes/{scheme}/contracts/{contract}'
- */
+* @see app/Http/Controllers/IrrigationSchemeContractController.php:54
+* @route '/irrigation/schemes/{scheme}/contracts/{contract}'
+*/
 update.put = (args: { scheme: string | number, contract: string | number } | [scheme: string | number, contract: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'put',
@@ -382,11 +383,12 @@ update.put = (args: { scheme: string | number, contract: string | number } | [sc
     url: update.url(args, options),
     method: 'put',
 })
+
 /**
 * @see \App\Http\Controllers\IrrigationSchemeContractController::update
- * @see app/Http/Controllers/IrrigationSchemeContractController.php:54
- * @route '/irrigation/schemes/{scheme}/contracts/{contract}'
- */
+* @see app/Http/Controllers/IrrigationSchemeContractController.php:54
+* @route '/irrigation/schemes/{scheme}/contracts/{contract}'
+*/
 update.patch = (args: { scheme: string | number, contract: string | number } | [scheme: string | number, contract: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'patch',
@@ -397,9 +399,9 @@ update.patch = (args: { scheme: string | number, contract: string | number } | [
 
 /**
 * @see \App\Http\Controllers\IrrigationSchemeContractController::destroy
- * @see app/Http/Controllers/IrrigationSchemeContractController.php:76
- * @route '/irrigation/schemes/{scheme}/contracts/{contract}'
- */
+* @see app/Http/Controllers/IrrigationSchemeContractController.php:76
+* @route '/irrigation/schemes/{scheme}/contracts/{contract}'
+*/
 export const destroy = (args: { scheme: string | number, contract: string | number } | [scheme: string | number, contract: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'delete',
@@ -415,21 +417,21 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\IrrigationSchemeContractController::destroy
- * @see app/Http/Controllers/IrrigationSchemeContractController.php:76
- * @route '/irrigation/schemes/{scheme}/contracts/{contract}'
- */
+* @see app/Http/Controllers/IrrigationSchemeContractController.php:76
+* @route '/irrigation/schemes/{scheme}/contracts/{contract}'
+*/
 destroy.url = (args: { scheme: string | number, contract: string | number } | [scheme: string | number, contract: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (Array.isArray(args)) {
         args = {
-                    scheme: args[0],
-                    contract: args[1],
-                }
+            scheme: args[0],
+            contract: args[1],
+        }
     }
 
     const parsedArgs = {
-                        scheme: args.scheme,
-                                contract: args.contract,
-                }
+        scheme: args.scheme,
+        contract: args.contract,
+    }
 
     return destroy.definition.url
             .replace('{scheme}', parsedArgs.scheme.toString())
@@ -439,9 +441,9 @@ destroy.url = (args: { scheme: string | number, contract: string | number } | [s
 
 /**
 * @see \App\Http\Controllers\IrrigationSchemeContractController::destroy
- * @see app/Http/Controllers/IrrigationSchemeContractController.php:76
- * @route '/irrigation/schemes/{scheme}/contracts/{contract}'
- */
+* @see app/Http/Controllers/IrrigationSchemeContractController.php:76
+* @route '/irrigation/schemes/{scheme}/contracts/{contract}'
+*/
 destroy.delete = (args: { scheme: string | number, contract: string | number } | [scheme: string | number, contract: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'delete',
@@ -449,14 +451,15 @@ destroy.delete = (args: { scheme: string | number, contract: string | number } |
     url: destroy.url(args, options),
     method: 'delete',
 })
+
 const contracts = {
     index,
-create,
-store,
-show,
-edit,
-update,
-destroy,
+    create,
+    store,
+    show,
+    edit,
+    update,
+    destroy,
 }
 
 export default contracts

@@ -1,9 +1,9 @@
 import { queryParams, type QueryParams } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\IrrigationAdminApprovalController::index
- * @see app/Http/Controllers/IrrigationAdminApprovalController.php:20
- * @route '/irrigation/schemes/{scheme}/admin-approvals'
- */
+* @see app/Http/Controllers/IrrigationAdminApprovalController.php:20
+* @route '/irrigation/schemes/{scheme}/admin-approvals'
+*/
 export const index = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -19,24 +19,23 @@ index.definition = {
 
 /**
 * @see \App\Http\Controllers\IrrigationAdminApprovalController::index
- * @see app/Http/Controllers/IrrigationAdminApprovalController.php:20
- * @route '/irrigation/schemes/{scheme}/admin-approvals'
- */
+* @see app/Http/Controllers/IrrigationAdminApprovalController.php:20
+* @route '/irrigation/schemes/{scheme}/admin-approvals'
+*/
 index.url = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { scheme: args }
     }
 
-    
     if (Array.isArray(args)) {
         args = {
-                    scheme: args[0],
-                }
+            scheme: args[0],
+        }
     }
 
     const parsedArgs = {
-                        scheme: args.scheme,
-                }
+        scheme: args.scheme,
+    }
 
     return index.definition.url
             .replace('{scheme}', parsedArgs.scheme.toString())
@@ -45,9 +44,9 @@ index.url = (args: { scheme: string | number } | [scheme: string | number ] | st
 
 /**
 * @see \App\Http\Controllers\IrrigationAdminApprovalController::index
- * @see app/Http/Controllers/IrrigationAdminApprovalController.php:20
- * @route '/irrigation/schemes/{scheme}/admin-approvals'
- */
+* @see app/Http/Controllers/IrrigationAdminApprovalController.php:20
+* @route '/irrigation/schemes/{scheme}/admin-approvals'
+*/
 index.get = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -55,11 +54,12 @@ index.get = (args: { scheme: string | number } | [scheme: string | number ] | st
     url: index.url(args, options),
     method: 'get',
 })
+
 /**
 * @see \App\Http\Controllers\IrrigationAdminApprovalController::index
- * @see app/Http/Controllers/IrrigationAdminApprovalController.php:20
- * @route '/irrigation/schemes/{scheme}/admin-approvals'
- */
+* @see app/Http/Controllers/IrrigationAdminApprovalController.php:20
+* @route '/irrigation/schemes/{scheme}/admin-approvals'
+*/
 index.head = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -70,9 +70,9 @@ index.head = (args: { scheme: string | number } | [scheme: string | number ] | s
 
 /**
 * @see \App\Http\Controllers\IrrigationAdminApprovalController::create
- * @see app/Http/Controllers/IrrigationAdminApprovalController.php:0
- * @route '/irrigation/schemes/{scheme}/admin-approvals/create'
- */
+* @see app/Http/Controllers/IrrigationAdminApprovalController.php:0
+* @route '/irrigation/schemes/{scheme}/admin-approvals/create'
+*/
 export const create = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -88,24 +88,23 @@ create.definition = {
 
 /**
 * @see \App\Http\Controllers\IrrigationAdminApprovalController::create
- * @see app/Http/Controllers/IrrigationAdminApprovalController.php:0
- * @route '/irrigation/schemes/{scheme}/admin-approvals/create'
- */
+* @see app/Http/Controllers/IrrigationAdminApprovalController.php:0
+* @route '/irrigation/schemes/{scheme}/admin-approvals/create'
+*/
 create.url = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { scheme: args }
     }
 
-    
     if (Array.isArray(args)) {
         args = {
-                    scheme: args[0],
-                }
+            scheme: args[0],
+        }
     }
 
     const parsedArgs = {
-                        scheme: args.scheme,
-                }
+        scheme: args.scheme,
+    }
 
     return create.definition.url
             .replace('{scheme}', parsedArgs.scheme.toString())
@@ -114,9 +113,9 @@ create.url = (args: { scheme: string | number } | [scheme: string | number ] | s
 
 /**
 * @see \App\Http\Controllers\IrrigationAdminApprovalController::create
- * @see app/Http/Controllers/IrrigationAdminApprovalController.php:0
- * @route '/irrigation/schemes/{scheme}/admin-approvals/create'
- */
+* @see app/Http/Controllers/IrrigationAdminApprovalController.php:0
+* @route '/irrigation/schemes/{scheme}/admin-approvals/create'
+*/
 create.get = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -124,11 +123,12 @@ create.get = (args: { scheme: string | number } | [scheme: string | number ] | s
     url: create.url(args, options),
     method: 'get',
 })
+
 /**
 * @see \App\Http\Controllers\IrrigationAdminApprovalController::create
- * @see app/Http/Controllers/IrrigationAdminApprovalController.php:0
- * @route '/irrigation/schemes/{scheme}/admin-approvals/create'
- */
+* @see app/Http/Controllers/IrrigationAdminApprovalController.php:0
+* @route '/irrigation/schemes/{scheme}/admin-approvals/create'
+*/
 create.head = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -139,9 +139,9 @@ create.head = (args: { scheme: string | number } | [scheme: string | number ] | 
 
 /**
 * @see \App\Http\Controllers\IrrigationAdminApprovalController::store
- * @see app/Http/Controllers/IrrigationAdminApprovalController.php:26
- * @route '/irrigation/schemes/{scheme}/admin-approvals'
- */
+* @see app/Http/Controllers/IrrigationAdminApprovalController.php:26
+* @route '/irrigation/schemes/{scheme}/admin-approvals'
+*/
 export const store = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
@@ -157,24 +157,23 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\IrrigationAdminApprovalController::store
- * @see app/Http/Controllers/IrrigationAdminApprovalController.php:26
- * @route '/irrigation/schemes/{scheme}/admin-approvals'
- */
+* @see app/Http/Controllers/IrrigationAdminApprovalController.php:26
+* @route '/irrigation/schemes/{scheme}/admin-approvals'
+*/
 store.url = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { scheme: args }
     }
 
-    
     if (Array.isArray(args)) {
         args = {
-                    scheme: args[0],
-                }
+            scheme: args[0],
+        }
     }
 
     const parsedArgs = {
-                        scheme: args.scheme,
-                }
+        scheme: args.scheme,
+    }
 
     return store.definition.url
             .replace('{scheme}', parsedArgs.scheme.toString())
@@ -183,9 +182,9 @@ store.url = (args: { scheme: string | number } | [scheme: string | number ] | st
 
 /**
 * @see \App\Http\Controllers\IrrigationAdminApprovalController::store
- * @see app/Http/Controllers/IrrigationAdminApprovalController.php:26
- * @route '/irrigation/schemes/{scheme}/admin-approvals'
- */
+* @see app/Http/Controllers/IrrigationAdminApprovalController.php:26
+* @route '/irrigation/schemes/{scheme}/admin-approvals'
+*/
 store.post = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
@@ -196,9 +195,9 @@ store.post = (args: { scheme: string | number } | [scheme: string | number ] | s
 
 /**
 * @see \App\Http\Controllers\IrrigationAdminApprovalController::show
- * @see app/Http/Controllers/IrrigationAdminApprovalController.php:117
- * @route '/irrigation/schemes/{scheme}/admin-approvals/{admin_approval}'
- */
+* @see app/Http/Controllers/IrrigationAdminApprovalController.php:117
+* @route '/irrigation/schemes/{scheme}/admin-approvals/{admin_approval}'
+*/
 export const show = (args: { scheme: string | number, admin_approval: string | number } | [scheme: string | number, admin_approval: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -214,21 +213,21 @@ show.definition = {
 
 /**
 * @see \App\Http\Controllers\IrrigationAdminApprovalController::show
- * @see app/Http/Controllers/IrrigationAdminApprovalController.php:117
- * @route '/irrigation/schemes/{scheme}/admin-approvals/{admin_approval}'
- */
+* @see app/Http/Controllers/IrrigationAdminApprovalController.php:117
+* @route '/irrigation/schemes/{scheme}/admin-approvals/{admin_approval}'
+*/
 show.url = (args: { scheme: string | number, admin_approval: string | number } | [scheme: string | number, admin_approval: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (Array.isArray(args)) {
         args = {
-                    scheme: args[0],
-                    admin_approval: args[1],
-                }
+            scheme: args[0],
+            admin_approval: args[1],
+        }
     }
 
     const parsedArgs = {
-                        scheme: args.scheme,
-                                admin_approval: args.admin_approval,
-                }
+        scheme: args.scheme,
+        admin_approval: args.admin_approval,
+    }
 
     return show.definition.url
             .replace('{scheme}', parsedArgs.scheme.toString())
@@ -238,9 +237,9 @@ show.url = (args: { scheme: string | number, admin_approval: string | number } |
 
 /**
 * @see \App\Http\Controllers\IrrigationAdminApprovalController::show
- * @see app/Http/Controllers/IrrigationAdminApprovalController.php:117
- * @route '/irrigation/schemes/{scheme}/admin-approvals/{admin_approval}'
- */
+* @see app/Http/Controllers/IrrigationAdminApprovalController.php:117
+* @route '/irrigation/schemes/{scheme}/admin-approvals/{admin_approval}'
+*/
 show.get = (args: { scheme: string | number, admin_approval: string | number } | [scheme: string | number, admin_approval: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -248,11 +247,12 @@ show.get = (args: { scheme: string | number, admin_approval: string | number } |
     url: show.url(args, options),
     method: 'get',
 })
+
 /**
 * @see \App\Http\Controllers\IrrigationAdminApprovalController::show
- * @see app/Http/Controllers/IrrigationAdminApprovalController.php:117
- * @route '/irrigation/schemes/{scheme}/admin-approvals/{admin_approval}'
- */
+* @see app/Http/Controllers/IrrigationAdminApprovalController.php:117
+* @route '/irrigation/schemes/{scheme}/admin-approvals/{admin_approval}'
+*/
 show.head = (args: { scheme: string | number, admin_approval: string | number } | [scheme: string | number, admin_approval: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -263,9 +263,9 @@ show.head = (args: { scheme: string | number, admin_approval: string | number } 
 
 /**
 * @see \App\Http\Controllers\IrrigationAdminApprovalController::edit
- * @see app/Http/Controllers/IrrigationAdminApprovalController.php:0
- * @route '/irrigation/schemes/{scheme}/admin-approvals/{admin_approval}/edit'
- */
+* @see app/Http/Controllers/IrrigationAdminApprovalController.php:0
+* @route '/irrigation/schemes/{scheme}/admin-approvals/{admin_approval}/edit'
+*/
 export const edit = (args: { scheme: string | number, admin_approval: string | number } | [scheme: string | number, admin_approval: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -281,21 +281,21 @@ edit.definition = {
 
 /**
 * @see \App\Http\Controllers\IrrigationAdminApprovalController::edit
- * @see app/Http/Controllers/IrrigationAdminApprovalController.php:0
- * @route '/irrigation/schemes/{scheme}/admin-approvals/{admin_approval}/edit'
- */
+* @see app/Http/Controllers/IrrigationAdminApprovalController.php:0
+* @route '/irrigation/schemes/{scheme}/admin-approvals/{admin_approval}/edit'
+*/
 edit.url = (args: { scheme: string | number, admin_approval: string | number } | [scheme: string | number, admin_approval: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (Array.isArray(args)) {
         args = {
-                    scheme: args[0],
-                    admin_approval: args[1],
-                }
+            scheme: args[0],
+            admin_approval: args[1],
+        }
     }
 
     const parsedArgs = {
-                        scheme: args.scheme,
-                                admin_approval: args.admin_approval,
-                }
+        scheme: args.scheme,
+        admin_approval: args.admin_approval,
+    }
 
     return edit.definition.url
             .replace('{scheme}', parsedArgs.scheme.toString())
@@ -305,9 +305,9 @@ edit.url = (args: { scheme: string | number, admin_approval: string | number } |
 
 /**
 * @see \App\Http\Controllers\IrrigationAdminApprovalController::edit
- * @see app/Http/Controllers/IrrigationAdminApprovalController.php:0
- * @route '/irrigation/schemes/{scheme}/admin-approvals/{admin_approval}/edit'
- */
+* @see app/Http/Controllers/IrrigationAdminApprovalController.php:0
+* @route '/irrigation/schemes/{scheme}/admin-approvals/{admin_approval}/edit'
+*/
 edit.get = (args: { scheme: string | number, admin_approval: string | number } | [scheme: string | number, admin_approval: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -315,11 +315,12 @@ edit.get = (args: { scheme: string | number, admin_approval: string | number } |
     url: edit.url(args, options),
     method: 'get',
 })
+
 /**
 * @see \App\Http\Controllers\IrrigationAdminApprovalController::edit
- * @see app/Http/Controllers/IrrigationAdminApprovalController.php:0
- * @route '/irrigation/schemes/{scheme}/admin-approvals/{admin_approval}/edit'
- */
+* @see app/Http/Controllers/IrrigationAdminApprovalController.php:0
+* @route '/irrigation/schemes/{scheme}/admin-approvals/{admin_approval}/edit'
+*/
 edit.head = (args: { scheme: string | number, admin_approval: string | number } | [scheme: string | number, admin_approval: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -330,9 +331,9 @@ edit.head = (args: { scheme: string | number, admin_approval: string | number } 
 
 /**
 * @see \App\Http\Controllers\IrrigationAdminApprovalController::update
- * @see app/Http/Controllers/IrrigationAdminApprovalController.php:62
- * @route '/irrigation/schemes/{scheme}/admin-approvals/{admin_approval}'
- */
+* @see app/Http/Controllers/IrrigationAdminApprovalController.php:62
+* @route '/irrigation/schemes/{scheme}/admin-approvals/{admin_approval}'
+*/
 export const update = (args: { scheme: string | number, admin_approval: string | number } | [scheme: string | number, admin_approval: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'put',
@@ -348,21 +349,21 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\IrrigationAdminApprovalController::update
- * @see app/Http/Controllers/IrrigationAdminApprovalController.php:62
- * @route '/irrigation/schemes/{scheme}/admin-approvals/{admin_approval}'
- */
+* @see app/Http/Controllers/IrrigationAdminApprovalController.php:62
+* @route '/irrigation/schemes/{scheme}/admin-approvals/{admin_approval}'
+*/
 update.url = (args: { scheme: string | number, admin_approval: string | number } | [scheme: string | number, admin_approval: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (Array.isArray(args)) {
         args = {
-                    scheme: args[0],
-                    admin_approval: args[1],
-                }
+            scheme: args[0],
+            admin_approval: args[1],
+        }
     }
 
     const parsedArgs = {
-                        scheme: args.scheme,
-                                admin_approval: args.admin_approval,
-                }
+        scheme: args.scheme,
+        admin_approval: args.admin_approval,
+    }
 
     return update.definition.url
             .replace('{scheme}', parsedArgs.scheme.toString())
@@ -372,9 +373,9 @@ update.url = (args: { scheme: string | number, admin_approval: string | number }
 
 /**
 * @see \App\Http\Controllers\IrrigationAdminApprovalController::update
- * @see app/Http/Controllers/IrrigationAdminApprovalController.php:62
- * @route '/irrigation/schemes/{scheme}/admin-approvals/{admin_approval}'
- */
+* @see app/Http/Controllers/IrrigationAdminApprovalController.php:62
+* @route '/irrigation/schemes/{scheme}/admin-approvals/{admin_approval}'
+*/
 update.put = (args: { scheme: string | number, admin_approval: string | number } | [scheme: string | number, admin_approval: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'put',
@@ -382,11 +383,12 @@ update.put = (args: { scheme: string | number, admin_approval: string | number }
     url: update.url(args, options),
     method: 'put',
 })
+
 /**
 * @see \App\Http\Controllers\IrrigationAdminApprovalController::update
- * @see app/Http/Controllers/IrrigationAdminApprovalController.php:62
- * @route '/irrigation/schemes/{scheme}/admin-approvals/{admin_approval}'
- */
+* @see app/Http/Controllers/IrrigationAdminApprovalController.php:62
+* @route '/irrigation/schemes/{scheme}/admin-approvals/{admin_approval}'
+*/
 update.patch = (args: { scheme: string | number, admin_approval: string | number } | [scheme: string | number, admin_approval: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'patch',
@@ -397,9 +399,9 @@ update.patch = (args: { scheme: string | number, admin_approval: string | number
 
 /**
 * @see \App\Http\Controllers\IrrigationAdminApprovalController::destroy
- * @see app/Http/Controllers/IrrigationAdminApprovalController.php:104
- * @route '/irrigation/schemes/{scheme}/admin-approvals/{admin_approval}'
- */
+* @see app/Http/Controllers/IrrigationAdminApprovalController.php:104
+* @route '/irrigation/schemes/{scheme}/admin-approvals/{admin_approval}'
+*/
 export const destroy = (args: { scheme: string | number, admin_approval: string | number } | [scheme: string | number, admin_approval: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'delete',
@@ -415,21 +417,21 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\IrrigationAdminApprovalController::destroy
- * @see app/Http/Controllers/IrrigationAdminApprovalController.php:104
- * @route '/irrigation/schemes/{scheme}/admin-approvals/{admin_approval}'
- */
+* @see app/Http/Controllers/IrrigationAdminApprovalController.php:104
+* @route '/irrigation/schemes/{scheme}/admin-approvals/{admin_approval}'
+*/
 destroy.url = (args: { scheme: string | number, admin_approval: string | number } | [scheme: string | number, admin_approval: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (Array.isArray(args)) {
         args = {
-                    scheme: args[0],
-                    admin_approval: args[1],
-                }
+            scheme: args[0],
+            admin_approval: args[1],
+        }
     }
 
     const parsedArgs = {
-                        scheme: args.scheme,
-                                admin_approval: args.admin_approval,
-                }
+        scheme: args.scheme,
+        admin_approval: args.admin_approval,
+    }
 
     return destroy.definition.url
             .replace('{scheme}', parsedArgs.scheme.toString())
@@ -439,9 +441,9 @@ destroy.url = (args: { scheme: string | number, admin_approval: string | number 
 
 /**
 * @see \App\Http\Controllers\IrrigationAdminApprovalController::destroy
- * @see app/Http/Controllers/IrrigationAdminApprovalController.php:104
- * @route '/irrigation/schemes/{scheme}/admin-approvals/{admin_approval}'
- */
+* @see app/Http/Controllers/IrrigationAdminApprovalController.php:104
+* @route '/irrigation/schemes/{scheme}/admin-approvals/{admin_approval}'
+*/
 destroy.delete = (args: { scheme: string | number, admin_approval: string | number } | [scheme: string | number, admin_approval: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'delete',
@@ -449,6 +451,7 @@ destroy.delete = (args: { scheme: string | number, admin_approval: string | numb
     url: destroy.url(args, options),
     method: 'delete',
 })
+
 const IrrigationAdminApprovalController = { index, create, store, show, edit, update, destroy }
 
 export default IrrigationAdminApprovalController

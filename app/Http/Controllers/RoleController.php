@@ -20,7 +20,7 @@ class RoleController extends Controller
 
     public function index()
     {
-        dd(Auth::user()->getPermissionNames());
+        //dd(Auth::user()->getPermissionNames());
 
         // Get all roles with their assigned permissions
         $roles = Role::with('permissions')->get();

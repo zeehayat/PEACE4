@@ -1,9 +1,9 @@
 import { queryParams, type QueryParams } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\MhpCompletionController::index
- * @see app/Http/Controllers/MhpCompletionController.php:26
- * @route '/mhp/sites/{site}/completion'
- */
+* @see app/Http/Controllers/MhpCompletionController.php:26
+* @route '/mhp/sites/{site}/completion'
+*/
 export const index = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -19,24 +19,23 @@ index.definition = {
 
 /**
 * @see \App\Http\Controllers\MhpCompletionController::index
- * @see app/Http/Controllers/MhpCompletionController.php:26
- * @route '/mhp/sites/{site}/completion'
- */
+* @see app/Http/Controllers/MhpCompletionController.php:26
+* @route '/mhp/sites/{site}/completion'
+*/
 index.url = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { site: args }
     }
 
-    
     if (Array.isArray(args)) {
         args = {
-                    site: args[0],
-                }
+            site: args[0],
+        }
     }
 
     const parsedArgs = {
-                        site: args.site,
-                }
+        site: args.site,
+    }
 
     return index.definition.url
             .replace('{site}', parsedArgs.site.toString())
@@ -45,9 +44,9 @@ index.url = (args: { site: string | number } | [site: string | number ] | string
 
 /**
 * @see \App\Http\Controllers\MhpCompletionController::index
- * @see app/Http/Controllers/MhpCompletionController.php:26
- * @route '/mhp/sites/{site}/completion'
- */
+* @see app/Http/Controllers/MhpCompletionController.php:26
+* @route '/mhp/sites/{site}/completion'
+*/
 index.get = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -55,11 +54,12 @@ index.get = (args: { site: string | number } | [site: string | number ] | string
     url: index.url(args, options),
     method: 'get',
 })
+
 /**
 * @see \App\Http\Controllers\MhpCompletionController::index
- * @see app/Http/Controllers/MhpCompletionController.php:26
- * @route '/mhp/sites/{site}/completion'
- */
+* @see app/Http/Controllers/MhpCompletionController.php:26
+* @route '/mhp/sites/{site}/completion'
+*/
 index.head = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -70,9 +70,9 @@ index.head = (args: { site: string | number } | [site: string | number ] | strin
 
 /**
 * @see \App\Http\Controllers\MhpCompletionController::create
- * @see app/Http/Controllers/MhpCompletionController.php:0
- * @route '/mhp/sites/{site}/completion/create'
- */
+* @see app/Http/Controllers/MhpCompletionController.php:0
+* @route '/mhp/sites/{site}/completion/create'
+*/
 export const create = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -88,24 +88,23 @@ create.definition = {
 
 /**
 * @see \App\Http\Controllers\MhpCompletionController::create
- * @see app/Http/Controllers/MhpCompletionController.php:0
- * @route '/mhp/sites/{site}/completion/create'
- */
+* @see app/Http/Controllers/MhpCompletionController.php:0
+* @route '/mhp/sites/{site}/completion/create'
+*/
 create.url = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { site: args }
     }
 
-    
     if (Array.isArray(args)) {
         args = {
-                    site: args[0],
-                }
+            site: args[0],
+        }
     }
 
     const parsedArgs = {
-                        site: args.site,
-                }
+        site: args.site,
+    }
 
     return create.definition.url
             .replace('{site}', parsedArgs.site.toString())
@@ -114,9 +113,9 @@ create.url = (args: { site: string | number } | [site: string | number ] | strin
 
 /**
 * @see \App\Http\Controllers\MhpCompletionController::create
- * @see app/Http/Controllers/MhpCompletionController.php:0
- * @route '/mhp/sites/{site}/completion/create'
- */
+* @see app/Http/Controllers/MhpCompletionController.php:0
+* @route '/mhp/sites/{site}/completion/create'
+*/
 create.get = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -124,11 +123,12 @@ create.get = (args: { site: string | number } | [site: string | number ] | strin
     url: create.url(args, options),
     method: 'get',
 })
+
 /**
 * @see \App\Http\Controllers\MhpCompletionController::create
- * @see app/Http/Controllers/MhpCompletionController.php:0
- * @route '/mhp/sites/{site}/completion/create'
- */
+* @see app/Http/Controllers/MhpCompletionController.php:0
+* @route '/mhp/sites/{site}/completion/create'
+*/
 create.head = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -139,9 +139,9 @@ create.head = (args: { site: string | number } | [site: string | number ] | stri
 
 /**
 * @see \App\Http\Controllers\MhpCompletionController::store
- * @see app/Http/Controllers/MhpCompletionController.php:37
- * @route '/mhp/sites/{site}/completion'
- */
+* @see app/Http/Controllers/MhpCompletionController.php:37
+* @route '/mhp/sites/{site}/completion'
+*/
 export const store = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
@@ -157,24 +157,23 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\MhpCompletionController::store
- * @see app/Http/Controllers/MhpCompletionController.php:37
- * @route '/mhp/sites/{site}/completion'
- */
+* @see app/Http/Controllers/MhpCompletionController.php:37
+* @route '/mhp/sites/{site}/completion'
+*/
 store.url = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { site: args }
     }
 
-    
     if (Array.isArray(args)) {
         args = {
-                    site: args[0],
-                }
+            site: args[0],
+        }
     }
 
     const parsedArgs = {
-                        site: args.site,
-                }
+        site: args.site,
+    }
 
     return store.definition.url
             .replace('{site}', parsedArgs.site.toString())
@@ -183,9 +182,9 @@ store.url = (args: { site: string | number } | [site: string | number ] | string
 
 /**
 * @see \App\Http\Controllers\MhpCompletionController::store
- * @see app/Http/Controllers/MhpCompletionController.php:37
- * @route '/mhp/sites/{site}/completion'
- */
+* @see app/Http/Controllers/MhpCompletionController.php:37
+* @route '/mhp/sites/{site}/completion'
+*/
 store.post = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
@@ -196,9 +195,9 @@ store.post = (args: { site: string | number } | [site: string | number ] | strin
 
 /**
 * @see \App\Http\Controllers\MhpCompletionController::show
- * @see app/Http/Controllers/MhpCompletionController.php:55
- * @route '/mhp/sites/{site}/completion/{completion}'
- */
+* @see app/Http/Controllers/MhpCompletionController.php:55
+* @route '/mhp/sites/{site}/completion/{completion}'
+*/
 export const show = (args: { site: string | number, completion: number | { id: number } } | [site: string | number, completion: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -214,23 +213,23 @@ show.definition = {
 
 /**
 * @see \App\Http\Controllers\MhpCompletionController::show
- * @see app/Http/Controllers/MhpCompletionController.php:55
- * @route '/mhp/sites/{site}/completion/{completion}'
- */
+* @see app/Http/Controllers/MhpCompletionController.php:55
+* @route '/mhp/sites/{site}/completion/{completion}'
+*/
 show.url = (args: { site: string | number, completion: number | { id: number } } | [site: string | number, completion: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (Array.isArray(args)) {
         args = {
-                    site: args[0],
-                    completion: args[1],
-                }
+            site: args[0],
+            completion: args[1],
+        }
     }
 
     const parsedArgs = {
-                        site: args.site,
-                                completion: typeof args.completion === 'object'
-                ? args.completion.id
-                : args.completion,
-                }
+        site: args.site,
+        completion: typeof args.completion === 'object'
+        ? args.completion.id
+        : args.completion,
+    }
 
     return show.definition.url
             .replace('{site}', parsedArgs.site.toString())
@@ -240,9 +239,9 @@ show.url = (args: { site: string | number, completion: number | { id: number } }
 
 /**
 * @see \App\Http\Controllers\MhpCompletionController::show
- * @see app/Http/Controllers/MhpCompletionController.php:55
- * @route '/mhp/sites/{site}/completion/{completion}'
- */
+* @see app/Http/Controllers/MhpCompletionController.php:55
+* @route '/mhp/sites/{site}/completion/{completion}'
+*/
 show.get = (args: { site: string | number, completion: number | { id: number } } | [site: string | number, completion: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -250,11 +249,12 @@ show.get = (args: { site: string | number, completion: number | { id: number } }
     url: show.url(args, options),
     method: 'get',
 })
+
 /**
 * @see \App\Http\Controllers\MhpCompletionController::show
- * @see app/Http/Controllers/MhpCompletionController.php:55
- * @route '/mhp/sites/{site}/completion/{completion}'
- */
+* @see app/Http/Controllers/MhpCompletionController.php:55
+* @route '/mhp/sites/{site}/completion/{completion}'
+*/
 show.head = (args: { site: string | number, completion: number | { id: number } } | [site: string | number, completion: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -265,9 +265,9 @@ show.head = (args: { site: string | number, completion: number | { id: number } 
 
 /**
 * @see \App\Http\Controllers\MhpCompletionController::edit
- * @see app/Http/Controllers/MhpCompletionController.php:0
- * @route '/mhp/sites/{site}/completion/{completion}/edit'
- */
+* @see app/Http/Controllers/MhpCompletionController.php:0
+* @route '/mhp/sites/{site}/completion/{completion}/edit'
+*/
 export const edit = (args: { site: string | number, completion: string | number } | [site: string | number, completion: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -283,21 +283,21 @@ edit.definition = {
 
 /**
 * @see \App\Http\Controllers\MhpCompletionController::edit
- * @see app/Http/Controllers/MhpCompletionController.php:0
- * @route '/mhp/sites/{site}/completion/{completion}/edit'
- */
+* @see app/Http/Controllers/MhpCompletionController.php:0
+* @route '/mhp/sites/{site}/completion/{completion}/edit'
+*/
 edit.url = (args: { site: string | number, completion: string | number } | [site: string | number, completion: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (Array.isArray(args)) {
         args = {
-                    site: args[0],
-                    completion: args[1],
-                }
+            site: args[0],
+            completion: args[1],
+        }
     }
 
     const parsedArgs = {
-                        site: args.site,
-                                completion: args.completion,
-                }
+        site: args.site,
+        completion: args.completion,
+    }
 
     return edit.definition.url
             .replace('{site}', parsedArgs.site.toString())
@@ -307,9 +307,9 @@ edit.url = (args: { site: string | number, completion: string | number } | [site
 
 /**
 * @see \App\Http\Controllers\MhpCompletionController::edit
- * @see app/Http/Controllers/MhpCompletionController.php:0
- * @route '/mhp/sites/{site}/completion/{completion}/edit'
- */
+* @see app/Http/Controllers/MhpCompletionController.php:0
+* @route '/mhp/sites/{site}/completion/{completion}/edit'
+*/
 edit.get = (args: { site: string | number, completion: string | number } | [site: string | number, completion: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -317,11 +317,12 @@ edit.get = (args: { site: string | number, completion: string | number } | [site
     url: edit.url(args, options),
     method: 'get',
 })
+
 /**
 * @see \App\Http\Controllers\MhpCompletionController::edit
- * @see app/Http/Controllers/MhpCompletionController.php:0
- * @route '/mhp/sites/{site}/completion/{completion}/edit'
- */
+* @see app/Http/Controllers/MhpCompletionController.php:0
+* @route '/mhp/sites/{site}/completion/{completion}/edit'
+*/
 edit.head = (args: { site: string | number, completion: string | number } | [site: string | number, completion: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -332,9 +333,9 @@ edit.head = (args: { site: string | number, completion: string | number } | [sit
 
 /**
 * @see \App\Http\Controllers\MhpCompletionController::update
- * @see app/Http/Controllers/MhpCompletionController.php:67
- * @route '/mhp/sites/{site}/completion/{completion}'
- */
+* @see app/Http/Controllers/MhpCompletionController.php:67
+* @route '/mhp/sites/{site}/completion/{completion}'
+*/
 export const update = (args: { site: string | number, completion: number | { id: number } } | [site: string | number, completion: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'put',
@@ -350,23 +351,23 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\MhpCompletionController::update
- * @see app/Http/Controllers/MhpCompletionController.php:67
- * @route '/mhp/sites/{site}/completion/{completion}'
- */
+* @see app/Http/Controllers/MhpCompletionController.php:67
+* @route '/mhp/sites/{site}/completion/{completion}'
+*/
 update.url = (args: { site: string | number, completion: number | { id: number } } | [site: string | number, completion: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (Array.isArray(args)) {
         args = {
-                    site: args[0],
-                    completion: args[1],
-                }
+            site: args[0],
+            completion: args[1],
+        }
     }
 
     const parsedArgs = {
-                        site: args.site,
-                                completion: typeof args.completion === 'object'
-                ? args.completion.id
-                : args.completion,
-                }
+        site: args.site,
+        completion: typeof args.completion === 'object'
+        ? args.completion.id
+        : args.completion,
+    }
 
     return update.definition.url
             .replace('{site}', parsedArgs.site.toString())
@@ -376,9 +377,9 @@ update.url = (args: { site: string | number, completion: number | { id: number }
 
 /**
 * @see \App\Http\Controllers\MhpCompletionController::update
- * @see app/Http/Controllers/MhpCompletionController.php:67
- * @route '/mhp/sites/{site}/completion/{completion}'
- */
+* @see app/Http/Controllers/MhpCompletionController.php:67
+* @route '/mhp/sites/{site}/completion/{completion}'
+*/
 update.put = (args: { site: string | number, completion: number | { id: number } } | [site: string | number, completion: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'put',
@@ -386,11 +387,12 @@ update.put = (args: { site: string | number, completion: number | { id: number }
     url: update.url(args, options),
     method: 'put',
 })
+
 /**
 * @see \App\Http\Controllers\MhpCompletionController::update
- * @see app/Http/Controllers/MhpCompletionController.php:67
- * @route '/mhp/sites/{site}/completion/{completion}'
- */
+* @see app/Http/Controllers/MhpCompletionController.php:67
+* @route '/mhp/sites/{site}/completion/{completion}'
+*/
 update.patch = (args: { site: string | number, completion: number | { id: number } } | [site: string | number, completion: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'patch',
@@ -401,9 +403,9 @@ update.patch = (args: { site: string | number, completion: number | { id: number
 
 /**
 * @see \App\Http\Controllers\MhpCompletionController::destroy
- * @see app/Http/Controllers/MhpCompletionController.php:85
- * @route '/mhp/sites/{site}/completion/{completion}'
- */
+* @see app/Http/Controllers/MhpCompletionController.php:85
+* @route '/mhp/sites/{site}/completion/{completion}'
+*/
 export const destroy = (args: { site: string | number, completion: number | { id: number } } | [site: string | number, completion: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'delete',
@@ -419,23 +421,23 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\MhpCompletionController::destroy
- * @see app/Http/Controllers/MhpCompletionController.php:85
- * @route '/mhp/sites/{site}/completion/{completion}'
- */
+* @see app/Http/Controllers/MhpCompletionController.php:85
+* @route '/mhp/sites/{site}/completion/{completion}'
+*/
 destroy.url = (args: { site: string | number, completion: number | { id: number } } | [site: string | number, completion: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (Array.isArray(args)) {
         args = {
-                    site: args[0],
-                    completion: args[1],
-                }
+            site: args[0],
+            completion: args[1],
+        }
     }
 
     const parsedArgs = {
-                        site: args.site,
-                                completion: typeof args.completion === 'object'
-                ? args.completion.id
-                : args.completion,
-                }
+        site: args.site,
+        completion: typeof args.completion === 'object'
+        ? args.completion.id
+        : args.completion,
+    }
 
     return destroy.definition.url
             .replace('{site}', parsedArgs.site.toString())
@@ -445,9 +447,9 @@ destroy.url = (args: { site: string | number, completion: number | { id: number 
 
 /**
 * @see \App\Http\Controllers\MhpCompletionController::destroy
- * @see app/Http/Controllers/MhpCompletionController.php:85
- * @route '/mhp/sites/{site}/completion/{completion}'
- */
+* @see app/Http/Controllers/MhpCompletionController.php:85
+* @route '/mhp/sites/{site}/completion/{completion}'
+*/
 destroy.delete = (args: { site: string | number, completion: number | { id: number } } | [site: string | number, completion: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'delete',
@@ -455,6 +457,7 @@ destroy.delete = (args: { site: string | number, completion: number | { id: numb
     url: destroy.url(args, options),
     method: 'delete',
 })
+
 const MhpCompletionController = { index, create, store, show, edit, update, destroy }
 
 export default MhpCompletionController

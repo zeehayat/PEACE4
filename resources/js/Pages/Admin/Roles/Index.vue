@@ -27,17 +27,17 @@ const selectedRole = ref(null);
 
 const form = useForm({});
 
-const openNewRoleModal = () =>gt; {
+const openNewRoleModal = () => {
     selectedRole.value = null;
     showCreateModal.value = true;
 };
 
-const editRole = (role) =>gt; {
+const editRole = (role) => {
     selectedRole.value = { ...role };
     showEditModal.value = true;
 };
 
-const confirmDeleteRole = (role) =>gt; {
+const confirmDeleteRole = (role) => {
     selectedRole.value = role;
     showDeleteModal.value = true;
 };

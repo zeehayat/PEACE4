@@ -6,9 +6,9 @@ import exposureVisits from './exposure-visits'
 import report from './report'
 /**
 * @see \App\Http\Controllers\ReportController::report
- * @see app/Http/Controllers/ReportController.php:12
- * @route '/cbo/report'
- */
+* @see app/Http/Controllers/ReportController.php:12
+* @route '/cbo/report'
+*/
 export const report = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -24,18 +24,18 @@ report.definition = {
 
 /**
 * @see \App\Http\Controllers\ReportController::report
- * @see app/Http/Controllers/ReportController.php:12
- * @route '/cbo/report'
- */
+* @see app/Http/Controllers/ReportController.php:12
+* @route '/cbo/report'
+*/
 report.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     return report.definition.url + queryParams(options)
 }
 
 /**
 * @see \App\Http\Controllers\ReportController::report
- * @see app/Http/Controllers/ReportController.php:12
- * @route '/cbo/report'
- */
+* @see app/Http/Controllers/ReportController.php:12
+* @route '/cbo/report'
+*/
 report.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -43,11 +43,12 @@ report.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: report.url(options),
     method: 'get',
 })
+
 /**
 * @see \App\Http\Controllers\ReportController::report
- * @see app/Http/Controllers/ReportController.php:12
- * @route '/cbo/report'
- */
+* @see app/Http/Controllers/ReportController.php:12
+* @route '/cbo/report'
+*/
 report.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -55,12 +56,13 @@ report.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: report.url(options),
     method: 'head',
 })
+
 const cbo = {
     cbos,
-dialogues,
-trainings,
-exposureVisits,
-report,
+    dialogues,
+    trainings,
+    exposureVisits,
+    report,
 }
 
 export default cbo
