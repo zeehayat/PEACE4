@@ -1,6 +1,6 @@
 import { queryParams, type QueryParams } from './../../../wayfinder'
 /**
-* @see routes/mhp_routes.php:77
+* @see routes/mhp_routes.php:78
 * @route '/mhp/media/{media}'
 */
 export const destroy = (args: { media: number | { id: number } } | [media: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -17,7 +17,7 @@ destroy.definition = {
 }
 
 /**
-* @see routes/mhp_routes.php:77
+* @see routes/mhp_routes.php:78
 * @route '/mhp/media/{media}'
 */
 destroy.url = (args: { media: number | { id: number } } | [media: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -47,7 +47,7 @@ destroy.url = (args: { media: number | { id: number } } | [media: number | { id:
 }
 
 /**
-* @see routes/mhp_routes.php:77
+* @see routes/mhp_routes.php:78
 * @route '/mhp/media/{media}'
 */
 destroy.delete = (args: { media: number | { id: number } } | [media: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

@@ -61,13 +61,14 @@ const closeModal = () => {
         <template #header>
             <h2 class="text-xl font-semibold leading-tight text-gray-800">
                 Roles &amp; Permissions
+                {{$page.props.auth.user}}
             </h2>
         </template>
 
         <div class="py-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                <div v-if="canManageRoles()" class="mb-4">
-                    <PrimaryButton @click="openNewRoleModal">
+                <div class="mb-4">
+                    <PrimaryButton v-if="$page.props.auth.user.can.role_manage" @click="openNewRoleModal">
                         Create New Role
                     </PrimaryButton>
                 </div>

@@ -40,6 +40,7 @@ class MhpSiteController extends Controller
                 'latestPhysicalProgress',
                 'latestFinancialInstallment',
                 'completion',
+                'emeInfo',
             ]);
 
 

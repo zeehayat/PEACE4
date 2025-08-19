@@ -20,6 +20,7 @@ import MhpCompletionModal from '@/Pages/MHP/Modals/MhpCompletionModal.vue';
 import MhpSiteDetailsModal from '@/Pages/MHP/Modals/MhpSiteDetailsModal.vue';
 import MhpReportModal from '@/Pages/MHP/Modals/MhpReportModal.vue';
 import AppLayout from "@/Layouts/AppLayout.vue";
+import EmeInfoForm from './Partials/EmeInfoForm.vue';
 
 
 const props = defineProps({
@@ -456,7 +457,10 @@ const handlePagination = (url) => {
     <MhpCompletionModal v-if="selectedSite" :show="showMhpCompletionModal" :site="selectedSite" :completion="selectedSite.completion" :action="completionAction" @close="closeModal" @saved="handleUpdated" />
     <MhpSiteDetailsModal v-if="selectedSite" :show="showMhpSiteDetailsModal" :site="selectedSite" @close="closeModal" />
     <MhpReportModal v-if="selectedSite" :show="showReportModal" :site="selectedSite" @close="closeModal" />
-
+        <EmeInfoForm
+            :mhp-site="mhpSite"
+            :eme-info="mhpSite.eme_info"
+        />
     <!-- Teleported Action Menu -->
     <Teleport to="body">
         <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from="transform opacity-100 scale-100" leave-to="transform opacity-0 scale-95">

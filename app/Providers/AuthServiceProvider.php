@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Cbo;
+use App\Models\EmeInfo;
 use App\Models\IrrigationAdminApproval;
 use App\Models\IrrigationCompletion;
 use App\Models\IrrigationCostRevision;
@@ -19,6 +20,7 @@ use App\Models\ProjectPhysicalProgress;
 use App\Models\User;
 use App\Models\Vendor;
 use App\Policies\CboPolicy;
+use App\Policies\EmeInfoPolicy;
 use App\Policies\IrrigationAdminApprovalPolicy;
 use App\Policies\IrrigationCompletionPolicy;
 use App\Policies\IrrigationCostRevisionPolicy;
@@ -68,6 +70,8 @@ class AuthServiceProvider extends ServiceProvider
         IrrigationCostRevision::class => IrrigationCostRevisionPolicy::class,
         IrrigationCompletion::class => IrrigationCompletionPolicy::class,
         IrrigationSchemeContract::class => IrrigationSchemeContractPolicy::class,
+        EmeInfo::class => EmeInfoPolicy::class, // ADD THIS LINE
+
 
 
 

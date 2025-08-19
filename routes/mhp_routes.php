@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EmeInfoController;
 use Illuminate\Support\Facades\Route;
 
 // Import all controllers for the MHP module
@@ -78,4 +79,6 @@ Route::middleware(['web', 'auth'])->group(function () {
         $media->delete();
         return response()->json(['success' => true]);
     })->name('media.destroy');
+    Route::post('sites/{site}/eme-info', [EmeInfoController::class, 'store'])->name('sites.eme-info.store');
+
 });
