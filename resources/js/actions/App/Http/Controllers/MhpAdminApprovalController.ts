@@ -1,9 +1,9 @@
 import { queryParams, type QueryParams } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::index
- * @see app/Http/Controllers/MhpAdminApprovalController.php:26
- * @route '/mhp/sites/{site}/admin-approvals'
- */
+* @see app/Http/Controllers/MhpAdminApprovalController.php:26
+* @route '/mhp/sites/{site}/admin-approvals'
+*/
 export const index = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -19,24 +19,23 @@ index.definition = {
 
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::index
- * @see app/Http/Controllers/MhpAdminApprovalController.php:26
- * @route '/mhp/sites/{site}/admin-approvals'
- */
+* @see app/Http/Controllers/MhpAdminApprovalController.php:26
+* @route '/mhp/sites/{site}/admin-approvals'
+*/
 index.url = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { site: args }
     }
 
-    
     if (Array.isArray(args)) {
         args = {
-                    site: args[0],
-                }
+            site: args[0],
+        }
     }
 
     const parsedArgs = {
-                        site: args.site,
-                }
+        site: args.site,
+    }
 
     return index.definition.url
             .replace('{site}', parsedArgs.site.toString())
@@ -45,9 +44,9 @@ index.url = (args: { site: string | number } | [site: string | number ] | string
 
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::index
- * @see app/Http/Controllers/MhpAdminApprovalController.php:26
- * @route '/mhp/sites/{site}/admin-approvals'
- */
+* @see app/Http/Controllers/MhpAdminApprovalController.php:26
+* @route '/mhp/sites/{site}/admin-approvals'
+*/
 index.get = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -55,11 +54,12 @@ index.get = (args: { site: string | number } | [site: string | number ] | string
     url: index.url(args, options),
     method: 'get',
 })
+
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::index
- * @see app/Http/Controllers/MhpAdminApprovalController.php:26
- * @route '/mhp/sites/{site}/admin-approvals'
- */
+* @see app/Http/Controllers/MhpAdminApprovalController.php:26
+* @route '/mhp/sites/{site}/admin-approvals'
+*/
 index.head = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -70,9 +70,9 @@ index.head = (args: { site: string | number } | [site: string | number ] | strin
 
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::create
- * @see app/Http/Controllers/MhpAdminApprovalController.php:0
- * @route '/mhp/sites/{site}/admin-approvals/create'
- */
+* @see app/Http/Controllers/MhpAdminApprovalController.php:0
+* @route '/mhp/sites/{site}/admin-approvals/create'
+*/
 export const create = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -88,24 +88,23 @@ create.definition = {
 
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::create
- * @see app/Http/Controllers/MhpAdminApprovalController.php:0
- * @route '/mhp/sites/{site}/admin-approvals/create'
- */
+* @see app/Http/Controllers/MhpAdminApprovalController.php:0
+* @route '/mhp/sites/{site}/admin-approvals/create'
+*/
 create.url = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { site: args }
     }
 
-    
     if (Array.isArray(args)) {
         args = {
-                    site: args[0],
-                }
+            site: args[0],
+        }
     }
 
     const parsedArgs = {
-                        site: args.site,
-                }
+        site: args.site,
+    }
 
     return create.definition.url
             .replace('{site}', parsedArgs.site.toString())
@@ -114,9 +113,9 @@ create.url = (args: { site: string | number } | [site: string | number ] | strin
 
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::create
- * @see app/Http/Controllers/MhpAdminApprovalController.php:0
- * @route '/mhp/sites/{site}/admin-approvals/create'
- */
+* @see app/Http/Controllers/MhpAdminApprovalController.php:0
+* @route '/mhp/sites/{site}/admin-approvals/create'
+*/
 create.get = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -124,11 +123,12 @@ create.get = (args: { site: string | number } | [site: string | number ] | strin
     url: create.url(args, options),
     method: 'get',
 })
+
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::create
- * @see app/Http/Controllers/MhpAdminApprovalController.php:0
- * @route '/mhp/sites/{site}/admin-approvals/create'
- */
+* @see app/Http/Controllers/MhpAdminApprovalController.php:0
+* @route '/mhp/sites/{site}/admin-approvals/create'
+*/
 create.head = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -139,9 +139,9 @@ create.head = (args: { site: string | number } | [site: string | number ] | stri
 
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::store
- * @see app/Http/Controllers/MhpAdminApprovalController.php:38
- * @route '/mhp/sites/{site}/admin-approvals'
- */
+* @see app/Http/Controllers/MhpAdminApprovalController.php:38
+* @route '/mhp/sites/{site}/admin-approvals'
+*/
 export const store = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
@@ -157,24 +157,23 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::store
- * @see app/Http/Controllers/MhpAdminApprovalController.php:38
- * @route '/mhp/sites/{site}/admin-approvals'
- */
+* @see app/Http/Controllers/MhpAdminApprovalController.php:38
+* @route '/mhp/sites/{site}/admin-approvals'
+*/
 store.url = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { site: args }
     }
 
-    
     if (Array.isArray(args)) {
         args = {
-                    site: args[0],
-                }
+            site: args[0],
+        }
     }
 
     const parsedArgs = {
-                        site: args.site,
-                }
+        site: args.site,
+    }
 
     return store.definition.url
             .replace('{site}', parsedArgs.site.toString())
@@ -183,9 +182,9 @@ store.url = (args: { site: string | number } | [site: string | number ] | string
 
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::store
- * @see app/Http/Controllers/MhpAdminApprovalController.php:38
- * @route '/mhp/sites/{site}/admin-approvals'
- */
+* @see app/Http/Controllers/MhpAdminApprovalController.php:38
+* @route '/mhp/sites/{site}/admin-approvals'
+*/
 store.post = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
@@ -196,9 +195,9 @@ store.post = (args: { site: string | number } | [site: string | number ] | strin
 
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::show
- * @see app/Http/Controllers/MhpAdminApprovalController.php:54
- * @route '/mhp/sites/{site}/admin-approvals/{admin_approval}'
- */
+* @see app/Http/Controllers/MhpAdminApprovalController.php:54
+* @route '/mhp/sites/{site}/admin-approvals/{admin_approval}'
+*/
 export const show = (args: { site: string | number, admin_approval: string | number } | [site: string | number, admin_approval: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -214,21 +213,21 @@ show.definition = {
 
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::show
- * @see app/Http/Controllers/MhpAdminApprovalController.php:54
- * @route '/mhp/sites/{site}/admin-approvals/{admin_approval}'
- */
+* @see app/Http/Controllers/MhpAdminApprovalController.php:54
+* @route '/mhp/sites/{site}/admin-approvals/{admin_approval}'
+*/
 show.url = (args: { site: string | number, admin_approval: string | number } | [site: string | number, admin_approval: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (Array.isArray(args)) {
         args = {
-                    site: args[0],
-                    admin_approval: args[1],
-                }
+            site: args[0],
+            admin_approval: args[1],
+        }
     }
 
     const parsedArgs = {
-                        site: args.site,
-                                admin_approval: args.admin_approval,
-                }
+        site: args.site,
+        admin_approval: args.admin_approval,
+    }
 
     return show.definition.url
             .replace('{site}', parsedArgs.site.toString())
@@ -238,9 +237,9 @@ show.url = (args: { site: string | number, admin_approval: string | number } | [
 
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::show
- * @see app/Http/Controllers/MhpAdminApprovalController.php:54
- * @route '/mhp/sites/{site}/admin-approvals/{admin_approval}'
- */
+* @see app/Http/Controllers/MhpAdminApprovalController.php:54
+* @route '/mhp/sites/{site}/admin-approvals/{admin_approval}'
+*/
 show.get = (args: { site: string | number, admin_approval: string | number } | [site: string | number, admin_approval: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -248,11 +247,12 @@ show.get = (args: { site: string | number, admin_approval: string | number } | [
     url: show.url(args, options),
     method: 'get',
 })
+
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::show
- * @see app/Http/Controllers/MhpAdminApprovalController.php:54
- * @route '/mhp/sites/{site}/admin-approvals/{admin_approval}'
- */
+* @see app/Http/Controllers/MhpAdminApprovalController.php:54
+* @route '/mhp/sites/{site}/admin-approvals/{admin_approval}'
+*/
 show.head = (args: { site: string | number, admin_approval: string | number } | [site: string | number, admin_approval: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -263,9 +263,9 @@ show.head = (args: { site: string | number, admin_approval: string | number } | 
 
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::edit
- * @see app/Http/Controllers/MhpAdminApprovalController.php:0
- * @route '/mhp/sites/{site}/admin-approvals/{admin_approval}/edit'
- */
+* @see app/Http/Controllers/MhpAdminApprovalController.php:0
+* @route '/mhp/sites/{site}/admin-approvals/{admin_approval}/edit'
+*/
 export const edit = (args: { site: string | number, admin_approval: string | number } | [site: string | number, admin_approval: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -281,21 +281,21 @@ edit.definition = {
 
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::edit
- * @see app/Http/Controllers/MhpAdminApprovalController.php:0
- * @route '/mhp/sites/{site}/admin-approvals/{admin_approval}/edit'
- */
+* @see app/Http/Controllers/MhpAdminApprovalController.php:0
+* @route '/mhp/sites/{site}/admin-approvals/{admin_approval}/edit'
+*/
 edit.url = (args: { site: string | number, admin_approval: string | number } | [site: string | number, admin_approval: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (Array.isArray(args)) {
         args = {
-                    site: args[0],
-                    admin_approval: args[1],
-                }
+            site: args[0],
+            admin_approval: args[1],
+        }
     }
 
     const parsedArgs = {
-                        site: args.site,
-                                admin_approval: args.admin_approval,
-                }
+        site: args.site,
+        admin_approval: args.admin_approval,
+    }
 
     return edit.definition.url
             .replace('{site}', parsedArgs.site.toString())
@@ -305,9 +305,9 @@ edit.url = (args: { site: string | number, admin_approval: string | number } | [
 
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::edit
- * @see app/Http/Controllers/MhpAdminApprovalController.php:0
- * @route '/mhp/sites/{site}/admin-approvals/{admin_approval}/edit'
- */
+* @see app/Http/Controllers/MhpAdminApprovalController.php:0
+* @route '/mhp/sites/{site}/admin-approvals/{admin_approval}/edit'
+*/
 edit.get = (args: { site: string | number, admin_approval: string | number } | [site: string | number, admin_approval: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -315,11 +315,12 @@ edit.get = (args: { site: string | number, admin_approval: string | number } | [
     url: edit.url(args, options),
     method: 'get',
 })
+
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::edit
- * @see app/Http/Controllers/MhpAdminApprovalController.php:0
- * @route '/mhp/sites/{site}/admin-approvals/{admin_approval}/edit'
- */
+* @see app/Http/Controllers/MhpAdminApprovalController.php:0
+* @route '/mhp/sites/{site}/admin-approvals/{admin_approval}/edit'
+*/
 edit.head = (args: { site: string | number, admin_approval: string | number } | [site: string | number, admin_approval: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -330,9 +331,9 @@ edit.head = (args: { site: string | number, admin_approval: string | number } | 
 
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::update
- * @see app/Http/Controllers/MhpAdminApprovalController.php:65
- * @route '/mhp/sites/{site}/admin-approvals/{admin_approval}'
- */
+* @see app/Http/Controllers/MhpAdminApprovalController.php:65
+* @route '/mhp/sites/{site}/admin-approvals/{admin_approval}'
+*/
 export const update = (args: { site: string | number, admin_approval: string | number } | [site: string | number, admin_approval: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'put',
@@ -348,21 +349,21 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::update
- * @see app/Http/Controllers/MhpAdminApprovalController.php:65
- * @route '/mhp/sites/{site}/admin-approvals/{admin_approval}'
- */
+* @see app/Http/Controllers/MhpAdminApprovalController.php:65
+* @route '/mhp/sites/{site}/admin-approvals/{admin_approval}'
+*/
 update.url = (args: { site: string | number, admin_approval: string | number } | [site: string | number, admin_approval: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (Array.isArray(args)) {
         args = {
-                    site: args[0],
-                    admin_approval: args[1],
-                }
+            site: args[0],
+            admin_approval: args[1],
+        }
     }
 
     const parsedArgs = {
-                        site: args.site,
-                                admin_approval: args.admin_approval,
-                }
+        site: args.site,
+        admin_approval: args.admin_approval,
+    }
 
     return update.definition.url
             .replace('{site}', parsedArgs.site.toString())
@@ -372,9 +373,9 @@ update.url = (args: { site: string | number, admin_approval: string | number } |
 
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::update
- * @see app/Http/Controllers/MhpAdminApprovalController.php:65
- * @route '/mhp/sites/{site}/admin-approvals/{admin_approval}'
- */
+* @see app/Http/Controllers/MhpAdminApprovalController.php:65
+* @route '/mhp/sites/{site}/admin-approvals/{admin_approval}'
+*/
 update.put = (args: { site: string | number, admin_approval: string | number } | [site: string | number, admin_approval: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'put',
@@ -382,11 +383,12 @@ update.put = (args: { site: string | number, admin_approval: string | number } |
     url: update.url(args, options),
     method: 'put',
 })
+
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::update
- * @see app/Http/Controllers/MhpAdminApprovalController.php:65
- * @route '/mhp/sites/{site}/admin-approvals/{admin_approval}'
- */
+* @see app/Http/Controllers/MhpAdminApprovalController.php:65
+* @route '/mhp/sites/{site}/admin-approvals/{admin_approval}'
+*/
 update.patch = (args: { site: string | number, admin_approval: string | number } | [site: string | number, admin_approval: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'patch',
@@ -397,9 +399,9 @@ update.patch = (args: { site: string | number, admin_approval: string | number }
 
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::destroy
- * @see app/Http/Controllers/MhpAdminApprovalController.php:83
- * @route '/mhp/sites/{site}/admin-approvals/{admin_approval}'
- */
+* @see app/Http/Controllers/MhpAdminApprovalController.php:83
+* @route '/mhp/sites/{site}/admin-approvals/{admin_approval}'
+*/
 export const destroy = (args: { site: string | number, admin_approval: string | number } | [site: string | number, admin_approval: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'delete',
@@ -415,21 +417,21 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::destroy
- * @see app/Http/Controllers/MhpAdminApprovalController.php:83
- * @route '/mhp/sites/{site}/admin-approvals/{admin_approval}'
- */
+* @see app/Http/Controllers/MhpAdminApprovalController.php:83
+* @route '/mhp/sites/{site}/admin-approvals/{admin_approval}'
+*/
 destroy.url = (args: { site: string | number, admin_approval: string | number } | [site: string | number, admin_approval: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (Array.isArray(args)) {
         args = {
-                    site: args[0],
-                    admin_approval: args[1],
-                }
+            site: args[0],
+            admin_approval: args[1],
+        }
     }
 
     const parsedArgs = {
-                        site: args.site,
-                                admin_approval: args.admin_approval,
-                }
+        site: args.site,
+        admin_approval: args.admin_approval,
+    }
 
     return destroy.definition.url
             .replace('{site}', parsedArgs.site.toString())
@@ -439,9 +441,9 @@ destroy.url = (args: { site: string | number, admin_approval: string | number } 
 
 /**
 * @see \App\Http\Controllers\MhpAdminApprovalController::destroy
- * @see app/Http/Controllers/MhpAdminApprovalController.php:83
- * @route '/mhp/sites/{site}/admin-approvals/{admin_approval}'
- */
+* @see app/Http/Controllers/MhpAdminApprovalController.php:83
+* @route '/mhp/sites/{site}/admin-approvals/{admin_approval}'
+*/
 destroy.delete = (args: { site: string | number, admin_approval: string | number } | [site: string | number, admin_approval: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'delete',
@@ -449,6 +451,7 @@ destroy.delete = (args: { site: string | number, admin_approval: string | number
     url: destroy.url(args, options),
     method: 'delete',
 })
+
 const MhpAdminApprovalController = { index, create, store, show, edit, update, destroy }
 
 export default MhpAdminApprovalController

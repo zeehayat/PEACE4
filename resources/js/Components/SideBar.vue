@@ -1,5 +1,5 @@
 <script setup>
-import { Link, usePage, router } from '@inertiajs/vue3'; // FIX: Add 'router' to imports
+import { Link, usePage, router } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
 
 const page = usePage();
@@ -48,9 +48,14 @@ const user = computed(() => page.props.auth.user);
         </div>
 
         <nav class="space-y-2">
-            <Link :href="route('dashboard')" :class="['flex items-center p-2 rounded-md transition duration-150 ease-in-out', isActive('dashboard') ? 'bg-indigo-700 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white']">
-                <svg class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m0 0l7 7m-2 2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-                Dashboard
+            <!-- FIX: Added links to the new dashboards -->
+            <Link :href="route('mhp.dashboard')" :class="['flex items-center p-2 rounded-md transition duration-150 ease-in-out', isActive('mhp.dashboard') ? 'bg-indigo-700 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white']">
+                <svg class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                MHP Dashboard
+            </Link>
+            <Link :href="route('irrigation.dashboard')" :class="['flex items-center p-2 rounded-md transition duration-150 ease-in-out', isActive('irrigation.dashboard') ? 'bg-indigo-700 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white']">
+                <svg class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                Irrigation Dashboard
             </Link>
 
             <h3 class="text-xs uppercase text-gray-500 pt-4 pb-2">Modules</h3>
@@ -80,7 +85,7 @@ const user = computed(() => page.props.auth.user);
                 LRM Committees
             </Link>
 
-            <button @click="router.post(route('main.logout'))" class="w-full flex items-center p-2 rounded-md text-gray-300 hover:bg-gray-700 hover:text-white transition duration-150 ease-in-out">
+            <button @click="router.post(route('logout'))" class="w-full flex items-center p-2 rounded-md text-gray-300 hover:bg-gray-700 hover:text-white transition duration-150 ease-in-out">
                 <svg class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
                 Log Out
             </button>

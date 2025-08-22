@@ -1,4 +1,5 @@
 import vendors from './vendors'
+
 const vendor = {
     vendors,
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\CboController;
 use App\Http\Controllers\CboDialogueController;
 use App\Http\Controllers\CboExposureVisitController;
 use App\Http\Controllers\CboTrainingController;
+use App\Http\Controllers\IrrigationDashboardController;
 use App\Http\Controllers\MhpAdminApprovalController;
 use App\Http\Controllers\MhpSiteController;
 use App\Http\Controllers\ProjectCostRevisionController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\ProjectFinancialInstallmentController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VendorController;
+use App\Http\Controllers\DashboardController;
 use App\Models\IrrigationScheme;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -74,14 +76,15 @@ Route::get('/login', function () {
 
     return Inertia::render('Auth/Login');
 })->middleware('guest')->name('login');
-Route::get('/', function () {
-    return redirect()->route(auth()->check() ? 'dashboard' : 'login');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 });
 
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware('auth')->name('dashboard');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+});
 
 // Handle login form submission
 Route::post('/login', [LoginController::class, 'login'])->middleware('guest');
@@ -117,16 +120,8 @@ Route::middleware(['web', 'auth', 'role:Admin|Root'])->prefix('admin')->name('ad
     // Route::get('permissions', [PermissionController::class, 'index']);
 });
 
-//Route::get('/tinker',function(){
-//
-//
-//    $scheme = IrrigationScheme::first(); // or create one
-//    $progress = $scheme->physicalProgresses()->create([
-//        'progress_percentage' => 50,
-//        'progress_date' => now(),
-//        'remarks' => 'Test record',
-//        'payment_for' => 'Civil',
-//    ]);
-//
-//    dd($progress->projectable_type);
-//});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/mhp-dashboard', [DashboardController::class, 'index'])->name('mhp.dashboard');
+    Route::get('/irrigation-dashboard', [IrrigationDashboardController::class, 'index'])->name('irrigation.dashboard');
+});

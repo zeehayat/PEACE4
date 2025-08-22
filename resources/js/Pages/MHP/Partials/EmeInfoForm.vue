@@ -33,7 +33,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post(route('mhp.sites.eme-info.store', props.mhpSite.id), {
+    form.post(route('sites.eme-info.store', props.mhpSite.id), {
         preserveScroll: true,
         onSuccess: () => {
             // You can add a success toast notification here
