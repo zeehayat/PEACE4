@@ -1,7 +1,7 @@
 import { queryParams, type QueryParams } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\DashboardController::index
-* @see app/Http/Controllers/DashboardController.php:19
+* @see app/Http/Controllers/DashboardController.php:23
 * @route '/'
 */
 const index2922ba73aee8066b091270d31ff4c8f8 = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -19,7 +19,7 @@ index2922ba73aee8066b091270d31ff4c8f8.definition = {
 
 /**
 * @see \App\Http\Controllers\DashboardController::index
-* @see app/Http/Controllers/DashboardController.php:19
+* @see app/Http/Controllers/DashboardController.php:23
 * @route '/'
 */
 index2922ba73aee8066b091270d31ff4c8f8.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -28,7 +28,7 @@ index2922ba73aee8066b091270d31ff4c8f8.url = (options?: { query?: QueryParams, me
 
 /**
 * @see \App\Http\Controllers\DashboardController::index
-* @see app/Http/Controllers/DashboardController.php:19
+* @see app/Http/Controllers/DashboardController.php:23
 * @route '/'
 */
 index2922ba73aee8066b091270d31ff4c8f8.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -41,7 +41,7 @@ index2922ba73aee8066b091270d31ff4c8f8.get = (options?: { query?: QueryParams, me
 
 /**
 * @see \App\Http\Controllers\DashboardController::index
-* @see app/Http/Controllers/DashboardController.php:19
+* @see app/Http/Controllers/DashboardController.php:23
 * @route '/'
 */
 index2922ba73aee8066b091270d31ff4c8f8.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -54,7 +54,7 @@ index2922ba73aee8066b091270d31ff4c8f8.head = (options?: { query?: QueryParams, m
 
 /**
 * @see \App\Http\Controllers\DashboardController::index
-* @see app/Http/Controllers/DashboardController.php:19
+* @see app/Http/Controllers/DashboardController.php:23
 * @route '/dashboard'
 */
 const indexe4446d8ebf548503a74323120a848d7c = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -72,7 +72,7 @@ indexe4446d8ebf548503a74323120a848d7c.definition = {
 
 /**
 * @see \App\Http\Controllers\DashboardController::index
-* @see app/Http/Controllers/DashboardController.php:19
+* @see app/Http/Controllers/DashboardController.php:23
 * @route '/dashboard'
 */
 indexe4446d8ebf548503a74323120a848d7c.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -81,7 +81,7 @@ indexe4446d8ebf548503a74323120a848d7c.url = (options?: { query?: QueryParams, me
 
 /**
 * @see \App\Http\Controllers\DashboardController::index
-* @see app/Http/Controllers/DashboardController.php:19
+* @see app/Http/Controllers/DashboardController.php:23
 * @route '/dashboard'
 */
 indexe4446d8ebf548503a74323120a848d7c.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -94,7 +94,7 @@ indexe4446d8ebf548503a74323120a848d7c.get = (options?: { query?: QueryParams, me
 
 /**
 * @see \App\Http\Controllers\DashboardController::index
-* @see app/Http/Controllers/DashboardController.php:19
+* @see app/Http/Controllers/DashboardController.php:23
 * @route '/dashboard'
 */
 indexe4446d8ebf548503a74323120a848d7c.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -107,7 +107,7 @@ indexe4446d8ebf548503a74323120a848d7c.head = (options?: { query?: QueryParams, m
 
 /**
 * @see \App\Http\Controllers\DashboardController::index
-* @see app/Http/Controllers/DashboardController.php:19
+* @see app/Http/Controllers/DashboardController.php:23
 * @route '/mhp-dashboard'
 */
 const indexd5198ffaa2ec55cdf3655c37e5cad3a0 = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -125,7 +125,7 @@ indexd5198ffaa2ec55cdf3655c37e5cad3a0.definition = {
 
 /**
 * @see \App\Http\Controllers\DashboardController::index
-* @see app/Http/Controllers/DashboardController.php:19
+* @see app/Http/Controllers/DashboardController.php:23
 * @route '/mhp-dashboard'
 */
 indexd5198ffaa2ec55cdf3655c37e5cad3a0.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -134,7 +134,7 @@ indexd5198ffaa2ec55cdf3655c37e5cad3a0.url = (options?: { query?: QueryParams, me
 
 /**
 * @see \App\Http\Controllers\DashboardController::index
-* @see app/Http/Controllers/DashboardController.php:19
+* @see app/Http/Controllers/DashboardController.php:23
 * @route '/mhp-dashboard'
 */
 indexd5198ffaa2ec55cdf3655c37e5cad3a0.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -147,7 +147,7 @@ indexd5198ffaa2ec55cdf3655c37e5cad3a0.get = (options?: { query?: QueryParams, me
 
 /**
 * @see \App\Http\Controllers\DashboardController::index
-* @see app/Http/Controllers/DashboardController.php:19
+* @see app/Http/Controllers/DashboardController.php:23
 * @route '/mhp-dashboard'
 */
 indexd5198ffaa2ec55cdf3655c37e5cad3a0.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

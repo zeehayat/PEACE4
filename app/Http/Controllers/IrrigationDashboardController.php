@@ -14,7 +14,7 @@ use Illuminate\Routing\Controller;
 
 class IrrigationDashboardController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request): \Inertia\Response
     {
         $user = Auth::user();
 
