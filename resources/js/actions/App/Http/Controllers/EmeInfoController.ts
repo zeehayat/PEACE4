@@ -1,9 +1,9 @@
 import { queryParams, type QueryParams } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\EmeInfoController::store
-* @see app/Http/Controllers/EmeInfoController.php:14
-* @route '/mhp/sites/{site}/eme-info'
-*/
+ * @see app/Http/Controllers/EmeInfoController.php:14
+ * @route '/mhp/sites/{site}/eme-info'
+ */
 export const store = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
@@ -19,23 +19,24 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\EmeInfoController::store
-* @see app/Http/Controllers/EmeInfoController.php:14
-* @route '/mhp/sites/{site}/eme-info'
-*/
+ * @see app/Http/Controllers/EmeInfoController.php:14
+ * @route '/mhp/sites/{site}/eme-info'
+ */
 store.url = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { site: args }
     }
 
+    
     if (Array.isArray(args)) {
         args = {
-            site: args[0],
-        }
+                    site: args[0],
+                }
     }
 
     const parsedArgs = {
-        site: args.site,
-    }
+                        site: args.site,
+                }
 
     return store.definition.url
             .replace('{site}', parsedArgs.site.toString())
@@ -44,9 +45,9 @@ store.url = (args: { site: string | number } | [site: string | number ] | string
 
 /**
 * @see \App\Http\Controllers\EmeInfoController::store
-* @see app/Http/Controllers/EmeInfoController.php:14
-* @route '/mhp/sites/{site}/eme-info'
-*/
+ * @see app/Http/Controllers/EmeInfoController.php:14
+ * @route '/mhp/sites/{site}/eme-info'
+ */
 store.post = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
@@ -54,7 +55,6 @@ store.post = (args: { site: string | number } | [site: string | number ] | strin
     url: store.url(args, options),
     method: 'post',
 })
-
 const EmeInfoController = { store }
 
 export default EmeInfoController

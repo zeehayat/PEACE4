@@ -154,12 +154,15 @@ class MhpSite extends Model implements HasMedia
     {
         return $this->morphMany(ProjectFinancialInstallment::class, 'projectable');
     }
-
+    public function emeInfo():HasOne{
+        return $this->hasOne(EmeInfo::class);
+    }
     // --- Spatie Media Library ---
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('attachments'); // Main attachments for the site
     }
+
 
     // Accessor for formatted attachments for frontend
     protected $appends = ['attachments_frontend', 'project_id'];

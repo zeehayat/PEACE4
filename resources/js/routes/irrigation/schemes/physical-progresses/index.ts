@@ -1,9 +1,9 @@
 import { queryParams, type QueryParams } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\IrrigationPhysicalProgressController::index
-* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:27
-* @route '/irrigation/schemes/{scheme}/physical-progresses'
-*/
+ * @see app/Http/Controllers/IrrigationPhysicalProgressController.php:27
+ * @route '/irrigation/schemes/{scheme}/physical-progresses'
+ */
 export const index = (args: { scheme: number | { id: number } } | [scheme: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -19,29 +19,29 @@ index.definition = {
 
 /**
 * @see \App\Http\Controllers\IrrigationPhysicalProgressController::index
-* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:27
-* @route '/irrigation/schemes/{scheme}/physical-progresses'
-*/
+ * @see app/Http/Controllers/IrrigationPhysicalProgressController.php:27
+ * @route '/irrigation/schemes/{scheme}/physical-progresses'
+ */
 index.url = (args: { scheme: number | { id: number } } | [scheme: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { scheme: args }
     }
 
-    if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
-        args = { scheme: args.id }
-    }
-
+            if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+            args = { scheme: args.id }
+        }
+    
     if (Array.isArray(args)) {
         args = {
-            scheme: args[0],
-        }
+                    scheme: args[0],
+                }
     }
 
     const parsedArgs = {
-        scheme: typeof args.scheme === 'object'
-        ? args.scheme.id
-        : args.scheme,
-    }
+                        scheme: typeof args.scheme === 'object'
+                ? args.scheme.id
+                : args.scheme,
+                }
 
     return index.definition.url
             .replace('{scheme}', parsedArgs.scheme.toString())
@@ -50,9 +50,9 @@ index.url = (args: { scheme: number | { id: number } } | [scheme: number | { id:
 
 /**
 * @see \App\Http\Controllers\IrrigationPhysicalProgressController::index
-* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:27
-* @route '/irrigation/schemes/{scheme}/physical-progresses'
-*/
+ * @see app/Http/Controllers/IrrigationPhysicalProgressController.php:27
+ * @route '/irrigation/schemes/{scheme}/physical-progresses'
+ */
 index.get = (args: { scheme: number | { id: number } } | [scheme: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -60,12 +60,11 @@ index.get = (args: { scheme: number | { id: number } } | [scheme: number | { id:
     url: index.url(args, options),
     method: 'get',
 })
-
 /**
 * @see \App\Http\Controllers\IrrigationPhysicalProgressController::index
-* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:27
-* @route '/irrigation/schemes/{scheme}/physical-progresses'
-*/
+ * @see app/Http/Controllers/IrrigationPhysicalProgressController.php:27
+ * @route '/irrigation/schemes/{scheme}/physical-progresses'
+ */
 index.head = (args: { scheme: number | { id: number } } | [scheme: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -76,9 +75,9 @@ index.head = (args: { scheme: number | { id: number } } | [scheme: number | { id
 
 /**
 * @see \App\Http\Controllers\IrrigationPhysicalProgressController::create
-* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:0
-* @route '/irrigation/schemes/{scheme}/physical-progresses/create'
-*/
+ * @see app/Http/Controllers/IrrigationPhysicalProgressController.php:0
+ * @route '/irrigation/schemes/{scheme}/physical-progresses/create'
+ */
 export const create = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -94,23 +93,24 @@ create.definition = {
 
 /**
 * @see \App\Http\Controllers\IrrigationPhysicalProgressController::create
-* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:0
-* @route '/irrigation/schemes/{scheme}/physical-progresses/create'
-*/
+ * @see app/Http/Controllers/IrrigationPhysicalProgressController.php:0
+ * @route '/irrigation/schemes/{scheme}/physical-progresses/create'
+ */
 create.url = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { scheme: args }
     }
 
+    
     if (Array.isArray(args)) {
         args = {
-            scheme: args[0],
-        }
+                    scheme: args[0],
+                }
     }
 
     const parsedArgs = {
-        scheme: args.scheme,
-    }
+                        scheme: args.scheme,
+                }
 
     return create.definition.url
             .replace('{scheme}', parsedArgs.scheme.toString())
@@ -119,9 +119,9 @@ create.url = (args: { scheme: string | number } | [scheme: string | number ] | s
 
 /**
 * @see \App\Http\Controllers\IrrigationPhysicalProgressController::create
-* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:0
-* @route '/irrigation/schemes/{scheme}/physical-progresses/create'
-*/
+ * @see app/Http/Controllers/IrrigationPhysicalProgressController.php:0
+ * @route '/irrigation/schemes/{scheme}/physical-progresses/create'
+ */
 create.get = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -129,12 +129,11 @@ create.get = (args: { scheme: string | number } | [scheme: string | number ] | s
     url: create.url(args, options),
     method: 'get',
 })
-
 /**
 * @see \App\Http\Controllers\IrrigationPhysicalProgressController::create
-* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:0
-* @route '/irrigation/schemes/{scheme}/physical-progresses/create'
-*/
+ * @see app/Http/Controllers/IrrigationPhysicalProgressController.php:0
+ * @route '/irrigation/schemes/{scheme}/physical-progresses/create'
+ */
 create.head = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -145,9 +144,9 @@ create.head = (args: { scheme: string | number } | [scheme: string | number ] | 
 
 /**
 * @see \App\Http\Controllers\IrrigationPhysicalProgressController::store
-* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:52
-* @route '/irrigation/schemes/{scheme}/physical-progresses'
-*/
+ * @see app/Http/Controllers/IrrigationPhysicalProgressController.php:52
+ * @route '/irrigation/schemes/{scheme}/physical-progresses'
+ */
 export const store = (args: { scheme: number | { id: number } } | [scheme: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
@@ -163,29 +162,29 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\IrrigationPhysicalProgressController::store
-* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:52
-* @route '/irrigation/schemes/{scheme}/physical-progresses'
-*/
+ * @see app/Http/Controllers/IrrigationPhysicalProgressController.php:52
+ * @route '/irrigation/schemes/{scheme}/physical-progresses'
+ */
 store.url = (args: { scheme: number | { id: number } } | [scheme: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { scheme: args }
     }
 
-    if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
-        args = { scheme: args.id }
-    }
-
+            if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+            args = { scheme: args.id }
+        }
+    
     if (Array.isArray(args)) {
         args = {
-            scheme: args[0],
-        }
+                    scheme: args[0],
+                }
     }
 
     const parsedArgs = {
-        scheme: typeof args.scheme === 'object'
-        ? args.scheme.id
-        : args.scheme,
-    }
+                        scheme: typeof args.scheme === 'object'
+                ? args.scheme.id
+                : args.scheme,
+                }
 
     return store.definition.url
             .replace('{scheme}', parsedArgs.scheme.toString())
@@ -194,9 +193,9 @@ store.url = (args: { scheme: number | { id: number } } | [scheme: number | { id:
 
 /**
 * @see \App\Http\Controllers\IrrigationPhysicalProgressController::store
-* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:52
-* @route '/irrigation/schemes/{scheme}/physical-progresses'
-*/
+ * @see app/Http/Controllers/IrrigationPhysicalProgressController.php:52
+ * @route '/irrigation/schemes/{scheme}/physical-progresses'
+ */
 store.post = (args: { scheme: number | { id: number } } | [scheme: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
@@ -204,11 +203,10 @@ store.post = (args: { scheme: number | { id: number } } | [scheme: number | { id
     url: store.url(args, options),
     method: 'post',
 })
-
 const physicalProgresses = {
     index,
-    create,
-    store,
+create,
+store,
 }
 
 export default physicalProgresses

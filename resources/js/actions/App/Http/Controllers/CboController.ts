@@ -1,9 +1,9 @@
 import { queryParams, type QueryParams } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\CboController::index
-* @see app/Http/Controllers/CboController.php:29
-* @route '/cbo/cbos'
-*/
+ * @see app/Http/Controllers/CboController.php:29
+ * @route '/cbo/cbos'
+ */
 export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -19,18 +19,18 @@ index.definition = {
 
 /**
 * @see \App\Http\Controllers\CboController::index
-* @see app/Http/Controllers/CboController.php:29
-* @route '/cbo/cbos'
-*/
+ * @see app/Http/Controllers/CboController.php:29
+ * @route '/cbo/cbos'
+ */
 index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     return index.definition.url + queryParams(options)
 }
 
 /**
 * @see \App\Http\Controllers\CboController::index
-* @see app/Http/Controllers/CboController.php:29
-* @route '/cbo/cbos'
-*/
+ * @see app/Http/Controllers/CboController.php:29
+ * @route '/cbo/cbos'
+ */
 index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -38,12 +38,11 @@ index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: index.url(options),
     method: 'get',
 })
-
 /**
 * @see \App\Http\Controllers\CboController::index
-* @see app/Http/Controllers/CboController.php:29
-* @route '/cbo/cbos'
-*/
+ * @see app/Http/Controllers/CboController.php:29
+ * @route '/cbo/cbos'
+ */
 index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -54,9 +53,9 @@ index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\CboController::create
-* @see app/Http/Controllers/CboController.php:0
-* @route '/cbo/cbos/create'
-*/
+ * @see app/Http/Controllers/CboController.php:0
+ * @route '/cbo/cbos/create'
+ */
 export const create = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -72,18 +71,18 @@ create.definition = {
 
 /**
 * @see \App\Http\Controllers\CboController::create
-* @see app/Http/Controllers/CboController.php:0
-* @route '/cbo/cbos/create'
-*/
+ * @see app/Http/Controllers/CboController.php:0
+ * @route '/cbo/cbos/create'
+ */
 create.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     return create.definition.url + queryParams(options)
 }
 
 /**
 * @see \App\Http\Controllers\CboController::create
-* @see app/Http/Controllers/CboController.php:0
-* @route '/cbo/cbos/create'
-*/
+ * @see app/Http/Controllers/CboController.php:0
+ * @route '/cbo/cbos/create'
+ */
 create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -91,12 +90,11 @@ create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: create.url(options),
     method: 'get',
 })
-
 /**
 * @see \App\Http\Controllers\CboController::create
-* @see app/Http/Controllers/CboController.php:0
-* @route '/cbo/cbos/create'
-*/
+ * @see app/Http/Controllers/CboController.php:0
+ * @route '/cbo/cbos/create'
+ */
 create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -107,9 +105,9 @@ create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\CboController::store
-* @see app/Http/Controllers/CboController.php:71
-* @route '/cbo/cbos'
-*/
+ * @see app/Http/Controllers/CboController.php:71
+ * @route '/cbo/cbos'
+ */
 export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
@@ -125,18 +123,18 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\CboController::store
-* @see app/Http/Controllers/CboController.php:71
-* @route '/cbo/cbos'
-*/
+ * @see app/Http/Controllers/CboController.php:71
+ * @route '/cbo/cbos'
+ */
 store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     return store.definition.url + queryParams(options)
 }
 
 /**
 * @see \App\Http\Controllers\CboController::store
-* @see app/Http/Controllers/CboController.php:71
-* @route '/cbo/cbos'
-*/
+ * @see app/Http/Controllers/CboController.php:71
+ * @route '/cbo/cbos'
+ */
 store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
@@ -147,9 +145,9 @@ store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\CboController::show
-* @see app/Http/Controllers/CboController.php:86
-* @route '/cbo/cbos/{cbo}'
-*/
+ * @see app/Http/Controllers/CboController.php:86
+ * @route '/cbo/cbos/{cbo}'
+ */
 export const show = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -165,29 +163,29 @@ show.definition = {
 
 /**
 * @see \App\Http\Controllers\CboController::show
-* @see app/Http/Controllers/CboController.php:86
-* @route '/cbo/cbos/{cbo}'
-*/
+ * @see app/Http/Controllers/CboController.php:86
+ * @route '/cbo/cbos/{cbo}'
+ */
 show.url = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { cbo: args }
     }
 
-    if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
-        args = { cbo: args.id }
-    }
-
+            if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+            args = { cbo: args.id }
+        }
+    
     if (Array.isArray(args)) {
         args = {
-            cbo: args[0],
-        }
+                    cbo: args[0],
+                }
     }
 
     const parsedArgs = {
-        cbo: typeof args.cbo === 'object'
-        ? args.cbo.id
-        : args.cbo,
-    }
+                        cbo: typeof args.cbo === 'object'
+                ? args.cbo.id
+                : args.cbo,
+                }
 
     return show.definition.url
             .replace('{cbo}', parsedArgs.cbo.toString())
@@ -196,9 +194,9 @@ show.url = (args: { cbo: number | { id: number } } | [cbo: number | { id: number
 
 /**
 * @see \App\Http\Controllers\CboController::show
-* @see app/Http/Controllers/CboController.php:86
-* @route '/cbo/cbos/{cbo}'
-*/
+ * @see app/Http/Controllers/CboController.php:86
+ * @route '/cbo/cbos/{cbo}'
+ */
 show.get = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -206,12 +204,11 @@ show.get = (args: { cbo: number | { id: number } } | [cbo: number | { id: number
     url: show.url(args, options),
     method: 'get',
 })
-
 /**
 * @see \App\Http\Controllers\CboController::show
-* @see app/Http/Controllers/CboController.php:86
-* @route '/cbo/cbos/{cbo}'
-*/
+ * @see app/Http/Controllers/CboController.php:86
+ * @route '/cbo/cbos/{cbo}'
+ */
 show.head = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -222,9 +219,9 @@ show.head = (args: { cbo: number | { id: number } } | [cbo: number | { id: numbe
 
 /**
 * @see \App\Http\Controllers\CboController::edit
-* @see app/Http/Controllers/CboController.php:0
-* @route '/cbo/cbos/{cbo}/edit'
-*/
+ * @see app/Http/Controllers/CboController.php:0
+ * @route '/cbo/cbos/{cbo}/edit'
+ */
 export const edit = (args: { cbo: string | number } | [cbo: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -240,23 +237,24 @@ edit.definition = {
 
 /**
 * @see \App\Http\Controllers\CboController::edit
-* @see app/Http/Controllers/CboController.php:0
-* @route '/cbo/cbos/{cbo}/edit'
-*/
+ * @see app/Http/Controllers/CboController.php:0
+ * @route '/cbo/cbos/{cbo}/edit'
+ */
 edit.url = (args: { cbo: string | number } | [cbo: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { cbo: args }
     }
 
+    
     if (Array.isArray(args)) {
         args = {
-            cbo: args[0],
-        }
+                    cbo: args[0],
+                }
     }
 
     const parsedArgs = {
-        cbo: args.cbo,
-    }
+                        cbo: args.cbo,
+                }
 
     return edit.definition.url
             .replace('{cbo}', parsedArgs.cbo.toString())
@@ -265,9 +263,9 @@ edit.url = (args: { cbo: string | number } | [cbo: string | number ] | string | 
 
 /**
 * @see \App\Http\Controllers\CboController::edit
-* @see app/Http/Controllers/CboController.php:0
-* @route '/cbo/cbos/{cbo}/edit'
-*/
+ * @see app/Http/Controllers/CboController.php:0
+ * @route '/cbo/cbos/{cbo}/edit'
+ */
 edit.get = (args: { cbo: string | number } | [cbo: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -275,12 +273,11 @@ edit.get = (args: { cbo: string | number } | [cbo: string | number ] | string | 
     url: edit.url(args, options),
     method: 'get',
 })
-
 /**
 * @see \App\Http\Controllers\CboController::edit
-* @see app/Http/Controllers/CboController.php:0
-* @route '/cbo/cbos/{cbo}/edit'
-*/
+ * @see app/Http/Controllers/CboController.php:0
+ * @route '/cbo/cbos/{cbo}/edit'
+ */
 edit.head = (args: { cbo: string | number } | [cbo: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -291,9 +288,9 @@ edit.head = (args: { cbo: string | number } | [cbo: string | number ] | string |
 
 /**
 * @see \App\Http\Controllers\CboController::update
-* @see app/Http/Controllers/CboController.php:96
-* @route '/cbo/cbos/{cbo}'
-*/
+ * @see app/Http/Controllers/CboController.php:96
+ * @route '/cbo/cbos/{cbo}'
+ */
 export const update = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'put',
@@ -309,29 +306,29 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\CboController::update
-* @see app/Http/Controllers/CboController.php:96
-* @route '/cbo/cbos/{cbo}'
-*/
+ * @see app/Http/Controllers/CboController.php:96
+ * @route '/cbo/cbos/{cbo}'
+ */
 update.url = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { cbo: args }
     }
 
-    if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
-        args = { cbo: args.id }
-    }
-
+            if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+            args = { cbo: args.id }
+        }
+    
     if (Array.isArray(args)) {
         args = {
-            cbo: args[0],
-        }
+                    cbo: args[0],
+                }
     }
 
     const parsedArgs = {
-        cbo: typeof args.cbo === 'object'
-        ? args.cbo.id
-        : args.cbo,
-    }
+                        cbo: typeof args.cbo === 'object'
+                ? args.cbo.id
+                : args.cbo,
+                }
 
     return update.definition.url
             .replace('{cbo}', parsedArgs.cbo.toString())
@@ -340,9 +337,9 @@ update.url = (args: { cbo: number | { id: number } } | [cbo: number | { id: numb
 
 /**
 * @see \App\Http\Controllers\CboController::update
-* @see app/Http/Controllers/CboController.php:96
-* @route '/cbo/cbos/{cbo}'
-*/
+ * @see app/Http/Controllers/CboController.php:96
+ * @route '/cbo/cbos/{cbo}'
+ */
 update.put = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'put',
@@ -350,12 +347,11 @@ update.put = (args: { cbo: number | { id: number } } | [cbo: number | { id: numb
     url: update.url(args, options),
     method: 'put',
 })
-
 /**
 * @see \App\Http\Controllers\CboController::update
-* @see app/Http/Controllers/CboController.php:96
-* @route '/cbo/cbos/{cbo}'
-*/
+ * @see app/Http/Controllers/CboController.php:96
+ * @route '/cbo/cbos/{cbo}'
+ */
 update.patch = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'patch',
@@ -366,9 +362,9 @@ update.patch = (args: { cbo: number | { id: number } } | [cbo: number | { id: nu
 
 /**
 * @see \App\Http\Controllers\CboController::destroy
-* @see app/Http/Controllers/CboController.php:111
-* @route '/cbo/cbos/{cbo}'
-*/
+ * @see app/Http/Controllers/CboController.php:111
+ * @route '/cbo/cbos/{cbo}'
+ */
 export const destroy = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'delete',
@@ -384,29 +380,29 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\CboController::destroy
-* @see app/Http/Controllers/CboController.php:111
-* @route '/cbo/cbos/{cbo}'
-*/
+ * @see app/Http/Controllers/CboController.php:111
+ * @route '/cbo/cbos/{cbo}'
+ */
 destroy.url = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { cbo: args }
     }
 
-    if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
-        args = { cbo: args.id }
-    }
-
+            if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+            args = { cbo: args.id }
+        }
+    
     if (Array.isArray(args)) {
         args = {
-            cbo: args[0],
-        }
+                    cbo: args[0],
+                }
     }
 
     const parsedArgs = {
-        cbo: typeof args.cbo === 'object'
-        ? args.cbo.id
-        : args.cbo,
-    }
+                        cbo: typeof args.cbo === 'object'
+                ? args.cbo.id
+                : args.cbo,
+                }
 
     return destroy.definition.url
             .replace('{cbo}', parsedArgs.cbo.toString())
@@ -415,9 +411,9 @@ destroy.url = (args: { cbo: number | { id: number } } | [cbo: number | { id: num
 
 /**
 * @see \App\Http\Controllers\CboController::destroy
-* @see app/Http/Controllers/CboController.php:111
-* @route '/cbo/cbos/{cbo}'
-*/
+ * @see app/Http/Controllers/CboController.php:111
+ * @route '/cbo/cbos/{cbo}'
+ */
 destroy.delete = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'delete',
@@ -428,9 +424,9 @@ destroy.delete = (args: { cbo: number | { id: number } } | [cbo: number | { id: 
 
 /**
 * @see \App\Http\Controllers\CboController::autoSearch
-* @see app/Http/Controllers/CboController.php:0
-* @route '/cbo/cbos/auto-search'
-*/
+ * @see app/Http/Controllers/CboController.php:0
+ * @route '/cbo/cbos/auto-search'
+ */
 export const autoSearch = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -446,18 +442,18 @@ autoSearch.definition = {
 
 /**
 * @see \App\Http\Controllers\CboController::autoSearch
-* @see app/Http/Controllers/CboController.php:0
-* @route '/cbo/cbos/auto-search'
-*/
+ * @see app/Http/Controllers/CboController.php:0
+ * @route '/cbo/cbos/auto-search'
+ */
 autoSearch.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     return autoSearch.definition.url + queryParams(options)
 }
 
 /**
 * @see \App\Http\Controllers\CboController::autoSearch
-* @see app/Http/Controllers/CboController.php:0
-* @route '/cbo/cbos/auto-search'
-*/
+ * @see app/Http/Controllers/CboController.php:0
+ * @route '/cbo/cbos/auto-search'
+ */
 autoSearch.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -465,12 +461,11 @@ autoSearch.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): 
     url: autoSearch.url(options),
     method: 'get',
 })
-
 /**
 * @see \App\Http\Controllers\CboController::autoSearch
-* @see app/Http/Controllers/CboController.php:0
-* @route '/cbo/cbos/auto-search'
-*/
+ * @see app/Http/Controllers/CboController.php:0
+ * @route '/cbo/cbos/auto-search'
+ */
 autoSearch.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -481,9 +476,9 @@ autoSearch.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }):
 
 /**
 * @see \App\Http\Controllers\CboController::details
-* @see app/Http/Controllers/CboController.php:0
-* @route '/cbo/cbos/{cbo}/details'
-*/
+ * @see app/Http/Controllers/CboController.php:0
+ * @route '/cbo/cbos/{cbo}/details'
+ */
 export const details = (args: { cbo: string | number } | [cbo: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -499,23 +494,24 @@ details.definition = {
 
 /**
 * @see \App\Http\Controllers\CboController::details
-* @see app/Http/Controllers/CboController.php:0
-* @route '/cbo/cbos/{cbo}/details'
-*/
+ * @see app/Http/Controllers/CboController.php:0
+ * @route '/cbo/cbos/{cbo}/details'
+ */
 details.url = (args: { cbo: string | number } | [cbo: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { cbo: args }
     }
 
+    
     if (Array.isArray(args)) {
         args = {
-            cbo: args[0],
-        }
+                    cbo: args[0],
+                }
     }
 
     const parsedArgs = {
-        cbo: args.cbo,
-    }
+                        cbo: args.cbo,
+                }
 
     return details.definition.url
             .replace('{cbo}', parsedArgs.cbo.toString())
@@ -524,9 +520,9 @@ details.url = (args: { cbo: string | number } | [cbo: string | number ] | string
 
 /**
 * @see \App\Http\Controllers\CboController::details
-* @see app/Http/Controllers/CboController.php:0
-* @route '/cbo/cbos/{cbo}/details'
-*/
+ * @see app/Http/Controllers/CboController.php:0
+ * @route '/cbo/cbos/{cbo}/details'
+ */
 details.get = (args: { cbo: string | number } | [cbo: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -534,12 +530,11 @@ details.get = (args: { cbo: string | number } | [cbo: string | number ] | string
     url: details.url(args, options),
     method: 'get',
 })
-
 /**
 * @see \App\Http\Controllers\CboController::details
-* @see app/Http/Controllers/CboController.php:0
-* @route '/cbo/cbos/{cbo}/details'
-*/
+ * @see app/Http/Controllers/CboController.php:0
+ * @route '/cbo/cbos/{cbo}/details'
+ */
 details.head = (args: { cbo: string | number } | [cbo: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -547,7 +542,6 @@ details.head = (args: { cbo: string | number } | [cbo: string | number ] | strin
     url: details.url(args, options),
     method: 'head',
 })
-
 const CboController = { index, create, store, show, edit, update, destroy, autoSearch, details }
 
 export default CboController

@@ -37,6 +37,7 @@ const submit = () => {
         preserveScroll: true,
         onSuccess: () => {
             // You can add a success toast notification here
+            alert("Succesfully Stored")
         },
     });
 };

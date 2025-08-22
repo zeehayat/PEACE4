@@ -21,6 +21,8 @@ import MhpSiteDetailsModal from '@/Pages/MHP/Modals/MhpSiteDetailsModal.vue';
 import MhpReportModal from '@/Pages/MHP/Modals/MhpReportModal.vue';
 import AppLayout from "@/Layouts/AppLayout.vue";
 import EmeInfoForm from './Partials/EmeInfoForm.vue';
+import Modal from "@/Components/Modal.vue";
+import EmeInfoModal from "@/Pages/MHP/Modals/EmeInfoModal.vue";
 
 
 const props = defineProps({
@@ -66,6 +68,7 @@ const showMhpSiteDetailsModal = ref(false);
 const showReportModal = ref(false);
 const showEmeProgressModal = ref(false);
 const showOperationalCostModal = ref(false);
+const showEmeInfoModal =ref(false);
 
 // FIX: New ref to store the type of progress being managed (e.g., 'EME', 'Civil', 'T&D')
 const progressType = ref(null);
@@ -82,6 +85,13 @@ function handleUpdated(message, updatedSiteData = null) {
     router.reload({ only: ['mhpSites'], preserveState: true });
 }
 
+function handleEmeInfo(site){
+    console.log(site)
+
+    selectedSite.value=site.id;
+    showEmeInfoModal.value=true;
+    openActionMenuId.value=null; //Close the action Menu
+}
 function closeModal() {
     showSiteCreateModal.value = false;
     showEditInfoModal.value = false;
@@ -96,6 +106,7 @@ function closeModal() {
     showReportModal.value = false;
     showEmeProgressModal.value = false; // Close EME Progress modal
     showOperationalCostModal.value = false;
+    showEmeInfoModal.value=false
 
     // FIX: Reset progressType when any modal closes
     progressType.value = null;
@@ -457,10 +468,15 @@ const handlePagination = (url) => {
     <MhpCompletionModal v-if="selectedSite" :show="showMhpCompletionModal" :site="selectedSite" :completion="selectedSite.completion" :action="completionAction" @close="closeModal" @saved="handleUpdated" />
     <MhpSiteDetailsModal v-if="selectedSite" :show="showMhpSiteDetailsModal" :site="selectedSite" @close="closeModal" />
     <MhpReportModal v-if="selectedSite" :show="showReportModal" :site="selectedSite" @close="closeModal" />
-        <EmeInfoForm
-            :mhp-site="mhpSite"
-            :eme-info="mhpSite.eme_info"
-        />
+        <EmeInfoModal :show="showEmeInfoModal" @close="closeModal" max-width="4xl" mhp-site-id="selectedSite">
+            <EmeInfoForm
+                v-if="selectedSite"
+                :mhp-site="selectedSite"
+                :eme-info="selectedSite.eme_info"
+                @success="closeModal"
+                site="selectedSite.id"
+            />
+        </EmeInfoModal>
     <!-- Teleported Action Menu -->
     <Teleport to="body">
         <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from="transform opacity-100 scale-100" leave-to="transform opacity-0 scale-95">
@@ -492,6 +508,10 @@ const handlePagination = (url) => {
                     <button @click="handleOpenRevisedCostModal(selectedSite)" :class="{ 'opacity-50 cursor-not-allowed': !determineNextField(selectedSite.admin_approval) }" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2" :disabled="!determineNextField(selectedSite.admin_approval)">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dollar-sign"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                         {{ nextRevisedCostLabel(selectedSite.admin_approval) }}
+                    </button>
+                    <button @click="handleEmeInfo(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bolt"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" x2="12" y1="22.08" y2="12"></line></svg>
+                        EME Profile
                     </button>
                 </div>
                 <div class="py-1 text-sm text-gray-700">

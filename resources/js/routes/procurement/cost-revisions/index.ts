@@ -1,9 +1,9 @@
 import { queryParams, type QueryParams } from './../../../wayfinder'
 /**
 * @see \App\Http\Controllers\ProjectCostRevisionController::index
-* @see app/Http/Controllers/ProjectCostRevisionController.php:0
-* @route '/procurement/cost-revisions'
-*/
+ * @see app/Http/Controllers/ProjectCostRevisionController.php:0
+ * @route '/procurement/cost-revisions'
+ */
 export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -19,18 +19,18 @@ index.definition = {
 
 /**
 * @see \App\Http\Controllers\ProjectCostRevisionController::index
-* @see app/Http/Controllers/ProjectCostRevisionController.php:0
-* @route '/procurement/cost-revisions'
-*/
+ * @see app/Http/Controllers/ProjectCostRevisionController.php:0
+ * @route '/procurement/cost-revisions'
+ */
 index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     return index.definition.url + queryParams(options)
 }
 
 /**
 * @see \App\Http\Controllers\ProjectCostRevisionController::index
-* @see app/Http/Controllers/ProjectCostRevisionController.php:0
-* @route '/procurement/cost-revisions'
-*/
+ * @see app/Http/Controllers/ProjectCostRevisionController.php:0
+ * @route '/procurement/cost-revisions'
+ */
 index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -38,12 +38,11 @@ index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: index.url(options),
     method: 'get',
 })
-
 /**
 * @see \App\Http\Controllers\ProjectCostRevisionController::index
-* @see app/Http/Controllers/ProjectCostRevisionController.php:0
-* @route '/procurement/cost-revisions'
-*/
+ * @see app/Http/Controllers/ProjectCostRevisionController.php:0
+ * @route '/procurement/cost-revisions'
+ */
 index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -54,9 +53,9 @@ index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\ProjectCostRevisionController::create
-* @see app/Http/Controllers/ProjectCostRevisionController.php:0
-* @route '/procurement/cost-revisions/create'
-*/
+ * @see app/Http/Controllers/ProjectCostRevisionController.php:0
+ * @route '/procurement/cost-revisions/create'
+ */
 export const create = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -72,18 +71,18 @@ create.definition = {
 
 /**
 * @see \App\Http\Controllers\ProjectCostRevisionController::create
-* @see app/Http/Controllers/ProjectCostRevisionController.php:0
-* @route '/procurement/cost-revisions/create'
-*/
+ * @see app/Http/Controllers/ProjectCostRevisionController.php:0
+ * @route '/procurement/cost-revisions/create'
+ */
 create.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     return create.definition.url + queryParams(options)
 }
 
 /**
 * @see \App\Http\Controllers\ProjectCostRevisionController::create
-* @see app/Http/Controllers/ProjectCostRevisionController.php:0
-* @route '/procurement/cost-revisions/create'
-*/
+ * @see app/Http/Controllers/ProjectCostRevisionController.php:0
+ * @route '/procurement/cost-revisions/create'
+ */
 create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -91,12 +90,11 @@ create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: create.url(options),
     method: 'get',
 })
-
 /**
 * @see \App\Http\Controllers\ProjectCostRevisionController::create
-* @see app/Http/Controllers/ProjectCostRevisionController.php:0
-* @route '/procurement/cost-revisions/create'
-*/
+ * @see app/Http/Controllers/ProjectCostRevisionController.php:0
+ * @route '/procurement/cost-revisions/create'
+ */
 create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -107,9 +105,9 @@ create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\ProjectCostRevisionController::store
-* @see app/Http/Controllers/ProjectCostRevisionController.php:11
-* @route '/procurement/cost-revisions'
-*/
+ * @see app/Http/Controllers/ProjectCostRevisionController.php:11
+ * @route '/procurement/cost-revisions'
+ */
 export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
@@ -125,18 +123,18 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\ProjectCostRevisionController::store
-* @see app/Http/Controllers/ProjectCostRevisionController.php:11
-* @route '/procurement/cost-revisions'
-*/
+ * @see app/Http/Controllers/ProjectCostRevisionController.php:11
+ * @route '/procurement/cost-revisions'
+ */
 store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     return store.definition.url + queryParams(options)
 }
 
 /**
 * @see \App\Http\Controllers\ProjectCostRevisionController::store
-* @see app/Http/Controllers/ProjectCostRevisionController.php:11
-* @route '/procurement/cost-revisions'
-*/
+ * @see app/Http/Controllers/ProjectCostRevisionController.php:11
+ * @route '/procurement/cost-revisions'
+ */
 store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
@@ -147,9 +145,9 @@ store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\ProjectCostRevisionController::show
-* @see app/Http/Controllers/ProjectCostRevisionController.php:0
-* @route '/procurement/cost-revisions/{cost_revision}'
-*/
+ * @see app/Http/Controllers/ProjectCostRevisionController.php:0
+ * @route '/procurement/cost-revisions/{cost_revision}'
+ */
 export const show = (args: { cost_revision: string | number } | [cost_revision: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -165,23 +163,24 @@ show.definition = {
 
 /**
 * @see \App\Http\Controllers\ProjectCostRevisionController::show
-* @see app/Http/Controllers/ProjectCostRevisionController.php:0
-* @route '/procurement/cost-revisions/{cost_revision}'
-*/
+ * @see app/Http/Controllers/ProjectCostRevisionController.php:0
+ * @route '/procurement/cost-revisions/{cost_revision}'
+ */
 show.url = (args: { cost_revision: string | number } | [cost_revision: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { cost_revision: args }
     }
 
+    
     if (Array.isArray(args)) {
         args = {
-            cost_revision: args[0],
-        }
+                    cost_revision: args[0],
+                }
     }
 
     const parsedArgs = {
-        cost_revision: args.cost_revision,
-    }
+                        cost_revision: args.cost_revision,
+                }
 
     return show.definition.url
             .replace('{cost_revision}', parsedArgs.cost_revision.toString())
@@ -190,9 +189,9 @@ show.url = (args: { cost_revision: string | number } | [cost_revision: string | 
 
 /**
 * @see \App\Http\Controllers\ProjectCostRevisionController::show
-* @see app/Http/Controllers/ProjectCostRevisionController.php:0
-* @route '/procurement/cost-revisions/{cost_revision}'
-*/
+ * @see app/Http/Controllers/ProjectCostRevisionController.php:0
+ * @route '/procurement/cost-revisions/{cost_revision}'
+ */
 show.get = (args: { cost_revision: string | number } | [cost_revision: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -200,12 +199,11 @@ show.get = (args: { cost_revision: string | number } | [cost_revision: string | 
     url: show.url(args, options),
     method: 'get',
 })
-
 /**
 * @see \App\Http\Controllers\ProjectCostRevisionController::show
-* @see app/Http/Controllers/ProjectCostRevisionController.php:0
-* @route '/procurement/cost-revisions/{cost_revision}'
-*/
+ * @see app/Http/Controllers/ProjectCostRevisionController.php:0
+ * @route '/procurement/cost-revisions/{cost_revision}'
+ */
 show.head = (args: { cost_revision: string | number } | [cost_revision: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -216,9 +214,9 @@ show.head = (args: { cost_revision: string | number } | [cost_revision: string |
 
 /**
 * @see \App\Http\Controllers\ProjectCostRevisionController::edit
-* @see app/Http/Controllers/ProjectCostRevisionController.php:0
-* @route '/procurement/cost-revisions/{cost_revision}/edit'
-*/
+ * @see app/Http/Controllers/ProjectCostRevisionController.php:0
+ * @route '/procurement/cost-revisions/{cost_revision}/edit'
+ */
 export const edit = (args: { cost_revision: string | number } | [cost_revision: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -234,23 +232,24 @@ edit.definition = {
 
 /**
 * @see \App\Http\Controllers\ProjectCostRevisionController::edit
-* @see app/Http/Controllers/ProjectCostRevisionController.php:0
-* @route '/procurement/cost-revisions/{cost_revision}/edit'
-*/
+ * @see app/Http/Controllers/ProjectCostRevisionController.php:0
+ * @route '/procurement/cost-revisions/{cost_revision}/edit'
+ */
 edit.url = (args: { cost_revision: string | number } | [cost_revision: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { cost_revision: args }
     }
 
+    
     if (Array.isArray(args)) {
         args = {
-            cost_revision: args[0],
-        }
+                    cost_revision: args[0],
+                }
     }
 
     const parsedArgs = {
-        cost_revision: args.cost_revision,
-    }
+                        cost_revision: args.cost_revision,
+                }
 
     return edit.definition.url
             .replace('{cost_revision}', parsedArgs.cost_revision.toString())
@@ -259,9 +258,9 @@ edit.url = (args: { cost_revision: string | number } | [cost_revision: string | 
 
 /**
 * @see \App\Http\Controllers\ProjectCostRevisionController::edit
-* @see app/Http/Controllers/ProjectCostRevisionController.php:0
-* @route '/procurement/cost-revisions/{cost_revision}/edit'
-*/
+ * @see app/Http/Controllers/ProjectCostRevisionController.php:0
+ * @route '/procurement/cost-revisions/{cost_revision}/edit'
+ */
 edit.get = (args: { cost_revision: string | number } | [cost_revision: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -269,12 +268,11 @@ edit.get = (args: { cost_revision: string | number } | [cost_revision: string | 
     url: edit.url(args, options),
     method: 'get',
 })
-
 /**
 * @see \App\Http\Controllers\ProjectCostRevisionController::edit
-* @see app/Http/Controllers/ProjectCostRevisionController.php:0
-* @route '/procurement/cost-revisions/{cost_revision}/edit'
-*/
+ * @see app/Http/Controllers/ProjectCostRevisionController.php:0
+ * @route '/procurement/cost-revisions/{cost_revision}/edit'
+ */
 edit.head = (args: { cost_revision: string | number } | [cost_revision: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -285,9 +283,9 @@ edit.head = (args: { cost_revision: string | number } | [cost_revision: string |
 
 /**
 * @see \App\Http\Controllers\ProjectCostRevisionController::update
-* @see app/Http/Controllers/ProjectCostRevisionController.php:18
-* @route '/procurement/cost-revisions/{cost_revision}'
-*/
+ * @see app/Http/Controllers/ProjectCostRevisionController.php:18
+ * @route '/procurement/cost-revisions/{cost_revision}'
+ */
 export const update = (args: { cost_revision: string | number } | [cost_revision: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'put',
@@ -303,23 +301,24 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\ProjectCostRevisionController::update
-* @see app/Http/Controllers/ProjectCostRevisionController.php:18
-* @route '/procurement/cost-revisions/{cost_revision}'
-*/
+ * @see app/Http/Controllers/ProjectCostRevisionController.php:18
+ * @route '/procurement/cost-revisions/{cost_revision}'
+ */
 update.url = (args: { cost_revision: string | number } | [cost_revision: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { cost_revision: args }
     }
 
+    
     if (Array.isArray(args)) {
         args = {
-            cost_revision: args[0],
-        }
+                    cost_revision: args[0],
+                }
     }
 
     const parsedArgs = {
-        cost_revision: args.cost_revision,
-    }
+                        cost_revision: args.cost_revision,
+                }
 
     return update.definition.url
             .replace('{cost_revision}', parsedArgs.cost_revision.toString())
@@ -328,9 +327,9 @@ update.url = (args: { cost_revision: string | number } | [cost_revision: string 
 
 /**
 * @see \App\Http\Controllers\ProjectCostRevisionController::update
-* @see app/Http/Controllers/ProjectCostRevisionController.php:18
-* @route '/procurement/cost-revisions/{cost_revision}'
-*/
+ * @see app/Http/Controllers/ProjectCostRevisionController.php:18
+ * @route '/procurement/cost-revisions/{cost_revision}'
+ */
 update.put = (args: { cost_revision: string | number } | [cost_revision: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'put',
@@ -338,12 +337,11 @@ update.put = (args: { cost_revision: string | number } | [cost_revision: string 
     url: update.url(args, options),
     method: 'put',
 })
-
 /**
 * @see \App\Http\Controllers\ProjectCostRevisionController::update
-* @see app/Http/Controllers/ProjectCostRevisionController.php:18
-* @route '/procurement/cost-revisions/{cost_revision}'
-*/
+ * @see app/Http/Controllers/ProjectCostRevisionController.php:18
+ * @route '/procurement/cost-revisions/{cost_revision}'
+ */
 update.patch = (args: { cost_revision: string | number } | [cost_revision: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'patch',
@@ -354,9 +352,9 @@ update.patch = (args: { cost_revision: string | number } | [cost_revision: strin
 
 /**
 * @see \App\Http\Controllers\ProjectCostRevisionController::destroy
-* @see app/Http/Controllers/ProjectCostRevisionController.php:0
-* @route '/procurement/cost-revisions/{cost_revision}'
-*/
+ * @see app/Http/Controllers/ProjectCostRevisionController.php:0
+ * @route '/procurement/cost-revisions/{cost_revision}'
+ */
 export const destroy = (args: { cost_revision: string | number } | [cost_revision: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'delete',
@@ -372,23 +370,24 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\ProjectCostRevisionController::destroy
-* @see app/Http/Controllers/ProjectCostRevisionController.php:0
-* @route '/procurement/cost-revisions/{cost_revision}'
-*/
+ * @see app/Http/Controllers/ProjectCostRevisionController.php:0
+ * @route '/procurement/cost-revisions/{cost_revision}'
+ */
 destroy.url = (args: { cost_revision: string | number } | [cost_revision: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { cost_revision: args }
     }
 
+    
     if (Array.isArray(args)) {
         args = {
-            cost_revision: args[0],
-        }
+                    cost_revision: args[0],
+                }
     }
 
     const parsedArgs = {
-        cost_revision: args.cost_revision,
-    }
+                        cost_revision: args.cost_revision,
+                }
 
     return destroy.definition.url
             .replace('{cost_revision}', parsedArgs.cost_revision.toString())
@@ -397,9 +396,9 @@ destroy.url = (args: { cost_revision: string | number } | [cost_revision: string
 
 /**
 * @see \App\Http\Controllers\ProjectCostRevisionController::destroy
-* @see app/Http/Controllers/ProjectCostRevisionController.php:0
-* @route '/procurement/cost-revisions/{cost_revision}'
-*/
+ * @see app/Http/Controllers/ProjectCostRevisionController.php:0
+ * @route '/procurement/cost-revisions/{cost_revision}'
+ */
 destroy.delete = (args: { cost_revision: string | number } | [cost_revision: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'delete',
@@ -407,15 +406,14 @@ destroy.delete = (args: { cost_revision: string | number } | [cost_revision: str
     url: destroy.url(args, options),
     method: 'delete',
 })
-
 const costRevisions = {
     index,
-    create,
-    store,
-    show,
-    edit,
-    update,
-    destroy,
+create,
+store,
+show,
+edit,
+update,
+destroy,
 }
 
 export default costRevisions

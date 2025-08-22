@@ -1,9 +1,9 @@
 import { queryParams, type QueryParams } from './../../../wayfinder'
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::index
-* @see app/Http/Controllers/LrmCommitteeController.php:29
-* @route '/lrm/lrm-committees'
-*/
+ * @see app/Http/Controllers/LrmCommitteeController.php:29
+ * @route '/lrm/lrm-committees'
+ */
 export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -19,18 +19,18 @@ index.definition = {
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::index
-* @see app/Http/Controllers/LrmCommitteeController.php:29
-* @route '/lrm/lrm-committees'
-*/
+ * @see app/Http/Controllers/LrmCommitteeController.php:29
+ * @route '/lrm/lrm-committees'
+ */
 index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     return index.definition.url + queryParams(options)
 }
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::index
-* @see app/Http/Controllers/LrmCommitteeController.php:29
-* @route '/lrm/lrm-committees'
-*/
+ * @see app/Http/Controllers/LrmCommitteeController.php:29
+ * @route '/lrm/lrm-committees'
+ */
 index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -38,12 +38,11 @@ index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: index.url(options),
     method: 'get',
 })
-
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::index
-* @see app/Http/Controllers/LrmCommitteeController.php:29
-* @route '/lrm/lrm-committees'
-*/
+ * @see app/Http/Controllers/LrmCommitteeController.php:29
+ * @route '/lrm/lrm-committees'
+ */
 index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -54,9 +53,9 @@ index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::create
-* @see app/Http/Controllers/LrmCommitteeController.php:0
-* @route '/lrm/lrm-committees/create'
-*/
+ * @see app/Http/Controllers/LrmCommitteeController.php:0
+ * @route '/lrm/lrm-committees/create'
+ */
 export const create = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -72,18 +71,18 @@ create.definition = {
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::create
-* @see app/Http/Controllers/LrmCommitteeController.php:0
-* @route '/lrm/lrm-committees/create'
-*/
+ * @see app/Http/Controllers/LrmCommitteeController.php:0
+ * @route '/lrm/lrm-committees/create'
+ */
 create.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     return create.definition.url + queryParams(options)
 }
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::create
-* @see app/Http/Controllers/LrmCommitteeController.php:0
-* @route '/lrm/lrm-committees/create'
-*/
+ * @see app/Http/Controllers/LrmCommitteeController.php:0
+ * @route '/lrm/lrm-committees/create'
+ */
 create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -91,12 +90,11 @@ create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: create.url(options),
     method: 'get',
 })
-
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::create
-* @see app/Http/Controllers/LrmCommitteeController.php:0
-* @route '/lrm/lrm-committees/create'
-*/
+ * @see app/Http/Controllers/LrmCommitteeController.php:0
+ * @route '/lrm/lrm-committees/create'
+ */
 create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -107,9 +105,9 @@ create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::store
-* @see app/Http/Controllers/LrmCommitteeController.php:74
-* @route '/lrm/lrm-committees'
-*/
+ * @see app/Http/Controllers/LrmCommitteeController.php:74
+ * @route '/lrm/lrm-committees'
+ */
 export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
@@ -125,18 +123,18 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::store
-* @see app/Http/Controllers/LrmCommitteeController.php:74
-* @route '/lrm/lrm-committees'
-*/
+ * @see app/Http/Controllers/LrmCommitteeController.php:74
+ * @route '/lrm/lrm-committees'
+ */
 store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     return store.definition.url + queryParams(options)
 }
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::store
-* @see app/Http/Controllers/LrmCommitteeController.php:74
-* @route '/lrm/lrm-committees'
-*/
+ * @see app/Http/Controllers/LrmCommitteeController.php:74
+ * @route '/lrm/lrm-committees'
+ */
 store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
@@ -147,9 +145,9 @@ store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::show
-* @see app/Http/Controllers/LrmCommitteeController.php:88
-* @route '/lrm/lrm-committees/{lrm_committee}'
-*/
+ * @see app/Http/Controllers/LrmCommitteeController.php:88
+ * @route '/lrm/lrm-committees/{lrm_committee}'
+ */
 export const show = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -165,23 +163,24 @@ show.definition = {
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::show
-* @see app/Http/Controllers/LrmCommitteeController.php:88
-* @route '/lrm/lrm-committees/{lrm_committee}'
-*/
+ * @see app/Http/Controllers/LrmCommitteeController.php:88
+ * @route '/lrm/lrm-committees/{lrm_committee}'
+ */
 show.url = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { lrm_committee: args }
     }
 
+    
     if (Array.isArray(args)) {
         args = {
-            lrm_committee: args[0],
-        }
+                    lrm_committee: args[0],
+                }
     }
 
     const parsedArgs = {
-        lrm_committee: args.lrm_committee,
-    }
+                        lrm_committee: args.lrm_committee,
+                }
 
     return show.definition.url
             .replace('{lrm_committee}', parsedArgs.lrm_committee.toString())
@@ -190,9 +189,9 @@ show.url = (args: { lrm_committee: string | number } | [lrm_committee: string | 
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::show
-* @see app/Http/Controllers/LrmCommitteeController.php:88
-* @route '/lrm/lrm-committees/{lrm_committee}'
-*/
+ * @see app/Http/Controllers/LrmCommitteeController.php:88
+ * @route '/lrm/lrm-committees/{lrm_committee}'
+ */
 show.get = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -200,12 +199,11 @@ show.get = (args: { lrm_committee: string | number } | [lrm_committee: string | 
     url: show.url(args, options),
     method: 'get',
 })
-
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::show
-* @see app/Http/Controllers/LrmCommitteeController.php:88
-* @route '/lrm/lrm-committees/{lrm_committee}'
-*/
+ * @see app/Http/Controllers/LrmCommitteeController.php:88
+ * @route '/lrm/lrm-committees/{lrm_committee}'
+ */
 show.head = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -216,9 +214,9 @@ show.head = (args: { lrm_committee: string | number } | [lrm_committee: string |
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::edit
-* @see app/Http/Controllers/LrmCommitteeController.php:0
-* @route '/lrm/lrm-committees/{lrm_committee}/edit'
-*/
+ * @see app/Http/Controllers/LrmCommitteeController.php:0
+ * @route '/lrm/lrm-committees/{lrm_committee}/edit'
+ */
 export const edit = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -234,23 +232,24 @@ edit.definition = {
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::edit
-* @see app/Http/Controllers/LrmCommitteeController.php:0
-* @route '/lrm/lrm-committees/{lrm_committee}/edit'
-*/
+ * @see app/Http/Controllers/LrmCommitteeController.php:0
+ * @route '/lrm/lrm-committees/{lrm_committee}/edit'
+ */
 edit.url = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { lrm_committee: args }
     }
 
+    
     if (Array.isArray(args)) {
         args = {
-            lrm_committee: args[0],
-        }
+                    lrm_committee: args[0],
+                }
     }
 
     const parsedArgs = {
-        lrm_committee: args.lrm_committee,
-    }
+                        lrm_committee: args.lrm_committee,
+                }
 
     return edit.definition.url
             .replace('{lrm_committee}', parsedArgs.lrm_committee.toString())
@@ -259,9 +258,9 @@ edit.url = (args: { lrm_committee: string | number } | [lrm_committee: string | 
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::edit
-* @see app/Http/Controllers/LrmCommitteeController.php:0
-* @route '/lrm/lrm-committees/{lrm_committee}/edit'
-*/
+ * @see app/Http/Controllers/LrmCommitteeController.php:0
+ * @route '/lrm/lrm-committees/{lrm_committee}/edit'
+ */
 edit.get = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
@@ -269,12 +268,11 @@ edit.get = (args: { lrm_committee: string | number } | [lrm_committee: string | 
     url: edit.url(args, options),
     method: 'get',
 })
-
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::edit
-* @see app/Http/Controllers/LrmCommitteeController.php:0
-* @route '/lrm/lrm-committees/{lrm_committee}/edit'
-*/
+ * @see app/Http/Controllers/LrmCommitteeController.php:0
+ * @route '/lrm/lrm-committees/{lrm_committee}/edit'
+ */
 edit.head = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
@@ -285,9 +283,9 @@ edit.head = (args: { lrm_committee: string | number } | [lrm_committee: string |
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::update
-* @see app/Http/Controllers/LrmCommitteeController.php:97
-* @route '/lrm/lrm-committees/{lrm_committee}'
-*/
+ * @see app/Http/Controllers/LrmCommitteeController.php:97
+ * @route '/lrm/lrm-committees/{lrm_committee}'
+ */
 export const update = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'put',
@@ -303,23 +301,24 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::update
-* @see app/Http/Controllers/LrmCommitteeController.php:97
-* @route '/lrm/lrm-committees/{lrm_committee}'
-*/
+ * @see app/Http/Controllers/LrmCommitteeController.php:97
+ * @route '/lrm/lrm-committees/{lrm_committee}'
+ */
 update.url = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { lrm_committee: args }
     }
 
+    
     if (Array.isArray(args)) {
         args = {
-            lrm_committee: args[0],
-        }
+                    lrm_committee: args[0],
+                }
     }
 
     const parsedArgs = {
-        lrm_committee: args.lrm_committee,
-    }
+                        lrm_committee: args.lrm_committee,
+                }
 
     return update.definition.url
             .replace('{lrm_committee}', parsedArgs.lrm_committee.toString())
@@ -328,9 +327,9 @@ update.url = (args: { lrm_committee: string | number } | [lrm_committee: string 
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::update
-* @see app/Http/Controllers/LrmCommitteeController.php:97
-* @route '/lrm/lrm-committees/{lrm_committee}'
-*/
+ * @see app/Http/Controllers/LrmCommitteeController.php:97
+ * @route '/lrm/lrm-committees/{lrm_committee}'
+ */
 update.put = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'put',
@@ -338,12 +337,11 @@ update.put = (args: { lrm_committee: string | number } | [lrm_committee: string 
     url: update.url(args, options),
     method: 'put',
 })
-
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::update
-* @see app/Http/Controllers/LrmCommitteeController.php:97
-* @route '/lrm/lrm-committees/{lrm_committee}'
-*/
+ * @see app/Http/Controllers/LrmCommitteeController.php:97
+ * @route '/lrm/lrm-committees/{lrm_committee}'
+ */
 update.patch = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'patch',
@@ -354,9 +352,9 @@ update.patch = (args: { lrm_committee: string | number } | [lrm_committee: strin
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::destroy
-* @see app/Http/Controllers/LrmCommitteeController.php:111
-* @route '/lrm/lrm-committees/{lrm_committee}'
-*/
+ * @see app/Http/Controllers/LrmCommitteeController.php:111
+ * @route '/lrm/lrm-committees/{lrm_committee}'
+ */
 export const destroy = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'delete',
@@ -372,23 +370,24 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::destroy
-* @see app/Http/Controllers/LrmCommitteeController.php:111
-* @route '/lrm/lrm-committees/{lrm_committee}'
-*/
+ * @see app/Http/Controllers/LrmCommitteeController.php:111
+ * @route '/lrm/lrm-committees/{lrm_committee}'
+ */
 destroy.url = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { lrm_committee: args }
     }
 
+    
     if (Array.isArray(args)) {
         args = {
-            lrm_committee: args[0],
-        }
+                    lrm_committee: args[0],
+                }
     }
 
     const parsedArgs = {
-        lrm_committee: args.lrm_committee,
-    }
+                        lrm_committee: args.lrm_committee,
+                }
 
     return destroy.definition.url
             .replace('{lrm_committee}', parsedArgs.lrm_committee.toString())
@@ -397,9 +396,9 @@ destroy.url = (args: { lrm_committee: string | number } | [lrm_committee: string
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::destroy
-* @see app/Http/Controllers/LrmCommitteeController.php:111
-* @route '/lrm/lrm-committees/{lrm_committee}'
-*/
+ * @see app/Http/Controllers/LrmCommitteeController.php:111
+ * @route '/lrm/lrm-committees/{lrm_committee}'
+ */
 destroy.delete = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'delete',
@@ -407,15 +406,14 @@ destroy.delete = (args: { lrm_committee: string | number } | [lrm_committee: str
     url: destroy.url(args, options),
     method: 'delete',
 })
-
 const committees = {
     index,
-    create,
-    store,
-    show,
-    edit,
-    update,
-    destroy,
+create,
+store,
+show,
+edit,
+update,
+destroy,
 }
 
 export default committees

@@ -11,21 +11,20 @@ import ConfirmedTwoFactorAuthenticationController from './ConfirmedTwoFactorAuth
 import TwoFactorQrCodeController from './TwoFactorQrCodeController'
 import TwoFactorSecretKeyController from './TwoFactorSecretKeyController'
 import RecoveryCodeController from './RecoveryCodeController'
-
 const Controllers = {
     PasswordResetLinkController,
-    NewPasswordController,
-    RegisteredUserController,
-    ProfileInformationController,
-    PasswordController,
-    ConfirmablePasswordController,
-    ConfirmedPasswordStatusController,
-    TwoFactorAuthenticatedSessionController,
-    TwoFactorAuthenticationController,
-    ConfirmedTwoFactorAuthenticationController,
-    TwoFactorQrCodeController,
-    TwoFactorSecretKeyController,
-    RecoveryCodeController,
+NewPasswordController,
+RegisteredUserController,
+ProfileInformationController,
+PasswordController,
+ConfirmablePasswordController,
+ConfirmedPasswordStatusController,
+TwoFactorAuthenticatedSessionController,
+TwoFactorAuthenticationController,
+ConfirmedTwoFactorAuthenticationController,
+TwoFactorQrCodeController,
+TwoFactorSecretKeyController,
+RecoveryCodeController,
 }
 
 export default Controllers
