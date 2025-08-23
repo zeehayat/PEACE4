@@ -11,10 +11,10 @@ class EmeInfoController extends Controller
     /**
      * Store or update the EME information for a specific MHP Site.
      */
-    public function store(Request $request, MhpSite $mhpSite)
+    public function store(Request $request, MhpSite $site)
     {
         // 1. Authorize the action using our new policy
-        $this->authorize('storeOrUpdate', [EmeInfo::class, $mhpSite]);
+        $this->authorize('storeOrUpdate', [EmeInfo::class, $site]); // <-- Use $site
 
         // 2. Validate the incoming data
         $validated = $request->validate([
@@ -34,11 +34,12 @@ class EmeInfoController extends Controller
         ]);
 
         // 3. Use updateOrCreate to either create or update the record
-        $mhpSite->emeInfo()->updateOrCreate(
-            ['mhp_site_id' => $mhpSite->id], // Conditions to find the record
-            $validated // The data to update or create with
+        $site->emeInfo()->updateOrCreate( // <-- Use $site
+            ['mhp_site_id' => $site->id], // <-- Use $site
+            $validated
         );
 
-        return back()->with('success', 'EME Profile saved successfully!');
+        // 4. Redirect back with a success message
+        return redirect()->back()->with('success', 'EME Profile saved successfully!');
     }
 }

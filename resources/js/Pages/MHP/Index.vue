@@ -86,11 +86,9 @@ function handleUpdated(message, updatedSiteData = null) {
 }
 
 function handleEmeInfo(site){
-    console.log(site)
-
-    selectedSite.value=site.id;
-    showEmeInfoModal.value=true;
-    openActionMenuId.value=null; //Close the action Menu
+    selectedSite.value = site; // <-- Correctly assign the whole object
+    showEmeInfoModal.value = true;
+    openActionMenuId.value = null;
 }
 function closeModal() {
     showSiteCreateModal.value = false;
@@ -194,7 +192,7 @@ function handleViewTAndDWork(site, tAndDWork) { selectedSite.value = site; selec
 
 // FIX: Update handleOpenEmeProgress to set progressType and open ProjectPhysicalProgressModal
 function handleOpenEmeProgress(site) {
-    console.log('Index.vue: handleOpenEmeProgress called');
+
     selectedSite.value = site;
     progressType.value = 'EME'; // <--- Set the type for the modal
     showProjectPhysicalProgressModal.value = true;
@@ -206,7 +204,7 @@ function handleOpenOperationalCost(site) { selectedSite.value = site; showOperat
 
 // FIX: Update handleManagePhysicalProgress to set progressType and open ProjectPhysicalProgressModal
 function handleManagePhysicalProgress(site) {
-    console.log('Index.vue: handleManagePhysicalProgress called');
+
     selectedSite.value = site;
     progressType.value = 'Civil'; // <--- Set the type for Civil progress
     showProjectPhysicalProgressModal.value = true;
@@ -216,7 +214,7 @@ function handleManagePhysicalProgress(site) {
 
 // FIX: Add handleManageTAndDProgress (if you want a list of T&D progresses)
 function handleManageTAndDProgress(site) {
-    console.log('Index.vue: handleManageTAndDProgress called');
+
     selectedSite.value = site;
     progressType.value = 'T&D'; // <--- Set the type for T&D progress
     showProjectPhysicalProgressModal.value = true;
@@ -224,7 +222,15 @@ function handleManageTAndDProgress(site) {
     openActionMenuId.value = null;
 }
 
+const handleFormSuccess = () => {
+    closeModal();
+    // You can also add a toast message here if you like
+    handleUpdated('EME Info saved successfully!');
+};
 
+const handleFormCancel = () => {
+    closeModal();
+};
 function handleManageFinancialInstallment(site) { selectedSite.value = site; showProjectFinancialInstallmentModal.value = true; openActionMenuId.value = null; }
 
 function handleDeleteSite(siteId) {
@@ -468,15 +474,15 @@ const handlePagination = (url) => {
     <MhpCompletionModal v-if="selectedSite" :show="showMhpCompletionModal" :site="selectedSite" :completion="selectedSite.completion" :action="completionAction" @close="closeModal" @saved="handleUpdated" />
     <MhpSiteDetailsModal v-if="selectedSite" :show="showMhpSiteDetailsModal" :site="selectedSite" @close="closeModal" />
     <MhpReportModal v-if="selectedSite" :show="showReportModal" :site="selectedSite" @close="closeModal" />
-        <EmeInfoModal :show="showEmeInfoModal" @close="closeModal" max-width="4xl" mhp-site-id="selectedSite">
-            <EmeInfoForm
-                v-if="selectedSite"
-                :mhp-site="selectedSite"
-                :eme-info="selectedSite.eme_info"
-                @success="closeModal"
-                site="selectedSite.id"
-            />
-        </EmeInfoModal>
+        <EmeInfoModal
+            v-if="selectedSite"
+            :show="showEmeInfoModal"
+            :mhp-site="selectedSite" @success="handleFormSuccess"
+            @cancel="handleFormCancel"
+            @close="closeModal"
+        />
+
+
     <!-- Teleported Action Menu -->
     <Teleport to="body">
         <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from="transform opacity-100 scale-100" leave-to="transform opacity-0 scale-95">

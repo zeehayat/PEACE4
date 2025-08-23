@@ -52,8 +52,8 @@ const form = useForm({
 
 // === REVISED WATCH FOR PROPS.CBO (Most Robust Approach) ===
 watch(() => props.cbo, (newCbo) => {
-    console.log('--- CboForm: props.cbo watcher triggered ---');
-    console.log('New CBO prop:', newCbo);
+    // console.log('--- CboForm: props.cbo watcher triggered ---');
+    // console.log('New CBO prop:', newCbo);
 
     isEditMode.value = !!newCbo; // Update edit mode flag
 
@@ -82,26 +82,26 @@ watch(() => props.cbo, (newCbo) => {
     existingAttachments.value = newCbo ? newCbo.attachments_frontend : [];
 
     form.clearErrors(); // Clear any previous validation errors
-    console.log('CboForm: Form and attachments initialized based on new CBO prop.');
+    //console.log('CboForm: Form and attachments initialized based on new CBO prop.');
 }, { immediate: true }); // Run immediately on component mount
 
 onMounted(() => {
-    console.log('--- CboForm: Mounted ---');
+    //console.log('--- CboForm: Mounted ---');
     // The immediate watcher handles initial setup, no need for redundant reset here.
-    console.log('CboForm: Initial form.attachments on mount:', form.attachments);
+    //console.log('CboForm: Initial form.attachments on mount:', form.attachments);
 });
 
 const handleAttachmentsToDelete = (id) => {
-    console.log('--- CboForm: handleAttachmentsToDelete called ---');
-    console.log('Deleting attachment ID:', id);
+    // console.log('--- CboForm: handleAttachmentsToDelete called ---');
+    // console.log('Deleting attachment ID:', id);
     form.attachments_to_delete.push(id);
     existingAttachments.value = existingAttachments.value.filter(att => att.id !== id);
 };
 
 const handleSubmit = () => {
-    console.log('--- CboForm: handleSubmit triggered ---');
-    console.log('Form data before POST:', form.data());
-    console.log('Attachments array before POST:', form.attachments);
+    // console.log('--- CboForm: handleSubmit triggered ---');
+    // console.log('Form data before POST:', form.data());
+    // console.log('Attachments array before POST:', form.attachments);
 
     const url = isEditMode.value
         ? route('cbo.cbos.update', props.cbo.id)
@@ -114,7 +114,7 @@ const handleSubmit = () => {
         return data;
     }).post(url, {
         onSuccess: () => {
-            console.log('--- CboForm: Submission Success ---');
+//            console.log('--- CboForm: Submission Success ---');
             form.reset(); // Resets useForm state to its defaults
             existingAttachments.value = []; // Clear for next use
             form.attachments_to_delete = [];

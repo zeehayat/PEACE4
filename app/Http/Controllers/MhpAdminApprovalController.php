@@ -62,13 +62,12 @@ class MhpAdminApprovalController extends Controller
     /**
      * Update the specified MHP Admin Approval in storage.
      */
-    public function update(UpdateMhpAdminApprovalRequest $request, MhpAdminApproval $adminApproval)
+    public function update(UpdateMhpAdminApprovalRequest $request, MhpSite $site, MhpAdminApproval $adminApproval)
     {
         try {
-            // Since storeOrUpdateAdminApproval takes MhpSite, we need to get the parent site
             $this->authorize('update', $adminApproval);
-            $mhpSite = $adminApproval->mhpSite; // Assuming mhpSite relationship is defined in MhpAdminApproval model
-            $this->mhpSiteService->storeOrUpdateAdminApproval($mhpSite, $request->validated());
+            // The correct $site is already injected by Laravel's route model binding.
+            $this->mhpSiteService->storeOrUpdateAdminApproval($site, $request->validated());
             return redirect()->back()->with('success', 'MHP Admin Approval updated successfully!');
         } catch (\Exception $e) {
             Log::error('Error updating MHP Admin Approval: ' . $e->getMessage(), ['exception' => $e]);

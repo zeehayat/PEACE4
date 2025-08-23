@@ -84,8 +84,8 @@ const handleSubmit = () => {
     console.log('Attachments array before POST:', form.attachments);
 
     const url = isEditMode.value
-        ? route('mhp.admin-approvals.update', props.approval.id)
-        : route('mhp.admin-approvals.store');
+        ? route('mhp.admin-approvals.update', { site: props.mhpSiteId, admin_approval: props.approval.id })
+        : route('mhp.admin-approvals.store', { site: props.mhpSiteId });
 
     form.transform((data) => {
         if (isEditMode.value) {

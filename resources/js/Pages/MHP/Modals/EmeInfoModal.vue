@@ -1,23 +1,17 @@
 <script setup>
 import Modal from '@/Components/Modal.vue';
-import MhpAdminApprovalForm from '@/Pages/MHP/Forms/MhpAdminApprovalForm.vue';
-import {computed} from "vue";
 import EmeInfoForm from "@/Pages/MHP/Partials/EmeInfoForm.vue";
-//import EmeInfoForm from "@/Pages/MHP/Partials/EmeInfoForm.vue";
+import { computed } from "vue";
 
 const props = defineProps({
-    show: Boolean, // Controls modal visibility
-    mhpSiteId: {
-        type: Number,String,
-        required: true,
-    },
-    approval: {
+    show: Boolean,
+    mhpSite: { // <-- Change this to mhpSite
         type: Object,
-        default: null, // Existing approval object for edit mode
+        required: true,
     },
     action: {
         type: String,
-        default: 'create', // 'create' or 'update'
+        default: 'create',
     },
 });
 
@@ -33,20 +27,20 @@ const handleFormCancel = () => {
 };
 
 const modalTitle = computed(() => {
-    return props.action === 'update' ? 'Edit Eme Profile Modal' : 'Add MHP Eme Profile';
+    // The presence of eme_info on the site object tells us if we are editing
+    return props.mhpSite.eme_info ? 'Edit EME Profile' : 'Add New EME Profile';
 });
-
 </script>
 
 <template>
-    <Modal :show="show" @close="handleFormCancel" :maxWidth="'4xl'" :title="modalTitle">
-        <div class="p-6 overflow-y-auto max-h-[85vh]">
+    <Modal :show="show" @close="$emit('close')" maxWidth="4xl">
+        <div class="p-6">
+            <h2 class="text-2xl font-bold mb-4">{{ modalTitle }}</h2>
             <EmeInfoForm
-                :mhp-site="mhpSiteId"
-
-                @success="handleFormSuccess"
-                @cancel="handleFormCancel"
-             />
+                :mhp-site="mhpSite"
+                :eme-info="mhpSite.eme_info" @success="$emit('success', 'EME Profile saved successfully!')"
+                @cancel="$emit('close')" class="bg-blue-100"
+            />
         </div>
     </Modal>
 </template>

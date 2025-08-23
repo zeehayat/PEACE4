@@ -4,7 +4,7 @@ import { queryParams, type QueryParams } from './../../../../wayfinder'
 * @see app/Http/Controllers/EmeInfoController.php:14
 * @route '/mhp/sites/{site}/eme-info'
 */
-export const store = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+export const store = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
 } => ({
@@ -22,9 +22,13 @@ store.definition = {
 * @see app/Http/Controllers/EmeInfoController.php:14
 * @route '/mhp/sites/{site}/eme-info'
 */
-store.url = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+store.url = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { site: args }
+    }
+
+    if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+        args = { site: args.id }
     }
 
     if (Array.isArray(args)) {
@@ -34,7 +38,9 @@ store.url = (args: { site: string | number } | [site: string | number ] | string
     }
 
     const parsedArgs = {
-        site: args.site,
+        site: typeof args.site === 'object'
+        ? args.site.id
+        : args.site,
     }
 
     return store.definition.url
@@ -47,7 +53,7 @@ store.url = (args: { site: string | number } | [site: string | number ] | string
 * @see app/Http/Controllers/EmeInfoController.php:14
 * @route '/mhp/sites/{site}/eme-info'
 */
-store.post = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+store.post = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
 } => ({
