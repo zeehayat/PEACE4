@@ -5,7 +5,9 @@ import { wayfinder } from "@laravel/vite-plugin-wayfinder";
 
 export default defineConfig({
     plugins: [
-        wayfinder(),
+        wayfinder({
+            base: process.env.VITE_APP_URL || 'http://localhost:5173', // Use APP_URL or a fallback
+        }),
 
         laravel({
             input: 'resources/js/app.js',
