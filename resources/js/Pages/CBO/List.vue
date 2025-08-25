@@ -8,7 +8,7 @@ import Modal from '@/Components/Modal.vue'
 import CBODialogueForm from '@/Components/FormComponents/CBODialogueForm.vue'
 import CBOTrainingForm from '@/Pages/CboTraining/Create.vue'
 import CboExposureVisitForm from '@/Components/FormComponents/CBOExposureVisitForm.vue' // Reused for edit
-import CboDetails from '@/Pages/Cbo/Partials/CboDetails.vue'
+import CboDetails from '@/Pages/Cbo/Components/CboDetails.vue'
 import CboListCard from '@/Components/CBO/CboListCard.vue';
 import CboDialoguesList from '@/Components/CBO/CboDialoguesList.vue';
 import CboTrainingsList from '@/Components/CBO/CboTrainingsList.vue';
