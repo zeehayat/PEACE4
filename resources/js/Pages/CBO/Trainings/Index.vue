@@ -1,13 +1,13 @@
 <script setup>
-  import Layout from '@/Layouts/AppLayout'
+  import AppLayout from '@/Layouts/AppLayout'
   import { Head } from '@inertiajs/vue3'
 
   defineProps({})
 </script>
 
 <template>
-  <Layout>
+  <AppLayout>
     <Head title="Index" />
 
-  </Layout>
+  </AppLayout>
 </template>
