@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\TrustCloudflareProxies;
 use App\Providers\ServiceBindingProvider;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -14,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
         // Adding MHP Routes
         then: function (){
+
             Route::middleware('web')
                 ->prefix('mhp')
                 ->name('mhp.')
@@ -37,7 +39,10 @@ return Application::configure(basePath: dirname(__DIR__))
         }
     )
     ->withMiddleware(function (Middleware $middleware) {
-        // THIS IS THE STANDARD JETSTREAM/INERTIA SETUP
+        // ⬇️ run proxy trust FIRST so the rest of the stack sees https
+        $middleware->prepend(TrustCloudflareProxies::class);
+
+        // Jetstream/Inertia
         $middleware->web(append: [
             \App\Http\Middleware\HandleInertiaRequests::class,
         ]);
@@ -48,6 +53,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
         ]);
     })
+
 
     ->withExceptions(function (Exceptions $exceptions): void {
         //
