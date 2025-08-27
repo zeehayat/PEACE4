@@ -8,7 +8,7 @@ export default defineConfig(({ command, mode }) => {
 
     return {
         // Explicitly set the base URL to use the APP_URL from your .env file
-        base: env.APP_URL || 'https://peace.zeehayat.com',
+        base: 'https://peace.zeehayat.com',
 
         plugins: [
             wayfinder(),
