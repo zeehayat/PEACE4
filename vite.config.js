@@ -1,16 +1,21 @@
-import { defineConfig, loadEnv } from 'vite'; // Import loadEnv
+import { defineConfig, loadEnv } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
 import { wayfinder } from "@laravel/vite-plugin-wayfinder";
 
+export default defineConfig(({ command, mode }) => {
+    const env = loadEnv(mode, process.cwd(), '');
 
-export default defineConfig(({ command, mode }) => { // Add command and mode
-    const env = loadEnv(mode, process.cwd(), ''); // Load all environment variables
+    // Log the VITE_APP_URL to check its value
+    console.log('VITE_APP_URL:', env.VITE_APP_URL);
 
     return {
+        // Explicitly set the base URL to use HTTPS
+        base: env.VITE_APP_URL || 'https://peace.zeehayat.com',
+
         plugins: [
             wayfinder({
-                base: env.VITE_APP_URL || 'http://localhost:5173', // Use env.VITE_APP_URL
+                base: env.VITE_APP_URL || 'https://peace.zeehayat.com',
             }),
 
             laravel({
