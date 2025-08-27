@@ -4,7 +4,7 @@ import vue from '@vitejs/plugin-vue';
 import { wayfinder } from "@laravel/vite-plugin-wayfinder";
 
 export default defineConfig(({ command, mode }) => {
-    const env = loadEnv(mode, process.cwd(), '');
+    const env = loadEnv(mode, process.cwd(), ''); // Load all environment variables
 
     // Log the VITE_APP_URL to check its value
     console.log('VITE_APP_URL:', env.VITE_APP_URL);
