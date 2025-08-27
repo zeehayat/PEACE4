@@ -4,19 +4,14 @@ import vue from '@vitejs/plugin-vue';
 import { wayfinder } from "@laravel/vite-plugin-wayfinder";
 
 export default defineConfig(({ command, mode }) => {
-    const env = loadEnv(mode, process.cwd(), ''); // Load all environment variables
-
-    // Log the VITE_APP_URL to check its value
-    console.log('VITE_APP_URL:', env.VITE_APP_URL);
+    const env = loadEnv(mode, process.cwd(), '');
 
     return {
-        // Explicitly set the base URL to use HTTPS
-        base: env.VITE_APP_URL || 'https://peace.zeehayat.com',
+        // Explicitly set the base URL to use the APP_URL from your .env file
+        base: env.APP_URL || 'https://peace.zeehayat.com',
 
         plugins: [
-            wayfinder({
-                base: env.VITE_APP_URL || 'https://peace.zeehayat.com',
-            }),
+            wayfinder(),
 
             laravel({
                 input: 'resources/js/app.js',
