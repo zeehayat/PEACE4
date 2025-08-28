@@ -1,4 +1,10 @@
 <template>
+    <AppLayout title="SRSP PEACE 2 Project">
+        <template #header>
+            <h2 class="text-xl font-semibold leading-tight text-gray-800">
+                SRSP Peace 2 MIS
+            </h2>
+        </template>
     <div class="max-w-md mx-auto mt-20">
         <h2 class="text-2xl font-bold mb-6 text-center">Login</h2>
         <form @submit.prevent="submit">
@@ -29,10 +35,12 @@
             </button>
         </form>
     </div>
+    </AppLayout>
 </template>
 
 <script setup>
 import { useForm } from '@inertiajs/vue3'
+import AppLayout from "@/Layouts/AppLayout.vue";
 
 const form = useForm({
   email: '',

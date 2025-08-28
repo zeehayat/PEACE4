@@ -50,7 +50,7 @@ class MhpSiteController extends Controller
                 $q->where('district', $user->district->name);
             });
             Log::info('MhpSiteController@index: Scoping MHP Sites by user district.', ['user_id' => $user->id, 'district' => $user->district->name]);
-        }
+      }
 
         if ($request->has('search')) {
             $searchTerm = $request->input('search');
