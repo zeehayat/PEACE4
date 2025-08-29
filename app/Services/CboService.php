@@ -35,11 +35,8 @@ class CboService
                 foreach ($data['attachments'] as $attachment) {
                     if ($attachment instanceof UploadedFile) {
                         try {
-                            Log::info('Attempting to add media for CBO:', ['cbo_id' => $cbo->id, 'file_name' => $attachment->getClientOriginalName(), 'index' => $index]);
-
+                            Log::info('Attempting to add media for CBO:', ['cbo_id' => $cbo->id, 'file_name' => $attachment->getClientOriginalName()]);
                             $cbo->addMedia($attachment)->toMediaCollection('attachments');
-
-
                             Log::info('CBO media added.', ['cbo_id' => $cbo->id, 'file' => $attachment->getClientOriginalName()]);
                         } catch (Throwable $e) {
                             Log::error('ERROR: Failed to add media for CBO.', [
