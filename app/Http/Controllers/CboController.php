@@ -28,6 +28,7 @@ class CboController extends Controller
      */
     public function index(Request $request)
     {
+        
         $query = Cbo::query()->forUser(Auth::user())
             ->with(['media', 'dialogues.media', 'exposureVisits.media', 'trainings.media']);
 
@@ -85,9 +86,12 @@ class CboController extends Controller
      */
     public function show(Cbo $cbo)
     {
+        dd('Hello World');
         // Policy check is done by authorizeResource at the constructor level
         $cbo->load(['media', 'dialogues.media', 'exposureVisits.media', 'trainings.media']);
-        return response()->json(['cbo' => $cbo]);
+        //return response()->json(['cbo' => $cbo]);
+        return Inertia::render('CBO/Show', ['cbo' => $cbo]);
+
     }
 
     /**

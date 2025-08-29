@@ -17,8 +17,9 @@ import CboExposureVistModal from '@/Pages/CBO/Modals/CboExposureVisitModal.vue'
 // Related entity modals (will be created later)
 
 
- import CboTrainingModal from '@/Pages/CBO/Modals/CboTrainingModal.vue';
+import CboTrainingModal from '@/Pages/CBO/Modals/CboTrainingModal.vue';
 import AppLayout from "@/Layouts/AppLayout.vue";
+import CboDetailsViewModal from "@/Pages/CBO/Modals/CboDetailsViewModal.vue";
 
 
 const props = defineProps({
@@ -45,7 +46,7 @@ const showCboDetailsModal = ref(false);
 const showCboDialogueModal = ref(false); // <--- ENSURE THIS IS DECLARED AND INITIALIZED
 const showCboExposureVisitModal = ref(false); // Placeholder flag
 const showCboTrainingModal = ref(false); // Placeholder flag
-
+const showCboDetailsViewModal = ref(false);
 
 function handleUpdated(message) {
     toastMessage.value = message;
@@ -130,7 +131,7 @@ onBeforeUnmount(() => {
     document.removeEventListener('click', closeAllActionMenus);
 });
 
-function handleViewDetails(cbo) { selectedCbo.value = cbo; showCboDetailsModal.value = true; openActionMenuId.value = null; }
+function handleViewDetails(cbo) { selectedCbo.value = cbo; showCboDetailsViewModal.value = true; openActionMenuId.value = null; }
 function handleEditCbo(cbo) { selectedCbo.value = cbo; showCboEditModal.value = true; openActionMenuId.value = null; }
 
 function handleAddDialogue(cbo) {
@@ -149,12 +150,12 @@ function handleListDialogues(cbo) {
 }
 function handleAddExposureVisit(cbo) { selectedCbo.value = cbo; showCboExposureVisitModal.value = true; openActionMenuId.value = null; }
 function handleListExposureVisits(cbo) { selectedCbo.value = cbo;
-console.log('Handle Exposure Visits')
-    showCboExposureVisitListModal.value = true;
+
+    showCboDetailsViewModal.value = true;
     openActionMenuId.value = null;
 }
 function handleAddTraining(cbo) {
-console.log('Handle Training')
+
     selectedCbo.value = cbo;
     showCboTrainingModal.value = true;
     openActionMenuId.value = null;
@@ -362,7 +363,8 @@ const handlePagination = (url) => {
     <!-- Modals -->
     <CboCreateModal :show="showCboCreateModal" @close="closeModal" @saved="handleUpdated" />
     <CboEditModal v-if="selectedCbo" :show="showCboEditModal" :cbo="selectedCbo" @close="closeModal" @updated="handleUpdated" />
-    <CboDetailsModal v-if="selectedCbo" :show="showCboDetailsModal" :cbo="selectedCbo" @close="closeModal" />
+
+        <CboDetailsViewModal v-if="selectedCbo" :show="showCboDetailsViewModal" :cbo="selectedCbo" @close="closeModal" />
     <CboDialogueModal v-if="selectedCbo" :show="showCboDialogueModal" :cbo="selectedCbo" @close="closeModal" @saved="handleUpdated" />
     <CboExposureVistModal
         v-if="selectedCbo"

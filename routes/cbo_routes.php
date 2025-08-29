@@ -37,7 +37,7 @@ Route::middleware(['web'])->group(function () {
 
     // Custom route for CBO Details (if it fetches full details for modals)
     // URI: /cbo/cbos/{cbo}/details, Name: cbo.cbos.details
-    Route::get('/cbos/{cbo}/details', [CboController::class, 'details'])->name('cbos.details');
+    Route::get('/cbos/{cbo}/details', [CboController::class, 'index'])->name('cbos.details');
 
     // CBO Search for Combobox
     // URI: /cbo/cbos/auto-search, Name: cbo.cbos.auto-search
