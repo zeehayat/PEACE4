@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProjectPhysicalProgressRequest;
 use App\Http\Requests\UpdateProjectPhysicalProgressRequest;
-use App\Models\MhpSite; // Assuming physical progress is primarily associated with MHP Sites
+use App\Models\MhpSite;
 use App\Models\ProjectPhysicalProgress;
-use App\Services\MhpSiteService; // Import the service
+use App\Services\MhpSiteService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Log;
@@ -22,7 +22,6 @@ class ProjectPhysicalProgressController extends Controller
 
     /**
      * Display a listing of physical progress entries for a specific MHP Site.
-     * E.g., /mhp/sites/{mhpSite}/physical-progresses
      */
     public function index(Request $request, MhpSite $site)
     {
@@ -50,7 +49,7 @@ class ProjectPhysicalProgressController extends Controller
             });
 
             return response()->json([
-                'physicalProgresses' => $progresses, // Return the raw collection data
+                'physicalProgresses' => $progresses,
             ]);
         }
 
@@ -66,7 +65,7 @@ class ProjectPhysicalProgressController extends Controller
             return $progress;
         });
 
-        return Inertia::render('MHP/Index', [ // Assuming a dedicated index page
+        return Inertia::render('MHP/Index', [
             'site' => $site->only('id', 'project_id', 'cbo.reference_code'),
             'physicalProgresses' => $physicalProgresses,
             'filters' => $request->only('payment_for'),
@@ -74,22 +73,19 @@ class ProjectPhysicalProgressController extends Controller
     }
 
     /**
-     * Show the form for creating a new Physical Progress entry (usually in a modal).
-     */
-    public function create()
-    {
-        // Not directly used if modal handles creation.
-    }
-
-    /**
      * Store a newly created Project Physical Progress record in storage.
-     * The `projectable_id` and `projectable_type` will be automatically set by the service.
      */
     public function store(StoreProjectPhysicalProgressRequest $request, MhpSite $mhpSite)
     {
-
+        dd($mhpSite);
         try {
-            $this->mhpSiteService->createPhysicalProgress($mhpSite, $request->validated());
+            $validatedData = $request->validated();
+
+            // FIX: Manually add projectable_id and projectable_type to the data
+            $validatedData['projectable_id'] = $mhpSite->id;
+            $validatedData['projectable_type'] = $mhpSite->getMorphClass();
+            dd($validatedData);
+            $this->mhpSiteService->createPhysicalProgress($mhpSite, $validatedData);
             return redirect()->back()->with('success', 'Physical Progress recorded successfully!');
         } catch (\Exception $e) {
             Log::error('Error creating Physical Progress: ' . $e->getMessage(), ['exception' => $e]);
@@ -102,22 +98,13 @@ class ProjectPhysicalProgressController extends Controller
      */
     public function show(ProjectPhysicalProgress $physicalProgress)
     {
-        $physicalProgress->load(['activity', 'media']); // Ensure activity details and media are loaded
-        $physicalProgress->attachments = $physicalProgress->attachments_frontend; // Apply accessor
-        // If it's a T&D activity, load its media too
+        $physicalProgress->load(['activity', 'media']);
+        $physicalProgress->attachments = $physicalProgress->attachments_frontend;
         if ($physicalProgress->activity_type === \App\Models\TAndDWork::class && $physicalProgress->activity) {
             $physicalProgress->activity->attachments = $physicalProgress->activity->attachments_frontend;
         }
 
-        return response()->json($physicalProgress); // Return as JSON for modal or API, or render Inertia
-    }
-
-    /**
-     * Show the form for editing the specified Physical Progress.
-     */
-    public function edit(ProjectPhysicalProgress $physicalProgress)
-    {
-        // Not directly used if modal handles editing.
+        return response()->json($physicalProgress);
     }
 
     /**
@@ -140,7 +127,7 @@ class ProjectPhysicalProgressController extends Controller
     public function destroy(ProjectPhysicalProgress $physicalProgress)
     {
         try {
-            $physicalProgress->delete(); // Spatie media will be handled automatically
+            $physicalProgress->delete();
             return redirect()->back()->with('success', 'Physical Progress deleted successfully!');
         } catch (\Exception $e) {
             Log::error('Error deleting Physical Progress: ' . $e->getMessage(), ['exception' => $e]);

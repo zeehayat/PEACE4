@@ -2,28 +2,29 @@
 
 namespace App\Services;
 
-use App\Models\MhpEmeProgress;
+use App\Models\MhpEmePhysicalProgress;
 use Illuminate\Support\Facades\Log;
 
 class MhpEmeProgressService
 {
-    public function create(array $data): MhpEmeProgress
+    public function create(array $data): MhpEmePhysicalProgress
     {
-        return MhpEmeProgress::create($data);
+
+        return MhpEmePhysicalProgress::create($data);
     }
 
-    public function update(MhpEmeProgress $model, array $data): bool
+    public function update(MhpEmePhysicalProgress $model, array $data): bool
     {
         return $model->update($data);
     }
 
-    public function delete(MhpEmeProgress $model): bool
+    public function delete(MhpEmePhysicalProgress $model): bool
     {
         return $model->delete();
     }
 
-    public function find(int $id): ?MhpEmeProgress
+    public function find(int $id): ?MhpEmePhysicalProgress
     {
-        return MhpEmeProgress::find($id);
+        return MhpEmePhysicalProgress::find($id);
     }
 }

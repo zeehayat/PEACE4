@@ -32,7 +32,6 @@ class MhpSite extends Model implements HasMedia
         'channel_length_km',
         'tl_ht_km',
         'tl_lt_km',
-        // 'transformers', // Removed - details now in TAndDWork
         'turbine_type',
         'alternator_type',
         'accessible',
@@ -47,8 +46,6 @@ class MhpSite extends Model implements HasMedia
         'financial_initiation_date',
         'physical_completion_date',
         'remarks',
-
-        // --- NEW FIELDS FROM MIGRATION ---
         'observed_discharge',
         'intake_details',
         'settling_basin_details',
@@ -65,8 +62,6 @@ class MhpSite extends Model implements HasMedia
         'design_depth_ft',
         'freeboard_ft',
         'velocity_ft_per_sec',
-        // 'tentative_completion_years', // Excluded as per discussion
-        // 'tentative_completion_months', // Excluded as per discussion
     ];
 
     protected $casts = [
@@ -89,8 +84,6 @@ class MhpSite extends Model implements HasMedia
         'total_hh' => 'integer',
         'domestic_units' => 'integer',
         'commercial_units' => 'integer',
-
-        // --- NEW FIELDS CASTS ---
         'observed_discharge' => 'decimal:2',
         'design_net_head' => 'decimal:2',
         'proposed_capacity_kw' => 'decimal:2',
@@ -99,24 +92,17 @@ class MhpSite extends Model implements HasMedia
         'design_depth_ft' => 'decimal:2',
         'freeboard_ft' => 'decimal:2',
         'velocity_ft_per_sec' => 'decimal:2',
-        // 'tentative_completion_years' => 'integer', // Excluded as per discussion
-        // 'tentative_completion_months' => 'integer', // Excluded as per discussion
     ];
-    /**
-     * Scope a query to only include MHP Sites appropriate for the given user.
-     */
+
     public function scopeForUser(Builder $query, User $user): void
     {
-        // If the user has a district-level role, join with the CBO table
-        // and filter by the user's district.
         if ($user->hasAnyRole(['M&E-DISTRICT', 'Engineer-DISTRICT', 'KPO-DISTRICT', 'Viewer-DISTRICT'])) {
             $query->whereHas('cbo', function (Builder $cboQuery) use ($user) {
                 $cboQuery->where('district', $user->district->name);
             });
         }
-        // Head Office users will see all sites because the condition is false for them.
     }
-    // --- Relationships ---
+
     public function cbo(): BelongsTo
     {
         return $this->belongsTo(Cbo::class);
@@ -142,30 +128,26 @@ class MhpSite extends Model implements HasMedia
         return $this->hasMany(RevenueRecord::class);
     }
 
-    // Polymorphic relationship to its own T&D Works
     public function tAndDWorks(): MorphMany
     {
         return $this->morphMany(TAndDWork::class, 'projectable');
     }
 
-
-    // Polymorphic relationships to Physical and Financial Progress
-
     public function financialInstallments(): MorphMany
     {
         return $this->morphMany(ProjectFinancialInstallment::class, 'projectable');
     }
-    public function emeInfo():HasOne{
+
+    public function emeInfo(): HasOne
+    {
         return $this->hasOne(EmeInfo::class);
     }
-    // --- Spatie Media Library ---
+
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('attachments'); // Main attachments for the site
+        $this->addMediaCollection('attachments');
     }
 
-
-    // Accessor for formatted attachments for frontend
     protected $appends = ['attachments_frontend', 'project_id'];
 
     public function getAttachmentsFrontendAttribute(): array
@@ -180,16 +162,16 @@ class MhpSite extends Model implements HasMedia
         ])->toArray();
     }
 
-    // Accessor for Project ID (CBO_CODE/MHP-ID)
     public function getProjectIdAttribute(): string
     {
-        // Eager load CBO if not already loaded to prevent N+1 queries
         if (!$this->relationLoaded('cbo')) {
             $this->load('cbo');
         }
         return ($this->cbo->reference_code ?? 'N/A') . '/MHP-' . $this->id;
     }
-    public function physicalProgresses()
+
+    // FIX: This is the correct, type-hinted definition of the relationship.
+    public function physicalProgresses(): MorphMany
     {
         return $this->morphMany(\App\Models\ProjectPhysicalProgress::class, 'projectable');
     }

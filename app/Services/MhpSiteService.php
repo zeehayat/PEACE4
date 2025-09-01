@@ -13,6 +13,7 @@ use Throwable;
 // Import the Spatie Media model if you want to use it for type hinting within the loop
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Illuminate\Support\Facades\Log; // Ensure Log is imported
+use Illuminate\Support\Str;
 
 class MhpSiteService
 {
@@ -177,7 +178,7 @@ class MhpSiteService
 
     // ... (similar checks for createPhysicalProgress and createFinancialInstallment) ...
     // For these, you explicitly set $data['projectable_id'] and $data['projectable_type']
-
+        //public function createPhysicalProgress
 
     /**
      * Update an existing T&D Work record.
@@ -220,24 +221,29 @@ class MhpSiteService
         Log::info('--- MhpSiteService: createPhysicalProgress triggered ---');
         Log::info('Site ID for Physical Progress:', ['site_id' => $site->id]);
         Log::info('Initial data for Physical Progress:', $data);
+
         return DB::transaction(function () use ($site, $data) {
-            // Set projectable for the progress record
-            $data['projectable_id'] = $site->id;
-            $data['projectable_type'] = MhpSite::class;
-            Log::info('Data for Physical Progress AFTER projectable assignment:', $data); // Log data after assignment
+            $attachments = $data['attachments'] ?? [];
+            unset($data['attachments']);
 
-            // Handle activity polymorphic relation based on payment_for
-            if ($data['payment_for'] === 'T&D') {
-                if (!isset($data['activity_type']) || $data['activity_type'] !== TAndDWork::class) {
-                    $data['activity_type'] = TAndDWork::class;
-                }
-            } else {
-                // For EME and Civil, activity_id/type should be null
-                $data['activity_id'] = null;
-                $data['activity_type'] = null;
-            }
+            // FIX: Create a new instance and assign attributes manually
+            $progress = new ProjectPhysicalProgress();
 
-            $progress = ProjectPhysicalProgress::create($data);
+            // Manually assign the polymorphic keys from the MhpSite model
+            $progress->projectable_id = $site->id;
+            $progress->projectable_type = $site->getMorphClass();
+
+            // Assign other attributes
+            $progress->progress_percentage = $data['progress_percentage'];
+            $progress->progress_date = $data['progress_date'];
+            $progress->remarks = $data['remarks'];
+            $progress->payment_for = $data['payment_for'];
+            $progress->activity_id = $data['activity_id'] ?? null;
+            $progress->activity_type = $data['activity_type'] ?? null;
+
+            // Save the model
+            $progress->save();
+
             Log::info('Physical Progress created. Inspecting saved model:', [
                 'id' => $progress->id,
                 'projectable_id' => $progress->projectable_id,
@@ -245,15 +251,15 @@ class MhpSiteService
                 'progress_percentage' => $progress->progress_percentage,
             ]);
 
-            if (isset($data['attachments'])) {
-                foreach ($data['attachments'] as $attachment) {
-                    $progress->addMedia($attachment)->toMediaCollection('attachments');
-                }
+            if (!empty($attachments)) {
+                $this->handleAttachments($progress, $attachments);
             }
 
             return $progress;
         });
     }
+
+
 
     /**
      * Update an existing Project Physical Progress record.
@@ -442,5 +448,13 @@ class MhpSiteService
             // or you might want to explicitly handle them here if they should be deleted or reassigned.
             return $tAndDWork->delete();
         });
+    }
+    protected function handleAttachments(mixed $model, array $attachments): void
+    {
+        foreach ($attachments as $attachment) {
+            $model->addMedia($attachment)
+                ->usingFileName(Str::random(10) . '.' . $attachment->getClientOriginalExtension())
+                ->toMediaCollection('attachments');
+        }
     }
 }

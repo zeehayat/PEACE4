@@ -1,5 +1,6 @@
 import { queryParams, type QueryParams } from './../../../wayfinder'
 import emeInfo from './eme-info'
+import emeProgress from './eme-progress'
 /**
 * @see \App\Http\Controllers\MhpSiteController::getCbos
 * @see app/Http/Controllers/MhpSiteController.php:144
@@ -544,6 +545,7 @@ const sites = {
     destroy,
     autoSearch,
     emeInfo,
+    emeProgress,
 }
 
 export default sites
