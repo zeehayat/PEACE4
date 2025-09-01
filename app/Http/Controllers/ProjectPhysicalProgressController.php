@@ -8,6 +8,7 @@ use App\Models\MhpSite;
 use App\Models\ProjectPhysicalProgress;
 use App\Services\MhpSiteService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -27,7 +28,7 @@ class ProjectPhysicalProgressController extends Controller
     public function index(Request $request, MhpSite $site)
     {
 
-        $query = $site->physicalProgresses()->with(['activity.media', 'media']);
+        $query = ProjectPhysicalProgress::query()->where('projectable_type', get_class($site))->where('projectable_id', $site->id)->with(['activity.media', 'media']);
 
         // FIX: Add filtering by 'payment_for' if requested
         if ($request->has('payment_for')) {
@@ -78,16 +79,27 @@ class ProjectPhysicalProgressController extends Controller
      */
     public function store(StoreProjectPhysicalProgressRequest $request, MhpSite $site)
     {
-        //dd($site);
         try {
             $validatedData = $request->validated();
+            $attachments = $validatedData['attachments'] ?? [];
+            unset($validatedData['attachments']);
 
-            // FIX: Manually add projectable_id and projectable_type to the data
-            $validatedData['projectable_id'] = $site->id;
-            $validatedData['projectable_type'] = get_class($site);
+            // Let Eloquent create the record. It will use the morph alias for now.
+            $progress = $site->physicalProgresses()->create($validatedData);
 
-            $site->physicalProgresses()->create($request->validated());
-            //$this->mhpSiteService->createPhysicalProgress($site, $validatedData);
+            // Attach media to the newly created Eloquent model.
+            if (!empty($attachments)) {
+                foreach ($attachments as $attachment) {
+                    $progress->addMedia($attachment)->toMediaCollection('attachments');
+                }
+            }
+
+            // Now, force the projectable_type to be the FQCN as per the requirement.
+            DB::table('project_physical_progresses')
+                ->where('id', $progress->id)
+                ->update(['projectable_type' => get_class($site)]);
+
+
             return redirect()->back()->with('success', 'Physical Progress recorded successfully!');
         } catch (\Exception $e) {
             Log::error('Error creating Physical Progress: ' . $e->getMessage(), ['exception' => $e]);
