@@ -37,7 +37,7 @@ const fetchPhysicalProgress = async () => {
     isLoadingProgress.value = true;
     try {
         const response = await router.get(
-            route('mhp.sites.physical-progresses.index', { site: props.site.id }),
+            route('mhp.physical-progresses.index', { site: props.site.id }),
             { 'only-data': true, 'payment_for': props.progressType },
             {
                 preserveState: true,

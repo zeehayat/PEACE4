@@ -10,6 +10,7 @@ use App\Services\MhpSiteService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 class ProjectPhysicalProgressController extends Controller
 {
@@ -75,17 +76,18 @@ class ProjectPhysicalProgressController extends Controller
     /**
      * Store a newly created Project Physical Progress record in storage.
      */
-    public function store(StoreProjectPhysicalProgressRequest $request, MhpSite $mhpSite)
+    public function store(StoreProjectPhysicalProgressRequest $request, MhpSite $site)
     {
-        dd($mhpSite);
+        //dd($site);
         try {
             $validatedData = $request->validated();
 
             // FIX: Manually add projectable_id and projectable_type to the data
-            $validatedData['projectable_id'] = $mhpSite->id;
-            $validatedData['projectable_type'] = $mhpSite->getMorphClass();
-            dd($validatedData);
-            $this->mhpSiteService->createPhysicalProgress($mhpSite, $validatedData);
+            $validatedData['projectable_id'] = $site->id;
+            $validatedData['projectable_type'] = get_class($site);
+
+            $site->physicalProgresses()->create($request->validated());
+            //$this->mhpSiteService->createPhysicalProgress($site, $validatedData);
             return redirect()->back()->with('success', 'Physical Progress recorded successfully!');
         } catch (\Exception $e) {
             Log::error('Error creating Physical Progress: ' . $e->getMessage(), ['exception' => $e]);

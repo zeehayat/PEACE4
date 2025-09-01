@@ -237,7 +237,7 @@ class MhpSiteService
             $progress->progress_percentage = $data['progress_percentage'];
             $progress->progress_date = $data['progress_date'];
             $progress->remarks = $data['remarks'];
-            $progress->payment_for = $data['payment_for'];
+           // $progress->payment_for = $data['payment_for'];
             $progress->activity_id = $data['activity_id'] ?? null;
             $progress->activity_type = $data['activity_type'] ?? null;
 
