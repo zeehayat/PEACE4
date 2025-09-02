@@ -49,31 +49,35 @@ const handleAttachmentsToDelete = (ids) => {
 };
 
 const handleSubmit = () => {
+    // correct route names + params
     const url = isEditMode.value
-        ? route('mhp.completions.update', props.completion.id) // Assuming completion resource route
-        : route('mhp.completions.store'); // Assuming completion store route
-
-    const method = isEditMode.value ? 'post' : 'post'; // Laravel PUT/PATCH via POST with _method spoofing
+        ? route('mhp.sites.completion.update', {
+            site: props.mhpSiteId,
+            completion: props.completion.id,
+        })
+        : route('mhp.sites.completion.store', {
+            site: props.mhpSiteId,
+        });
 
     form.transform((data) => {
-        if (isEditMode.value) {
-            data._method = 'put'; // or 'patch'
-        }
+        if (isEditMode.value) data._method = 'put';
         return data;
     }).post(url, {
         onSuccess: () => {
             form.reset();
-            emit('success', isEditMode.value ? 'MHP Completion updated successfully!' : 'MHP Completion created successfully!');
             form.attachments = [];
             form.attachments_to_delete = [];
+            emit('success', isEditMode.value
+                ? 'MHP Completion updated successfully!'
+                : 'MHP Completion created successfully!'
+            );
         },
-        onError: (errors) => {
-            console.error('Form errors:', errors);
-        },
+        onError: (errors) => console.error('Form errors:', errors),
         preserveScroll: true,
         preserveState: true,
     });
 };
+
 
 const handleCancel = () => {
     form.reset();
