@@ -32,36 +32,40 @@ class ProjectPhysicalProgressController extends Controller
             $query->where('payment_for', $request->input('payment_for'));
         }
 
+        $allProgress = $query->orderBy('progress_date', 'desc')->get()->map(function ($item) {
+            // Unify the data structure for the frontend
+            return [
+                'id' => $item->id, // Use the real ID for keys and actions
+                'type' => $item->payment_for, // Use payment_for to distinguish type
+                'date' => $item->progress_date,
+                'percentage' => $item->progress_percentage,
+                'remarks' => $item->remarks,
+                'attachments' => $item->attachments_frontend,
+                'original_model' => $item // Pass the original model for the edit form
+            ];
+        });
+
+        // Handle JSON response for modals/AJAX calls
         if ($request->has('only-data')) {
-            $progresses = $query->orderBy('progress_date', 'desc')->get();
-
-            // Transform data for frontend consistency if needed
-            $progresses->transform(function ($progress) {
-                $progress->attachments = $progress->attachments_frontend;
-                if ($progress->activity) {
-                    $progress->activity->attachments = $progress->activity->attachments_frontend;
-                }
-                return $progress;
-            });
-
             return response()->json([
-                'physicalProgresses' => $progresses,
+                'physicalProgresses' => $allProgress,
             ]);
         }
 
-        $physicalProgresses = $query->orderBy('progress_date', 'desc')->paginate(10);
-
-        $physicalProgresses->getCollection()->transform(function ($progress) {
-            $progress->attachments = $progress->attachments_frontend;
-            if ($progress->activity) {
-                $progress->activity->attachments = $progress->activity->attachments_frontend;
-            }
-            return $progress;
-        });
+        // Handle paginated response for full page loads
+        $page = $request->input('page', 1);
+        $perPage = 10;
+        $paginatedProgress = new \Illuminate\Pagination\LengthAwarePaginator(
+            $allProgress->forPage($page, $perPage),
+            $allProgress->count(),
+            $perPage,
+            $page,
+            ['path' => $request->url(), 'query' => $request->query()]
+        );
 
         return Inertia::render('MHP/Index', [
             'site' => $site->only('id', 'project_id', 'cbo.reference_code'),
-            'physicalProgresses' => $physicalProgresses,
+            'physicalProgresses' => $paginatedProgress,
             'filters' => $request->only('payment_for'),
         ]);
     }

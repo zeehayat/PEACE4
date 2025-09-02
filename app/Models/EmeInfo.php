@@ -29,7 +29,9 @@ class EmeInfo extends Model
         'penstock_pipe',
         'no_of_penstock_pipe',
     ];
-
+    protected $casts = [
+        'scada_system' => 'boolean',
+    ];
     /**
      * Get the MHP site that this EME profile belongs to.
      */

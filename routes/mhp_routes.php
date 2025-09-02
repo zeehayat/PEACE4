@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\EmeInfoController;
-use App\Http\Controllers\MhpEmePhysicalProgressController;
+
 use Illuminate\Support\Facades\Route;
 
 // Import all controllers for the MHP module
@@ -81,5 +81,5 @@ Route::middleware(['web', 'auth'])->group(function () {
         return response()->json(['success' => true]);
     })->name('media.destroy');
     Route::post('sites/{site}/eme-info', [EmeInfoController::class, 'store'])->name('sites.eme-info.store');
-    Route::resource('sites.eme-progress', MhpEmePhysicalProgressController::class)->names('sites.eme-progress');
+
 });

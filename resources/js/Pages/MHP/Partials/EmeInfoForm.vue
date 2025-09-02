@@ -31,7 +31,6 @@ const form = useForm({
     stepup_transformer_capacity: props.emeInfo?.stepup_transformer_capacity ?? '',
     no_of_step_up_transformers: props.emeInfo?.no_of_step_up_transformers ?? '',
     scada_system: props.emeInfo?.scada_system === 1,
-
     scada_system_model: props.emeInfo?.scada_system_model ?? '',
     station_generator_capacity: props.emeInfo?.station_generator_capacity ?? '',
     penstock_pipe: props.emeInfo?.penstock_pipe ?? '',

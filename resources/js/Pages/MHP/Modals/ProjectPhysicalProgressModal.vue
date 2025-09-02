@@ -31,6 +31,7 @@ const fetchPhysicalProgress = async () => {
     isLoadingProgress.value = true;
     try {
         const response = await axios.get(route('mhp.physical-progresses.index', { site: props.site.id, 'only-data': true }));
+        console.log(response);
         physicalProgresses.value = response.data.physicalProgresses;
     } catch (error) {
         console.error('API call failed to fetch physical progress:', error);
@@ -115,6 +116,7 @@ const modalTitle = computed(() => {
 </script>
 
 <template>
+
     <Modal :show="show" @close="closeModal" :maxWidth="'5xl'">
         <div class="p-6 overflow-y-auto max-h-[85vh]">
             <h2 class="text-2xl font-bold text-gray-800 mb-6">{{ modalTitle }}</h2>

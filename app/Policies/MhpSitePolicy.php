@@ -45,6 +45,7 @@ class MhpSitePolicy extends BasePolicy
 
         // District roles can only view sites in their assigned district.
         if ($user->hasAnyRole(['M&E-DISTRICT', 'Engineer-DISTRICT', 'KPO-DISTRICT', 'Viewer-DISTRICT'])) {
+            $mhpSite->loadMissing('cbo');
             return $user->district_id === $mhpSite->cbo->district_id;
         }
 
@@ -75,6 +76,8 @@ class MhpSitePolicy extends BasePolicy
 
         // District roles can only update sites in their district.
         if ($user->hasRole('Engineer-DISTRICT')) {
+            $mhpSite->loadMissing('cbo');
+
             return $user->district_id === $mhpSite->cbo->district_id;
         }
 

@@ -15,7 +15,7 @@ const props = defineProps({
     },
 });
 
-const emit = defineEmits(['close', 'updated']);
+const emit = defineEmits(['close', 'updated', 'success']);
 
 const handleFormSuccess = (message) => {
     emit('updated', message);

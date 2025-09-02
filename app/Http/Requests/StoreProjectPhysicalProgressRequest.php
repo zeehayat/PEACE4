@@ -25,19 +25,30 @@ class StoreProjectPhysicalProgressRequest extends FormRequest
             'progress_percentage' => ['required', 'numeric', 'min:0', 'max:100'],
             'progress_date' => ['required', 'date'],
             'remarks' => ['nullable', 'string'],
-          //  'payment_for' => ['required', 'string', 'max:255', Rule::in(['T&D', 'EME', 'Civil'])],
+            'payment_for' => ['required', 'string', 'max:255', Rule::in(['T&D', 'EME', 'Civil'])],
             'attachments' => ['nullable', 'array'],
-            'attachments.*' => ['file', 'max:10240'],
+            'attachments.*' => [
+                'file',
+                'max:10240',
+                'mimetypes:image/jpeg,image/png,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            ],
+            'works' => ['nullable', 'string'],
         ];
 
         // Conditional validation based on 'payment_for'
-        if ($this->input('payment_for') === 'T&D') {
+        $paymentFor = $this->input('payment_for');
+
+        if ($paymentFor === 'T&D') {
             $rules['activity_id'] = ['required', 'exists:transmission_and_distribution_works,id'];
-            $rules['activity_type'] = ['required', 'string', Rule::in(['App\\Models\\TAndDWork'])];
+            // Use the morph map alias for validation
+            $rules['activity_type'] = ['required', 'string', Rule::in(['t_and_d_work'])];
         } else {
-            // For EME and Civil, activity_id and activity_type should be null.
             $rules['activity_id'] = ['nullable'];
             $rules['activity_type'] = ['nullable'];
+        }
+
+        if ($paymentFor === 'EME') {
+            $rules['works'] = ['required', 'string'];
         }
 
         return $rules;
@@ -46,7 +57,7 @@ class StoreProjectPhysicalProgressRequest extends FormRequest
     public function messages(): array
     {
         return [
-           // 'payment_for.required' => 'The activity type (Payment For) is required.',
+            // 'payment_for.required' => 'The activity type (Payment For) is required.',
             'activity_id.required' => 'A specific T&D work must be selected for T&D progress.',
             'activity_id.exists' => 'The selected T&D work does not exist.',
             'progress_percentage.required' => 'The progress percentage is required.',
