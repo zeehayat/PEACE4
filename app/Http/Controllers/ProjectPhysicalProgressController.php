@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Database\Eloquent\Relations\Relation;
 
 class ProjectPhysicalProgressController extends Controller
 {
@@ -27,23 +26,18 @@ class ProjectPhysicalProgressController extends Controller
      */
     public function index(Request $request, MhpSite $site)
     {
+        $query = $site->physicalProgresses()->with(['activity.media', 'media']);
 
-        $query = ProjectPhysicalProgress::query()->where('projectable_type', get_class($site))->where('projectable_id', $site->id)->with(['activity.media', 'media']);
-
-        // FIX: Add filtering by 'payment_for' if requested
         if ($request->has('payment_for')) {
             $query->where('payment_for', $request->input('payment_for'));
-            Log::info('ProjectPhysicalProgressController@index: Filtering by payment_for.', ['payment_for' => $request->input('payment_for')]);
         }
 
-        // Check if the request is for pure data (e.g., from a modal fetching list)
         if ($request->has('only-data')) {
-            Log::info('ProjectPhysicalProgressController@index: Request has only-data, returning JSON.');
             $progresses = $query->orderBy('progress_date', 'desc')->get();
 
+            // Transform data for frontend consistency if needed
             $progresses->transform(function ($progress) {
                 $progress->attachments = $progress->attachments_frontend;
-                // Ensure activity media is also transformed if needed for display
                 if ($progress->activity) {
                     $progress->activity->attachments = $progress->activity->attachments_frontend;
                 }
@@ -55,8 +49,6 @@ class ProjectPhysicalProgressController extends Controller
             ]);
         }
 
-        // If 'only-data' is NOT present, then render the full Inertia page.
-        Log::info('ProjectPhysicalProgressController@index: Request does NOT have only-data, rendering Inertia page.');
         $physicalProgresses = $query->orderBy('progress_date', 'desc')->paginate(10);
 
         $physicalProgresses->getCollection()->transform(function ($progress) {
@@ -84,21 +76,13 @@ class ProjectPhysicalProgressController extends Controller
             $attachments = $validatedData['attachments'] ?? [];
             unset($validatedData['attachments']);
 
-            // Let Eloquent create the record. It will use the morph alias for now.
             $progress = $site->physicalProgresses()->create($validatedData);
 
-            // Attach media to the newly created Eloquent model.
             if (!empty($attachments)) {
                 foreach ($attachments as $attachment) {
                     $progress->addMedia($attachment)->toMediaCollection('attachments');
                 }
             }
-
-            // Now, force the projectable_type to be the FQCN as per the requirement.
-            DB::table('project_physical_progresses')
-                ->where('id', $progress->id)
-                ->update(['projectable_type' => get_class($site)]);
-
 
             return redirect()->back()->with('success', 'Physical Progress recorded successfully!');
         } catch (\Exception $e) {

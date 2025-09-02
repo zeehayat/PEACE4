@@ -1,6 +1,7 @@
 <script setup>
 import { reactive, watch, ref, computed } from 'vue';
 import { router } from '@inertiajs/vue3';
+import axios from 'axios';
 
 import Modal from '@/Components/Modal.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
@@ -23,30 +24,14 @@ const physicalProgresses = ref([]); // Local state for the list of progress entr
 const showForm = ref(false); // Controls visibility of the form within this modal
 const selectedProgress = ref(null); // The progress item being edited (or null for new)
 const formMode = ref('create'); // 'create' or 'update' for the form
+const progressTypeForForm = ref('Civil'); // To hold the type for the new progress form
 
 // Fetch physical progress for the current site
 const fetchPhysicalProgress = async () => {
     isLoadingProgress.value = true;
     try {
-        // Use router.get with preserveState: true to get data without full page reload
-        // Or use axios if you prefer pure API calls from components
-        const response = await router.get(
-            route('mhp.sites.physical-progresses.index', { site: props.site.id }),
-            {},
-            {
-                preserveState: true,
-                preserveScroll: true,
-                replace: true,
-                onSuccess: (page) => {
-                    // Assuming the index method returns paginated data under page.props.physicalProgresses
-                    physicalProgresses.value = page.props.physicalProgresses.data;
-                },
-                onError: (errors) => {
-                    console.error('Error fetching physical progress:', errors);
-                    // You might want to display an error toast here
-                }
-            }
-        );
+        const response = await axios.get(route('mhp.physical-progresses.index', { site: props.site.id, 'only-data': true }));
+        physicalProgresses.value = response.data.physicalProgresses;
     } catch (error) {
         console.error('API call failed to fetch physical progress:', error);
     } finally {
@@ -67,14 +52,19 @@ watch(() => props.show, (newVal) => {
 });
 
 // Handlers for managing the form state
-const openCreateForm = () => {
+const openCreateForm = (type) => {
     selectedProgress.value = null;
     formMode.value = 'create';
+    progressTypeForForm.value = type;
     showForm.value = true;
 };
 
 const openEditForm = (progress) => {
-    selectedProgress.value = progress;
+    // The 'progress' object is from our mapped collection.
+    // We need to pass the original model to the form for editing.
+    selectedProgress.value = progress.original_model;
+    // Set the correct type for the form
+    progressTypeForForm.value = progress.type;
     formMode.value = 'update';
     showForm.value = true;
 };
@@ -91,16 +81,21 @@ const handleFormCancel = () => {
     selectedProgress.value = null; // Clear selected item
 };
 
-const handleDeleteProgress = (progressId) => {
-    if (confirm('Are you sure you want to delete this physical progress entry?')) {
-        router.delete(route('mhp.sites.physical-progresses.destroy', { site: props.site.id, physical_progress: progressId }), {
+const handleDeleteProgress = (progress) => {
+    // The progress object is from our mapped collection.
+    // We need the ID from the original model to send to the backend.
+    const progressId = progress.original_model.id;
+    const progressType = progress.type;
+
+    if (confirm(`Are you sure you want to delete this ${progressType} progress entry?`)) {
+        // The destroy route is the same for all unified progress types.
+        router.delete(route('mhp.physical-progresses.destroy', { physical_progress: progressId }), {
             onSuccess: () => {
                 emit('saved', 'Physical Progress deleted successfully!');
                 fetchPhysicalProgress(); // Re-fetch the list
             },
             onError: (errors) => {
                 console.error('Error deleting physical progress:', errors);
-                // Display error toast
             }
         });
     }
@@ -112,53 +107,58 @@ const closeModal = () => {
 
 const modalTitle = computed(() => {
     if (showForm.value) {
-        return formMode.value === 'create' ? `Record Physical Progress for ${props.site.project_id}` : `Edit Physical Progress for ${props.site.project_id}`;
+        const action = formMode.value === 'create' ? 'Record' : 'Edit';
+        return `${action} ${progressTypeForForm.value} Progress for ${props.site.project_id}`;
     }
     return `Manage Physical Progress for ${props.site.project_id}`;
 });
 </script>
 
 <template>
-    <Modal :show="show" @close="closeModal" :maxWidth="'5xl'" :title="modalTitle">
+    <Modal :show="show" @close="closeModal" :maxWidth="'5xl'">
         <div class="p-6 overflow-y-auto max-h-[85vh]">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">{{ modalTitle }}</h2>
             <div v-if="!showForm" class="space-y-4">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-semibold text-gray-800">Existing Physical Progress Entries</h3>
-                    <PrimaryButton @click="openCreateForm">
-                        + Record New Progress
-                    </PrimaryButton>
+                    <h3 class="text-xl font-semibold text-gray-800">Record New Progress</h3>
+                    <div class="flex space-x-2">
+                        <PrimaryButton @click="openCreateForm('Civil')">+ Civil</PrimaryButton>
+                        <PrimaryButton @click="openCreateForm('T&D')">+ T&D</PrimaryButton>
+                        <PrimaryButton @click="openCreateForm('EME')">+ EME</PrimaryButton>
+                    </div>
                 </div>
 
-                <div v-if="isLoadingProgress" class="text-center py-8 text-gray-500">
-                    Loading physical progress entries...
-                </div>
-
-                <div v-else-if="physicalProgresses.length === 0" class="text-center py-8 text-gray-500">
-                    No physical progress entries recorded yet for this site.
-                </div>
-
-                <div v-else class="grid grid-cols-1 gap-4">
-                    <div v-for="progress in physicalProgresses" :key="progress.id" class="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
-                        <div class="flex justify-between items-start mb-2">
-                            <div>
-                                <p class="text-lg font-semibold text-indigo-700">{{ progress.progress_percentage }}% Progress</p>
-                                <p class="text-sm text-gray-600">on {{ new Date(progress.progress_date).toLocaleDateString() }}</p>
-                                <p class="text-sm text-gray-500">Type: <span class="font-medium">{{ progress.payment_for }}</span></p>
-                                <p v-if="progress.activity" class="text-xs text-gray-500">
-                                    Activity: {{ progress.activity.name || `T&D Work #${progress.activity.id}` }}
-                                </p>
+                <div class="border-t border-gray-200 pt-4">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Existing Entries</h3>
+                    <div v-if="isLoadingProgress" class="text-center py-8 text-gray-500">
+                        Loading physical progress entries...
+                    </div>
+                    <div v-else-if="physicalProgresses.length === 0" class="text-center py-8 text-gray-500">
+                        No physical progress entries recorded yet for this site.
+                    </div>
+                    <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div v-for="progress in physicalProgresses" :key="progress.id" class="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <p class="text-lg font-semibold text-indigo-700">{{ progress.percentage }}% Progress</p>
+                                    <p class="text-sm text-gray-600">on {{ new Date(progress.date).toLocaleDateString() }}</p>
+                                    <p class="text-sm text-gray-500">Type: <span class="font-medium">{{ progress.type }}</span></p>
+                                    <p v-if="progress.original_model.activity" class="text-xs text-gray-500">
+                                        Activity: {{ progress.original_model.activity.name || `T&D Work #${progress.original_model.activity.id}` }}
+                                    </p>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <PrimaryButton @click="openEditForm(progress)" class="px-3 py-1 text-sm">Edit</PrimaryButton>
+                                    <DangerButton @click="handleDeleteProgress(progress)" class="px-3 py-1 text-sm">Delete</DangerButton>
+                                </div>
                             </div>
-                            <div class="flex space-x-2">
-                                <PrimaryButton @click="openEditForm(progress)" class="px-3 py-1 text-sm">Edit</PrimaryButton>
-                                <DangerButton @click="handleDeleteProgress(progress.id)" class="px-3 py-1 text-sm">Delete</DangerButton>
+                            <p v-if="progress.remarks" class="text-sm text-gray-700 mt-2">
+                                Remarks: <span class="text-gray-600">{{ progress.remarks }}</span>
+                            </p>
+                            <div v-if="progress.attachments && progress.attachments.length" class="mt-3">
+                                <p class="text-sm font-semibold text-gray-700 mb-1">Attachments:</p>
+                                <AttachmentViewer :attachments="progress.attachments" />
                             </div>
-                        </div>
-                        <p v-if="progress.remarks" class="text-sm text-gray-700 mt-2">
-                            Remarks: <span class="text-gray-600">{{ progress.remarks }}</span>
-                        </p>
-                        <div v-if="progress.attachments_frontend && progress.attachments_frontend.length" class="mt-3">
-                            <p class="text-sm font-semibold text-gray-700 mb-1">Attachments:</p>
-                            <AttachmentViewer :attachments="progress.attachments_frontend" />
                         </div>
                     </div>
                 </div>
@@ -169,13 +169,10 @@ const modalTitle = computed(() => {
                 :mhp-site-id="site.id"
                 :progress="selectedProgress"
                 :mode="formMode"
+                :progress-type="progressTypeForForm"
                 @success="handleFormSuccess"
                 @cancel="handleFormCancel"
             />
         </div>
     </Modal>
 </template>
-
-<style scoped>
-/* No specific scoped styles needed here */
-</style>

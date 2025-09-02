@@ -37,6 +37,7 @@ const form = useForm({
     payment_for: props.progress?.payment_for || props.progressType, // FIX: Use the new prop
     activity_id: props.progress?.activity_id || null,
     activity_type: props.progress?.activity_type || null,
+    works: props.progress?.works || '',
     attachments: [],
 });
 
@@ -91,6 +92,17 @@ const title = computed(() => `Record ${form.payment_for} Progress`);
         </div>
 
         <input type="hidden" v-model="form.payment_for" />
+
+        <div v-if="form.payment_for === 'EME'">
+            <InputLabel for="works" value="Works" />
+            <textarea
+                id="works"
+                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+                rows="3"
+                v-model="form.works"
+            ></textarea>
+            <InputError class="mt-2" :message="form.errors.works" />
+        </div>
 
         <div>
             <InputLabel for="remarks" value="Remarks" />
