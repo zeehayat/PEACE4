@@ -1,4 +1,5 @@
 import { queryParams, type QueryParams } from './../../../wayfinder'
+import physicalProgresses from './physical-progresses'
 import emeInfo from './eme-info'
 /**
 * @see \App\Http\Controllers\MhpSiteController::getCbos
@@ -543,6 +544,7 @@ const sites = {
     update,
     destroy,
     autoSearch,
+    physicalProgresses,
     emeInfo,
 }
 

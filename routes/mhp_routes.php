@@ -47,12 +47,12 @@ Route::middleware(['web', 'auth'])->group(function () {
 
     // Project Physical Progress
     // FIX: Removed the redundant 'mhp.' prefix from the names() method.
-    Route::resource('sites.physical-progresses', ProjectPhysicalProgressController::class)->names('physical-progresses')
+    Route::resource('sites.physical-progresses', ProjectPhysicalProgressController::class)
         ->shallow()
         ->parameters([
-        'physical-progresses' => 'physical_progress',
-        'sites' => 'site',
-    ]);
+            'physical-progresses' => 'physical_progress',
+            'sites' => 'site',
+        ]);
 
     // Project Financial Installments
     // FIX: Removed the redundant 'mhp.' prefix from the names() method.

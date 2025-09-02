@@ -82,8 +82,8 @@ const handleAttachmentsToDelete = (ids) => {
 
 const handleSubmit = () => {
     const url = isEditMode.value
-        ? route('mhp.sites.t-and-d-works.update', { site: props.mhpSiteId, 't_and_d_work': props.tAndDWork.id })
-        : route('mhp.sites.t-and-d-works.store', { site: props.mhpSiteId }); // Pass mhpSiteId for store route
+        ? route('mhp.t-and-d-works.update', { site: props.mhpSiteId, 't_and_d_work': props.tAndDWork.id })
+        : route('mhp.t-and-d-works.store', { site: props.mhpSiteId }); // Pass mhpSiteId for store route
 
     const method = isEditMode.value ? 'post' : 'post'; // Laravel PUT/PATCH via POST with _method spoofing
 

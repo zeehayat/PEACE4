@@ -26,74 +26,77 @@ class ProjectPhysicalProgressController extends Controller
      */
     public function index(Request $request, MhpSite $site)
     {
-        $query = $site->physicalProgresses()->with(['activity.media', 'media']);
+        $paymentFor = $request->string('payment_for')->value();
 
-        if ($request->has('payment_for')) {
-            $query->where('payment_for', $request->input('payment_for'));
-        }
+        $query = $site->physicalProgresses()   // ✅ use morphMany relation
+        ->when($paymentFor, fn($q) => $q->where('payment_for', $paymentFor))
+            ->with(['activity', 'media'])      // if you use Spatie media
+            ->orderByDesc('progress_date')
+            ->orderByDesc('id');
 
-        $allProgress = $query->orderBy('progress_date', 'desc')->get()->map(function ($item) {
-            // Unify the data structure for the frontend
-            return [
-                'id' => $item->id, // Use the real ID for keys and actions
-                'type' => $item->payment_for, // Use payment_for to distinguish type
-                'date' => $item->progress_date,
-                'percentage' => $item->progress_percentage,
-                'remarks' => $item->remarks,
-                'attachments' => $item->attachments_frontend,
-                'original_model' => $item // Pass the original model for the edit form
-            ];
-        });
+        $progresses = $query->get();
 
-        // Handle JSON response for modals/AJAX calls
-        if ($request->has('only-data')) {
+        if ($request->wantsJson()) {
             return response()->json([
-                'physicalProgresses' => $allProgress,
+                'physicalProgresses' => $progresses->map(function ($p) {
+                    return [
+                        'id' => $p->id,
+                        'progress_percentage' => (float) $p->progress_percentage,
+                        'progress_date' => optional($p->progress_date)->toDateString(),
+                        'payment_for' => $p->payment_for,
+                        'remarks' => $p->remarks,
+                        'works' => $p->works,
+                        'activity' => $p->activity ? [
+                            'id' => $p->activity->id ?? null,
+                            'name' => $p->activity->name ?? null,
+                        ] : null,
+                        'attachments_frontend' => method_exists($p, 'getMedia')
+                            ? $p->getMedia('attachments')->map(fn($m) => [
+                                'id' => $m->id,
+                                'file_name' => $m->file_name,
+                                'url' => $m->getUrl(),
+                                'size' => $m->size,
+                                'created_at' => $m->created_at?->toDateTimeString(),
+                            ])
+                            : [],
+                    ];
+                }),
             ]);
         }
 
-        // Handle paginated response for full page loads
-        $page = $request->input('page', 1);
-        $perPage = 10;
-        $paginatedProgress = new \Illuminate\Pagination\LengthAwarePaginator(
-            $allProgress->forPage($page, $perPage),
-            $allProgress->count(),
-            $perPage,
-            $page,
-            ['path' => $request->url(), 'query' => $request->query()]
-        );
-
-        return Inertia::render('MHP/Index', [
-            'site' => $site->only('id', 'project_id', 'cbo.reference_code'),
-            'physicalProgresses' => $paginatedProgress,
-            'filters' => $request->only('payment_for'),
-        ]);
+        // Optional Inertia page, if you use it elsewhere
+        // return Inertia::render(...);
     }
+
 
     /**
      * Store a newly created Project Physical Progress record in storage.
      */
-    public function store(StoreProjectPhysicalProgressRequest $request, MhpSite $site)
+    public function store(Request $request, MhpSite $site)
     {
-        try {
-            $validatedData = $request->validated();
-            $attachments = $validatedData['attachments'] ?? [];
-            unset($validatedData['attachments']);
+        $data = $request->validate([
+            'progress_percentage' => ['required','numeric','between:0,100'],
+            'progress_date' => ['required','date'],
+            'remarks' => ['nullable','string'],
+            'works' => ['nullable','string'],
+            'payment_for' => ['required','in:T&D,EME,Civil'],
+            'activity_id' => ['nullable','integer'],
+            'activity_type' => ['nullable','string'],
+            // attachments handled separately if using Spatie
+        ]);
 
-            $progress = $site->physicalProgresses()->create($validatedData);
+        // ✅ Create via the morphMany relation (will set projectable_id/type)
+        $progress = $site->physicalProgresses()->create($data);
 
-            if (!empty($attachments)) {
-                foreach ($attachments as $attachment) {
-                    $progress->addMedia($attachment)->toMediaCollection('attachments');
-                }
+        if ($request->hasFile('attachments')) {
+            foreach ($request->file('attachments') as $file) {
+                $progress->addMedia($file)->toMediaCollection('attachments');
             }
-
-            return redirect()->back()->with('success', 'Physical Progress recorded successfully!');
-        } catch (\Exception $e) {
-            Log::error('Error creating Physical Progress: ' . $e->getMessage(), ['exception' => $e]);
-            return redirect()->back()->with('error', 'Failed to record Physical Progress: ' . $e->getMessage());
         }
+
+        return back()->with('success', 'Physical Progress recorded successfully!');
     }
+
 
     /**
      * Display the specified Project Physical Progress.
@@ -112,16 +115,34 @@ class ProjectPhysicalProgressController extends Controller
     /**
      * Update the specified Project Physical Progress record in storage.
      */
-    public function update(UpdateProjectPhysicalProgressRequest $request, ProjectPhysicalProgress $physicalProgress)
+    public function update(Request $request, MhpSite $site, ProjectPhysicalProgress $physicalProgress)
     {
-        try {
-            $this->mhpSiteService->updatePhysicalProgress($physicalProgress, $request->validated());
-            return redirect()->back()->with('success', 'Physical Progress updated successfully!');
-        } catch (\Exception $e) {
-            Log::error('Error updating Physical Progress: ' . $e->getMessage(), ['exception' => $e]);
-            return redirect()->back()->with('error', 'Failed to update Physical Progress: ' . $e->getMessage());
+        // Optional safety: ensure it belongs to this site
+        if ($physicalProgress->projectable_type !== MhpSite::class || $physicalProgress->projectable_id !== $site->id) {
+            abort(404);
         }
+
+        $data = $request->validate([
+            'progress_percentage' => ['required','numeric','between:0,100'],
+            'progress_date' => ['required','date'],
+            'remarks' => ['nullable','string'],
+            'works' => ['nullable','string'],
+            'payment_for' => ['required','in:T&D,EME,Civil'],
+            'activity_id' => ['nullable','integer'],
+            'activity_type' => ['nullable','string'],
+        ]);
+
+        $physicalProgress->update($data);
+
+        if ($request->hasFile('attachments')) {
+            foreach ($request->file('attachments') as $file) {
+                $physicalProgress->addMedia($file)->toMediaCollection('attachments');
+            }
+        }
+
+        return back()->with('success', 'Physical Progress updated successfully!');
     }
+
 
     /**
      * Remove the specified Project Physical Progress record from storage.

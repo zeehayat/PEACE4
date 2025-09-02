@@ -455,7 +455,7 @@ const handlePagination = (url) => {
             v-if="selectedSite && showProjectPhysicalProgressModal"
             :show="showProjectPhysicalProgressModal"
             :site="selectedSite"
-            :progress-type="progressType"
+
             @close="closeModal"
             @saved="handleUpdated"
         />
@@ -468,7 +468,7 @@ const handlePagination = (url) => {
             v-if="selectedSite"
             :show="showEmeInfoModal"
             :mhp-site="selectedSite" @success="handleFormSuccess"
-            @cancel="handleFormCancel"
+
             @close="closeModal"
         />
 

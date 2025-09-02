@@ -30,15 +30,43 @@ const progressTypeForForm = ref('Civil'); // To hold the type for the new progre
 const fetchPhysicalProgress = async () => {
     isLoadingProgress.value = true;
     try {
-        const response = await axios.get(route('mhp.physical-progresses.index', { site: props.site.id, 'only-data': true }));
-        console.log(response);
-        physicalProgresses.value = response.data.physicalProgresses;
+        const { data } = await axios.get(
+            // keep route params clean: ONLY the path params belong here
+            route('mhp.sites.physical-progresses.index', { site: props.site.id }),
+            {
+                headers: { Accept: 'application/json' },   // force JSON instead of an Inertia page
+                params: {
+                    // optional: add a filter if you want
+                    // payment_for: 'EME' | 'Civil' | 'T&D'
+                },
+            }
+        );
+
+        // Accept both { physicalProgresses: [...] } or a raw array
+        const raw = Array.isArray(data) ? data : (data?.physicalProgresses ?? []);
+
+        // Normalize to what your template renders
+        physicalProgresses.value = raw.map(p => ({
+            id: p.id,
+            percentage: p.progress_percentage ?? p.percentage ?? 0,
+            date: p.progress_date ?? p.date,
+            type: p.payment_for ?? p.type,
+            remarks: p.remarks ?? '',
+            attachments: p.attachments_frontend ?? p.attachments ?? [],
+            original_model: p, // keep full model for edit/delete
+        }));
+
+        // Optional: log once to verify the shape
+        // console.log('Loaded physical progresses:', physicalProgresses.value);
     } catch (error) {
         console.error('API call failed to fetch physical progress:', error);
+        physicalProgresses.value = [];
     } finally {
         isLoadingProgress.value = false;
     }
 };
+
+
 
 // Watch for modal visibility to fetch data when it opens
 watch(() => props.show, (newVal) => {
@@ -90,7 +118,7 @@ const handleDeleteProgress = (progress) => {
 
     if (confirm(`Are you sure you want to delete this ${progressType} progress entry?`)) {
         // The destroy route is the same for all unified progress types.
-        router.delete(route('mhp.physical-progresses.destroy', { physical_progress: progressId }), {
+        router.delete(route('mhp.sites.physical-progresses.destroy', { physical_progress: progressId }), {
             onSuccess: () => {
                 emit('saved', 'Physical Progress deleted successfully!');
                 fetchPhysicalProgress(); // Re-fetch the list

@@ -42,7 +42,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    const routeName = 'mhp.physical-progresses.store';
+    const routeName = 'mhp.sites.physical-progresses.store';
 
     // FIX: Pass the site ID directly from the component's props
     const params = { site: props.mhpSiteId };
