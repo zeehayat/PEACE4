@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import Modal from '@/Components/Modal.vue';
 import AttachmentViewer from '@/Components/AttachmentComponent/AttachmentViewer.vue';
-
+import PrimaryButton from '@/Components/PrimaryButton.vue'
 const props = defineProps({
     show: Boolean,
     tAndDWork: {

@@ -108,34 +108,52 @@ const handleCancel = () => {
 };
 
 // Re-init when editing a different item or when action changes
-watch([() => props.tAndDWork, () => props.action], ([work, action]) => {
-    isEditMode.value = action === 'update';
-    if (work) {
-        form.reset();
-        form.fill({
-            name: work.name ?? '',
-            date_of_initiation: work.date_of_initiation ?? null,
-            step_up_transformers: work.step_up_transformers?.length ? work.step_up_transformers : [{ kva: null, qty: null }],
-            step_down_transformers: work.step_down_transformers?.length ? work.step_down_transformers : [{ kva: null, qty: null }],
-            ht_poles_quantity: work.ht_poles_quantity ?? '',
-            lt_poles_quantity: work.lt_poles_quantity ?? '',
-            ht_conductor_length_km: work.ht_conductor_length_km ?? '',
-            ht_conductor_type: work.ht_conductor_type ?? '',
-            lt_conductor_length_km: work.lt_conductor_length_km ?? '',
-            lt_conductor_type: work.lt_conductor_type ?? '',
-            scope_of_work: work.scope_of_work ?? '',
-            remarks: work.remarks ?? '',
-            attachments: [],
-            attachments_to_delete: [],
-        });
-        existingAttachments.value = work.attachments_frontend ?? [];
-    } else {
-        form.reset();
-        form.step_up_transformers = [{ kva: null, qty: null }];
-        form.step_down_transformers = [{ kva: null, qty: null }];
-        existingAttachments.value = [];
-    }
-}, { immediate: true });
+watch(
+    () => props.tAndDWork,
+    (newVal) => {
+        if (newVal) {
+            isEditMode.value = true;
+
+            // start clean (keeps methods like .post(), etc.)
+            form.reset();
+
+            // assign values field-by-field
+            const next = {
+                projectable_id: props.mhpSiteId,
+                projectable_type: 'mhp_site', // use morph alias if you keep this field
+                name: newVal.name ?? '',
+                date_of_initiation: newVal.date_of_initiation ?? null,
+                step_up_transformers:
+                    (newVal.step_up_transformers?.length ? newVal.step_up_transformers : [{ kva: null, qty: null }]),
+                step_down_transformers:
+                    (newVal.step_down_transformers?.length ? newVal.step_down_transformers : [{ kva: null, qty: null }]),
+                ht_poles_quantity: newVal.ht_poles_quantity ?? '',
+                lt_poles_quantity: newVal.lt_poles_quantity ?? '',
+                ht_conductor_length_km: newVal.ht_conductor_length_km ?? '',
+                ht_conductor_type: newVal.ht_conductor_type ?? '',
+                lt_conductor_length_km: newVal.lt_conductor_length_km ?? '',
+                lt_conductor_type: newVal.lt_conductor_type ?? '',
+                scope_of_work: newVal.scope_of_work ?? '',
+                remarks: newVal.remarks ?? '',
+                attachments: [],
+                attachments_to_delete: [],
+            };
+
+            Object.entries(next).forEach(([k, v]) => (form[k] = v));
+            existingAttachments.value = newVal.attachments_frontend ?? [];
+        } else {
+            isEditMode.value = false;
+            form.reset();
+            form.projectable_id = props.mhpSiteId;
+            form.projectable_type = 'mhp_site';
+            form.step_up_transformers = [{ kva: null, qty: null }];
+            form.step_down_transformers = [{ kva: null, qty: null }];
+            existingAttachments.value = [];
+        }
+    },
+    { immediate: true }
+);
+
 </script>
 
 

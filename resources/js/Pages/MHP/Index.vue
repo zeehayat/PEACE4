@@ -5,6 +5,7 @@ import { router, Link, usePage } from '@inertiajs/vue3';
 import SideBar from "@/Components/SideBar.vue";
 import Toast from '@/Components/Toast.vue';
 import Pagination from '@/Components/Pagination.vue';
+import axios from 'axios';
 
 // MHP-specific Components and Modals
 import MhpSiteListCard from '@/Pages/MHP/Components/MhpSiteListCard.vue';
@@ -20,8 +21,7 @@ import MhpCompletionModal from '@/Pages/MHP/Modals/MhpCompletionModal.vue';
 import MhpSiteDetailsModal from '@/Pages/MHP/Modals/MhpSiteDetailsModal.vue';
 import MhpReportModal from '@/Pages/MHP/Modals/MhpReportModal.vue';
 import AppLayout from "@/Layouts/AppLayout.vue";
-import EmeInfoForm from './Partials/EmeInfoForm.vue';
-import Modal from "@/Components/Modal.vue";
+
 import EmeInfoModal from "@/Pages/MHP/Modals/EmeInfoModal.vue";
 
 
@@ -186,7 +186,40 @@ function handleAddEditViewCompletion(site) { selectedSite.value = site; completi
 function handleViewCompletion(site) { selectedSite.value = site; showMhpCompletionModal.value = true; completionAction.value = 'view'; openActionMenuId.value = null; }
 
 function handleAddTAndDWork(site) { selectedSite.value = site; selectedTAndDWork.value = null; tAndDWorkAction.value = 'create'; showTAndDWorkModal.value = true; openActionMenuId.value = null; }
-function handleEditTAndDWork(site, tAndDWork) { selectedSite.value = site; selectedTAndDWork.value = tAndDWork; tAndDWorkAction.value = 'update'; showTAndDWorkModal.value = true; openActionMenuId.value = null; }
+async function handleEditTAndDWork(site, tAndDWork) {
+    selectedSite.value = site;
+
+    // If no work was explicitly passed, fetch latest and use it
+    if (!tAndDWork) {
+        try {
+            const { data } = await axios.get(
+                route('mhp.sites.t-and-d-works.index', { site: site.id, only_data: 1 })
+            );
+            const full = data.fullTAndDWorks || [];
+            if (!full.length) {
+                toastMessage.value = 'No T&D Work to edit yet. Please add one first.';
+                toastType.value = 'error';
+                toastVisible.value = true;
+                setTimeout(() => (toastVisible.value = false), 3000);
+                return;
+            }
+            tAndDWork = full[0]; // or choose a specific one by criteria
+        } catch (e) {
+            console.error(e);
+            toastMessage.value = 'Could not load T&D works for editing.';
+            toastType.value = 'error';
+            toastVisible.value = true;
+            setTimeout(() => (toastVisible.value = false), 3000);
+            return;
+        }
+    }
+
+    selectedTAndDWork.value = tAndDWork;
+    tAndDWorkAction.value = 'update';
+    showTAndDWorkModal.value = true;
+    openActionMenuId.value = null;
+}
+
 function handleViewTAndDWork(site, tAndDWork) { selectedSite.value = site; selectedTAndDWork.value = tAndDWork; showTAndDWorkViewModal.value = true; openActionMenuId.value = null; }
 
 function handleOpenEmeProgress(site) {
