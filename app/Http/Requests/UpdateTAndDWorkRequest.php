@@ -27,8 +27,8 @@ class UpdateTAndDWorkRequest extends FormRequest
         return [
             // projectable_id and type are generally fixed after creation,
             // but might be included for consistency if controller always expects them.
-            'projectable_id' => ['required', 'integer'],
-            'projectable_type' => ['required', 'string', Rule::in(['App\\Models\\MhpSite', 'App\\Models\\IrrigationScheme'])],
+//            'projectable_id' => ['required', 'integer'],
+//            'projectable_type' => ['required', 'string', Rule::in(['App\\Models\\MhpSite', 'App\\Models\\IrrigationScheme'])],
             'name' => ['nullable', 'string', 'max:255'],
             'date_of_initiation' => ['nullable', 'date'],
             'step_up_transformers' => ['nullable', 'array'],

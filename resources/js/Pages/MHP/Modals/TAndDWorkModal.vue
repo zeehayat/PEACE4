@@ -38,6 +38,7 @@ const modalTitle = computed(() => {
 <template>
     <Modal :show="show" @close="handleFormCancel" :maxWidth="'4xl'" :title="modalTitle">
         <div class="p-6 overflow-y-auto max-h-[85vh]">
+            <div class="mb-4 text-xs text-gray-500">debug: site={{ mhpSiteId }}, mode={{ action }}</div>
             <TAndDWorkForm
                 :mhp-site-id="mhpSiteId"
                 :t-and-d-work="tAndDWork"
@@ -47,6 +48,7 @@ const modalTitle = computed(() => {
             />
         </div>
     </Modal>
+
 </template>
 
 <style scoped>

@@ -1,10 +1,10 @@
 import { queryParams, type QueryParams } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\TAndDWorkController::index
-* @see app/Http/Controllers/TAndDWorkController.php:31
+* @see app/Http/Controllers/TAndDWorkController.php:19
 * @route '/mhp/sites/{site}/t-and-d-works'
 */
-export const index = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+export const index = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
@@ -19,12 +19,16 @@ index.definition = {
 
 /**
 * @see \App\Http\Controllers\TAndDWorkController::index
-* @see app/Http/Controllers/TAndDWorkController.php:31
+* @see app/Http/Controllers/TAndDWorkController.php:19
 * @route '/mhp/sites/{site}/t-and-d-works'
 */
-index.url = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+index.url = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { site: args }
+    }
+
+    if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+        args = { site: args.id }
     }
 
     if (Array.isArray(args)) {
@@ -34,7 +38,9 @@ index.url = (args: { site: string | number } | [site: string | number ] | string
     }
 
     const parsedArgs = {
-        site: args.site,
+        site: typeof args.site === 'object'
+        ? args.site.id
+        : args.site,
     }
 
     return index.definition.url
@@ -44,10 +50,10 @@ index.url = (args: { site: string | number } | [site: string | number ] | string
 
 /**
 * @see \App\Http\Controllers\TAndDWorkController::index
-* @see app/Http/Controllers/TAndDWorkController.php:31
+* @see app/Http/Controllers/TAndDWorkController.php:19
 * @route '/mhp/sites/{site}/t-and-d-works'
 */
-index.get = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+index.get = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
@@ -57,10 +63,10 @@ index.get = (args: { site: string | number } | [site: string | number ] | string
 
 /**
 * @see \App\Http\Controllers\TAndDWorkController::index
-* @see app/Http/Controllers/TAndDWorkController.php:31
+* @see app/Http/Controllers/TAndDWorkController.php:19
 * @route '/mhp/sites/{site}/t-and-d-works'
 */
-index.head = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+index.head = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
 } => ({
@@ -70,7 +76,7 @@ index.head = (args: { site: string | number } | [site: string | number ] | strin
 
 /**
 * @see \App\Http\Controllers\TAndDWorkController::create
-* @see app/Http/Controllers/TAndDWorkController.php:72
+* @see app/Http/Controllers/TAndDWorkController.php:0
 * @route '/mhp/sites/{site}/t-and-d-works/create'
 */
 export const create = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -88,7 +94,7 @@ create.definition = {
 
 /**
 * @see \App\Http\Controllers\TAndDWorkController::create
-* @see app/Http/Controllers/TAndDWorkController.php:72
+* @see app/Http/Controllers/TAndDWorkController.php:0
 * @route '/mhp/sites/{site}/t-and-d-works/create'
 */
 create.url = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -113,7 +119,7 @@ create.url = (args: { site: string | number } | [site: string | number ] | strin
 
 /**
 * @see \App\Http\Controllers\TAndDWorkController::create
-* @see app/Http/Controllers/TAndDWorkController.php:72
+* @see app/Http/Controllers/TAndDWorkController.php:0
 * @route '/mhp/sites/{site}/t-and-d-works/create'
 */
 create.get = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -126,7 +132,7 @@ create.get = (args: { site: string | number } | [site: string | number ] | strin
 
 /**
 * @see \App\Http\Controllers\TAndDWorkController::create
-* @see app/Http/Controllers/TAndDWorkController.php:72
+* @see app/Http/Controllers/TAndDWorkController.php:0
 * @route '/mhp/sites/{site}/t-and-d-works/create'
 */
 create.head = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -139,7 +145,7 @@ create.head = (args: { site: string | number } | [site: string | number ] | stri
 
 /**
 * @see \App\Http\Controllers\TAndDWorkController::store
-* @see app/Http/Controllers/TAndDWorkController.php:81
+* @see app/Http/Controllers/TAndDWorkController.php:59
 * @route '/mhp/sites/{site}/t-and-d-works'
 */
 export const store = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -157,7 +163,7 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\TAndDWorkController::store
-* @see app/Http/Controllers/TAndDWorkController.php:81
+* @see app/Http/Controllers/TAndDWorkController.php:59
 * @route '/mhp/sites/{site}/t-and-d-works'
 */
 store.url = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -188,7 +194,7 @@ store.url = (args: { site: number | { id: number } } | [site: number | { id: num
 
 /**
 * @see \App\Http\Controllers\TAndDWorkController::store
-* @see app/Http/Controllers/TAndDWorkController.php:81
+* @see app/Http/Controllers/TAndDWorkController.php:59
 * @route '/mhp/sites/{site}/t-and-d-works'
 */
 store.post = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -201,10 +207,10 @@ store.post = (args: { site: number | { id: number } } | [site: number | { id: nu
 
 /**
 * @see \App\Http\Controllers\TAndDWorkController::show
-* @see app/Http/Controllers/TAndDWorkController.php:116
+* @see app/Http/Controllers/TAndDWorkController.php:121
 * @route '/mhp/sites/{site}/t-and-d-works/{t_and_d_work}'
 */
-export const show = (args: { site: string | number, t_and_d_work: string | number } | [site: string | number, t_and_d_work: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+export const show = (args: { site: string | number, t_and_d_work: number | { id: number } } | [site: string | number, t_and_d_work: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
@@ -219,10 +225,10 @@ show.definition = {
 
 /**
 * @see \App\Http\Controllers\TAndDWorkController::show
-* @see app/Http/Controllers/TAndDWorkController.php:116
+* @see app/Http/Controllers/TAndDWorkController.php:121
 * @route '/mhp/sites/{site}/t-and-d-works/{t_and_d_work}'
 */
-show.url = (args: { site: string | number, t_and_d_work: string | number } | [site: string | number, t_and_d_work: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+show.url = (args: { site: string | number, t_and_d_work: number | { id: number } } | [site: string | number, t_and_d_work: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (Array.isArray(args)) {
         args = {
             site: args[0],
@@ -232,7 +238,9 @@ show.url = (args: { site: string | number, t_and_d_work: string | number } | [si
 
     const parsedArgs = {
         site: args.site,
-        t_and_d_work: args.t_and_d_work,
+        t_and_d_work: typeof args.t_and_d_work === 'object'
+        ? args.t_and_d_work.id
+        : args.t_and_d_work,
     }
 
     return show.definition.url
@@ -243,10 +251,10 @@ show.url = (args: { site: string | number, t_and_d_work: string | number } | [si
 
 /**
 * @see \App\Http\Controllers\TAndDWorkController::show
-* @see app/Http/Controllers/TAndDWorkController.php:116
+* @see app/Http/Controllers/TAndDWorkController.php:121
 * @route '/mhp/sites/{site}/t-and-d-works/{t_and_d_work}'
 */
-show.get = (args: { site: string | number, t_and_d_work: string | number } | [site: string | number, t_and_d_work: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+show.get = (args: { site: string | number, t_and_d_work: number | { id: number } } | [site: string | number, t_and_d_work: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'get',
 } => ({
@@ -256,10 +264,10 @@ show.get = (args: { site: string | number, t_and_d_work: string | number } | [si
 
 /**
 * @see \App\Http\Controllers\TAndDWorkController::show
-* @see app/Http/Controllers/TAndDWorkController.php:116
+* @see app/Http/Controllers/TAndDWorkController.php:121
 * @route '/mhp/sites/{site}/t-and-d-works/{t_and_d_work}'
 */
-show.head = (args: { site: string | number, t_and_d_work: string | number } | [site: string | number, t_and_d_work: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+show.head = (args: { site: string | number, t_and_d_work: number | { id: number } } | [site: string | number, t_and_d_work: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'head',
 } => ({
@@ -269,7 +277,7 @@ show.head = (args: { site: string | number, t_and_d_work: string | number } | [s
 
 /**
 * @see \App\Http\Controllers\TAndDWorkController::edit
-* @see app/Http/Controllers/TAndDWorkController.php:126
+* @see app/Http/Controllers/TAndDWorkController.php:0
 * @route '/mhp/sites/{site}/t-and-d-works/{t_and_d_work}/edit'
 */
 export const edit = (args: { site: string | number, t_and_d_work: string | number } | [site: string | number, t_and_d_work: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -287,7 +295,7 @@ edit.definition = {
 
 /**
 * @see \App\Http\Controllers\TAndDWorkController::edit
-* @see app/Http/Controllers/TAndDWorkController.php:126
+* @see app/Http/Controllers/TAndDWorkController.php:0
 * @route '/mhp/sites/{site}/t-and-d-works/{t_and_d_work}/edit'
 */
 edit.url = (args: { site: string | number, t_and_d_work: string | number } | [site: string | number, t_and_d_work: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -311,7 +319,7 @@ edit.url = (args: { site: string | number, t_and_d_work: string | number } | [si
 
 /**
 * @see \App\Http\Controllers\TAndDWorkController::edit
-* @see app/Http/Controllers/TAndDWorkController.php:126
+* @see app/Http/Controllers/TAndDWorkController.php:0
 * @route '/mhp/sites/{site}/t-and-d-works/{t_and_d_work}/edit'
 */
 edit.get = (args: { site: string | number, t_and_d_work: string | number } | [site: string | number, t_and_d_work: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -324,7 +332,7 @@ edit.get = (args: { site: string | number, t_and_d_work: string | number } | [si
 
 /**
 * @see \App\Http\Controllers\TAndDWorkController::edit
-* @see app/Http/Controllers/TAndDWorkController.php:126
+* @see app/Http/Controllers/TAndDWorkController.php:0
 * @route '/mhp/sites/{site}/t-and-d-works/{t_and_d_work}/edit'
 */
 edit.head = (args: { site: string | number, t_and_d_work: string | number } | [site: string | number, t_and_d_work: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -337,10 +345,10 @@ edit.head = (args: { site: string | number, t_and_d_work: string | number } | [s
 
 /**
 * @see \App\Http\Controllers\TAndDWorkController::update
-* @see app/Http/Controllers/TAndDWorkController.php:135
+* @see app/Http/Controllers/TAndDWorkController.php:82
 * @route '/mhp/sites/{site}/t-and-d-works/{t_and_d_work}'
 */
-export const update = (args: { site: number | { id: number }, t_and_d_work: string | number } | [site: number | { id: number }, t_and_d_work: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+export const update = (args: { site: number | { id: number }, t_and_d_work: number | { id: number } } | [site: number | { id: number }, t_and_d_work: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'put',
 } => ({
@@ -355,10 +363,10 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\TAndDWorkController::update
-* @see app/Http/Controllers/TAndDWorkController.php:135
+* @see app/Http/Controllers/TAndDWorkController.php:82
 * @route '/mhp/sites/{site}/t-and-d-works/{t_and_d_work}'
 */
-update.url = (args: { site: number | { id: number }, t_and_d_work: string | number } | [site: number | { id: number }, t_and_d_work: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+update.url = (args: { site: number | { id: number }, t_and_d_work: number | { id: number } } | [site: number | { id: number }, t_and_d_work: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (Array.isArray(args)) {
         args = {
             site: args[0],
@@ -370,7 +378,9 @@ update.url = (args: { site: number | { id: number }, t_and_d_work: string | numb
         site: typeof args.site === 'object'
         ? args.site.id
         : args.site,
-        t_and_d_work: args.t_and_d_work,
+        t_and_d_work: typeof args.t_and_d_work === 'object'
+        ? args.t_and_d_work.id
+        : args.t_and_d_work,
     }
 
     return update.definition.url
@@ -381,10 +391,10 @@ update.url = (args: { site: number | { id: number }, t_and_d_work: string | numb
 
 /**
 * @see \App\Http\Controllers\TAndDWorkController::update
-* @see app/Http/Controllers/TAndDWorkController.php:135
+* @see app/Http/Controllers/TAndDWorkController.php:82
 * @route '/mhp/sites/{site}/t-and-d-works/{t_and_d_work}'
 */
-update.put = (args: { site: number | { id: number }, t_and_d_work: string | number } | [site: number | { id: number }, t_and_d_work: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+update.put = (args: { site: number | { id: number }, t_and_d_work: number | { id: number } } | [site: number | { id: number }, t_and_d_work: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'put',
 } => ({
@@ -394,10 +404,10 @@ update.put = (args: { site: number | { id: number }, t_and_d_work: string | numb
 
 /**
 * @see \App\Http\Controllers\TAndDWorkController::update
-* @see app/Http/Controllers/TAndDWorkController.php:135
+* @see app/Http/Controllers/TAndDWorkController.php:82
 * @route '/mhp/sites/{site}/t-and-d-works/{t_and_d_work}'
 */
-update.patch = (args: { site: number | { id: number }, t_and_d_work: string | number } | [site: number | { id: number }, t_and_d_work: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+update.patch = (args: { site: number | { id: number }, t_and_d_work: number | { id: number } } | [site: number | { id: number }, t_and_d_work: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'patch',
 } => ({
@@ -407,10 +417,10 @@ update.patch = (args: { site: number | { id: number }, t_and_d_work: string | nu
 
 /**
 * @see \App\Http\Controllers\TAndDWorkController::destroy
-* @see app/Http/Controllers/TAndDWorkController.php:149
+* @see app/Http/Controllers/TAndDWorkController.php:104
 * @route '/mhp/sites/{site}/t-and-d-works/{t_and_d_work}'
 */
-export const destroy = (args: { site: string | number, t_and_d_work: string | number } | [site: string | number, t_and_d_work: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+export const destroy = (args: { site: number | { id: number }, t_and_d_work: number | { id: number } } | [site: number | { id: number }, t_and_d_work: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'delete',
 } => ({
@@ -425,10 +435,10 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\TAndDWorkController::destroy
-* @see app/Http/Controllers/TAndDWorkController.php:149
+* @see app/Http/Controllers/TAndDWorkController.php:104
 * @route '/mhp/sites/{site}/t-and-d-works/{t_and_d_work}'
 */
-destroy.url = (args: { site: string | number, t_and_d_work: string | number } | [site: string | number, t_and_d_work: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+destroy.url = (args: { site: number | { id: number }, t_and_d_work: number | { id: number } } | [site: number | { id: number }, t_and_d_work: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (Array.isArray(args)) {
         args = {
             site: args[0],
@@ -437,8 +447,12 @@ destroy.url = (args: { site: string | number, t_and_d_work: string | number } | 
     }
 
     const parsedArgs = {
-        site: args.site,
-        t_and_d_work: args.t_and_d_work,
+        site: typeof args.site === 'object'
+        ? args.site.id
+        : args.site,
+        t_and_d_work: typeof args.t_and_d_work === 'object'
+        ? args.t_and_d_work.id
+        : args.t_and_d_work,
     }
 
     return destroy.definition.url
@@ -449,10 +463,10 @@ destroy.url = (args: { site: string | number, t_and_d_work: string | number } | 
 
 /**
 * @see \App\Http\Controllers\TAndDWorkController::destroy
-* @see app/Http/Controllers/TAndDWorkController.php:149
+* @see app/Http/Controllers/TAndDWorkController.php:104
 * @route '/mhp/sites/{site}/t-and-d-works/{t_and_d_work}'
 */
-destroy.delete = (args: { site: string | number, t_and_d_work: string | number } | [site: string | number, t_and_d_work: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+destroy.delete = (args: { site: number | { id: number }, t_and_d_work: number | { id: number } } | [site: number | { id: number }, t_and_d_work: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'delete',
 } => ({

@@ -13,147 +13,115 @@ use Illuminate\Support\Facades\Log;
 
 class TAndDWorkController extends Controller
 {
-    protected $mhpSiteService;
+    public function __construct(private MhpSiteService $mhpSiteService) {}
 
-    public function __construct(MhpSiteService $mhpSiteService)
+    // /mhp/sites/{site}/t-and-d-works
+    public function index(Request $request, MhpSite $site)
     {
-        $this->mhpSiteService = $mhpSiteService;
+        $query = $site->tAndDWorks()->with('media')
+            ->latest('date_of_initiation')
+            ->latest('id');
 
-
-    }
-
-    /**
-     * Display a listing of T&D works for a specific MHP Site.
-     * This typically would be called with a mhp_site_id in the route or request.
-     * E.g., /mhp/sites/{mhpSite}/t-and-d-works
-     */
-    // Inside TAndDWorkController.php
-    public function index(Request $request, MhpSite $mhpSite)
-    {
-        $query = $mhpSite->tAndDWorks()->with('media');
-
-        // Add this conditional return for API calls from frontend forms
-        if ($request->has('only-data')) {
-            $tAndDWorks = $query->get(); // Get all relevant T&D works, not paginated for a select list
-
-            // Apply accessor for frontend attachments
-            $tAndDWorks->transform(function ($work) {
-                $work->attachments = $work->attachments_frontend;
-                return $work;
-            });
+        // Return JSON for selects/modals
+        if ($request->wantsJson() || $request->boolean('only_data')) {
+            $works = $query->get();
 
             return response()->json([
-                'tAndDWorks' => $tAndDWorks->map(fn($work) => [ // Map to simplified structure for select options
-                    'id' => $work->id,
-                    'name' => $work->name,
-                    'label' => $work->name ?: "T&D Work #{$work->id}",
+                'tAndDWorks' => $works->map(fn($w) => [
+                    'id' => $w->id,
+                    'name' => $w->name,
+                    'label' => $w->name ?: "T&D Work #{$w->id}",
                 ]),
-                // You might also pass the original works array if needed elsewhere
-                'fullTAndDWorks' => $tAndDWorks,
+                'fullTAndDWorks' => $works->map(function ($w) {
+                    return array_merge($w->toArray(), [
+                        'attachments' => method_exists($w, 'attachments_frontend')
+                            ? $w->attachments_frontend
+                            : [],
+                    ]);
+                }),
             ]);
         }
 
-        // Original Inertia rendering for the T&D management page
+        // Inertia view
         $tAndDWorks = $query->paginate(10);
-        $tAndDWorks->getCollection()->transform(function ($work) {
-            $work->attachments = $work->attachments_frontend;
-            return $work;
+        $tAndDWorks->getCollection()->transform(function ($w) {
+            $w->attachments = $w->attachments_frontend ?? [];
+            return $w;
         });
 
         return Inertia::render('MHP/TAndD/Index', [
-            'mhpSite' => $mhpSite->only('id', 'project_id', 'name'),
+            'mhpSite' => $site->only('id','project_id','name'),
             'tAndDWorks' => $tAndDWorks,
         ]);
     }
 
-    /**
-     * Show the form for creating a new T&D Work (usually in a modal).
-     */
-    public function create()
+    // POST /mhp/sites/{site}/t-and-d-works
+    public function store(TAndDWorkRequest $request, MhpSite $site)
     {
-        // This method might not be directly used if modal handles creation.
-        // If dedicated page, return Inertia render.
-    }
+        try {
+            $data = $request->validated();
 
-    /**
-     * Store a newly created T&D Work in storage.
-     */
-    public function store(TAndDWorkRequest $request, MhpSite $site) // Laravel tries to bind $site here
-    {
-        Log::info('TAndDWorkController@store: Initial $site object from route binding:', ['id' => $site->id ?? 'null', 'exists' => $site->exists]);
+            // Attach via morphMany
+            $work = $site->tAndDWorks()->create($data);
 
-        // If route model binding failed, $site might be an empty instance.
-        // We need to ensure it's a valid, existing model before passing to service.
-        if (!$site->exists && $request->has('projectable_id')) {
-            $resolvedSite = MhpSite::find($request->input('projectable_id'));
-            if ($resolvedSite) {
-                $site = $resolvedSite; // Reassign $site to the found model
-                Log::info('TAndDWorkController@store: $site resolved from request data fallback.', ['id' => $site->id]);
-            } else {
-                Log::error('TAndDWorkController@store: Parent MHP Site not found from request data.', ['projectable_id' => $request->input('projectable_id')]);
-                return redirect()->back()->with('error', 'Parent MHP Site not found.');
+            // attachments (if using Spatie)
+            if ($request->hasFile('attachments')) {
+                foreach ($request->file('attachments') as $file) {
+                    $work->addMedia($file)->toMediaCollection('attachments');
+                }
             }
-        } elseif (!$site->exists) {
-            // This case means $site was not bound and projectable_id wasn't in request
-            Log::error('TAndDWorkController@store: Parent MHP Site could not be resolved by any means.', ['route_param_site_id' => $site->id ?? 'null', 'request_data' => $request->all()]);
-            return redirect()->back()->with('error', 'Parent MHP Site could not be resolved.');
+
+            return back()->with('success', 'T&D Work created successfully!');
+        } catch (\Throwable $e) {
+            Log::error('Error creating T&D Work: '.$e->getMessage(), ['exception' => $e]);
+            return back()->with('error', 'Failed to create T&D Work: '.$e->getMessage());
+        }
+    }
+
+    // PUT /mhp/sites/{site}/t-and-d-works/{t_and_d_work}
+    public function update(UpdateTAndDWorkRequest $request, MhpSite $site, TAndDWork $t_and_d_work)
+    {
+        // Optional ownership guard
+        if ($t_and_d_work->projectable_type !== 'mhp_site' || $t_and_d_work->projectable_id !== $site->id) {
+            abort(404);
         }
 
-        // At this point, $site is guaranteed to be a valid MhpSite instance.
         try {
-            $this->mhpSiteService->createTAndDWork($site, $request->validated());
-            return redirect()->back()->with('success', 'T&D Work created successfully!');
-        } catch (\Exception $e) {
-            Log::error('Error creating T&D Work: ' . $e->getMessage(), ['exception' => $e]);
-            return redirect()->back()->with('error', 'Failed to create T&D Work: ' . $e->getMessage());
+            $work = $this->mhpSiteService->updateTAndDWork($t_and_d_work, $request->validated());
+            if ($request->hasFile('attachments')) {
+                foreach ($request->file('attachments') as $file) {
+                    $work->addMedia($file)->toMediaCollection('attachments');
+                }
+            }
+            return back()->with('success', 'T&D Work updated successfully!');
+        } catch (\Throwable $e) {
+            Log::error('Error updating T&D Work: '.$e->getMessage(), ['exception' => $e]);
+            return back()->with('error', 'Failed to update T&D Work: '.$e->getMessage());
         }
     }
 
-
-    /**
-     * Display the specified T&D Work.
-     */
-    public function show(TAndDWork $tAndDWork)
+    // DELETE /mhp/sites/{site}/t-and-d-works/{t_and_d_work}
+    public function destroy(MhpSite $site, TAndDWork $t_and_d_work)
     {
-        $tAndDWork->load('media'); // Ensure media is loaded
-        $tAndDWork->attachments = $tAndDWork->attachments_frontend; // Apply accessor
-        return response()->json($tAndDWork); // Return as JSON for modal or API, or render Inertia
-    }
+        // Optional ownership guard
+        if ($t_and_d_work->projectable_type !== 'mhp_site' || $t_and_d_work->projectable_id !== $site->id) {
+            abort(404);
+        }
 
-    /**
-     * Show the form for editing the specified T&D Work.
-     */
-    public function edit(TAndDWork $tAndDWork)
-    {
-        // Not directly used if modal handles editing.
-    }
-
-    /**
-     * Update the specified T&D Work in storage.
-     */
-
-    public function update(UpdateTAndDWorkRequest $request, MhpSite $site, TAndDWork $tAndDWork)
-    {
         try {
-            $this->mhpSiteService->updateTAndDWork($tAndDWork, $request->validated());
-            return redirect()->back()->with('success', 'T&D Work updated successfully!');
-        } catch (\Exception $e) {
-            Log::error('Error updating T&D Work: ' . $e->getMessage(), ['exception' => $e]);
-            return redirect()->back()->with('error', 'Failed to update T&D Work: ' . $e->getMessage());
+            $this->mhpSiteService->deleteTAndDWork($t_and_d_work);
+            return back()->with('success', 'T&D Work deleted successfully!');
+        } catch (\Throwable $e) {
+            Log::error('Error deleting T&D Work: '.$e->getMessage(), ['exception' => $e]);
+            return back()->with('error', 'Failed to delete T&D Work: '.$e->getMessage());
         }
     }
 
-    /**
-     * Remove the specified T&D Work from storage.
-     */
-    public function destroy(TAndDWork $tAndDWork)
+    // If you keep it
+    public function show(TAndDWork $t_and_d_work)
     {
-        try {
-            $this->mhpSiteService->deleteTAndDWork($tAndDWork); // Use service delete method
-            return redirect()->back()->with('success', 'T&D Work deleted successfully!');
-        } catch (\Exception $e) {
-            Log::error('Error deleting T&D Work: ' . $e->getMessage(), ['exception' => $e]);
-            return redirect()->back()->with('error', 'Failed to delete T&D Work: ' . $e->getMessage());
-        }
+        $t_and_d_work->load('media');
+        $t_and_d_work->attachments = $t_and_d_work->attachments_frontend ?? [];
+        return response()->json($t_and_d_work);
     }
 }

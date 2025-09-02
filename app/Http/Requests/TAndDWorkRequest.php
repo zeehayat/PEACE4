@@ -14,12 +14,12 @@ class TAndDWorkRequest extends FormRequest
     {
         // Get valid morph aliases for projectable types
         // This will give ['mhp_site', 'irrigation_scheme'] (if irrigation exists)
-        $validProjectableTypes = array_keys(Relation::getMorphMap());
+        //$validProjectableTypes = array_keys(Relation::getMorphMap());
 
         return [
-            'projectable_id' => ['nullable', 'integer'],
+            //'projectable_id' => ['nullable', 'integer'],
             // FIX: Use the keys (aliases) from the morph map for Rule::in
-            'projectable_type' => ['nullable', 'string', Rule::in($validProjectableTypes)],
+            //'projectable_type' => ['nullable', 'string', Rule::in($validProjectableTypes)],
             'name' => ['nullable', 'string', 'max:255'],
             'date_of_initiation' => ['nullable', 'date'],
             'step_up_transformers' => ['nullable', 'array'],

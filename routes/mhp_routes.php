@@ -40,7 +40,7 @@ Route::middleware(['web', 'auth'])->group(function () {
 
     // T&D Works
     // FIX: Removed the redundant 'mhp.' prefix from the names() method.
-    Route::resource('sites.t-and-d-works', TAndDWorkController::class)->names('t-and-d-works')->parameters([
+    Route::resource('sites.t-and-d-works', TAndDWorkController::class)->names('sites.t-and-d-works')->parameters([
         't-and-d-works' => 't_and_d_work',
         'sites' => 'site',
     ]);

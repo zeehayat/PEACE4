@@ -1,4 +1,5 @@
 import { queryParams, type QueryParams } from './../../../wayfinder'
+import tAndDWorks from './t-and-d-works'
 import physicalProgresses from './physical-progresses'
 import emeInfo from './eme-info'
 /**
@@ -544,6 +545,7 @@ const sites = {
     update,
     destroy,
     autoSearch,
+    tAndDWorks,
     physicalProgresses,
     emeInfo,
 }

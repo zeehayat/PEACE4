@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, watch, ref, onMounted } from 'vue';
+import { watch, ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 
 import InputError from '@/Components/InputError.vue';
@@ -12,18 +12,9 @@ import AttachmentUploader from '@/Components/AttachmentComponent/AttachmentUploa
 import DangerButton from '@/Components/DangerButton.vue';
 
 const props = defineProps({
-    mhpSiteId: {
-        type: Number,
-        required: true, // The MHP Site this T&D work belongs to
-    },
-    tAndDWork: {
-        type: Object,
-        default: null, // Null for create mode, object for edit mode
-    },
-    action: {
-        type: String,
-        default: 'create', // 'create' or 'update'
-    },
+    mhpSiteId: { type: Number, required: true },
+    tAndDWork: { type: Object, default: null },
+    action: { type: String, default: 'create' }, // 'create' | 'update'
 });
 
 const emit = defineEmits(['success', 'cancel']);
@@ -31,77 +22,77 @@ const emit = defineEmits(['success', 'cancel']);
 const isEditMode = ref(props.action === 'update');
 const existingAttachments = ref(props.tAndDWork ? props.tAndDWork.attachments_frontend : []);
 
-// Initialize form with default values or existing data for edit mode
+// 🚫 Do NOT include projectable_* fields; controller sets them via relation
 const form = useForm({
-    projectable_id: props.mhpSiteId,
-    projectable_type: 'App\\Models\\MhpSite', // Hardcode for MHP for now
-    name: props.tAndDWork ? props.tAndDWork.name : '',
-    date_of_initiation: props.tAndDWork ? props.tAndDWork.date_of_initiation : null,
-    step_up_transformers: props.tAndDWork && props.tAndDWork.step_up_transformers ? props.tAndDWork.step_up_transformers : [{ kva: null, qty: null }],
-    step_down_transformers: props.tAndDWork && props.tAndDWork.step_down_transformers ? props.tAndDWork.step_down_transformers : [{ kva: null, qty: null }],
-    ht_poles_quantity: props.tAndDWork ? props.tAndDWork.ht_poles_quantity : '',
-    lt_poles_quantity: props.tAndDWork ? props.tAndDWork.lt_poles_quantity : '',
-    ht_conductor_length_km: props.tAndDWork ? props.tAndDWork.ht_conductor_length_km : '',
-    ht_conductor_type: props.tAndDWork ? props.tAndDWork.ht_conductor_type : '',
-    lt_conductor_length_km: props.tAndDWork ? props.tAndDWork.lt_conductor_length_km : '',
-    lt_conductor_type: props.tAndDWork ? props.tAndDWork.lt_conductor_type : '',
-    scope_of_work: props.tAndDWork ? props.tAndDWork.scope_of_work : '',
-    remarks: props.tAndDWork ? props.tAndDWork.remarks : '',
+    name: props.tAndDWork?.name ?? '',
+    date_of_initiation: props.tAndDWork?.date_of_initiation ?? null,
+    step_up_transformers:
+        props.tAndDWork?.step_up_transformers?.length
+            ? props.tAndDWork.step_up_transformers
+            : [{ kva: null, qty: null }],
+    step_down_transformers:
+        props.tAndDWork?.step_down_transformers?.length
+            ? props.tAndDWork.step_down_transformers
+            : [{ kva: null, qty: null }],
+    ht_poles_quantity: props.tAndDWork?.ht_poles_quantity ?? '',
+    lt_poles_quantity: props.tAndDWork?.lt_poles_quantity ?? '',
+    ht_conductor_length_km: props.tAndDWork?.ht_conductor_length_km ?? '',
+    ht_conductor_type: props.tAndDWork?.ht_conductor_type ?? '',
+    lt_conductor_length_km: props.tAndDWork?.lt_conductor_length_km ?? '',
+    lt_conductor_type: props.tAndDWork?.lt_conductor_type ?? '',
+    scope_of_work: props.tAndDWork?.scope_of_work ?? '',
+    remarks: props.tAndDWork?.remarks ?? '',
     attachments: [],
     attachments_to_delete: [],
 });
 
-// Methods for managing dynamic transformer fields
 const addTransformer = (type) => {
-    if (type === 'step_up') {
-        form.step_up_transformers.push({ kva: null, qty: null });
-    } else {
-        form.step_down_transformers.push({ kva: null, qty: null });
-    }
+    if (type === 'step_up') form.step_up_transformers.push({ kva: null, qty: null });
+    else form.step_down_transformers.push({ kva: null, qty: null });
 };
 
 const removeTransformer = (type, index) => {
     if (type === 'step_up') {
         form.step_up_transformers.splice(index, 1);
-        if (form.step_up_transformers.length === 0) form.step_up_transformers.push({ kva: null, qty: null });
+        if (!form.step_up_transformers.length) form.step_up_transformers.push({ kva: null, qty: null });
     } else {
         form.step_down_transformers.splice(index, 1);
-        if (form.step_down_transformers.length === 0) form.step_down_transformers.push({ kva: null, qty: null });
+        if (!form.step_down_transformers.length) form.step_down_transformers.push({ kva: null, qty: null });
     }
 };
 
-
-// Handle attachment changes from AttachmentUploader
 const handleFilePondUpdate = (files) => {
-    form.attachments = files.map(fileItem => fileItem.file);
+    form.attachments = files.map(f => f.file);
 };
-
 const handleAttachmentsToDelete = (ids) => {
     form.attachments_to_delete = ids;
 };
 
 const handleSubmit = () => {
     const url = isEditMode.value
-        ? route('mhp.t-and-d-works.update', { site: props.mhpSiteId, 't_and_d_work': props.tAndDWork.id })
-        : route('mhp.t-and-d-works.store', { site: props.mhpSiteId }); // Pass mhpSiteId for store route
-
-    const method = isEditMode.value ? 'post' : 'post'; // Laravel PUT/PATCH via POST with _method spoofing
+        // ✅ correct Ziggy name + params
+        ? route('mhp.sites.t-and-d-works.update', { site: props.mhpSiteId, t_and_d_work: props.tAndDWork.id })
+        : route('mhp.sites.t-and-d-works.store', { site: props.mhpSiteId });
 
     form.transform((data) => {
-        if (isEditMode.value) {
-            data._method = 'put'; // or 'patch'
+        if (isEditMode.value) data._method = 'put'; // method spoofing
+
+        // If DatePicker returns an object, normalize to 'YYYY-MM-DD'
+        if (data.date_of_initiation && typeof data.date_of_initiation === 'object' && data.date_of_initiation.toISOString) {
+            data.date_of_initiation = data.date_of_initiation.toISOString().slice(0, 10);
         }
-        // Filter out empty kva/qty entries if not strictly required
-        data.step_up_transformers = data.step_up_transformers.filter(t => t.kva !== null && t.qty !== null);
-        data.step_down_transformers = data.step_down_transformers.filter(t => t.kva !== null && t.qty !== null);
+
+        // Filter empty transformer rows
+        data.step_up_transformers = (data.step_up_transformers || []).filter(t => t.kva != null && t.qty != null);
+        data.step_down_transformers = (data.step_down_transformers || []).filter(t => t.kva != null && t.qty != null);
 
         return data;
     }).post(url, {
         onSuccess: () => {
             form.reset();
-            emit('success', isEditMode.value ? 'T&D Work updated successfully!' : 'T&D Work created successfully!');
             form.attachments = [];
             form.attachments_to_delete = [];
+            emit('success', isEditMode.value ? 'T&D Work updated successfully!' : 'T&D Work created successfully!');
         },
         onError: (errors) => {
             console.error('Form errors:', errors);
@@ -116,48 +107,37 @@ const handleCancel = () => {
     emit('cancel');
 };
 
-// Watch for prop changes to re-initialize form when modal re-opens for a different item
-watch(() => props.tAndDWork, (newVal) => {
-    if (newVal) {
-        isEditMode.value = true;
-        form.reset(); // Reset to clear old state and errors
+// Re-init when editing a different item or when action changes
+watch([() => props.tAndDWork, () => props.action], ([work, action]) => {
+    isEditMode.value = action === 'update';
+    if (work) {
+        form.reset();
         form.fill({
-            projectable_id: props.mhpSiteId,
-            projectable_type: 'App\\Models\\MhpSite',
-            name: newVal.name,
-            date_of_initiation: newVal.date_of_initiation,
-            step_up_transformers: newVal.step_up_transformers && newVal.step_up_transformers.length > 0 ? newVal.step_up_transformers : [{ kva: null, qty: null }],
-            step_down_transformers: newVal.step_down_transformers && newVal.step_down_transformers.length > 0 ? newVal.step_down_transformers : [{ kva: null, qty: null }],
-            ht_poles_quantity: newVal.ht_poles_quantity,
-            lt_poles_quantity: newVal.lt_poles_quantity,
-            ht_conductor_length_km: newVal.ht_conductor_length_km,
-            ht_conductor_type: newVal.ht_conductor_type,
-            lt_conductor_length_km: newVal.lt_conductor_length_km,
-            lt_conductor_type: newVal.lt_conductor_type,
-            scope_of_work: newVal.scope_of_work,
-            remarks: newVal.remarks,
+            name: work.name ?? '',
+            date_of_initiation: work.date_of_initiation ?? null,
+            step_up_transformers: work.step_up_transformers?.length ? work.step_up_transformers : [{ kva: null, qty: null }],
+            step_down_transformers: work.step_down_transformers?.length ? work.step_down_transformers : [{ kva: null, qty: null }],
+            ht_poles_quantity: work.ht_poles_quantity ?? '',
+            lt_poles_quantity: work.lt_poles_quantity ?? '',
+            ht_conductor_length_km: work.ht_conductor_length_km ?? '',
+            ht_conductor_type: work.ht_conductor_type ?? '',
+            lt_conductor_length_km: work.lt_conductor_length_km ?? '',
+            lt_conductor_type: work.lt_conductor_type ?? '',
+            scope_of_work: work.scope_of_work ?? '',
+            remarks: work.remarks ?? '',
             attachments: [],
             attachments_to_delete: [],
         });
-        existingAttachments.value = newVal.attachments_frontend;
+        existingAttachments.value = work.attachments_frontend ?? [];
     } else {
-        isEditMode.value = false;
         form.reset();
-        form.projectable_id = props.mhpSiteId;
-        form.projectable_type = 'App\\Models\\MhpSite';
-        form.step_up_transformers = [{ kva: null, qty: null }]; // Ensure at least one field for new
+        form.step_up_transformers = [{ kva: null, qty: null }];
         form.step_down_transformers = [{ kva: null, qty: null }];
         existingAttachments.value = [];
     }
 }, { immediate: true });
-
-onMounted(() => {
-    if (!isEditMode.value) {
-        form.projectable_id = props.mhpSiteId;
-        form.projectable_type = 'App\\Models\\MhpSite';
-    }
-});
 </script>
+
 
 <template>
     <form @submit.prevent="handleSubmit" class="p-6 space-y-6">
