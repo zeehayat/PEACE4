@@ -220,7 +220,34 @@ async function handleEditTAndDWork(site, tAndDWork) {
     openActionMenuId.value = null;
 }
 
-function handleViewTAndDWork(site, tAndDWork) { selectedSite.value = site; selectedTAndDWork.value = tAndDWork; showTAndDWorkViewModal.value = true; openActionMenuId.value = null; }
+function handleViewTAndDWork(site) {
+    selectedSite.value = site;
+
+    // fetch the works for this site and pick one (latest)
+    axios.get(route('mhp.sites.t-and-d-works.index', { site: site.id }), {
+        params: { only_data: true } // <- matches controller boolean('only_data')
+    })
+        .then(({ data }) => {
+            const works = data?.fullTAndDWorks || [];
+            if (!works.length) {
+                toastMessage.value = 'No T&D Work found for this site.';
+                toastType.value = 'error';
+                toastVisible.value = true;
+                setTimeout(() => (toastVisible.value = false), 2500);
+                return;
+            }
+            // pick the first (your controller orders latest first)
+            selectedTAndDWork.value = works[0];
+            showTAndDWorkViewModal.value = true;
+        })
+        .catch((e) => {
+            console.error('Failed to fetch T&D works:', e);
+            toastMessage.value = 'Failed to load T&D Work.';
+            toastType.value = 'error';
+            toastVisible.value = true;
+            setTimeout(() => (toastVisible.value = false), 2500);
+        });
+}
 
 function handleOpenEmeProgress(site) {
     selectedSite.value = site;
@@ -577,8 +604,9 @@ const handlePagination = (url) => {
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="M15 5l4 4"/></svg>
                             Edit T&D Work
                         </button>
-                        <button @click="handleViewTAndDWork(selectedSite, selectedTAndDWork)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                        <button @click="handleViewTAndDWork(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
+
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                             View T&D Work
                         </button>
                         <button @click="handleManagePhysicalProgress(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
