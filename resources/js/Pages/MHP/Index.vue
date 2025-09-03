@@ -184,7 +184,12 @@ function handleOpenRevisedCostModal(site) { handleAddEditApproval(site); openAct
 function handleViewReport(site) { selectedSite.value = site; showReportModal.value = true; openActionMenuId.value = null; }
 function handleAddEditViewCompletion(site) { selectedSite.value = site; completionAction.value = site.completion ? 'update' : 'create'; showMhpCompletionModal.value = true; openActionMenuId.value = null; }
 function handleViewCompletion(site) { selectedSite.value = site; showMhpCompletionModal.value = true; completionAction.value = 'view'; openActionMenuId.value = null; }
-
+function handleManageFinancialProgress(site, type) {
+    selectedSite.value = site;
+    progressType.value = type;
+    showProjectFinancialInstallmentModal.value = true;
+    openActionMenuId.value = null;
+}
 function handleAddTAndDWork(site) { selectedSite.value = site; selectedTAndDWork.value = null; tAndDWorkAction.value = 'create'; showTAndDWorkModal.value = true; openActionMenuId.value = null; }
 async function handleEditTAndDWork(site, tAndDWork) {
     selectedSite.value = site;
@@ -414,7 +419,7 @@ const handlePagination = (url) => {
                         @open-eme-progress="handleOpenEmeProgress"
                         @open-operational-cost="handleOpenOperationalCost"
                         @manage-physical-progress="handleManagePhysicalProgress"
-                        @manage-financial-installment="handleManageFinancialInstallment"
+                        @manage-financial-progress="handleManageFinancialProgress"
                         @delete-site="handleDeleteSite"
                     />
                 </div>
@@ -520,7 +525,14 @@ const handlePagination = (url) => {
             @saved="handleUpdated"
         />
 
-        <ProjectFinancialInstallmentModal v-if="selectedSite" :show="showProjectFinancialInstallmentModal" :site="selectedSite" @close="closeModal" @saved="handleUpdated" />
+        <ProjectFinancialInstallmentModal
+            v-if="selectedSite && showProjectFinancialInstallmentModal"
+            :show="showProjectFinancialInstallmentModal"
+            :site="selectedSite"
+            :progress-type="progressType"
+            @close="closeModal"
+            @saved="handleUpdated"
+        />
         <MhpCompletionModal v-if="selectedSite" :show="showMhpCompletionModal" :site="selectedSite" :completion="selectedSite.completion" :action="completionAction" @close="closeModal" @saved="handleUpdated" />
         <MhpSiteDetailsModal v-if="selectedSite" :show="showMhpSiteDetailsModal" :site="selectedSite" @close="closeModal" />
         <MhpReportModal v-if="selectedSite" :show="showReportModal" :site="selectedSite" @close="closeModal" />

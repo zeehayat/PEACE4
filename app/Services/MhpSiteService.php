@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\EmeInfo;
 use App\Models\MhpSite;
 use App\Models\MhpAdminApproval;
 use App\Models\TAndDWork;
@@ -178,7 +179,7 @@ class MhpSiteService
 
     // ... (similar checks for createPhysicalProgress and createFinancialInstallment) ...
     // For these, you explicitly set $data['projectable_id'] and $data['projectable_type']
-        //public function createPhysicalProgress
+    //public function createPhysicalProgress
 
     /**
      * Update an existing T&D Work record.
@@ -218,7 +219,9 @@ class MhpSiteService
      */
     public function createPhysicalProgress(MhpSite $site, array $data): ProjectPhysicalProgress
     {
-
+        Log::info('--- MhpSiteService: createPhysicalProgress triggered ---');
+        Log::info('Site ID for Physical Progress:', ['site_id' => $site->id]);
+        Log::info('Initial data for Physical Progress:', $data);
 
         return DB::transaction(function () use ($site, $data) {
             $attachments = $data['attachments'] ?? [];
@@ -235,7 +238,7 @@ class MhpSiteService
             $progress->progress_percentage = $data['progress_percentage'];
             $progress->progress_date = $data['progress_date'];
             $progress->remarks = $data['remarks'];
-           // $progress->payment_for = $data['payment_for'];
+            // $progress->payment_for = $data['payment_for'];
             $progress->activity_id = $data['activity_id'] ?? null;
             $progress->activity_type = $data['activity_type'] ?? null;
 
@@ -312,26 +315,44 @@ class MhpSiteService
      */
     public function createFinancialInstallment(MhpSite $site, array $data): ProjectFinancialInstallment
     {
+        dd(MhpSite::find($data['site_id']));
         Log::info('--- MhpSiteService: createFinancialInstallment triggered ---');
         Log::info('Site ID for Financial Installment:', ['site_id' => $site->id]);
-        Log::info('Initial data for Financial Installment:', $data); // Log data before modification
+        Log::info('Initial data for Financial Installment:', $data);
+
         return DB::transaction(function () use ($site, $data) {
-            // Set projectable for the installment record
-            $data['projectable_id'] = $site->id;
-            $data['projectable_type'] = MhpSite::class;
-            Log::info('Data for Financial Installment AFTER projectable assignment:', $data); // Log data after assignment
+            $attachments = $data['attachments'] ?? [];
+            unset($data['attachments']);
+
+            $installment = new ProjectFinancialInstallment();
+
+            // Manually assign the polymorphic keys
+            $installment->projectable_id = $site->id;
+
+            $installment->projectable_type = $site->getMorphClass();
+
+            // Assign other attributes from the validated data
+            $installment->installment_number = $data['installment_number'];
+            $installment->installment_date = $data['installment_date'];
+            $installment->installment_amount = $data['installment_amount'];
+            $installment->category = $data['category'] ?? null;
+            $installment->remarks = $data['remarks'] ?? null;
+            $installment->payment_for = $data['payment_for'];
 
             // Handle activity polymorphic relation based on payment_for
             if ($data['payment_for'] === 'T&D') {
-                if (!isset($data['activity_type']) || $data['activity_type'] !== TAndDWork::class) {
-                    $data['activity_type'] = TAndDWork::class;
-                }
-            } else {
-                $data['activity_id'] = null;
-                $data['activity_type'] = null;
+                $installment->activity_id = $data['activity_id'] ?? null;
+                $installment->activity_type = TAndDWork::class;
+            } else if($data['payment_for']==='EME'){
+                $installment->activity_id = $data['activity_id'] ?? null;
+                $installment->activity_type = EmeInfo::class;
+            }
+            else {
+                $installment->activity_id = $data['activity_id'] ?? null;
+                $installment->activity_type = MhpSite::class;
             }
 
-            $installment = ProjectFinancialInstallment::create($data);
+            $installment->save();
 
             Log::info('Financial Installment created. Inspecting saved model:', [
                 'id' => $installment->id,
@@ -340,10 +361,8 @@ class MhpSiteService
                 'installment_amount' => $installment->installment_amount,
             ]);
 
-            if (isset($data['attachments'])) {
-                foreach ($data['attachments'] as $attachment) {
-                    $installment->addMedia($attachment)->toMediaCollection('attachments');
-                }
+            if (!empty($attachments)) {
+                $this->handleAttachments($installment, $attachments);
             }
 
             return $installment;
@@ -370,9 +389,9 @@ class MhpSiteService
                 if (!isset($data['activity_type']) || $data['activity_type'] !== TAndDWork::class) {
                     $data['activity_type'] = TAndDWork::class;
                 }
-            } else {
-                $data['activity_id'] = null;
-                $data['activity_type'] = null;
+            } else if($data['payment_for'] === 'EME') {
+
+                $data['activity_type'] = EmeInfo::class;
             }
 
             $installment->update($data);
@@ -397,7 +416,7 @@ class MhpSiteService
      *
      * @param MhpSite $site The MhpSite instance to associate with.
      * @param array $data Data for MhpCompletion.
-     * @return
+     * @return MhpCompletion
      * @throws Throwable
      */
     public function storeOrUpdateMhpCompletion(MhpSite $site, array $data)

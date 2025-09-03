@@ -1,6 +1,7 @@
 import { queryParams, type QueryParams } from './../../../wayfinder'
 import tAndDWorks from './t-and-d-works'
 import physicalProgresses from './physical-progresses'
+import financialInstallments from './financial-installments'
 import completion from './completion'
 import emeInfo from './eme-info'
 /**
@@ -536,6 +537,81 @@ autoSearch.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }):
     method: 'head',
 })
 
+/**
+* @see \App\Http\Controllers\ProjectFinancialInstallmentController::financialProgress
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:126
+* @route '/mhp/sites/{site}/financial-progress'
+*/
+export const financialProgress = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: financialProgress.url(args, options),
+    method: 'get',
+})
+
+financialProgress.definition = {
+    methods: ['get','head'],
+    url: '/mhp/sites/{site}/financial-progress',
+}
+
+/**
+* @see \App\Http\Controllers\ProjectFinancialInstallmentController::financialProgress
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:126
+* @route '/mhp/sites/{site}/financial-progress'
+*/
+financialProgress.url = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { site: args }
+    }
+
+    if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+        args = { site: args.id }
+    }
+
+    if (Array.isArray(args)) {
+        args = {
+            site: args[0],
+        }
+    }
+
+    const parsedArgs = {
+        site: typeof args.site === 'object'
+        ? args.site.id
+        : args.site,
+    }
+
+    return financialProgress.definition.url
+            .replace('{site}', parsedArgs.site.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\ProjectFinancialInstallmentController::financialProgress
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:126
+* @route '/mhp/sites/{site}/financial-progress'
+*/
+financialProgress.get = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: financialProgress.url(args, options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\ProjectFinancialInstallmentController::financialProgress
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:126
+* @route '/mhp/sites/{site}/financial-progress'
+*/
+financialProgress.head = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: financialProgress.url(args, options),
+    method: 'head',
+})
+
 const sites = {
     getCbos,
     index,
@@ -548,6 +624,8 @@ const sites = {
     autoSearch,
     tAndDWorks,
     physicalProgresses,
+    financialInstallments,
+    financialProgress,
     completion,
     emeInfo,
 }

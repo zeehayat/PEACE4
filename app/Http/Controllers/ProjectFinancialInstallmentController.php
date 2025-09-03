@@ -119,4 +119,34 @@ class ProjectFinancialInstallmentController extends Controller
             return redirect()->back()->with('error', 'Failed to delete Financial Installment: ' . $e->getMessage());
         }
     }
+
+/* Get financial progress for a specific component (e.g., Civil, EME, T&D).
+* This is intended for async calls from the frontend.
+*/
+    public function getFinancialProgress(Request $request, MhpSite $site)
+    {
+        $paymentFor = $request->string('payment_for')->value();
+
+        $query = $site->financialInstallments()
+            ->when($paymentFor, fn($q) => $q->where('payment_for', $paymentFor))
+            ->with(['media'])
+            ->orderByDesc('installment_date')
+            ->orderByDesc('id');
+
+        $installments = $query->get();
+
+        return response()->json([
+            'financialInstallments' => $installments->map(function ($installment) {
+                return [
+                    'id' => $installment->id,
+                    'installment_number' => $installment->installment_number,
+                    'installment_date' => optional($installment->installment_date)->toDateString(),
+                    'installment_amount' => (float) $installment->installment_amount,
+                    'payment_for' => $installment->payment_for,
+                    'remarks' => $installment->remarks,
+                    'attachments_frontend' => $installment->attachments_frontend,
+                ];
+            }),
+        ]);
+    }
 }

@@ -896,6 +896,81 @@ export const destroy = {
     '/mhp/sites/{site}/financial-installments/{financial_installment}': destroyd20e48c044f75a94f8b889ebee9e4342,
 }
 
-const ProjectFinancialInstallmentController = { index, create, store, show, edit, update, destroy }
+/**
+* @see \App\Http\Controllers\ProjectFinancialInstallmentController::getFinancialProgress
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:126
+* @route '/mhp/sites/{site}/financial-progress'
+*/
+export const getFinancialProgress = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: getFinancialProgress.url(args, options),
+    method: 'get',
+})
+
+getFinancialProgress.definition = {
+    methods: ['get','head'],
+    url: '/mhp/sites/{site}/financial-progress',
+}
+
+/**
+* @see \App\Http\Controllers\ProjectFinancialInstallmentController::getFinancialProgress
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:126
+* @route '/mhp/sites/{site}/financial-progress'
+*/
+getFinancialProgress.url = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { site: args }
+    }
+
+    if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+        args = { site: args.id }
+    }
+
+    if (Array.isArray(args)) {
+        args = {
+            site: args[0],
+        }
+    }
+
+    const parsedArgs = {
+        site: typeof args.site === 'object'
+        ? args.site.id
+        : args.site,
+    }
+
+    return getFinancialProgress.definition.url
+            .replace('{site}', parsedArgs.site.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\ProjectFinancialInstallmentController::getFinancialProgress
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:126
+* @route '/mhp/sites/{site}/financial-progress'
+*/
+getFinancialProgress.get = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: getFinancialProgress.url(args, options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\ProjectFinancialInstallmentController::getFinancialProgress
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:126
+* @route '/mhp/sites/{site}/financial-progress'
+*/
+getFinancialProgress.head = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: getFinancialProgress.url(args, options),
+    method: 'head',
+})
+
+const ProjectFinancialInstallmentController = { index, create, store, show, edit, update, destroy, getFinancialProgress }
 
 export default ProjectFinancialInstallmentController

@@ -56,11 +56,11 @@ Route::middleware(['web', 'auth'])->group(function () {
 
     // Project Financial Installments
     // FIX: Removed the redundant 'mhp.' prefix from the names() method.
-    Route::resource('sites.financial-installments', ProjectFinancialInstallmentController::class)->names('financial-installments')->parameters([
+    Route::resource('sites.financial-installments', ProjectFinancialInstallmentController::class)->names('sites.financial-installments')->parameters([
         'financial-installments' => 'financial_installment',
         'sites' => 'site',
     ]);
-
+    Route::get('sites/{site}/financial-progress', [ProjectFinancialInstallmentController::class, 'getFinancialProgress'])->name('sites.financial-progress');
     // MHP Completion
     // FIX: Removed the redundant 'mhp.' prefix from the names() method.
     Route::resource('sites.completion', MhpCompletionController::class)->names('sites.completion')->parameters([
