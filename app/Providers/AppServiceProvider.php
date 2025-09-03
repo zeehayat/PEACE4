@@ -14,6 +14,7 @@ use App\Models\IrrigationSchemeContract;
 use App\Models\IrrigationSchemeProfile;
 use App\Models\LrmCommittee;
 use App\Models\MhpAdminApproval;
+use App\Models\MhpCompletion;
 use App\Models\MhpSite;
 use App\Models\ProjectFinancialInstallment;
 use App\Models\ProjectPhysicalProgress;
@@ -69,6 +70,7 @@ class AppServiceProvider extends ServiceProvider
             'lrm_committee' => LrmCommittee::class,
             'user' => User::class,
             'irrigation_scheme_contract' => IrrigationSchemeContract::class,
+            'completion'=>MhpCompletion::class,
 
 
 

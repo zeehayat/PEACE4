@@ -218,9 +218,7 @@ class MhpSiteService
      */
     public function createPhysicalProgress(MhpSite $site, array $data): ProjectPhysicalProgress
     {
-        Log::info('--- MhpSiteService: createPhysicalProgress triggered ---');
-        Log::info('Site ID for Physical Progress:', ['site_id' => $site->id]);
-        Log::info('Initial data for Physical Progress:', $data);
+
 
         return DB::transaction(function () use ($site, $data) {
             $attachments = $data['attachments'] ?? [];
@@ -399,10 +397,10 @@ class MhpSiteService
      *
      * @param MhpSite $site The MhpSite instance to associate with.
      * @param array $data Data for MhpCompletion.
-     * @return MhpCompletion
+     * @return
      * @throws Throwable
      */
-    public function storeOrUpdateMhpCompletion(MhpSite $site, array $data): MhpCompletion
+    public function storeOrUpdateMhpCompletion(MhpSite $site, array $data)
     {
         return DB::transaction(function () use ($site, $data) {
             $completion = $site->completion()->updateOrCreate(

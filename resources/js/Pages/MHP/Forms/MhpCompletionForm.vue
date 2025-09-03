@@ -29,15 +29,20 @@ const emit = defineEmits(['success', 'cancel']);
 const isEditMode = ref(props.action === 'update');
 const existingAttachments = ref(props.completion ? props.completion.attachments_frontend : []);
 
-const form = useForm({
-    mhp_site_id: props.mhpSiteId,
-    scheme_inauguration_date: props.completion ? props.completion.scheme_inauguration_date : null,
-    testing_commissioning_date: props.completion ? props.completion.testing_commissioning_date : null,
-    handover_date: props.completion ? props.completion.handover_date : null,
-    remarks: props.completion ? props.completion.remarks : '',
-    attachments: [],
-    attachments_to_delete: [],
-});
+// Helper function to initialize form data
+function getInitialFormData(completionData) {
+    return {
+        mhp_site_id: props.mhpSiteId,
+        scheme_inauguration_date: completionData ? completionData.scheme_inauguration_date : null,
+        testing_commissioning_date: completionData ? completionData.testing_commissioning_date : null,
+        handover_date: completionData ? completionData.handover_date : null,
+        remarks: completionData ? completionData.remarks : '',
+        attachments: [],
+        attachments_to_delete: [],
+    };
+}
+
+const form = useForm(getInitialFormData(props.completion));
 
 // Handle attachment changes from AttachmentUploader
 const handleFilePondUpdate = (files) => {
@@ -64,9 +69,7 @@ const handleSubmit = () => {
         return data;
     }).post(url, {
         onSuccess: () => {
-            form.reset();
-            form.attachments = [];
-            form.attachments_to_delete = [];
+            form.reset(); // Resets to defaults, clearing the form
             emit('success', isEditMode.value
                 ? 'MHP Completion updated successfully!'
                 : 'MHP Completion created successfully!'
@@ -78,7 +81,6 @@ const handleSubmit = () => {
     });
 };
 
-
 const handleCancel = () => {
     form.reset();
     emit('cancel');
@@ -86,25 +88,15 @@ const handleCancel = () => {
 
 // Watch for prop changes to re-initialize form when modal re-opens for a different item
 watch(() => props.completion, (newVal) => {
-    if (newVal) {
-        isEditMode.value = true;
-        form.reset(); // Reset to clear old state and errors
-        form.fill({
-            mhp_site_id: props.mhpSiteId,
-            scheme_inauguration_date: newVal.scheme_inauguration_date,
-            testing_commissioning_date: newVal.testing_commissioning_date,
-            handover_date: newVal.handover_date,
-            remarks: newVal.remarks,
-            attachments: [],
-            attachments_to_delete: [],
-        });
-        existingAttachments.value = newVal.attachments_frontend;
-    } else {
-        isEditMode.value = false;
-        form.reset();
-        form.mhp_site_id = props.mhpSiteId; // Ensure site ID is set for new creation
-        existingAttachments.value = [];
-    }
+    isEditMode.value = !!newVal;
+
+    // Set new defaults and reset the form to apply them
+    form.defaults(getInitialFormData(newVal));
+    form.reset();
+
+    // Update existing attachments and clear errors
+    existingAttachments.value = newVal ? newVal.attachments_frontend : [];
+    form.clearErrors();
 }, { immediate: true });
 
 onMounted(() => {

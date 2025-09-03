@@ -1,6 +1,7 @@
 import { queryParams, type QueryParams } from './../../../wayfinder'
 import tAndDWorks from './t-and-d-works'
 import physicalProgresses from './physical-progresses'
+import completion from './completion'
 import emeInfo from './eme-info'
 /**
 * @see \App\Http\Controllers\MhpSiteController::getCbos
@@ -547,6 +548,7 @@ const sites = {
     autoSearch,
     tAndDWorks,
     physicalProgresses,
+    completion,
     emeInfo,
 }
 

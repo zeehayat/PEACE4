@@ -63,7 +63,7 @@ Route::middleware(['web', 'auth'])->group(function () {
 
     // MHP Completion
     // FIX: Removed the redundant 'mhp.' prefix from the names() method.
-    Route::resource('sites.completion', MhpCompletionController::class)->names('completion')->parameters([
+    Route::resource('sites.completion', MhpCompletionController::class)->names('sites.completion')->parameters([
         'completion' => 'completion',
         'sites' => 'site',
     ]);
