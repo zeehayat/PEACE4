@@ -298,7 +298,7 @@ store1aed2288615d1efbbb4b89735fbdc34b.post = (options?: { query?: QueryParams, m
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:61
 * @route '/mhp/sites/{site}/financial-installments'
 */
-const store6bba40a7c50536e3b59dcae230e3c8d8 = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+const store6bba40a7c50536e3b59dcae230e3c8d8 = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
 } => ({
@@ -316,9 +316,13 @@ store6bba40a7c50536e3b59dcae230e3c8d8.definition = {
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:61
 * @route '/mhp/sites/{site}/financial-installments'
 */
-store6bba40a7c50536e3b59dcae230e3c8d8.url = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+store6bba40a7c50536e3b59dcae230e3c8d8.url = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { site: args }
+    }
+
+    if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+        args = { site: args.id }
     }
 
     if (Array.isArray(args)) {
@@ -328,7 +332,9 @@ store6bba40a7c50536e3b59dcae230e3c8d8.url = (args: { site: string | number } | [
     }
 
     const parsedArgs = {
-        site: args.site,
+        site: typeof args.site === 'object'
+        ? args.site.id
+        : args.site,
     }
 
     return store6bba40a7c50536e3b59dcae230e3c8d8.definition.url
@@ -341,7 +347,7 @@ store6bba40a7c50536e3b59dcae230e3c8d8.url = (args: { site: string | number } | [
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:61
 * @route '/mhp/sites/{site}/financial-installments'
 */
-store6bba40a7c50536e3b59dcae230e3c8d8.post = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+store6bba40a7c50536e3b59dcae230e3c8d8.post = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
 } => ({

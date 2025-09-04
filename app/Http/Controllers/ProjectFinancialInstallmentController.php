@@ -58,10 +58,10 @@ class ProjectFinancialInstallmentController extends Controller
      * Store a newly created Project Financial Installment record in storage.
      * The `projectable_id` and `projectable_type` will be automatically set by the service.
      */
-    public function store(StoreProjectFinancialInstallmentRequest $request, MhpSite $mhpSite)
+    public function store(StoreProjectFinancialInstallmentRequest $request, MhpSite $site)
     {
         try {
-            $this->mhpSiteService->createFinancialInstallment($mhpSite, $request->validated());
+            $this->mhpSiteService->createFinancialInstallment($site, $request->validated());
             return redirect()->back()->with('success', 'Financial Installment recorded successfully!');
         } catch (\Exception $e) {
             Log::error('Error creating Financial Installment: ' . $e->getMessage(), ['exception' => $e]);

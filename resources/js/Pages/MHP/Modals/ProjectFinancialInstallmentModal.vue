@@ -35,7 +35,7 @@ const fetchFinancialInstallments = async () => {
     isLoadingInstallments.value = true;
     try {
         const response = await axios.get(
-            route('sites.financial-progress', { site: props.site.id }),
+            route('mhp.sites.financial-progress', { site: props.site.id }),
             { params: { payment_for: props.progressType } }
         );
         financialInstallments.value = response.data.financialInstallments;
@@ -84,7 +84,7 @@ const handleFormCancel = () => {
 
 const handleDeleteInstallment = (installmentId) => {
     if (confirm(`Are you sure you want to delete this ${props.progressType} financial installment?`)) {
-        router.delete(route('financial-installments.destroy', { site: props.site.id, financial_installment: installmentId }), {
+        router.delete(route('mhp.sites.financial-installments.destroy', { site: props.site.id, financial_installment: installmentId }), {
             onSuccess: () => {
                 emit('saved', 'Financial Installment deleted successfully!');
                 fetchFinancialInstallments();

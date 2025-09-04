@@ -315,7 +315,7 @@ class MhpSiteService
      */
     public function createFinancialInstallment(MhpSite $site, array $data): ProjectFinancialInstallment
     {
-        dd(MhpSite::find($data['site_id']));
+        Log::info('Inside transaction. Site ID is: ' . $site->id); // <-- Add th
         Log::info('--- MhpSiteService: createFinancialInstallment triggered ---');
         Log::info('Site ID for Financial Installment:', ['site_id' => $site->id]);
         Log::info('Initial data for Financial Installment:', $data);

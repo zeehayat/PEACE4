@@ -88,7 +88,7 @@ const handleAttachmentsToDelete = (ids) => {
 
 const handleSubmit = () => {
     const url = isEditMode.value
-        ? route('mhp.sites.financial-installments.update', props.installment.id)
+        ? route('mhp.sites.financial-installments.update', { site: props.mhpSiteId, financial_installment: props.installment.id })
         : route('mhp.sites.financial-installments.store', { site: props.mhpSiteId });
 
     form.transform((data) => {
