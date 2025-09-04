@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick } from 'vue';
-import { router, usePage } from '@inertiajs/vue3';
+import { router, Link, usePage } from '@inertiajs/vue3';
 
 import SideBar from "@/Components/SideBar.vue";
 import Toast from '@/Components/Toast.vue';
@@ -184,12 +184,7 @@ function handleOpenRevisedCostModal(site) { handleAddEditApproval(site); openAct
 function handleViewReport(site) { selectedSite.value = site; showReportModal.value = true; openActionMenuId.value = null; }
 function handleAddEditViewCompletion(site) { selectedSite.value = site; completionAction.value = site.completion ? 'update' : 'create'; showMhpCompletionModal.value = true; openActionMenuId.value = null; }
 function handleViewCompletion(site) { selectedSite.value = site; showMhpCompletionModal.value = true; completionAction.value = 'view'; openActionMenuId.value = null; }
-function handleManageFinancialProgress(site, type) {
-    selectedSite.value = site;
-    progressType.value = type;
-    showProjectFinancialInstallmentModal.value = true;
-    openActionMenuId.value = null;
-}
+
 function handleAddTAndDWork(site) { selectedSite.value = site; selectedTAndDWork.value = null; tAndDWorkAction.value = 'create'; showTAndDWorkModal.value = true; openActionMenuId.value = null; }
 async function handleEditTAndDWork(site, tAndDWork) {
     selectedSite.value = site;
@@ -288,7 +283,12 @@ const handleFormSuccess = () => {
 const handleFormCancel = () => {
     closeModal();
 };
-function handleManageFinancialInstallment(site) { selectedSite.value = site; showProjectFinancialInstallmentModal.value = true; openActionMenuId.value = null; }
+function handleManageFinancialProgress(site, type) {
+    selectedSite.value = site;
+    progressType.value = type;
+    showProjectFinancialInstallmentModal.value = true;
+    openActionMenuId.value = null;
+}
 
 function handleDeleteSite(siteId) {
     openActionMenuId.value = null;
@@ -618,16 +618,28 @@ const handlePagination = (url) => {
                         </button>
                         <button @click="handleViewTAndDWork(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
 
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                             View T&D Work
                         </button>
                         <button @click="handleManagePhysicalProgress(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bar-chart-2"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
-                            Manage Physical Progress
+                            Civil Physical Progress
                         </button>
-                        <button @click="handleManageFinancialInstallment(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
+                        <button @click="handleManageTAndDProgress(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bar-chart-2"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+                            T&D Physical Progress
+                        </button>
+                        <button @click="handleManageFinancialProgress(selectedSite, 'Civil')" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wallet"><path d="M21 12V7H5a2 2 0 0 0 0 4h16v-1a2 2 0 0 0-2-2H5a2 2 0 0 0 0 4h16v-1a2 2 0 0 0-2-2Z"/><path d="M10 12v.01"/></svg>
-                            Manage Financial Installment
+                            Civil Financial Progress
+                        </button>
+                        <button @click="handleManageFinancialProgress(selectedSite, 'EME')" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wallet"><path d="M21 12V7H5a2 2 0 0 0 0 4h16v-1a2 2 0 0 0-2-2H5a2 2 0 0 0 0 4h16v-1a2 2 0 0 0-2-2Z"/><path d="M10 12v.01"/></svg>
+                            EME Financial Progress
+                        </button>
+                        <button @click="handleManageFinancialProgress(selectedSite, 'T&D')" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wallet"><path d="M21 12V7H5a2 2 0 0 0 0 4h16v-1a2 2 0 0 0-2-2H5a2 2 0 0 0 0 4h16v-1a2 2 0 0 0-2-2Z"/><path d="M10 12v.01"/></svg>
+                            T&D Financial Progress
                         </button>
                     </div>
                     <div class="py-1 text-sm text-gray-700">
