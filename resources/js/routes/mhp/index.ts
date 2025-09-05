@@ -3,6 +3,7 @@ import vendors from './vendors'
 import sites from './sites'
 import adminApprovals from './admin-approvals'
 import physicalProgresses from './physical-progresses'
+import operationalCosts from './operational-costs'
 import media from './media'
 /**
 * @see \App\Http\Controllers\DashboardController::dashboard
@@ -63,6 +64,7 @@ const mhp = {
     sites,
     adminApprovals,
     physicalProgresses,
+    operationalCosts,
     media,
 }
 

@@ -5,12 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-// Removed Spatie\MediaLibrary traits/interfaces if they were there and not needed, based on your provided file.
-// If you want OperationalCost to have attachments, add HasMedia and InteractsWithMedia and their methods.
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media as SpatieMedia;
 
-class OperationalCost extends Model
+class OperationalCost extends Model implements HasMedia
 {
-    use HasFactory;
+    use HasFactory, InteractsWithMedia;
 
     public $table = 'operational_costs';
     protected $fillable = [
@@ -26,6 +27,8 @@ class OperationalCost extends Model
         'amount' => 'decimal:2',
     ];
 
+    protected $appends = ['attachments_frontend'];
+
 
     public function mhpSite(): BelongsTo
     {
@@ -35,5 +38,29 @@ class OperationalCost extends Model
     public function expenseType(): BelongsTo
     {
         return $this->belongsTo(ExpenseType::class);
+    }
+
+    /**
+     * Register the media collections for the model.
+     */
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('default');
+    }
+
+    public function getAttachmentsFrontendAttribute()
+    {
+        return $this->getMedia('default')->map(fn (SpatieMedia $media) => [
+            'id' => $media->id,
+            'name' => $media->name,
+            'file_name' => $media->file_name,
+            'url' => $media->getUrl(),
+            'size' => $media->size,
+            'mime_type' => $media->mime_type,
+        ])->toArray();
+    }
+    public function getMorphClass()
+    {
+        return 'operational_cost';
     }
 }

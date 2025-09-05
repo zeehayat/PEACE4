@@ -21,8 +21,12 @@ import MhpCompletionModal from '@/Pages/MHP/Modals/MhpCompletionModal.vue';
 import MhpSiteDetailsModal from '@/Pages/MHP/Modals/MhpSiteDetailsModal.vue';
 import MhpReportModal from '@/Pages/MHP/Modals/MhpReportModal.vue';
 import AppLayout from "@/Layouts/AppLayout.vue";
+import OperationalCostModal from '@/Pages/MHP/Modals/OperationalCostModal.vue';
+import OperationalCostShowModal from '@/Pages/MHP/Modals/OperationalCostShowModal.vue'; // <-- New import
 
 import EmeInfoModal from "@/Pages/MHP/Modals/EmeInfoModal.vue";
+
+import { getFileIcon } from '@/Utils/helpers';
 
 
 const props = defineProps({
@@ -69,6 +73,7 @@ const showMhpSiteDetailsModal = ref(false);
 const showReportModal = ref(false);
 const showEmeProgressModal = ref(false);
 const showOperationalCostModal = ref(false);
+const showOperationalCostShowModal = ref(false); // <-- New state variable
 const showEmeInfoModal =ref(false);
 
 const progressType = ref(null);
@@ -104,6 +109,7 @@ function closeModal() {
     showReportModal.value = false;
     showEmeProgressModal.value = false; // Close EME Progress modal
     showOperationalCostModal.value = false;
+    showOperationalCostShowModal.value = false; // <-- Reset new state variable
     showEmeInfoModal.value=false
 
     progressType.value = null;
@@ -241,7 +247,7 @@ function handleViewTAndDWork(site) {
             showTAndDWorkViewModal.value = true;
         })
         .catch((e) => {
-           // console.error('Failed to fetch T&D works:', e);
+            // console.error('Failed to fetch T&D works:', e);
             toastMessage.value = 'Failed to load T&D Work.';
             toastType.value = 'error';
             toastVisible.value = true;
@@ -257,7 +263,11 @@ function handleOpenEmeProgress(site) {
     openActionMenuId.value = null;
 }
 
-function handleOpenOperationalCost(site) { selectedSite.value = site; showOperationalCostModal.value = true; openActionMenuId.value = null; }
+function handleOpenOperationalCost(site) {
+    selectedSite.value = site;
+    showOperationalCostModal.value = true;
+    openActionMenuId.value = null;
+}
 
 function handleManagePhysicalProgress(site) {
     selectedSite.value = site;
@@ -342,15 +352,6 @@ function nextRevisedCostLabel(adminApproval) {
     if (nextField === 'revised_cost_2') return '+ Add Revised Cost 2';
     if (nextField === 'revised_cost_3') return '+ Add Revised Cost 3';
     return 'All Revised Costs Added';
-}
-
-function getFileIcon(file) {
-    const ext = file.file_name.split('.').pop().toLowerCase();
-    if (ext === 'pdf') return '📄';
-    if (['doc', 'docx'].includes(ext)) return '📝';
-    if (['xls', 'xlsx'].includes(ext)) return '📊';
-    if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext)) return '🖼️';
-    return '📁';
 }
 
 const handlePagination = (url) => {
@@ -543,6 +544,9 @@ const handlePagination = (url) => {
 
             @close="closeModal"
         />
+        <OperationalCostModal v-if="selectedSite" :show="showOperationalCostModal" :site="selectedSite" @close="closeModal" @saved="handleUpdated" />
+        <OperationalCostShowModal v-if="selectedSite" :show="showOperationalCostShowModal" :site="selectedSite" @close="closeModal" />
+
 
         <!-- The EME Progress button now correctly opens the physical progress modal -->
         <!-- The showEmeProgressModal is now redundant and can be removed, but we'll leave it for now -->

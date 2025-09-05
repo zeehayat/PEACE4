@@ -11,6 +11,7 @@ import MhpAdminApprovalController from './MhpAdminApprovalController'
 import TAndDWorkController from './TAndDWorkController'
 import ProjectPhysicalProgressController from './ProjectPhysicalProgressController'
 import MhpCompletionController from './MhpCompletionController'
+import OperationalCostController from './OperationalCostController'
 import EmeInfoController from './EmeInfoController'
 import IrrigationSchemeController from './IrrigationSchemeController'
 import IrrigationAdminApprovalController from './IrrigationAdminApprovalController'
@@ -40,6 +41,7 @@ const Controllers = {
     TAndDWorkController,
     ProjectPhysicalProgressController,
     MhpCompletionController,
+    OperationalCostController,
     EmeInfoController,
     IrrigationSchemeController,
     IrrigationAdminApprovalController,

@@ -71,6 +71,8 @@ class AppServiceProvider extends ServiceProvider
             'user' => User::class,
             'irrigation_scheme_contract' => IrrigationSchemeContract::class,
             'completion'=>MhpCompletion::class,
+            'operational_cost' => 'App\Models\OperationalCost',
+
 
 
 

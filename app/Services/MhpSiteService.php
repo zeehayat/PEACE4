@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\MhpSite;
 use App\Models\MhpAdminApproval;
+use App\Models\OperationalCost;
 use App\Models\TAndDWork;
 use App\Models\ProjectPhysicalProgress;
 use App\Models\ProjectFinancialInstallment;
@@ -470,4 +471,115 @@ class MhpSiteService
                 ->toMediaCollection('attachments');
         }
     }
+
+    /**
+     * Store a new operational cost and its attachments.
+     *
+     * @param array $data
+     * @return OperationalCost
+     * @throws Throwable
+     */
+    public function storeOperationalCost(array $data): OperationalCost
+    {
+        return DB::transaction(function () use ($data) {
+            $attachments = $data['attachments'] ?? [];
+            unset($data['attachments']);
+
+            $cost = OperationalCost::create($data);
+
+            if (!empty($attachments)) {
+                $this->handleAttachments($cost, $attachments);
+            }
+
+            return $cost;
+        });
+    }
+
+    /**
+     * Update an existing operational cost and handle attachments.
+     *
+     * @param OperationalCost $cost
+     * @param array $data
+     * @return OperationalCost
+     * @throws Throwable
+     */
+    public function editOperationalCost(OperationalCost $cost, array $data): OperationalCost
+    {
+        return DB::transaction(function () use ($cost, $data) {
+            $attachmentsToDelete = $data['attachments_to_delete'] ?? [];
+            $attachments = $data['attachments'] ?? [];
+
+            unset($data['attachments_to_delete']);
+            unset($data['attachments']);
+
+            $cost->update($data);
+
+            if (!empty($attachmentsToDelete)) {
+                foreach ($attachmentsToDelete as $mediaId) {
+                    $cost->deleteMedia($mediaId);
+                }
+            }
+            if (!empty($attachments)) {
+                $this->handleAttachments($cost, $attachments);
+            }
+
+            return $cost;
+        });
+    }
+
+    /**
+     * Delete an operational cost and its associated media.
+     *
+     * @param OperationalCost $cost
+     * @return bool
+     * @throws Throwable
+     */
+    public function deleteOperationalCost(OperationalCost $cost): bool
+    {
+        return DB::transaction(function () use ($cost) {
+            return $cost->delete();
+        });
+    }
+
+    /**
+     * Get a single operational cost with its relationships.
+     *
+     * @param int $id
+     * @return OperationalCost
+     */
+    public function getOperationalCost(int $id): OperationalCost
+    {
+        return OperationalCost::with(['media', 'expenseType'])->findOrFail($id);
+    }
+
+    /**
+     * Get all operational costs for a specific site.
+     *
+     * @param int $siteId
+     * @return \Illuminate\Support\Collection
+     */
+    public function getOperationalCostsForSite(int $siteId)
+    {
+        return OperationalCost::with(['media', 'expenseType'])
+            ->where('mhp_site_id', $siteId)
+            ->orderBy('cost_date')
+            ->get()
+            ->map(function ($cost) {
+                return [
+                    'id' => $cost->id,
+                    'cost_date' => $cost->cost_date,
+                    'amount' => $cost->amount,
+                    'remarks' => $cost->remarks,
+                    'expense_type_id' => $cost->expense_type_id,
+                    'expense_type_name' => optional($cost->expenseType)->name,
+                    'media' => $cost->getMedia()->map(fn ($m) => [
+                        'id' => $m->id,
+                        'name' => $m->file_name,
+                        'url' => $m->getFullUrl(),
+                    ])
+                ];
+            });
+    }
+
+
 }

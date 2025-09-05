@@ -8,42 +8,28 @@ use App\Models\ExpenseType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use App\Services\MhpSiteService;
+use Illuminate\Support\Facades\Log; // Don't forget to import Log
 
 class OperationalCostController extends Controller
 {
+    protected $mhpSiteService;
+
+    public function __construct(MhpSiteService $mhpSiteService)
+    {
+        $this->mhpSiteService = $mhpSiteService;
+    }
+
     public function index(Request $request)
     {
         if ($request->wantsJson() || $request->has('site_id')) {
-            // JSON for modal
             $siteId = $request->get('site_id');
-
-            $costs = OperationalCost::with(['media'])
-                ->where('mhp_site_id', $siteId)
-                ->with('expenseType')
-                ->orderBy('cost_date')
-                ->get()
-                ->map(function ($cost) {
-                    return [
-                        'id' => $cost->id,
-                        'cost_date' => $cost->cost_date,
-                        'amount' => $cost->amount,
-                        'remarks' => $cost->remarks,
-                        'expense_type_id' => $cost->expense_type_id,
-                        'expense_type_name' => optional($cost->expenseType)->name,
-                        'media' => $cost->getMedia()->map(fn ($m) => [
-                            'id' => $m->id,
-                            'name' => $m->file_name,
-                            'url' => $m->getFullUrl(),
-                        ])
-                    ];
-                });
-
+            $costs = $this->mhpSiteService->getOperationalCostsForSite($siteId);
             return response()->json($costs);
         }
 
-        // fallback: inertia page
         $items = OperationalCost::latest()->paginate(10);
-        return inertia('OperationalCosts/Index', compact('items'));
+        return inertia('MHP/Index', compact('items'));
     }
 
     public function expenseTypes()
@@ -59,19 +45,19 @@ class OperationalCostController extends Controller
             'expense_type_id' => 'required|exists:expense_types,id',
             'amount' => 'required|numeric',
             'remarks' => 'nullable|string',
+            'attachments' => 'nullable|array',
+            'attachments.*' => 'file|max:5000',
         ]);
 
-        DB::transaction(function () use ($request, $validated) {
-            $cost = OperationalCost::create($validated);
-
-            if ($request->hasFile('attachments')) {
-                foreach ($request->file('attachments') as $file) {
-                    $cost->addMedia($file)->toMediaCollection();
-                }
-            }
-        });
-
-        return response()->json(['success' => true]);
+        try {
+            $this->mhpSiteService->storeOperationalCost($validated);
+            // Return an Inertia redirect on success
+            return redirect()->back()->with('success', 'Operational cost recorded successfully!');
+        } catch (\Exception $e) {
+            Log::error('Error recording operational cost: ' . $e->getMessage(), ['exception' => $e]);
+            // Return an Inertia redirect with an error message
+            return redirect()->back()->with('error', 'Failed to record operational cost.');
+        }
     }
 
     public function update(Request $request, OperationalCost $operationalCost)
@@ -82,36 +68,41 @@ class OperationalCostController extends Controller
             'expense_type_id' => 'required|exists:expense_types,id',
             'amount' => 'required|numeric',
             'remarks' => 'nullable|string',
+            'attachments' => 'nullable|array',
+            'attachments.*' => 'file|max:5000',
+            'attachments_to_delete' => 'nullable|array',
+            'attachments_to_delete.*' => 'exists:media,id',
         ]);
 
-        DB::transaction(function () use ($request, $operationalCost, $validated) {
-            $operationalCost->update($validated);
-
-            if ($request->hasFile('attachments')) {
-                foreach ($request->file('attachments') as $file) {
-                    $operationalCost->addMedia($file)->toMediaCollection();
-                }
-            }
-        });
-
-        return response()->json(['success' => true]);
+        try {
+            $this->mhpSiteService->editOperationalCost($operationalCost, $validated);
+            return redirect()->back()->with('success', 'Operational cost updated successfully!');
+        } catch (\Exception $e) {
+            Log::error('Error updating operational cost: ' . $e->getMessage(), ['exception' => $e]);
+            return redirect()->back()->with('error', 'Failed to update operational cost.');
+        }
     }
 
     public function destroy(OperationalCost $operationalCost)
     {
-        $operationalCost->delete();
-        return response()->json(['success' => true]);
+        try {
+            $this->mhpSiteService->deleteOperationalCost($operationalCost);
+            return redirect()->back()->with('success', 'Operational cost deleted successfully!');
+        } catch (\Exception $e) {
+            Log::error('Error deleting operational cost: ' . $e->getMessage(), ['exception' => $e]);
+            return redirect()->back()->with('error', 'Failed to delete operational cost.');
+        }
     }
 
     public function show(int $id)
     {
-        $item = OperationalCost::with(['media', 'expenseType'])->findOrFail($id);
+        $item = $this->mhpSiteService->getOperationalCost($id);
         return inertia('OperationalCosts/Show', compact('item'));
     }
 
     public function deleteMedia(Media $media)
     {
         $media->delete();
-        return response()->json(['success' => true]);
+        return redirect()->back()->with('success', 'Attachment deleted successfully!');
     }
 }

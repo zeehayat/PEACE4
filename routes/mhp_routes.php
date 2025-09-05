@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\EmeInfoController;
 
+use App\Http\Controllers\OperationalCostController;
 use Illuminate\Support\Facades\Route;
 
 // Import all controllers for the MHP module
@@ -77,7 +78,15 @@ Route::middleware(['web', 'auth'])->group(function () {
     //     'contracts' => 'contract',
     //     'sites' => 'site',
     // ]);
+        // Operational Costs Routes
+    Route::get('operational-costs/expense-types', [OperationalCostController::class, 'expenseTypes'])
+        ->name('operational-costs.expense-types');
 
+// Resource routes for Operational Costs
+// This handles all other CRUD operations.
+    Route::resource('operational-costs', OperationalCostController::class)
+        ->names('operational-costs');
+    // End Operational Costs
     // General Media Deletion
     Route::delete('media/{media}', function (\Spatie\MediaLibrary\MediaCollections\Models\Media $media) {
         $media->delete();
