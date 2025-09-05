@@ -539,7 +539,7 @@ autoSearch.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }):
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::financialProgress
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:126
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:53
 * @route '/mhp/sites/{site}/financial-progress'
 */
 export const financialProgress = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -557,7 +557,7 @@ financialProgress.definition = {
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::financialProgress
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:126
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:53
 * @route '/mhp/sites/{site}/financial-progress'
 */
 financialProgress.url = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -588,7 +588,7 @@ financialProgress.url = (args: { site: number | { id: number } } | [site: number
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::financialProgress
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:126
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:53
 * @route '/mhp/sites/{site}/financial-progress'
 */
 financialProgress.get = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -601,7 +601,7 @@ financialProgress.get = (args: { site: number | { id: number } } | [site: number
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::financialProgress
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:126
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:53
 * @route '/mhp/sites/{site}/financial-progress'
 */
 financialProgress.head = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

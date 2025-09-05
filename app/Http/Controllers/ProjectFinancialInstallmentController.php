@@ -47,6 +47,37 @@ class ProjectFinancialInstallmentController extends Controller
     }
 
     /**
+     * Get financial progress for a specific component (e.g., Civil, EME, T&D).
+     * This is intended for async calls from the frontend.
+     */
+    public function getFinancialProgress(Request $request, MhpSite $site)
+    {
+        $paymentFor = $request->string('payment_for')->value();
+
+        $query = $site->financialInstallments()
+            ->when($paymentFor, fn($q) => $q->where('payment_for', $paymentFor))
+            ->with(['media'])
+            ->orderByDesc('installment_date')
+            ->orderByDesc('id');
+
+        $installments = $query->get();
+
+        return response()->json([
+            'financialInstallments' => $installments->map(function ($installment) {
+                return [
+                    'id' => $installment->id,
+                    'installment_number' => $installment->installment_number,
+                    'installment_date' => optional($installment->installment_date)->toDateString(),
+                    'installment_amount' => (float) $installment->installment_amount,
+                    'payment_for' => $installment->payment_for,
+                    'remarks' => $installment->remarks,
+                    'attachments_frontend' => $installment->attachments_frontend,
+                ];
+            }),
+        ]);
+    }
+
+    /**
      * Show the form for creating a new Financial Installment entry (usually in a modal).
      */
     public function create()
@@ -95,8 +126,9 @@ class ProjectFinancialInstallmentController extends Controller
     /**
      * Update the specified Project Financial Installment record in storage.
      */
-    public function update(UpdateProjectFinancialInstallmentRequest $request, ProjectFinancialInstallment $financialInstallment)
+    public function update(UpdateProjectFinancialInstallmentRequest $request, MhpSite $site, ProjectFinancialInstallment $financialInstallment)
     {
+        Log::info('Attempting to update financial installment.', ['site_id' => $site->id, 'financial_installment_id' => $financialInstallment->id]);
         try {
             $this->mhpSiteService->updateFinancialInstallment($financialInstallment, $request->validated());
             return redirect()->back()->with('success', 'Financial Installment updated successfully!');
@@ -118,35 +150,5 @@ class ProjectFinancialInstallmentController extends Controller
             Log::error('Error deleting Financial Installment: ' . $e->getMessage(), ['exception' => $e]);
             return redirect()->back()->with('error', 'Failed to delete Financial Installment: ' . $e->getMessage());
         }
-    }
-
-/* Get financial progress for a specific component (e.g., Civil, EME, T&D).
-* This is intended for async calls from the frontend.
-*/
-    public function getFinancialProgress(Request $request, MhpSite $site)
-    {
-        $paymentFor = $request->string('payment_for')->value();
-
-        $query = $site->financialInstallments()
-            ->when($paymentFor, fn($q) => $q->where('payment_for', $paymentFor))
-            ->with(['media'])
-            ->orderByDesc('installment_date')
-            ->orderByDesc('id');
-
-        $installments = $query->get();
-
-        return response()->json([
-            'financialInstallments' => $installments->map(function ($installment) {
-                return [
-                    'id' => $installment->id,
-                    'installment_number' => $installment->installment_number,
-                    'installment_date' => optional($installment->installment_date)->toDateString(),
-                    'installment_amount' => (float) $installment->installment_amount,
-                    'payment_for' => $installment->payment_for,
-                    'remarks' => $installment->remarks,
-                    'attachments_frontend' => $installment->attachments_frontend,
-                ];
-            }),
-        ]);
     }
 }

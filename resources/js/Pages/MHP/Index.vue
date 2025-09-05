@@ -130,7 +130,7 @@ async function toggleActionMenu(siteId, event) {
 
     const siteToOpen = props.mhpSites.data.find(s => s.id === siteId);
     if (!siteToOpen) {
-        console.error('MHP Site not found for action menu:', siteId);
+        //console.error('MHP Site not found for action menu:', siteId);
         return;
     }
     selectedSite.value = siteToOpen;
@@ -139,7 +139,7 @@ async function toggleActionMenu(siteId, event) {
 
     const button = event.currentTarget;
     if (!button) {
-        console.error('Event target (button) not found for menu toggle.');
+        //console.error('Event target (button) not found for menu toggle.');
         menuPosition.value = { top: 0, left: 0, width: 0, direction: 'down' };
         openActionMenuId.value = siteId;
         return;
@@ -241,7 +241,7 @@ function handleViewTAndDWork(site) {
             showTAndDWorkViewModal.value = true;
         })
         .catch((e) => {
-            console.error('Failed to fetch T&D works:', e);
+           // console.error('Failed to fetch T&D works:', e);
             toastMessage.value = 'Failed to load T&D Work.';
             toastType.value = 'error';
             toastVisible.value = true;

@@ -104,8 +104,7 @@ const form = useForm(getInitialFormData(props.site));
 
 // Watch for prop.site changes to update the form
 watch(() => props.site, (newSite) => {
-    console.log('--- MhpSiteForm: props.site watcher triggered ---');
-    console.log('New Site prop:', newSite);
+
 
     isEditMode.value = !!newSite;
 
@@ -115,12 +114,11 @@ watch(() => props.site, (newSite) => {
     existingAttachments.value = newSite ? newSite.attachments_frontend : [];
 
     form.clearErrors();
-    console.log('MhpSiteForm: Form and attachments initialized based on new prop.');
+
 }, { immediate: true });
 
 onMounted(() => {
-    console.log('--- MhpSiteForm: Mounted ---');
-    console.log('MhpSiteForm: Initial form.attachments on mount:', form.attachments);
+
 });
 
 const handleAttachmentsToDelete = (id) => {
@@ -131,9 +129,6 @@ const handleAttachmentsToDelete = (id) => {
 };
 
 const handleSubmit = () => {
-    console.log('--- MhpSiteForm: handleSubmit triggered ---');
-    console.log('Form data before POST:', form.data());
-    console.log('Attachments array before POST:', form.attachments);
 
     const url = isEditMode.value
         ? route('mhp.sites.update', props.site.id)

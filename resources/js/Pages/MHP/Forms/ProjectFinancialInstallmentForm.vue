@@ -64,7 +64,7 @@ const fetchTAndDWorks = async () => {
     }
     fetchingTAndDWorks.value = true;
     try {
-        const response = await axios.get(route('mhp.sites.t-and-d-works.index', { site: props.mhpSiteId, 'only-data': true }));
+        const response = await axios.get(route('sites.t-and-d-works.index', { site: props.mhpSiteId, 'only-data': true }));
         tAndDWorksOptions.value = response.data.fullTAndDWorks.map(work => ({
             value: work.id,
             label: work.name || `T&D Work #${work.id}`,

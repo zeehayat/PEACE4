@@ -156,7 +156,7 @@ const modalTitle = computed(() => {
             </div>
 
             <ProjectFinancialInstallmentForm
-                v-else
+                v-else-if="site"
                 :mhp-site-id="site.id"
                 :installment="selectedInstallment"
                 :mode="formMode"

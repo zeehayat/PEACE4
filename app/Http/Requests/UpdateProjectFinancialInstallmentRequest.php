@@ -12,10 +12,10 @@ class UpdateProjectFinancialInstallmentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        // Assuming route model binding: /mhp/project-financial-installments/{financial_installment}
-        $financialInstallment = $this->route('project_financial_installment');
-        // You might add a policy check here: $this->user()->can('update', $financialInstallment);
-        //return $this->user()->hasAnyRole(['mhp', 'mhp-irrigation', 'root', 'admin']);
+        // Authorization logic can be added here later. For now, just return true.
+        // For example:
+        // $financialInstallment = $this->route('financial_installment');
+        // return $this->user()->can('update', $financialInstallment);
         return true;
     }
 

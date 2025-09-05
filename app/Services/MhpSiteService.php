@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\EmeInfo;
 use App\Models\MhpSite;
 use App\Models\MhpAdminApproval;
 use App\Models\TAndDWork;
@@ -315,7 +314,6 @@ class MhpSiteService
      */
     public function createFinancialInstallment(MhpSite $site, array $data): ProjectFinancialInstallment
     {
-        Log::info('Inside transaction. Site ID is: ' . $site->id); // <-- Add th
         Log::info('--- MhpSiteService: createFinancialInstallment triggered ---');
         Log::info('Site ID for Financial Installment:', ['site_id' => $site->id]);
         Log::info('Initial data for Financial Installment:', $data);
@@ -328,7 +326,6 @@ class MhpSiteService
 
             // Manually assign the polymorphic keys
             $installment->projectable_id = $site->id;
-
             $installment->projectable_type = $site->getMorphClass();
 
             // Assign other attributes from the validated data
@@ -343,13 +340,9 @@ class MhpSiteService
             if ($data['payment_for'] === 'T&D') {
                 $installment->activity_id = $data['activity_id'] ?? null;
                 $installment->activity_type = TAndDWork::class;
-            } else if($data['payment_for']==='EME'){
-                $installment->activity_id = $data['activity_id'] ?? null;
-                $installment->activity_type = EmeInfo::class;
-            }
-            else {
-                $installment->activity_id = $data['activity_id'] ?? null;
-                $installment->activity_type = MhpSite::class;
+            } else {
+                $installment->activity_id = null;
+                $installment->activity_type = null;
             }
 
             $installment->save();
@@ -379,6 +372,8 @@ class MhpSiteService
      */
     public function updateFinancialInstallment(ProjectFinancialInstallment $installment, array $data): ProjectFinancialInstallment
     {
+        Log::info('MhpSiteService: updateFinancialInstallment triggered.', ['financial_installment_id' => $installment->id, 'exists' => $installment->exists]);
+
         return DB::transaction(function () use ($installment, $data) {
             // Ensure projectable is not changed
             unset($data['projectable_id']);
@@ -389,9 +384,9 @@ class MhpSiteService
                 if (!isset($data['activity_type']) || $data['activity_type'] !== TAndDWork::class) {
                     $data['activity_type'] = TAndDWork::class;
                 }
-            } else if($data['payment_for'] === 'EME') {
-
-                $data['activity_type'] = EmeInfo::class;
+            } else {
+                $data['activity_id'] = null;
+                $data['activity_type'] = null;
             }
 
             $installment->update($data);
@@ -411,6 +406,7 @@ class MhpSiteService
         });
     }
 
+
     /**
      * Store or update MHP Completion.
      *
@@ -419,7 +415,7 @@ class MhpSiteService
      * @return MhpCompletion
      * @throws Throwable
      */
-    public function storeOrUpdateMhpCompletion(MhpSite $site, array $data)
+    public function storeOrUpdateMhpCompletion(MhpSite $site, array $data): MhpCompletion
     {
         return DB::transaction(function () use ($site, $data) {
             $completion = $site->completion()->updateOrCreate(

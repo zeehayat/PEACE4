@@ -60,7 +60,10 @@ Route::middleware(['web', 'auth'])->group(function () {
         'financial-installments' => 'financial_installment',
         'sites' => 'site',
     ]);
+
+    // Custom route for fetching filtered financial progress for the modal
     Route::get('sites/{site}/financial-progress', [ProjectFinancialInstallmentController::class, 'getFinancialProgress'])->name('sites.financial-progress');
+
     // MHP Completion
     // FIX: Removed the redundant 'mhp.' prefix from the names() method.
     Route::resource('sites.completion', MhpCompletionController::class)->names('sites.completion')->parameters([
