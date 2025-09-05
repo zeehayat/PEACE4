@@ -1,6 +1,6 @@
 <script setup>
 import { useForm } from '@inertiajs/vue3';
-import { watch } from 'vue';
+import { watch, ref } from 'vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
@@ -21,7 +21,10 @@ const props = defineProps({
 
 const emit = defineEmits(['success', 'cancel']);
 
-// **Initialize the form with all fields from the migration**
+// **Reactive state for handling attachments**
+const existingAttachments = ref([]);
+const attachmentsToDelete = ref([]);
+
 const form = useForm({
     turbine_capacity_kw: props.emeInfo?.turbine_capacity_kw ?? '',
     turbine_type: props.emeInfo?.turbine_type ?? '',
@@ -36,21 +39,65 @@ const form = useForm({
     station_generator_capacity: props.emeInfo?.station_generator_capacity ?? '',
     penstock_pipe: props.emeInfo?.penstock_pipe ?? '',
     no_of_penstock_pipe: props.emeInfo?.no_of_penstock_pipe ?? '',
+    attachments: [], // Array for new file uploads
+    attachments_to_delete: [], // Array for IDs of attachments to be deleted
 });
 
-// **Watch for existing emeInfo and populate the form**
+// **Watch for existing emeInfo and populate the form and attachments**
 watch(() => props.emeInfo, (newEmeInfo) => {
     if (newEmeInfo) {
-        form.defaults(newEmeInfo);
+        form.defaults({
+            ...newEmeInfo,
+            scada_system: newEmeInfo.scada_system === 1, // Ensure boolean value
+        });
         form.reset();
+
+        // Populate existing attachments from the emeInfo object
+        if (newEmeInfo.attachments_frontend) {
+            existingAttachments.value = newEmeInfo.attachments_frontend;
+        }
     } else {
         form.reset();
+        existingAttachments.value = [];
     }
 }, { immediate: true });
 
+/**
+ * Handles the 'update-files' event from the AttachmentUploader component.
+ * It updates the form's 'attachments' array with new files to be uploaded.
+ * @param {Array} files An array of file objects provided by the uploader.
+ */
+const handleFiles = (files) => {
+    form.attachments = files.map(fileItem => fileItem.file);
+};
+
+/**
+ * Handles the 'delete-existing' event from the AttachmentUploader.
+ * It updates the form's 'attachments_to_delete' array with the IDs of files
+ * to be removed from the server.
+ * @param {Array} ids An array of IDs of the attachments to be deleted.
+ */
+const handleAttachmentsToDelete = (ids) => {
+    form.attachments_to_delete = ids;
+};
+
 const submit = () => {
-    form.post(route('mhp.sites.eme-info.store', props.mhpSite.id), {
+    const url = props.emeInfo?.id
+        ? route('mhp.sites.eme-info.update', { site: props.mhpSite.id, eme_info: props.emeInfo.id })
+        : route('mhp.sites.eme-info.store', props.mhpSite.id);
+
+    // Add the PUT method for updates
+    if (props.emeInfo?.id) {
+        form.transform((data) => ({
+            ...data,
+            _method: 'put',
+        }));
+    }
+
+    form.post(url, {
         preserveScroll: true,
+        // forceFormData is crucial for sending files via POST/PUT requests
+        forceFormData: true,
         onSuccess: () => {
             emit('success');
         },
@@ -113,7 +160,7 @@ const submit = () => {
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
             <div class="flex items-center gap-4 pt-6">
-                <Checkbox id="scada_system" v-model="form.scada_system" :checked="form.scada_system" />
+                <Checkbox id="scada_system" v-model:checked="form.scada_system" />
                 <InputLabel for="scada_system" value="SCADA System?" />
                 <InputError :message="form.errors.scada_system" class="mt-2" />
             </div>
@@ -144,7 +191,7 @@ const submit = () => {
         <div class="mt-6">
             <InputLabel value="Attachments" />
             <AttachmentUploader
-                v-model="form.attachments"
+                @update-files="handleFiles"
                 :existing-attachments="existingAttachments"
                 @remove-existing="handleAttachmentsToDelete"
                 :error-message="form.errors.attachments"
