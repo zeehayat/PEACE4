@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\MhpCompletion;
 use App\Models\MhpSite;
 use App\Models\MhpAdminApproval;
 use App\Models\OperationalCost;
