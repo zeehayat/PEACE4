@@ -35,13 +35,13 @@ class StoreProjectFinancialInstallmentRequest extends FormRequest
         ];
 
         // Conditional validation based on 'payment_for'
-        if ($this->input('payment_for') === 'T&D') {
-            $rules['activity_id'] = ['required', 'exists:transmission_and_distribution_works,id'];
-            $rules['activity_type'] = ['required', 'string', Rule::in(['App\\Models\\TAndDWork'])];
-        } else {
-            $rules['activity_id'] = ['nullable'];
-            $rules['activity_type'] = ['nullable'];
-        }
+//        if ($this->input('payment_for') === 'T&D') {
+//            //$rules['activity_id'] = ['required', 'exists:transmission_and_distribution_works,id'];
+//            //$rules['activity_type'] = ['required', 'string', Rule::in(['App\\Models\\TAndDWork'])];
+//        } else {
+//            //$rules['activity_id'] = ['nullable'];
+//            //$rules['activity_type'] = ['nullable'];
+//        }
 
         return $rules;
     }
