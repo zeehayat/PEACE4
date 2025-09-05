@@ -6,6 +6,7 @@ import TextInput from '@/Components/TextInput.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import InputError from '@/Components/InputError.vue';
 import Checkbox from "@/Components/Checkbox.vue";
+import AttachmentUploader from "@/Components/AttachmentComponent/AttachmentUploader.vue";
 
 const props = defineProps({
     mhpSite: {
@@ -140,7 +141,16 @@ const submit = () => {
                 <InputError :message="form.errors.no_of_penstock_pipe" class="mt-2" />
             </div>
         </div>
-
+        <div class="mt-6">
+            <InputLabel value="Attachments" />
+            <AttachmentUploader
+                v-model="form.attachments"
+                :existing-attachments="existingAttachments"
+                @remove-existing="handleAttachmentsToDelete"
+                :error-message="form.errors.attachments"
+            />
+            <InputError class="mt-2" :message="form.errors.attachments" />
+        </div>
         <div class="flex items-center justify-end mt-6 space-x-4">
             <button type="button" @click="$emit('cancel')" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">Cancel</button>
             <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
