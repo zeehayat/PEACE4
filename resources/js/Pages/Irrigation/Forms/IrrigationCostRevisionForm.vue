@@ -23,7 +23,7 @@ const existingAttachments = ref([]);
 
 const form = useForm({
     approvable_id: props.approvalId,
-    approvable_type: 'irrigation_admin_approval',
+    approvable_type: 'App\\Models\\IrrigationAdminApproval',
     revision_number: props.revision?.revision_number ?? null,
     revised_cost: props.revision?.revised_cost ?? null,
     approved_on: props.revision?.approved_on ?? null,
@@ -36,14 +36,14 @@ watch(() => props.revision, (newVal) => {
     isEditMode.value = !!newVal;
     form.defaults(newVal ? {
         approvable_id: props.approvalId,
-        approvable_type: 'irrigation_admin_approval',
+        approvable_type: 'App\\Models\\IrrigationAdminApproval',
         revision_number: newVal.revision_number,
         revised_cost: newVal.revised_cost,
         approved_on: newVal.approved_on,
         remarks: newVal.remarks,
     } : {
         approvable_id: props.approvalId,
-        approvable_type: 'irrigation_admin_approval',
+        approvable_type: 'App\\Models\\IrrigationAdminApproval',
         revision_number: null,
         revised_cost: null,
         approved_on: null,
@@ -54,9 +54,12 @@ watch(() => props.revision, (newVal) => {
     form.clearErrors();
 }, { immediate: true });
 
-const handleAttachmentsToDelete = (id) => {
-    form.attachments_to_delete.push(id);
-    existingAttachments.value = existingAttachments.value.filter(att => att.id !== id);
+const handleAttachmentsToDelete = (ids) => {
+    form.attachments_to_delete = ids;
+};
+
+const handleFileUpdate = (files) => {
+    form.attachments = files.map(fileItem => fileItem.file);
 };
 
 const handleSubmit = () => {
@@ -65,10 +68,11 @@ const handleSubmit = () => {
         : route('irrigation.admin-approvals.cost-revisions.store', { admin_approval: props.approvalId });
 
     form.transform((data) => {
+        const transformedData = { ...data };
         if (isEditMode.value) {
-            data._method = 'put';
+            transformedData._method = 'put';
         }
-        return data;
+        return transformedData;
     }).post(url, {
         onSuccess: () => {
             emit('success', isEditMode.value ? 'Cost Revision updated!' : 'Cost Revision added!');
@@ -76,6 +80,8 @@ const handleSubmit = () => {
         onError: (errors) => {
             console.error('Form errors:', errors);
         },
+        // This is the crucial line to fix the 404 error on update
+        forceFormData: true,
     });
 };
 
@@ -141,9 +147,9 @@ const handleCancel = () => {
         <div class="mt-4">
             <InputLabel value="Attachments" />
             <AttachmentUploader
-                v-model="form.attachments"
+                @update-files="handleFileUpdate"
                 :existing-attachments="existingAttachments"
-                @remove-existing="handleAttachmentsToDelete"
+                @delete-existing-attachments="handleAttachmentsToDelete"
                 :error-message="form.errors.attachments"
             />
             <InputError class="mt-2" :message="form.errors.attachments" />

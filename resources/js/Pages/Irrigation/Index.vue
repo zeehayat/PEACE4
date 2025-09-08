@@ -13,9 +13,10 @@ import IrrigationSchemeDetailsModal from '@/Pages/Irrigation/Modals/IrrigationSc
 import IrrigationAdminApprovalModal from '@/Pages/Irrigation/Modals/IrrigationAdminApprovalModal.vue';
 import IrrigationAdminApprovalViewModal from '@/Pages/Irrigation/Modals/IrrigationAdminApprovalViewModal.vue';
 import ProjectPhysicalProgressModal from '@/Pages/Irrigation/Modals/ProjectPhysicalProgressModal.vue';
-import ProjectFinancialInstallmentModal from '@/Pages/Irrigation/Modals/ProjectFinancialInstallmentModal.vue'; // <-- NEW IMPORT
+import ProjectFinancialInstallmentModal from '@/Pages/Irrigation/Modals/ProjectFinancialInstallmentModal.vue';
 import IrrigationSchemeContractModal from '@/Pages/Irrigation/Modals/IrrigationSchemeContractModal.vue';
 import AppLayout from "@/Layouts/AppLayout.vue";
+import IrrigationCostRevisionModal from '@/Pages/Irrigation/Modals/IrrigationCostRevisionModal.vue';
 
 
 const props = defineProps({
@@ -46,8 +47,9 @@ const showSchemeDetailsModal = ref(false);
 const showAdminApprovalModal = ref(false);
 const showAdminApprovalViewModal = ref(false);
 const showPhysicalProgressModal = ref(false);
-const showFinancialInstallmentModal = ref(false); // <-- NEW FLAG
+const showFinancialInstallmentModal = ref(false);
 const showSchemeContractModal = ref(false);
+const showCostRevisionModal = ref(false);
 const approvalAction = ref('create');
 const progressType = ref(null);
 
@@ -67,8 +69,9 @@ function closeModal() {
     showAdminApprovalModal.value = false;
     showAdminApprovalViewModal.value = false;
     showPhysicalProgressModal.value = false;
-    showFinancialInstallmentModal.value = false; // <-- Reset new flag
+    showFinancialInstallmentModal.value = false;
     showSchemeContractModal.value = false;
+    showCostRevisionModal.value = false;
 
     setTimeout(() => {
         selectedScheme.value = null;
@@ -147,8 +150,22 @@ function handleViewAdminApproval(scheme) {
 }
 
 function handleManagePhysicalProgress(scheme) { selectedScheme.value = scheme; showPhysicalProgressModal.value = true; openActionMenuId.value = null; }
-function handleManageFinancialInstallment(scheme) { selectedScheme.value = scheme; showFinancialInstallmentModal.value = true; openActionMenuId.value = null; } // <-- NEW HANDLER
+function handleManageFinancialInstallment(scheme) { selectedScheme.value = scheme; showFinancialInstallmentModal.value = true; openActionMenuId.value = null; }
 function handleManageSchemeContract(scheme) { selectedScheme.value = scheme; showSchemeContractModal.value = true; openActionMenuId.value = null; }
+
+function handleManageCostRevisions(scheme) {
+    if (!scheme.admin_approval) {
+        toastMessage.value = 'An Admin Approval record is required before adding cost revisions.';
+        toastType.value = 'error';
+        toastVisible.value = true;
+        setTimeout(() => (toastVisible.value = false), 3000);
+        return;
+    }
+    selectedScheme.value = scheme;
+    selectedAdminApproval.value = scheme.admin_approval;
+    showCostRevisionModal.value = true;
+    openActionMenuId.value = null;
+}
 
 function handleDeleteScheme(schemeId) {
     openActionMenuId.value = null;
@@ -316,6 +333,10 @@ const handlePagination = (url) => {
         <ProjectPhysicalProgressModal v-if="selectedScheme" :show="showPhysicalProgressModal" :scheme="selectedScheme" :progress-type="progressType" @close="closeModal" @saved="handleUpdated" />
         <ProjectFinancialInstallmentModal v-if="selectedScheme" :show="showFinancialInstallmentModal" :scheme="selectedScheme" @close="closeModal" @saved="handleUpdated" />
         <IrrigationSchemeContractModal v-if="selectedScheme" :show="showSchemeContractModal" :scheme="selectedScheme" :contract="selectedSchemeContract" @close="closeModal" @saved="handleUpdated" />
+
+        <!-- NEW: Modal for Cost Revisions -->
+        <IrrigationCostRevisionModal v-if="selectedScheme && selectedAdminApproval" :show="showCostRevisionModal" :scheme="selectedScheme" :approval="selectedAdminApproval" @close="closeModal" @saved="handleUpdated" />
+
         <Teleport to="body">
             <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
                 <div
@@ -344,6 +365,10 @@ const handlePagination = (url) => {
                         <button @click="handleManageAdminApproval(selectedScheme)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-circle"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
                             {{ selectedScheme.admin_approval ? 'Edit Approval' : '+ Add Approval' }}
+                        </button>
+                        <button v-if="selectedScheme.admin_approval" @click="handleManageCostRevisions(selectedScheme)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dollar-sign"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                            Manage Cost Revisions
                         </button>
                         <button v-if="selectedScheme.irrigationSchemeContract" @click="handleManageSchemeContract(selectedScheme)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-signature"><path d="M20 19.5A1.5 1.5 0 0 0 18.5 18H5.5A1.5 1.5 0 0 0 4 19.5V20"/><path d="M10 13a2.5 2.5 0 0 0-2.5 2.5v.5h5v-.5a2.5 2.5 0 0 0-2.5-2.5Z"/><path d="M8 15v1"/><path d="M16 13h2l2 2"/><path d="M14 17h6"/><path d="M2 13h2l2 2"/><path d="M16 9h2l2 2"/></svg>

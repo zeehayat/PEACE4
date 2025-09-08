@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\IrrigationAdminApproval;
 use App\Services\IrrigationAdminApprovalService;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Log;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class IrrigationAdminApprovalController extends Controller
 {
@@ -27,21 +28,23 @@ class IrrigationAdminApprovalController extends Controller
     {
         $validated = $request->validate([
             'irrigation_scheme_id' => 'required|exists:irrigation_schemes,id',
-            'eu_approval_date' => 'nullable|date',
             'approved_cost' => 'nullable|numeric|min:0',
-            'civil_work_start_date' => 'nullable|date', // This field also seems to be from MHPAdminApproval. Re-evaluate if it's needed here.
-            'scheme_inauguration_date' => 'nullable|date', // This field also seems to be from MHPAdminApproval. Re-evaluate if it's needed here.
-            // New fields from migrations
+            // Corrected and added fields from the form
+            'approved_vendor' => 'nullable|string|max:255',
+            'vendor_id' => 'nullable|integer|exists:vendors,id',
+            'date_technical_surveys' => 'nullable|date',
             'date_design_estimates_submission_psu' => 'nullable|date',
-            'date_design_estimates_submission_opm_eu_review' => 'nullable|date',
-            'date_validation_visit_opm' => 'nullable|date',
+            'date_validation_visit_psu' => 'nullable|date',
+            'remarks' => 'nullable|string',
             'attachments.*' => 'nullable|file|max:20480',
         ]);
+
         $irrigationScheme = IrrigationScheme::findOrFail($validated['irrigation_scheme_id']);
         $this->authorize('create', [IrrigationAdminApproval::class, $irrigationScheme]);
 
         try {
             DB::transaction(function () use ($request, $validated) {
+                // Use fillable attributes to mass assign data
                 $approval = new IrrigationAdminApproval();
                 $approval->fill($validated);
                 $approval->save();
@@ -59,38 +62,44 @@ class IrrigationAdminApprovalController extends Controller
         }
     }
 
-    public function update(Request $request, IrrigationAdminApproval $irrigationAdminApproval)
+    public function update(Request $request, IrrigationScheme $scheme, IrrigationAdminApproval $adminApproval)
     {
+        // Add a check to ensure the model belongs to the parent
+        if ($adminApproval->irrigation_scheme_id !== $scheme->id) {
+            return redirect()->back()->with('error', 'Invalid admin approval for this scheme.');
+        }
+
         $validated = $request->validate([
             'irrigation_scheme_id' => 'required|exists:irrigation_schemes,id',
-            'eu_approval_date' => 'nullable|date',
             'approved_cost' => 'nullable|numeric|min:0',
-            'civil_work_start_date' => 'nullable|date', // Re-evaluate if needed here
-            'scheme_inauguration_date' => 'nullable|date', // Re-evaluate if needed here
-            // New fields from migrations
+            // Corrected and added fields from the form
+            'approved_vendor' => 'nullable|string|max:255',
+            'vendor_id' => 'nullable|integer|exists:vendors,id',
+            'date_technical_surveys' => 'nullable|date',
             'date_design_estimates_submission_psu' => 'nullable|date',
-            'date_design_estimates_submission_opm_eu_review' => 'nullable|date',
-            'date_validation_visit_opm' => 'nullable|date',
+            'date_validation_visit_psu' => 'nullable|date',
+            'remarks' => 'nullable|string',
             'attachments.*' => 'nullable|file|max:20480',
-            'removed_attachments' => 'nullable|array',
-            'removed_attachments.*' => 'exists:media,id',
+            'attachments_to_delete' => 'nullable|array',
+            'attachments_to_delete.*' => 'exists:media,id',
         ]);
-        $this->authorize('update', $irrigationAdminApproval);
+
+        $this->authorize('update', $adminApproval);
 
         try {
-            DB::transaction(function () use ($request, $irrigationAdminApproval, $validated) {
-                $irrigationAdminApproval->fill($validated);
-                $irrigationAdminApproval->save();
+            DB::transaction(function () use ($request, $adminApproval, $validated) {
+                // Use the update method on the model instance
+                $adminApproval->update($validated);
 
                 if ($request->hasFile('attachments')) {
                     foreach ($request->file('attachments') as $file) {
-                        $irrigationAdminApproval->addMedia($file)->toMediaCollection('attachments');
+                        $adminApproval->addMedia($file)->toMediaCollection('attachments');
                     }
                 }
-                if ($request->filled('removed_attachments')) {
-                    Media::whereIn('id', $request->removed_attachments)
-                        ->where('model_type', get_class($irrigationAdminApproval))
-                        ->where('model_id', $irrigationAdminApproval->id)
+                if ($request->filled('attachments_to_delete')) {
+                    Media::whereIn('id', $request->attachments_to_delete)
+                        ->where('model_type', get_class($adminApproval))
+                        ->where('model_id', $adminApproval->id)
                         ->delete();
                 }
             });

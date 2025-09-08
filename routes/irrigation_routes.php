@@ -42,7 +42,8 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::resource('admin-approvals.cost-revisions', IrrigationCostRevisionController::class)->parameters([
         'cost-revisions' => 'cost_revision',
         'admin-approvals' => 'admin_approval',
-    ]);
+    ])->except(['show']);
+    Route::get('admin-approvals/{admin_approval}/cost-revisions', [IrrigationCostRevisionController::class, 'index'])->name('admin-approvals.cost-revisions.index');
 
     // Nested resources for Scheme Contracts
     Route::resource('schemes.contracts', IrrigationSchemeContractController::class)->parameters([
