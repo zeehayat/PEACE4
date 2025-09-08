@@ -12,13 +12,7 @@ class MhpCompletion extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
 
-    protected $fillable = [
-        'mhp_site_id',
-        'scheme_inauguration_date',
-        'testing_commissioning_date',
-        'handover_date',
-        'remarks',
-    ];
+    protected $guarded=[];
 
     protected $casts = [
         'scheme_inauguration_date' => 'date',

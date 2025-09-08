@@ -420,25 +420,63 @@ class MhpSiteService
     public function storeOrUpdateMhpCompletion(MhpSite $site, array $data): MhpCompletion
     {
         return DB::transaction(function () use ($site, $data) {
-            $completion = $site->completion()->updateOrCreate(
-                ['mhp_site_id' => $site->id],
-                $data
-            );
+            // 1) Pull out file/aux keys that are NOT DB columns
+            $attachmentsToDelete = $data['attachments_to_delete'] ?? [];
+            $attachments         = $data['attachments'] ?? [];
+            unset($data['attachments_to_delete'], $data['attachments']);
 
-            if (isset($data['attachments_to_delete']) && is_array($data['attachments_to_delete'])) {
-                foreach ($data['attachments_to_delete'] as $mediaId) {
-                    $completion->deleteMedia($mediaId);
-                }
+            // 2) Normalize any formats (EXAMPLE: adjust to your schema)
+            // if (isset($data['completion_date'])) {
+            //     $data['completion_date'] = \Carbon\Carbon::parse($data['completion_date'])->toDateString();
+            // }
+
+            // 3) Ensure we target the single row for this site
+            //    (ASSUMES you use hasOne completion() and a UNIQUE constraint on `mhp_site_id`)
+            $completion = $site->completion()->first();
+            if (!$completion) {
+                $completion = $site->completion()->make(); // new instance scoped to site
+                $completion->mhp_site_id = $site->id;
             }
-            if (isset($data['attachments'])) {
-                foreach ($data['attachments'] as $attachment) {
-                    $completion->addMedia($attachment)->toMediaCollection('attachments');
-                }
+
+            // 4) Fill + detect dirties (requires correct $fillable in MhpCompletion model)
+            $before = $completion->toArray();
+            $completion->fill($data);
+            $dirty = $completion->getDirty();
+
+            \Log::info('MhpCompletion dirty BEFORE save', [
+                'site_id' => $site->id,
+                'completion_id' => $completion->id,
+                'dirty' => $dirty,
+            ]);
+
+            if (!empty($dirty)) {
+                $completion->save();
+
+                \Log::info('MhpCompletion UPDATED', [
+                    'id'     => $completion->id,
+                    'before' => array_intersect_key($before, $dirty),
+                    'after'  => $completion->only(array_keys($dirty)),
+                ]);
+            } else {
+                // Optional: still touch updated_at so user sees "saved"
+                // $completion->touch();
+                \Log::info('MhpCompletion NO CHANGES detected', ['id' => $completion->id]);
+            }
+
+            // 5) Handle attachments DELETE
+            foreach ($attachmentsToDelete as $mediaId) {
+                $completion->deleteMedia($mediaId);
+            }
+
+            // 6) Handle attachments ADD
+            foreach ($attachments as $file) {
+                $completion->addMedia($file)->toMediaCollection('attachments');
             }
 
             return $completion;
         });
     }
+
 
     /**
      * Add methods for deleting entities if they have complex logic (e.g., related data cleanup)

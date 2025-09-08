@@ -24,15 +24,14 @@ class UpdateMhpCompletionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'mhp_site_id' => ['required', 'exists:mhp_sites,id'],
-            'scheme_inauguration_date' => ['nullable', 'date'],
-            'testing_commissioning_date' => ['nullable', 'date'],
-            'handover_date' => ['nullable', 'date'],
-            'remarks' => ['nullable', 'string'],
-            'attachments' => ['nullable', 'array'],
-            'attachments.*' => ['file', 'max:10240'],
-            'attachments_to_delete' => ['nullable', 'array'],
-            'attachments_to_delete.*' => ['exists:media,id'],
+            'completion_date' => ['nullable','date'],
+            'civil_works_status' => ['nullable','string','max:255'],
+            'electro_mechanical_status' => ['nullable','string','max:255'],
+            'remarks' => ['nullable','string'],
+            'attachments' => ['array'],
+            'attachments.*' => ['file'],
+            'attachments_to_delete' => ['array'],
+            'attachments_to_delete.*' => ['integer'],
         ];
     }
 }
