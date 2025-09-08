@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\IrrigationPhysicalProgressController::index
-* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:25
+* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:26
 * @route '/irrigation/schemes/{scheme}/physical-progresses'
 */
 export const index = (args: { scheme: number | { id: number } } | [scheme: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -16,7 +16,7 @@ index.definition = {
 
 /**
 * @see \App\Http\Controllers\IrrigationPhysicalProgressController::index
-* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:25
+* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:26
 * @route '/irrigation/schemes/{scheme}/physical-progresses'
 */
 index.url = (args: { scheme: number | { id: number } } | [scheme: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -49,7 +49,7 @@ index.url = (args: { scheme: number | { id: number } } | [scheme: number | { id:
 
 /**
 * @see \App\Http\Controllers\IrrigationPhysicalProgressController::index
-* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:25
+* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:26
 * @route '/irrigation/schemes/{scheme}/physical-progresses'
 */
 index.get = (args: { scheme: number | { id: number } } | [scheme: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -59,7 +59,7 @@ index.get = (args: { scheme: number | { id: number } } | [scheme: number | { id:
 
 /**
 * @see \App\Http\Controllers\IrrigationPhysicalProgressController::index
-* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:25
+* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:26
 * @route '/irrigation/schemes/{scheme}/physical-progresses'
 */
 index.head = (args: { scheme: number | { id: number } } | [scheme: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -131,7 +131,7 @@ create.head = (args: { scheme: string | number } | [scheme: string | number ] | 
 
 /**
 * @see \App\Http\Controllers\IrrigationPhysicalProgressController::store
-* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:53
+* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:54
 * @route '/irrigation/schemes/{scheme}/physical-progresses'
 */
 export const store = (args: { scheme: number | { id: number } } | [scheme: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -146,7 +146,7 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\IrrigationPhysicalProgressController::store
-* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:53
+* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:54
 * @route '/irrigation/schemes/{scheme}/physical-progresses'
 */
 store.url = (args: { scheme: number | { id: number } } | [scheme: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -179,7 +179,7 @@ store.url = (args: { scheme: number | { id: number } } | [scheme: number | { id:
 
 /**
 * @see \App\Http\Controllers\IrrigationPhysicalProgressController::store
-* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:53
+* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:54
 * @route '/irrigation/schemes/{scheme}/physical-progresses'
 */
 store.post = (args: { scheme: number | { id: number } } | [scheme: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({

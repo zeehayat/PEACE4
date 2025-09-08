@@ -125,7 +125,7 @@ edit.head = (args: { physical_progress: string | number } | [physical_progress: 
 
 /**
 * @see \App\Http\Controllers\IrrigationPhysicalProgressController::update
-* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:67
+* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:68
 * @route '/irrigation/physical-progresses/{physical_progress}'
 */
 export const update = (args: { physical_progress: string | number } | [physical_progress: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -140,7 +140,7 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\IrrigationPhysicalProgressController::update
-* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:67
+* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:68
 * @route '/irrigation/physical-progresses/{physical_progress}'
 */
 update.url = (args: { physical_progress: string | number } | [physical_progress: string | number ] | string | number, options?: RouteQueryOptions) => {
@@ -167,7 +167,7 @@ update.url = (args: { physical_progress: string | number } | [physical_progress:
 
 /**
 * @see \App\Http\Controllers\IrrigationPhysicalProgressController::update
-* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:67
+* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:68
 * @route '/irrigation/physical-progresses/{physical_progress}'
 */
 update.put = (args: { physical_progress: string | number } | [physical_progress: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -177,7 +177,7 @@ update.put = (args: { physical_progress: string | number } | [physical_progress:
 
 /**
 * @see \App\Http\Controllers\IrrigationPhysicalProgressController::update
-* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:67
+* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:68
 * @route '/irrigation/physical-progresses/{physical_progress}'
 */
 update.patch = (args: { physical_progress: string | number } | [physical_progress: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
@@ -187,7 +187,7 @@ update.patch = (args: { physical_progress: string | number } | [physical_progres
 
 /**
 * @see \App\Http\Controllers\IrrigationPhysicalProgressController::destroy
-* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:81
+* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:82
 * @route '/irrigation/physical-progresses/{physical_progress}'
 */
 export const destroy = (args: { physical_progress: string | number } | [physical_progress: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -202,7 +202,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\IrrigationPhysicalProgressController::destroy
-* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:81
+* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:82
 * @route '/irrigation/physical-progresses/{physical_progress}'
 */
 destroy.url = (args: { physical_progress: string | number } | [physical_progress: string | number ] | string | number, options?: RouteQueryOptions) => {
@@ -229,7 +229,7 @@ destroy.url = (args: { physical_progress: string | number } | [physical_progress
 
 /**
 * @see \App\Http\Controllers\IrrigationPhysicalProgressController::destroy
-* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:81
+* @see app/Http/Controllers/IrrigationPhysicalProgressController.php:82
 * @route '/irrigation/physical-progresses/{physical_progress}'
 */
 destroy.delete = (args: { physical_progress: string | number } | [physical_progress: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({

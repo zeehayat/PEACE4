@@ -40,6 +40,14 @@ class IrrigationSchemeService
      * @param IrrigationScheme $scheme
      * @return \Illuminate\Database\Eloquent\Collection
      */
+    public function getPhysicalProgresses(IrrigationScheme $scheme)
+    {
+        return $scheme->physicalProgresses()
+            ->with('media')
+            ->orderByDesc('progress_date')
+            ->orderByDesc('id')
+            ->get();
+    }
     public function getFinancialInstallments(IrrigationScheme $scheme)
     {
         return $scheme->financialInstallments()
@@ -142,6 +150,44 @@ class IrrigationSchemeService
         }
 
         return $progress;
+    }
+
+    public function updatePhysicalProgress(ProjectPhysicalProgress $progress, array $data): ProjectPhysicalProgress
+    {
+        return DB::transaction(function () use ($progress, $data) {
+            $attachmentsToDelete = $data['attachments_to_delete'] ?? [];
+            $attachments = $data['attachments'] ?? [];
+            unset($data['attachments_to_delete']);
+            unset($data['attachments']);
+            unset($data['projectable_id']);
+            unset($data['projectable_type']);
+
+            $progress->update($data);
+
+            if (!empty($attachmentsToDelete)) {
+                foreach ($attachmentsToDelete as $mediaId) {
+                    $progress->deleteMedia($mediaId);
+                }
+            }
+            if (!empty($attachments)) {
+                $this->handleAttachments($progress, $attachments);
+            }
+
+            return $progress;
+        });
+    }
+    /**
+     * Delete a physical progress entry and its media.
+     *
+     * @param ProjectPhysicalProgress $progress
+     * @return bool|null
+     * @throws Throwable
+     */
+    public function deletePhysicalProgress(ProjectPhysicalProgress $progress)
+    {
+        return DB::transaction(function () use ($progress) {
+            return $progress->delete();
+        });
     }
 
 

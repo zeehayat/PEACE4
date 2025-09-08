@@ -22,6 +22,7 @@ class IrrigationPhysicalProgressController extends Controller
     /**
      * Display a listing of physical progress entries for a specific Irrigation Scheme.
      */
+
     public function index(Request $request, IrrigationScheme $scheme)
     {
         $physicalProgresses = $this->irrigationSchemeService->getPhysicalProgresses($scheme);
