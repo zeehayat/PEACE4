@@ -1,28 +1,25 @@
-import { queryParams, type QueryParams } from './../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../../wayfinder'
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::index
 * @see app/Http/Controllers/CboExposureVisitController.php:27
 * @route '/cbo/exposure-visits'
 */
-export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const index = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: index.url(options),
     method: 'get',
 })
 
 index.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/cbo/exposure-visits',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::index
 * @see app/Http/Controllers/CboExposureVisitController.php:27
 * @route '/cbo/exposure-visits'
 */
-index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+index.url = (options?: RouteQueryOptions) => {
     return index.definition.url + queryParams(options)
 }
 
@@ -31,10 +28,7 @@ index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 * @see app/Http/Controllers/CboExposureVisitController.php:27
 * @route '/cbo/exposure-visits'
 */
-index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: index.url(options),
     method: 'get',
 })
@@ -44,10 +38,7 @@ index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 * @see app/Http/Controllers/CboExposureVisitController.php:27
 * @route '/cbo/exposure-visits'
 */
-index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: index.url(options),
     method: 'head',
 })
@@ -57,25 +48,22 @@ index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 * @see app/Http/Controllers/CboExposureVisitController.php:75
 * @route '/cbo/exposure-visits'
 */
-export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'post',
-} => ({
+export const store = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: store.url(options),
     method: 'post',
 })
 
 store.definition = {
-    methods: ['post'],
+    methods: ["post"],
     url: '/cbo/exposure-visits',
-}
+} satisfies RouteDefinition<["post"]>
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::store
 * @see app/Http/Controllers/CboExposureVisitController.php:75
 * @route '/cbo/exposure-visits'
 */
-store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+store.url = (options?: RouteQueryOptions) => {
     return store.definition.url + queryParams(options)
 }
 
@@ -84,10 +72,7 @@ store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 * @see app/Http/Controllers/CboExposureVisitController.php:75
 * @route '/cbo/exposure-visits'
 */
-store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'post',
-} => ({
+store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: store.url(options),
     method: 'post',
 })
@@ -97,25 +82,22 @@ store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 * @see app/Http/Controllers/CboExposureVisitController.php:89
 * @route '/cbo/exposure-visits/{exposure_visit}'
 */
-export const show = (args: { exposure_visit: string | number } | [exposure_visit: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const show = (args: { exposure_visit: string | number } | [exposure_visit: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(args, options),
     method: 'get',
 })
 
 show.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/cbo/exposure-visits/{exposure_visit}',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::show
 * @see app/Http/Controllers/CboExposureVisitController.php:89
 * @route '/cbo/exposure-visits/{exposure_visit}'
 */
-show.url = (args: { exposure_visit: string | number } | [exposure_visit: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+show.url = (args: { exposure_visit: string | number } | [exposure_visit: string | number ] | string | number, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { exposure_visit: args }
     }
@@ -125,6 +107,8 @@ show.url = (args: { exposure_visit: string | number } | [exposure_visit: string 
             exposure_visit: args[0],
         }
     }
+
+    args = applyUrlDefaults(args)
 
     const parsedArgs = {
         exposure_visit: args.exposure_visit,
@@ -140,10 +124,7 @@ show.url = (args: { exposure_visit: string | number } | [exposure_visit: string 
 * @see app/Http/Controllers/CboExposureVisitController.php:89
 * @route '/cbo/exposure-visits/{exposure_visit}'
 */
-show.get = (args: { exposure_visit: string | number } | [exposure_visit: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+show.get = (args: { exposure_visit: string | number } | [exposure_visit: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(args, options),
     method: 'get',
 })
@@ -153,10 +134,7 @@ show.get = (args: { exposure_visit: string | number } | [exposure_visit: string 
 * @see app/Http/Controllers/CboExposureVisitController.php:89
 * @route '/cbo/exposure-visits/{exposure_visit}'
 */
-show.head = (args: { exposure_visit: string | number } | [exposure_visit: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+show.head = (args: { exposure_visit: string | number } | [exposure_visit: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: show.url(args, options),
     method: 'head',
 })
@@ -166,25 +144,22 @@ show.head = (args: { exposure_visit: string | number } | [exposure_visit: string
 * @see app/Http/Controllers/CboExposureVisitController.php:107
 * @route '/cbo/exposure-visits/{exposure_visit}'
 */
-export const update = (args: { exposure_visit: string | number } | [exposure_visit: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'put',
-} => ({
+export const update = (args: { exposure_visit: string | number } | [exposure_visit: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: update.url(args, options),
     method: 'put',
 })
 
 update.definition = {
-    methods: ['put','patch'],
+    methods: ["put","patch"],
     url: '/cbo/exposure-visits/{exposure_visit}',
-}
+} satisfies RouteDefinition<["put","patch"]>
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::update
 * @see app/Http/Controllers/CboExposureVisitController.php:107
 * @route '/cbo/exposure-visits/{exposure_visit}'
 */
-update.url = (args: { exposure_visit: string | number } | [exposure_visit: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+update.url = (args: { exposure_visit: string | number } | [exposure_visit: string | number ] | string | number, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { exposure_visit: args }
     }
@@ -194,6 +169,8 @@ update.url = (args: { exposure_visit: string | number } | [exposure_visit: strin
             exposure_visit: args[0],
         }
     }
+
+    args = applyUrlDefaults(args)
 
     const parsedArgs = {
         exposure_visit: args.exposure_visit,
@@ -209,10 +186,7 @@ update.url = (args: { exposure_visit: string | number } | [exposure_visit: strin
 * @see app/Http/Controllers/CboExposureVisitController.php:107
 * @route '/cbo/exposure-visits/{exposure_visit}'
 */
-update.put = (args: { exposure_visit: string | number } | [exposure_visit: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'put',
-} => ({
+update.put = (args: { exposure_visit: string | number } | [exposure_visit: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: update.url(args, options),
     method: 'put',
 })
@@ -222,10 +196,7 @@ update.put = (args: { exposure_visit: string | number } | [exposure_visit: strin
 * @see app/Http/Controllers/CboExposureVisitController.php:107
 * @route '/cbo/exposure-visits/{exposure_visit}'
 */
-update.patch = (args: { exposure_visit: string | number } | [exposure_visit: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'patch',
-} => ({
+update.patch = (args: { exposure_visit: string | number } | [exposure_visit: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
     url: update.url(args, options),
     method: 'patch',
 })
@@ -235,25 +206,22 @@ update.patch = (args: { exposure_visit: string | number } | [exposure_visit: str
 * @see app/Http/Controllers/CboExposureVisitController.php:125
 * @route '/cbo/exposure-visits/{exposure_visit}'
 */
-export const destroy = (args: { exposure_visit: string | number } | [exposure_visit: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'delete',
-} => ({
+export const destroy = (args: { exposure_visit: string | number } | [exposure_visit: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
     url: destroy.url(args, options),
     method: 'delete',
 })
 
 destroy.definition = {
-    methods: ['delete'],
+    methods: ["delete"],
     url: '/cbo/exposure-visits/{exposure_visit}',
-}
+} satisfies RouteDefinition<["delete"]>
 
 /**
 * @see \App\Http\Controllers\CboExposureVisitController::destroy
 * @see app/Http/Controllers/CboExposureVisitController.php:125
 * @route '/cbo/exposure-visits/{exposure_visit}'
 */
-destroy.url = (args: { exposure_visit: string | number } | [exposure_visit: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+destroy.url = (args: { exposure_visit: string | number } | [exposure_visit: string | number ] | string | number, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { exposure_visit: args }
     }
@@ -263,6 +231,8 @@ destroy.url = (args: { exposure_visit: string | number } | [exposure_visit: stri
             exposure_visit: args[0],
         }
     }
+
+    args = applyUrlDefaults(args)
 
     const parsedArgs = {
         exposure_visit: args.exposure_visit,
@@ -278,10 +248,7 @@ destroy.url = (args: { exposure_visit: string | number } | [exposure_visit: stri
 * @see app/Http/Controllers/CboExposureVisitController.php:125
 * @route '/cbo/exposure-visits/{exposure_visit}'
 */
-destroy.delete = (args: { exposure_visit: string | number } | [exposure_visit: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'delete',
-} => ({
+destroy.delete = (args: { exposure_visit: string | number } | [exposure_visit: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
     url: destroy.url(args, options),
     method: 'delete',
 })

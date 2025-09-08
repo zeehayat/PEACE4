@@ -1,4 +1,4 @@
-import { queryParams, type QueryParams } from './../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../../wayfinder'
 import tAndDWorks from './t-and-d-works'
 import physicalProgresses from './physical-progresses'
 import financialInstallments from './financial-installments'
@@ -9,25 +9,22 @@ import emeInfo from './eme-info'
 * @see app/Http/Controllers/MhpSiteController.php:144
 * @route '/mhp/sites/get-cbos'
 */
-export const getCbos = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const getCbos = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: getCbos.url(options),
     method: 'get',
 })
 
 getCbos.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/mhp/sites/get-cbos',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::getCbos
 * @see app/Http/Controllers/MhpSiteController.php:144
 * @route '/mhp/sites/get-cbos'
 */
-getCbos.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+getCbos.url = (options?: RouteQueryOptions) => {
     return getCbos.definition.url + queryParams(options)
 }
 
@@ -36,10 +33,7 @@ getCbos.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 * @see app/Http/Controllers/MhpSiteController.php:144
 * @route '/mhp/sites/get-cbos'
 */
-getCbos.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+getCbos.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: getCbos.url(options),
     method: 'get',
 })
@@ -49,10 +43,7 @@ getCbos.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 * @see app/Http/Controllers/MhpSiteController.php:144
 * @route '/mhp/sites/get-cbos'
 */
-getCbos.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+getCbos.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: getCbos.url(options),
     method: 'head',
 })
@@ -62,25 +53,22 @@ getCbos.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 * @see app/Http/Controllers/MhpSiteController.php:33
 * @route '/mhp/sites'
 */
-export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const index = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: index.url(options),
     method: 'get',
 })
 
 index.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/mhp/sites',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::index
 * @see app/Http/Controllers/MhpSiteController.php:33
 * @route '/mhp/sites'
 */
-index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+index.url = (options?: RouteQueryOptions) => {
     return index.definition.url + queryParams(options)
 }
 
@@ -89,10 +77,7 @@ index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 * @see app/Http/Controllers/MhpSiteController.php:33
 * @route '/mhp/sites'
 */
-index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: index.url(options),
     method: 'get',
 })
@@ -102,10 +87,7 @@ index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 * @see app/Http/Controllers/MhpSiteController.php:33
 * @route '/mhp/sites'
 */
-index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: index.url(options),
     method: 'head',
 })
@@ -115,25 +97,22 @@ index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 * @see app/Http/Controllers/MhpSiteController.php:0
 * @route '/mhp/sites/create'
 */
-export const create = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const create = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: create.url(options),
     method: 'get',
 })
 
 create.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/mhp/sites/create',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::create
 * @see app/Http/Controllers/MhpSiteController.php:0
 * @route '/mhp/sites/create'
 */
-create.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+create.url = (options?: RouteQueryOptions) => {
     return create.definition.url + queryParams(options)
 }
 
@@ -142,10 +121,7 @@ create.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 * @see app/Http/Controllers/MhpSiteController.php:0
 * @route '/mhp/sites/create'
 */
-create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+create.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: create.url(options),
     method: 'get',
 })
@@ -155,10 +131,7 @@ create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 * @see app/Http/Controllers/MhpSiteController.php:0
 * @route '/mhp/sites/create'
 */
-create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: create.url(options),
     method: 'head',
 })
@@ -168,25 +141,22 @@ create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 * @see app/Http/Controllers/MhpSiteController.php:76
 * @route '/mhp/sites'
 */
-export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'post',
-} => ({
+export const store = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: store.url(options),
     method: 'post',
 })
 
 store.definition = {
-    methods: ['post'],
+    methods: ["post"],
     url: '/mhp/sites',
-}
+} satisfies RouteDefinition<["post"]>
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::store
 * @see app/Http/Controllers/MhpSiteController.php:76
 * @route '/mhp/sites'
 */
-store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+store.url = (options?: RouteQueryOptions) => {
     return store.definition.url + queryParams(options)
 }
 
@@ -195,10 +165,7 @@ store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 * @see app/Http/Controllers/MhpSiteController.php:76
 * @route '/mhp/sites'
 */
-store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'post',
-} => ({
+store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: store.url(options),
     method: 'post',
 })
@@ -208,25 +175,22 @@ store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 * @see app/Http/Controllers/MhpSiteController.php:87
 * @route '/mhp/sites/{site}'
 */
-export const show = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const show = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(args, options),
     method: 'get',
 })
 
 show.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/mhp/sites/{site}',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::show
 * @see app/Http/Controllers/MhpSiteController.php:87
 * @route '/mhp/sites/{site}'
 */
-show.url = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+show.url = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { site: args }
     }
@@ -240,6 +204,8 @@ show.url = (args: { site: number | { id: number } } | [site: number | { id: numb
             site: args[0],
         }
     }
+
+    args = applyUrlDefaults(args)
 
     const parsedArgs = {
         site: typeof args.site === 'object'
@@ -257,10 +223,7 @@ show.url = (args: { site: number | { id: number } } | [site: number | { id: numb
 * @see app/Http/Controllers/MhpSiteController.php:87
 * @route '/mhp/sites/{site}'
 */
-show.get = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+show.get = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(args, options),
     method: 'get',
 })
@@ -270,10 +233,7 @@ show.get = (args: { site: number | { id: number } } | [site: number | { id: numb
 * @see app/Http/Controllers/MhpSiteController.php:87
 * @route '/mhp/sites/{site}'
 */
-show.head = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+show.head = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: show.url(args, options),
     method: 'head',
 })
@@ -283,25 +243,22 @@ show.head = (args: { site: number | { id: number } } | [site: number | { id: num
 * @see app/Http/Controllers/MhpSiteController.php:0
 * @route '/mhp/sites/{site}/edit'
 */
-export const edit = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const edit = (args: { site: string | number } | [site: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: edit.url(args, options),
     method: 'get',
 })
 
 edit.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/mhp/sites/{site}/edit',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::edit
 * @see app/Http/Controllers/MhpSiteController.php:0
 * @route '/mhp/sites/{site}/edit'
 */
-edit.url = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+edit.url = (args: { site: string | number } | [site: string | number ] | string | number, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { site: args }
     }
@@ -311,6 +268,8 @@ edit.url = (args: { site: string | number } | [site: string | number ] | string 
             site: args[0],
         }
     }
+
+    args = applyUrlDefaults(args)
 
     const parsedArgs = {
         site: args.site,
@@ -326,10 +285,7 @@ edit.url = (args: { site: string | number } | [site: string | number ] | string 
 * @see app/Http/Controllers/MhpSiteController.php:0
 * @route '/mhp/sites/{site}/edit'
 */
-edit.get = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+edit.get = (args: { site: string | number } | [site: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: edit.url(args, options),
     method: 'get',
 })
@@ -339,10 +295,7 @@ edit.get = (args: { site: string | number } | [site: string | number ] | string 
 * @see app/Http/Controllers/MhpSiteController.php:0
 * @route '/mhp/sites/{site}/edit'
 */
-edit.head = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+edit.head = (args: { site: string | number } | [site: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: edit.url(args, options),
     method: 'head',
 })
@@ -352,25 +305,22 @@ edit.head = (args: { site: string | number } | [site: string | number ] | string
 * @see app/Http/Controllers/MhpSiteController.php:93
 * @route '/mhp/sites/{site}'
 */
-export const update = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'put',
-} => ({
+export const update = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: update.url(args, options),
     method: 'put',
 })
 
 update.definition = {
-    methods: ['put','patch'],
+    methods: ["put","patch"],
     url: '/mhp/sites/{site}',
-}
+} satisfies RouteDefinition<["put","patch"]>
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::update
 * @see app/Http/Controllers/MhpSiteController.php:93
 * @route '/mhp/sites/{site}'
 */
-update.url = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+update.url = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { site: args }
     }
@@ -384,6 +334,8 @@ update.url = (args: { site: number | { id: number } } | [site: number | { id: nu
             site: args[0],
         }
     }
+
+    args = applyUrlDefaults(args)
 
     const parsedArgs = {
         site: typeof args.site === 'object'
@@ -401,10 +353,7 @@ update.url = (args: { site: number | { id: number } } | [site: number | { id: nu
 * @see app/Http/Controllers/MhpSiteController.php:93
 * @route '/mhp/sites/{site}'
 */
-update.put = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'put',
-} => ({
+update.put = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: update.url(args, options),
     method: 'put',
 })
@@ -414,10 +363,7 @@ update.put = (args: { site: number | { id: number } } | [site: number | { id: nu
 * @see app/Http/Controllers/MhpSiteController.php:93
 * @route '/mhp/sites/{site}'
 */
-update.patch = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'patch',
-} => ({
+update.patch = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
     url: update.url(args, options),
     method: 'patch',
 })
@@ -427,25 +373,22 @@ update.patch = (args: { site: number | { id: number } } | [site: number | { id: 
 * @see app/Http/Controllers/MhpSiteController.php:104
 * @route '/mhp/sites/{site}'
 */
-export const destroy = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'delete',
-} => ({
+export const destroy = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
     url: destroy.url(args, options),
     method: 'delete',
 })
 
 destroy.definition = {
-    methods: ['delete'],
+    methods: ["delete"],
     url: '/mhp/sites/{site}',
-}
+} satisfies RouteDefinition<["delete"]>
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::destroy
 * @see app/Http/Controllers/MhpSiteController.php:104
 * @route '/mhp/sites/{site}'
 */
-destroy.url = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+destroy.url = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { site: args }
     }
@@ -459,6 +402,8 @@ destroy.url = (args: { site: number | { id: number } } | [site: number | { id: n
             site: args[0],
         }
     }
+
+    args = applyUrlDefaults(args)
 
     const parsedArgs = {
         site: typeof args.site === 'object'
@@ -476,10 +421,7 @@ destroy.url = (args: { site: number | { id: number } } | [site: number | { id: n
 * @see app/Http/Controllers/MhpSiteController.php:104
 * @route '/mhp/sites/{site}'
 */
-destroy.delete = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'delete',
-} => ({
+destroy.delete = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
     url: destroy.url(args, options),
     method: 'delete',
 })
@@ -489,25 +431,22 @@ destroy.delete = (args: { site: number | { id: number } } | [site: number | { id
 * @see app/Http/Controllers/MhpSiteController.php:115
 * @route '/mhp/sites/auto-search'
 */
-export const autoSearch = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const autoSearch = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: autoSearch.url(options),
     method: 'get',
 })
 
 autoSearch.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/mhp/sites/auto-search',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::autoSearch
 * @see app/Http/Controllers/MhpSiteController.php:115
 * @route '/mhp/sites/auto-search'
 */
-autoSearch.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+autoSearch.url = (options?: RouteQueryOptions) => {
     return autoSearch.definition.url + queryParams(options)
 }
 
@@ -516,10 +455,7 @@ autoSearch.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) =
 * @see app/Http/Controllers/MhpSiteController.php:115
 * @route '/mhp/sites/auto-search'
 */
-autoSearch.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+autoSearch.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: autoSearch.url(options),
     method: 'get',
 })
@@ -529,10 +465,7 @@ autoSearch.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): 
 * @see app/Http/Controllers/MhpSiteController.php:115
 * @route '/mhp/sites/auto-search'
 */
-autoSearch.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+autoSearch.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: autoSearch.url(options),
     method: 'head',
 })
@@ -542,25 +475,22 @@ autoSearch.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }):
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:53
 * @route '/mhp/sites/{site}/financial-progress'
 */
-export const financialProgress = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const financialProgress = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: financialProgress.url(args, options),
     method: 'get',
 })
 
 financialProgress.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/mhp/sites/{site}/financial-progress',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::financialProgress
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:53
 * @route '/mhp/sites/{site}/financial-progress'
 */
-financialProgress.url = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+financialProgress.url = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { site: args }
     }
@@ -574,6 +504,8 @@ financialProgress.url = (args: { site: number | { id: number } } | [site: number
             site: args[0],
         }
     }
+
+    args = applyUrlDefaults(args)
 
     const parsedArgs = {
         site: typeof args.site === 'object'
@@ -591,10 +523,7 @@ financialProgress.url = (args: { site: number | { id: number } } | [site: number
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:53
 * @route '/mhp/sites/{site}/financial-progress'
 */
-financialProgress.get = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+financialProgress.get = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: financialProgress.url(args, options),
     method: 'get',
 })
@@ -604,10 +533,7 @@ financialProgress.get = (args: { site: number | { id: number } } | [site: number
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:53
 * @route '/mhp/sites/{site}/financial-progress'
 */
-financialProgress.head = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+financialProgress.head = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: financialProgress.url(args, options),
     method: 'head',
 })

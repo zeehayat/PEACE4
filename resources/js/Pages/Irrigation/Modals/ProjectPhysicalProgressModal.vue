@@ -15,6 +15,11 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    // Add this new prop to resolve the Vue warning
+    progressType: {
+        type: String,
+        default: 'Civil'
+    }
 });
 
 const emit = defineEmits(['close', 'saved']);
@@ -38,7 +43,6 @@ const formatNullableDate = (dateString) => {
     }
 };
 
-// FIX: This method will now ensure it fetches the latest data
 const fetchProgresses = async () => {
     isLoadingProgress.value = true;
     try {
@@ -78,8 +82,8 @@ const openEditForm = (progress) => {
 const handleFormSuccess = (message) => {
     showForm.value = false;
     selectedProgress.value = null;
-    fetchProgresses(); // FIX: Call the fetch method to update the list
-    emit('saved', message); // Emit saved event to the parent
+    fetchProgresses();
+    emit('saved', message);
 };
 const handleFormCancel = () => {
     showForm.value = false;
@@ -164,7 +168,3 @@ const modalTitle = computed(() => {
         </div>
     </Modal>
 </template>
-
-<style scoped>
-/* No specific scoped styles needed here */
-</style>

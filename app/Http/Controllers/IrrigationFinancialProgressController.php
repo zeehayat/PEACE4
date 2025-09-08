@@ -6,7 +6,7 @@ use App\Http\Requests\StoreProjectFinancialInstallmentRequest;
 use App\Http\Requests\UpdateProjectFinancialInstallmentRequest;
 use App\Models\IrrigationScheme;
 use App\Models\ProjectFinancialInstallment;
-use App\Services\IrrigationService;
+use App\Services\IrrigationSchemeService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
@@ -14,47 +14,47 @@ use Illuminate\Support\Facades\Gate;
 
 class IrrigationFinancialProgressController extends Controller
 {
-    protected $irrigationService;
+    protected $irrigationSchemeService;
 
-    public function __construct(IrrigationService $irrigationService)
+    public function __construct(IrrigationSchemeService $irrigationSchemeService)
     {
-        $this->irrigationService = $irrigationService;
+        $this->irrigationSchemeService = $irrigationSchemeService;
         $this->authorizeResource(ProjectFinancialInstallment::class, 'financial_installment');
     }
 
-    /**
-     * Display a listing of financial installments for a specific irrigation scheme.
-     */
     public function index(Request $request, IrrigationScheme $scheme)
     {
-        $query = $scheme->financialInstallments()->with('media');
+        $installments = $this->irrigationSchemeService->getFinancialInstallments($scheme);
 
-        if ($request->has('payment_for')) {
-            $query->where('payment_for', $request->input('payment_for'));
-        }
-
-        if ($request->has('only-data')) {
-            $installments = $query->orderBy('installment_date', 'desc')->get();
-            $installments->transform(function ($installment) {
-                $installment->attachments = $installment->attachments_frontend;
-                return $installment;
-            });
-
+        if ($request->wantsJson()) {
             return response()->json([
-                'financialInstallments' => $installments,
+                'financialInstallments' => $installments->map(function ($installment) {
+                    $installment->attachments = $installment->attachments_frontend;
+                    return $installment;
+                }),
             ]);
         }
 
         return redirect()->route('irrigation.schemes.index');
     }
 
-    /**
-     * Store a newly created financial installment record for an irrigation scheme.
-     */
-    public function store(StoreProjectFinancialInstallmentRequest $request, IrrigationScheme $scheme)
+    public function store(Request $request, IrrigationScheme $scheme)
     {
+        $validated = $request->validate([
+            'installment_number' => ['required', 'integer', 'min:1'],
+            'installment_date' => ['required', 'date'],
+            'installment_amount' => ['required', 'numeric', 'min:0'],
+            'category' => ['nullable', 'string'],
+            'remarks' => ['nullable', 'string'],
+            'payment_for' => ['required', 'in:Civil,EME,T&D'],
+            'projectable_id' => ['required', 'integer'],
+            'projectable_type' => ['required', 'string'],
+            'attachments' => ['nullable', 'array'],
+            'attachments.*' => ['file', 'max:5000'],
+        ]);
+
         try {
-            $this->irrigationService->createFinancialInstallment($scheme, $request->validated());
+            $this->irrigationSchemeService->createFinancialInstallment($scheme, $validated);
             return redirect()->back()->with('success', 'Financial Installment recorded successfully!');
         } catch (\Exception $e) {
             Log::error('Error creating Financial Installment for Irrigation Scheme: ' . $e->getMessage(), ['exception' => $e]);
@@ -62,13 +62,24 @@ class IrrigationFinancialProgressController extends Controller
         }
     }
 
-    /**
-     * Update the specified financial installment record.
-     */
-    public function update(UpdateProjectFinancialInstallmentRequest $request, IrrigationScheme $scheme, ProjectFinancialInstallment $financialInstallment)
+    public function update(Request $request, IrrigationScheme $scheme, ProjectFinancialInstallment $financialInstallment)
     {
+        $validated = $request->validate([
+            'installment_number' => ['required', 'integer', 'min:1'],
+            'installment_date' => ['required', 'date'],
+            'installment_amount' => ['required', 'numeric', 'min:0'],
+            'category' => ['nullable', 'string'],
+            'remarks' => ['nullable', 'string'],
+            'payment_for' => ['required', 'in:Civil,EME,T&D'],
+            'projectable_id' => ['required', 'integer'],
+            'projectable_type' => ['required', 'string'],
+            'attachments' => ['nullable', 'array'],
+            'attachments.*' => ['file', 'max:5000'],
+            'attachments_to_delete' => ['nullable', 'array'],
+        ]);
+
         try {
-            $this->irrigationService->updateFinancialInstallment($financialInstallment, $request->validated());
+            $this->irrigationSchemeService->updateFinancialInstallment($financialInstallment, $validated);
             return redirect()->back()->with('success', 'Financial Installment updated successfully!');
         } catch (\Exception $e) {
             Log::error('Error updating Financial Installment for Irrigation Scheme: ' . $e->getMessage(), ['exception' => $e]);
@@ -76,9 +87,6 @@ class IrrigationFinancialProgressController extends Controller
         }
     }
 
-    /**
-     * Remove the specified financial installment record.
-     */
     public function destroy(IrrigationScheme $scheme, ProjectFinancialInstallment $financialInstallment)
     {
         try {

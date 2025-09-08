@@ -1,7 +1,6 @@
 <script setup>
 import { reactive, watch, ref, onMounted } from 'vue';
 import { useForm } from '@inertiajs/vue3';
-
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
@@ -15,16 +14,13 @@ const props = defineProps({
     schemeId: { type: Number, required: true },
     progress: { type: Object, default: null },
     mode: { type: String, default: 'create' },
-    progressType: { type: String, default: 'Civil' }, // New prop for type
+    // Removed progressType prop as Irrigation schemes only have Civil progress
 });
 
 const emit = defineEmits(['success', 'cancel']);
 
 const isEditMode = ref(props.mode === 'update');
 const existingAttachments = ref([]);
-
-// Update the paymentForOptions array to include all types
-const paymentForOptions = ['Civil', 'EME', 'T&D'];
 
 function getInitialFormData(progress) {
     return {
@@ -33,7 +29,7 @@ function getInitialFormData(progress) {
         progress_percentage: progress ? progress.progress_percentage : null,
         progress_date: progress ? progress.progress_date : null,
         remarks: progress ? progress.remarks : '',
-        payment_for: progress ? progress.payment_for : props.progressType, // Use the new prop
+        payment_for: 'Civil', // Always Civil for Irrigation Schemes
         attachments: [],
         attachments_to_delete: [],
     };
@@ -49,26 +45,25 @@ watch(() => props.progress, (newVal) => {
     form.clearErrors();
 }, { immediate: true });
 
-const handleAttachmentsToDelete = (id) => {
-    form.attachments_to_delete.push(id);
-    existingAttachments.value = existingAttachments.value.filter(att => att.id !== id);
+const handleAttachmentsToDelete = (ids) => {
+    form.attachments_to_delete = ids;
+};
+
+const handleFileUpdate = (files) => {
+    form.attachments = files.map(fileItem => fileItem.file);
 };
 
 const handleSubmit = () => {
-    // FIX: Stop form submission and log data instead
-    console.log('--- ProjectPhysicalProgressForm: Submitting the following data ---');
-    console.log(form.data());
-
-    //To re-enable submission, uncomment the code below:
     const url = isEditMode.value
         ? route('irrigation.schemes.physical-progresses.update', { scheme: props.schemeId, physical_progress: props.progress.id })
         : route('irrigation.schemes.physical-progresses.store', { scheme: props.schemeId });
 
     form.transform((data) => {
+        const transformedData = { ...data };
         if (isEditMode.value) {
-            data._method = 'put';
+            transformedData._method = 'put';
         }
-        return data;
+        return transformedData;
     }).post(url, {
         onSuccess: () => {
             form.reset();
@@ -80,7 +75,7 @@ const handleSubmit = () => {
             console.error('Form errors:', errors);
         },
         preserveScroll: true,
-        preserveState: true,
+        forceFormData: true, // Crucial for file uploads
     });
 };
 
@@ -98,7 +93,6 @@ const handleCancel = () => {
         <input type="hidden" v-model="form.projectable_type" />
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Progress Date -->
             <div>
                 <InputLabel for="progress_date" value="Progress Date" />
                 <DatePicker
@@ -110,7 +104,6 @@ const handleCancel = () => {
                 <InputError class="mt-2" :message="form.errors.progress_date" />
             </div>
 
-            <!-- Progress Percentage -->
             <div>
                 <InputLabel for="progress_percentage" value="Progress Percentage (%)" />
                 <TextInput
@@ -126,21 +119,18 @@ const handleCancel = () => {
                 <InputError class="mt-2" :message="form.errors.progress_percentage" />
             </div>
 
-            <!-- Payment For -->
             <div>
                 <InputLabel for="payment_for" value="Payment For" />
-                <!-- Change TextInput to SelectInput to use the prop value -->
-                <SelectInput disabled="disabled"
-                             id="payment_for"
-                             v-model="form.payment_for"
-                             :options="paymentForOptions"
-                             class="mt-1 block w-full"
-                             :class="{ 'border-red-500': form.errors.payment_for }"
+                <TextInput
+                    disabled
+                    id="payment_for"
+                    v-model="form.payment_for"
+                    type="text"
+                    class="mt-1 block w-full bg-gray-100 cursor-not-allowed"
                 />
                 <InputError class="mt-2" :message="form.errors.payment_for" />
             </div>
 
-            <!-- Remarks (WYSIWYG Editor) -->
             <div class="md:col-span-2">
                 <InputLabel for="remarks" value="Remarks" />
                 <WysiwygEditor
@@ -153,13 +143,12 @@ const handleCancel = () => {
             </div>
         </div>
 
-        <!-- Attachments Section -->
         <div class="mt-6">
             <InputLabel value="Attachments" />
             <AttachmentUploader
-                v-model="form.attachments"
+                @update-files="handleFileUpdate"
                 :existing-attachments="existingAttachments"
-                @remove-existing="handleAttachmentsToDelete"
+                @delete-existing-attachments="handleAttachmentsToDelete"
                 :error-message="form.errors.attachments"
             />
             <InputError class="mt-2" :message="form.errors.attachments" />

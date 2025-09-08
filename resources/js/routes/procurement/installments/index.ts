@@ -1,28 +1,25 @@
-import { queryParams, type QueryParams } from './../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../../wayfinder'
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::index
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:27
 * @route '/procurement/installments'
 */
-export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const index = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: index.url(options),
     method: 'get',
 })
 
 index.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/procurement/installments',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::index
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:27
 * @route '/procurement/installments'
 */
-index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+index.url = (options?: RouteQueryOptions) => {
     return index.definition.url + queryParams(options)
 }
 
@@ -31,10 +28,7 @@ index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:27
 * @route '/procurement/installments'
 */
-index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: index.url(options),
     method: 'get',
 })
@@ -44,10 +38,7 @@ index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:27
 * @route '/procurement/installments'
 */
-index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: index.url(options),
     method: 'head',
 })
@@ -57,25 +48,22 @@ index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:83
 * @route '/procurement/installments/create'
 */
-export const create = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const create = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: create.url(options),
     method: 'get',
 })
 
 create.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/procurement/installments/create',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::create
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:83
 * @route '/procurement/installments/create'
 */
-create.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+create.url = (options?: RouteQueryOptions) => {
     return create.definition.url + queryParams(options)
 }
 
@@ -84,10 +72,7 @@ create.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:83
 * @route '/procurement/installments/create'
 */
-create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+create.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: create.url(options),
     method: 'get',
 })
@@ -97,10 +82,7 @@ create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:83
 * @route '/procurement/installments/create'
 */
-create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: create.url(options),
     method: 'head',
 })
@@ -110,25 +92,22 @@ create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:92
 * @route '/procurement/installments'
 */
-export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'post',
-} => ({
+export const store = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: store.url(options),
     method: 'post',
 })
 
 store.definition = {
-    methods: ['post'],
+    methods: ["post"],
     url: '/procurement/installments',
-}
+} satisfies RouteDefinition<["post"]>
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::store
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:92
 * @route '/procurement/installments'
 */
-store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+store.url = (options?: RouteQueryOptions) => {
     return store.definition.url + queryParams(options)
 }
 
@@ -137,10 +116,7 @@ store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:92
 * @route '/procurement/installments'
 */
-store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'post',
-} => ({
+store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: store.url(options),
     method: 'post',
 })
@@ -150,25 +126,22 @@ store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:106
 * @route '/procurement/installments/{installment}'
 */
-export const show = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const show = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(args, options),
     method: 'get',
 })
 
 show.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/procurement/installments/{installment}',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::show
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:106
 * @route '/procurement/installments/{installment}'
 */
-show.url = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+show.url = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { installment: args }
     }
@@ -178,6 +151,8 @@ show.url = (args: { installment: string | number } | [installment: string | numb
             installment: args[0],
         }
     }
+
+    args = applyUrlDefaults(args)
 
     const parsedArgs = {
         installment: args.installment,
@@ -193,10 +168,7 @@ show.url = (args: { installment: string | number } | [installment: string | numb
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:106
 * @route '/procurement/installments/{installment}'
 */
-show.get = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+show.get = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(args, options),
     method: 'get',
 })
@@ -206,10 +178,7 @@ show.get = (args: { installment: string | number } | [installment: string | numb
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:106
 * @route '/procurement/installments/{installment}'
 */
-show.head = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+show.head = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: show.url(args, options),
     method: 'head',
 })
@@ -219,25 +188,22 @@ show.head = (args: { installment: string | number } | [installment: string | num
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:121
 * @route '/procurement/installments/{installment}/edit'
 */
-export const edit = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const edit = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: edit.url(args, options),
     method: 'get',
 })
 
 edit.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/procurement/installments/{installment}/edit',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::edit
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:121
 * @route '/procurement/installments/{installment}/edit'
 */
-edit.url = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+edit.url = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { installment: args }
     }
@@ -247,6 +213,8 @@ edit.url = (args: { installment: string | number } | [installment: string | numb
             installment: args[0],
         }
     }
+
+    args = applyUrlDefaults(args)
 
     const parsedArgs = {
         installment: args.installment,
@@ -262,10 +230,7 @@ edit.url = (args: { installment: string | number } | [installment: string | numb
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:121
 * @route '/procurement/installments/{installment}/edit'
 */
-edit.get = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+edit.get = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: edit.url(args, options),
     method: 'get',
 })
@@ -275,10 +240,7 @@ edit.get = (args: { installment: string | number } | [installment: string | numb
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:121
 * @route '/procurement/installments/{installment}/edit'
 */
-edit.head = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+edit.head = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: edit.url(args, options),
     method: 'head',
 })
@@ -288,25 +250,22 @@ edit.head = (args: { installment: string | number } | [installment: string | num
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:129
 * @route '/procurement/installments/{installment}'
 */
-export const update = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'put',
-} => ({
+export const update = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: update.url(args, options),
     method: 'put',
 })
 
 update.definition = {
-    methods: ['put','patch'],
+    methods: ["put","patch"],
     url: '/procurement/installments/{installment}',
-}
+} satisfies RouteDefinition<["put","patch"]>
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::update
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:129
 * @route '/procurement/installments/{installment}'
 */
-update.url = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+update.url = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { installment: args }
     }
@@ -316,6 +275,8 @@ update.url = (args: { installment: string | number } | [installment: string | nu
             installment: args[0],
         }
     }
+
+    args = applyUrlDefaults(args)
 
     const parsedArgs = {
         installment: args.installment,
@@ -331,10 +292,7 @@ update.url = (args: { installment: string | number } | [installment: string | nu
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:129
 * @route '/procurement/installments/{installment}'
 */
-update.put = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'put',
-} => ({
+update.put = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: update.url(args, options),
     method: 'put',
 })
@@ -344,10 +302,7 @@ update.put = (args: { installment: string | number } | [installment: string | nu
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:129
 * @route '/procurement/installments/{installment}'
 */
-update.patch = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'patch',
-} => ({
+update.patch = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
     url: update.url(args, options),
     method: 'patch',
 })
@@ -357,25 +312,22 @@ update.patch = (args: { installment: string | number } | [installment: string | 
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:144
 * @route '/procurement/installments/{installment}'
 */
-export const destroy = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'delete',
-} => ({
+export const destroy = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
     url: destroy.url(args, options),
     method: 'delete',
 })
 
 destroy.definition = {
-    methods: ['delete'],
+    methods: ["delete"],
     url: '/procurement/installments/{installment}',
-}
+} satisfies RouteDefinition<["delete"]>
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::destroy
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:144
 * @route '/procurement/installments/{installment}'
 */
-destroy.url = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+destroy.url = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { installment: args }
     }
@@ -385,6 +337,8 @@ destroy.url = (args: { installment: string | number } | [installment: string | n
             installment: args[0],
         }
     }
+
+    args = applyUrlDefaults(args)
 
     const parsedArgs = {
         installment: args.installment,
@@ -400,10 +354,7 @@ destroy.url = (args: { installment: string | number } | [installment: string | n
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:144
 * @route '/procurement/installments/{installment}'
 */
-destroy.delete = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'delete',
-} => ({
+destroy.delete = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
     url: destroy.url(args, options),
     method: 'delete',
 })

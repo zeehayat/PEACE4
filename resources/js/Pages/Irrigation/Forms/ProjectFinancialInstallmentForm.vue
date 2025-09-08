@@ -22,7 +22,8 @@ const emit = defineEmits(['success', 'cancel']);
 const isEditMode = ref(props.mode === 'update');
 const existingAttachments = ref([]);
 
-const paymentForOptions = ['Civil', 'EME', 'T&D']; // Assumes these are the progress types
+// For irrigation schemes, payment is always Civil.
+const paymentForOptions = ['Civil'];
 
 function getInitialFormData(installment) {
     return {
@@ -33,7 +34,7 @@ function getInitialFormData(installment) {
         installment_amount: installment ? installment.installment_amount : null,
         category: installment ? installment.category : '',
         remarks: installment ? installment.remarks : '',
-        payment_for: installment ? installment.payment_for : 'Civil',
+        payment_for: 'Civil', // Force value to 'Civil'
         attachments: [],
         attachments_to_delete: [],
     };
@@ -49,9 +50,12 @@ watch(() => props.installment, (newVal) => {
     form.clearErrors();
 }, { immediate: true });
 
-const handleAttachmentsToDelete = (id) => {
-    form.attachments_to_delete.push(id);
-    existingAttachments.value = existingAttachments.value.filter(att => att.id !== id);
+const handleAttachmentsToDelete = (ids) => {
+    form.attachments_to_delete = ids;
+};
+
+const handleFileUpdate = (files) => {
+    form.attachments = files.map(fileItem => fileItem.file);
 };
 
 const handleSubmit = () => {
@@ -60,10 +64,11 @@ const handleSubmit = () => {
         : route('irrigation.schemes.financial-installments.store', { scheme: props.schemeId });
 
     form.transform((data) => {
+        const transformedData = { ...data };
         if (isEditMode.value) {
-            data._method = 'put';
+            transformedData._method = 'put';
         }
-        return data;
+        return transformedData;
     }).post(url, {
         onSuccess: () => {
             form.reset();
@@ -75,7 +80,7 @@ const handleSubmit = () => {
             console.error('Form errors:', errors);
         },
         preserveScroll: true,
-        preserveState: true,
+        forceFormData: true,
     });
 };
 
@@ -93,7 +98,6 @@ const handleCancel = () => {
         <input type="hidden" v-model="form.projectable_type" />
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Installment Number -->
             <div>
                 <InputLabel for="installment_number" value="Installment Number" />
                 <TextInput
@@ -107,7 +111,6 @@ const handleCancel = () => {
                 <InputError class="mt-2" :message="form.errors.installment_number" />
             </div>
 
-            <!-- Installment Date -->
             <div>
                 <InputLabel for="installment_date" value="Installment Date" />
                 <DatePicker
@@ -119,7 +122,6 @@ const handleCancel = () => {
                 <InputError class="mt-2" :message="form.errors.installment_date" />
             </div>
 
-            <!-- Installment Amount -->
             <div>
                 <InputLabel for="installment_amount" value="Installment Amount (PKR)" />
                 <TextInput
@@ -134,10 +136,10 @@ const handleCancel = () => {
                 <InputError class="mt-2" :message="form.errors.installment_amount" />
             </div>
 
-            <!-- Payment For -->
             <div>
                 <InputLabel for="payment_for" value="Payment For" />
                 <SelectInput
+                    disabled
                     id="payment_for"
                     v-model="form.payment_for"
                     :options="paymentForOptions"
@@ -147,7 +149,6 @@ const handleCancel = () => {
                 <InputError class="mt-2" :message="form.errors.payment_for" />
             </div>
 
-            <!-- Category (optional) -->
             <div>
                 <InputLabel for="category" value="Category (Optional)" />
                 <TextInput
@@ -160,7 +161,6 @@ const handleCancel = () => {
                 <InputError class="mt-2" :message="form.errors.category" />
             </div>
 
-            <!-- Remarks (WYSIWYG Editor) -->
             <div class="md:col-span-2">
                 <InputLabel for="remarks" value="Remarks" />
                 <WysiwygEditor
@@ -173,13 +173,12 @@ const handleCancel = () => {
             </div>
         </div>
 
-        <!-- Attachments Section -->
         <div class="mt-6">
             <InputLabel value="Attachments" />
             <AttachmentUploader
-                v-model="form.attachments"
+                @update-files="handleFileUpdate"
                 :existing-attachments="existingAttachments"
-                @remove-existing="handleAttachmentsToDelete"
+                @delete-existing-attachments="handleAttachmentsToDelete"
                 :error-message="form.errors.attachments"
             />
             <InputError class="mt-2" :message="form.errors.attachments" />

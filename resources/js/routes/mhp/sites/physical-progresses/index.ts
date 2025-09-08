@@ -1,28 +1,25 @@
-import { queryParams, type QueryParams } from './../../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\ProjectPhysicalProgressController::index
 * @see app/Http/Controllers/ProjectPhysicalProgressController.php:27
 * @route '/mhp/sites/{site}/physical-progresses'
 */
-export const index = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const index = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: index.url(args, options),
     method: 'get',
 })
 
 index.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/mhp/sites/{site}/physical-progresses',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\ProjectPhysicalProgressController::index
 * @see app/Http/Controllers/ProjectPhysicalProgressController.php:27
 * @route '/mhp/sites/{site}/physical-progresses'
 */
-index.url = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+index.url = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { site: args }
     }
@@ -36,6 +33,8 @@ index.url = (args: { site: number | { id: number } } | [site: number | { id: num
             site: args[0],
         }
     }
+
+    args = applyUrlDefaults(args)
 
     const parsedArgs = {
         site: typeof args.site === 'object'
@@ -53,10 +52,7 @@ index.url = (args: { site: number | { id: number } } | [site: number | { id: num
 * @see app/Http/Controllers/ProjectPhysicalProgressController.php:27
 * @route '/mhp/sites/{site}/physical-progresses'
 */
-index.get = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+index.get = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: index.url(args, options),
     method: 'get',
 })
@@ -66,10 +62,7 @@ index.get = (args: { site: number | { id: number } } | [site: number | { id: num
 * @see app/Http/Controllers/ProjectPhysicalProgressController.php:27
 * @route '/mhp/sites/{site}/physical-progresses'
 */
-index.head = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+index.head = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: index.url(args, options),
     method: 'head',
 })
@@ -79,25 +72,22 @@ index.head = (args: { site: number | { id: number } } | [site: number | { id: nu
 * @see app/Http/Controllers/ProjectPhysicalProgressController.php:0
 * @route '/mhp/sites/{site}/physical-progresses/create'
 */
-export const create = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const create = (args: { site: string | number } | [site: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: create.url(args, options),
     method: 'get',
 })
 
 create.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/mhp/sites/{site}/physical-progresses/create',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\ProjectPhysicalProgressController::create
 * @see app/Http/Controllers/ProjectPhysicalProgressController.php:0
 * @route '/mhp/sites/{site}/physical-progresses/create'
 */
-create.url = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+create.url = (args: { site: string | number } | [site: string | number ] | string | number, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { site: args }
     }
@@ -107,6 +97,8 @@ create.url = (args: { site: string | number } | [site: string | number ] | strin
             site: args[0],
         }
     }
+
+    args = applyUrlDefaults(args)
 
     const parsedArgs = {
         site: args.site,
@@ -122,10 +114,7 @@ create.url = (args: { site: string | number } | [site: string | number ] | strin
 * @see app/Http/Controllers/ProjectPhysicalProgressController.php:0
 * @route '/mhp/sites/{site}/physical-progresses/create'
 */
-create.get = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+create.get = (args: { site: string | number } | [site: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: create.url(args, options),
     method: 'get',
 })
@@ -135,10 +124,7 @@ create.get = (args: { site: string | number } | [site: string | number ] | strin
 * @see app/Http/Controllers/ProjectPhysicalProgressController.php:0
 * @route '/mhp/sites/{site}/physical-progresses/create'
 */
-create.head = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+create.head = (args: { site: string | number } | [site: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: create.url(args, options),
     method: 'head',
 })
@@ -148,25 +134,22 @@ create.head = (args: { site: string | number } | [site: string | number ] | stri
 * @see app/Http/Controllers/ProjectPhysicalProgressController.php:75
 * @route '/mhp/sites/{site}/physical-progresses'
 */
-export const store = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'post',
-} => ({
+export const store = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: store.url(args, options),
     method: 'post',
 })
 
 store.definition = {
-    methods: ['post'],
+    methods: ["post"],
     url: '/mhp/sites/{site}/physical-progresses',
-}
+} satisfies RouteDefinition<["post"]>
 
 /**
 * @see \App\Http\Controllers\ProjectPhysicalProgressController::store
 * @see app/Http/Controllers/ProjectPhysicalProgressController.php:75
 * @route '/mhp/sites/{site}/physical-progresses'
 */
-store.url = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+store.url = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { site: args }
     }
@@ -180,6 +163,8 @@ store.url = (args: { site: number | { id: number } } | [site: number | { id: num
             site: args[0],
         }
     }
+
+    args = applyUrlDefaults(args)
 
     const parsedArgs = {
         site: typeof args.site === 'object'
@@ -197,10 +182,7 @@ store.url = (args: { site: number | { id: number } } | [site: number | { id: num
 * @see app/Http/Controllers/ProjectPhysicalProgressController.php:75
 * @route '/mhp/sites/{site}/physical-progresses'
 */
-store.post = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'post',
-} => ({
+store.post = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: store.url(args, options),
     method: 'post',
 })

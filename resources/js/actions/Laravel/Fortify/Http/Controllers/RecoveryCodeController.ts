@@ -1,93 +1,78 @@
-import { queryParams, type QueryParams } from './../../../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition } from './../../../../../wayfinder'
 /**
 * @see \Laravel\Fortify\Http\Controllers\RecoveryCodeController::index
-* @see vendor/laravel/fortify/src/Http/Controllers/RecoveryCodeController.php:18
+* @see vendor/laravel/fortify/src/Http/Controllers/RecoveryCodeController.php:20
 * @route '/user/two-factor-recovery-codes'
 */
-export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const index = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: index.url(options),
     method: 'get',
 })
 
 index.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/user/two-factor-recovery-codes',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\RecoveryCodeController::index
-* @see vendor/laravel/fortify/src/Http/Controllers/RecoveryCodeController.php:18
+* @see vendor/laravel/fortify/src/Http/Controllers/RecoveryCodeController.php:20
 * @route '/user/two-factor-recovery-codes'
 */
-index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+index.url = (options?: RouteQueryOptions) => {
     return index.definition.url + queryParams(options)
 }
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\RecoveryCodeController::index
-* @see vendor/laravel/fortify/src/Http/Controllers/RecoveryCodeController.php:18
+* @see vendor/laravel/fortify/src/Http/Controllers/RecoveryCodeController.php:20
 * @route '/user/two-factor-recovery-codes'
 */
-index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: index.url(options),
     method: 'get',
 })
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\RecoveryCodeController::index
-* @see vendor/laravel/fortify/src/Http/Controllers/RecoveryCodeController.php:18
+* @see vendor/laravel/fortify/src/Http/Controllers/RecoveryCodeController.php:20
 * @route '/user/two-factor-recovery-codes'
 */
-index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: index.url(options),
     method: 'head',
 })
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\RecoveryCodeController::store
-* @see vendor/laravel/fortify/src/Http/Controllers/RecoveryCodeController.php:37
+* @see vendor/laravel/fortify/src/Http/Controllers/RecoveryCodeController.php:39
 * @route '/user/two-factor-recovery-codes'
 */
-export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'post',
-} => ({
+export const store = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: store.url(options),
     method: 'post',
 })
 
 store.definition = {
-    methods: ['post'],
+    methods: ["post"],
     url: '/user/two-factor-recovery-codes',
-}
+} satisfies RouteDefinition<["post"]>
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\RecoveryCodeController::store
-* @see vendor/laravel/fortify/src/Http/Controllers/RecoveryCodeController.php:37
+* @see vendor/laravel/fortify/src/Http/Controllers/RecoveryCodeController.php:39
 * @route '/user/two-factor-recovery-codes'
 */
-store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+store.url = (options?: RouteQueryOptions) => {
     return store.definition.url + queryParams(options)
 }
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\RecoveryCodeController::store
-* @see vendor/laravel/fortify/src/Http/Controllers/RecoveryCodeController.php:37
+* @see vendor/laravel/fortify/src/Http/Controllers/RecoveryCodeController.php:39
 * @route '/user/two-factor-recovery-codes'
 */
-store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'post',
-} => ({
+store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: store.url(options),
     method: 'post',
 })

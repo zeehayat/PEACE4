@@ -1,4 +1,4 @@
-import { queryParams, type QueryParams } from './../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition } from './../../wayfinder'
 import schemes from './schemes'
 import physicalProgresses from './physical-progresses'
 import adminApprovals from './admin-approvals'
@@ -7,25 +7,22 @@ import adminApprovals from './admin-approvals'
 * @see app/Http/Controllers/IrrigationDashboardController.php:17
 * @route '/irrigation-dashboard'
 */
-export const dashboard = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const dashboard = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: dashboard.url(options),
     method: 'get',
 })
 
 dashboard.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/irrigation-dashboard',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\IrrigationDashboardController::dashboard
 * @see app/Http/Controllers/IrrigationDashboardController.php:17
 * @route '/irrigation-dashboard'
 */
-dashboard.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+dashboard.url = (options?: RouteQueryOptions) => {
     return dashboard.definition.url + queryParams(options)
 }
 
@@ -34,10 +31,7 @@ dashboard.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) =>
 * @see app/Http/Controllers/IrrigationDashboardController.php:17
 * @route '/irrigation-dashboard'
 */
-dashboard.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+dashboard.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: dashboard.url(options),
     method: 'get',
 })
@@ -47,10 +41,7 @@ dashboard.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 * @see app/Http/Controllers/IrrigationDashboardController.php:17
 * @route '/irrigation-dashboard'
 */
-dashboard.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+dashboard.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: dashboard.url(options),
     method: 'head',
 })

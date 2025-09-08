@@ -1,20 +1,26 @@
-import { queryParams, type QueryParams } from './../../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\CboController::index
 * @see app/Http/Controllers/CboController.php:29
 * @route '/cbo/cbos'
 */
-const index43ee27c64fb0178a508787f29b739c20 = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: index43ee27c64fb0178a508787f29b739c20.url(options),
+const index0c035edc44b305cb6bb090e87620a774 = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: index0c035edc44b305cb6bb090e87620a774.url(options),
     method: 'get',
 })
 
-index43ee27c64fb0178a508787f29b739c20.definition = {
-    methods: ['get','head'],
+index0c035edc44b305cb6bb090e87620a774.definition = {
+    methods: ["get","head"],
     url: '/cbo/cbos',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \App\Http\Controllers\CboController::index
+* @see app/Http/Controllers/CboController.php:29
+* @route '/cbo/cbos'
+*/
+index0c035edc44b305cb6bb090e87620a774.url = (options?: RouteQueryOptions) => {
+    return index0c035edc44b305cb6bb090e87620a774.definition.url + queryParams(options)
 }
 
 /**
@@ -22,20 +28,8 @@ index43ee27c64fb0178a508787f29b739c20.definition = {
 * @see app/Http/Controllers/CboController.php:29
 * @route '/cbo/cbos'
 */
-index43ee27c64fb0178a508787f29b739c20.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return index43ee27c64fb0178a508787f29b739c20.definition.url + queryParams(options)
-}
-
-/**
-* @see \App\Http\Controllers\CboController::index
-* @see app/Http/Controllers/CboController.php:29
-* @route '/cbo/cbos'
-*/
-index43ee27c64fb0178a508787f29b739c20.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: index43ee27c64fb0178a508787f29b739c20.url(options),
+index0c035edc44b305cb6bb090e87620a774.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: index0c035edc44b305cb6bb090e87620a774.url(options),
     method: 'get',
 })
 
@@ -44,11 +38,8 @@ index43ee27c64fb0178a508787f29b739c20.get = (options?: { query?: QueryParams, me
 * @see app/Http/Controllers/CboController.php:29
 * @route '/cbo/cbos'
 */
-index43ee27c64fb0178a508787f29b739c20.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
-    url: index43ee27c64fb0178a508787f29b739c20.url(options),
+index0c035edc44b305cb6bb090e87620a774.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: index0c035edc44b305cb6bb090e87620a774.url(options),
     method: 'head',
 })
 
@@ -57,25 +48,22 @@ index43ee27c64fb0178a508787f29b739c20.head = (options?: { query?: QueryParams, m
 * @see app/Http/Controllers/CboController.php:29
 * @route '/cbo/cbos/{cbo}/details'
 */
-const indexf97de3ead5a01f66a2945409c7d852b5 = (args: { cbo: string | number } | [cbo: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: indexf97de3ead5a01f66a2945409c7d852b5.url(args, options),
+const index5b56dba9ce463540294f225eb3b7292e = (args: { cbo: string | number } | [cbo: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: index5b56dba9ce463540294f225eb3b7292e.url(args, options),
     method: 'get',
 })
 
-indexf97de3ead5a01f66a2945409c7d852b5.definition = {
-    methods: ['get','head'],
+index5b56dba9ce463540294f225eb3b7292e.definition = {
+    methods: ["get","head"],
     url: '/cbo/cbos/{cbo}/details',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\CboController::index
 * @see app/Http/Controllers/CboController.php:29
 * @route '/cbo/cbos/{cbo}/details'
 */
-indexf97de3ead5a01f66a2945409c7d852b5.url = (args: { cbo: string | number } | [cbo: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+index5b56dba9ce463540294f225eb3b7292e.url = (args: { cbo: string | number } | [cbo: string | number ] | string | number, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { cbo: args }
     }
@@ -86,11 +74,13 @@ indexf97de3ead5a01f66a2945409c7d852b5.url = (args: { cbo: string | number } | [c
         }
     }
 
+    args = applyUrlDefaults(args)
+
     const parsedArgs = {
         cbo: args.cbo,
     }
 
-    return indexf97de3ead5a01f66a2945409c7d852b5.definition.url
+    return index5b56dba9ce463540294f225eb3b7292e.definition.url
             .replace('{cbo}', parsedArgs.cbo.toString())
             .replace(/\/+$/, '') + queryParams(options)
 }
@@ -100,11 +90,8 @@ indexf97de3ead5a01f66a2945409c7d852b5.url = (args: { cbo: string | number } | [c
 * @see app/Http/Controllers/CboController.php:29
 * @route '/cbo/cbos/{cbo}/details'
 */
-indexf97de3ead5a01f66a2945409c7d852b5.get = (args: { cbo: string | number } | [cbo: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: indexf97de3ead5a01f66a2945409c7d852b5.url(args, options),
+index5b56dba9ce463540294f225eb3b7292e.get = (args: { cbo: string | number } | [cbo: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: index5b56dba9ce463540294f225eb3b7292e.url(args, options),
     method: 'get',
 })
 
@@ -113,17 +100,14 @@ indexf97de3ead5a01f66a2945409c7d852b5.get = (args: { cbo: string | number } | [c
 * @see app/Http/Controllers/CboController.php:29
 * @route '/cbo/cbos/{cbo}/details'
 */
-indexf97de3ead5a01f66a2945409c7d852b5.head = (args: { cbo: string | number } | [cbo: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
-    url: indexf97de3ead5a01f66a2945409c7d852b5.url(args, options),
+index5b56dba9ce463540294f225eb3b7292e.head = (args: { cbo: string | number } | [cbo: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: index5b56dba9ce463540294f225eb3b7292e.url(args, options),
     method: 'head',
 })
 
 export const index = {
-    '/cbo/cbos': index43ee27c64fb0178a508787f29b739c20,
-    '/cbo/cbos/{cbo}/details': indexf97de3ead5a01f66a2945409c7d852b5,
+    '/cbo/cbos': index0c035edc44b305cb6bb090e87620a774,
+    '/cbo/cbos/{cbo}/details': index5b56dba9ce463540294f225eb3b7292e,
 }
 
 /**
@@ -131,25 +115,22 @@ export const index = {
 * @see app/Http/Controllers/CboController.php:0
 * @route '/cbo/cbos/create'
 */
-export const create = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const create = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: create.url(options),
     method: 'get',
 })
 
 create.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/cbo/cbos/create',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\CboController::create
 * @see app/Http/Controllers/CboController.php:0
 * @route '/cbo/cbos/create'
 */
-create.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+create.url = (options?: RouteQueryOptions) => {
     return create.definition.url + queryParams(options)
 }
 
@@ -158,10 +139,7 @@ create.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 * @see app/Http/Controllers/CboController.php:0
 * @route '/cbo/cbos/create'
 */
-create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+create.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: create.url(options),
     method: 'get',
 })
@@ -171,10 +149,7 @@ create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 * @see app/Http/Controllers/CboController.php:0
 * @route '/cbo/cbos/create'
 */
-create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: create.url(options),
     method: 'head',
 })
@@ -184,25 +159,22 @@ create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 * @see app/Http/Controllers/CboController.php:72
 * @route '/cbo/cbos'
 */
-export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'post',
-} => ({
+export const store = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: store.url(options),
     method: 'post',
 })
 
 store.definition = {
-    methods: ['post'],
+    methods: ["post"],
     url: '/cbo/cbos',
-}
+} satisfies RouteDefinition<["post"]>
 
 /**
 * @see \App\Http\Controllers\CboController::store
 * @see app/Http/Controllers/CboController.php:72
 * @route '/cbo/cbos'
 */
-store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+store.url = (options?: RouteQueryOptions) => {
     return store.definition.url + queryParams(options)
 }
 
@@ -211,10 +183,7 @@ store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 * @see app/Http/Controllers/CboController.php:72
 * @route '/cbo/cbos'
 */
-store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'post',
-} => ({
+store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: store.url(options),
     method: 'post',
 })
@@ -224,25 +193,22 @@ store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 * @see app/Http/Controllers/CboController.php:87
 * @route '/cbo/cbos/{cbo}'
 */
-export const show = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const show = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(args, options),
     method: 'get',
 })
 
 show.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/cbo/cbos/{cbo}',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\CboController::show
 * @see app/Http/Controllers/CboController.php:87
 * @route '/cbo/cbos/{cbo}'
 */
-show.url = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+show.url = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { cbo: args }
     }
@@ -256,6 +222,8 @@ show.url = (args: { cbo: number | { id: number } } | [cbo: number | { id: number
             cbo: args[0],
         }
     }
+
+    args = applyUrlDefaults(args)
 
     const parsedArgs = {
         cbo: typeof args.cbo === 'object'
@@ -273,10 +241,7 @@ show.url = (args: { cbo: number | { id: number } } | [cbo: number | { id: number
 * @see app/Http/Controllers/CboController.php:87
 * @route '/cbo/cbos/{cbo}'
 */
-show.get = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+show.get = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(args, options),
     method: 'get',
 })
@@ -286,10 +251,7 @@ show.get = (args: { cbo: number | { id: number } } | [cbo: number | { id: number
 * @see app/Http/Controllers/CboController.php:87
 * @route '/cbo/cbos/{cbo}'
 */
-show.head = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+show.head = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: show.url(args, options),
     method: 'head',
 })
@@ -299,25 +261,22 @@ show.head = (args: { cbo: number | { id: number } } | [cbo: number | { id: numbe
 * @see app/Http/Controllers/CboController.php:0
 * @route '/cbo/cbos/{cbo}/edit'
 */
-export const edit = (args: { cbo: string | number } | [cbo: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const edit = (args: { cbo: string | number } | [cbo: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: edit.url(args, options),
     method: 'get',
 })
 
 edit.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/cbo/cbos/{cbo}/edit',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\CboController::edit
 * @see app/Http/Controllers/CboController.php:0
 * @route '/cbo/cbos/{cbo}/edit'
 */
-edit.url = (args: { cbo: string | number } | [cbo: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+edit.url = (args: { cbo: string | number } | [cbo: string | number ] | string | number, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { cbo: args }
     }
@@ -327,6 +286,8 @@ edit.url = (args: { cbo: string | number } | [cbo: string | number ] | string | 
             cbo: args[0],
         }
     }
+
+    args = applyUrlDefaults(args)
 
     const parsedArgs = {
         cbo: args.cbo,
@@ -342,10 +303,7 @@ edit.url = (args: { cbo: string | number } | [cbo: string | number ] | string | 
 * @see app/Http/Controllers/CboController.php:0
 * @route '/cbo/cbos/{cbo}/edit'
 */
-edit.get = (args: { cbo: string | number } | [cbo: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+edit.get = (args: { cbo: string | number } | [cbo: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: edit.url(args, options),
     method: 'get',
 })
@@ -355,10 +313,7 @@ edit.get = (args: { cbo: string | number } | [cbo: string | number ] | string | 
 * @see app/Http/Controllers/CboController.php:0
 * @route '/cbo/cbos/{cbo}/edit'
 */
-edit.head = (args: { cbo: string | number } | [cbo: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+edit.head = (args: { cbo: string | number } | [cbo: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: edit.url(args, options),
     method: 'head',
 })
@@ -368,25 +323,22 @@ edit.head = (args: { cbo: string | number } | [cbo: string | number ] | string |
 * @see app/Http/Controllers/CboController.php:100
 * @route '/cbo/cbos/{cbo}'
 */
-export const update = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'put',
-} => ({
+export const update = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: update.url(args, options),
     method: 'put',
 })
 
 update.definition = {
-    methods: ['put','patch'],
+    methods: ["put","patch"],
     url: '/cbo/cbos/{cbo}',
-}
+} satisfies RouteDefinition<["put","patch"]>
 
 /**
 * @see \App\Http\Controllers\CboController::update
 * @see app/Http/Controllers/CboController.php:100
 * @route '/cbo/cbos/{cbo}'
 */
-update.url = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+update.url = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { cbo: args }
     }
@@ -400,6 +352,8 @@ update.url = (args: { cbo: number | { id: number } } | [cbo: number | { id: numb
             cbo: args[0],
         }
     }
+
+    args = applyUrlDefaults(args)
 
     const parsedArgs = {
         cbo: typeof args.cbo === 'object'
@@ -417,10 +371,7 @@ update.url = (args: { cbo: number | { id: number } } | [cbo: number | { id: numb
 * @see app/Http/Controllers/CboController.php:100
 * @route '/cbo/cbos/{cbo}'
 */
-update.put = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'put',
-} => ({
+update.put = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: update.url(args, options),
     method: 'put',
 })
@@ -430,10 +381,7 @@ update.put = (args: { cbo: number | { id: number } } | [cbo: number | { id: numb
 * @see app/Http/Controllers/CboController.php:100
 * @route '/cbo/cbos/{cbo}'
 */
-update.patch = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'patch',
-} => ({
+update.patch = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
     url: update.url(args, options),
     method: 'patch',
 })
@@ -443,25 +391,22 @@ update.patch = (args: { cbo: number | { id: number } } | [cbo: number | { id: nu
 * @see app/Http/Controllers/CboController.php:115
 * @route '/cbo/cbos/{cbo}'
 */
-export const destroy = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'delete',
-} => ({
+export const destroy = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
     url: destroy.url(args, options),
     method: 'delete',
 })
 
 destroy.definition = {
-    methods: ['delete'],
+    methods: ["delete"],
     url: '/cbo/cbos/{cbo}',
-}
+} satisfies RouteDefinition<["delete"]>
 
 /**
 * @see \App\Http\Controllers\CboController::destroy
 * @see app/Http/Controllers/CboController.php:115
 * @route '/cbo/cbos/{cbo}'
 */
-destroy.url = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+destroy.url = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { cbo: args }
     }
@@ -475,6 +420,8 @@ destroy.url = (args: { cbo: number | { id: number } } | [cbo: number | { id: num
             cbo: args[0],
         }
     }
+
+    args = applyUrlDefaults(args)
 
     const parsedArgs = {
         cbo: typeof args.cbo === 'object'
@@ -492,10 +439,7 @@ destroy.url = (args: { cbo: number | { id: number } } | [cbo: number | { id: num
 * @see app/Http/Controllers/CboController.php:115
 * @route '/cbo/cbos/{cbo}'
 */
-destroy.delete = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'delete',
-} => ({
+destroy.delete = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
     url: destroy.url(args, options),
     method: 'delete',
 })
@@ -505,25 +449,22 @@ destroy.delete = (args: { cbo: number | { id: number } } | [cbo: number | { id: 
 * @see app/Http/Controllers/CboController.php:0
 * @route '/cbo/cbos/auto-search'
 */
-export const autoSearch = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const autoSearch = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: autoSearch.url(options),
     method: 'get',
 })
 
 autoSearch.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/cbo/cbos/auto-search',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\CboController::autoSearch
 * @see app/Http/Controllers/CboController.php:0
 * @route '/cbo/cbos/auto-search'
 */
-autoSearch.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+autoSearch.url = (options?: RouteQueryOptions) => {
     return autoSearch.definition.url + queryParams(options)
 }
 
@@ -532,10 +473,7 @@ autoSearch.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) =
 * @see app/Http/Controllers/CboController.php:0
 * @route '/cbo/cbos/auto-search'
 */
-autoSearch.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+autoSearch.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: autoSearch.url(options),
     method: 'get',
 })
@@ -545,10 +483,7 @@ autoSearch.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): 
 * @see app/Http/Controllers/CboController.php:0
 * @route '/cbo/cbos/auto-search'
 */
-autoSearch.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+autoSearch.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: autoSearch.url(options),
     method: 'head',
 })

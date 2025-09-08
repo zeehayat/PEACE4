@@ -1,28 +1,25 @@
-import { queryParams, type QueryParams } from './../../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::index
 * @see app/Http/Controllers/LrmCommitteeController.php:29
 * @route '/lrm/lrm-committees'
 */
-export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const index = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: index.url(options),
     method: 'get',
 })
 
 index.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/lrm/lrm-committees',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::index
 * @see app/Http/Controllers/LrmCommitteeController.php:29
 * @route '/lrm/lrm-committees'
 */
-index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+index.url = (options?: RouteQueryOptions) => {
     return index.definition.url + queryParams(options)
 }
 
@@ -31,10 +28,7 @@ index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 * @see app/Http/Controllers/LrmCommitteeController.php:29
 * @route '/lrm/lrm-committees'
 */
-index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: index.url(options),
     method: 'get',
 })
@@ -44,10 +38,7 @@ index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 * @see app/Http/Controllers/LrmCommitteeController.php:29
 * @route '/lrm/lrm-committees'
 */
-index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: index.url(options),
     method: 'head',
 })
@@ -57,25 +48,22 @@ index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 * @see app/Http/Controllers/LrmCommitteeController.php:0
 * @route '/lrm/lrm-committees/create'
 */
-export const create = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const create = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: create.url(options),
     method: 'get',
 })
 
 create.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/lrm/lrm-committees/create',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::create
 * @see app/Http/Controllers/LrmCommitteeController.php:0
 * @route '/lrm/lrm-committees/create'
 */
-create.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+create.url = (options?: RouteQueryOptions) => {
     return create.definition.url + queryParams(options)
 }
 
@@ -84,10 +72,7 @@ create.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 * @see app/Http/Controllers/LrmCommitteeController.php:0
 * @route '/lrm/lrm-committees/create'
 */
-create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+create.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: create.url(options),
     method: 'get',
 })
@@ -97,10 +82,7 @@ create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 * @see app/Http/Controllers/LrmCommitteeController.php:0
 * @route '/lrm/lrm-committees/create'
 */
-create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: create.url(options),
     method: 'head',
 })
@@ -110,25 +92,22 @@ create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 * @see app/Http/Controllers/LrmCommitteeController.php:74
 * @route '/lrm/lrm-committees'
 */
-export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'post',
-} => ({
+export const store = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: store.url(options),
     method: 'post',
 })
 
 store.definition = {
-    methods: ['post'],
+    methods: ["post"],
     url: '/lrm/lrm-committees',
-}
+} satisfies RouteDefinition<["post"]>
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::store
 * @see app/Http/Controllers/LrmCommitteeController.php:74
 * @route '/lrm/lrm-committees'
 */
-store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+store.url = (options?: RouteQueryOptions) => {
     return store.definition.url + queryParams(options)
 }
 
@@ -137,10 +116,7 @@ store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 * @see app/Http/Controllers/LrmCommitteeController.php:74
 * @route '/lrm/lrm-committees'
 */
-store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'post',
-} => ({
+store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: store.url(options),
     method: 'post',
 })
@@ -150,25 +126,22 @@ store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 * @see app/Http/Controllers/LrmCommitteeController.php:88
 * @route '/lrm/lrm-committees/{lrm_committee}'
 */
-export const show = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const show = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(args, options),
     method: 'get',
 })
 
 show.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/lrm/lrm-committees/{lrm_committee}',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::show
 * @see app/Http/Controllers/LrmCommitteeController.php:88
 * @route '/lrm/lrm-committees/{lrm_committee}'
 */
-show.url = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+show.url = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { lrm_committee: args }
     }
@@ -178,6 +151,8 @@ show.url = (args: { lrm_committee: string | number } | [lrm_committee: string | 
             lrm_committee: args[0],
         }
     }
+
+    args = applyUrlDefaults(args)
 
     const parsedArgs = {
         lrm_committee: args.lrm_committee,
@@ -193,10 +168,7 @@ show.url = (args: { lrm_committee: string | number } | [lrm_committee: string | 
 * @see app/Http/Controllers/LrmCommitteeController.php:88
 * @route '/lrm/lrm-committees/{lrm_committee}'
 */
-show.get = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+show.get = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(args, options),
     method: 'get',
 })
@@ -206,10 +178,7 @@ show.get = (args: { lrm_committee: string | number } | [lrm_committee: string | 
 * @see app/Http/Controllers/LrmCommitteeController.php:88
 * @route '/lrm/lrm-committees/{lrm_committee}'
 */
-show.head = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+show.head = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: show.url(args, options),
     method: 'head',
 })
@@ -219,25 +188,22 @@ show.head = (args: { lrm_committee: string | number } | [lrm_committee: string |
 * @see app/Http/Controllers/LrmCommitteeController.php:0
 * @route '/lrm/lrm-committees/{lrm_committee}/edit'
 */
-export const edit = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const edit = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: edit.url(args, options),
     method: 'get',
 })
 
 edit.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/lrm/lrm-committees/{lrm_committee}/edit',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::edit
 * @see app/Http/Controllers/LrmCommitteeController.php:0
 * @route '/lrm/lrm-committees/{lrm_committee}/edit'
 */
-edit.url = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+edit.url = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { lrm_committee: args }
     }
@@ -247,6 +213,8 @@ edit.url = (args: { lrm_committee: string | number } | [lrm_committee: string | 
             lrm_committee: args[0],
         }
     }
+
+    args = applyUrlDefaults(args)
 
     const parsedArgs = {
         lrm_committee: args.lrm_committee,
@@ -262,10 +230,7 @@ edit.url = (args: { lrm_committee: string | number } | [lrm_committee: string | 
 * @see app/Http/Controllers/LrmCommitteeController.php:0
 * @route '/lrm/lrm-committees/{lrm_committee}/edit'
 */
-edit.get = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+edit.get = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: edit.url(args, options),
     method: 'get',
 })
@@ -275,10 +240,7 @@ edit.get = (args: { lrm_committee: string | number } | [lrm_committee: string | 
 * @see app/Http/Controllers/LrmCommitteeController.php:0
 * @route '/lrm/lrm-committees/{lrm_committee}/edit'
 */
-edit.head = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+edit.head = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: edit.url(args, options),
     method: 'head',
 })
@@ -288,25 +250,22 @@ edit.head = (args: { lrm_committee: string | number } | [lrm_committee: string |
 * @see app/Http/Controllers/LrmCommitteeController.php:97
 * @route '/lrm/lrm-committees/{lrm_committee}'
 */
-export const update = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'put',
-} => ({
+export const update = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: update.url(args, options),
     method: 'put',
 })
 
 update.definition = {
-    methods: ['put','patch'],
+    methods: ["put","patch"],
     url: '/lrm/lrm-committees/{lrm_committee}',
-}
+} satisfies RouteDefinition<["put","patch"]>
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::update
 * @see app/Http/Controllers/LrmCommitteeController.php:97
 * @route '/lrm/lrm-committees/{lrm_committee}'
 */
-update.url = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+update.url = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { lrm_committee: args }
     }
@@ -316,6 +275,8 @@ update.url = (args: { lrm_committee: string | number } | [lrm_committee: string 
             lrm_committee: args[0],
         }
     }
+
+    args = applyUrlDefaults(args)
 
     const parsedArgs = {
         lrm_committee: args.lrm_committee,
@@ -331,10 +292,7 @@ update.url = (args: { lrm_committee: string | number } | [lrm_committee: string 
 * @see app/Http/Controllers/LrmCommitteeController.php:97
 * @route '/lrm/lrm-committees/{lrm_committee}'
 */
-update.put = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'put',
-} => ({
+update.put = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: update.url(args, options),
     method: 'put',
 })
@@ -344,10 +302,7 @@ update.put = (args: { lrm_committee: string | number } | [lrm_committee: string 
 * @see app/Http/Controllers/LrmCommitteeController.php:97
 * @route '/lrm/lrm-committees/{lrm_committee}'
 */
-update.patch = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'patch',
-} => ({
+update.patch = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
     url: update.url(args, options),
     method: 'patch',
 })
@@ -357,25 +312,22 @@ update.patch = (args: { lrm_committee: string | number } | [lrm_committee: strin
 * @see app/Http/Controllers/LrmCommitteeController.php:111
 * @route '/lrm/lrm-committees/{lrm_committee}'
 */
-export const destroy = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'delete',
-} => ({
+export const destroy = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
     url: destroy.url(args, options),
     method: 'delete',
 })
 
 destroy.definition = {
-    methods: ['delete'],
+    methods: ["delete"],
     url: '/lrm/lrm-committees/{lrm_committee}',
-}
+} satisfies RouteDefinition<["delete"]>
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::destroy
 * @see app/Http/Controllers/LrmCommitteeController.php:111
 * @route '/lrm/lrm-committees/{lrm_committee}'
 */
-destroy.url = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+destroy.url = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { lrm_committee: args }
     }
@@ -385,6 +337,8 @@ destroy.url = (args: { lrm_committee: string | number } | [lrm_committee: string
             lrm_committee: args[0],
         }
     }
+
+    args = applyUrlDefaults(args)
 
     const parsedArgs = {
         lrm_committee: args.lrm_committee,
@@ -400,10 +354,7 @@ destroy.url = (args: { lrm_committee: string | number } | [lrm_committee: string
 * @see app/Http/Controllers/LrmCommitteeController.php:111
 * @route '/lrm/lrm-committees/{lrm_committee}'
 */
-destroy.delete = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'delete',
-} => ({
+destroy.delete = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
     url: destroy.url(args, options),
     method: 'delete',
 })

@@ -1,53 +1,44 @@
-import { queryParams, type QueryParams } from './../../../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition } from './../../../../../wayfinder'
 /**
 * @see \Laravel\Fortify\Http\Controllers\TwoFactorSecretKeyController::show
-* @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorSecretKeyController.php:16
+* @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorSecretKeyController.php:18
 * @route '/user/two-factor-secret-key'
 */
-export const show = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const show = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(options),
     method: 'get',
 })
 
 show.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/user/two-factor-secret-key',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\TwoFactorSecretKeyController::show
-* @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorSecretKeyController.php:16
+* @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorSecretKeyController.php:18
 * @route '/user/two-factor-secret-key'
 */
-show.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+show.url = (options?: RouteQueryOptions) => {
     return show.definition.url + queryParams(options)
 }
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\TwoFactorSecretKeyController::show
-* @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorSecretKeyController.php:16
+* @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorSecretKeyController.php:18
 * @route '/user/two-factor-secret-key'
 */
-show.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+show.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(options),
     method: 'get',
 })
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\TwoFactorSecretKeyController::show
-* @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorSecretKeyController.php:16
+* @see vendor/laravel/fortify/src/Http/Controllers/TwoFactorSecretKeyController.php:18
 * @route '/user/two-factor-secret-key'
 */
-show.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+show.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: show.url(options),
     method: 'head',
 })

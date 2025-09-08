@@ -1,28 +1,25 @@
-import { queryParams, type QueryParams } from './../../../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition } from './../../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\Auth\LoginController::login
 * @see app/Http/Controllers/Auth/LoginController.php:13
 * @route '/login'
 */
-export const login = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'post',
-} => ({
+export const login = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: login.url(options),
     method: 'post',
 })
 
 login.definition = {
-    methods: ['post'],
+    methods: ["post"],
     url: '/login',
-}
+} satisfies RouteDefinition<["post"]>
 
 /**
 * @see \App\Http\Controllers\Auth\LoginController::login
 * @see app/Http/Controllers/Auth/LoginController.php:13
 * @route '/login'
 */
-login.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+login.url = (options?: RouteQueryOptions) => {
     return login.definition.url + queryParams(options)
 }
 
@@ -31,10 +28,7 @@ login.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 * @see app/Http/Controllers/Auth/LoginController.php:13
 * @route '/login'
 */
-login.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'post',
-} => ({
+login.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: login.url(options),
     method: 'post',
 })
@@ -44,25 +38,22 @@ login.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 * @see app/Http/Controllers/Auth/LoginController.php:34
 * @route '/logout'
 */
-export const logout = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'post',
-} => ({
+export const logout = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: logout.url(options),
     method: 'post',
 })
 
 logout.definition = {
-    methods: ['post'],
+    methods: ["post"],
     url: '/logout',
-}
+} satisfies RouteDefinition<["post"]>
 
 /**
 * @see \App\Http\Controllers\Auth\LoginController::logout
 * @see app/Http/Controllers/Auth/LoginController.php:34
 * @route '/logout'
 */
-logout.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+logout.url = (options?: RouteQueryOptions) => {
     return logout.definition.url + queryParams(options)
 }
 
@@ -71,10 +62,7 @@ logout.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 * @see app/Http/Controllers/Auth/LoginController.php:34
 * @route '/logout'
 */
-logout.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'post',
-} => ({
+logout.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: logout.url(options),
     method: 'post',
 })

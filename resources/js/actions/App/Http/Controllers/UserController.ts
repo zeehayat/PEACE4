@@ -1,20 +1,26 @@
-import { queryParams, type QueryParams } from './../../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\UserController::index
 * @see app/Http/Controllers/UserController.php:28
 * @route '/users'
 */
-const indexf3226fdeff9ce7ee16d16e95535a5cd7 = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: indexf3226fdeff9ce7ee16d16e95535a5cd7.url(options),
+const index6e8299a085c11017e62ab420951fb27c = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: index6e8299a085c11017e62ab420951fb27c.url(options),
     method: 'get',
 })
 
-indexf3226fdeff9ce7ee16d16e95535a5cd7.definition = {
-    methods: ['get','head'],
+index6e8299a085c11017e62ab420951fb27c.definition = {
+    methods: ["get","head"],
     url: '/users',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \App\Http\Controllers\UserController::index
+* @see app/Http/Controllers/UserController.php:28
+* @route '/users'
+*/
+index6e8299a085c11017e62ab420951fb27c.url = (options?: RouteQueryOptions) => {
+    return index6e8299a085c11017e62ab420951fb27c.definition.url + queryParams(options)
 }
 
 /**
@@ -22,20 +28,8 @@ indexf3226fdeff9ce7ee16d16e95535a5cd7.definition = {
 * @see app/Http/Controllers/UserController.php:28
 * @route '/users'
 */
-indexf3226fdeff9ce7ee16d16e95535a5cd7.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return indexf3226fdeff9ce7ee16d16e95535a5cd7.definition.url + queryParams(options)
-}
-
-/**
-* @see \App\Http\Controllers\UserController::index
-* @see app/Http/Controllers/UserController.php:28
-* @route '/users'
-*/
-indexf3226fdeff9ce7ee16d16e95535a5cd7.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: indexf3226fdeff9ce7ee16d16e95535a5cd7.url(options),
+index6e8299a085c11017e62ab420951fb27c.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: index6e8299a085c11017e62ab420951fb27c.url(options),
     method: 'get',
 })
 
@@ -44,11 +38,8 @@ indexf3226fdeff9ce7ee16d16e95535a5cd7.get = (options?: { query?: QueryParams, me
 * @see app/Http/Controllers/UserController.php:28
 * @route '/users'
 */
-indexf3226fdeff9ce7ee16d16e95535a5cd7.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
-    url: indexf3226fdeff9ce7ee16d16e95535a5cd7.url(options),
+index6e8299a085c11017e62ab420951fb27c.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: index6e8299a085c11017e62ab420951fb27c.url(options),
     method: 'head',
 })
 
@@ -57,17 +48,23 @@ indexf3226fdeff9ce7ee16d16e95535a5cd7.head = (options?: { query?: QueryParams, m
 * @see app/Http/Controllers/UserController.php:28
 * @route '/admin/users'
 */
-const index0f75ade977685d683ee05b2bbb858e0a = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: index0f75ade977685d683ee05b2bbb858e0a.url(options),
+const indexde7b92f5d57ab3be25571f27f05793f8 = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: indexde7b92f5d57ab3be25571f27f05793f8.url(options),
     method: 'get',
 })
 
-index0f75ade977685d683ee05b2bbb858e0a.definition = {
-    methods: ['get','head'],
+indexde7b92f5d57ab3be25571f27f05793f8.definition = {
+    methods: ["get","head"],
     url: '/admin/users',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \App\Http\Controllers\UserController::index
+* @see app/Http/Controllers/UserController.php:28
+* @route '/admin/users'
+*/
+indexde7b92f5d57ab3be25571f27f05793f8.url = (options?: RouteQueryOptions) => {
+    return indexde7b92f5d57ab3be25571f27f05793f8.definition.url + queryParams(options)
 }
 
 /**
@@ -75,20 +72,8 @@ index0f75ade977685d683ee05b2bbb858e0a.definition = {
 * @see app/Http/Controllers/UserController.php:28
 * @route '/admin/users'
 */
-index0f75ade977685d683ee05b2bbb858e0a.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return index0f75ade977685d683ee05b2bbb858e0a.definition.url + queryParams(options)
-}
-
-/**
-* @see \App\Http\Controllers\UserController::index
-* @see app/Http/Controllers/UserController.php:28
-* @route '/admin/users'
-*/
-index0f75ade977685d683ee05b2bbb858e0a.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: index0f75ade977685d683ee05b2bbb858e0a.url(options),
+indexde7b92f5d57ab3be25571f27f05793f8.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: indexde7b92f5d57ab3be25571f27f05793f8.url(options),
     method: 'get',
 })
 
@@ -97,17 +82,14 @@ index0f75ade977685d683ee05b2bbb858e0a.get = (options?: { query?: QueryParams, me
 * @see app/Http/Controllers/UserController.php:28
 * @route '/admin/users'
 */
-index0f75ade977685d683ee05b2bbb858e0a.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
-    url: index0f75ade977685d683ee05b2bbb858e0a.url(options),
+indexde7b92f5d57ab3be25571f27f05793f8.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: indexde7b92f5d57ab3be25571f27f05793f8.url(options),
     method: 'head',
 })
 
 export const index = {
-    '/users': indexf3226fdeff9ce7ee16d16e95535a5cd7,
-    '/admin/users': index0f75ade977685d683ee05b2bbb858e0a,
+    '/users': index6e8299a085c11017e62ab420951fb27c,
+    '/admin/users': indexde7b92f5d57ab3be25571f27f05793f8,
 }
 
 /**
@@ -115,17 +97,23 @@ export const index = {
 * @see app/Http/Controllers/UserController.php:49
 * @route '/users/create'
 */
-const create4c3b757682cdf8159eca3c699fa8561d = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: create4c3b757682cdf8159eca3c699fa8561d.url(options),
+const createec5b3671142b81b262ce84c1986109db = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: createec5b3671142b81b262ce84c1986109db.url(options),
     method: 'get',
 })
 
-create4c3b757682cdf8159eca3c699fa8561d.definition = {
-    methods: ['get','head'],
+createec5b3671142b81b262ce84c1986109db.definition = {
+    methods: ["get","head"],
     url: '/users/create',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \App\Http\Controllers\UserController::create
+* @see app/Http/Controllers/UserController.php:49
+* @route '/users/create'
+*/
+createec5b3671142b81b262ce84c1986109db.url = (options?: RouteQueryOptions) => {
+    return createec5b3671142b81b262ce84c1986109db.definition.url + queryParams(options)
 }
 
 /**
@@ -133,20 +121,8 @@ create4c3b757682cdf8159eca3c699fa8561d.definition = {
 * @see app/Http/Controllers/UserController.php:49
 * @route '/users/create'
 */
-create4c3b757682cdf8159eca3c699fa8561d.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return create4c3b757682cdf8159eca3c699fa8561d.definition.url + queryParams(options)
-}
-
-/**
-* @see \App\Http\Controllers\UserController::create
-* @see app/Http/Controllers/UserController.php:49
-* @route '/users/create'
-*/
-create4c3b757682cdf8159eca3c699fa8561d.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: create4c3b757682cdf8159eca3c699fa8561d.url(options),
+createec5b3671142b81b262ce84c1986109db.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: createec5b3671142b81b262ce84c1986109db.url(options),
     method: 'get',
 })
 
@@ -155,11 +131,8 @@ create4c3b757682cdf8159eca3c699fa8561d.get = (options?: { query?: QueryParams, m
 * @see app/Http/Controllers/UserController.php:49
 * @route '/users/create'
 */
-create4c3b757682cdf8159eca3c699fa8561d.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
-    url: create4c3b757682cdf8159eca3c699fa8561d.url(options),
+createec5b3671142b81b262ce84c1986109db.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: createec5b3671142b81b262ce84c1986109db.url(options),
     method: 'head',
 })
 
@@ -168,17 +141,23 @@ create4c3b757682cdf8159eca3c699fa8561d.head = (options?: { query?: QueryParams, 
 * @see app/Http/Controllers/UserController.php:49
 * @route '/admin/users/create'
 */
-const createfc6379518d81ffb45812390708708699 = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: createfc6379518d81ffb45812390708708699.url(options),
+const create7057a041592e3390f6febd1e2eee4682 = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: create7057a041592e3390f6febd1e2eee4682.url(options),
     method: 'get',
 })
 
-createfc6379518d81ffb45812390708708699.definition = {
-    methods: ['get','head'],
+create7057a041592e3390f6febd1e2eee4682.definition = {
+    methods: ["get","head"],
     url: '/admin/users/create',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \App\Http\Controllers\UserController::create
+* @see app/Http/Controllers/UserController.php:49
+* @route '/admin/users/create'
+*/
+create7057a041592e3390f6febd1e2eee4682.url = (options?: RouteQueryOptions) => {
+    return create7057a041592e3390f6febd1e2eee4682.definition.url + queryParams(options)
 }
 
 /**
@@ -186,20 +165,8 @@ createfc6379518d81ffb45812390708708699.definition = {
 * @see app/Http/Controllers/UserController.php:49
 * @route '/admin/users/create'
 */
-createfc6379518d81ffb45812390708708699.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return createfc6379518d81ffb45812390708708699.definition.url + queryParams(options)
-}
-
-/**
-* @see \App\Http\Controllers\UserController::create
-* @see app/Http/Controllers/UserController.php:49
-* @route '/admin/users/create'
-*/
-createfc6379518d81ffb45812390708708699.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: createfc6379518d81ffb45812390708708699.url(options),
+create7057a041592e3390f6febd1e2eee4682.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: create7057a041592e3390f6febd1e2eee4682.url(options),
     method: 'get',
 })
 
@@ -208,17 +175,14 @@ createfc6379518d81ffb45812390708708699.get = (options?: { query?: QueryParams, m
 * @see app/Http/Controllers/UserController.php:49
 * @route '/admin/users/create'
 */
-createfc6379518d81ffb45812390708708699.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
-    url: createfc6379518d81ffb45812390708708699.url(options),
+create7057a041592e3390f6febd1e2eee4682.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: create7057a041592e3390f6febd1e2eee4682.url(options),
     method: 'head',
 })
 
 export const create = {
-    '/users/create': create4c3b757682cdf8159eca3c699fa8561d,
-    '/admin/users/create': createfc6379518d81ffb45812390708708699,
+    '/users/create': createec5b3671142b81b262ce84c1986109db,
+    '/admin/users/create': create7057a041592e3390f6febd1e2eee4682,
 }
 
 /**
@@ -226,17 +190,23 @@ export const create = {
 * @see app/Http/Controllers/UserController.php:62
 * @route '/users'
 */
-const storef3226fdeff9ce7ee16d16e95535a5cd7 = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'post',
-} => ({
-    url: storef3226fdeff9ce7ee16d16e95535a5cd7.url(options),
+const store6e8299a085c11017e62ab420951fb27c = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+    url: store6e8299a085c11017e62ab420951fb27c.url(options),
     method: 'post',
 })
 
-storef3226fdeff9ce7ee16d16e95535a5cd7.definition = {
-    methods: ['post'],
+store6e8299a085c11017e62ab420951fb27c.definition = {
+    methods: ["post"],
     url: '/users',
+} satisfies RouteDefinition<["post"]>
+
+/**
+* @see \App\Http\Controllers\UserController::store
+* @see app/Http/Controllers/UserController.php:62
+* @route '/users'
+*/
+store6e8299a085c11017e62ab420951fb27c.url = (options?: RouteQueryOptions) => {
+    return store6e8299a085c11017e62ab420951fb27c.definition.url + queryParams(options)
 }
 
 /**
@@ -244,20 +214,8 @@ storef3226fdeff9ce7ee16d16e95535a5cd7.definition = {
 * @see app/Http/Controllers/UserController.php:62
 * @route '/users'
 */
-storef3226fdeff9ce7ee16d16e95535a5cd7.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return storef3226fdeff9ce7ee16d16e95535a5cd7.definition.url + queryParams(options)
-}
-
-/**
-* @see \App\Http\Controllers\UserController::store
-* @see app/Http/Controllers/UserController.php:62
-* @route '/users'
-*/
-storef3226fdeff9ce7ee16d16e95535a5cd7.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'post',
-} => ({
-    url: storef3226fdeff9ce7ee16d16e95535a5cd7.url(options),
+store6e8299a085c11017e62ab420951fb27c.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+    url: store6e8299a085c11017e62ab420951fb27c.url(options),
     method: 'post',
 })
 
@@ -266,17 +224,23 @@ storef3226fdeff9ce7ee16d16e95535a5cd7.post = (options?: { query?: QueryParams, m
 * @see app/Http/Controllers/UserController.php:62
 * @route '/admin/users'
 */
-const store0f75ade977685d683ee05b2bbb858e0a = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'post',
-} => ({
-    url: store0f75ade977685d683ee05b2bbb858e0a.url(options),
+const storede7b92f5d57ab3be25571f27f05793f8 = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+    url: storede7b92f5d57ab3be25571f27f05793f8.url(options),
     method: 'post',
 })
 
-store0f75ade977685d683ee05b2bbb858e0a.definition = {
-    methods: ['post'],
+storede7b92f5d57ab3be25571f27f05793f8.definition = {
+    methods: ["post"],
     url: '/admin/users',
+} satisfies RouteDefinition<["post"]>
+
+/**
+* @see \App\Http\Controllers\UserController::store
+* @see app/Http/Controllers/UserController.php:62
+* @route '/admin/users'
+*/
+storede7b92f5d57ab3be25571f27f05793f8.url = (options?: RouteQueryOptions) => {
+    return storede7b92f5d57ab3be25571f27f05793f8.definition.url + queryParams(options)
 }
 
 /**
@@ -284,26 +248,14 @@ store0f75ade977685d683ee05b2bbb858e0a.definition = {
 * @see app/Http/Controllers/UserController.php:62
 * @route '/admin/users'
 */
-store0f75ade977685d683ee05b2bbb858e0a.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return store0f75ade977685d683ee05b2bbb858e0a.definition.url + queryParams(options)
-}
-
-/**
-* @see \App\Http\Controllers\UserController::store
-* @see app/Http/Controllers/UserController.php:62
-* @route '/admin/users'
-*/
-store0f75ade977685d683ee05b2bbb858e0a.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'post',
-} => ({
-    url: store0f75ade977685d683ee05b2bbb858e0a.url(options),
+storede7b92f5d57ab3be25571f27f05793f8.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+    url: storede7b92f5d57ab3be25571f27f05793f8.url(options),
     method: 'post',
 })
 
 export const store = {
-    '/users': storef3226fdeff9ce7ee16d16e95535a5cd7,
-    '/admin/users': store0f75ade977685d683ee05b2bbb858e0a,
+    '/users': store6e8299a085c11017e62ab420951fb27c,
+    '/admin/users': storede7b92f5d57ab3be25571f27f05793f8,
 }
 
 /**
@@ -311,25 +263,22 @@ export const store = {
 * @see app/Http/Controllers/UserController.php:0
 * @route '/users/{user}'
 */
-const show22cfa6015ee43519048c9d8befe0827b = (args: { user: string | number } | [user: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: show22cfa6015ee43519048c9d8befe0827b.url(args, options),
+const showf898f2daa993cc45af847e1a1f899673 = (args: { user: string | number } | [user: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: showf898f2daa993cc45af847e1a1f899673.url(args, options),
     method: 'get',
 })
 
-show22cfa6015ee43519048c9d8befe0827b.definition = {
-    methods: ['get','head'],
+showf898f2daa993cc45af847e1a1f899673.definition = {
+    methods: ["get","head"],
     url: '/users/{user}',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\UserController::show
 * @see app/Http/Controllers/UserController.php:0
 * @route '/users/{user}'
 */
-show22cfa6015ee43519048c9d8befe0827b.url = (args: { user: string | number } | [user: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+showf898f2daa993cc45af847e1a1f899673.url = (args: { user: string | number } | [user: string | number ] | string | number, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { user: args }
     }
@@ -340,11 +289,13 @@ show22cfa6015ee43519048c9d8befe0827b.url = (args: { user: string | number } | [u
         }
     }
 
+    args = applyUrlDefaults(args)
+
     const parsedArgs = {
         user: args.user,
     }
 
-    return show22cfa6015ee43519048c9d8befe0827b.definition.url
+    return showf898f2daa993cc45af847e1a1f899673.definition.url
             .replace('{user}', parsedArgs.user.toString())
             .replace(/\/+$/, '') + queryParams(options)
 }
@@ -354,11 +305,8 @@ show22cfa6015ee43519048c9d8befe0827b.url = (args: { user: string | number } | [u
 * @see app/Http/Controllers/UserController.php:0
 * @route '/users/{user}'
 */
-show22cfa6015ee43519048c9d8befe0827b.get = (args: { user: string | number } | [user: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: show22cfa6015ee43519048c9d8befe0827b.url(args, options),
+showf898f2daa993cc45af847e1a1f899673.get = (args: { user: string | number } | [user: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: showf898f2daa993cc45af847e1a1f899673.url(args, options),
     method: 'get',
 })
 
@@ -367,11 +315,8 @@ show22cfa6015ee43519048c9d8befe0827b.get = (args: { user: string | number } | [u
 * @see app/Http/Controllers/UserController.php:0
 * @route '/users/{user}'
 */
-show22cfa6015ee43519048c9d8befe0827b.head = (args: { user: string | number } | [user: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
-    url: show22cfa6015ee43519048c9d8befe0827b.url(args, options),
+showf898f2daa993cc45af847e1a1f899673.head = (args: { user: string | number } | [user: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: showf898f2daa993cc45af847e1a1f899673.url(args, options),
     method: 'head',
 })
 
@@ -380,25 +325,22 @@ show22cfa6015ee43519048c9d8befe0827b.head = (args: { user: string | number } | [
 * @see app/Http/Controllers/UserController.php:0
 * @route '/admin/users/{user}'
 */
-const showcf5fe9d4954e09f7b2634c0176ca7135 = (args: { user: string | number } | [user: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: showcf5fe9d4954e09f7b2634c0176ca7135.url(args, options),
+const showfcf537c0ef09758de25ef4ed617562a1 = (args: { user: string | number } | [user: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: showfcf537c0ef09758de25ef4ed617562a1.url(args, options),
     method: 'get',
 })
 
-showcf5fe9d4954e09f7b2634c0176ca7135.definition = {
-    methods: ['get','head'],
+showfcf537c0ef09758de25ef4ed617562a1.definition = {
+    methods: ["get","head"],
     url: '/admin/users/{user}',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\UserController::show
 * @see app/Http/Controllers/UserController.php:0
 * @route '/admin/users/{user}'
 */
-showcf5fe9d4954e09f7b2634c0176ca7135.url = (args: { user: string | number } | [user: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+showfcf537c0ef09758de25ef4ed617562a1.url = (args: { user: string | number } | [user: string | number ] | string | number, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { user: args }
     }
@@ -409,11 +351,13 @@ showcf5fe9d4954e09f7b2634c0176ca7135.url = (args: { user: string | number } | [u
         }
     }
 
+    args = applyUrlDefaults(args)
+
     const parsedArgs = {
         user: args.user,
     }
 
-    return showcf5fe9d4954e09f7b2634c0176ca7135.definition.url
+    return showfcf537c0ef09758de25ef4ed617562a1.definition.url
             .replace('{user}', parsedArgs.user.toString())
             .replace(/\/+$/, '') + queryParams(options)
 }
@@ -423,11 +367,8 @@ showcf5fe9d4954e09f7b2634c0176ca7135.url = (args: { user: string | number } | [u
 * @see app/Http/Controllers/UserController.php:0
 * @route '/admin/users/{user}'
 */
-showcf5fe9d4954e09f7b2634c0176ca7135.get = (args: { user: string | number } | [user: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: showcf5fe9d4954e09f7b2634c0176ca7135.url(args, options),
+showfcf537c0ef09758de25ef4ed617562a1.get = (args: { user: string | number } | [user: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: showfcf537c0ef09758de25ef4ed617562a1.url(args, options),
     method: 'get',
 })
 
@@ -436,17 +377,14 @@ showcf5fe9d4954e09f7b2634c0176ca7135.get = (args: { user: string | number } | [u
 * @see app/Http/Controllers/UserController.php:0
 * @route '/admin/users/{user}'
 */
-showcf5fe9d4954e09f7b2634c0176ca7135.head = (args: { user: string | number } | [user: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
-    url: showcf5fe9d4954e09f7b2634c0176ca7135.url(args, options),
+showfcf537c0ef09758de25ef4ed617562a1.head = (args: { user: string | number } | [user: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: showfcf537c0ef09758de25ef4ed617562a1.url(args, options),
     method: 'head',
 })
 
 export const show = {
-    '/users/{user}': show22cfa6015ee43519048c9d8befe0827b,
-    '/admin/users/{user}': showcf5fe9d4954e09f7b2634c0176ca7135,
+    '/users/{user}': showf898f2daa993cc45af847e1a1f899673,
+    '/admin/users/{user}': showfcf537c0ef09758de25ef4ed617562a1,
 }
 
 /**
@@ -454,25 +392,22 @@ export const show = {
 * @see app/Http/Controllers/UserController.php:0
 * @route '/users/{user}/edit'
 */
-const edite86c5e2a27e642b54903dd2903eb2a66 = (args: { user: string | number } | [user: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: edite86c5e2a27e642b54903dd2903eb2a66.url(args, options),
+const edit7c8ee6634e997e7396d4cd79528adad3 = (args: { user: string | number } | [user: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: edit7c8ee6634e997e7396d4cd79528adad3.url(args, options),
     method: 'get',
 })
 
-edite86c5e2a27e642b54903dd2903eb2a66.definition = {
-    methods: ['get','head'],
+edit7c8ee6634e997e7396d4cd79528adad3.definition = {
+    methods: ["get","head"],
     url: '/users/{user}/edit',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\UserController::edit
 * @see app/Http/Controllers/UserController.php:0
 * @route '/users/{user}/edit'
 */
-edite86c5e2a27e642b54903dd2903eb2a66.url = (args: { user: string | number } | [user: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+edit7c8ee6634e997e7396d4cd79528adad3.url = (args: { user: string | number } | [user: string | number ] | string | number, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { user: args }
     }
@@ -483,11 +418,13 @@ edite86c5e2a27e642b54903dd2903eb2a66.url = (args: { user: string | number } | [u
         }
     }
 
+    args = applyUrlDefaults(args)
+
     const parsedArgs = {
         user: args.user,
     }
 
-    return edite86c5e2a27e642b54903dd2903eb2a66.definition.url
+    return edit7c8ee6634e997e7396d4cd79528adad3.definition.url
             .replace('{user}', parsedArgs.user.toString())
             .replace(/\/+$/, '') + queryParams(options)
 }
@@ -497,11 +434,8 @@ edite86c5e2a27e642b54903dd2903eb2a66.url = (args: { user: string | number } | [u
 * @see app/Http/Controllers/UserController.php:0
 * @route '/users/{user}/edit'
 */
-edite86c5e2a27e642b54903dd2903eb2a66.get = (args: { user: string | number } | [user: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: edite86c5e2a27e642b54903dd2903eb2a66.url(args, options),
+edit7c8ee6634e997e7396d4cd79528adad3.get = (args: { user: string | number } | [user: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: edit7c8ee6634e997e7396d4cd79528adad3.url(args, options),
     method: 'get',
 })
 
@@ -510,11 +444,8 @@ edite86c5e2a27e642b54903dd2903eb2a66.get = (args: { user: string | number } | [u
 * @see app/Http/Controllers/UserController.php:0
 * @route '/users/{user}/edit'
 */
-edite86c5e2a27e642b54903dd2903eb2a66.head = (args: { user: string | number } | [user: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
-    url: edite86c5e2a27e642b54903dd2903eb2a66.url(args, options),
+edit7c8ee6634e997e7396d4cd79528adad3.head = (args: { user: string | number } | [user: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: edit7c8ee6634e997e7396d4cd79528adad3.url(args, options),
     method: 'head',
 })
 
@@ -523,25 +454,22 @@ edite86c5e2a27e642b54903dd2903eb2a66.head = (args: { user: string | number } | [
 * @see app/Http/Controllers/UserController.php:0
 * @route '/admin/users/{user}/edit'
 */
-const edit898f14063bfe90c3f4fd227067a56af2 = (args: { user: string | number } | [user: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: edit898f14063bfe90c3f4fd227067a56af2.url(args, options),
+const edit7c782003786922e3cd8a2029a30610da = (args: { user: string | number } | [user: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: edit7c782003786922e3cd8a2029a30610da.url(args, options),
     method: 'get',
 })
 
-edit898f14063bfe90c3f4fd227067a56af2.definition = {
-    methods: ['get','head'],
+edit7c782003786922e3cd8a2029a30610da.definition = {
+    methods: ["get","head"],
     url: '/admin/users/{user}/edit',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\UserController::edit
 * @see app/Http/Controllers/UserController.php:0
 * @route '/admin/users/{user}/edit'
 */
-edit898f14063bfe90c3f4fd227067a56af2.url = (args: { user: string | number } | [user: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+edit7c782003786922e3cd8a2029a30610da.url = (args: { user: string | number } | [user: string | number ] | string | number, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { user: args }
     }
@@ -552,11 +480,13 @@ edit898f14063bfe90c3f4fd227067a56af2.url = (args: { user: string | number } | [u
         }
     }
 
+    args = applyUrlDefaults(args)
+
     const parsedArgs = {
         user: args.user,
     }
 
-    return edit898f14063bfe90c3f4fd227067a56af2.definition.url
+    return edit7c782003786922e3cd8a2029a30610da.definition.url
             .replace('{user}', parsedArgs.user.toString())
             .replace(/\/+$/, '') + queryParams(options)
 }
@@ -566,11 +496,8 @@ edit898f14063bfe90c3f4fd227067a56af2.url = (args: { user: string | number } | [u
 * @see app/Http/Controllers/UserController.php:0
 * @route '/admin/users/{user}/edit'
 */
-edit898f14063bfe90c3f4fd227067a56af2.get = (args: { user: string | number } | [user: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: edit898f14063bfe90c3f4fd227067a56af2.url(args, options),
+edit7c782003786922e3cd8a2029a30610da.get = (args: { user: string | number } | [user: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: edit7c782003786922e3cd8a2029a30610da.url(args, options),
     method: 'get',
 })
 
@@ -579,17 +506,14 @@ edit898f14063bfe90c3f4fd227067a56af2.get = (args: { user: string | number } | [u
 * @see app/Http/Controllers/UserController.php:0
 * @route '/admin/users/{user}/edit'
 */
-edit898f14063bfe90c3f4fd227067a56af2.head = (args: { user: string | number } | [user: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
-    url: edit898f14063bfe90c3f4fd227067a56af2.url(args, options),
+edit7c782003786922e3cd8a2029a30610da.head = (args: { user: string | number } | [user: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: edit7c782003786922e3cd8a2029a30610da.url(args, options),
     method: 'head',
 })
 
 export const edit = {
-    '/users/{user}/edit': edite86c5e2a27e642b54903dd2903eb2a66,
-    '/admin/users/{user}/edit': edit898f14063bfe90c3f4fd227067a56af2,
+    '/users/{user}/edit': edit7c8ee6634e997e7396d4cd79528adad3,
+    '/admin/users/{user}/edit': edit7c782003786922e3cd8a2029a30610da,
 }
 
 /**
@@ -597,25 +521,22 @@ export const edit = {
 * @see app/Http/Controllers/UserController.php:70
 * @route '/users/{user}'
 */
-const update22cfa6015ee43519048c9d8befe0827b = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'put',
-} => ({
-    url: update22cfa6015ee43519048c9d8befe0827b.url(args, options),
+const updatef898f2daa993cc45af847e1a1f899673 = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
+    url: updatef898f2daa993cc45af847e1a1f899673.url(args, options),
     method: 'put',
 })
 
-update22cfa6015ee43519048c9d8befe0827b.definition = {
-    methods: ['put','patch'],
+updatef898f2daa993cc45af847e1a1f899673.definition = {
+    methods: ["put","patch"],
     url: '/users/{user}',
-}
+} satisfies RouteDefinition<["put","patch"]>
 
 /**
 * @see \App\Http\Controllers\UserController::update
 * @see app/Http/Controllers/UserController.php:70
 * @route '/users/{user}'
 */
-update22cfa6015ee43519048c9d8befe0827b.url = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+updatef898f2daa993cc45af847e1a1f899673.url = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { user: args }
     }
@@ -630,13 +551,15 @@ update22cfa6015ee43519048c9d8befe0827b.url = (args: { user: number | { id: numbe
         }
     }
 
+    args = applyUrlDefaults(args)
+
     const parsedArgs = {
         user: typeof args.user === 'object'
         ? args.user.id
         : args.user,
     }
 
-    return update22cfa6015ee43519048c9d8befe0827b.definition.url
+    return updatef898f2daa993cc45af847e1a1f899673.definition.url
             .replace('{user}', parsedArgs.user.toString())
             .replace(/\/+$/, '') + queryParams(options)
 }
@@ -646,11 +569,8 @@ update22cfa6015ee43519048c9d8befe0827b.url = (args: { user: number | { id: numbe
 * @see app/Http/Controllers/UserController.php:70
 * @route '/users/{user}'
 */
-update22cfa6015ee43519048c9d8befe0827b.put = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'put',
-} => ({
-    url: update22cfa6015ee43519048c9d8befe0827b.url(args, options),
+updatef898f2daa993cc45af847e1a1f899673.put = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
+    url: updatef898f2daa993cc45af847e1a1f899673.url(args, options),
     method: 'put',
 })
 
@@ -659,11 +579,8 @@ update22cfa6015ee43519048c9d8befe0827b.put = (args: { user: number | { id: numbe
 * @see app/Http/Controllers/UserController.php:70
 * @route '/users/{user}'
 */
-update22cfa6015ee43519048c9d8befe0827b.patch = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'patch',
-} => ({
-    url: update22cfa6015ee43519048c9d8befe0827b.url(args, options),
+updatef898f2daa993cc45af847e1a1f899673.patch = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
+    url: updatef898f2daa993cc45af847e1a1f899673.url(args, options),
     method: 'patch',
 })
 
@@ -672,25 +589,22 @@ update22cfa6015ee43519048c9d8befe0827b.patch = (args: { user: number | { id: num
 * @see app/Http/Controllers/UserController.php:70
 * @route '/admin/users/{user}'
 */
-const updatecf5fe9d4954e09f7b2634c0176ca7135 = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'put',
-} => ({
-    url: updatecf5fe9d4954e09f7b2634c0176ca7135.url(args, options),
+const updatefcf537c0ef09758de25ef4ed617562a1 = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
+    url: updatefcf537c0ef09758de25ef4ed617562a1.url(args, options),
     method: 'put',
 })
 
-updatecf5fe9d4954e09f7b2634c0176ca7135.definition = {
-    methods: ['put','patch'],
+updatefcf537c0ef09758de25ef4ed617562a1.definition = {
+    methods: ["put","patch"],
     url: '/admin/users/{user}',
-}
+} satisfies RouteDefinition<["put","patch"]>
 
 /**
 * @see \App\Http\Controllers\UserController::update
 * @see app/Http/Controllers/UserController.php:70
 * @route '/admin/users/{user}'
 */
-updatecf5fe9d4954e09f7b2634c0176ca7135.url = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+updatefcf537c0ef09758de25ef4ed617562a1.url = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { user: args }
     }
@@ -705,13 +619,15 @@ updatecf5fe9d4954e09f7b2634c0176ca7135.url = (args: { user: number | { id: numbe
         }
     }
 
+    args = applyUrlDefaults(args)
+
     const parsedArgs = {
         user: typeof args.user === 'object'
         ? args.user.id
         : args.user,
     }
 
-    return updatecf5fe9d4954e09f7b2634c0176ca7135.definition.url
+    return updatefcf537c0ef09758de25ef4ed617562a1.definition.url
             .replace('{user}', parsedArgs.user.toString())
             .replace(/\/+$/, '') + queryParams(options)
 }
@@ -721,11 +637,8 @@ updatecf5fe9d4954e09f7b2634c0176ca7135.url = (args: { user: number | { id: numbe
 * @see app/Http/Controllers/UserController.php:70
 * @route '/admin/users/{user}'
 */
-updatecf5fe9d4954e09f7b2634c0176ca7135.put = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'put',
-} => ({
-    url: updatecf5fe9d4954e09f7b2634c0176ca7135.url(args, options),
+updatefcf537c0ef09758de25ef4ed617562a1.put = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
+    url: updatefcf537c0ef09758de25ef4ed617562a1.url(args, options),
     method: 'put',
 })
 
@@ -734,17 +647,14 @@ updatecf5fe9d4954e09f7b2634c0176ca7135.put = (args: { user: number | { id: numbe
 * @see app/Http/Controllers/UserController.php:70
 * @route '/admin/users/{user}'
 */
-updatecf5fe9d4954e09f7b2634c0176ca7135.patch = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'patch',
-} => ({
-    url: updatecf5fe9d4954e09f7b2634c0176ca7135.url(args, options),
+updatefcf537c0ef09758de25ef4ed617562a1.patch = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
+    url: updatefcf537c0ef09758de25ef4ed617562a1.url(args, options),
     method: 'patch',
 })
 
 export const update = {
-    '/users/{user}': update22cfa6015ee43519048c9d8befe0827b,
-    '/admin/users/{user}': updatecf5fe9d4954e09f7b2634c0176ca7135,
+    '/users/{user}': updatef898f2daa993cc45af847e1a1f899673,
+    '/admin/users/{user}': updatefcf537c0ef09758de25ef4ed617562a1,
 }
 
 /**
@@ -752,25 +662,22 @@ export const update = {
 * @see app/Http/Controllers/UserController.php:78
 * @route '/users/{user}'
 */
-const destroy22cfa6015ee43519048c9d8befe0827b = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'delete',
-} => ({
-    url: destroy22cfa6015ee43519048c9d8befe0827b.url(args, options),
+const destroyf898f2daa993cc45af847e1a1f899673 = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
+    url: destroyf898f2daa993cc45af847e1a1f899673.url(args, options),
     method: 'delete',
 })
 
-destroy22cfa6015ee43519048c9d8befe0827b.definition = {
-    methods: ['delete'],
+destroyf898f2daa993cc45af847e1a1f899673.definition = {
+    methods: ["delete"],
     url: '/users/{user}',
-}
+} satisfies RouteDefinition<["delete"]>
 
 /**
 * @see \App\Http\Controllers\UserController::destroy
 * @see app/Http/Controllers/UserController.php:78
 * @route '/users/{user}'
 */
-destroy22cfa6015ee43519048c9d8befe0827b.url = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+destroyf898f2daa993cc45af847e1a1f899673.url = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { user: args }
     }
@@ -785,13 +692,15 @@ destroy22cfa6015ee43519048c9d8befe0827b.url = (args: { user: number | { id: numb
         }
     }
 
+    args = applyUrlDefaults(args)
+
     const parsedArgs = {
         user: typeof args.user === 'object'
         ? args.user.id
         : args.user,
     }
 
-    return destroy22cfa6015ee43519048c9d8befe0827b.definition.url
+    return destroyf898f2daa993cc45af847e1a1f899673.definition.url
             .replace('{user}', parsedArgs.user.toString())
             .replace(/\/+$/, '') + queryParams(options)
 }
@@ -801,11 +710,8 @@ destroy22cfa6015ee43519048c9d8befe0827b.url = (args: { user: number | { id: numb
 * @see app/Http/Controllers/UserController.php:78
 * @route '/users/{user}'
 */
-destroy22cfa6015ee43519048c9d8befe0827b.delete = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'delete',
-} => ({
-    url: destroy22cfa6015ee43519048c9d8befe0827b.url(args, options),
+destroyf898f2daa993cc45af847e1a1f899673.delete = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
+    url: destroyf898f2daa993cc45af847e1a1f899673.url(args, options),
     method: 'delete',
 })
 
@@ -814,25 +720,22 @@ destroy22cfa6015ee43519048c9d8befe0827b.delete = (args: { user: number | { id: n
 * @see app/Http/Controllers/UserController.php:78
 * @route '/admin/users/{user}'
 */
-const destroycf5fe9d4954e09f7b2634c0176ca7135 = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'delete',
-} => ({
-    url: destroycf5fe9d4954e09f7b2634c0176ca7135.url(args, options),
+const destroyfcf537c0ef09758de25ef4ed617562a1 = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
+    url: destroyfcf537c0ef09758de25ef4ed617562a1.url(args, options),
     method: 'delete',
 })
 
-destroycf5fe9d4954e09f7b2634c0176ca7135.definition = {
-    methods: ['delete'],
+destroyfcf537c0ef09758de25ef4ed617562a1.definition = {
+    methods: ["delete"],
     url: '/admin/users/{user}',
-}
+} satisfies RouteDefinition<["delete"]>
 
 /**
 * @see \App\Http\Controllers\UserController::destroy
 * @see app/Http/Controllers/UserController.php:78
 * @route '/admin/users/{user}'
 */
-destroycf5fe9d4954e09f7b2634c0176ca7135.url = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+destroyfcf537c0ef09758de25ef4ed617562a1.url = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { user: args }
     }
@@ -847,13 +750,15 @@ destroycf5fe9d4954e09f7b2634c0176ca7135.url = (args: { user: number | { id: numb
         }
     }
 
+    args = applyUrlDefaults(args)
+
     const parsedArgs = {
         user: typeof args.user === 'object'
         ? args.user.id
         : args.user,
     }
 
-    return destroycf5fe9d4954e09f7b2634c0176ca7135.definition.url
+    return destroyfcf537c0ef09758de25ef4ed617562a1.definition.url
             .replace('{user}', parsedArgs.user.toString())
             .replace(/\/+$/, '') + queryParams(options)
 }
@@ -863,17 +768,14 @@ destroycf5fe9d4954e09f7b2634c0176ca7135.url = (args: { user: number | { id: numb
 * @see app/Http/Controllers/UserController.php:78
 * @route '/admin/users/{user}'
 */
-destroycf5fe9d4954e09f7b2634c0176ca7135.delete = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'delete',
-} => ({
-    url: destroycf5fe9d4954e09f7b2634c0176ca7135.url(args, options),
+destroyfcf537c0ef09758de25ef4ed617562a1.delete = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
+    url: destroyfcf537c0ef09758de25ef4ed617562a1.url(args, options),
     method: 'delete',
 })
 
 export const destroy = {
-    '/users/{user}': destroy22cfa6015ee43519048c9d8befe0827b,
-    '/admin/users/{user}': destroycf5fe9d4954e09f7b2634c0176ca7135,
+    '/users/{user}': destroyf898f2daa993cc45af847e1a1f899673,
+    '/admin/users/{user}': destroyfcf537c0ef09758de25ef4ed617562a1,
 }
 
 const UserController = { index, create, store, show, edit, update, destroy }

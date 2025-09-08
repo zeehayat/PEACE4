@@ -1,28 +1,25 @@
-import { queryParams, type QueryParams } from './../../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\ReportController::cboReport
 * @see app/Http/Controllers/ReportController.php:12
 * @route '/cbo/report'
 */
-export const cboReport = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const cboReport = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: cboReport.url(options),
     method: 'get',
 })
 
 cboReport.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/cbo/report',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\ReportController::cboReport
 * @see app/Http/Controllers/ReportController.php:12
 * @route '/cbo/report'
 */
-cboReport.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+cboReport.url = (options?: RouteQueryOptions) => {
     return cboReport.definition.url + queryParams(options)
 }
 
@@ -31,10 +28,7 @@ cboReport.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) =>
 * @see app/Http/Controllers/ReportController.php:12
 * @route '/cbo/report'
 */
-cboReport.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+cboReport.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: cboReport.url(options),
     method: 'get',
 })
@@ -44,10 +38,7 @@ cboReport.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 * @see app/Http/Controllers/ReportController.php:12
 * @route '/cbo/report'
 */
-cboReport.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+cboReport.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: cboReport.url(options),
     method: 'head',
 })
@@ -57,25 +48,22 @@ cboReport.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): 
 * @see app/Http/Controllers/ReportController.php:40
 * @route '/cbo/report/export'
 */
-export const exportCboReport = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const exportCboReport = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: exportCboReport.url(options),
     method: 'get',
 })
 
 exportCboReport.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/cbo/report/export',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\ReportController::exportCboReport
 * @see app/Http/Controllers/ReportController.php:40
 * @route '/cbo/report/export'
 */
-exportCboReport.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+exportCboReport.url = (options?: RouteQueryOptions) => {
     return exportCboReport.definition.url + queryParams(options)
 }
 
@@ -84,10 +72,7 @@ exportCboReport.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams
 * @see app/Http/Controllers/ReportController.php:40
 * @route '/cbo/report/export'
 */
-exportCboReport.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+exportCboReport.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: exportCboReport.url(options),
     method: 'get',
 })
@@ -97,10 +82,7 @@ exportCboReport.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams
 * @see app/Http/Controllers/ReportController.php:40
 * @route '/cbo/report/export'
 */
-exportCboReport.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+exportCboReport.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: exportCboReport.url(options),
     method: 'head',
 })

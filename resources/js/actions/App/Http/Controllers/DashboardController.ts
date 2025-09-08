@@ -1,20 +1,26 @@
-import { queryParams, type QueryParams } from './../../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\DashboardController::index
 * @see app/Http/Controllers/DashboardController.php:23
 * @route '/'
 */
-const index2922ba73aee8066b091270d31ff4c8f8 = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: index2922ba73aee8066b091270d31ff4c8f8.url(options),
+const index980bb49ee7ae63891f1d891d2fbcf1c9 = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: index980bb49ee7ae63891f1d891d2fbcf1c9.url(options),
     method: 'get',
 })
 
-index2922ba73aee8066b091270d31ff4c8f8.definition = {
-    methods: ['get','head'],
+index980bb49ee7ae63891f1d891d2fbcf1c9.definition = {
+    methods: ["get","head"],
     url: '/',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \App\Http\Controllers\DashboardController::index
+* @see app/Http/Controllers/DashboardController.php:23
+* @route '/'
+*/
+index980bb49ee7ae63891f1d891d2fbcf1c9.url = (options?: RouteQueryOptions) => {
+    return index980bb49ee7ae63891f1d891d2fbcf1c9.definition.url + queryParams(options)
 }
 
 /**
@@ -22,20 +28,8 @@ index2922ba73aee8066b091270d31ff4c8f8.definition = {
 * @see app/Http/Controllers/DashboardController.php:23
 * @route '/'
 */
-index2922ba73aee8066b091270d31ff4c8f8.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return index2922ba73aee8066b091270d31ff4c8f8.definition.url + queryParams(options)
-}
-
-/**
-* @see \App\Http\Controllers\DashboardController::index
-* @see app/Http/Controllers/DashboardController.php:23
-* @route '/'
-*/
-index2922ba73aee8066b091270d31ff4c8f8.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: index2922ba73aee8066b091270d31ff4c8f8.url(options),
+index980bb49ee7ae63891f1d891d2fbcf1c9.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: index980bb49ee7ae63891f1d891d2fbcf1c9.url(options),
     method: 'get',
 })
 
@@ -44,11 +38,8 @@ index2922ba73aee8066b091270d31ff4c8f8.get = (options?: { query?: QueryParams, me
 * @see app/Http/Controllers/DashboardController.php:23
 * @route '/'
 */
-index2922ba73aee8066b091270d31ff4c8f8.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
-    url: index2922ba73aee8066b091270d31ff4c8f8.url(options),
+index980bb49ee7ae63891f1d891d2fbcf1c9.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: index980bb49ee7ae63891f1d891d2fbcf1c9.url(options),
     method: 'head',
 })
 
@@ -57,17 +48,23 @@ index2922ba73aee8066b091270d31ff4c8f8.head = (options?: { query?: QueryParams, m
 * @see app/Http/Controllers/DashboardController.php:23
 * @route '/dashboard'
 */
-const indexe4446d8ebf548503a74323120a848d7c = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: indexe4446d8ebf548503a74323120a848d7c.url(options),
+const index42a740574ecbfbac32f8cc353fc32db9 = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: index42a740574ecbfbac32f8cc353fc32db9.url(options),
     method: 'get',
 })
 
-indexe4446d8ebf548503a74323120a848d7c.definition = {
-    methods: ['get','head'],
+index42a740574ecbfbac32f8cc353fc32db9.definition = {
+    methods: ["get","head"],
     url: '/dashboard',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \App\Http\Controllers\DashboardController::index
+* @see app/Http/Controllers/DashboardController.php:23
+* @route '/dashboard'
+*/
+index42a740574ecbfbac32f8cc353fc32db9.url = (options?: RouteQueryOptions) => {
+    return index42a740574ecbfbac32f8cc353fc32db9.definition.url + queryParams(options)
 }
 
 /**
@@ -75,20 +72,8 @@ indexe4446d8ebf548503a74323120a848d7c.definition = {
 * @see app/Http/Controllers/DashboardController.php:23
 * @route '/dashboard'
 */
-indexe4446d8ebf548503a74323120a848d7c.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return indexe4446d8ebf548503a74323120a848d7c.definition.url + queryParams(options)
-}
-
-/**
-* @see \App\Http\Controllers\DashboardController::index
-* @see app/Http/Controllers/DashboardController.php:23
-* @route '/dashboard'
-*/
-indexe4446d8ebf548503a74323120a848d7c.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: indexe4446d8ebf548503a74323120a848d7c.url(options),
+index42a740574ecbfbac32f8cc353fc32db9.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: index42a740574ecbfbac32f8cc353fc32db9.url(options),
     method: 'get',
 })
 
@@ -97,11 +82,8 @@ indexe4446d8ebf548503a74323120a848d7c.get = (options?: { query?: QueryParams, me
 * @see app/Http/Controllers/DashboardController.php:23
 * @route '/dashboard'
 */
-indexe4446d8ebf548503a74323120a848d7c.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
-    url: indexe4446d8ebf548503a74323120a848d7c.url(options),
+index42a740574ecbfbac32f8cc353fc32db9.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: index42a740574ecbfbac32f8cc353fc32db9.url(options),
     method: 'head',
 })
 
@@ -110,17 +92,23 @@ indexe4446d8ebf548503a74323120a848d7c.head = (options?: { query?: QueryParams, m
 * @see app/Http/Controllers/DashboardController.php:23
 * @route '/mhp-dashboard'
 */
-const indexd5198ffaa2ec55cdf3655c37e5cad3a0 = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: indexd5198ffaa2ec55cdf3655c37e5cad3a0.url(options),
+const index784cb8bdfca188176fa084c640ce058a = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: index784cb8bdfca188176fa084c640ce058a.url(options),
     method: 'get',
 })
 
-indexd5198ffaa2ec55cdf3655c37e5cad3a0.definition = {
-    methods: ['get','head'],
+index784cb8bdfca188176fa084c640ce058a.definition = {
+    methods: ["get","head"],
     url: '/mhp-dashboard',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \App\Http\Controllers\DashboardController::index
+* @see app/Http/Controllers/DashboardController.php:23
+* @route '/mhp-dashboard'
+*/
+index784cb8bdfca188176fa084c640ce058a.url = (options?: RouteQueryOptions) => {
+    return index784cb8bdfca188176fa084c640ce058a.definition.url + queryParams(options)
 }
 
 /**
@@ -128,20 +116,8 @@ indexd5198ffaa2ec55cdf3655c37e5cad3a0.definition = {
 * @see app/Http/Controllers/DashboardController.php:23
 * @route '/mhp-dashboard'
 */
-indexd5198ffaa2ec55cdf3655c37e5cad3a0.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return indexd5198ffaa2ec55cdf3655c37e5cad3a0.definition.url + queryParams(options)
-}
-
-/**
-* @see \App\Http\Controllers\DashboardController::index
-* @see app/Http/Controllers/DashboardController.php:23
-* @route '/mhp-dashboard'
-*/
-indexd5198ffaa2ec55cdf3655c37e5cad3a0.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: indexd5198ffaa2ec55cdf3655c37e5cad3a0.url(options),
+index784cb8bdfca188176fa084c640ce058a.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: index784cb8bdfca188176fa084c640ce058a.url(options),
     method: 'get',
 })
 
@@ -150,18 +126,15 @@ indexd5198ffaa2ec55cdf3655c37e5cad3a0.get = (options?: { query?: QueryParams, me
 * @see app/Http/Controllers/DashboardController.php:23
 * @route '/mhp-dashboard'
 */
-indexd5198ffaa2ec55cdf3655c37e5cad3a0.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
-    url: indexd5198ffaa2ec55cdf3655c37e5cad3a0.url(options),
+index784cb8bdfca188176fa084c640ce058a.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: index784cb8bdfca188176fa084c640ce058a.url(options),
     method: 'head',
 })
 
 export const index = {
-    '/': index2922ba73aee8066b091270d31ff4c8f8,
-    '/dashboard': indexe4446d8ebf548503a74323120a848d7c,
-    '/mhp-dashboard': indexd5198ffaa2ec55cdf3655c37e5cad3a0,
+    '/': index980bb49ee7ae63891f1d891d2fbcf1c9,
+    '/dashboard': index42a740574ecbfbac32f8cc353fc32db9,
+    '/mhp-dashboard': index784cb8bdfca188176fa084c640ce058a,
 }
 
 const DashboardController = { index }

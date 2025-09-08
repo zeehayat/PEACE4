@@ -1,28 +1,25 @@
-import { queryParams, type QueryParams } from './../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition } from './../../../wayfinder'
 /**
 * @see \App\Http\Controllers\VendorController::autoSearch
 * @see app/Http/Controllers/VendorController.php:123
 * @route '/mhp/vendors/auto-search'
 */
-export const autoSearch = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const autoSearch = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: autoSearch.url(options),
     method: 'get',
 })
 
 autoSearch.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/mhp/vendors/auto-search',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\VendorController::autoSearch
 * @see app/Http/Controllers/VendorController.php:123
 * @route '/mhp/vendors/auto-search'
 */
-autoSearch.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+autoSearch.url = (options?: RouteQueryOptions) => {
     return autoSearch.definition.url + queryParams(options)
 }
 
@@ -31,10 +28,7 @@ autoSearch.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) =
 * @see app/Http/Controllers/VendorController.php:123
 * @route '/mhp/vendors/auto-search'
 */
-autoSearch.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+autoSearch.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: autoSearch.url(options),
     method: 'get',
 })
@@ -44,10 +38,7 @@ autoSearch.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): 
 * @see app/Http/Controllers/VendorController.php:123
 * @route '/mhp/vendors/auto-search'
 */
-autoSearch.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+autoSearch.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: autoSearch.url(options),
     method: 'head',
 })

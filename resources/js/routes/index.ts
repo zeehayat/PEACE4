@@ -1,26 +1,23 @@
-import { queryParams, type QueryParams } from './../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition } from './../wayfinder'
 /**
 * @see routes/web.php:74
 * @route '/login'
 */
-export const login = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const login = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: login.url(options),
     method: 'get',
 })
 
 login.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/login',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see routes/web.php:74
 * @route '/login'
 */
-login.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+login.url = (options?: RouteQueryOptions) => {
     return login.definition.url + queryParams(options)
 }
 
@@ -28,10 +25,7 @@ login.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 * @see routes/web.php:74
 * @route '/login'
 */
-login.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+login.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: login.url(options),
     method: 'get',
 })
@@ -40,10 +34,7 @@ login.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 * @see routes/web.php:74
 * @route '/login'
 */
-login.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+login.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: login.url(options),
     method: 'head',
 })
@@ -53,25 +44,22 @@ login.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 * @see vendor/laravel/fortify/src/Http/Controllers/RegisteredUserController.php:41
 * @route '/register'
 */
-export const register = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const register = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: register.url(options),
     method: 'get',
 })
 
 register.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/register',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \Laravel\Fortify\Http\Controllers\RegisteredUserController::register
 * @see vendor/laravel/fortify/src/Http/Controllers/RegisteredUserController.php:41
 * @route '/register'
 */
-register.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+register.url = (options?: RouteQueryOptions) => {
     return register.definition.url + queryParams(options)
 }
 
@@ -80,10 +68,7 @@ register.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => 
 * @see vendor/laravel/fortify/src/Http/Controllers/RegisteredUserController.php:41
 * @route '/register'
 */
-register.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+register.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: register.url(options),
     method: 'get',
 })
@@ -93,10 +78,7 @@ register.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 * @see vendor/laravel/fortify/src/Http/Controllers/RegisteredUserController.php:41
 * @route '/register'
 */
-register.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+register.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: register.url(options),
     method: 'head',
 })
@@ -106,25 +88,22 @@ register.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 * @see app/Http/Controllers/DashboardController.php:23
 * @route '/'
 */
-export const dashboard = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const dashboard = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: dashboard.url(options),
     method: 'get',
 })
 
 dashboard.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\DashboardController::dashboard
 * @see app/Http/Controllers/DashboardController.php:23
 * @route '/'
 */
-dashboard.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+dashboard.url = (options?: RouteQueryOptions) => {
     return dashboard.definition.url + queryParams(options)
 }
 
@@ -133,10 +112,7 @@ dashboard.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) =>
 * @see app/Http/Controllers/DashboardController.php:23
 * @route '/'
 */
-dashboard.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+dashboard.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: dashboard.url(options),
     method: 'get',
 })
@@ -146,10 +122,7 @@ dashboard.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 * @see app/Http/Controllers/DashboardController.php:23
 * @route '/'
 */
-dashboard.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+dashboard.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: dashboard.url(options),
     method: 'head',
 })
@@ -159,25 +132,22 @@ dashboard.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): 
 * @see app/Http/Controllers/DashboardController.php:23
 * @route '/dashboard'
 */
-export const dashboard = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const dashboard = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: dashboard.url(options),
     method: 'get',
 })
 
 dashboard.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/dashboard',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\DashboardController::dashboard
 * @see app/Http/Controllers/DashboardController.php:23
 * @route '/dashboard'
 */
-dashboard.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+dashboard.url = (options?: RouteQueryOptions) => {
     return dashboard.definition.url + queryParams(options)
 }
 
@@ -186,10 +156,7 @@ dashboard.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) =>
 * @see app/Http/Controllers/DashboardController.php:23
 * @route '/dashboard'
 */
-dashboard.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+dashboard.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: dashboard.url(options),
     method: 'get',
 })
@@ -199,10 +166,7 @@ dashboard.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 * @see app/Http/Controllers/DashboardController.php:23
 * @route '/dashboard'
 */
-dashboard.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+dashboard.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: dashboard.url(options),
     method: 'head',
 })

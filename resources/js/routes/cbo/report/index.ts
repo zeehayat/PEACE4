@@ -1,28 +1,25 @@
-import { queryParams, type QueryParams } from './../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition } from './../../../wayfinder'
 /**
 * @see \App\Http\Controllers\ReportController::exportMethod
 * @see app/Http/Controllers/ReportController.php:40
 * @route '/cbo/report/export'
 */
-export const exportMethod = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const exportMethod = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: exportMethod.url(options),
     method: 'get',
 })
 
 exportMethod.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/cbo/report/export',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\ReportController::exportMethod
 * @see app/Http/Controllers/ReportController.php:40
 * @route '/cbo/report/export'
 */
-exportMethod.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+exportMethod.url = (options?: RouteQueryOptions) => {
     return exportMethod.definition.url + queryParams(options)
 }
 
@@ -31,10 +28,7 @@ exportMethod.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams })
 * @see app/Http/Controllers/ReportController.php:40
 * @route '/cbo/report/export'
 */
-exportMethod.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+exportMethod.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: exportMethod.url(options),
     method: 'get',
 })
@@ -44,10 +38,7 @@ exportMethod.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams })
 * @see app/Http/Controllers/ReportController.php:40
 * @route '/cbo/report/export'
 */
-exportMethod.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+exportMethod.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: exportMethod.url(options),
     method: 'head',
 })

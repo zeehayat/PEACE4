@@ -1,28 +1,25 @@
-import { queryParams, type QueryParams } from './../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition } from './../../wayfinder'
 import users from './users'
 import roles from './roles'
 /**
 * @see routes/admin_routes.php:19
 * @route '/admin'
 */
-export const dashboard = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const dashboard = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: dashboard.url(options),
     method: 'get',
 })
 
 dashboard.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/admin',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see routes/admin_routes.php:19
 * @route '/admin'
 */
-dashboard.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+dashboard.url = (options?: RouteQueryOptions) => {
     return dashboard.definition.url + queryParams(options)
 }
 
@@ -30,10 +27,7 @@ dashboard.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) =>
 * @see routes/admin_routes.php:19
 * @route '/admin'
 */
-dashboard.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+dashboard.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: dashboard.url(options),
     method: 'get',
 })
@@ -42,10 +36,7 @@ dashboard.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 * @see routes/admin_routes.php:19
 * @route '/admin'
 */
-dashboard.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+dashboard.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: dashboard.url(options),
     method: 'head',
 })

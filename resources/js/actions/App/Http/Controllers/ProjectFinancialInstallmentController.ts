@@ -1,20 +1,26 @@
-import { queryParams, type QueryParams } from './../../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::index
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:27
 * @route '/procurement/installments'
 */
-const index1aed2288615d1efbbb4b89735fbdc34b = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: index1aed2288615d1efbbb4b89735fbdc34b.url(options),
+const indexadbc2ba5be4f0c9474df9e971a1cc6fa = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: indexadbc2ba5be4f0c9474df9e971a1cc6fa.url(options),
     method: 'get',
 })
 
-index1aed2288615d1efbbb4b89735fbdc34b.definition = {
-    methods: ['get','head'],
+indexadbc2ba5be4f0c9474df9e971a1cc6fa.definition = {
+    methods: ["get","head"],
     url: '/procurement/installments',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \App\Http\Controllers\ProjectFinancialInstallmentController::index
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:27
+* @route '/procurement/installments'
+*/
+indexadbc2ba5be4f0c9474df9e971a1cc6fa.url = (options?: RouteQueryOptions) => {
+    return indexadbc2ba5be4f0c9474df9e971a1cc6fa.definition.url + queryParams(options)
 }
 
 /**
@@ -22,20 +28,8 @@ index1aed2288615d1efbbb4b89735fbdc34b.definition = {
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:27
 * @route '/procurement/installments'
 */
-index1aed2288615d1efbbb4b89735fbdc34b.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return index1aed2288615d1efbbb4b89735fbdc34b.definition.url + queryParams(options)
-}
-
-/**
-* @see \App\Http\Controllers\ProjectFinancialInstallmentController::index
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:27
-* @route '/procurement/installments'
-*/
-index1aed2288615d1efbbb4b89735fbdc34b.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: index1aed2288615d1efbbb4b89735fbdc34b.url(options),
+indexadbc2ba5be4f0c9474df9e971a1cc6fa.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: indexadbc2ba5be4f0c9474df9e971a1cc6fa.url(options),
     method: 'get',
 })
 
@@ -44,11 +38,8 @@ index1aed2288615d1efbbb4b89735fbdc34b.get = (options?: { query?: QueryParams, me
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:27
 * @route '/procurement/installments'
 */
-index1aed2288615d1efbbb4b89735fbdc34b.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
-    url: index1aed2288615d1efbbb4b89735fbdc34b.url(options),
+indexadbc2ba5be4f0c9474df9e971a1cc6fa.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: indexadbc2ba5be4f0c9474df9e971a1cc6fa.url(options),
     method: 'head',
 })
 
@@ -57,25 +48,22 @@ index1aed2288615d1efbbb4b89735fbdc34b.head = (options?: { query?: QueryParams, m
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:27
 * @route '/mhp/sites/{site}/financial-installments'
 */
-const index6bba40a7c50536e3b59dcae230e3c8d8 = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: index6bba40a7c50536e3b59dcae230e3c8d8.url(args, options),
+const index1ffbdbd7856c672a2e01acf9027bb738 = (args: { site: string | number } | [site: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: index1ffbdbd7856c672a2e01acf9027bb738.url(args, options),
     method: 'get',
 })
 
-index6bba40a7c50536e3b59dcae230e3c8d8.definition = {
-    methods: ['get','head'],
+index1ffbdbd7856c672a2e01acf9027bb738.definition = {
+    methods: ["get","head"],
     url: '/mhp/sites/{site}/financial-installments',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::index
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:27
 * @route '/mhp/sites/{site}/financial-installments'
 */
-index6bba40a7c50536e3b59dcae230e3c8d8.url = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+index1ffbdbd7856c672a2e01acf9027bb738.url = (args: { site: string | number } | [site: string | number ] | string | number, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { site: args }
     }
@@ -86,11 +74,13 @@ index6bba40a7c50536e3b59dcae230e3c8d8.url = (args: { site: string | number } | [
         }
     }
 
+    args = applyUrlDefaults(args)
+
     const parsedArgs = {
         site: args.site,
     }
 
-    return index6bba40a7c50536e3b59dcae230e3c8d8.definition.url
+    return index1ffbdbd7856c672a2e01acf9027bb738.definition.url
             .replace('{site}', parsedArgs.site.toString())
             .replace(/\/+$/, '') + queryParams(options)
 }
@@ -100,11 +90,8 @@ index6bba40a7c50536e3b59dcae230e3c8d8.url = (args: { site: string | number } | [
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:27
 * @route '/mhp/sites/{site}/financial-installments'
 */
-index6bba40a7c50536e3b59dcae230e3c8d8.get = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: index6bba40a7c50536e3b59dcae230e3c8d8.url(args, options),
+index1ffbdbd7856c672a2e01acf9027bb738.get = (args: { site: string | number } | [site: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: index1ffbdbd7856c672a2e01acf9027bb738.url(args, options),
     method: 'get',
 })
 
@@ -113,17 +100,14 @@ index6bba40a7c50536e3b59dcae230e3c8d8.get = (args: { site: string | number } | [
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:27
 * @route '/mhp/sites/{site}/financial-installments'
 */
-index6bba40a7c50536e3b59dcae230e3c8d8.head = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
-    url: index6bba40a7c50536e3b59dcae230e3c8d8.url(args, options),
+index1ffbdbd7856c672a2e01acf9027bb738.head = (args: { site: string | number } | [site: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: index1ffbdbd7856c672a2e01acf9027bb738.url(args, options),
     method: 'head',
 })
 
 export const index = {
-    '/procurement/installments': index1aed2288615d1efbbb4b89735fbdc34b,
-    '/mhp/sites/{site}/financial-installments': index6bba40a7c50536e3b59dcae230e3c8d8,
+    '/procurement/installments': indexadbc2ba5be4f0c9474df9e971a1cc6fa,
+    '/mhp/sites/{site}/financial-installments': index1ffbdbd7856c672a2e01acf9027bb738,
 }
 
 /**
@@ -131,17 +115,23 @@ export const index = {
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:83
 * @route '/procurement/installments/create'
 */
-const create42c02200557b7f167ed49ed8585c59f3 = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: create42c02200557b7f167ed49ed8585c59f3.url(options),
+const create54368a98da1979d58206c206f21116c8 = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: create54368a98da1979d58206c206f21116c8.url(options),
     method: 'get',
 })
 
-create42c02200557b7f167ed49ed8585c59f3.definition = {
-    methods: ['get','head'],
+create54368a98da1979d58206c206f21116c8.definition = {
+    methods: ["get","head"],
     url: '/procurement/installments/create',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \App\Http\Controllers\ProjectFinancialInstallmentController::create
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:83
+* @route '/procurement/installments/create'
+*/
+create54368a98da1979d58206c206f21116c8.url = (options?: RouteQueryOptions) => {
+    return create54368a98da1979d58206c206f21116c8.definition.url + queryParams(options)
 }
 
 /**
@@ -149,20 +139,8 @@ create42c02200557b7f167ed49ed8585c59f3.definition = {
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:83
 * @route '/procurement/installments/create'
 */
-create42c02200557b7f167ed49ed8585c59f3.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return create42c02200557b7f167ed49ed8585c59f3.definition.url + queryParams(options)
-}
-
-/**
-* @see \App\Http\Controllers\ProjectFinancialInstallmentController::create
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:83
-* @route '/procurement/installments/create'
-*/
-create42c02200557b7f167ed49ed8585c59f3.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: create42c02200557b7f167ed49ed8585c59f3.url(options),
+create54368a98da1979d58206c206f21116c8.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: create54368a98da1979d58206c206f21116c8.url(options),
     method: 'get',
 })
 
@@ -171,11 +149,8 @@ create42c02200557b7f167ed49ed8585c59f3.get = (options?: { query?: QueryParams, m
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:83
 * @route '/procurement/installments/create'
 */
-create42c02200557b7f167ed49ed8585c59f3.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
-    url: create42c02200557b7f167ed49ed8585c59f3.url(options),
+create54368a98da1979d58206c206f21116c8.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: create54368a98da1979d58206c206f21116c8.url(options),
     method: 'head',
 })
 
@@ -184,25 +159,22 @@ create42c02200557b7f167ed49ed8585c59f3.head = (options?: { query?: QueryParams, 
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:83
 * @route '/mhp/sites/{site}/financial-installments/create'
 */
-const create137796d9a177d53cea5f5d56cdabef1f = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: create137796d9a177d53cea5f5d56cdabef1f.url(args, options),
+const create3f0d277cde2af89c0924083b69b3fb5b = (args: { site: string | number } | [site: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: create3f0d277cde2af89c0924083b69b3fb5b.url(args, options),
     method: 'get',
 })
 
-create137796d9a177d53cea5f5d56cdabef1f.definition = {
-    methods: ['get','head'],
+create3f0d277cde2af89c0924083b69b3fb5b.definition = {
+    methods: ["get","head"],
     url: '/mhp/sites/{site}/financial-installments/create',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::create
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:83
 * @route '/mhp/sites/{site}/financial-installments/create'
 */
-create137796d9a177d53cea5f5d56cdabef1f.url = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+create3f0d277cde2af89c0924083b69b3fb5b.url = (args: { site: string | number } | [site: string | number ] | string | number, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { site: args }
     }
@@ -213,11 +185,13 @@ create137796d9a177d53cea5f5d56cdabef1f.url = (args: { site: string | number } | 
         }
     }
 
+    args = applyUrlDefaults(args)
+
     const parsedArgs = {
         site: args.site,
     }
 
-    return create137796d9a177d53cea5f5d56cdabef1f.definition.url
+    return create3f0d277cde2af89c0924083b69b3fb5b.definition.url
             .replace('{site}', parsedArgs.site.toString())
             .replace(/\/+$/, '') + queryParams(options)
 }
@@ -227,11 +201,8 @@ create137796d9a177d53cea5f5d56cdabef1f.url = (args: { site: string | number } | 
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:83
 * @route '/mhp/sites/{site}/financial-installments/create'
 */
-create137796d9a177d53cea5f5d56cdabef1f.get = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: create137796d9a177d53cea5f5d56cdabef1f.url(args, options),
+create3f0d277cde2af89c0924083b69b3fb5b.get = (args: { site: string | number } | [site: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: create3f0d277cde2af89c0924083b69b3fb5b.url(args, options),
     method: 'get',
 })
 
@@ -240,17 +211,14 @@ create137796d9a177d53cea5f5d56cdabef1f.get = (args: { site: string | number } | 
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:83
 * @route '/mhp/sites/{site}/financial-installments/create'
 */
-create137796d9a177d53cea5f5d56cdabef1f.head = (args: { site: string | number } | [site: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
-    url: create137796d9a177d53cea5f5d56cdabef1f.url(args, options),
+create3f0d277cde2af89c0924083b69b3fb5b.head = (args: { site: string | number } | [site: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: create3f0d277cde2af89c0924083b69b3fb5b.url(args, options),
     method: 'head',
 })
 
 export const create = {
-    '/procurement/installments/create': create42c02200557b7f167ed49ed8585c59f3,
-    '/mhp/sites/{site}/financial-installments/create': create137796d9a177d53cea5f5d56cdabef1f,
+    '/procurement/installments/create': create54368a98da1979d58206c206f21116c8,
+    '/mhp/sites/{site}/financial-installments/create': create3f0d277cde2af89c0924083b69b3fb5b,
 }
 
 /**
@@ -258,17 +226,23 @@ export const create = {
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:92
 * @route '/procurement/installments'
 */
-const store1aed2288615d1efbbb4b89735fbdc34b = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'post',
-} => ({
-    url: store1aed2288615d1efbbb4b89735fbdc34b.url(options),
+const storeadbc2ba5be4f0c9474df9e971a1cc6fa = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+    url: storeadbc2ba5be4f0c9474df9e971a1cc6fa.url(options),
     method: 'post',
 })
 
-store1aed2288615d1efbbb4b89735fbdc34b.definition = {
-    methods: ['post'],
+storeadbc2ba5be4f0c9474df9e971a1cc6fa.definition = {
+    methods: ["post"],
     url: '/procurement/installments',
+} satisfies RouteDefinition<["post"]>
+
+/**
+* @see \App\Http\Controllers\ProjectFinancialInstallmentController::store
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:92
+* @route '/procurement/installments'
+*/
+storeadbc2ba5be4f0c9474df9e971a1cc6fa.url = (options?: RouteQueryOptions) => {
+    return storeadbc2ba5be4f0c9474df9e971a1cc6fa.definition.url + queryParams(options)
 }
 
 /**
@@ -276,20 +250,8 @@ store1aed2288615d1efbbb4b89735fbdc34b.definition = {
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:92
 * @route '/procurement/installments'
 */
-store1aed2288615d1efbbb4b89735fbdc34b.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return store1aed2288615d1efbbb4b89735fbdc34b.definition.url + queryParams(options)
-}
-
-/**
-* @see \App\Http\Controllers\ProjectFinancialInstallmentController::store
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:92
-* @route '/procurement/installments'
-*/
-store1aed2288615d1efbbb4b89735fbdc34b.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'post',
-} => ({
-    url: store1aed2288615d1efbbb4b89735fbdc34b.url(options),
+storeadbc2ba5be4f0c9474df9e971a1cc6fa.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+    url: storeadbc2ba5be4f0c9474df9e971a1cc6fa.url(options),
     method: 'post',
 })
 
@@ -298,25 +260,22 @@ store1aed2288615d1efbbb4b89735fbdc34b.post = (options?: { query?: QueryParams, m
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:92
 * @route '/mhp/sites/{site}/financial-installments'
 */
-const store6bba40a7c50536e3b59dcae230e3c8d8 = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'post',
-} => ({
-    url: store6bba40a7c50536e3b59dcae230e3c8d8.url(args, options),
+const store1ffbdbd7856c672a2e01acf9027bb738 = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+    url: store1ffbdbd7856c672a2e01acf9027bb738.url(args, options),
     method: 'post',
 })
 
-store6bba40a7c50536e3b59dcae230e3c8d8.definition = {
-    methods: ['post'],
+store1ffbdbd7856c672a2e01acf9027bb738.definition = {
+    methods: ["post"],
     url: '/mhp/sites/{site}/financial-installments',
-}
+} satisfies RouteDefinition<["post"]>
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::store
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:92
 * @route '/mhp/sites/{site}/financial-installments'
 */
-store6bba40a7c50536e3b59dcae230e3c8d8.url = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+store1ffbdbd7856c672a2e01acf9027bb738.url = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { site: args }
     }
@@ -331,13 +290,15 @@ store6bba40a7c50536e3b59dcae230e3c8d8.url = (args: { site: number | { id: number
         }
     }
 
+    args = applyUrlDefaults(args)
+
     const parsedArgs = {
         site: typeof args.site === 'object'
         ? args.site.id
         : args.site,
     }
 
-    return store6bba40a7c50536e3b59dcae230e3c8d8.definition.url
+    return store1ffbdbd7856c672a2e01acf9027bb738.definition.url
             .replace('{site}', parsedArgs.site.toString())
             .replace(/\/+$/, '') + queryParams(options)
 }
@@ -347,17 +308,14 @@ store6bba40a7c50536e3b59dcae230e3c8d8.url = (args: { site: number | { id: number
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:92
 * @route '/mhp/sites/{site}/financial-installments'
 */
-store6bba40a7c50536e3b59dcae230e3c8d8.post = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'post',
-} => ({
-    url: store6bba40a7c50536e3b59dcae230e3c8d8.url(args, options),
+store1ffbdbd7856c672a2e01acf9027bb738.post = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+    url: store1ffbdbd7856c672a2e01acf9027bb738.url(args, options),
     method: 'post',
 })
 
 export const store = {
-    '/procurement/installments': store1aed2288615d1efbbb4b89735fbdc34b,
-    '/mhp/sites/{site}/financial-installments': store6bba40a7c50536e3b59dcae230e3c8d8,
+    '/procurement/installments': storeadbc2ba5be4f0c9474df9e971a1cc6fa,
+    '/mhp/sites/{site}/financial-installments': store1ffbdbd7856c672a2e01acf9027bb738,
 }
 
 /**
@@ -365,25 +323,22 @@ export const store = {
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:106
 * @route '/procurement/installments/{installment}'
 */
-const showa29f368bae2630b6f68ec4eefe40c7d5 = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: showa29f368bae2630b6f68ec4eefe40c7d5.url(args, options),
+const showe2170ef397635faa0e9ad94994609def = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: showe2170ef397635faa0e9ad94994609def.url(args, options),
     method: 'get',
 })
 
-showa29f368bae2630b6f68ec4eefe40c7d5.definition = {
-    methods: ['get','head'],
+showe2170ef397635faa0e9ad94994609def.definition = {
+    methods: ["get","head"],
     url: '/procurement/installments/{installment}',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::show
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:106
 * @route '/procurement/installments/{installment}'
 */
-showa29f368bae2630b6f68ec4eefe40c7d5.url = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+showe2170ef397635faa0e9ad94994609def.url = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { installment: args }
     }
@@ -394,11 +349,13 @@ showa29f368bae2630b6f68ec4eefe40c7d5.url = (args: { installment: string | number
         }
     }
 
+    args = applyUrlDefaults(args)
+
     const parsedArgs = {
         installment: args.installment,
     }
 
-    return showa29f368bae2630b6f68ec4eefe40c7d5.definition.url
+    return showe2170ef397635faa0e9ad94994609def.definition.url
             .replace('{installment}', parsedArgs.installment.toString())
             .replace(/\/+$/, '') + queryParams(options)
 }
@@ -408,11 +365,8 @@ showa29f368bae2630b6f68ec4eefe40c7d5.url = (args: { installment: string | number
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:106
 * @route '/procurement/installments/{installment}'
 */
-showa29f368bae2630b6f68ec4eefe40c7d5.get = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: showa29f368bae2630b6f68ec4eefe40c7d5.url(args, options),
+showe2170ef397635faa0e9ad94994609def.get = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: showe2170ef397635faa0e9ad94994609def.url(args, options),
     method: 'get',
 })
 
@@ -421,11 +375,8 @@ showa29f368bae2630b6f68ec4eefe40c7d5.get = (args: { installment: string | number
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:106
 * @route '/procurement/installments/{installment}'
 */
-showa29f368bae2630b6f68ec4eefe40c7d5.head = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
-    url: showa29f368bae2630b6f68ec4eefe40c7d5.url(args, options),
+showe2170ef397635faa0e9ad94994609def.head = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: showe2170ef397635faa0e9ad94994609def.url(args, options),
     method: 'head',
 })
 
@@ -434,25 +385,22 @@ showa29f368bae2630b6f68ec4eefe40c7d5.head = (args: { installment: string | numbe
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:106
 * @route '/mhp/sites/{site}/financial-installments/{financial_installment}'
 */
-const showd20e48c044f75a94f8b889ebee9e4342 = (args: { site: string | number, financial_installment: string | number } | [site: string | number, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: showd20e48c044f75a94f8b889ebee9e4342.url(args, options),
+const show1b505440b9e3fb03b75ac0c61a97a121 = (args: { site: string | number, financial_installment: string | number } | [site: string | number, financial_installment: string | number ], options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: show1b505440b9e3fb03b75ac0c61a97a121.url(args, options),
     method: 'get',
 })
 
-showd20e48c044f75a94f8b889ebee9e4342.definition = {
-    methods: ['get','head'],
+show1b505440b9e3fb03b75ac0c61a97a121.definition = {
+    methods: ["get","head"],
     url: '/mhp/sites/{site}/financial-installments/{financial_installment}',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::show
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:106
 * @route '/mhp/sites/{site}/financial-installments/{financial_installment}'
 */
-showd20e48c044f75a94f8b889ebee9e4342.url = (args: { site: string | number, financial_installment: string | number } | [site: string | number, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+show1b505440b9e3fb03b75ac0c61a97a121.url = (args: { site: string | number, financial_installment: string | number } | [site: string | number, financial_installment: string | number ], options?: RouteQueryOptions) => {
     if (Array.isArray(args)) {
         args = {
             site: args[0],
@@ -460,12 +408,14 @@ showd20e48c044f75a94f8b889ebee9e4342.url = (args: { site: string | number, finan
         }
     }
 
+    args = applyUrlDefaults(args)
+
     const parsedArgs = {
         site: args.site,
         financial_installment: args.financial_installment,
     }
 
-    return showd20e48c044f75a94f8b889ebee9e4342.definition.url
+    return show1b505440b9e3fb03b75ac0c61a97a121.definition.url
             .replace('{site}', parsedArgs.site.toString())
             .replace('{financial_installment}', parsedArgs.financial_installment.toString())
             .replace(/\/+$/, '') + queryParams(options)
@@ -476,11 +426,8 @@ showd20e48c044f75a94f8b889ebee9e4342.url = (args: { site: string | number, finan
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:106
 * @route '/mhp/sites/{site}/financial-installments/{financial_installment}'
 */
-showd20e48c044f75a94f8b889ebee9e4342.get = (args: { site: string | number, financial_installment: string | number } | [site: string | number, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: showd20e48c044f75a94f8b889ebee9e4342.url(args, options),
+show1b505440b9e3fb03b75ac0c61a97a121.get = (args: { site: string | number, financial_installment: string | number } | [site: string | number, financial_installment: string | number ], options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: show1b505440b9e3fb03b75ac0c61a97a121.url(args, options),
     method: 'get',
 })
 
@@ -489,17 +436,14 @@ showd20e48c044f75a94f8b889ebee9e4342.get = (args: { site: string | number, finan
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:106
 * @route '/mhp/sites/{site}/financial-installments/{financial_installment}'
 */
-showd20e48c044f75a94f8b889ebee9e4342.head = (args: { site: string | number, financial_installment: string | number } | [site: string | number, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
-    url: showd20e48c044f75a94f8b889ebee9e4342.url(args, options),
+show1b505440b9e3fb03b75ac0c61a97a121.head = (args: { site: string | number, financial_installment: string | number } | [site: string | number, financial_installment: string | number ], options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: show1b505440b9e3fb03b75ac0c61a97a121.url(args, options),
     method: 'head',
 })
 
 export const show = {
-    '/procurement/installments/{installment}': showa29f368bae2630b6f68ec4eefe40c7d5,
-    '/mhp/sites/{site}/financial-installments/{financial_installment}': showd20e48c044f75a94f8b889ebee9e4342,
+    '/procurement/installments/{installment}': showe2170ef397635faa0e9ad94994609def,
+    '/mhp/sites/{site}/financial-installments/{financial_installment}': show1b505440b9e3fb03b75ac0c61a97a121,
 }
 
 /**
@@ -507,25 +451,22 @@ export const show = {
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:121
 * @route '/procurement/installments/{installment}/edit'
 */
-const editdd6c2ab2ee9e7cf8314c04c35dbade35 = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: editdd6c2ab2ee9e7cf8314c04c35dbade35.url(args, options),
+const edit34274db65f39ce3c6bd51a8c0ccb064f = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: edit34274db65f39ce3c6bd51a8c0ccb064f.url(args, options),
     method: 'get',
 })
 
-editdd6c2ab2ee9e7cf8314c04c35dbade35.definition = {
-    methods: ['get','head'],
+edit34274db65f39ce3c6bd51a8c0ccb064f.definition = {
+    methods: ["get","head"],
     url: '/procurement/installments/{installment}/edit',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::edit
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:121
 * @route '/procurement/installments/{installment}/edit'
 */
-editdd6c2ab2ee9e7cf8314c04c35dbade35.url = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+edit34274db65f39ce3c6bd51a8c0ccb064f.url = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { installment: args }
     }
@@ -536,11 +477,13 @@ editdd6c2ab2ee9e7cf8314c04c35dbade35.url = (args: { installment: string | number
         }
     }
 
+    args = applyUrlDefaults(args)
+
     const parsedArgs = {
         installment: args.installment,
     }
 
-    return editdd6c2ab2ee9e7cf8314c04c35dbade35.definition.url
+    return edit34274db65f39ce3c6bd51a8c0ccb064f.definition.url
             .replace('{installment}', parsedArgs.installment.toString())
             .replace(/\/+$/, '') + queryParams(options)
 }
@@ -550,11 +493,8 @@ editdd6c2ab2ee9e7cf8314c04c35dbade35.url = (args: { installment: string | number
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:121
 * @route '/procurement/installments/{installment}/edit'
 */
-editdd6c2ab2ee9e7cf8314c04c35dbade35.get = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: editdd6c2ab2ee9e7cf8314c04c35dbade35.url(args, options),
+edit34274db65f39ce3c6bd51a8c0ccb064f.get = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: edit34274db65f39ce3c6bd51a8c0ccb064f.url(args, options),
     method: 'get',
 })
 
@@ -563,11 +503,8 @@ editdd6c2ab2ee9e7cf8314c04c35dbade35.get = (args: { installment: string | number
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:121
 * @route '/procurement/installments/{installment}/edit'
 */
-editdd6c2ab2ee9e7cf8314c04c35dbade35.head = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
-    url: editdd6c2ab2ee9e7cf8314c04c35dbade35.url(args, options),
+edit34274db65f39ce3c6bd51a8c0ccb064f.head = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: edit34274db65f39ce3c6bd51a8c0ccb064f.url(args, options),
     method: 'head',
 })
 
@@ -576,25 +513,22 @@ editdd6c2ab2ee9e7cf8314c04c35dbade35.head = (args: { installment: string | numbe
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:121
 * @route '/mhp/sites/{site}/financial-installments/{financial_installment}/edit'
 */
-const edit1fd2b4241ecd8a0fffbbc5653d9a0b5b = (args: { site: string | number, financial_installment: string | number } | [site: string | number, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: edit1fd2b4241ecd8a0fffbbc5653d9a0b5b.url(args, options),
+const edit44a2d0d677d33367a7230f2a7babd1b9 = (args: { site: string | number, financial_installment: string | number } | [site: string | number, financial_installment: string | number ], options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: edit44a2d0d677d33367a7230f2a7babd1b9.url(args, options),
     method: 'get',
 })
 
-edit1fd2b4241ecd8a0fffbbc5653d9a0b5b.definition = {
-    methods: ['get','head'],
+edit44a2d0d677d33367a7230f2a7babd1b9.definition = {
+    methods: ["get","head"],
     url: '/mhp/sites/{site}/financial-installments/{financial_installment}/edit',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::edit
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:121
 * @route '/mhp/sites/{site}/financial-installments/{financial_installment}/edit'
 */
-edit1fd2b4241ecd8a0fffbbc5653d9a0b5b.url = (args: { site: string | number, financial_installment: string | number } | [site: string | number, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+edit44a2d0d677d33367a7230f2a7babd1b9.url = (args: { site: string | number, financial_installment: string | number } | [site: string | number, financial_installment: string | number ], options?: RouteQueryOptions) => {
     if (Array.isArray(args)) {
         args = {
             site: args[0],
@@ -602,12 +536,14 @@ edit1fd2b4241ecd8a0fffbbc5653d9a0b5b.url = (args: { site: string | number, finan
         }
     }
 
+    args = applyUrlDefaults(args)
+
     const parsedArgs = {
         site: args.site,
         financial_installment: args.financial_installment,
     }
 
-    return edit1fd2b4241ecd8a0fffbbc5653d9a0b5b.definition.url
+    return edit44a2d0d677d33367a7230f2a7babd1b9.definition.url
             .replace('{site}', parsedArgs.site.toString())
             .replace('{financial_installment}', parsedArgs.financial_installment.toString())
             .replace(/\/+$/, '') + queryParams(options)
@@ -618,11 +554,8 @@ edit1fd2b4241ecd8a0fffbbc5653d9a0b5b.url = (args: { site: string | number, finan
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:121
 * @route '/mhp/sites/{site}/financial-installments/{financial_installment}/edit'
 */
-edit1fd2b4241ecd8a0fffbbc5653d9a0b5b.get = (args: { site: string | number, financial_installment: string | number } | [site: string | number, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
-    url: edit1fd2b4241ecd8a0fffbbc5653d9a0b5b.url(args, options),
+edit44a2d0d677d33367a7230f2a7babd1b9.get = (args: { site: string | number, financial_installment: string | number } | [site: string | number, financial_installment: string | number ], options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: edit44a2d0d677d33367a7230f2a7babd1b9.url(args, options),
     method: 'get',
 })
 
@@ -631,17 +564,14 @@ edit1fd2b4241ecd8a0fffbbc5653d9a0b5b.get = (args: { site: string | number, finan
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:121
 * @route '/mhp/sites/{site}/financial-installments/{financial_installment}/edit'
 */
-edit1fd2b4241ecd8a0fffbbc5653d9a0b5b.head = (args: { site: string | number, financial_installment: string | number } | [site: string | number, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
-    url: edit1fd2b4241ecd8a0fffbbc5653d9a0b5b.url(args, options),
+edit44a2d0d677d33367a7230f2a7babd1b9.head = (args: { site: string | number, financial_installment: string | number } | [site: string | number, financial_installment: string | number ], options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: edit44a2d0d677d33367a7230f2a7babd1b9.url(args, options),
     method: 'head',
 })
 
 export const edit = {
-    '/procurement/installments/{installment}/edit': editdd6c2ab2ee9e7cf8314c04c35dbade35,
-    '/mhp/sites/{site}/financial-installments/{financial_installment}/edit': edit1fd2b4241ecd8a0fffbbc5653d9a0b5b,
+    '/procurement/installments/{installment}/edit': edit34274db65f39ce3c6bd51a8c0ccb064f,
+    '/mhp/sites/{site}/financial-installments/{financial_installment}/edit': edit44a2d0d677d33367a7230f2a7babd1b9,
 }
 
 /**
@@ -649,25 +579,22 @@ export const edit = {
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:129
 * @route '/procurement/installments/{installment}'
 */
-const updatea29f368bae2630b6f68ec4eefe40c7d5 = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'put',
-} => ({
-    url: updatea29f368bae2630b6f68ec4eefe40c7d5.url(args, options),
+const updatee2170ef397635faa0e9ad94994609def = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
+    url: updatee2170ef397635faa0e9ad94994609def.url(args, options),
     method: 'put',
 })
 
-updatea29f368bae2630b6f68ec4eefe40c7d5.definition = {
-    methods: ['put','patch'],
+updatee2170ef397635faa0e9ad94994609def.definition = {
+    methods: ["put","patch"],
     url: '/procurement/installments/{installment}',
-}
+} satisfies RouteDefinition<["put","patch"]>
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::update
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:129
 * @route '/procurement/installments/{installment}'
 */
-updatea29f368bae2630b6f68ec4eefe40c7d5.url = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+updatee2170ef397635faa0e9ad94994609def.url = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { installment: args }
     }
@@ -678,11 +605,13 @@ updatea29f368bae2630b6f68ec4eefe40c7d5.url = (args: { installment: string | numb
         }
     }
 
+    args = applyUrlDefaults(args)
+
     const parsedArgs = {
         installment: args.installment,
     }
 
-    return updatea29f368bae2630b6f68ec4eefe40c7d5.definition.url
+    return updatee2170ef397635faa0e9ad94994609def.definition.url
             .replace('{installment}', parsedArgs.installment.toString())
             .replace(/\/+$/, '') + queryParams(options)
 }
@@ -692,11 +621,8 @@ updatea29f368bae2630b6f68ec4eefe40c7d5.url = (args: { installment: string | numb
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:129
 * @route '/procurement/installments/{installment}'
 */
-updatea29f368bae2630b6f68ec4eefe40c7d5.put = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'put',
-} => ({
-    url: updatea29f368bae2630b6f68ec4eefe40c7d5.url(args, options),
+updatee2170ef397635faa0e9ad94994609def.put = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
+    url: updatee2170ef397635faa0e9ad94994609def.url(args, options),
     method: 'put',
 })
 
@@ -705,11 +631,8 @@ updatea29f368bae2630b6f68ec4eefe40c7d5.put = (args: { installment: string | numb
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:129
 * @route '/procurement/installments/{installment}'
 */
-updatea29f368bae2630b6f68ec4eefe40c7d5.patch = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'patch',
-} => ({
-    url: updatea29f368bae2630b6f68ec4eefe40c7d5.url(args, options),
+updatee2170ef397635faa0e9ad94994609def.patch = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
+    url: updatee2170ef397635faa0e9ad94994609def.url(args, options),
     method: 'patch',
 })
 
@@ -718,31 +641,30 @@ updatea29f368bae2630b6f68ec4eefe40c7d5.patch = (args: { installment: string | nu
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:129
 * @route '/mhp/sites/{site}/financial-installments/{financial_installment}'
 */
-const updated20e48c044f75a94f8b889ebee9e4342 = (args: { site: number | { id: number }, financial_installment: string | number } | [site: number | { id: number }, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'put',
-} => ({
-    url: updated20e48c044f75a94f8b889ebee9e4342.url(args, options),
+const update1b505440b9e3fb03b75ac0c61a97a121 = (args: { site: number | { id: number }, financial_installment: string | number } | [site: number | { id: number }, financial_installment: string | number ], options?: RouteQueryOptions): RouteDefinition<'put'> => ({
+    url: update1b505440b9e3fb03b75ac0c61a97a121.url(args, options),
     method: 'put',
 })
 
-updated20e48c044f75a94f8b889ebee9e4342.definition = {
-    methods: ['put','patch'],
+update1b505440b9e3fb03b75ac0c61a97a121.definition = {
+    methods: ["put","patch"],
     url: '/mhp/sites/{site}/financial-installments/{financial_installment}',
-}
+} satisfies RouteDefinition<["put","patch"]>
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::update
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:129
 * @route '/mhp/sites/{site}/financial-installments/{financial_installment}'
 */
-updated20e48c044f75a94f8b889ebee9e4342.url = (args: { site: number | { id: number }, financial_installment: string | number } | [site: number | { id: number }, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+update1b505440b9e3fb03b75ac0c61a97a121.url = (args: { site: number | { id: number }, financial_installment: string | number } | [site: number | { id: number }, financial_installment: string | number ], options?: RouteQueryOptions) => {
     if (Array.isArray(args)) {
         args = {
             site: args[0],
             financial_installment: args[1],
         }
     }
+
+    args = applyUrlDefaults(args)
 
     const parsedArgs = {
         site: typeof args.site === 'object'
@@ -751,7 +673,7 @@ updated20e48c044f75a94f8b889ebee9e4342.url = (args: { site: number | { id: numbe
         financial_installment: args.financial_installment,
     }
 
-    return updated20e48c044f75a94f8b889ebee9e4342.definition.url
+    return update1b505440b9e3fb03b75ac0c61a97a121.definition.url
             .replace('{site}', parsedArgs.site.toString())
             .replace('{financial_installment}', parsedArgs.financial_installment.toString())
             .replace(/\/+$/, '') + queryParams(options)
@@ -762,11 +684,8 @@ updated20e48c044f75a94f8b889ebee9e4342.url = (args: { site: number | { id: numbe
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:129
 * @route '/mhp/sites/{site}/financial-installments/{financial_installment}'
 */
-updated20e48c044f75a94f8b889ebee9e4342.put = (args: { site: number | { id: number }, financial_installment: string | number } | [site: number | { id: number }, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'put',
-} => ({
-    url: updated20e48c044f75a94f8b889ebee9e4342.url(args, options),
+update1b505440b9e3fb03b75ac0c61a97a121.put = (args: { site: number | { id: number }, financial_installment: string | number } | [site: number | { id: number }, financial_installment: string | number ], options?: RouteQueryOptions): RouteDefinition<'put'> => ({
+    url: update1b505440b9e3fb03b75ac0c61a97a121.url(args, options),
     method: 'put',
 })
 
@@ -775,17 +694,14 @@ updated20e48c044f75a94f8b889ebee9e4342.put = (args: { site: number | { id: numbe
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:129
 * @route '/mhp/sites/{site}/financial-installments/{financial_installment}'
 */
-updated20e48c044f75a94f8b889ebee9e4342.patch = (args: { site: number | { id: number }, financial_installment: string | number } | [site: number | { id: number }, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'patch',
-} => ({
-    url: updated20e48c044f75a94f8b889ebee9e4342.url(args, options),
+update1b505440b9e3fb03b75ac0c61a97a121.patch = (args: { site: number | { id: number }, financial_installment: string | number } | [site: number | { id: number }, financial_installment: string | number ], options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
+    url: update1b505440b9e3fb03b75ac0c61a97a121.url(args, options),
     method: 'patch',
 })
 
 export const update = {
-    '/procurement/installments/{installment}': updatea29f368bae2630b6f68ec4eefe40c7d5,
-    '/mhp/sites/{site}/financial-installments/{financial_installment}': updated20e48c044f75a94f8b889ebee9e4342,
+    '/procurement/installments/{installment}': updatee2170ef397635faa0e9ad94994609def,
+    '/mhp/sites/{site}/financial-installments/{financial_installment}': update1b505440b9e3fb03b75ac0c61a97a121,
 }
 
 /**
@@ -793,25 +709,22 @@ export const update = {
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:144
 * @route '/procurement/installments/{installment}'
 */
-const destroya29f368bae2630b6f68ec4eefe40c7d5 = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'delete',
-} => ({
-    url: destroya29f368bae2630b6f68ec4eefe40c7d5.url(args, options),
+const destroye2170ef397635faa0e9ad94994609def = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
+    url: destroye2170ef397635faa0e9ad94994609def.url(args, options),
     method: 'delete',
 })
 
-destroya29f368bae2630b6f68ec4eefe40c7d5.definition = {
-    methods: ['delete'],
+destroye2170ef397635faa0e9ad94994609def.definition = {
+    methods: ["delete"],
     url: '/procurement/installments/{installment}',
-}
+} satisfies RouteDefinition<["delete"]>
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::destroy
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:144
 * @route '/procurement/installments/{installment}'
 */
-destroya29f368bae2630b6f68ec4eefe40c7d5.url = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+destroye2170ef397635faa0e9ad94994609def.url = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { installment: args }
     }
@@ -822,11 +735,13 @@ destroya29f368bae2630b6f68ec4eefe40c7d5.url = (args: { installment: string | num
         }
     }
 
+    args = applyUrlDefaults(args)
+
     const parsedArgs = {
         installment: args.installment,
     }
 
-    return destroya29f368bae2630b6f68ec4eefe40c7d5.definition.url
+    return destroye2170ef397635faa0e9ad94994609def.definition.url
             .replace('{installment}', parsedArgs.installment.toString())
             .replace(/\/+$/, '') + queryParams(options)
 }
@@ -836,11 +751,8 @@ destroya29f368bae2630b6f68ec4eefe40c7d5.url = (args: { installment: string | num
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:144
 * @route '/procurement/installments/{installment}'
 */
-destroya29f368bae2630b6f68ec4eefe40c7d5.delete = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'delete',
-} => ({
-    url: destroya29f368bae2630b6f68ec4eefe40c7d5.url(args, options),
+destroye2170ef397635faa0e9ad94994609def.delete = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
+    url: destroye2170ef397635faa0e9ad94994609def.url(args, options),
     method: 'delete',
 })
 
@@ -849,25 +761,22 @@ destroya29f368bae2630b6f68ec4eefe40c7d5.delete = (args: { installment: string | 
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:144
 * @route '/mhp/sites/{site}/financial-installments/{financial_installment}'
 */
-const destroyd20e48c044f75a94f8b889ebee9e4342 = (args: { site: string | number, financial_installment: string | number } | [site: string | number, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'delete',
-} => ({
-    url: destroyd20e48c044f75a94f8b889ebee9e4342.url(args, options),
+const destroy1b505440b9e3fb03b75ac0c61a97a121 = (args: { site: string | number, financial_installment: string | number } | [site: string | number, financial_installment: string | number ], options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
+    url: destroy1b505440b9e3fb03b75ac0c61a97a121.url(args, options),
     method: 'delete',
 })
 
-destroyd20e48c044f75a94f8b889ebee9e4342.definition = {
-    methods: ['delete'],
+destroy1b505440b9e3fb03b75ac0c61a97a121.definition = {
+    methods: ["delete"],
     url: '/mhp/sites/{site}/financial-installments/{financial_installment}',
-}
+} satisfies RouteDefinition<["delete"]>
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::destroy
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:144
 * @route '/mhp/sites/{site}/financial-installments/{financial_installment}'
 */
-destroyd20e48c044f75a94f8b889ebee9e4342.url = (args: { site: string | number, financial_installment: string | number } | [site: string | number, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+destroy1b505440b9e3fb03b75ac0c61a97a121.url = (args: { site: string | number, financial_installment: string | number } | [site: string | number, financial_installment: string | number ], options?: RouteQueryOptions) => {
     if (Array.isArray(args)) {
         args = {
             site: args[0],
@@ -875,12 +784,14 @@ destroyd20e48c044f75a94f8b889ebee9e4342.url = (args: { site: string | number, fi
         }
     }
 
+    args = applyUrlDefaults(args)
+
     const parsedArgs = {
         site: args.site,
         financial_installment: args.financial_installment,
     }
 
-    return destroyd20e48c044f75a94f8b889ebee9e4342.definition.url
+    return destroy1b505440b9e3fb03b75ac0c61a97a121.definition.url
             .replace('{site}', parsedArgs.site.toString())
             .replace('{financial_installment}', parsedArgs.financial_installment.toString())
             .replace(/\/+$/, '') + queryParams(options)
@@ -891,17 +802,14 @@ destroyd20e48c044f75a94f8b889ebee9e4342.url = (args: { site: string | number, fi
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:144
 * @route '/mhp/sites/{site}/financial-installments/{financial_installment}'
 */
-destroyd20e48c044f75a94f8b889ebee9e4342.delete = (args: { site: string | number, financial_installment: string | number } | [site: string | number, financial_installment: string | number ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'delete',
-} => ({
-    url: destroyd20e48c044f75a94f8b889ebee9e4342.url(args, options),
+destroy1b505440b9e3fb03b75ac0c61a97a121.delete = (args: { site: string | number, financial_installment: string | number } | [site: string | number, financial_installment: string | number ], options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
+    url: destroy1b505440b9e3fb03b75ac0c61a97a121.url(args, options),
     method: 'delete',
 })
 
 export const destroy = {
-    '/procurement/installments/{installment}': destroya29f368bae2630b6f68ec4eefe40c7d5,
-    '/mhp/sites/{site}/financial-installments/{financial_installment}': destroyd20e48c044f75a94f8b889ebee9e4342,
+    '/procurement/installments/{installment}': destroye2170ef397635faa0e9ad94994609def,
+    '/mhp/sites/{site}/financial-installments/{financial_installment}': destroy1b505440b9e3fb03b75ac0c61a97a121,
 }
 
 /**
@@ -909,25 +817,22 @@ export const destroy = {
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:53
 * @route '/mhp/sites/{site}/financial-progress'
 */
-export const getFinancialProgress = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const getFinancialProgress = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: getFinancialProgress.url(args, options),
     method: 'get',
 })
 
 getFinancialProgress.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/mhp/sites/{site}/financial-progress',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::getFinancialProgress
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:53
 * @route '/mhp/sites/{site}/financial-progress'
 */
-getFinancialProgress.url = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+getFinancialProgress.url = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { site: args }
     }
@@ -941,6 +846,8 @@ getFinancialProgress.url = (args: { site: number | { id: number } } | [site: num
             site: args[0],
         }
     }
+
+    args = applyUrlDefaults(args)
 
     const parsedArgs = {
         site: typeof args.site === 'object'
@@ -958,10 +865,7 @@ getFinancialProgress.url = (args: { site: number | { id: number } } | [site: num
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:53
 * @route '/mhp/sites/{site}/financial-progress'
 */
-getFinancialProgress.get = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+getFinancialProgress.get = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: getFinancialProgress.url(args, options),
     method: 'get',
 })
@@ -971,10 +875,7 @@ getFinancialProgress.get = (args: { site: number | { id: number } } | [site: num
 * @see app/Http/Controllers/ProjectFinancialInstallmentController.php:53
 * @route '/mhp/sites/{site}/financial-progress'
 */
-getFinancialProgress.head = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+getFinancialProgress.head = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: getFinancialProgress.url(args, options),
     method: 'head',
 })
