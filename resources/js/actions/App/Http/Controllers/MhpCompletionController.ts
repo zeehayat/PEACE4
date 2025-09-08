@@ -366,7 +366,7 @@ update.patch = (args: { site: number | { id: number }, completion: number | { id
 
 /**
 * @see \App\Http\Controllers\MhpCompletionController::destroy
-* @see app/Http/Controllers/MhpCompletionController.php:89
+* @see app/Http/Controllers/MhpCompletionController.php:90
 * @route '/mhp/sites/{site}/completion/{completion}'
 */
 export const destroy = (args: { site: string | number, completion: number | { id: number } } | [site: string | number, completion: number | { id: number } ], options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -381,7 +381,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\MhpCompletionController::destroy
-* @see app/Http/Controllers/MhpCompletionController.php:89
+* @see app/Http/Controllers/MhpCompletionController.php:90
 * @route '/mhp/sites/{site}/completion/{completion}'
 */
 destroy.url = (args: { site: string | number, completion: number | { id: number } } | [site: string | number, completion: number | { id: number } ], options?: RouteQueryOptions) => {
@@ -409,7 +409,7 @@ destroy.url = (args: { site: string | number, completion: number | { id: number 
 
 /**
 * @see \App\Http\Controllers\MhpCompletionController::destroy
-* @see app/Http/Controllers/MhpCompletionController.php:89
+* @see app/Http/Controllers/MhpCompletionController.php:90
 * @route '/mhp/sites/{site}/completion/{completion}'
 */
 destroy.delete = (args: { site: string | number, completion: number | { id: number } } | [site: string | number, completion: number | { id: number } ], options?: RouteQueryOptions): RouteDefinition<'delete'> => ({

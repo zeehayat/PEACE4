@@ -9,6 +9,7 @@ use App\Models\OperationalCost;
 use App\Models\TAndDWork;
 use App\Models\ProjectPhysicalProgress;
 use App\Models\ProjectFinancialInstallment;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Throwable;
@@ -420,55 +421,84 @@ class MhpSiteService
     public function storeOrUpdateMhpCompletion(MhpSite $site, array $data): MhpCompletion
     {
         return DB::transaction(function () use ($site, $data) {
-            // 1) Pull out file/aux keys that are NOT DB columns
             $attachmentsToDelete = $data['attachments_to_delete'] ?? [];
-            $attachments         = $data['attachments'] ?? [];
+            $attachments = $data['attachments'] ?? [];
             unset($data['attachments_to_delete'], $data['attachments']);
 
-            // 2) Normalize any formats (EXAMPLE: adjust to your schema)
-            // if (isset($data['completion_date'])) {
-            //     $data['completion_date'] = \Carbon\Carbon::parse($data['completion_date'])->toDateString();
-            // }
-
-            // 3) Ensure we target the single row for this site
-            //    (ASSUMES you use hasOne completion() and a UNIQUE constraint on `mhp_site_id`)
-            $completion = $site->completion()->first();
-            if (!$completion) {
-                $completion = $site->completion()->make(); // new instance scoped to site
-                $completion->mhp_site_id = $site->id;
+            // Normalize to Y-m-d if columns are DATE
+            foreach (['scheme_inauguration_date', 'testing_commissioning_date', 'handover_date'] as $key) {
+                if (!empty($data[$key])) {
+                    try {
+                        $parsed = Carbon::parse($data[$key])->toDateString(); // or ->toDateTimeString() if datetime
+                        Log::info('Norm date', ['key' => $key, 'raw' => $data[$key], 'parsed' => $parsed]);
+                        $data[$key] = $parsed;
+                    } catch (\Throwable $e) {
+                        Log::warning('Date parse failed', ['key' => $key, 'val' => $data[$key], 'err' => $e->getMessage()]);
+                    }
+                }
             }
 
-            // 4) Fill + detect dirties (requires correct $fillable in MhpCompletion model)
-            $before = $completion->toArray();
-            $completion->fill($data);
-            $dirty = $completion->getDirty();
+            $completion = $site->completion()->first()
+                ?? tap($site->completion()->make(), fn($m) => $m->mhp_site_id = $site->id);
 
-            \Log::info('MhpCompletion dirty BEFORE save', [
-                'site_id' => $site->id,
-                'completion_id' => $completion->id,
-                'dirty' => $dirty,
+            $before = $completion->toArray();
+            Log::info('Completion incoming vs current (pre-fill)', [
+                'incoming' => [
+                    'scheme_inauguration_date'   => $data['scheme_inauguration_date']   ?? null,
+                    'testing_commissioning_date' => $data['testing_commissioning_date'] ?? null,
+                    'handover_date'              => $data['handover_date']              ?? null,
+                ],
+                'current_raw' => [
+                    'scheme_inauguration_date'   => $completion->getOriginal('scheme_inauguration_date'),
+                    'testing_commissioning_date' => $completion->getOriginal('testing_commissioning_date'),
+                    'handover_date'              => $completion->getOriginal('handover_date'),
+                ],
+                // Are these attributes even mass-assignable?
+                'isFillable' => [
+                    'scheme_inauguration_date'   => method_exists($completion, 'isFillable') ? $completion->isFillable('scheme_inauguration_date')   : null,
+                    'testing_commissioning_date' => method_exists($completion, 'isFillable') ? $completion->isFillable('testing_commissioning_date') : null,
+                    'handover_date'              => method_exists($completion, 'isFillable') ? $completion->isFillable('handover_date')              : null,
+                ],
             ]);
 
-            if (!empty($dirty)) {
-                $completion->save();
+            Log::info('Completion dirty BEFORE save', [
+                'site_id' => $site->id,
+                'completion_id' => $completion->id,
+                'dirty' => $completion->getDirty(),
+                // Helpful per-field checks:
+                'isDirty_scheme_inauguration_date' => $completion->isDirty('scheme_inauguration_date'),
+                'isDirty_testing_commissioning_date' => $completion->isDirty('testing_commissioning_date'),
+                'isDirty_handover_date' => $completion->isDirty('handover_date'),
+            ]);
 
-                \Log::info('MhpCompletion UPDATED', [
-                    'id'     => $completion->id,
-                    'before' => array_intersect_key($before, $dirty),
-                    'after'  => $completion->only(array_keys($dirty)),
+            $completion->fill($data);
+            Log::info('Completion after fill (pre-save)', [
+                'attributes_now' => [
+                    'scheme_inauguration_date'   => $completion->scheme_inauguration_date,
+                    'testing_commissioning_date' => $completion->testing_commissioning_date,
+                    'handover_date'              => $completion->handover_date,
+                ],
+                'dirty' => $completion->getDirty(),
+                'isDirty_flags' => [
+                    'scheme_inauguration_date'   => $completion->isDirty('scheme_inauguration_date'),
+                    'testing_commissioning_date' => $completion->isDirty('testing_commissioning_date'),
+                    'handover_date'              => $completion->isDirty('handover_date'),
+                ],
+            ]);
+
+            if ($completion->isDirty()) {
+                $completion->save();
+                Log::info('Completion UPDATED', [
+                    'id' => $completion->id,
+                    'after' => $completion->only(array_keys($completion->getDirty())),
                 ]);
             } else {
-                // Optional: still touch updated_at so user sees "saved"
-                // $completion->touch();
-                \Log::info('MhpCompletion NO CHANGES detected', ['id' => $completion->id]);
+                Log::info('Completion NO CHANGES', ['id' => $completion->id]);
             }
 
-            // 5) Handle attachments DELETE
             foreach ($attachmentsToDelete as $mediaId) {
                 $completion->deleteMedia($mediaId);
             }
-
-            // 6) Handle attachments ADD
             foreach ($attachments as $file) {
                 $completion->addMedia($file)->toMediaCollection('attachments');
             }

@@ -66,6 +66,7 @@ class MhpCompletionController extends Controller
      */
     public function update(UpdateMhpCompletionRequest $request, MhpSite $site, MhpCompletion $completion)
     {
+
         if ((int)$completion->mhp_site_id !== (int)$site->id) abort(404);
 
         $data = $request->validated();           // <-- now valid

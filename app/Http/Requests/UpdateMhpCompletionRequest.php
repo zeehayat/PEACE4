@@ -33,5 +33,7 @@ class UpdateMhpCompletionRequest extends FormRequest
             'attachments_to_delete' => ['array'],
             'attachments_to_delete.*' => ['integer'],
         ];
+
+
     }
 }

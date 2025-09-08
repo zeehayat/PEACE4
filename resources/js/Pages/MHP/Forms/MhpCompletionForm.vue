@@ -54,6 +54,7 @@ const handleAttachmentsToDelete = (ids) => {
 };
 
 const handleSubmit = () => {
+
     // correct route names + params
     const url = isEditMode.value
         ? route('mhp.sites.completion.update', {
@@ -63,7 +64,7 @@ const handleSubmit = () => {
         : route('mhp.sites.completion.store', {
             site: props.mhpSiteId,
         });
-
+        console.log(form)
     form.transform((data) => {
         if (isEditMode.value) data._method = 'put';
         return data;

@@ -12,12 +12,20 @@ class MhpCompletion extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
 
-    protected $guarded=[];
+    protected $fillable = [
+        'mhp_site_id',
+        'scheme_inauguration_date',
+        'testing_commissioning_date',
+        'handover_date',
+        'remarks',
+        // add any other fields you update
+    ];
 
+    // If your DB columns are DATE, use 'date'. If DATETIME/TIMESTAMP, use 'datetime'.
     protected $casts = [
-        'scheme_inauguration_date' => 'date',
+        'scheme_inauguration_date'   => 'date',
         'testing_commissioning_date' => 'date',
-        'handover_date' => 'date',
+        'handover_date'              => 'date',
     ];
 
     public function mhpSite(): \Illuminate\Database\Eloquent\Relations\BelongsTo
