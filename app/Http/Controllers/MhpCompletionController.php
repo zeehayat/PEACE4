@@ -64,7 +64,7 @@ class MhpCompletionController extends Controller
     /**
      * Update the specified MHP Completion in storage.
      */
-    public function update(UpdateMhpCompletionRequest $request, MhpCompletion $completion)
+    public function update(Request $request, MhpSite $site, MhpCompletion $completion)
     {
         try {
             $this->authorize('update', $completion);

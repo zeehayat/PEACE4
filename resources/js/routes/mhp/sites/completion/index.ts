@@ -304,7 +304,7 @@ edit.head = (args: { site: string | number, completion: string | number } | [sit
 * @see app/Http/Controllers/MhpCompletionController.php:67
 * @route '/mhp/sites/{site}/completion/{completion}'
 */
-export const update = (args: { site: string | number, completion: number | { id: number } } | [site: string | number, completion: number | { id: number } ], options?: RouteQueryOptions): RouteDefinition<'put'> => ({
+export const update = (args: { site: number | { id: number }, completion: number | { id: number } } | [site: number | { id: number }, completion: number | { id: number } ], options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: update.url(args, options),
     method: 'put',
 })
@@ -319,7 +319,7 @@ update.definition = {
 * @see app/Http/Controllers/MhpCompletionController.php:67
 * @route '/mhp/sites/{site}/completion/{completion}'
 */
-update.url = (args: { site: string | number, completion: number | { id: number } } | [site: string | number, completion: number | { id: number } ], options?: RouteQueryOptions) => {
+update.url = (args: { site: number | { id: number }, completion: number | { id: number } } | [site: number | { id: number }, completion: number | { id: number } ], options?: RouteQueryOptions) => {
     if (Array.isArray(args)) {
         args = {
             site: args[0],
@@ -330,7 +330,9 @@ update.url = (args: { site: string | number, completion: number | { id: number }
     args = applyUrlDefaults(args)
 
     const parsedArgs = {
-        site: args.site,
+        site: typeof args.site === 'object'
+        ? args.site.id
+        : args.site,
         completion: typeof args.completion === 'object'
         ? args.completion.id
         : args.completion,
@@ -347,7 +349,7 @@ update.url = (args: { site: string | number, completion: number | { id: number }
 * @see app/Http/Controllers/MhpCompletionController.php:67
 * @route '/mhp/sites/{site}/completion/{completion}'
 */
-update.put = (args: { site: string | number, completion: number | { id: number } } | [site: string | number, completion: number | { id: number } ], options?: RouteQueryOptions): RouteDefinition<'put'> => ({
+update.put = (args: { site: number | { id: number }, completion: number | { id: number } } | [site: number | { id: number }, completion: number | { id: number } ], options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: update.url(args, options),
     method: 'put',
 })
@@ -357,7 +359,7 @@ update.put = (args: { site: string | number, completion: number | { id: number }
 * @see app/Http/Controllers/MhpCompletionController.php:67
 * @route '/mhp/sites/{site}/completion/{completion}'
 */
-update.patch = (args: { site: string | number, completion: number | { id: number } } | [site: string | number, completion: number | { id: number } ], options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
+update.patch = (args: { site: number | { id: number }, completion: number | { id: number } } | [site: number | { id: number }, completion: number | { id: number } ], options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
     url: update.url(args, options),
     method: 'patch',
 })

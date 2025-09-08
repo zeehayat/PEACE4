@@ -26,7 +26,7 @@ class MhpCompletion extends Model implements HasMedia
         'handover_date' => 'date',
     ];
 
-    public function mhpSite(): BelongsTo
+    public function mhpSite(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(MhpSite::class);
     }
