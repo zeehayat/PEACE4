@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../../wayfinder'
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::index
-* @see app/Http/Controllers/LrmCommitteeController.php:29
+* @see app/Http/Controllers/LrmCommitteeController.php:30
 * @route '/lrm/lrm-committees'
 */
 export const index = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -16,7 +16,7 @@ index.definition = {
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::index
-* @see app/Http/Controllers/LrmCommitteeController.php:29
+* @see app/Http/Controllers/LrmCommitteeController.php:30
 * @route '/lrm/lrm-committees'
 */
 index.url = (options?: RouteQueryOptions) => {
@@ -25,7 +25,7 @@ index.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::index
-* @see app/Http/Controllers/LrmCommitteeController.php:29
+* @see app/Http/Controllers/LrmCommitteeController.php:30
 * @route '/lrm/lrm-committees'
 */
 index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -35,7 +35,7 @@ index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::index
-* @see app/Http/Controllers/LrmCommitteeController.php:29
+* @see app/Http/Controllers/LrmCommitteeController.php:30
 * @route '/lrm/lrm-committees'
 */
 index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -89,7 +89,7 @@ create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::store
-* @see app/Http/Controllers/LrmCommitteeController.php:74
+* @see app/Http/Controllers/LrmCommitteeController.php:75
 * @route '/lrm/lrm-committees'
 */
 export const store = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -104,7 +104,7 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::store
-* @see app/Http/Controllers/LrmCommitteeController.php:74
+* @see app/Http/Controllers/LrmCommitteeController.php:75
 * @route '/lrm/lrm-committees'
 */
 store.url = (options?: RouteQueryOptions) => {
@@ -113,7 +113,7 @@ store.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::store
-* @see app/Http/Controllers/LrmCommitteeController.php:74
+* @see app/Http/Controllers/LrmCommitteeController.php:75
 * @route '/lrm/lrm-committees'
 */
 store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -123,7 +123,7 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::show
-* @see app/Http/Controllers/LrmCommitteeController.php:88
+* @see app/Http/Controllers/LrmCommitteeController.php:89
 * @route '/lrm/lrm-committees/{lrm_committee}'
 */
 export const show = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -138,7 +138,7 @@ show.definition = {
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::show
-* @see app/Http/Controllers/LrmCommitteeController.php:88
+* @see app/Http/Controllers/LrmCommitteeController.php:89
 * @route '/lrm/lrm-committees/{lrm_committee}'
 */
 show.url = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: RouteQueryOptions) => {
@@ -165,7 +165,7 @@ show.url = (args: { lrm_committee: string | number } | [lrm_committee: string | 
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::show
-* @see app/Http/Controllers/LrmCommitteeController.php:88
+* @see app/Http/Controllers/LrmCommitteeController.php:89
 * @route '/lrm/lrm-committees/{lrm_committee}'
 */
 show.get = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -175,7 +175,7 @@ show.get = (args: { lrm_committee: string | number } | [lrm_committee: string | 
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::show
-* @see app/Http/Controllers/LrmCommitteeController.php:88
+* @see app/Http/Controllers/LrmCommitteeController.php:89
 * @route '/lrm/lrm-committees/{lrm_committee}'
 */
 show.head = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -247,7 +247,7 @@ edit.head = (args: { lrm_committee: string | number } | [lrm_committee: string |
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::update
-* @see app/Http/Controllers/LrmCommitteeController.php:97
+* @see app/Http/Controllers/LrmCommitteeController.php:98
 * @route '/lrm/lrm-committees/{lrm_committee}'
 */
 export const update = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -262,7 +262,7 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::update
-* @see app/Http/Controllers/LrmCommitteeController.php:97
+* @see app/Http/Controllers/LrmCommitteeController.php:98
 * @route '/lrm/lrm-committees/{lrm_committee}'
 */
 update.url = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: RouteQueryOptions) => {
@@ -289,7 +289,7 @@ update.url = (args: { lrm_committee: string | number } | [lrm_committee: string 
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::update
-* @see app/Http/Controllers/LrmCommitteeController.php:97
+* @see app/Http/Controllers/LrmCommitteeController.php:98
 * @route '/lrm/lrm-committees/{lrm_committee}'
 */
 update.put = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -299,7 +299,7 @@ update.put = (args: { lrm_committee: string | number } | [lrm_committee: string 
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::update
-* @see app/Http/Controllers/LrmCommitteeController.php:97
+* @see app/Http/Controllers/LrmCommitteeController.php:98
 * @route '/lrm/lrm-committees/{lrm_committee}'
 */
 update.patch = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
@@ -309,7 +309,7 @@ update.patch = (args: { lrm_committee: string | number } | [lrm_committee: strin
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::destroy
-* @see app/Http/Controllers/LrmCommitteeController.php:111
+* @see app/Http/Controllers/LrmCommitteeController.php:112
 * @route '/lrm/lrm-committees/{lrm_committee}'
 */
 export const destroy = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -324,7 +324,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::destroy
-* @see app/Http/Controllers/LrmCommitteeController.php:111
+* @see app/Http/Controllers/LrmCommitteeController.php:112
 * @route '/lrm/lrm-committees/{lrm_committee}'
 */
 destroy.url = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: RouteQueryOptions) => {
@@ -351,7 +351,7 @@ destroy.url = (args: { lrm_committee: string | number } | [lrm_committee: string
 
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::destroy
-* @see app/Http/Controllers/LrmCommitteeController.php:111
+* @see app/Http/Controllers/LrmCommitteeController.php:112
 * @route '/lrm/lrm-committees/{lrm_committee}'
 */
 destroy.delete = (args: { lrm_committee: string | number } | [lrm_committee: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({

@@ -37,6 +37,7 @@ const modalTitle = computed(() => {
 
 <template>
     <Modal :show="show" @close="handleFormCancel" :maxWidth="'4xl'" :title="modalTitle">
+        <Transition name="modal-drop">
         <div class="p-6 overflow-y-auto max-h-[85vh]">
             <MhpAdminApprovalForm
                 :mhp-site-id="mhpSiteId"
@@ -46,9 +47,24 @@ const modalTitle = computed(() => {
                 @cancel="handleFormCancel"
             />
         </div>
+        </Transition>
     </Modal>
 </template>
 
 <style scoped>
 /* No specific scoped styles needed here */
+.modal-drop-enter-from {
+    opacity: 0;
+    transform: translateY(-50px);
+}
+
+.modal-drop-leave-to {
+    opacity: 0;
+    transform: translateY(-50px);
+}
+
+.modal-drop-enter-active,
+.modal-drop-leave-active {
+    transition: all 0.3s ease;
+}
 </style>
