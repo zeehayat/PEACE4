@@ -28,16 +28,17 @@ class CboController extends Controller
      */
     public function index(Request $request)
     {
-        
+
         $query = Cbo::query()->forUser(Auth::user())
             ->with(['media', 'dialogues.media', 'exposureVisits.media', 'trainings.media']);
-
 
         // Apply filters and search if present
         if ($request->has('search')) {
             $searchTerm = $request->input('search');
             $query->where(function ($q) use ($searchTerm) {
                 $q->where('reference_code', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('cbo_name', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('region', 'like', '%' . $searchTerm . '%')
                     ->orWhere('village', 'like', '%' . $searchTerm . '%')
                     ->orWhere('district', 'like', '%' . $searchTerm . '%')
                     ->orWhere('tehsil', 'like', '%' . $searchTerm . '%')
@@ -134,7 +135,6 @@ class CboController extends Controller
         // This ensures only users with 'cbo_view' permission can access this.
         $this->authorize('viewAny', Cbo::class);
 
-        // 2. Scope the query using our new reusable scope.
         $query = Cbo::query()->forUser(Auth::user());
 
         $search = $request->input('search');
@@ -142,14 +142,15 @@ class CboController extends Controller
         $cbos = $query
             ->when($search, function ($query) use ($search) {
                 $query->where('reference_code', 'like', '%' . $search . '%')
-                    ->orWhere('village', 'like', '%' . $search . '%')
+                    ->orWhere('cbo_name', 'like', '%' . $search . '%')
                     ->orWhere('district', 'like', '%' . $search . '%')
                     ->orWhere('tehsil', 'like', '%' . $search . '%')
                     ->orWhere('village_council', 'like', '%' . $search . '%')
+                    ->orWhere('village', 'like', '%' . $search . '%')
                     ->orWhere('president_name', 'like', '%' . $search . '%')
                     ->orWhere('secretary_name', 'like', '%' . $search . '%');
             })
-            ->select('id', 'reference_code', 'district', 'tehsil', 'village_council', 'village')
+            ->select('id', 'reference_code', 'cbo_name', 'region', 'district', 'tehsil', 'village_council', 'village')
             ->limit(10)
             ->get();
 

@@ -24,7 +24,6 @@ class CboService
      */
     public function createCbo(array $data): Cbo
     {
-
         Log::info('CboService: createCbo triggered.', ['data_keys' => array_keys($data)]);
         Log::info('Attachments count in createCbo data:', ['count' => count($data['attachments'] ?? [])]);
         return DB::transaction(function () use ($data) {
@@ -54,14 +53,6 @@ class CboService
         });
     }
 
-    /**
-     * Update an existing CBO record.
-     *
-     * @param Cbo $cbo The Cbo instance to update.
-     * @param array $data Data for CBO update.
-     * @return Cbo
-     * @throws Throwable
-     */
     public function updateCbo(Cbo $cbo, array $data): Cbo
     {
         Log::info('CboService: updateCbo triggered.', ['cbo_id' => $cbo->id, 'data_keys' => array_keys($data)]);
@@ -91,22 +82,14 @@ class CboService
         });
     }
 
-    /**
-     * Delete a CBO record.
-     *
-     * @param Cbo $cbo The Cbo instance to delete.
-     * @return bool
-     * @throws Throwable
-     */
     public function deleteCbo(Cbo $cbo): bool
     {
         Log::info('CboService: deleteCbo triggered.', ['cbo_id' => $cbo->id]);
         return DB::transaction(function () use ($cbo) {
-            // The boot method on Cbo model handles cascading deletes for related models
-            // and their media via Spatie Media Library.
             return $cbo->delete();
         });
     }
+
 
     // --- CBO Dialogue Operations ---
 

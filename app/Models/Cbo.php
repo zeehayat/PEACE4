@@ -30,6 +30,8 @@ class Cbo extends Model implements HasMedia
         'secretary_name',
         'secretary_contact',
         'remarks', // Added remarks field
+        'cbo_name',
+        'region',
     ];
 
     protected $casts = [

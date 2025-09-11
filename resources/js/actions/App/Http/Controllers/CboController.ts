@@ -156,7 +156,7 @@ create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
 /**
 * @see \App\Http\Controllers\CboController::store
-* @see app/Http/Controllers/CboController.php:72
+* @see app/Http/Controllers/CboController.php:73
 * @route '/cbo/cbos'
 */
 export const store = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -171,7 +171,7 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\CboController::store
-* @see app/Http/Controllers/CboController.php:72
+* @see app/Http/Controllers/CboController.php:73
 * @route '/cbo/cbos'
 */
 store.url = (options?: RouteQueryOptions) => {
@@ -180,7 +180,7 @@ store.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\CboController::store
-* @see app/Http/Controllers/CboController.php:72
+* @see app/Http/Controllers/CboController.php:73
 * @route '/cbo/cbos'
 */
 store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -190,7 +190,7 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
 
 /**
 * @see \App\Http\Controllers\CboController::show
-* @see app/Http/Controllers/CboController.php:87
+* @see app/Http/Controllers/CboController.php:88
 * @route '/cbo/cbos/{cbo}'
 */
 export const show = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -205,7 +205,7 @@ show.definition = {
 
 /**
 * @see \App\Http\Controllers\CboController::show
-* @see app/Http/Controllers/CboController.php:87
+* @see app/Http/Controllers/CboController.php:88
 * @route '/cbo/cbos/{cbo}'
 */
 show.url = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -238,7 +238,7 @@ show.url = (args: { cbo: number | { id: number } } | [cbo: number | { id: number
 
 /**
 * @see \App\Http\Controllers\CboController::show
-* @see app/Http/Controllers/CboController.php:87
+* @see app/Http/Controllers/CboController.php:88
 * @route '/cbo/cbos/{cbo}'
 */
 show.get = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -248,7 +248,7 @@ show.get = (args: { cbo: number | { id: number } } | [cbo: number | { id: number
 
 /**
 * @see \App\Http\Controllers\CboController::show
-* @see app/Http/Controllers/CboController.php:87
+* @see app/Http/Controllers/CboController.php:88
 * @route '/cbo/cbos/{cbo}'
 */
 show.head = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -320,7 +320,7 @@ edit.head = (args: { cbo: string | number } | [cbo: string | number ] | string |
 
 /**
 * @see \App\Http\Controllers\CboController::update
-* @see app/Http/Controllers/CboController.php:100
+* @see app/Http/Controllers/CboController.php:101
 * @route '/cbo/cbos/{cbo}'
 */
 export const update = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -335,7 +335,7 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\CboController::update
-* @see app/Http/Controllers/CboController.php:100
+* @see app/Http/Controllers/CboController.php:101
 * @route '/cbo/cbos/{cbo}'
 */
 update.url = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -368,7 +368,7 @@ update.url = (args: { cbo: number | { id: number } } | [cbo: number | { id: numb
 
 /**
 * @see \App\Http\Controllers\CboController::update
-* @see app/Http/Controllers/CboController.php:100
+* @see app/Http/Controllers/CboController.php:101
 * @route '/cbo/cbos/{cbo}'
 */
 update.put = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -378,7 +378,7 @@ update.put = (args: { cbo: number | { id: number } } | [cbo: number | { id: numb
 
 /**
 * @see \App\Http\Controllers\CboController::update
-* @see app/Http/Controllers/CboController.php:100
+* @see app/Http/Controllers/CboController.php:101
 * @route '/cbo/cbos/{cbo}'
 */
 update.patch = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
@@ -388,7 +388,7 @@ update.patch = (args: { cbo: number | { id: number } } | [cbo: number | { id: nu
 
 /**
 * @see \App\Http\Controllers\CboController::destroy
-* @see app/Http/Controllers/CboController.php:115
+* @see app/Http/Controllers/CboController.php:116
 * @route '/cbo/cbos/{cbo}'
 */
 export const destroy = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -403,7 +403,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\CboController::destroy
-* @see app/Http/Controllers/CboController.php:115
+* @see app/Http/Controllers/CboController.php:116
 * @route '/cbo/cbos/{cbo}'
 */
 destroy.url = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -436,7 +436,7 @@ destroy.url = (args: { cbo: number | { id: number } } | [cbo: number | { id: num
 
 /**
 * @see \App\Http\Controllers\CboController::destroy
-* @see app/Http/Controllers/CboController.php:115
+* @see app/Http/Controllers/CboController.php:116
 * @route '/cbo/cbos/{cbo}'
 */
 destroy.delete = (args: { cbo: number | { id: number } } | [cbo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({

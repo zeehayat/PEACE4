@@ -14,7 +14,7 @@ import AttachmentUploader from '@/Components/AttachmentComponent/AttachmentUploa
 const props = defineProps({
     cbo: {
         type: Object,
-        default: null, // Null for create mode, object for edit mode
+        default: null,
     },
 });
 
@@ -22,16 +22,16 @@ const emit = defineEmits(['success', 'cancel']);
 
 const page = usePage();
 
-// Options for select inputs
 const genderOptions = ['Male', 'Female', 'Mixed'];
 
 const isEditMode = ref(!!props.cbo);
 
-const existingAttachments = ref([]); // Initialize as empty array, filled by watcher
+const existingAttachments = ref([]);
 
-// Initialize form with default empty values.
 const form = useForm({
     reference_code: '',
+    cbo_name: '', // New field
+    region: '', // New field
     district: '',
     tehsil: '',
     village_council: '',
@@ -49,15 +49,15 @@ const form = useForm({
     attachments_to_delete: [],
 });
 
-// Watch for prop.cbo changes to update the form (for edit mode when switching CBOs or modal opens)
 watch(() => props.cbo, (newCbo) => {
     console.log('--- CboForm: props.cbo watcher triggered ---');
     console.log('New CBO prop:', newCbo);
 
-    isEditMode.value = !!newCbo; // Update edit mode flag
+    isEditMode.value = !!newCbo;
 
-    // Directly assign values to the form object's properties
     form.reference_code = newCbo ? newCbo.reference_code : '';
+    form.cbo_name = newCbo ? newCbo.cbo_name : '';
+    form.region = newCbo ? newCbo.region : '';
     form.district = newCbo ? newCbo.district : '';
     form.tehsil = newCbo ? newCbo.tehsil : '';
     form.village_council = newCbo ? newCbo.village_council : '';
@@ -72,23 +72,17 @@ watch(() => props.cbo, (newCbo) => {
     form.secretary_contact = newCbo ? newCbo.secretary_contact : '';
     form.remarks = newCbo ? newCbo.remarks : '';
 
-    // FIX: Only clear form.attachments and attachments_to_delete if entering CREATE mode
-    // or if you want to explicitly clear any previous user-selected files when opening EDIT.
-    // If you want to allow user to keep files selected from previous session, remove this.
-    // For a clean slate on modal open (common behavior), keep these lines.
-    form.attachments = []; // Clear new attachments for a fresh edit/create session
-    form.attachments_to_delete = []; // Reset attachments to delete for a fresh session
+    form.attachments = [];
+    form.attachments_to_delete = [];
 
-    // Update existing attachments separately
     existingAttachments.value = newCbo ? newCbo.attachments_frontend : [];
 
-    form.clearErrors(); // Clear any previous validation errors
+    form.clearErrors();
     console.log('CboForm: Form and attachments initialized based on new CBO prop.');
-}, { immediate: true }); // Run immediately on component mount
+}, { immediate: true });
 
 onMounted(() => {
     console.log('--- CboForm: Mounted ---');
-    // The immediate watcher handles initial setup, no need for redundant reset here.
     console.log('CboForm: Initial form.attachments on mount:', form.attachments);
 });
 
@@ -102,7 +96,7 @@ const handleAttachmentsToDelete = (id) => {
 const handleSubmit = () => {
     console.log('--- CboForm: handleSubmit triggered ---');
     console.log('Form data before POST:', form.data());
-    console.log('Attachments array before POST:', form.attachments); // CRITICAL: Check this log
+    console.log('Attachments array before POST:', form.attachments);
 
     const url = isEditMode.value
         ? route('cbo.cbos.update', props.cbo.id)
@@ -116,8 +110,8 @@ const handleSubmit = () => {
     }).post(url, {
         onSuccess: () => {
             console.log('--- CboForm: Submission Success ---');
-            form.reset(); // Resets useForm state to its defaults
-            existingAttachments.value = []; // Clear for next use
+            form.reset();
+            existingAttachments.value = [];
             form.attachments_to_delete = [];
             emit('success', isEditMode.value ? 'CBO updated successfully!' : 'CBO created successfully!');
         },
@@ -132,7 +126,7 @@ const handleSubmit = () => {
 
 const handleCancel = () => {
     console.log('--- CboForm: Cancel triggered ---');
-    form.reset(); // Resets useForm state to its defaults
+    form.reset();
     existingAttachments.value = [];
     form.attachments_to_delete = [];
     emit('cancel');
@@ -142,7 +136,6 @@ const handleCancel = () => {
 <template>
     <form @submit.prevent="handleSubmit" class="p-6 space-y-6">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Reference Code -->
             <div>
                 <InputLabel for="reference_code" value="Reference Code" />
                 <TextInput
@@ -155,7 +148,30 @@ const handleCancel = () => {
                 <InputError class="mt-2" :message="form.errors.reference_code" />
             </div>
 
-            <!-- District -->
+            <div>
+                <InputLabel for="cbo_name" value="CBO Name" />
+                <TextInput
+                    id="cbo_name"
+                    v-model="form.cbo_name"
+                    type="text"
+                    class="mt-1 block w-full"
+                    :class="{ 'border-red-500': form.errors.cbo_name }"
+                />
+                <InputError class="mt-2" :message="form.errors.cbo_name" />
+            </div>
+
+            <div>
+                <InputLabel for="region" value="Region" />
+                <TextInput
+                    id="region"
+                    v-model="form.region"
+                    type="text"
+                    class="mt-1 block w-full"
+                    :class="{ 'border-red-500': form.errors.region }"
+                />
+                <InputError class="mt-2" :message="form.errors.region" />
+            </div>
+
             <div>
                 <InputLabel for="district" value="District" />
                 <TextInput
@@ -168,7 +184,6 @@ const handleCancel = () => {
                 <InputError class="mt-2" :message="form.errors.district" />
             </div>
 
-            <!-- Tehsil -->
             <div>
                 <InputLabel for="tehsil" value="Tehsil" />
                 <TextInput
@@ -181,7 +196,6 @@ const handleCancel = () => {
                 <InputError class="mt-2" :message="form.errors.tehsil" />
             </div>
 
-            <!-- Village Council -->
             <div>
                 <InputLabel for="village_council" value="Village Council" />
                 <TextInput
@@ -194,7 +208,6 @@ const handleCancel = () => {
                 <InputError class="mt-2" :message="form.errors.village_council" />
             </div>
 
-            <!-- Village -->
             <div>
                 <InputLabel for="village" value="Village" />
                 <TextInput
@@ -207,7 +220,6 @@ const handleCancel = () => {
                 <InputError class="mt-2" :message="form.errors.village" />
             </div>
 
-            <!-- Date of Formation -->
             <div>
                 <InputLabel for="date_of_formation" value="Date of Formation" />
                 <DatePicker
@@ -219,7 +231,6 @@ const handleCancel = () => {
                 <InputError class="mt-2" :message="form.errors.date_of_formation" />
             </div>
 
-            <!-- Total Members -->
             <div>
                 <InputLabel for="total_members" value="Total Members" />
                 <TextInput
@@ -233,7 +244,6 @@ const handleCancel = () => {
                 <InputError class="mt-2" :message="form.errors.total_members" />
             </div>
 
-            <!-- Gender -->
             <div>
                 <InputLabel for="gender" value="Gender" />
                 <SelectInput
@@ -246,7 +256,6 @@ const handleCancel = () => {
                 <InputError class="mt-2" :message="form.errors.gender" />
             </div>
 
-            <!-- Number of CBO Members -->
             <div>
                 <InputLabel for="num_cbo_members" value="Number of CBO Members" />
                 <TextInput
@@ -260,7 +269,6 @@ const handleCancel = () => {
                 <InputError class="mt-2" :message="form.errors.num_cbo_members" />
             </div>
 
-            <!-- President Name -->
             <div>
                 <InputLabel for="president_name" value="President Name" />
                 <TextInput
@@ -273,7 +281,6 @@ const handleCancel = () => {
                 <InputError class="mt-2" :message="form.errors.president_name" />
             </div>
 
-            <!-- President Contact -->
             <div>
                 <InputLabel for="president_contact" value="President Contact" />
                 <TextInput
@@ -286,7 +293,6 @@ const handleCancel = () => {
                 <InputError class="mt-2" :message="form.errors.president_contact" />
             </div>
 
-            <!-- Secretary Name -->
             <div>
                 <InputLabel for="secretary_name" value="Secretary Name" />
                 <TextInput
@@ -299,7 +305,6 @@ const handleCancel = () => {
                 <InputError class="mt-2" :message="form.errors.secretary_name" />
             </div>
 
-            <!-- Secretary Contact -->
             <div>
                 <InputLabel for="secretary_contact" value="Secretary Contact" />
                 <TextInput
@@ -312,7 +317,6 @@ const handleCancel = () => {
                 <InputError class="mt-2" :message="form.errors.secretary_contact" />
             </div>
 
-            <!-- Remarks (WYSIWYG Editor) -->
             <div class="md:col-span-2">
                 <InputLabel for="remarks" value="Remarks" />
                 <WysiwygEditor
@@ -325,7 +329,6 @@ const handleCancel = () => {
             </div>
         </div>
 
-        <!-- Attachments Section -->
         <div class="mt-6">
             <InputLabel value="Attachments" />
             <AttachmentUploader
@@ -355,3 +358,13 @@ const handleCancel = () => {
 <style scoped>
 /* No specific scoped styles needed here */
 </style>
+```
+
+***
+
+### 2. `resources/js/Pages/CBO/Modals/CboDetailsViewModal.vue`
+
+This modal has been updated to display the `cbo_name` and `region` fields in the General Information section.
+
+
+```vue
