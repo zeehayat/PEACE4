@@ -4,6 +4,7 @@ import dialogues from './dialogues'
 import trainings from './trainings'
 import exposureVisits from './exposure-visits'
 import report from './report'
+import reports from './reports'
 /**
 * @see \App\Http\Controllers\ReportController::report
 * @see app/Http/Controllers/ReportController.php:12
@@ -54,6 +55,7 @@ const cbo = {
     trainings,
     exposureVisits,
     report,
+    reports,
 }
 
 export default cbo

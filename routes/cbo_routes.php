@@ -4,8 +4,10 @@
 use App\Http\Controllers\CboController;
 use App\Http\Controllers\CboDialogueController;
 use App\Http\Controllers\CboExposureVisitController;
+use App\Http\Controllers\CboReportController;
 use App\Http\Controllers\CboTrainingController;
 use App\Http\Controllers\ReportController;
+use Illuminate\Support\Facades\Route;
 
 // IMPORTANT: All routes in this file already have
 // a URL prefix of '/cbo' (e.g., /cbo/...)
@@ -94,7 +96,9 @@ Route::middleware(['web'])->group(function () {
 });
 
 
-
+/// Unauthenticated
+///
+Route::get('reports', [CboReportController::class, 'index'])->name('reports.index');
 
 
 
