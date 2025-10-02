@@ -50,8 +50,7 @@ const form = useForm({
 });
 
 watch(() => props.cbo, (newCbo) => {
-    console.log('--- CboForm: props.cbo watcher triggered ---');
-    console.log('New CBO prop:', newCbo);
+
 
     isEditMode.value = !!newCbo;
 
@@ -94,9 +93,7 @@ const handleAttachmentsToDelete = (id) => {
 };
 
 const handleSubmit = () => {
-    console.log('--- CboForm: handleSubmit triggered ---');
-    console.log('Form data before POST:', form.data());
-    console.log('Attachments array before POST:', form.attachments);
+
 
     const url = isEditMode.value
         ? route('cbo.cbos.update', props.cbo.id)

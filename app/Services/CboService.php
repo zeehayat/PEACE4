@@ -24,8 +24,7 @@ class CboService
      */
     public function createCbo(array $data): Cbo
     {
-        Log::info('CboService: createCbo triggered.', ['data_keys' => array_keys($data)]);
-        Log::info('Attachments count in createCbo data:', ['count' => count($data['attachments'] ?? [])]);
+
         return DB::transaction(function () use ($data) {
             $cbo = Cbo::create($data);
             Log::info('CBO model created in DB:', ['cbo_id' => $cbo->id]);

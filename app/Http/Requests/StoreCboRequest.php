@@ -22,6 +22,8 @@ class StoreCboRequest extends FormRequest
     {
         return [
             'reference_code' => ['required', 'string', 'max:255', 'unique:cbos,reference_code'],
+            'cbo_name'=>['required','string'],
+            'region'=>['required','string'],
             'district' => ['required', 'string', 'max:255'],
             'tehsil' => ['required', 'string', 'max:255'],
             'village_council' => ['required', 'string', 'max:255'],

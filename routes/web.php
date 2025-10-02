@@ -18,6 +18,7 @@ use App\Http\Controllers\DashboardController;
 use App\Models\IrrigationScheme;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 Route::middleware(['web', 'auth'])->get('/auth-probe', function () {
