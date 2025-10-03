@@ -1,6 +1,6 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../../wayfinder'
 /**
-* @see routes/mhp_routes.php:91
+* @see [serialized-closure]:2
 * @route '/mhp/media/{media}'
 */
 export const destroy = (args: { media: number | { id: number } } | [media: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -14,7 +14,7 @@ destroy.definition = {
 } satisfies RouteDefinition<["delete"]>
 
 /**
-* @see routes/mhp_routes.php:91
+* @see [serialized-closure]:2
 * @route '/mhp/media/{media}'
 */
 destroy.url = (args: { media: number | { id: number } } | [media: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -46,7 +46,7 @@ destroy.url = (args: { media: number | { id: number } } | [media: number | { id:
 }
 
 /**
-* @see routes/mhp_routes.php:91
+* @see [serialized-closure]:2
 * @route '/mhp/media/{media}'
 */
 destroy.delete = (args: { media: number | { id: number } } | [media: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({

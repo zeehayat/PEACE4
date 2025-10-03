@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\EmeInfoController;
 
+use App\Http\Controllers\MhpReportController;
 use App\Http\Controllers\OperationalCostController;
 use Illuminate\Support\Facades\Route;
 
@@ -93,5 +94,10 @@ Route::middleware(['web', 'auth'])->group(function () {
         return response()->json(['success' => true]);
     })->name('media.destroy');
     Route::post('sites/{site}/eme-info', [EmeInfoController::class, 'store'])->name('sites.eme-info.store');
+
+    // Mhp Report
+    Route::get('reports', [MhpReportController::class, 'index'])->name('reports.index');
+    Route::get('reports/export', [MhpReportController::class, 'export'])->name('reports.export');
+    Route::get('{mhpSite}/details', [MhpSiteController::class, 'getDetails'])->name('sites.details');
 
 });

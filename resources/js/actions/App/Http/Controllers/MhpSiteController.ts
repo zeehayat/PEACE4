@@ -509,6 +509,74 @@ getSites.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     method: 'head',
 })
 
-const MhpSiteController = { autoSearch, getCbos, index, create, store, show, edit, update, destroy, getSites }
+/**
+* @see \App\Http\Controllers\MhpSiteController::getDetails
+* @see app/Http/Controllers/MhpSiteController.php:170
+* @route '/cbo/{mhpSite}/details'
+*/
+export const getDetails = (args: { mhpSite: number | { id: number } } | [mhpSite: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: getDetails.url(args, options),
+    method: 'get',
+})
+
+getDetails.definition = {
+    methods: ["get","head"],
+    url: '/cbo/{mhpSite}/details',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \App\Http\Controllers\MhpSiteController::getDetails
+* @see app/Http/Controllers/MhpSiteController.php:170
+* @route '/cbo/{mhpSite}/details'
+*/
+getDetails.url = (args: { mhpSite: number | { id: number } } | [mhpSite: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { mhpSite: args }
+    }
+
+    if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+        args = { mhpSite: args.id }
+    }
+
+    if (Array.isArray(args)) {
+        args = {
+            mhpSite: args[0],
+        }
+    }
+
+    args = applyUrlDefaults(args)
+
+    const parsedArgs = {
+        mhpSite: typeof args.mhpSite === 'object'
+        ? args.mhpSite.id
+        : args.mhpSite,
+    }
+
+    return getDetails.definition.url
+            .replace('{mhpSite}', parsedArgs.mhpSite.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\MhpSiteController::getDetails
+* @see app/Http/Controllers/MhpSiteController.php:170
+* @route '/cbo/{mhpSite}/details'
+*/
+getDetails.get = (args: { mhpSite: number | { id: number } } | [mhpSite: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: getDetails.url(args, options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\MhpSiteController::getDetails
+* @see app/Http/Controllers/MhpSiteController.php:170
+* @route '/cbo/{mhpSite}/details'
+*/
+getDetails.head = (args: { mhpSite: number | { id: number } } | [mhpSite: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: getDetails.url(args, options),
+    method: 'head',
+})
+
+const MhpSiteController = { autoSearch, getCbos, index, create, store, show, edit, update, destroy, getSites, getDetails }
 
 export default MhpSiteController

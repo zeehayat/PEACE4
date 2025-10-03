@@ -6,6 +6,7 @@ use App\Http\Controllers\CboDialogueController;
 use App\Http\Controllers\CboExposureVisitController;
 use App\Http\Controllers\CboReportController;
 use App\Http\Controllers\CboTrainingController;
+use App\Http\Controllers\MhpSiteController;
 use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 
@@ -99,6 +100,8 @@ Route::middleware(['web'])->group(function () {
 /// Unauthenticated
 ///
 Route::get('reports', [CboReportController::class, 'index'])->name('reports.index');
+Route::get('{mhpSite}/details', [MhpSiteController::class, 'getDetails'])->name('sites.details');
+
 
 
 

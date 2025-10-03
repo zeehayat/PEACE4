@@ -167,4 +167,38 @@ class MhpSiteController extends Controller
 
         return response()->json($cbos);
     }
+    public function getDetails(MhpSite $mhpSite)
+    {
+        // 1. Eager load ALL necessary relationships for the details view
+        $mhpSite->load([
+            // Core Relationships
+            'cbo:id,cbo_name,reference_code,district',
+            'adminApproval',
+            'completion',
+
+            // Progress Records (MorphMany relationship)
+            'physicalProgresses.activity',
+            'financialInstallments',
+
+            // Other Components (if distinct models)
+            'tAndDWorks.physicalProgresses',
+            'emeInfo', // Assuming this is the E&M profile/info
+        ]);
+
+        // 2. Add media/attachments to the main site model and related models
+        // NOTE: This usually happens via accessors (getAttachmentsFrontendAttribute) but is enforced here for safety
+        $mhpSite->attachments_frontend = $mhpSite->attachments_frontend;
+
+        $mhpSite->physicalProgresses->each(function($progress) {
+            $progress->attachments_frontend = $progress->attachments_frontend;
+        });
+
+        $mhpSite->financialInstallments->each(function($installment) {
+            $installment->attachments_frontend = $installment->attachments_frontend;
+        });
+
+        // 3. Return the fully loaded site object as JSON for the frontend modal fetch
+        // We return JSON directly since the frontend is making a router.get() call from a modal.
+        return response()->json(['mhpSite' => $mhpSite]);
+    }
 }

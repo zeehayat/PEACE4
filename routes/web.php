@@ -21,11 +21,6 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
-Route::middleware(['web', 'auth'])->get('/auth-probe', function () {
-    // If this dd shows your user, the session + guard are fine.
-    dd('Auth::id()', Auth::id(), 'guard', config('auth.defaults.guard'));
-    return Inertia::render('Probe/Index');
-});
 
 
 Route::get('/test-r2-upload', function() {
@@ -73,9 +68,7 @@ Route::middleware(['auth'])->group(function () {
 
 
 Route::get('/login', function () {
-    //return response()->json(['message' => 'hello from login']);
-
-    return Inertia::render('Auth/Login');
+        return Inertia::render('Auth/Login');
 })->middleware('guest')->name('login');
 Route::middleware(['auth'])->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
@@ -84,7 +77,7 @@ Route::middleware(['auth'])->group(function () {
 
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index']);//->name('dashboard');
 });
 
 // Handle login form submission

@@ -18,7 +18,7 @@ use App\Http\Controllers\RoleController;
 // Route for the main admin dashboard (if you have one)
 Route::get('/', function () {
     return inertia('Admin/Dashboard');
-})->name('dashboard');
+})->name('admin.dashboard');
 
 // User Management Routes
 Route::resource('users', UserController::class);

@@ -5,6 +5,7 @@ import adminApprovals from './admin-approvals'
 import physicalProgresses from './physical-progresses'
 import operationalCosts from './operational-costs'
 import media from './media'
+import reports from './reports'
 /**
 * @see \App\Http\Controllers\DashboardController::dashboard
 * @see app/Http/Controllers/DashboardController.php:23
@@ -57,6 +58,7 @@ const mhp = {
     physicalProgresses,
     operationalCosts,
     media,
+    reports,
 }
 
 export default mhp
