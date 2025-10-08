@@ -25,6 +25,7 @@ class UpdateCboRequest extends FormRequest
 
         return [
             'reference_code' => ['required', 'string', 'max:255', Rule::unique('cbos', 'reference_code')->ignore($cboId)],
+            'cbo_name'=>['required','string'],
             'district' => ['required', 'string', 'max:255'],
             'tehsil' => ['required', 'string', 'max:255'],
             'village_council' => ['required', 'string', 'max:255'],
