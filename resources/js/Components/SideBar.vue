@@ -14,6 +14,52 @@ const isActive = (routeName) => {
 };
 
 const user = computed(() => page.props.auth.user);
+
+// --- Dynamic Report Menu Logic ---
+
+// 1. Define the report menu structure
+const reportMenu = ref([
+    {
+        title: 'CBO',
+        key: 'cbo',
+        links: [
+            // Example reports under CBO
+            { name: 'CBO Report', route: 'cbo.reports.cbo.index', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z' },
+            //{ name: 'CBO Report 2', route: 'cbo.report2', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z' },
+        ]
+    },
+    {
+        title: 'MHP',
+        key: 'mhp',
+        links: [
+            // Example reports under MHP
+            { name: 'MHP Alpha', route: 'mhp.reports.index', icon: 'M13 10V3L4 14h7v7l9-11h-7z' },
+            //{ name: 'MHP Beta', route: 'mhp.report.beta', icon: 'M13 10V3L4 14h7v7l9-11h-7z' },
+        ]
+    },
+    {
+        title: 'Irrigation',
+        key: 'irrigation',
+        links: [
+            // Example reports under Irrigation
+            //{ name: 'Irrigation Master', route: 'irrigation.report.master', icon: 'M4 6h16M4 12h16M4 18h16' },
+        ]
+    },
+]);
+
+// 2. Centralized state for collapse status
+const reportCollapseState = ref({
+    cbo: true,
+    mhp: true,
+    irrigation: true,
+});
+
+// 3. Reusable toggle function
+const toggleReportSection = (key) => {
+    reportCollapseState.value[key] = !reportCollapseState.value[key];
+};
+
+// --- End Dynamic Report Menu Logic ---
 </script>
 
 <template>
@@ -93,16 +139,59 @@ const user = computed(() => page.props.auth.user);
                 <svg class="h-5 w-5 mr-3 transition-colors duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h2a2 2 0 002-2V4a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2h2m0 0l4-4m-4 4l-4-4m4 4V4"/></svg>
                 <span class="transition-colors duration-200">LRM Committees</span>
             </Link>
-
             <button @click="router.post(route('logout'))" class="w-full flex items-center p-3 rounded-xl text-gray-300 hover:bg-gray-800 hover:text-white transition-colors duration-200">
                 <svg class="h-5 w-5 mr-3 transition-colors duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
                 <span class="transition-colors duration-200">Log Out</span>
             </button>
+
+            <h3 class="text-xs uppercase tracking-wider text-gray-500 px-3 pt-4 pb-1">Reports</h3>
+
+            <div class="space-y-1">
+                <div v-for="section in reportMenu" :key="section.key">
+                    <h4
+                        class="text-xs uppercase tracking-wider text-gray-500 px-3 pt-4 pb-1 cursor-pointer select-none flex justify-between items-center"
+                        @click="toggleReportSection(section.key)"
+                    >
+                        {{ section.title }}
+                        <svg
+                            :class="{'rotate-180': !reportCollapseState[section.key]}"
+                            class="h-4 w-4 transition-transform duration-300"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </h4>
+
+                    <Transition name="slide-fade">
+                        <div v-show="!reportCollapseState[section.key]" class="pl-2 space-y-1">
+
+                            <Link
+                                v-for="link in section.links"
+                                :key="link.route"
+                                :href="route(link.route)"
+                                :class="['w-full flex items-center p-3 rounded-xl text-gray-300 transition-colors duration-200',
+                                         // Highlight active link inside the collapsed menu
+                                         isActive(link.route) ? 'bg-gray-800 text-white shadow-md' : 'hover:bg-gray-800 hover:text-white']"
+                            >
+                                <svg class="h-5 w-5 mr-3 transition-colors duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="link.icon" />
+                                </svg>
+                                <span class="transition-colors duration-200 text-sm">{{ link.name }}</span>
+                            </Link>
+
+                        </div>
+                    </Transition>
+                </div>
+            </div>
         </nav>
     </aside>
 </template>
 
 <style scoped>
+/* The CSS for nav-link and slide-fade remains correct and is appended below for completeness */
+
 .nav-link {
     @apply flex items-center p-3 rounded-xl transition-all duration-200 ease-in-out transform hover:translate-x-1;
 }
@@ -127,12 +216,16 @@ const user = computed(() => page.props.auth.user);
     }
 }
 
-.nav-link:nth-child(2) { animation-delay: 0.1s; }
-.nav-link:nth-child(3) { animation-delay: 0.2s; }
-.nav-link:nth-child(4) { animation-delay: 0.3s; }
-.nav-link:nth-child(5) { animation-delay: 0.4s; }
-.nav-link:nth-child(6) { animation-delay: 0.5s; }
-.nav-link:nth-child(7) { animation-delay: 0.6s; }
-.nav-link:nth-child(8) { animation-delay: 0.7s; }
-.nav-link:nth-child(9) { animation-delay: 0.8s; }
+/* CSS for the collapse animation */
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+    transition: all 0.3s ease-out;
+    overflow: hidden; /* Essential for height transition */
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+    height: 0;
+    opacity: 0;
+}
 </style>

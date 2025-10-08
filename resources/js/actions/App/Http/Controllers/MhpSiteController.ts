@@ -512,7 +512,7 @@ getSites.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 /**
 * @see \App\Http\Controllers\MhpSiteController::getDetails
 * @see app/Http/Controllers/MhpSiteController.php:170
-* @route '/cbo/{mhpSite}/details'
+* @route '/mhp/{mhpSite}/details'
 */
 export const getDetails = (args: { mhpSite: number | { id: number } } | [mhpSite: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: getDetails.url(args, options),
@@ -521,13 +521,13 @@ export const getDetails = (args: { mhpSite: number | { id: number } } | [mhpSite
 
 getDetails.definition = {
     methods: ["get","head"],
-    url: '/cbo/{mhpSite}/details',
+    url: '/mhp/{mhpSite}/details',
 } satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::getDetails
 * @see app/Http/Controllers/MhpSiteController.php:170
-* @route '/cbo/{mhpSite}/details'
+* @route '/mhp/{mhpSite}/details'
 */
 getDetails.url = (args: { mhpSite: number | { id: number } } | [mhpSite: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
@@ -560,7 +560,7 @@ getDetails.url = (args: { mhpSite: number | { id: number } } | [mhpSite: number 
 /**
 * @see \App\Http\Controllers\MhpSiteController::getDetails
 * @see app/Http/Controllers/MhpSiteController.php:170
-* @route '/cbo/{mhpSite}/details'
+* @route '/mhp/{mhpSite}/details'
 */
 getDetails.get = (args: { mhpSite: number | { id: number } } | [mhpSite: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: getDetails.url(args, options),
@@ -570,7 +570,7 @@ getDetails.get = (args: { mhpSite: number | { id: number } } | [mhpSite: number 
 /**
 * @see \App\Http\Controllers\MhpSiteController::getDetails
 * @see app/Http/Controllers/MhpSiteController.php:170
-* @route '/cbo/{mhpSite}/details'
+* @route '/mhp/{mhpSite}/details'
 */
 getDetails.head = (args: { mhpSite: number | { id: number } } | [mhpSite: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: getDetails.url(args, options),

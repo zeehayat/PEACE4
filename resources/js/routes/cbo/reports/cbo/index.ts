@@ -87,6 +87,9 @@ exportMethod.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     method: 'head',
 })
 
-const CboReportController = { index, exportMethod, export: exportMethod }
+const cbo = {
+    index,
+    export: exportMethod,
+}
 
-export default CboReportController
+export default cbo

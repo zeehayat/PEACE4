@@ -24,7 +24,6 @@ import CboController from './CboController'
 import CboDialogueController from './CboDialogueController'
 import CboExposureVisitController from './CboExposureVisitController'
 import CboTrainingController from './CboTrainingController'
-import ReportController from './ReportController'
 import CboReportController from './CboReportController'
 import LrmCommitteeController from './LrmCommitteeController'
 import RoleController from './RoleController'
@@ -56,7 +55,6 @@ const Controllers = {
     CboDialogueController,
     CboExposureVisitController,
     CboTrainingController,
-    ReportController,
     CboReportController,
     LrmCommitteeController,
     RoleController,

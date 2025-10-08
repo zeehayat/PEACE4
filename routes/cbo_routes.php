@@ -99,8 +99,8 @@ Route::middleware(['web'])->group(function () {
 
 /// Unauthenticated
 ///
-Route::get('reports', [CboReportController::class, 'index'])->name('reports.index');
-Route::get('{mhpSite}/details', [MhpSiteController::class, 'getDetails'])->name('sites.details');
+Route::get('report', [CboReportController::class, 'index'])->name('reports.cbo.index');
+Route::get('report/export', [CboReportController::class, 'export'])->name('reports.cbo.export');
 
 
 
