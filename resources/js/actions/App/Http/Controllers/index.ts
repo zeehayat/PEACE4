@@ -1,9 +1,10 @@
 import Auth from './Auth'
+import ReportController from './ReportController'
+import DashboardController from './DashboardController'
 import ProjectCostRevisionController from './ProjectCostRevisionController'
 import ProjectFinancialInstallmentController from './ProjectFinancialInstallmentController'
 import UserController from './UserController'
 import AttachmentController from './AttachmentController'
-import DashboardController from './DashboardController'
 import MhpSiteController from './MhpSiteController'
 import VendorController from './VendorController'
 import IrrigationDashboardController from './IrrigationDashboardController'
@@ -30,11 +31,12 @@ import RoleController from './RoleController'
 
 const Controllers = {
     Auth,
+    ReportController,
+    DashboardController,
     ProjectCostRevisionController,
     ProjectFinancialInstallmentController,
     UserController,
     AttachmentController,
-    DashboardController,
     MhpSiteController,
     VendorController,
     IrrigationDashboardController,

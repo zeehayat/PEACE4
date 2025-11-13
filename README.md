@@ -1,61 +1,83 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# SRSP Peace
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A Laravel 12 + Inertia/Jetstream application. This repo now ships with a full Docker development stack that runs the application behind Nginx with MySQL 8 as the database.
 
-## About Laravel
+## Requirements
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Docker Engine 24+
+- Docker Compose plugin 2+
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 1. Bootstrap the environment
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+```bash
+cp .env.example .env               # add secrets, mail credentials, etc.
+docker compose build               # builds the PHP-FPM image with Node + Composer
+```
 
-## Learning Laravel
+> **Tip**: if your host UID/GID are not `1000`, set `WWWUSER`/`WWWGROUP` before building, e.g. `WWWUSER=$(id -u) WWWGROUP=$(id -g) docker compose build`.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 2. Start the stack
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+```bash
+docker compose up -d
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Services:
+- `app`: PHP 8.3 FPM with Composer + Node 20
+- `nginx`: serves `/public` and proxies PHP to the FPM container (exposed at `APP_PORT`, default `8080`)
+- `mysql`: MySQL 8.0 with a persistent `mysql-data` volume (forwarded to `FORWARD_DB_PORT`, default `3307`)
 
-## Laravel Sponsors
+Visit http://localhost:8080 once dependencies and migrations are in place.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 3. Install dependencies inside the container
 
-### Premium Partners
+```bash
+docker compose exec app composer install
+docker compose exec app npm install
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Then generate your key and run the database setup:
 
-## Contributing
+```bash
+docker compose exec app php artisan key:generate
+docker compose exec app php artisan migrate --seed
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+If you prefer to import the shipped SQL dump, run (adjust credentials if you changed the defaults in `.env`):
 
-## Code of Conduct
+```bash
+docker compose exec -T mysql mysql -usrsp -psecret srsp < srsp_peace.sql
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 4. Frontend tooling
 
-## Security Vulnerabilities
+- Dev server: `docker compose exec app npm run dev -- --host` (available at `http://localhost:5173` by default; override with `VITE_PORT`)
+- Production build: `docker compose exec app npm run build`
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## 5. Common artisan/dev commands
 
-## License
+```bash
+docker compose exec app php artisan test
+docker compose exec app php artisan queue:work
+docker compose exec app php artisan storage:link
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Logs: `docker compose logs -f app` or `docker compose logs -f nginx`.
+
+## 6. Environment variables of interest
+
+- `APP_PORT`: host port that proxies to Nginx (default `8080`)
+- `VITE_PORT`: forwarded port for the Vite dev server (default `5173`)
+- `FORWARD_DB_PORT`: forwarded MySQL port on the host (default `3307`)
+- `DB_HOST`: should stay `mysql` so the app reaches the database container
+- `DB_USERNAME`/`DB_PASSWORD`/`DB_DATABASE`: passed directly to the MySQL container
+- `DB_ROOT_PASSWORD`: controls the MySQL root password set inside the container
+
+## 7. Housekeeping
+
+```bash
+docker compose down                # stop containers
+docker compose down -v             # stop + remove database volume (wipes data)
+```
+
+Use `docker compose exec app bash` for an interactive shell when you need to run multiple commands within the PHP container.
