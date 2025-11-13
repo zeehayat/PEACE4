@@ -21,7 +21,22 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
+Route::get('/report/monthly-progress/{year}/{month}', [ReportController::class, 'monthlyProgress'])->name('report.monthly-progress');
+Route::get('/reports/monthly-progress/current', function () {
+    $currentYear = now()->year;
+    $currentMonth = now()->month;
+    return redirect()->route('report.monthly-progress', ['year' => $currentYear, 'month' => $currentMonth]);
+})->name('report.monthly-progress.current');
 
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return Inertia::render('Dashboard');
+    })->name('dashboard');
+});
 
 Route::get('/test-r2-upload', function() {
     $testContent = 'Hello from Laravel to Cloudflare R2! ' . now();
