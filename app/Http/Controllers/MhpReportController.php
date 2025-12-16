@@ -7,6 +7,7 @@ use App\Models\MhpSite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Collection;
 use Inertia\Inertia;
 
 class MhpReportController extends Controller
@@ -87,5 +88,122 @@ class MhpReportController extends Controller
         // Example: return (new MhpReportExport($request->all()))->download('mhp_progress_report.xlsx');
 
         return response()->json(['message' => 'Export functionality pending Laravel Excel implementation.'], 501);
+    }
+
+    /**
+     * District-wise snapshot for MHP-linked CBO work (dialogues, trainings, exposure visits).
+     */
+    public function districtReport(Request $request)
+    {
+        $this->authorize('viewAny', MhpSite::class);
+
+        $districts = District::orderBy('name')->pluck('name');
+        $filters = $request->only('district');
+
+        $rows = $this->buildDistrictDataset($request);
+
+        return Inertia::render('MHP/MhpDistrictReport', [
+            'districts' => $districts,
+            'filters' => $filters,
+            'rows' => $rows,
+        ]);
+    }
+
+    /**
+     * CSV export for district-wise MHP metrics (headers mirror the shared progress sheet style).
+     */
+    public function exportDistrictReport(Request $request)
+    {
+        $this->authorize('viewAny', MhpSite::class);
+
+        $rows = $this->buildDistrictDataset($request);
+
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="mhp_district_report_' . now()->format('Ymd_His') . '.csv"',
+            'Pragma' => 'no-cache',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Expires' => '0',
+        ];
+
+        $callback = static function () use ($rows) {
+            $out = fopen('php://output', 'w');
+
+            fputcsv($out, [
+                'S. No',
+                'District',
+                'No. of CBOs formed',
+                'Total members',
+                'No. of exposure visits',
+                'No. of O&M trainings',
+                'Sessions on electrical appliances (women)',
+            ]);
+
+            foreach ($rows as $index => $row) {
+                fputcsv($out, [
+                    $index + 1,
+                    $row['district'],
+                    $row['cbos_formed'],
+                    $row['total_members'],
+                    $row['exposure_visits'],
+                    $row['om_trainings'],
+                    $row['appliance_sessions_women'],
+                ]);
+            }
+
+            fclose($out);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
+    /**
+     * Assemble district-level metrics for MHP CBOs, keeping filters/policy scopes aligned between view and export.
+     */
+    private function buildDistrictDataset(Request $request): Collection
+    {
+        $user = Auth::user();
+
+        $mhpCboIds = MhpSite::query()
+            ->forUser($user)
+            ->when($request->filled('district'), function ($query) use ($request) {
+                $query->whereHas('cbo', fn($cboQuery) => $cboQuery->where('district', $request->district));
+            })
+            ->pluck('cbo_id')
+            ->unique();
+
+        if ($mhpCboIds->isEmpty()) {
+            return collect();
+        }
+
+        $cboMetrics = DB::table('cbos')
+            ->select([
+                'cbos.id',
+                'cbos.district',
+                'cbos.total_members',
+            ])
+            ->whereIn('cbos.id', $mhpCboIds)
+            ->when($request->filled('district'), fn($q) => $q->where('cbos.district', $request->district))
+            ->selectSub('select count(*) from cbo_exposure_visits where cbo_exposure_visits.cbo_id = cbos.id', 'exposure_visits')
+            ->selectSub("select count(*) from cbo_trainings where cbo_trainings.cbo_id = cbos.id and cbo_trainings.training_type = 'O&M Training'", 'om_trainings')
+            ->selectSub("select count(*) from cbo_trainings where cbo_trainings.cbo_id = cbos.id and cbo_trainings.training_type = 'Electrical Appliance'", 'appliance_sessions')
+            ->selectSub("select count(*) from cbo_trainings where cbo_trainings.cbo_id = cbos.id and cbo_trainings.training_type = 'Electrical Appliance' and cbo_trainings.training_gender = 'Female'", 'appliance_sessions_women')
+            ->get();
+
+        return $cboMetrics
+            ->groupBy('district')
+            ->map(function ($group) {
+                return [
+                    'district' => $group->first()->district,
+                    'cbos_formed' => $group->count(),
+                    'total_members' => (int) $group->sum('total_members'),
+                    'exposure_visits' => (int) $group->sum('exposure_visits'),
+                    'om_trainings' => (int) $group->sum('om_trainings'),
+                    'appliance_sessions' => (int) $group->sum('appliance_sessions'),
+                    'appliance_sessions_women' => (int) $group->sum('appliance_sessions_women'),
+                ];
+            })
+            ->sortBy('district')
+            ->values();
     }
 }
