@@ -88,24 +88,88 @@ const exportCsv = () => {
                             <thead class="bg-gray-50">
                                 <tr>
                                     <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">District</th>
-                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">CBOs formed</th>
-                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">Total members</th>
-                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">Exposure visits</th>
-                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">O&M trainings</th>
-                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">Electrical appliance sessions (women)</th>
+                                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Tehsil</th>
+                                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">VC/NC</th>
+                                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Village</th>
+                                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Type</th>
+                                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Dialogue Date</th>
+                                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Technical Survey Date</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">Existing KW</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">Total KW</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">Head (ft)</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">Discharge (cusecs)</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">Channel (ft)</th>
+                                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Turbine Type</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">Turbines</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">HT km</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">LT km</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">Transformers</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">Households</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">Commercial</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">Connections</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">Population</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">Total Cost</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">Per kW</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">Per HH</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">Per Beneficiary</th>
+                                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Presented MC</th>
+                                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Shared OPM/EU</th>
+                                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Review OPM</th>
+                                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">OPM Visit Date</th>
+                                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">T&D Initiation</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">Civil Paid</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">Civil Fin %</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">Civil Physical %</th>
+                                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Civil Remarks</th>
+                                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">T&D Physical %</th>
+                                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">EME Physical %</th>
+                                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Overall Physical %</th>
+                                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Overall Remarks</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-100">
                                 <tr v-if="!props.rows.length">
-                                    <td colspan="6" class="px-4 py-6 text-center text-sm text-gray-500">No records for the selected filters.</td>
+                                    <td colspan="40" class="px-4 py-6 text-center text-sm text-gray-500">No records for the selected filters.</td>
                                 </tr>
                                 <tr v-for="row in props.rows" :key="row.district">
                                     <td class="px-4 py-3 text-sm text-gray-700">{{ row.district }}</td>
-                                    <td class="px-4 py-3 text-sm text-right font-semibold text-gray-800">{{ row.cbos_formed }}</td>
-                                    <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.total_members?.toLocaleString() }}</td>
-                                    <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.exposure_visits }}</td>
-                                    <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.om_trainings }}</td>
-                                    <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.appliance_sessions_women }}</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">{{ row.tehsil }}</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">{{ row.vc_nc }}</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">{{ row.village }}</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">{{ row.type }}</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">{{ row.dialogue_date }}</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">{{ row.technical_survey_date }}</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.existing_capacity_kw }}</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.total_capacity_kw }}</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.net_head_ft }}</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.discharge_cusecs }}</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.channel_length_ft }}</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">{{ row.turbine_type }}</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.turbine_count }}</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.ht_length_km }}</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.lt_length_km }}</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.transformer_count }}</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.total_households }}</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.commercial_consumers }}</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.total_connections }}</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.population }}</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.total_cost }}</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.per_kw_cost }}</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.per_hh_cost }}</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.per_beneficiary_cost }}</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">{{ row.presented_mc }}</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">{{ row.shared_opm }}</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">{{ row.review_meeting_opm }}</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">{{ row.opm_visit_date }}</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">{{ row.tnd_initiation_date }}</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.civil_disbursed }}</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.civil_financial_progress }}</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.civil_physical_progress }}</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">{{ row.civil_progress_description }}</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.tnd_physical_progress }}</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.eme_physical_progress }}</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.overall_physical_progress }}</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">{{ row.overall_progress_description }}</td>
                                 </tr>
                             </tbody>
                         </table>
