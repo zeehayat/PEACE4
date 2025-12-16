@@ -35,6 +35,7 @@ const reportMenu = ref([
             // Example reports under MHP
             { name: 'MHP Alpha', route: 'mhp.reports.index', icon: 'M13 10V3L4 14h7v7l9-11h-7z' },
             { name: 'District Wise MHP', route: 'mhp.reports.district', icon: 'M4 6h16M4 12h12M4 18h8' },
+            { name: 'Instructions CSV', route: 'mhp.reports.district.instructions', icon: 'M3 6h18M3 12h18M3 18h10' },
             //{ name: 'MHP Beta', route: 'mhp.report.beta', icon: 'M13 10V3L4 14h7v7l9-11h-7z' },
         ]
     },

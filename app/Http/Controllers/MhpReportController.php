@@ -164,6 +164,71 @@ class MhpReportController extends Controller
     }
 
     /**
+     * Simpler instructions.txt-aligned view (counts only).
+     */
+    public function instructionReport(Request $request)
+    {
+        $this->authorize('viewAny', MhpSite::class);
+
+        $districts = District::orderBy('name')->pluck('name');
+        $filters = $request->only('district');
+        $rows = $this->buildDistrictDataset($request);
+
+        return Inertia::render('MHP/MhpInstructionReport', [
+            'districts' => $districts,
+            'filters' => $filters,
+            'rows' => $rows,
+        ]);
+    }
+
+    /**
+     * CSV export for the instructions.txt-aligned report (counts only).
+     */
+    public function exportInstructionReport(Request $request)
+    {
+        $this->authorize('viewAny', MhpSite::class);
+
+        $rows = $this->buildDistrictDataset($request);
+
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="mhp_district_instructions_' . now()->format('Ymd_His') . '.csv"',
+            'Pragma' => 'no-cache',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Expires' => '0',
+        ];
+
+        $callback = static function () use ($rows) {
+            $out = fopen('php://output', 'w');
+            fputcsv($out, [
+                'S. No',
+                'District',
+                'No. of CBOs formed',
+                'Total members',
+                'No. of exposure visits',
+                'No. of O&M trainings',
+                'Sessions on electrical appliances to women',
+            ]);
+
+            foreach ($rows as $index => $row) {
+                fputcsv($out, [
+                    $index + 1,
+                    $row['district'],
+                    $row['cbos_formed'],
+                    $row['total_members'],
+                    $row['exposure_visits'],
+                    $row['om_trainings'],
+                    $row['appliance_sessions_women'],
+                ]);
+            }
+
+            fclose($out);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
+    /**
      * Assemble district-level metrics for MHP CBOs, keeping filters/policy scopes aligned between view and export.
      */
     private function buildDistrictDataset(Request $request): Collection
