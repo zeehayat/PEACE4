@@ -31,11 +31,14 @@ const totals = computed(() =>
             acc.cbos += row.cbos_formed ?? 0;
             acc.members += row.total_members ?? 0;
             acc.exposures += row.exposure_visits ?? 0;
+            acc.exposureParticipants += row.exposure_participants ?? 0;
             acc.om += row.om_trainings ?? 0;
+            acc.omParticipants += row.om_training_participants ?? 0;
             acc.applianceWomen += row.appliance_sessions_women ?? 0;
+            acc.applianceParticipantsWomen += row.appliance_participants_women ?? 0;
             return acc;
         },
-        { cbos: 0, members: 0, exposures: 0, om: 0, applianceWomen: 0 },
+        { cbos: 0, members: 0, exposures: 0, exposureParticipants: 0, om: 0, omParticipants: 0, applianceWomen: 0, applianceParticipantsWomen: 0 },
     ),
 );
 
@@ -105,21 +108,27 @@ const exportCsv = () => {
                                     <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">CBOs formed</th>
                                     <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">Total members</th>
                                     <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">Exposure visits</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">Exposure participants</th>
                                     <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">O&M trainings</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">O&M participants</th>
                                     <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">Electrical appliance sessions (women)</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">Electrical appliance participants (women)</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-100">
                                 <tr v-if="!props.rows.length">
-                                    <td colspan="6" class="px-4 py-6 text-center text-sm text-gray-500">No records for the selected filters.</td>
+                                    <td colspan="9" class="px-4 py-6 text-center text-sm text-gray-500">No records for the selected filters.</td>
                                 </tr>
                                 <tr v-for="row in props.rows" :key="row.district">
                                     <td class="px-4 py-3 text-sm text-gray-700">{{ row.district }}</td>
                                     <td class="px-4 py-3 text-sm text-right font-semibold text-gray-800">{{ row.cbos_formed }}</td>
                                     <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.total_members?.toLocaleString() }}</td>
                                     <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.exposure_visits }}</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.exposure_participants }}</td>
                                     <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.om_trainings }}</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.om_training_participants }}</td>
                                     <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.appliance_sessions_women }}</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.appliance_participants_women }}</td>
                                 </tr>
                             </tbody>
                             <tfoot v-if="props.rows.length" class="bg-gray-50">
@@ -128,8 +137,11 @@ const exportCsv = () => {
                                     <th class="px-4 py-3 text-right text-xs font-semibold text-gray-800">{{ totals.cbos }}</th>
                                     <th class="px-4 py-3 text-right text-xs font-semibold text-gray-800">{{ totals.members.toLocaleString() }}</th>
                                     <th class="px-4 py-3 text-right text-xs font-semibold text-gray-800">{{ totals.exposures }}</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-800">{{ totals.exposureParticipants }}</th>
                                     <th class="px-4 py-3 text-right text-xs font-semibold text-gray-800">{{ totals.om }}</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-800">{{ totals.omParticipants }}</th>
                                     <th class="px-4 py-3 text-right text-xs font-semibold text-gray-800">{{ totals.applianceWomen }}</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-800">{{ totals.applianceParticipantsWomen }}</th>
                                 </tr>
                             </tfoot>
                         </table>

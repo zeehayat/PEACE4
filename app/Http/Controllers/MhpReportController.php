@@ -135,8 +135,11 @@ class MhpReportController extends Controller
                 'No. of CBOs formed',
                 'Total members',
                 'No. of exposure visits',
+                'Exposure visit participants',
                 'No. of O&M trainings',
+                'O&M training participants',
                 'Sessions on electrical appliances (women)',
+                'Electrical appliance participants (women)',
             ]);
 
             foreach ($rows as $index => $row) {
@@ -146,8 +149,11 @@ class MhpReportController extends Controller
                     $row['cbos_formed'],
                     $row['total_members'],
                     $row['exposure_visits'],
+                    $row['exposure_participants'],
                     $row['om_trainings'],
+                    $row['om_training_participants'],
                     $row['appliance_sessions_women'],
+                    $row['appliance_participants_women'],
                 ]);
             }
 
@@ -185,9 +191,12 @@ class MhpReportController extends Controller
             ->whereIn('cbos.id', $mhpCboIds)
             ->when($request->filled('district'), fn($q) => $q->where('cbos.district', $request->district))
             ->selectSub('select count(*) from cbo_exposure_visits where cbo_exposure_visits.cbo_id = cbos.id', 'exposure_visits')
+            ->selectSub('select coalesce(sum(participants),0) from cbo_exposure_visits where cbo_exposure_visits.cbo_id = cbos.id', 'exposure_participants')
             ->selectSub("select count(*) from cbo_trainings where cbo_trainings.cbo_id = cbos.id and cbo_trainings.training_type = 'O&M Training'", 'om_trainings')
+            ->selectSub("select coalesce(sum(total_participants),0) from cbo_trainings where cbo_trainings.cbo_id = cbos.id and cbo_trainings.training_type = 'O&M Training'", 'om_training_participants')
             ->selectSub("select count(*) from cbo_trainings where cbo_trainings.cbo_id = cbos.id and cbo_trainings.training_type = 'Electrical Appliance'", 'appliance_sessions')
             ->selectSub("select count(*) from cbo_trainings where cbo_trainings.cbo_id = cbos.id and cbo_trainings.training_type = 'Electrical Appliance' and cbo_trainings.training_gender = 'Female'", 'appliance_sessions_women')
+            ->selectSub("select coalesce(sum(total_participants),0) from cbo_trainings where cbo_trainings.cbo_id = cbos.id and cbo_trainings.training_type = 'Electrical Appliance' and cbo_trainings.training_gender = 'Female'", 'appliance_participants_women')
             ->get();
 
         return $cboMetrics
@@ -198,9 +207,12 @@ class MhpReportController extends Controller
                     'cbos_formed' => $group->count(),
                     'total_members' => (int) $group->sum('total_members'),
                     'exposure_visits' => (int) $group->sum('exposure_visits'),
+                    'exposure_participants' => (int) $group->sum('exposure_participants'),
                     'om_trainings' => (int) $group->sum('om_trainings'),
+                    'om_training_participants' => (int) $group->sum('om_training_participants'),
                     'appliance_sessions' => (int) $group->sum('appliance_sessions'),
                     'appliance_sessions_women' => (int) $group->sum('appliance_sessions_women'),
+                    'appliance_participants_women' => (int) $group->sum('appliance_participants_women'),
                 ];
             })
             ->sortBy('district')
