@@ -99,7 +99,7 @@ Route::middleware(['auth'])->group(function () {
 Route::post('/login', [LoginController::class, 'login'])->middleware('guest');
 
 // Optional: logout
-Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth')->name('main.logout');
+Route::match(['post', 'get'], '/logout', [LoginController::class, 'logout'])->middleware('auth')->name('main.logout');
 
 // Auto Search
 Route::get('/cbos/auto-search', [MhpSiteController::class, 'autoSearch']);
