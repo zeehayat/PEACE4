@@ -2,20 +2,15 @@
 
 
 The following fields should be in the report
-District,	 Tehsil, 	 VC/NC,	 Village,	 Type of MHP,	 Dialogue With Community Date,
-Social Assessment,Detailed Technical Survey Date, Existing Capacity (KW), Total Capacity kW,
-Net Head ft, Discharge cusecs, Length of Channel ft, Turbine Type, No of Turbines required,
+District, Tehsil, VC/NC, Village, Type of MHP, Dialogue With Community Date,Social Assessment,Detailed Technical Survey Date,
+Existing Capacity (KW), Total Capacity kW,Net Head ft, Discharge cusecs, Length of Channel ft, Turbine Type, No of Turbines required,
 HT Line  Length (Km),	 LT Line Length (Km),	 No. of  Transformer, 	 Total households, Commercial Consumers,
 Total Connections,	 Total Population,	 Total Cost   (PKR)	 Per Kw Cost (PKR),	 Per HH+Commercial Cost (PKR),
-Per Beneficiery Cost (PKR),	Presented to  Management Committee(yes/no),
-Shared With OPM/EU for Review,	 Review Meeting with OPM, 	OPM Visit to Site Date,
-Date of T&D work Initiation Layout, Ground Breaking Ceremony,
-Total Amount for Civil Works PKR, Financial Progress,	Amount Disbursed,	Remaining,	Physical Progress,	Progress Description,
+Per Beneficiery Cost (PKR),	Presented to  Management Committee(yes/no), Shared With OPM/EU for Review,	 Review Meeting with OPM,
+OPM Visit to Site Date,Date of T&D work Initiation Layout, Ground Breaking Ceremony,Total Amount for Civil Works PKR, Financial Progress,
+Amount Disbursed,	Remaining,	Physical Progress,	Progress Description,
 Date of Physical Work completion,	 Date of T&D work Initiation, 	 Total Amount for T&D Works PKR	Amount Disbursed T&D,
 Financial Progress T&D %,	Remaining Amount T&D,	Physical Progress T&D,	Progress Description T&D,
-Date of Physical Work completion T&D,	 Date of EME work Initiation,
-Total Amount for EME Works, PKR	Amount Disbursed EME,	Financial EME Progress %,	Remaining EME,
-Physical EME Progress,	Progress EME Description,
-Date of Physical Work completion EME, Physical  (Civil+EME+T&D) %,
+Date of Physical Work completion T&D,	 Date of EME work Initiation, Total Amount for EME Works, PKR	Amount Disbursed EME,
+Financial EME Progress %, Remaining EME,Physical EME Progress,	Progress EME Description, Date of Physical Work completion EME, Physical  (Civil+EME+T&D) %,
 Description Progress Overall,	Amoount Disbursed PKR Overall,	Remaining Amount, 	Financial Progress %
-

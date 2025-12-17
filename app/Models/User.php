@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Enums\KpDistrict;
+use App\Models\District;
+use App\Models\DistrictPermission;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -11,6 +13,7 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens; // Use Sanctum's trait
 use Spatie\Permission\Traits\HasRoles; // Ensure this is present
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -59,5 +62,38 @@ class User extends Authenticatable
     public function district(): BelongsTo
     {
         return $this->belongsTo(District::class);
+    }
+
+    public function districtPermissions(): HasMany
+    {
+        return $this->hasMany(DistrictPermission::class);
+    }
+
+    /**
+     * Check CRUD ability for a specific district.
+     */
+    public function hasDistrictAbility(int $districtId, string $ability): bool
+    {
+        if ($this->hasAnyRole(['Root', 'Admin', 'PSU'])) {
+            return true;
+        }
+
+        // PSU district users inherit all districts
+        if (strtolower($this->district?->name ?? '') === 'psu') {
+            return true;
+        }
+
+        $perm = $this->districtPermissions->firstWhere('district_id', $districtId);
+        if (!$perm) {
+            return false;
+        }
+
+        return match ($ability) {
+            'read' => (bool) $perm->can_read,
+            'create' => (bool) $perm->can_create,
+            'update' => (bool) $perm->can_update,
+            'delete' => (bool) $perm->can_delete,
+            default => false,
+        };
     }
 }

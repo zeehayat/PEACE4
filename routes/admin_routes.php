@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\AccessControlController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,16 +16,22 @@ use App\Http\Controllers\RoleController;
 |
 */
 
-// Route for the main admin dashboard (if you have one)
-Route::get('/', function () {
-    return inertia('Admin/Dashboard');
-})->name('admin.dashboard');
+Route::middleware(['role:Admin|Root'])->group(function () {
+    // Route for the main admin dashboard (if you have one)
+    Route::get('/', function () {
+        return inertia('Admin/Dashboard');
+    })->name('admin.dashboard');
 
-// User Management Routes
-Route::resource('users', UserController::class);
+    // User Management Routes
+    Route::resource('users', UserController::class);
 
-// Role & Permission Management Routes
-Route::resource('roles', RoleController::class)->except(['show']);
+    // Role & Permission Management Routes
+    Route::resource('roles', RoleController::class)->except(['show']);
+
+    // District-scoped access control + audit
+    Route::get('access-control', [AccessControlController::class, 'index'])->name('access-control.index');
+    Route::post('access-control', [AccessControlController::class, 'store'])->name('access-control.store');
+});
 
 Route::get('/test-auth', function () {
     if (auth()->user()->hasRole('Root')) {
