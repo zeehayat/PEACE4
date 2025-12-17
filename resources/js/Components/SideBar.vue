@@ -61,6 +61,7 @@ const toggleReportSection = (key) => {
     reportCollapseState.value[key] = !reportCollapseState.value[key];
 };
 
+const isAdmin = computed(() => user.value?.roles?.some((r) => ['Admin', 'Root'].includes(r.name)));
 // --- End Dynamic Report Menu Logic ---
 </script>
 
@@ -141,6 +142,26 @@ const toggleReportSection = (key) => {
                 <svg class="h-5 w-5 mr-3 transition-colors duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h2a2 2 0 002-2V4a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2h2m0 0l4-4m-4 4l-4-4m4 4V4"/></svg>
                 <span class="transition-colors duration-200">LRM Committees</span>
             </Link>
+
+            <div v-if="isAdmin" class="pt-4 border-t border-gray-800 mt-2">
+                <h3 class="text-xs uppercase tracking-wider text-gray-500 px-3 pt-1 pb-2">Admin</h3>
+                <Link :href="route('admin.dashboard')" :class="['nav-link group', isActive('admin.dashboard') ? 'bg-indigo-700 text-white shadow-md' : 'text-gray-300 hover:bg-gray-800 hover:text-white']">
+                    <svg class="h-5 w-5 mr-3 transition-colors duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                    <span class="transition-colors duration-200">Admin Dashboard</span>
+                </Link>
+                <Link :href="route('admin.users.index')" :class="['nav-link group', isActive('admin.users.index') ? 'bg-indigo-700 text-white shadow-md' : 'text-gray-300 hover:bg-gray-800 hover:text-white']">
+                    <svg class="h-5 w-5 mr-3 transition-colors duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 14a4 4 0 10-8 0m8 0a4 4 0 01-8 0m8 0v1a4 4 0 01-8 0v-1m8 0a5 5 0 015 5v1H3v-1a5 5 0 015-5"/></svg>
+                    <span class="transition-colors duration-200">Users</span>
+                </Link>
+                <Link :href="route('admin.roles.index')" :class="['nav-link group', isActive('admin.roles.index') ? 'bg-indigo-700 text-white shadow-md' : 'text-gray-300 hover:bg-gray-800 hover:text-white']">
+                    <svg class="h-5 w-5 mr-3 transition-colors duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2"/></svg>
+                    <span class="transition-colors duration-200">Roles</span>
+                </Link>
+                <Link :href="route('admin.access-control.index')" :class="['nav-link group', isActive('admin.access-control.index') ? 'bg-indigo-700 text-white shadow-md' : 'text-gray-300 hover:bg-gray-800 hover:text-white']">
+                    <svg class="h-5 w-5 mr-3 transition-colors duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c1.657 0 3-1.343 3-3S13.657 5 12 5 9 6.343 9 8s1.343 3 3 3z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.4 15a1 1 0 010 2.1A7.964 7.964 0 0112 19a7.964 7.964 0 01-7.4-1.9A1 1 0 014.6 15a9.967 9.967 0 0114.8 0z"/></svg>
+                    <span class="transition-colors duration-200">Access Control</span>
+                </Link>
+            </div>
             <button @click="router.post(route('logout'))" class="w-full flex items-center p-3 rounded-xl text-gray-300 hover:bg-gray-800 hover:text-white transition-colors duration-200">
                 <svg class="h-5 w-5 mr-3 transition-colors duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
                 <span class="transition-colors duration-200">Log Out</span>
