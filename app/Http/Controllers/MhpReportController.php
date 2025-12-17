@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\District;
 use App\Models\MhpSite;
+use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -198,140 +199,143 @@ class MhpReportController extends Controller
             'Expires' => '0',
         ];
 
-        $callback = static function () use ($rows) {
-            $out = fopen('php://output', 'w');
-            fputcsv($out, [
-                'S. No',
-                'District',
-                'Tehsil',
-                'VC/NC',
-                'Village',
-                'Type of MHP',
-                'Dialogue With Community Date',
-                'Social Assessment',
-                'Detailed Technical Survey Date',
-                'Existing Capacity (KW)',
-                'Total Capacity kW',
-                'Net Head ft',
-                'Discharge cusecs',
-                'Length of Channel ft',
-                'Turbine Type',
-                'No of Turbines required',
-                'HT Line Length (Km)',
-                'LT Line Length (Km)',
-                'No. of Transformer',
-                'Total households',
-                'Commercial Consumers',
-                'Total Connections',
-                'Total Population',
-                'Total Cost (PKR)',
-                'Per Kw Cost (PKR)',
-                'Per HH+Commercial Cost (PKR)',
-                'Per Beneficiary Cost (PKR)',
-                'Presented to Management Committee',
-                'Shared With OPM/EU for Review',
-                'Review Meeting with OPM',
-                'OPM Visit to Site Date',
-                'Date of T&D work Initiation Layout/Ground Breaking',
-                'Total Amount for Civil Works PKR',
-                'Financial Progress Civil %',
-                'Amount Disbursed Civil',
-                'Remaining Civil',
-                'Physical Progress Civil',
-                'Progress Description Civil',
-                'Date of Physical Work completion Civil',
-                'Date of T&D work Initiation',
-                'Total Amount for T&D Works PKR',
-                'Amount Disbursed T&D',
-                'Financial Progress T&D %',
-                'Remaining Amount T&D',
-                'Physical Progress T&D',
-                'Progress Description T&D',
-                'Date of Physical Work completion T&D',
-                'Date of EME work Initiation',
-                'Total Amount for EME Works PKR',
-                'Amount Disbursed EME',
-                'Financial EME Progress %',
-                'Remaining EME',
-                'Physical EME Progress',
-                'Progress EME Description',
-                'Date of Physical Work completion EME',
-                'Physical (Civil+EME+T&D) %',
-                'Description Progress Overall',
-                'Amount Disbursed PKR Overall',
-                'Remaining Amount Overall',
-                'Financial Progress % Overall',
-            ]);
+        $headerRow = [
+            'S. No',
+            'District',
+            'Tehsil',
+            'VC/NC',
+            'Village',
+            'CBO Name',
+            'Type of MHP',
+            'Dialogue With Community Date',
+            'Social Assessment',
+            'Detailed Technical Survey Date',
+            'Existing Capacity (KW)',
+            'Total Capacity kW',
+            'Net Head ft',
+            'Discharge cusecs',
+            'Length of Channel ft',
+            'Turbine Type',
+            'No of Turbines required',
+            'HT Line Length (Km)',
+            'LT Line Length (Km)',
+            'No. of Transformer',
+            'Total households',
+            'Commercial Consumers',
+            'Total Connections',
+            'Total Population',
+            'Total Cost (PKR)',
+            'Per Kw Cost (PKR)',
+            'Per HH+Commercial Cost (PKR)',
+            'Per Beneficiary Cost (PKR)',
+            'Presented to Management Committee',
+            'Shared With OPM/EU for Review',
+            'Review Meeting with OPM',
+            'OPM Visit to Site Date',
+            'Date of T&D work Initiation Layout/Ground Breaking',
+            'Total Amount for Civil Works PKR',
+            'Financial Progress Civil %',
+            'Amount Disbursed Civil',
+            'Remaining Civil',
+            'Physical Progress Civil',
+            'Progress Description Civil',
+            'Date of Physical Work completion Civil',
+            'Date of T&D work Initiation',
+            'Total Amount for T&D Works PKR',
+            'Amount Disbursed T&D',
+            'Financial Progress T&D %',
+            'Remaining Amount T&D',
+            'Physical Progress T&D',
+            'Progress Description T&D',
+            'Date of Physical Work completion T&D',
+            'Date of EME work Initiation',
+            'Total Amount for EME Works PKR',
+            'Amount Disbursed EME',
+            'Financial EME Progress %',
+            'Remaining EME',
+            'Physical EME Progress',
+            'Progress EME Description',
+            'Date of Physical Work completion EME',
+            'Physical (Civil+EME+T&D) %',
+            'Description Progress Overall',
+            'Amount Disbursed PKR Overall',
+            'Remaining Amount Overall',
+            'Financial Progress % Overall',
+        ];
 
-            foreach ($rows as $index => $row) {
-                fputcsv($out, [
-                    $index + 1,
-                    $row['district'],
-                    $row['tehsil'],
-                    $row['vc_nc'],
-                    $row['village'],
-                    $row['type'],
-                    $row['dialogue_date'],
-                    $row['social_assessment'],
-                    $row['technical_survey_date'],
-                    $row['existing_capacity_kw'],
-                    $row['total_capacity_kw'],
-                    $row['net_head_ft'],
-                    $row['discharge_cusecs'],
-                    $row['channel_length_ft'],
-                    $row['turbine_type'],
-                    $row['turbine_count'],
-                    $row['ht_length_km'],
-                    $row['lt_length_km'],
-                    $row['transformer_count'],
-                    $row['total_households'],
-                    $row['commercial_consumers'],
-                    $row['total_connections'],
-                    $row['population'],
-                    $row['total_cost'],
-                    $row['per_kw_cost'],
-                    $row['per_hh_cost'],
-                    $row['per_beneficiary_cost'],
-                    $row['presented_mc'],
-                    $row['shared_opm'],
-                    $row['review_meeting_opm'],
-                    $row['opm_visit_date'],
-                    $row['tnd_initiation_layout'],
-                    $row['civil_total'],
-                    $row['civil_financial_progress'],
-                    $row['civil_disbursed'],
-                    $row['civil_remaining'],
-                    $row['civil_physical_progress'],
-                    $row['civil_progress_description'],
-                    $row['civil_completion_date'],
-                    $row['tnd_initiation_date'],
-                    $row['tnd_total'],
-                    $row['tnd_disbursed'],
-                    $row['tnd_financial_progress'],
-                    $row['tnd_remaining'],
-                    $row['tnd_physical_progress'],
-                    $row['tnd_progress_description'],
-                    $row['tnd_completion_date'],
-                    $row['eme_initiation_date'],
-                    $row['eme_total'],
-                    $row['eme_disbursed'],
-                    $row['eme_financial_progress'],
-                    $row['eme_remaining'],
-                    $row['eme_physical_progress'],
-                    $row['eme_progress_description'],
-                    $row['eme_completion_date'],
-                    $row['overall_physical_progress'],
-                    $row['overall_progress_description'],
-                    $row['overall_disbursed'],
-                    $row['overall_remaining'],
-                    $row['overall_financial_progress'],
-                ]);
-            }
+        $dataRows = [];
+        foreach ($rows as $index => $row) {
+            $dataRows[] = [
+                $index + 1,
+                $row['district'],
+                $row['tehsil'],
+                $row['vc_nc'],
+                $row['village'],
+                $row['cbo_name'],
+                $row['type'],
+                $row['dialogue_date'],
+                $row['social_assessment'],
+                $row['technical_survey_date'],
+                $row['existing_capacity_kw'],
+                $row['total_capacity_kw'],
+                $row['net_head_ft'],
+                $row['discharge_cusecs'],
+                $row['channel_length_ft'],
+                $row['turbine_type'],
+                $row['turbine_count'],
+                $row['ht_length_km'],
+                $row['lt_length_km'],
+                $row['transformer_count'],
+                $row['total_households'],
+                $row['commercial_consumers'],
+                $row['total_connections'],
+                $row['population'],
+                $row['total_cost'],
+                $row['per_kw_cost'],
+                $row['per_hh_cost'],
+                $row['per_beneficiary_cost'],
+                $row['presented_mc'],
+                $row['shared_opm'],
+                $row['review_meeting_opm'],
+                $row['opm_visit_date'],
+                $row['tnd_initiation_layout'],
+                $row['civil_total'],
+                $row['civil_financial_progress'],
+                $row['civil_disbursed'],
+                $row['civil_remaining'],
+                $row['civil_physical_progress'],
+                $row['civil_progress_description'],
+                $row['civil_completion_date'],
+                $row['tnd_initiation_date'],
+                $row['tnd_total'],
+                $row['tnd_disbursed'],
+                $row['tnd_financial_progress'],
+                $row['tnd_remaining'],
+                $row['tnd_physical_progress'],
+                $row['tnd_progress_description'],
+                $row['tnd_completion_date'],
+                $row['eme_initiation_date'],
+                $row['eme_total'],
+                $row['eme_disbursed'],
+                $row['eme_financial_progress'],
+                $row['eme_remaining'],
+                $row['eme_physical_progress'],
+                $row['eme_progress_description'],
+                $row['eme_completion_date'],
+                $row['overall_physical_progress'],
+                $row['overall_progress_description'],
+                $row['overall_disbursed'],
+                $row['overall_remaining'],
+                $row['overall_financial_progress'],
+            ];
+        }
 
-            fclose($out);
-        };
+        $xlsxBinary = $this->generateSimpleXlsx(array_merge([$headerRow], $dataRows));
 
-        return response()->stream($callback, 200, $headers);
+        return response($xlsxBinary, 200, [
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'Content-Disposition' => 'attachment; filename="mhp_district_instructions_' . now()->format('Ymd_His') . '.xlsx"',
+        ]);
     }
 
     /**
@@ -487,6 +491,7 @@ class MhpReportController extends Controller
                 'tehsil' => $cbo?->tehsil,
                 'vc_nc' => $cbo?->village_council,
                 'village' => $cbo?->village,
+                'cbo_name' => $cbo?->cbo_name,
                 'type' => $site->status,
                 'dialogue_date' => $dialogueDate,
                 'social_assessment' => '', // not present in schema
@@ -544,5 +549,107 @@ class MhpReportController extends Controller
                 'overall_financial_progress' => $budget > 0 ? round(($totalPaid / $budget) * 100, 2) : null,
             ];
         });
+    }
+
+    /**
+     * Minimal XLSX generator (no styles) for simple tabular data.
+     */
+    private function generateSimpleXlsx(array $rows): string
+    {
+        $sheetXml = $this->buildSheetXml($rows);
+
+        $tmp = tempnam(sys_get_temp_dir(), 'xlsx');
+        $zip = new \ZipArchive();
+        $zip->open($tmp, \ZipArchive::OVERWRITE);
+
+        $zip->addFromString('[Content_Types].xml', <<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
+    <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
+    <Default Extension="xml" ContentType="application/xml"/>
+    <Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>
+    <Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>
+    <Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>
+</Types>
+XML);
+
+        $zip->addFromString('_rels/.rels', <<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+    <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/>
+</Relationships>
+XML);
+
+        $zip->addFromString('xl/_rels/workbook.xml.rels', <<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+    <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/>
+    <Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>
+</Relationships>
+XML);
+
+        $zip->addFromString('xl/workbook.xml', <<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
+  <sheets>
+    <sheet name="Report" sheetId="1" r:id="rId1"/>
+  </sheets>
+</workbook>
+XML);
+
+        $zip->addFromString('xl/styles.xml', <<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">
+  <fonts count="1"><font><sz val="11"/><color theme="1"/><name val="Calibri"/></font></fonts>
+  <fills count="1"><fill><patternFill patternType="none"/></fill></fills>
+  <borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders>
+  <cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>
+  <cellXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/></cellXfs>
+  <cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles>
+</styleSheet>
+XML);
+
+        $zip->addFromString('xl/worksheets/sheet1.xml', $sheetXml);
+
+        $zip->close();
+        $binary = file_get_contents($tmp);
+        @unlink($tmp);
+        return $binary ?: '';
+    }
+
+    private function buildSheetXml(array $rows): string
+    {
+        $rowsXml = '';
+        foreach ($rows as $rowIndex => $row) {
+            $rowNum = $rowIndex + 1;
+            $cellsXml = '';
+            foreach (array_values($row) as $colIndex => $value) {
+                $colLetter = $this->columnLetter($colIndex);
+                $escaped = htmlspecialchars((string) ($value ?? ''), ENT_QUOTES | ENT_XML1);
+                $cellsXml .= "<c r=\"{$colLetter}{$rowNum}\" t=\"inlineStr\"><is><t>{$escaped}</t></is></c>";
+            }
+            $rowsXml .= "<row r=\"{$rowNum}\">{$cellsXml}</row>";
+        }
+
+        return <<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">
+  <sheetData>
+    {$rowsXml}
+  </sheetData>
+</worksheet>
+XML;
+    }
+
+    private function columnLetter(int $index): string
+    {
+        $index += 1;
+        $letter = '';
+        while ($index > 0) {
+            $mod = ($index - 1) % 26;
+            $letter = chr(65 + $mod) . $letter;
+            $index = (int) (($index - $mod) / 26);
+        }
+        return $letter;
     }
 }

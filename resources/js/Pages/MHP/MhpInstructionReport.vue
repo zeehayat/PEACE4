@@ -92,6 +92,7 @@ const exportCsv = () => {
                                     <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">VC/NC</th>
                                     <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Village</th>
                                     <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Type</th>
+                                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">CBO</th>
                                     <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Dialogue Date</th>
                                     <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Technical Survey Date</th>
                                     <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">Existing KW</th>
@@ -137,6 +138,7 @@ const exportCsv = () => {
                                     <td class="px-4 py-3 text-sm text-gray-700">{{ row.vc_nc }}</td>
                                     <td class="px-4 py-3 text-sm text-gray-700">{{ row.village }}</td>
                                     <td class="px-4 py-3 text-sm text-gray-700">{{ row.type }}</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">{{ row.cbo_name }}</td>
                                     <td class="px-4 py-3 text-sm text-gray-700">{{ row.dialogue_date }}</td>
                                     <td class="px-4 py-3 text-sm text-gray-700">{{ row.technical_survey_date }}</td>
                                     <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.existing_capacity_kw }}</td>
