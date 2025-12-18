@@ -6,11 +6,16 @@ use App\Models\IrrigationScheme;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class IrrigationReportController extends Controller
 {
     public function index(Request $request)
     {
+        if ($request->query('export') === 'xlsx') {
+            return $this->export($request);
+        }
+
         $schemes = IrrigationScheme::query()
             ->forUser($request->user())
             ->with([
@@ -97,6 +102,110 @@ class IrrigationReportController extends Controller
 
         return Inertia::render('Irrigation/IrrigationReport', [
             'schemes' => $schemes,
+        ]);
+    }
+
+    public function export(Request $request): StreamedResponse
+    {
+        $rows = IrrigationScheme::query()
+            ->forUser($request->user())
+            ->with([
+                'profile',
+                'adminApproval',
+                'irrigation_completion',
+                'irrigationSchemeContract',
+                'cbo' => function ($q) {
+                    $q->select('id', 'reference_code', 'district', 'tehsil', 'village_council', 'village', 'date_of_formation', 'total_members', 'num_cbo_members', 'cbo_name')
+                        ->withCount('dialogues')
+                        ->with(['trainings']);
+                },
+            ])
+            ->orderByDesc('id')
+            ->get()
+            ->map(function ($scheme, $idx) {
+                $cbo = $scheme->cbo;
+                $profile = $scheme->profile;
+                $admin = $scheme->adminApproval;
+                $completion = $scheme->irrigation_completion;
+                $contract = $scheme->irrigationSchemeContract;
+
+                $beneficiaryHhs = $completion?->number_of_beneficiary_farmers ?? $profile?->beneficiary_farmers;
+                $beneficiaryFarmers = $beneficiaryHhs;
+
+                $commandAreaHectares = $completion?->area_of_land_covered_hectares ?? $profile?->land_area_hectares;
+                $commandAreaKanal = $commandAreaHectares ? round($commandAreaHectares * 19.768, 2) : null;
+
+                $channelLengthKm = $completion?->length_of_irrigation_channels_km ?? $profile?->channel_length_km;
+
+                $schemeCost = $contract?->agreement_cost ?? $admin?->approved_cost;
+                $perHouseholdCost = ($schemeCost && $beneficiaryHhs)
+                    ? round($schemeCost / max($beneficiaryHhs, 1), 2)
+                    : null;
+
+                $initiatedDate = $contract?->date_of_physical_start;
+                $completionDate = $completion?->handing_over_to_community_date ?? null;
+                $durationDays = ($initiatedDate && $completionDate)
+                    ? Carbon::parse($initiatedDate)->diffInDays(Carbon::parse($completionDate))
+                    : null;
+
+                $baseArea = $profile?->land_area_hectares;
+                $rehabArea = $completion?->area_of_land_covered_hectares;
+                $additionalAreaKanal = ($baseArea !== null && $rehabArea !== null)
+                    ? round(($rehabArea - $baseArea) * 19.768, 2)
+                    : null;
+
+                $omTrainings = $cbo?->trainings?->where('training_type', 'O&M Training')->count() ?? 0;
+
+                return [
+                    'S. No' => $idx + 1,
+                    'District' => $cbo?->district,
+                    'Tehsil' => $cbo?->tehsil,
+                    'VC/NC' => $cbo?->village_council,
+                    'Village' => $cbo?->village,
+                    'CBO Name' => $cbo?->cbo_name,
+                    'CBO Members' => $cbo?->num_cbo_members ?? $cbo?->total_members,
+                    'Type of Scheme' => $scheme->scheme_type ?? $scheme->status,
+                    'Duration of the Project' => $durationDays,
+                    'Dialogue With Community' => $cbo?->dialogues_count ?? 0,
+                    'CBO Formation Date' => optional($cbo?->date_of_formation)->format('Y-m-d'),
+                    'Social Assessmnent' => optional($admin?->date_validation_visit_psu)->format('Y-m-d'),
+                    'Detailed Technical Survey' => optional($profile?->date_technical_surveys ?? $admin?->date_technical_surveys)->format('Y-m-d'),
+                    'Detail Design Finalized' => optional($admin?->date_design_estimates_submission_psu)->format('Y-m-d'),
+                    'Initiated Date' => optional($initiatedDate)->format('Y-m-d'),
+                    'Completion Date' => optional($completionDate)->format('Y-m-d'),
+                    'O&M trainings' => $omTrainings,
+                    'Handed Over Date' => optional($completion?->handing_over_to_community_date)->format('Y-m-d'),
+                    'Beneificiery HHs' => $beneficiaryHhs,
+                    'Beneficiary  (Farmers)' => $beneficiaryFarmers,
+                    'Total Command Area (Kanal)' => $commandAreaKanal,
+                    'Length of Irrigation Channel (Km)' => $channelLengthKm,
+                    'Additional Area covered before/ after rehabilitation' => $additionalAreaKanal,
+                    'Channel Running Feet REHAB' => null,
+                    'Channel Running Feet NEW' => null,
+                    'Total Channel Running Feet' => null,
+                    'Protection Running Feet' => null,
+                    'Intake Length Running Feet' => null,
+                    'Per Household cost' => $perHouseholdCost,
+                    'Scheme Cost' => $schemeCost,
+                ];
+            });
+
+        $headers = array_keys($rows->first() ?? []);
+
+        $callback = function () use ($rows, $headers) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, $headers);
+            foreach ($rows as $row) {
+                fputcsv($file, $row);
+            }
+            fclose($file);
+        };
+
+        $fileName = 'irrigation_scheme_report_' . now()->format('Ymd_His') . '.csv';
+
+        return response()->stream($callback, 200, [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=\"{$fileName}\"",
         ]);
     }
 }

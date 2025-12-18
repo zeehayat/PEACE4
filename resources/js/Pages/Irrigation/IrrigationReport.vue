@@ -22,22 +22,36 @@ const formatNumber = (value) => {
 const goToPage = (url) => {
     router.get(url, {}, { preserveScroll: true, preserveState: true });
 };
+
+const exportXlsx = () => {
+    const url = route('irrigation.reports.schemes', { export: 'xlsx' });
+    window.location.href = url;
+};
 </script>
 
 <template>
     <AppLayout title="Irrigation Scheme Report">
         <template #header>
-            <div>
+            <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                 <h2 class="text-xl font-semibold text-gray-800 leading-tight">Irrigation Scheme Report</h2>
-                <p class="text-sm text-gray-600">Key milestones and beneficiaries per scheme.</p>
+                <div class="flex flex-wrap gap-2 items-center">
+                    <button
+                        type="button"
+                        @click="exportXlsx"
+                        class="inline-flex items-center px-3 py-2 text-sm font-semibold text-white bg-green-600 rounded-lg shadow hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-1"
+                    >
+                        Download as XLSX
+                    </button>
+                </div>
             </div>
+            <p class="text-sm text-gray-600 mt-1">Key milestones and beneficiaries per scheme.</p>
         </template>
 
         <div class="py-8">
             <div class="max-w-full mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white shadow sm:rounded-lg overflow-hidden">
                     <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200 text-xs">
+                        <table class="min-w-full divide-y divide-gray-200 text-[11px] md:text-xs">
                             <thead class="bg-gray-50">
                                 <tr>
                                     <th class="px-3 py-3 text-left font-semibold text-gray-600 uppercase">S. No</th>

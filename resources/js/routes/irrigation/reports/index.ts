@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition } from './../../../wayfinder'
 /**
-* @see \App\Http\Controllers\IrrigationReportController::index
-* @see app/Http/Controllers/IrrigationReportController.php:11
+* @see \App\Http\Controllers\IrrigationReportController::schemes
+* @see app/Http/Controllers/IrrigationReportController.php:13
 * @route '/irrigation/schemes/report'
 */
 export const schemes = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -15,8 +15,8 @@ schemes.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \App\Http\Controllers\IrrigationReportController::index
-* @see app/Http/Controllers/IrrigationReportController.php:11
+* @see \App\Http\Controllers\IrrigationReportController::schemes
+* @see app/Http/Controllers/IrrigationReportController.php:13
 * @route '/irrigation/schemes/report'
 */
 schemes.url = (options?: RouteQueryOptions) => {
@@ -24,8 +24,8 @@ schemes.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see \App\Http\Controllers\IrrigationReportController::index
-* @see app/Http/Controllers/IrrigationReportController.php:11
+* @see \App\Http\Controllers\IrrigationReportController::schemes
+* @see app/Http/Controllers/IrrigationReportController.php:13
 * @route '/irrigation/schemes/report'
 */
 schemes.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -34,8 +34,8 @@ schemes.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 
 /**
-* @see \App\Http\Controllers\IrrigationReportController::index
-* @see app/Http/Controllers/IrrigationReportController.php:11
+* @see \App\Http\Controllers\IrrigationReportController::schemes
+* @see app/Http/Controllers/IrrigationReportController.php:13
 * @route '/irrigation/schemes/report'
 */
 schemes.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
