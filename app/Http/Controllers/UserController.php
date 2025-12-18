@@ -39,7 +39,7 @@ class UserController extends Controller
             'users' => $users,
             'roles' => Role::all(['id', 'name']),
             'districts' => KpDistrict::toSelectArray(),
-            'filters' => $request->only('search'),
+            'filters' => $request->only('search', 'open'),
             'can' => [
                 'user_manage' => $request->user()->can('user_manage'),
             ]

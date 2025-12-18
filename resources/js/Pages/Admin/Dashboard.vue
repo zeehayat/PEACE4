@@ -108,7 +108,7 @@ const formatDate = (value) => {
                     <span class="rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-700">View</span>
                 </Link>
                 <Link
-                    :href="route('admin.users.create')"
+                    :href="route('admin.users.index', { open: 'create' })"
                     class="flex items-center justify-between rounded-xl border border-gray-200 bg-white px-4 py-3 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
                 >
                     <div>

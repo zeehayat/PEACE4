@@ -21,6 +21,10 @@ const showUserEditModal = ref(false);
 const showUserDeleteModal = ref(false);
 const selectedUser = ref(null);
 
+if (props.filters.open === 'create') {
+    showUserCreateModal.value = true;
+}
+
 const openNewUserModal = () => {
     selectedUser.value = null;
     showUserCreateModal.value = true;
