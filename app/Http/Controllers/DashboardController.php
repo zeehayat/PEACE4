@@ -23,6 +23,9 @@ class DashboardController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
+        if ($user && $user->hasAnyRole(['Admin', 'Root'])) {
+            return redirect()->route('admin.dashboard');
+        }
         $isDistrictUser = $user->hasAnyRole(['M&E-DISTRICT', 'Engineer-DISTRICT', 'KPO-DISTRICT', 'Viewer-DISTRICT']);
         $districtName = $isDistrictUser ? $user->district->name : null;
 
