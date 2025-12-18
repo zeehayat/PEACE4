@@ -1,3 +1,4 @@
+import AuthenticatedSessionController from './AuthenticatedSessionController'
 import PasswordResetLinkController from './PasswordResetLinkController'
 import NewPasswordController from './NewPasswordController'
 import RegisteredUserController from './RegisteredUserController'
@@ -13,6 +14,7 @@ import TwoFactorSecretKeyController from './TwoFactorSecretKeyController'
 import RecoveryCodeController from './RecoveryCodeController'
 
 const Controllers = {
+    AuthenticatedSessionController,
     PasswordResetLinkController,
     NewPasswordController,
     RegisteredUserController,

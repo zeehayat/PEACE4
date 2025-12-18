@@ -8,7 +8,7 @@ const props = defineProps({
     permissions: Array,
     districts: Array,
 });
-
+console.log(props.districts)
 const emit = defineEmits(['close', 'saved']);
 
 const handleFormSuccess = (message) => {

@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\MhpReportController::index
-* @see app/Http/Controllers/MhpReportController.php:17
+* @see app/Http/Controllers/MhpReportController.php:18
 * @route '/mhp/reports'
 */
 export const index = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -16,7 +16,7 @@ index.definition = {
 
 /**
 * @see \App\Http\Controllers\MhpReportController::index
-* @see app/Http/Controllers/MhpReportController.php:17
+* @see app/Http/Controllers/MhpReportController.php:18
 * @route '/mhp/reports'
 */
 index.url = (options?: RouteQueryOptions) => {
@@ -25,7 +25,7 @@ index.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\MhpReportController::index
-* @see app/Http/Controllers/MhpReportController.php:17
+* @see app/Http/Controllers/MhpReportController.php:18
 * @route '/mhp/reports'
 */
 index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -35,7 +35,7 @@ index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\MhpReportController::index
-* @see app/Http/Controllers/MhpReportController.php:17
+* @see app/Http/Controllers/MhpReportController.php:18
 * @route '/mhp/reports'
 */
 index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -45,7 +45,7 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
 /**
 * @see \App\Http\Controllers\MhpReportController::exportMethod
-* @see app/Http/Controllers/MhpReportController.php:84
+* @see app/Http/Controllers/MhpReportController.php:85
 * @route '/mhp/reports/export'
 */
 export const exportMethod = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -60,7 +60,7 @@ exportMethod.definition = {
 
 /**
 * @see \App\Http\Controllers\MhpReportController::exportMethod
-* @see app/Http/Controllers/MhpReportController.php:84
+* @see app/Http/Controllers/MhpReportController.php:85
 * @route '/mhp/reports/export'
 */
 exportMethod.url = (options?: RouteQueryOptions) => {
@@ -69,7 +69,7 @@ exportMethod.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\MhpReportController::exportMethod
-* @see app/Http/Controllers/MhpReportController.php:84
+* @see app/Http/Controllers/MhpReportController.php:85
 * @route '/mhp/reports/export'
 */
 exportMethod.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -79,7 +79,7 @@ exportMethod.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\MhpReportController::exportMethod
-* @see app/Http/Controllers/MhpReportController.php:84
+* @see app/Http/Controllers/MhpReportController.php:85
 * @route '/mhp/reports/export'
 */
 exportMethod.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -87,6 +87,182 @@ exportMethod.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     method: 'head',
 })
 
-const MhpReportController = { index, exportMethod, export: exportMethod }
+/**
+* @see \App\Http\Controllers\MhpReportController::districtReport
+* @see app/Http/Controllers/MhpReportController.php:96
+* @route '/mhp/reports/district'
+*/
+export const districtReport = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: districtReport.url(options),
+    method: 'get',
+})
+
+districtReport.definition = {
+    methods: ["get","head"],
+    url: '/mhp/reports/district',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \App\Http\Controllers\MhpReportController::districtReport
+* @see app/Http/Controllers/MhpReportController.php:96
+* @route '/mhp/reports/district'
+*/
+districtReport.url = (options?: RouteQueryOptions) => {
+    return districtReport.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\MhpReportController::districtReport
+* @see app/Http/Controllers/MhpReportController.php:96
+* @route '/mhp/reports/district'
+*/
+districtReport.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: districtReport.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\MhpReportController::districtReport
+* @see app/Http/Controllers/MhpReportController.php:96
+* @route '/mhp/reports/district'
+*/
+districtReport.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: districtReport.url(options),
+    method: 'head',
+})
+
+/**
+* @see \App\Http\Controllers\MhpReportController::exportDistrictReport
+* @see app/Http/Controllers/MhpReportController.php:115
+* @route '/mhp/reports/district/export'
+*/
+export const exportDistrictReport = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: exportDistrictReport.url(options),
+    method: 'get',
+})
+
+exportDistrictReport.definition = {
+    methods: ["get","head"],
+    url: '/mhp/reports/district/export',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \App\Http\Controllers\MhpReportController::exportDistrictReport
+* @see app/Http/Controllers/MhpReportController.php:115
+* @route '/mhp/reports/district/export'
+*/
+exportDistrictReport.url = (options?: RouteQueryOptions) => {
+    return exportDistrictReport.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\MhpReportController::exportDistrictReport
+* @see app/Http/Controllers/MhpReportController.php:115
+* @route '/mhp/reports/district/export'
+*/
+exportDistrictReport.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: exportDistrictReport.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\MhpReportController::exportDistrictReport
+* @see app/Http/Controllers/MhpReportController.php:115
+* @route '/mhp/reports/district/export'
+*/
+exportDistrictReport.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: exportDistrictReport.url(options),
+    method: 'head',
+})
+
+/**
+* @see \App\Http\Controllers\MhpReportController::instructionReport
+* @see app/Http/Controllers/MhpReportController.php:169
+* @route '/mhp/reports/district/instructions'
+*/
+export const instructionReport = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: instructionReport.url(options),
+    method: 'get',
+})
+
+instructionReport.definition = {
+    methods: ["get","head"],
+    url: '/mhp/reports/district/instructions',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \App\Http\Controllers\MhpReportController::instructionReport
+* @see app/Http/Controllers/MhpReportController.php:169
+* @route '/mhp/reports/district/instructions'
+*/
+instructionReport.url = (options?: RouteQueryOptions) => {
+    return instructionReport.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\MhpReportController::instructionReport
+* @see app/Http/Controllers/MhpReportController.php:169
+* @route '/mhp/reports/district/instructions'
+*/
+instructionReport.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: instructionReport.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\MhpReportController::instructionReport
+* @see app/Http/Controllers/MhpReportController.php:169
+* @route '/mhp/reports/district/instructions'
+*/
+instructionReport.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: instructionReport.url(options),
+    method: 'head',
+})
+
+/**
+* @see \App\Http\Controllers\MhpReportController::exportInstructionReport
+* @see app/Http/Controllers/MhpReportController.php:187
+* @route '/mhp/reports/district/instructions/export'
+*/
+export const exportInstructionReport = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: exportInstructionReport.url(options),
+    method: 'get',
+})
+
+exportInstructionReport.definition = {
+    methods: ["get","head"],
+    url: '/mhp/reports/district/instructions/export',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \App\Http\Controllers\MhpReportController::exportInstructionReport
+* @see app/Http/Controllers/MhpReportController.php:187
+* @route '/mhp/reports/district/instructions/export'
+*/
+exportInstructionReport.url = (options?: RouteQueryOptions) => {
+    return exportInstructionReport.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\MhpReportController::exportInstructionReport
+* @see app/Http/Controllers/MhpReportController.php:187
+* @route '/mhp/reports/district/instructions/export'
+*/
+exportInstructionReport.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: exportInstructionReport.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\MhpReportController::exportInstructionReport
+* @see app/Http/Controllers/MhpReportController.php:187
+* @route '/mhp/reports/district/instructions/export'
+*/
+exportInstructionReport.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: exportInstructionReport.url(options),
+    method: 'head',
+})
+
+const MhpReportController = { index, exportMethod, districtReport, exportDistrictReport, instructionReport, exportInstructionReport, export: exportMethod }
 
 export default MhpReportController

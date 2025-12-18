@@ -164,6 +164,8 @@ const closeModal = () => {
                             <tr>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">CBO Name</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">District / Tehsil</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">President</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Secretary</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date Formed</th>
                                 <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Members</th>
                                 <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Dialogues</th>
@@ -179,6 +181,14 @@ const closeModal = () => {
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                                     {{ cbo.district }} / {{ cbo.tehsil }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                    <div class="font-semibold text-gray-900">{{ cbo.president_name ?? 'N/A' }}</div>
+                                    <div class="text-xs text-gray-500">{{ cbo.president_contact ?? '—' }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                    <div class="font-semibold text-gray-900">{{ cbo.secretary_name ?? 'N/A' }}</div>
+                                    <div class="text-xs text-gray-500">{{ cbo.secretary_contact ?? '—' }}</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                                     {{ formatNullableDate(cbo.date_of_formation) }}

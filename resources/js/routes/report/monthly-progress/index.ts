@@ -1,6 +1,6 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition } from './../../../wayfinder'
 /**
-* @see [serialized-closure]:2
+* @see routes/web.php:25
 * @route '/reports/monthly-progress/current'
 */
 export const current = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -14,7 +14,7 @@ current.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see [serialized-closure]:2
+* @see routes/web.php:25
 * @route '/reports/monthly-progress/current'
 */
 current.url = (options?: RouteQueryOptions) => {
@@ -22,7 +22,7 @@ current.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see [serialized-closure]:2
+* @see routes/web.php:25
 * @route '/reports/monthly-progress/current'
 */
 current.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -31,7 +31,7 @@ current.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 
 /**
-* @see [serialized-closure]:2
+* @see routes/web.php:25
 * @route '/reports/monthly-progress/current'
 */
 current.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({

@@ -120,6 +120,10 @@ class CboReportController extends Controller
             'District',
             'CBO NAME',
             'Gender',
+            'President Name',
+            'President Contact',
+            'Secretary Name',
+            'Secretary Contact',
             'Date of Formation',
             'NO of participants', // Sum of participants from all dialogues
             'Dialogue Dates', // All dialogue dates concatenated
@@ -154,6 +158,10 @@ class CboReportController extends Controller
                     $cbo->district,
                     $cbo->cbo_name,
                     $cbo->gender,
+                    $cbo->president_name,
+                    $cbo->president_contact,
+                    $cbo->secretary_name,
+                    $cbo->secretary_contact,
                     Carbon::parse($cbo->date_of_formation)->format('d-M-y'),
                     $totalDialogueParticipants,
                     $dialogueDates,

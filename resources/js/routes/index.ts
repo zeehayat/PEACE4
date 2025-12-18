@@ -1,6 +1,6 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition } from './../wayfinder'
 /**
-* @see [serialized-closure]:2
+* @see routes/web.php:85
 * @route '/login'
 */
 export const login = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -14,7 +14,7 @@ login.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see [serialized-closure]:2
+* @see routes/web.php:85
 * @route '/login'
 */
 login.url = (options?: RouteQueryOptions) => {
@@ -22,7 +22,7 @@ login.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see [serialized-closure]:2
+* @see routes/web.php:85
 * @route '/login'
 */
 login.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -31,12 +31,46 @@ login.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 
 /**
-* @see [serialized-closure]:2
+* @see routes/web.php:85
 * @route '/login'
 */
 login.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: login.url(options),
     method: 'head',
+})
+
+/**
+* @see \Laravel\Fortify\Http\Controllers\AuthenticatedSessionController::logout
+* @see vendor/laravel/fortify/src/Http/Controllers/AuthenticatedSessionController.php:100
+* @route '/logout'
+*/
+export const logout = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+    url: logout.url(options),
+    method: 'post',
+})
+
+logout.definition = {
+    methods: ["post"],
+    url: '/logout',
+} satisfies RouteDefinition<["post"]>
+
+/**
+* @see \Laravel\Fortify\Http\Controllers\AuthenticatedSessionController::logout
+* @see vendor/laravel/fortify/src/Http/Controllers/AuthenticatedSessionController.php:100
+* @route '/logout'
+*/
+logout.url = (options?: RouteQueryOptions) => {
+    return logout.definition.url + queryParams(options)
+}
+
+/**
+* @see \Laravel\Fortify\Http\Controllers\AuthenticatedSessionController::logout
+* @see vendor/laravel/fortify/src/Http/Controllers/AuthenticatedSessionController.php:100
+* @route '/logout'
+*/
+logout.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+    url: logout.url(options),
+    method: 'post',
 })
 
 /**

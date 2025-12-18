@@ -15,6 +15,7 @@ class UserService
      */
     public function createUser(array $data): User
     {
+        
         Log::info('UserService: createUser triggered.');
 
         return DB::transaction(function () use ($data) {
