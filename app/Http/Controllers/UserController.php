@@ -38,7 +38,7 @@ class UserController extends Controller
         return Inertia::render('Admin/Users/Index', [
             'users' => $users,
             'roles' => Role::all(['id', 'name']),
-            'districts' => KpDistrict::toSelectArray(),
+            'districts' => \App\Models\District::orderBy('name')->get(['id', 'name']),
             'filters' => $request->only('search', 'open'),
             'can' => [
                 'user_manage' => $request->user()->can('user_manage'),
