@@ -12,18 +12,21 @@ class DistrictSeeder extends Seeder
      */
     public function run(): void
     {
-        $kpDistricts = [
-            'Peshawar', 'Mardan', 'Swabi', 'Charsadda', 'Nowshera',
-            'Kohat', 'Hangu', 'Karak', 'Bannu', 'Lakki Marwat',
-            'Dera Ismail Khan', 'Tank', 'Abbottabad', 'Mansehra', 'Haripur',
-            'Battagram', 'Torghar', 'Kohistan Upper', 'Kohistan Lower', 'Kolai-Palas',
-            'Malakand', 'Dir Upper', 'Dir Lower', 'Swat', 'Bunner',
-            'Shangla', 'Chitral Upper', 'Chitral Lower', 'Bajaur', 'Mohmand',
-            'Khyber', 'Kurram', 'Orakzai', 'North Waziristan', 'South Waziristan',
+        $districts = [
+            'Swat',
+            'Dir',
+            'Chitral',
+            'Shangla',
+            'North Waziristan',
+            'South Waziristan',
+            'Kurram',
         ];
 
-        foreach ($kpDistricts as $districtName) {
-            District::firstOrCreate(['name' => $districtName . ' District']);
+        // Ensure only the requested districts remain seeded
+        District::whereNotIn('name', $districts)->delete();
+
+        foreach ($districts as $districtName) {
+            District::firstOrCreate(['name' => $districtName]);
         }
     }
 }
