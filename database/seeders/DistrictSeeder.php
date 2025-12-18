@@ -13,17 +13,15 @@ class DistrictSeeder extends Seeder
     public function run(): void
     {
         $districts = [
-            'Swat',
-            'Dir upper',
-            'Dir lower',
+            'Dir Upper',
+            'Dir Lower',
+            'Chitral Lower',
+            'Chitral Upper',
             'Chitral',
-            'Chitral lower',
-            'Chitral upper',
-
-            'Shangla',
             'North Waziristan',
             'South Waziristan',
             'Kurram',
+            'Swat',
         ];
 
         // Ensure only the requested districts remain seeded
