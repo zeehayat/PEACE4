@@ -6,7 +6,7 @@ defineProps({ title: String });
 </script>
 
 <template>
-    <div class="min-h-screen flex bg-gray-100">
+    <div class="min-h-screen flex bg-background-light">
         <Head :title="title" class="bg-black" />
 
         <!-- Sidebar (part of flex row) -->
@@ -14,13 +14,13 @@ defineProps({ title: String });
 
         <!-- Main content area (fills rest of screen) -->
         <div class="flex-1 flex flex-col">
-            <header v-if="$slots.header" class="bg-white shadow">
+            <header v-if="$slots.header" class="bg-white shadow-sm">
                 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                     <slot name="header" />
                 </div>
             </header>
 
-            <main class="flex-1 overflow-y-auto bg-gray-200 p-6">
+            <main class="flex-1 overflow-y-auto bg-background-light p-6">
                 <slot />
             </main>
         </div>

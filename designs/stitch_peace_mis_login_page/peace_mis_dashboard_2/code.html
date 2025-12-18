@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Peace MIS Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#11d45f",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#102217",
+                        "surface-dark": "#1c2e24",
+                        "surface-light": "#ffffff",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #102217; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #28392f; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3b5445; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#111814] dark:text-white font-display overflow-hidden h-screen flex">
+<aside class="hidden lg:flex w-72 flex-col border-r border-[#28392f] bg-background-dark h-full shrink-0">
+<div class="flex h-full flex-col justify-between p-4">
+<div class="flex flex-col gap-4">
+<div class="flex flex-col px-2 py-4">
+<h1 class="text-white text-2xl font-bold leading-normal tracking-tight">Peace MIS</h1>
+<p class="text-[#9db9a8] text-sm font-normal leading-normal mt-1">Infrastructure Monitor</p>
+</div>
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg bg-primary/20 text-primary border border-primary/10" href="#">
+<span class="material-symbols-outlined text-[24px]">dashboard</span>
+<p class="text-sm font-bold leading-normal">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-[#9db9a8] hover:bg-[#28392f] hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">bolt</span>
+<p class="text-sm font-medium leading-normal">MHP Projects</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-[#9db9a8] hover:bg-[#28392f] hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">water_drop</span>
+<p class="text-sm font-medium leading-normal">Irrigation Projects</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-[#9db9a8] hover:bg-[#28392f] hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">description</span>
+<p class="text-sm font-medium leading-normal">Reports</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-[#9db9a8] hover:bg-[#28392f] hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">settings</span>
+<p class="text-sm font-medium leading-normal">Settings</p>
+</a>
+</div>
+</div>
+<div class="flex flex-col gap-4 px-2">
+<div class="p-4 rounded-xl bg-gradient-to-br from-[#1c2e24] to-[#102217] border border-[#28392f]">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-primary">cloud_sync</span>
+<span class="text-xs font-semibold text-[#9db9a8] uppercase">System Status</span>
+</div>
+<p class="text-xs text-white">Last synced: <span class="text-primary">2 mins ago</span></p>
+</div>
+</div>
+</div>
+</aside>
+<main class="flex-1 flex flex-col h-full overflow-hidden relative">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#28392f] bg-background-dark px-8 py-4 shrink-0 z-10">
+<div class="flex items-center gap-8 w-full max-w-2xl">
+<div class="flex items-center gap-4 text-white lg:hidden">
+<span class="material-symbols-outlined">menu</span>
+</div>
+<h2 class="text-white text-xl font-bold leading-tight hidden sm:block">Dashboard Overview</h2>
+<div class="hidden md:flex flex-1 items-center rounded-lg bg-[#1c2e24] border border-[#28392f] h-10 px-3 focus-within:border-primary/50 transition-colors w-full">
+<span class="material-symbols-outlined text-[#9db9a8]">search</span>
+<input class="w-full bg-transparent border-none text-white placeholder:text-[#9db9a8] focus:ring-0 text-sm ml-2" placeholder="Search project ID, location..."/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="relative flex items-center justify-center size-10 rounded-full hover:bg-[#28392f] text-white transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-primary rounded-full animate-pulse"></span>
+</button>
+<div class="flex items-center gap-3 pl-4 border-l border-[#28392f]">
+<div class="text-right hidden sm:block">
+<p class="text-sm font-bold text-white">Admin User</p>
+<p class="text-xs text-[#9db9a8]">Project Manager</p>
+</div>
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-[#28392f]" data-alt="User profile picture placeholder" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDDlPxqRqvbqzllz5WgOp13tb14Y8E2fwZF2PM6ADYYJCurRTg50dQY_phhScTRoGn5dm77CNPw89fNIVa8UPj0zg_uHBA8qgCOlZN-3AUYPU2-ZuLbmd3IMEaECS7tecbCjT6Lad0ElrMVyn_qBNWnqDX4vkfGD_3v4PDqZGOss-kyrtuAw8gj5e4BtIyMFAeXlBRi8Ac-hUizf4357-NMVCyZNKv-UIi2cqOlYSazWVaVE3AwEXINVLDA3DdhNbWL-0rbdvC2Zas");'></div>
+</div>
+</div>
+</header>
+<div class="flex-1 overflow-y-auto p-6 md:p-8 lg:p-10 scroll-smooth">
+<div class="max-w-[1600px] mx-auto flex flex-col gap-8">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div class="flex flex-col gap-2">
+<h1 class="text-white text-3xl md:text-4xl font-black leading-tight tracking-tight">Executive Summary</h1>
+<p class="text-[#9db9a8] text-base font-normal">Real-time monitoring of MHP and Irrigation infrastructure development.</p>
+</div>
+<div class="flex gap-2">
+<button class="bg-primary hover:bg-green-500 text-black font-bold py-2 px-4 rounded-lg flex items-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                            New Project
+                        </button>
+<button class="bg-[#28392f] hover:bg-[#3b5445] text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-[20px]">download</span>
+                            Export
+                        </button>
+</div>
+</div>
+<div class="flex flex-col gap-6">
+<div class="border-b border-[#28392f]">
+<div class="flex gap-8 overflow-x-auto">
+<a class="flex items-center justify-center border-b-2 border-primary text-white pb-3 px-2 min-w-fit" href="#">
+<span class="text-sm font-bold tracking-wide uppercase">Overview</span>
+</a>
+<a class="flex items-center justify-center border-b-2 border-transparent text-[#9db9a8] hover:text-white hover:border-[#9db9a8] transition-colors pb-3 px-2 min-w-fit" href="#">
+<span class="text-sm font-bold tracking-wide uppercase">MHP Specific</span>
+</a>
+<a class="flex items-center justify-center border-b-2 border-transparent text-[#9db9a8] hover:text-white hover:border-[#9db9a8] transition-colors pb-3 px-2 min-w-fit" href="#">
+<span class="text-sm font-bold tracking-wide uppercase">Irrigation Specific</span>
+</a>
+</div>
+</div>
+<div class="flex gap-3 flex-wrap">
+<button class="flex items-center gap-2 rounded-full bg-[#1c2e24] border border-[#28392f] hover:border-[#9db9a8] transition-colors px-4 py-1.5 h-9">
+<span class="text-[#9db9a8] text-xs font-bold uppercase tracking-wider">Fiscal Year</span>
+<span class="text-white text-sm font-medium">2023-2024</span>
+<span class="material-symbols-outlined text-white text-[18px]">expand_more</span>
+</button>
+<button class="flex items-center gap-2 rounded-full bg-[#1c2e24] border border-[#28392f] hover:border-[#9db9a8] transition-colors px-4 py-1.5 h-9">
+<span class="text-[#9db9a8] text-xs font-bold uppercase tracking-wider">District</span>
+<span class="text-white text-sm font-medium">All Districts</span>
+<span class="material-symbols-outlined text-white text-[18px]">expand_more</span>
+</button>
+<button class="flex items-center gap-2 rounded-full bg-[#1c2e24] border border-[#28392f] hover:border-[#9db9a8] transition-colors px-4 py-1.5 h-9">
+<span class="text-[#9db9a8] text-xs font-bold uppercase tracking-wider">Status</span>
+<span class="text-white text-sm font-medium">Active Only</span>
+<span class="material-symbols-outlined text-white text-[18px]">expand_more</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+<div class="bg-[#1c2e24] p-5 rounded-xl border border-[#28392f] flex flex-col justify-between h-32 relative overflow-hidden group">
+<div class="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl text-primary">folder_open</span>
+</div>
+<div class="flex items-center gap-2 text-[#9db9a8] mb-1">
+<span class="material-symbols-outlined text-[20px]">inventory_2</span>
+<span class="text-xs font-bold uppercase tracking-wider">Total Projects</span>
+</div>
+<div class="flex items-baseline gap-2">
+<h3 class="text-3xl font-black text-white">142</h3>
+<span class="text-xs font-bold text-primary bg-primary/10 px-2 py-0.5 rounded">+12%</span>
+</div>
+<p class="text-xs text-[#9db9a8]">Across 8 districts</p>
+</div>
+<div class="bg-[#1c2e24] p-5 rounded-xl border border-[#28392f] flex flex-col justify-between h-32 relative overflow-hidden group">
+<div class="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl text-blue-400">bolt</span>
+</div>
+<div class="flex items-center gap-2 text-[#9db9a8] mb-1">
+<span class="material-symbols-outlined text-[20px]">electric_bolt</span>
+<span class="text-xs font-bold uppercase tracking-wider">MHP Capacity</span>
+</div>
+<div class="flex items-baseline gap-2">
+<h3 class="text-3xl font-black text-white">2.4<span class="text-xl font-bold ml-1 text-[#9db9a8]">MW</span></h3>
+</div>
+<p class="text-xs text-[#9db9a8]">85% Operational rate</p>
+</div>
+<div class="bg-[#1c2e24] p-5 rounded-xl border border-[#28392f] flex flex-col justify-between h-32 relative overflow-hidden group">
+<div class="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl text-cyan-400">water_drop</span>
+</div>
+<div class="flex items-center gap-2 text-[#9db9a8] mb-1">
+<span class="material-symbols-outlined text-[20px]">water</span>
+<span class="text-xs font-bold uppercase tracking-wider">Irrigated Land</span>
+</div>
+<div class="flex items-baseline gap-2">
+<h3 class="text-3xl font-black text-white">8,450<span class="text-xl font-bold ml-1 text-[#9db9a8]">Ha</span></h3>
+</div>
+<p class="text-xs text-[#9db9a8]">Supporting 12k farmers</p>
+</div>
+<div class="bg-[#1c2e24] p-5 rounded-xl border border-[#28392f] flex flex-col justify-between h-32 relative overflow-hidden group">
+<div class="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl text-purple-400">groups</span>
+</div>
+<div class="flex items-center gap-2 text-[#9db9a8] mb-1">
+<span class="material-symbols-outlined text-[20px]">groups</span>
+<span class="text-xs font-bold uppercase tracking-wider">Beneficiaries</span>
+</div>
+<div class="flex items-baseline gap-2">
+<h3 class="text-3xl font-black text-white">45,200</h3>
+<span class="text-xs font-bold text-primary bg-primary/10 px-2 py-0.5 rounded">+5%</span>
+</div>
+<p class="text-xs text-[#9db9a8]">Direct households impacted</p>
+</div>
+</div>
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+<div class="xl:col-span-2 flex flex-col gap-8">
+<div class="bg-[#1c2e24] rounded-xl border border-[#28392f] p-6">
+<div class="flex items-center justify-between mb-6">
+<div>
+<h3 class="text-lg font-bold text-white">Construction Progress</h3>
+<p class="text-sm text-[#9db9a8]">Completion rate over last 6 months</p>
+</div>
+<div class="flex items-center gap-2">
+<div class="flex items-center gap-2 text-xs text-[#9db9a8]">
+<span class="w-3 h-3 rounded-full bg-primary"></span> MHP
+                                    </div>
+<div class="flex items-center gap-2 text-xs text-[#9db9a8]">
+<span class="w-3 h-3 rounded-full bg-blue-500"></span> Irrigation
+                                    </div>
+</div>
+</div>
+<div class="h-64 flex items-end justify-between gap-2 md:gap-4 relative px-2">
+<div class="absolute inset-0 flex flex-col justify-between pointer-events-none">
+<div class="w-full border-t border-[#28392f] border-dashed"></div>
+<div class="w-full border-t border-[#28392f] border-dashed"></div>
+<div class="w-full border-t border-[#28392f] border-dashed"></div>
+<div class="w-full border-t border-[#28392f] border-dashed"></div>
+<div class="w-full border-t border-[#28392f]"></div>
+</div>
+<div class="flex flex-col items-center gap-2 h-full justify-end z-10 w-full group cursor-pointer">
+<div class="flex gap-1 items-end h-[40%] w-full max-w-[40px] justify-center">
+<div class="w-3 bg-primary/80 group-hover:bg-primary rounded-t-sm h-[60%] transition-all"></div>
+<div class="w-3 bg-blue-500/80 group-hover:bg-blue-500 rounded-t-sm h-[40%] transition-all"></div>
+</div>
+<span class="text-xs text-[#9db9a8]">Jan</span>
+</div>
+<div class="flex flex-col items-center gap-2 h-full justify-end z-10 w-full group cursor-pointer">
+<div class="flex gap-1 items-end h-[55%] w-full max-w-[40px] justify-center">
+<div class="w-3 bg-primary/80 group-hover:bg-primary rounded-t-sm h-[70%] transition-all"></div>
+<div class="w-3 bg-blue-500/80 group-hover:bg-blue-500 rounded-t-sm h-[50%] transition-all"></div>
+</div>
+<span class="text-xs text-[#9db9a8]">Feb</span>
+</div>
+<div class="flex flex-col items-center gap-2 h-full justify-end z-10 w-full group cursor-pointer">
+<div class="flex gap-1 items-end h-[65%] w-full max-w-[40px] justify-center">
+<div class="w-3 bg-primary/80 group-hover:bg-primary rounded-t-sm h-[80%] transition-all"></div>
+<div class="w-3 bg-blue-500/80 group-hover:bg-blue-500 rounded-t-sm h-[45%] transition-all"></div>
+</div>
+<span class="text-xs text-[#9db9a8]">Mar</span>
+</div>
+<div class="flex flex-col items-center gap-2 h-full justify-end z-10 w-full group cursor-pointer">
+<div class="flex gap-1 items-end h-[70%] w-full max-w-[40px] justify-center">
+<div class="w-3 bg-primary/80 group-hover:bg-primary rounded-t-sm h-[50%] transition-all"></div>
+<div class="w-3 bg-blue-500/80 group-hover:bg-blue-500 rounded-t-sm h-[60%] transition-all"></div>
+</div>
+<span class="text-xs text-[#9db9a8]">Apr</span>
+</div>
+<div class="flex flex-col items-center gap-2 h-full justify-end z-10 w-full group cursor-pointer">
+<div class="flex gap-1 items-end h-[85%] w-full max-w-[40px] justify-center">
+<div class="w-3 bg-primary/80 group-hover:bg-primary rounded-t-sm h-[65%] transition-all"></div>
+<div class="w-3 bg-blue-500/80 group-hover:bg-blue-500 rounded-t-sm h-[75%] transition-all"></div>
+</div>
+<span class="text-xs text-[#9db9a8]">May</span>
+</div>
+<div class="flex flex-col items-center gap-2 h-full justify-end z-10 w-full group cursor-pointer">
+<div class="flex gap-1 items-end h-[75%] w-full max-w-[40px] justify-center">
+<div class="w-3 bg-primary/80 group-hover:bg-primary rounded-t-sm h-[85%] transition-all"></div>
+<div class="w-3 bg-blue-500/80 group-hover:bg-blue-500 rounded-t-sm h-[80%] transition-all"></div>
+</div>
+<span class="text-xs text-[#9db9a8]">Jun</span>
+</div>
+</div>
+</div>
+<div class="bg-[#1c2e24] rounded-xl border border-[#28392f] p-6">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+<div>
+<h3 class="text-xl font-bold text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">bolt</span>
+                                        Mini Hydropower Projects
+                                    </h3>
+<p class="text-sm text-[#9db9a8] mt-1">Infrastructure status &amp; operational metrics</p>
+</div>
+<div class="flex items-center gap-3">
+<div class="relative group hidden md:block">
+<span class="material-symbols-outlined absolute left-3 top-2 text-[#9db9a8] text-[20px]">search</span>
+<input class="bg-[#102217] border border-[#28392f] text-white text-sm rounded-lg pl-10 pr-4 py-2 focus:ring-1 focus:ring-primary focus:border-primary w-48 transition-all" placeholder="Search MHP..." type="text"/>
+</div>
+<button class="flex items-center gap-2 px-3 py-2 bg-[#102217] border border-[#28392f] rounded-lg text-[#9db9a8] hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">filter_list</span>
+<span class="text-sm font-medium">Filter</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+<div class="bg-[#102217] p-4 rounded-lg border border-[#28392f] flex items-center justify-between">
+<div>
+<p class="text-xs text-[#9db9a8] uppercase font-bold tracking-wider">Active Projects</p>
+<p class="text-2xl font-black text-white mt-1">32</p>
+</div>
+<div class="size-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">engineering</span>
+</div>
+</div>
+<div class="bg-[#102217] p-4 rounded-lg border border-[#28392f] flex items-center justify-between">
+<div>
+<p class="text-xs text-[#9db9a8] uppercase font-bold tracking-wider">Total Capacity</p>
+<p class="text-2xl font-black text-white mt-1">2,450 <span class="text-sm text-[#9db9a8] font-medium">kW</span></p>
+</div>
+<div class="size-10 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-500">
+<span class="material-symbols-outlined">electric_bolt</span>
+</div>
+</div>
+<div class="bg-[#102217] p-4 rounded-lg border border-[#28392f] flex items-center justify-between">
+<div>
+<p class="text-xs text-[#9db9a8] uppercase font-bold tracking-wider">Avg. Completion</p>
+<p class="text-2xl font-black text-white mt-1">84%</p>
+</div>
+<div class="size-10 rounded-full bg-yellow-500/10 flex items-center justify-center text-yellow-500">
+<span class="material-symbols-outlined">trending_up</span>
+</div>
+</div>
+</div>
+<div class="overflow-x-auto rounded-lg border border-[#28392f]">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-[#15231c] text-[#9db9a8] text-xs uppercase tracking-wider">
+<th class="px-6 py-4 font-semibold cursor-pointer hover:text-white group flex items-center gap-1">Project Name <span class="material-symbols-outlined text-[16px] opacity-0 group-hover:opacity-100 transition-opacity">unfold_more</span></th>
+<th class="px-6 py-4 font-semibold">Location</th>
+<th class="px-6 py-4 font-semibold">Capacity</th>
+<th class="px-6 py-4 font-semibold">Status</th>
+<th class="px-6 py-4 font-semibold w-1/5">Progress</th>
+<th class="px-6 py-4 font-semibold text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#28392f] text-sm text-white bg-[#1c2e24]">
+<tr class="hover:bg-[#28392f]/50 transition-colors">
+<td class="px-6 py-4 font-medium">Upper Marsyangdi MHP</td>
+<td class="px-6 py-4 text-[#9db9a8]">Lamjung</td>
+<td class="px-6 py-4">450 kW</td>
+<td class="px-6 py-4"><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-primary/20 text-primary border border-primary/20">Operational</span></td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="flex-1 h-1.5 bg-[#102217] rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[100%]"></div>
+</div>
+<span class="text-xs font-medium text-white">100%</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right"><button class="text-[#9db9a8] hover:text-white"><span class="material-symbols-outlined">visibility</span></button></td>
+</tr>
+<tr class="hover:bg-[#28392f]/50 transition-colors">
+<td class="px-6 py-4 font-medium">Dorrdi Khola MHP</td>
+<td class="px-6 py-4 text-[#9db9a8]">Lamjung</td>
+<td class="px-6 py-4">200 kW</td>
+<td class="px-6 py-4"><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-yellow-500/20 text-yellow-500 border border-yellow-500/20">Planned</span></td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="flex-1 h-1.5 bg-[#102217] rounded-full overflow-hidden">
+<div class="h-full bg-yellow-500 w-[15%]"></div>
+</div>
+<span class="text-xs font-medium text-white">15%</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right"><button class="text-[#9db9a8] hover:text-white"><span class="material-symbols-outlined">visibility</span></button></td>
+</tr>
+<tr class="hover:bg-[#28392f]/50 transition-colors">
+<td class="px-6 py-4 font-medium">Ghalemdi Khola MHP</td>
+<td class="px-6 py-4 text-[#9db9a8]">Myagdi</td>
+<td class="px-6 py-4">350 kW</td>
+<td class="px-6 py-4"><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-blue-400/20 text-blue-400 border border-blue-400/20">Testing</span></td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="flex-1 h-1.5 bg-[#102217] rounded-full overflow-hidden">
+<div class="h-full bg-blue-400 w-[92%]"></div>
+</div>
+<span class="text-xs font-medium text-white">92%</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right"><button class="text-[#9db9a8] hover:text-white"><span class="material-symbols-outlined">visibility</span></button></td>
+</tr>
+</tbody>
+</table>
+<div class="px-6 py-3 border-t border-[#28392f] bg-[#15231c] flex items-center justify-between">
+<p class="text-xs text-[#9db9a8]">Showing 3 of 42 projects</p>
+<div class="flex gap-1">
+<button class="size-7 flex items-center justify-center rounded text-[#9db9a8] hover:bg-[#28392f] disabled:opacity-50"><span class="material-symbols-outlined text-sm">chevron_left</span></button>
+<button class="size-7 flex items-center justify-center rounded text-white bg-[#28392f] text-xs font-bold">1</button>
+<button class="size-7 flex items-center justify-center rounded text-[#9db9a8] hover:bg-[#28392f] text-xs font-bold">2</button>
+<button class="size-7 flex items-center justify-center rounded text-[#9db9a8] hover:bg-[#28392f]"><span class="material-symbols-outlined text-sm">chevron_right</span></button>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-[#1c2e24] rounded-xl border border-[#28392f] p-6">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+<div>
+<h3 class="text-xl font-bold text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-blue-400">water_drop</span>
+                                        Irrigation Projects
+                                    </h3>
+<p class="text-sm text-[#9db9a8] mt-1">Water distribution &amp; agricultural impact</p>
+</div>
+<div class="flex items-center gap-3">
+<div class="relative group hidden md:block">
+<span class="material-symbols-outlined absolute left-3 top-2 text-[#9db9a8] text-[20px]">search</span>
+<input class="bg-[#102217] border border-[#28392f] text-white text-sm rounded-lg pl-10 pr-4 py-2 focus:ring-1 focus:ring-blue-400 focus:border-blue-400 w-48 transition-all" placeholder="Search Scheme..." type="text"/>
+</div>
+<button class="flex items-center gap-2 px-3 py-2 bg-[#102217] border border-[#28392f] rounded-lg text-[#9db9a8] hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">filter_list</span>
+<span class="text-sm font-medium">Filter</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+<div class="bg-[#102217] p-4 rounded-lg border border-[#28392f] flex items-center justify-between">
+<div>
+<p class="text-xs text-[#9db9a8] uppercase font-bold tracking-wider">Total Schemes</p>
+<p class="text-2xl font-black text-white mt-1">68</p>
+</div>
+<div class="size-10 rounded-full bg-blue-400/10 flex items-center justify-center text-blue-400">
+<span class="material-symbols-outlined">water_drop</span>
+</div>
+</div>
+<div class="bg-[#102217] p-4 rounded-lg border border-[#28392f] flex items-center justify-between">
+<div>
+<p class="text-xs text-[#9db9a8] uppercase font-bold tracking-wider">Command Area</p>
+<p class="text-2xl font-black text-white mt-1">8,450 <span class="text-sm text-[#9db9a8] font-medium">Ha</span></p>
+</div>
+<div class="size-10 rounded-full bg-green-500/10 flex items-center justify-center text-green-500">
+<span class="material-symbols-outlined">landscape</span>
+</div>
+</div>
+<div class="bg-[#102217] p-4 rounded-lg border border-[#28392f] flex items-center justify-between">
+<div>
+<p class="text-xs text-[#9db9a8] uppercase font-bold tracking-wider">Beneficiaries</p>
+<p class="text-2xl font-black text-white mt-1">12.4k</p>
+</div>
+<div class="size-10 rounded-full bg-purple-500/10 flex items-center justify-center text-purple-500">
+<span class="material-symbols-outlined">groups</span>
+</div>
+</div>
+</div>
+<div class="overflow-x-auto rounded-lg border border-[#28392f]">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-[#15231c] text-[#9db9a8] text-xs uppercase tracking-wider">
+<th class="px-6 py-4 font-semibold cursor-pointer hover:text-white group flex items-center gap-1">Scheme Name <span class="material-symbols-outlined text-[16px] opacity-0 group-hover:opacity-100 transition-opacity">unfold_more</span></th>
+<th class="px-6 py-4 font-semibold">Location</th>
+<th class="px-6 py-4 font-semibold">Command Area</th>
+<th class="px-6 py-4 font-semibold">Status</th>
+<th class="px-6 py-4 font-semibold w-1/5">Progress</th>
+<th class="px-6 py-4 font-semibold text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#28392f] text-sm text-white bg-[#1c2e24]">
+<tr class="hover:bg-[#28392f]/50 transition-colors">
+<td class="px-6 py-4 font-medium">Sikta Irrigation Phase II</td>
+<td class="px-6 py-4 text-[#9db9a8]">Banke</td>
+<td class="px-6 py-4">2,400 Ha</td>
+<td class="px-6 py-4"><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-yellow-500/20 text-yellow-500 border border-yellow-500/20">Ongoing</span></td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="flex-1 h-1.5 bg-[#102217] rounded-full overflow-hidden">
+<div class="h-full bg-yellow-500 w-[60%]"></div>
+</div>
+<span class="text-xs font-medium text-white">60%</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right"><button class="text-[#9db9a8] hover:text-white"><span class="material-symbols-outlined">visibility</span></button></td>
+</tr>
+<tr class="hover:bg-[#28392f]/50 transition-colors">
+<td class="px-6 py-4 font-medium">Kali Gandaki Solar Lift</td>
+<td class="px-6 py-4 text-[#9db9a8]">Syangja</td>
+<td class="px-6 py-4">150 Ha</td>
+<td class="px-6 py-4"><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-red-500/20 text-red-500 border border-red-500/20">Issues</span></td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="flex-1 h-1.5 bg-[#102217] rounded-full overflow-hidden">
+<div class="h-full bg-red-500 w-[45%]"></div>
+</div>
+<span class="text-xs font-medium text-white">45%</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right"><button class="text-[#9db9a8] hover:text-white"><span class="material-symbols-outlined">visibility</span></button></td>
+</tr>
+<tr class="hover:bg-[#28392f]/50 transition-colors">
+<td class="px-6 py-4 font-medium">Babai Irrigation Ext.</td>
+<td class="px-6 py-4 text-[#9db9a8]">Bardiya</td>
+<td class="px-6 py-4">1,200 Ha</td>
+<td class="px-6 py-4"><span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-blue-500/20 text-blue-500 border border-blue-500/20">Active</span></td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="flex-1 h-1.5 bg-[#102217] rounded-full overflow-hidden">
+<div class="h-full bg-blue-500 w-[85%]"></div>
+</div>
+<span class="text-xs font-medium text-white">85%</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right"><button class="text-[#9db9a8] hover:text-white"><span class="material-symbols-outlined">visibility</span></button></td>
+</tr>
+</tbody>
+</table>
+<div class="px-6 py-3 border-t border-[#28392f] bg-[#15231c] flex items-center justify-between">
+<p class="text-xs text-[#9db9a8]">Showing 3 of 68 schemes</p>
+<div class="flex gap-1">
+<button class="size-7 flex items-center justify-center rounded text-[#9db9a8] hover:bg-[#28392f] disabled:opacity-50"><span class="material-symbols-outlined text-sm">chevron_left</span></button>
+<button class="size-7 flex items-center justify-center rounded text-white bg-[#28392f] text-xs font-bold">1</button>
+<button class="size-7 flex items-center justify-center rounded text-[#9db9a8] hover:bg-[#28392f] text-xs font-bold">2</button>
+<button class="size-7 flex items-center justify-center rounded text-[#9db9a8] hover:bg-[#28392f]"><span class="material-symbols-outlined text-sm">chevron_right</span></button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-6">
+<div class="bg-[#1c2e24] rounded-xl border border-[#28392f] p-1 flex flex-col h-96 relative overflow-hidden">
+<div class="absolute top-4 left-4 z-10 bg-[#102217]/90 backdrop-blur-sm p-3 rounded-lg border border-[#28392f]">
+<h3 class="text-sm font-bold text-white mb-1">Geospatial Overview</h3>
+<div class="flex items-center gap-3 text-xs">
+<div class="flex items-center gap-1"><span class="size-2 rounded-full bg-primary"></span> Active</div>
+<div class="flex items-center gap-1"><span class="size-2 rounded-full bg-red-500"></span> Issues</div>
+</div>
+</div>
+<div class="w-full h-full bg-cover bg-center rounded-lg" data-alt="Map showing project locations in a dark theme" data-location="Nepal" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB--UoRHZKJFOHkY9fUS1URf_MErMQwAuKx4n7tT8m-zTurOVsaccWTFtcjoE5BNxd3ecZqAIRhGcphXel-exUH_XiqjZniaOs0ISajOUk4k0M3qLw_wQwoCb_iztUK5pT4IXx_Uud_4gRpjQHAMJ0oORzFIJBMNklLOlN1yNF_lwrS0iTtjzNjCeZk3YuyWs5LkNsj9WSfdqmQcN3hE2-bne7gI0kUjJ2ltsoqabvwI-4oi-Rprbsw9khCdS0KYlf6hJalqDaPQIc'); filter: grayscale(100%) invert(90%) contrast(150%) hue-rotate(180deg) brightness(80%);">
+<div class="absolute top-1/2 left-1/3 size-3 bg-primary rounded-full border-2 border-white shadow-lg shadow-primary/50 animate-pulse"></div>
+<div class="absolute top-1/3 left-1/2 size-3 bg-red-500 rounded-full border-2 border-white shadow-lg shadow-red-500/50"></div>
+<div class="absolute top-2/3 right-1/4 size-3 bg-primary rounded-full border-2 border-white shadow-lg shadow-primary/50"></div>
+<div class="absolute top-1/4 left-1/4 size-3 bg-primary rounded-full border-2 border-white shadow-lg shadow-primary/50"></div>
+</div>
+</div>
+<div class="bg-[#1c2e24] rounded-xl border border-[#28392f] p-6 flex flex-col flex-1">
+<h3 class="text-lg font-bold text-white mb-6">Budget Allocation</h3>
+<div class="flex items-center justify-center relative mb-8">
+<div class="size-48 rounded-full bg-[#102217] relative flex items-center justify-center" style="background: conic-gradient(#11d45f 0% 45%, #3b82f6 45% 75%, #f59e0b 75% 90%, #64748b 90% 100%);">
+<div class="size-36 bg-[#1c2e24] rounded-full flex flex-col items-center justify-center z-10">
+<p class="text-[#9db9a8] text-xs font-medium uppercase">Total Budget</p>
+<p class="text-white text-2xl font-black">$42.5M</p>
+</div>
+</div>
+</div>
+<div class="space-y-3">
+<div class="flex items-center justify-between text-sm">
+<div class="flex items-center gap-2">
+<span class="size-3 rounded-full bg-primary"></span>
+<span class="text-white">MHP Projects</span>
+</div>
+<span class="text-[#9db9a8]">45%</span>
+</div>
+<div class="flex items-center justify-between text-sm">
+<div class="flex items-center gap-2">
+<span class="size-3 rounded-full bg-blue-500"></span>
+<span class="text-white">Irrigation</span>
+</div>
+<span class="text-[#9db9a8]">30%</span>
+</div>
+<div class="flex items-center justify-between text-sm">
+<div class="flex items-center gap-2">
+<span class="size-3 rounded-full bg-yellow-500"></span>
+<span class="text-white">Maintenance</span>
+</div>
+<span class="text-[#9db9a8]">15%</span>
+</div>
+<div class="flex items-center justify-between text-sm">
+<div class="flex items-center gap-2">
+<span class="size-3 rounded-full bg-slate-500"></span>
+<span class="text-white">Operations</span>
+</div>
+<span class="text-[#9db9a8]">10%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+
+</body></html>

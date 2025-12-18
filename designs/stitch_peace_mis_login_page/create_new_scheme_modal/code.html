@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Create New Scheme - Peace MIS</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#11d45f",
+              "background-light": "#f6f8f7",
+              "background-dark": "#102217",
+              "surface-dark": "#111814",
+              "input-dark": "#1c2720",
+              "border-dark": "#3b5445",
+              "text-secondary": "#9db9a8"
+            },
+            fontFamily: {
+              "display": ["Manrope", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        /* Custom scrollbar for the modal body */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1c2720; 
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #3b5445; 
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #4a6655; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display min-h-screen relative overflow-hidden">
+<!-- Background Dashboard Simulation -->
+<div class="absolute inset-0 z-0 opacity-40 pointer-events-none" data-alt="Blurred map interface background showing geographical data points" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA0SxTU89t0dm5xGIM7qvw42dGKnzdopyAydjYGl6mLazEW-f7pM8yeu7p4Fo1qxli32ryFRIP5X5_rA24VZhqSb9hwWbeV7j2vI5UCTAWLmyVMkkWOFgyX2KBeYzQnIB_ruPIKOC3KL01t3233oB2AXvJAyqhg2wEWVB594qpmEPt54phzGWQBjw1kprBTp6BLz46w06HIhOhxGVORzHWIycYdgJ4qd54F32Lq2BYfMoTAMk1XMBk7_-MtjRCMbI5fOqNXsGTssYk'); background-size: cover; background-position: center; filter: blur(8px) grayscale(80%);">
+</div>
+<!-- Modal Backdrop -->
+<div class="fixed inset-0 bg-black/70 backdrop-blur-sm z-40 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+<!-- Modal Container -->
+<div class="relative w-full max-w-5xl bg-surface-dark rounded-2xl shadow-2xl border border-border-dark flex flex-col max-h-[90vh] animate-fade-in-up">
+<!-- Header -->
+<div class="flex items-center justify-between px-6 py-5 border-b border-border-dark shrink-0">
+<div class="flex flex-col gap-1">
+<h2 class="text-white text-2xl font-bold tracking-tight">Create New Scheme</h2>
+<p class="text-text-secondary text-sm">Enter the details for the new infrastructure project.</p>
+</div>
+<button class="group p-2 rounded-full hover:bg-white/5 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/50">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-white text-2xl">close</span>
+</button>
+</div>
+<!-- Tabs -->
+<div class="px-6 pt-2 bg-surface-dark shrink-0 z-10">
+<div class="flex gap-8 border-b border-border-dark">
+<button class="flex items-center gap-2 pb-4 pt-4 border-b-[3px] border-primary text-white transition-colors group">
+<span class="material-symbols-outlined text-primary text-[20px]">water_drop</span>
+<span class="text-sm font-bold leading-normal tracking-[0.015em]">Irrigation</span>
+</button>
+<button class="flex items-center gap-2 pb-4 pt-4 border-b-[3px] border-transparent text-text-secondary hover:text-white hover:border-text-secondary/30 transition-colors group">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-white text-[20px]">bolt</span>
+<span class="text-sm font-bold leading-normal tracking-[0.015em]">MHP</span>
+</button>
+<button class="flex items-center gap-2 pb-4 pt-4 border-b-[3px] border-transparent text-text-secondary hover:text-white hover:border-text-secondary/30 transition-colors group">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-white text-[20px]">add_road</span>
+<span class="text-sm font-bold leading-normal tracking-[0.015em]">Roads/Other</span>
+</button>
+</div>
+</div>
+<!-- Scrollable Form Content -->
+<div class="p-6 overflow-y-auto custom-scrollbar grow">
+<form class="space-y-8">
+<!-- Section 1: General Information -->
+<div class="space-y-4">
+<h3 class="text-white text-lg font-semibold border-l-4 border-primary pl-3 flex items-center gap-2">
+                            General Information
+                        </h3>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Scheme Name -->
+<div class="md:col-span-8 flex flex-col gap-2">
+<label class="text-white text-sm font-medium">Scheme Name</label>
+<input class="w-full rounded-lg bg-input-dark border border-border-dark text-white placeholder-text-secondary h-12 px-4 focus:ring-2 focus:ring-primary/50 focus:border-primary focus:outline-none transition-all" placeholder="e.g. Lower Valley Irrigation Project Phase II" type="text"/>
+</div>
+<!-- Scheme ID -->
+<div class="md:col-span-4 flex flex-col gap-2">
+<label class="text-white text-sm font-medium flex justify-between">
+                                    Scheme ID 
+                                    <span class="text-text-secondary text-xs font-normal bg-white/5 px-2 py-0.5 rounded">Auto-generated</span>
+</label>
+<div class="relative">
+<input class="w-full rounded-lg bg-input-dark/50 border border-border-dark text-text-secondary h-12 px-4 font-mono cursor-not-allowed" readonly="" type="text" value="IRR-2024-8392"/>
+<span class="material-symbols-outlined absolute right-3 top-3 text-text-secondary text-lg">lock</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Project Type -->
+<div class="flex flex-col gap-2">
+<label class="text-white text-sm font-medium">Project Sub-Type</label>
+<div class="relative">
+<select class="w-full appearance-none rounded-lg bg-input-dark border border-border-dark text-white h-12 px-4 pr-10 focus:ring-2 focus:ring-primary/50 focus:border-primary focus:outline-none transition-all cursor-pointer">
+<option>Surface Irrigation</option>
+<option>Lift Irrigation</option>
+<option>Groundwater Tube Well</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-3 text-text-secondary pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Status -->
+<div class="flex flex-col gap-2">
+<label class="text-white text-sm font-medium">Initial Status</label>
+<div class="relative">
+<select class="w-full appearance-none rounded-lg bg-input-dark border border-border-dark text-white h-12 px-4 pr-10 focus:ring-2 focus:ring-primary/50 focus:border-primary focus:outline-none transition-all cursor-pointer">
+<option>Proposed</option>
+<option>Feasibility Study</option>
+<option>Approved</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-3 text-text-secondary pointer-events-none">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+<hr class="border-border-dark/50"/>
+<!-- Section 2: Location Details -->
+<div class="space-y-4">
+<h3 class="text-white text-lg font-semibold border-l-4 border-primary pl-3">Location Details</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="flex flex-col gap-2">
+<label class="text-white text-sm font-medium">Province</label>
+<div class="relative">
+<select class="w-full appearance-none rounded-lg bg-input-dark border border-border-dark text-white h-12 px-4 pr-10 focus:ring-2 focus:ring-primary/50 focus:border-primary focus:outline-none transition-all cursor-pointer">
+<option value="">Select Province</option>
+<option>Bagmati Province</option>
+<option>Lumbini Province</option>
+<option>Karnali Province</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-3 text-text-secondary pointer-events-none">expand_more</span>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-white text-sm font-medium">District</label>
+<div class="relative">
+<select class="w-full appearance-none rounded-lg bg-input-dark border border-border-dark text-white h-12 px-4 pr-10 focus:ring-2 focus:ring-primary/50 focus:border-primary focus:outline-none transition-all cursor-pointer">
+<option value="">Select District</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-3 text-text-secondary pointer-events-none">expand_more</span>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-white text-sm font-medium">Municipality / Palika</label>
+<div class="relative">
+<select class="w-full appearance-none rounded-lg bg-input-dark border border-border-dark text-white h-12 px-4 pr-10 focus:ring-2 focus:ring-primary/50 focus:border-primary focus:outline-none transition-all cursor-pointer">
+<option value="">Select Municipality</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-3 text-text-secondary pointer-events-none">expand_more</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="flex flex-col gap-2">
+<label class="text-white text-sm font-medium">Ward No.</label>
+<input class="w-full rounded-lg bg-input-dark border border-border-dark text-white placeholder-text-secondary h-12 px-4 focus:ring-2 focus:ring-primary/50 focus:border-primary focus:outline-none transition-all" placeholder="Enter ward number" type="number"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-white text-sm font-medium">Tole / Settlement</label>
+<input class="w-full rounded-lg bg-input-dark border border-border-dark text-white placeholder-text-secondary h-12 px-4 focus:ring-2 focus:ring-primary/50 focus:border-primary focus:outline-none transition-all" placeholder="Specific location name" type="text"/>
+</div>
+</div>
+</div>
+<hr class="border-border-dark/50"/>
+<!-- Section 3: Metrics & Planning -->
+<div class="space-y-4">
+<h3 class="text-white text-lg font-semibold border-l-4 border-primary pl-3">Metrics &amp; Planning</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="flex flex-col gap-2">
+<label class="text-white text-sm font-medium">Est. Cost (NPR)</label>
+<div class="relative">
+<span class="absolute left-4 top-3 text-text-secondary font-medium text-sm">Rs.</span>
+<input class="w-full rounded-lg bg-input-dark border border-border-dark text-white placeholder-text-secondary h-12 pl-12 pr-4 focus:ring-2 focus:ring-primary/50 focus:border-primary focus:outline-none transition-all" placeholder="0.00" type="number"/>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-white text-sm font-medium">Beneficiary HHs</label>
+<div class="relative">
+<input class="w-full rounded-lg bg-input-dark border border-border-dark text-white placeholder-text-secondary h-12 px-4 focus:ring-2 focus:ring-primary/50 focus:border-primary focus:outline-none transition-all" placeholder="Total households" type="number"/>
+<span class="material-symbols-outlined absolute right-3 top-3 text-text-secondary text-lg">group</span>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-white text-sm font-medium">Target Output</label>
+<div class="relative">
+<input class="w-full rounded-lg bg-input-dark border border-border-dark text-white placeholder-text-secondary h-12 px-4 focus:ring-2 focus:ring-primary/50 focus:border-primary focus:outline-none transition-all" placeholder="e.g. 25 Ha" type="text"/>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="flex flex-col gap-2">
+<label class="text-white text-sm font-medium">Start Date</label>
+<div class="relative">
+<input class="w-full rounded-lg bg-input-dark border border-border-dark text-white placeholder-text-secondary h-12 px-4 focus:ring-2 focus:ring-primary/50 focus:border-primary focus:outline-none transition-all scheme-dark [color-scheme:dark]" type="date"/>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-white text-sm font-medium">Expected End Date</label>
+<div class="relative">
+<input class="w-full rounded-lg bg-input-dark border border-border-dark text-white placeholder-text-secondary h-12 px-4 focus:ring-2 focus:ring-primary/50 focus:border-primary focus:outline-none transition-all scheme-dark [color-scheme:dark]" type="date"/>
+</div>
+</div>
+</div>
+</div>
+</form>
+</div>
+<!-- Footer Action Bar -->
+<div class="p-6 border-t border-border-dark bg-[#161f1a] rounded-b-2xl shrink-0 flex flex-col-reverse sm:flex-row justify-end gap-4">
+<button class="px-8 py-3 rounded-lg border border-border-dark text-white font-bold hover:bg-white/5 focus:ring-2 focus:ring-white/20 transition-all text-sm uppercase tracking-wide">
+                    Cancel
+                </button>
+<button class="px-8 py-3 rounded-lg bg-primary text-[#102217] font-bold hover:bg-[#0fb852] focus:ring-2 focus:ring-primary/50 shadow-[0_0_15px_rgba(17,212,95,0.3)] hover:shadow-[0_0_20px_rgba(17,212,95,0.5)] transition-all flex items-center justify-center gap-2 text-sm uppercase tracking-wide">
+<span class="material-symbols-outlined text-lg">add_circle</span>
+                    Create Scheme
+                </button>
+</div>
+</div>
+</div>
+</body></html>

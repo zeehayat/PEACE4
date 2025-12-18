@@ -15,7 +15,17 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Manrope', ...defaultTheme.fontFamily.sans],
+            },
+            colors: {
+                primary: '#11d45f',
+                'background-light': '#f6f8f7',
+                'background-dark': '#102217',
+                'surface-dark': '#1c2720',
+                'surface-light': '#ffffff',
+            },
+            boxShadow: {
+                'soft-lg': '0 20px 60px -25px rgba(0,0,0,0.25)',
             },
         },
     },

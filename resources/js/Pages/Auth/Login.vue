@@ -1,73 +1,6 @@
-<template>
-    <div class="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-100 to-indigo-200 p-4">
-        <div class="w-full max-w-md mx-auto">
-
-            <div class="text-center mb-8 animate-fade-in-down">
-                <h1 class="text-4xl font-extrabold text-indigo-800">SRSP Peace 2 MIS</h1>
-                <p class="text-indigo-600 mt-2">Management Information System</p>
-            </div>
-
-            <div class="bg-white rounded-2xl shadow-2xl p-8 sm:p-10 transform transition-all duration-500 ease-in-out animate-fade-in-scale">
-                <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Welcome Back</h2>
-
-                <form @submit.prevent="submit">
-                    <div class="mb-4 relative">
-                        <label for="email" class="block text-sm font-medium text-gray-600 sr-only">Email</label>
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M3 4a2 2 0 00-2 2v8a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2H3zm12 2.293l-5.293 5.293a1 1 0 01-1.414 0L3.707 6.293A.997.997 0 014 6h12a.997.997 0 01.293.293z" />
-                            </svg>
-                        </div>
-                        <input
-                            id="email"
-                            v-model="form.email"
-                            type="email"
-                            placeholder="Email Address"
-                            class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm pl-10 py-3 focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out"
-                            :disabled="form.processing"
-                        />
-                        <div v-if="form.errors.email" class="text-red-500 text-sm mt-1">{{ form.errors.email }}</div>
-                    </div>
-
-                    <div class="mb-6 relative">
-                        <label for="password" class="block text-sm font-medium text-gray-600 sr-only">Password</label>
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
-                            </svg>
-                        </div>
-                        <input
-                            id="password"
-                            v-model="form.password"
-                            type="password"
-                            placeholder="Password"
-                            class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm pl-10 py-3 focus:border-indigo-500 focus:ring-indigo-500 transition duration-150 ease-in-out"
-                            :disabled="form.processing"
-                        />
-                        <div v-if="form.errors.password" class="text-red-500 text-sm mt-1">{{ form.errors.password }}</div>
-                    </div>
-
-                    <button
-                        type="submit"
-                        class="w-full flex justify-center items-center bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transform hover:scale-105 transition-transform duration-150 ease-in-out disabled:opacity-75 disabled:cursor-not-allowed"
-                        :disabled="form.processing"
-                    >
-                        <svg v-if="form.processing" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        <span>{{ form.processing ? 'Logging In...' : 'Login' }}</span>
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
-</template>
-
 <script setup>
 import { useForm } from '@inertiajs/vue3';
 
-// The form logic remains the same
 const form = useForm({
     email: '',
     password: '',
@@ -78,35 +11,114 @@ const submit = () => {
 };
 </script>
 
-<style>
-/* Add these animations to your global CSS file or in a <style> tag */
-@keyframes fadeInScale {
-    from {
-        opacity: 0;
-        transform: scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
+<template>
+    <div class="min-h-screen bg-background-light text-gray-900">
+        <div class="relative grid min-h-screen grid-cols-1 lg:grid-cols-2">
+            <!-- Left: Form -->
+            <div class="flex flex-col justify-center px-6 py-10 sm:px-10 lg:px-16">
+                <div class="mx-auto w-full max-w-md space-y-8">
+                    <div class="flex items-center gap-3">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-xl bg-primary/15 text-primary">
+                            <span class="material-symbols-outlined text-3xl">spa</span>
+                        </div>
+                        <div>
+                            <p class="text-xs uppercase tracking-wide text-gray-500">SRSP PEACE 2</p>
+                            <h1 class="text-2xl font-bold">Management Information System</h1>
+                        </div>
+                    </div>
 
-@keyframes fadeInDown {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+                    <div class="space-y-2">
+                        <h2 class="text-3xl font-bold">Welcome back</h2>
+                        <p class="text-sm text-gray-600">Sign in to continue to your dashboard.</p>
+                    </div>
 
-.animate-fade-in-scale {
-    animation: fadeInScale 0.5s ease-out forwards;
-}
+                    <form @submit.prevent="submit" class="space-y-6">
+                        <div class="space-y-2">
+                            <label for="email" class="text-sm font-semibold text-gray-800">Email address</label>
+                            <div class="relative">
+                                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                                    <span class="material-symbols-outlined text-lg">mail</span>
+                                </div>
+                                <input
+                                    id="email"
+                                    v-model="form.email"
+                                    type="email"
+                                    placeholder="name@peacemis.com"
+                                    class="w-full pl-10 pr-3 py-3"
+                                    :disabled="form.processing"
+                                />
+                            </div>
+                            <div v-if="form.errors.email" class="text-red-500 text-sm">{{ form.errors.email }}</div>
+                        </div>
 
-.animate-fade-in-down {
-    animation: fadeInDown 0.5s ease-out forwards;
-}
-</style>
+                        <div class="space-y-2">
+                            <label for="password" class="text-sm font-semibold text-gray-800">Password</label>
+                            <div class="relative">
+                                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                                    <span class="material-symbols-outlined text-lg">lock</span>
+                                </div>
+                                <input
+                                    id="password"
+                                    v-model="form.password"
+                                    type="password"
+                                    placeholder="Enter your password"
+                                    class="w-full pl-10 pr-3 py-3"
+                                    :disabled="form.processing"
+                                />
+                            </div>
+                            <div v-if="form.errors.password" class="text-red-500 text-sm">{{ form.errors.password }}</div>
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="btn-primary w-full justify-center py-3 text-base disabled:opacity-75"
+                            :disabled="form.processing"
+                        >
+                            <svg v-if="form.processing" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            <span>{{ form.processing ? 'Logging In...' : 'Login' }}</span>
+                        </button>
+                    </form>
+
+                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                        <span class="h-px flex-1 bg-gray-200"></span>
+                        <span>Protected environment</span>
+                        <span class="h-px flex-1 bg-gray-200"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Visual Panel -->
+            <div class="relative hidden lg:block">
+                <div class="absolute inset-0 bg-gradient-to-br from-[#0f2a1b] via-[#123622] to-[#0c1f15]">
+                    <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/asfalt-light.png')] opacity-30"></div>
+                </div>
+                <div class="relative flex h-full flex-col justify-between p-10 text-white">
+                    <div class="space-y-4">
+                        <p class="text-sm uppercase tracking-[0.2em] text-primary">SRSP</p>
+                        <h3 class="text-3xl font-bold leading-tight">Data-driven insights for sustainable irrigation & energy projects.</h3>
+                        <p class="text-sm text-gray-200 max-w-md">
+                            Stitch-inspired interface with focused workflows, clear milestones, and crisp reporting.
+                        </p>
+                    </div>
+                    <div class="grid grid-cols-3 gap-4 w-full max-w-xl">
+                        <div class="rounded-xl bg-white/10 p-4 backdrop-blur border border-white/10">
+                            <p class="text-xs text-gray-200">Active Schemes</p>
+                            <p class="mt-2 text-2xl font-semibold">128</p>
+                        </div>
+                        <div class="rounded-xl bg-white/10 p-4 backdrop-blur border border-white/10">
+                            <p class="text-xs text-gray-200">Communities</p>
+                            <p class="mt-2 text-2xl font-semibold">46</p>
+                        </div>
+                        <div class="rounded-xl bg-white/10 p-4 backdrop-blur border border-white/10">
+                            <p class="text-xs text-gray-200">On-time Delivery</p>
+                            <p class="mt-2 text-2xl font-semibold">94%</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
