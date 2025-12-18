@@ -14,8 +14,12 @@ class DistrictSeeder extends Seeder
     {
         $districts = [
             'Swat',
-            'Dir',
+            'Upper Dir',
+            'Lower Dir',
             'Chitral',
+            'Upper Chitral',
+            'Lower Chitral',
+
             'Shangla',
             'North Waziristan',
             'South Waziristan',

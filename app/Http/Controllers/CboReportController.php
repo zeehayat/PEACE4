@@ -19,7 +19,7 @@ class CboReportController extends Controller
 
         // Fetch all possible districts for the filter dropdown
         $districts = District::orderBy('name')->pluck('name');
-
+        dd($districts);
         // Fetch distinct tehsils from the Cbo model (only show options the user could filter by)
         $tehsils = Cbo::query()
             ->forUser(Auth::user())
