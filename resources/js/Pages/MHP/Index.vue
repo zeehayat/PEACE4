@@ -360,41 +360,39 @@ const handlePagination = (url) => {
 </script>
 
 <template>
-    <AppLayout title="Dashboard">
+    <AppLayout title="MHP Sites">
         <template #header >
-            <div class="bg-indigo-800 p-5 flex place-content-center items-center">
-
-                <h2 class="text-4xl font-extrabold text-indigo-400 border-collapse">SRSP PEACE 2</h2>
+            <div class="flex flex-col gap-1">
+                <p class="text-xs uppercase tracking-[0.2em] text-primary">MHP</p>
+                <h2 class="text-2xl font-bold text-gray-900">Sites Overview</h2>
             </div>
 
         </template>
 
-        <div class="bg-gray-50 font-sans antialiased text-gray-800 min-h-screen">
-            <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div class="bg-background-light font-sans antialiased text-gray-900 min-h-screen">
+            <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-                <header class="mb-8 bg-white p-6 rounded-lg shadow-md">
+                <header class="card p-5 sm:p-6 mb-6">
                     <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                         <div>
                             <h1 class="text-3xl font-extrabold tracking-tight text-gray-900">MHP Sites Overview</h1>
                             <p class="mt-1 text-base text-gray-600">Centralized management for micro-hydel project sites and their progress.</p>
                         </div>
-                        <div class="flex w-full md:w-auto items-center gap-x-3">
+                        <div class="flex w-full md:w-auto items-center gap-3">
                             <div class="relative flex-grow">
                                 <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                                    <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                        <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
-                                    </svg>
+                                    <span class="material-symbols-outlined text-gray-400 text-lg">search</span>
                                 </div>
                                 <input
                                     type="text"
                                     v-model="searchTerm"
                                     @input="router.get(route('mhp.sites.index'), { search: searchTerm }, { preserveState: true, replace: true })"
                                     placeholder="Search by CBO, Status, or ID..."
-                                    class="block w-full rounded-lg border-gray-300 bg-white py-2.5 pl-10 pr-3 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors duration-200"
+                                    class="block w-full bg-white py-2.5 pl-10 pr-3"
                                 />
                             </div>
-                            <button @click="openNewMhoModal" class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-colors duration-200 flex-shrink-0">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20" stroke="currentColor"><path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" /></svg>
+                            <button @click="openNewMhoModal" class="btn-primary px-4 py-2.5 flex-shrink-0">
+                                <span class="material-symbols-outlined text-base">add</span>
                                 <span>New Site</span>
                             </button>
                         </div>
@@ -426,36 +424,36 @@ const handlePagination = (url) => {
                 </div>
 
                 <!-- Table View for larger screens -->
-                <div class="hidden md:block bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
+                <div class="hidden md:block card overflow-hidden">
+                    <table class="table-stitch">
+                        <thead>
                         <tr>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Site Info</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Population</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Approval</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Attachments</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Progress Summary</th>
-                            <th scope="col" class="relative px-6 py-3"><span class="sr-only">Actions</span></th>
+                            <th scope="col">Site Info</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Population</th>
+                            <th scope="col">Approval</th>
+                            <th scope="col">Attachments</th>
+                            <th scope="col">Progress Summary</th>
+                            <th scope="col" class="relative px-4 py-3"><span class="sr-only">Actions</span></th>
                         </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-200">
-                        <tr v-for="site in filteredMhpSites" :key="site.id" class="hover:bg-gray-50 transition-colors duration-150 group">
+                        <tbody class="divide-y divide-gray-100">
+                        <tr v-for="site in filteredMhpSites" :key="site.id" class="hover:bg-primary/5 transition-colors duration-150 group">
 
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm font-medium text-gray-900">{{ site.cbo?.reference_code ?? 'N/A' }}</div>
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                <div class="text-sm font-semibold text-gray-900">{{ site.cbo?.reference_code ?? 'N/A' }}</div>
                                 <div class="text-xs text-gray-500 mt-0.5">Project ID: {{ site.project_id }}</div>
                             </td>
 
-                            <td class="px-6 py-4 whitespace-nowrap">
+                            <td class="px-4 py-3 whitespace-nowrap">
                             <span :class="getStatusClass(site.status)" class="inline-flex items-center rounded-full px-3 py-1 text-xs font-medium border">
                               {{ site.status ?? 'N/A' }}
                             </span>
                             </td>
 
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ site.population ?? 'N/A' }}</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">{{ site.population ?? 'N/A' }}</td>
 
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold">
+                            <td class="px-4 py-3 whitespace-nowrap text-sm font-semibold">
                             <span :class="site.admin_approval ? 'text-green-600' : 'text-red-500'" class="flex items-center gap-1.5">
                                 <svg v-if="site.admin_approval" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" /></svg>
                                 <svg v-else class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
@@ -463,7 +461,7 @@ const handlePagination = (url) => {
                             </span>
                             </td>
 
-                            <td class="px-6 py-4">
+                            <td class="px-4 py-3">
                                 <div v-if="site.attachments_frontend && site.attachments_frontend.length" class="space-y-2 text-xs max-h-24 overflow-y-auto pr-2">
                                     <div v-for="file in site.attachments_frontend" :key="file.id" class="flex items-center gap-2" :title="`Size: ${(file.size/1024).toFixed(1)} KB | Uploaded: ${new Date(file.created_at).toLocaleDateString()}`">
                                         <span class="text-gray-500 flex-shrink-0">{{ getFileIcon(file) }}</span>
@@ -473,7 +471,7 @@ const handlePagination = (url) => {
                                 <span v-else class="text-gray-400 text-sm">—</span>
                             </td>
 
-                            <td class="px-6 py-4">
+                            <td class="px-4 py-3">
                                 <div class="space-y-1 text-sm">
                                     <div v-if="site.latest_physical_progress">
                                         <p class="font-semibold text-gray-800">Latest Physical:</p>
@@ -489,8 +487,8 @@ const handlePagination = (url) => {
                                 </div>
                             </td>
 
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium relative action-menu-container">
-                                <button @click.stop="toggleActionMenu(site.id, $event)" class="p-2 text-gray-500 hover:text-gray-900 rounded-full hover:bg-gray-200/70 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity action-menu-trigger">
+                            <td class="px-4 py-3 whitespace-nowrap text-right text-sm font-medium relative action-menu-container">
+                                <button @click.stop="toggleActionMenu(site.id, $event)" class="p-2 text-gray-500 hover:text-gray-900 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity action-menu-trigger">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" /></svg>
                                 </button>
                                 <!-- The menu div is now teleported from Index.vue -->

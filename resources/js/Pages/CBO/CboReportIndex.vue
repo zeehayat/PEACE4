@@ -90,15 +90,18 @@ const closeModal = () => {
 <template>
     <AppLayout title="CBO Activity Report">
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">CBO Activity Report</h2>
+            <div class="flex flex-col gap-1">
+                <p class="text-xs uppercase tracking-[0.2em] text-primary">Reports</p>
+                <h2 class="text-2xl font-bold text-gray-900 leading-tight">CBO Activity Report</h2>
+            </div>
         </template>
 
-        <div class="py-12">
+        <div class="py-8">
             <div class="max-w-full mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
+                <div class="card p-6">
 
                     <!-- Filter Section -->
-                    <div class="flex flex-col gap-4 mb-6 pb-4 border-b">
+                    <div class="flex flex-col gap-4 mb-6 pb-4 border-b border-gray-100">
                         <h3 class="text-lg font-semibold text-gray-700">Filter CBOs</h3>
                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
 
@@ -153,51 +156,53 @@ const closeModal = () => {
                         <div class="flex flex-wrap gap-3 mt-2 items-center">
                             <PrimaryButton @click="applyFilters" class="h-10">Apply Filters</PrimaryButton>
                             <SecondaryButton @click="clearFilters" class="h-10">Clear Filters</SecondaryButton>
-                            <PrimaryButton @click="exportReport" class="h-10 bg-green-600 hover:bg-green-700">Export to Excel</PrimaryButton>
+                            <button @click="exportReport" class="btn-primary bg-green-600 hover:bg-green-700 h-10">
+                                Export to Excel
+                            </button>
                         </div>
                     </div>
 
                     <!-- Main Data Table -->
-                    <div class="overflow-x-auto shadow-md sm:rounded-lg">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
+                    <div class="overflow-x-auto">
+                        <table class="table-stitch">
+                            <thead>
                             <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">CBO Name</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">District / Tehsil</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">President</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Secretary</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date Formed</th>
-                                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Members</th>
-                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Dialogues</th>
-                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Trainings</th>
-                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Exp. Visits</th>
-                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Details</th>
+                                <th>CBO Name</th>
+                                <th>District / Tehsil</th>
+                                <th>President</th>
+                                <th>Secretary</th>
+                                <th>Date Formed</th>
+                                <th>Members</th>
+                                <th>Dialogues</th>
+                                <th>Trainings</th>
+                                <th>Exp. Visits</th>
+                                <th>Details</th>
                             </tr>
                             </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
+                            <tbody class="divide-y divide-gray-100">
                             <tr v-for="cbo in reportData.data" :key="cbo.id">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                <td class="px-4 py-3 whitespace-nowrap text-sm font-semibold text-gray-900">
                                     {{ cbo.cbo_name }} ({{ cbo.reference_code }})
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600">
                                     {{ cbo.district }} / {{ cbo.tehsil }}
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">
                                     <div class="font-semibold text-gray-900">{{ cbo.president_name ?? 'N/A' }}</div>
                                     <div class="text-xs text-gray-500">{{ cbo.president_contact ?? '—' }}</div>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">
                                     <div class="font-semibold text-gray-900">{{ cbo.secretary_name ?? 'N/A' }}</div>
                                     <div class="text-xs text-gray-500">{{ cbo.secretary_contact ?? '—' }}</div>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600">
                                     {{ formatNullableDate(cbo.date_of_formation) }}
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-right">{{ cbo.total_members }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-center">{{ cbo.dialogues_count }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-center">{{ cbo.trainings_count }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-center">{{ cbo.exposure_visits_count }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-center">
+                                <td class="px-4 py-3 whitespace-nowrap text-sm text-right">{{ cbo.total_members }}</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm text-center">{{ cbo.dialogues_count }}</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm text-center">{{ cbo.trainings_count }}</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm text-center">{{ cbo.exposure_visits_count }}</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm text-center">
                                     <SecondaryButton @click="openDetailsModal(cbo)" class="px-3 py-1 text-xs">
                                         View Activities
                                     </SecondaryButton>
