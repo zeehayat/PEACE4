@@ -45,7 +45,6 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'district_id' => KpDistrict::class,
         'password' => 'hashed', // Add this for Laravel 11+
     ];
 
