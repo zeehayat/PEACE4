@@ -9,6 +9,7 @@ use App\Http\Controllers\IrrigationPhysicalProgressController;
 use App\Http\Controllers\IrrigationFinancialProgressController;
 use App\Http\Controllers\IrrigationCostRevisionController;
 use App\Http\Controllers\IrrigationSchemeContractController;
+use App\Http\Controllers\IrrigationReportController;
 
 
 // All routes are placed in a group to apply common middleware
@@ -50,6 +51,8 @@ Route::middleware(['web', 'auth'])->group(function () {
         'contracts' => 'contract',
         'schemes' => 'scheme',
     ]);
+
+    Route::get('schemes/report', [IrrigationReportController::class, 'index'])->name('reports.schemes');
 
     // Main Irrigation Scheme resource
     // FIX: This general resource route is now placed last to avoid conflicts

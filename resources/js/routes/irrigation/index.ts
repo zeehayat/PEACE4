@@ -2,6 +2,7 @@ import { queryParams, type RouteQueryOptions, type RouteDefinition } from './../
 import schemes from './schemes'
 import physicalProgresses from './physical-progresses'
 import adminApprovals from './admin-approvals'
+import reports from './reports'
 /**
 * @see \App\Http\Controllers\IrrigationDashboardController::dashboard
 * @see app/Http/Controllers/IrrigationDashboardController.php:17
@@ -51,6 +52,7 @@ const irrigation = {
     schemes,
     physicalProgresses,
     adminApprovals,
+    reports,
 }
 
 export default irrigation

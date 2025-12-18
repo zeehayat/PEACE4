@@ -51,8 +51,8 @@ return [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
             'secret' => env('AWS_SECRET_ACCESS_KEY'),
-            'region' => env('AWS_DEFAULT_REGION'),
-            'bucket' => env('AWS_BUCKET'),
+            'region' => env('AWS_DEFAULT_REGION', 'auto'),
+            'bucket' => env('AWS_BUCKET', 'default-bucket'),
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
@@ -64,7 +64,7 @@ return [
             'key' => env('R2_ACCESS_KEY_ID'),
             'secret' => env('R2_SECRET_ACCESS_KEY'),
             'region' => 'auto', // Cloudflare R2 uses 'auto' or a specific region if you configured one
-            'bucket' => env('R2_BUCKET'),
+            'bucket' => env('R2_BUCKET', 'default-bucket'),
             'endpoint' => env('R2_ENDPOINT'), // THIS IS CRUCIAL FOR R2
             'url' => env('R2_PUBLIC_URL'), // Optional, but good for direct URL generation
             'visibility' => 'public', // Or 'private' depending on your use case

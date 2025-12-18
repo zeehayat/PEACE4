@@ -44,7 +44,7 @@ const reportMenu = ref([
         key: 'irrigation',
         links: [
             // Example reports under Irrigation
-            //{ name: 'Irrigation Master', route: 'irrigation.report.master', icon: 'M4 6h16M4 12h16M4 18h16' },
+            { name: 'Irrigation Scheme Report', route: 'irrigation.reports.schemes', icon: 'M4 6h16M4 12h16M4 18h16' },
         ]
     },
 ]);

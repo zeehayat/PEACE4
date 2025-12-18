@@ -21,6 +21,7 @@ import IrrigationPhysicalProgressController from './IrrigationPhysicalProgressCo
 import IrrigationFinancialProgressController from './IrrigationFinancialProgressController'
 import IrrigationCostRevisionController from './IrrigationCostRevisionController'
 import IrrigationSchemeContractController from './IrrigationSchemeContractController'
+import IrrigationReportController from './IrrigationReportController'
 import CboController from './CboController'
 import CboDialogueController from './CboDialogueController'
 import CboExposureVisitController from './CboExposureVisitController'
@@ -55,6 +56,7 @@ const Controllers = {
     IrrigationFinancialProgressController,
     IrrigationCostRevisionController,
     IrrigationSchemeContractController,
+    IrrigationReportController,
     CboController,
     CboDialogueController,
     CboExposureVisitController,
