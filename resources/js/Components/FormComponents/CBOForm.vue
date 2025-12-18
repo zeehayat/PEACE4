@@ -107,11 +107,9 @@ const props = defineProps({
 
 })
 const districts = [
-    "Abbottabad", "Bannu", "Battagram", "Buner", "Charsadda", "Chitral Lower", "Chitral Upper",
-    "Dera Ismail Khan", "Hangu", "Haripur", "Karak", "Khyber", "Kohat", "Kohistan Lower",
-    "Kohistan Upper", "Kurram", "Lakki Marwat", "Malakand", "Mansehra", "Mardan", "Mohmand",
-    "Nowshera", "Orakzai", "Peshawar", "Shangla", "South Waziristan", "Swabi", "Swat",
-    "Tank", "Torghar", "North Waziristan"
+    "Chitral Lower", "Chitral Upper",
+     "Kurram", "Kurram", "Dir", "Shangla", "South Waziristan", "Swat",
+     "North Waziristan", "South Waziristan"
 ]
 
 </script>
