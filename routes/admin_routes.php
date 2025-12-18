@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\AccessControlController;
+use App\Http\Controllers\AdminDashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,10 +18,8 @@ use App\Http\Controllers\AccessControlController;
 */
 
 Route::middleware(['role:Admin|Root'])->group(function () {
-    // Route for the main admin dashboard (if you have one)
-    Route::get('/', function () {
-        return inertia('Admin/Dashboard');
-    })->name('admin.dashboard');
+    // Route for the main admin dashboard
+    Route::get('/', AdminDashboardController::class)->name('dashboard');
 
     // User Management Routes
     Route::resource('users', UserController::class);
