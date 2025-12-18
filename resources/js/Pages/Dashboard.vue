@@ -1,133 +1,119 @@
 <template>
     <AppLayout>
-        <div class="space-y-12 p-8 bg-gray-100 min-h-screen text-gray-800">
+        <div class="space-y-10 p-6 sm:p-8 bg-background-light min-h-screen text-gray-900">
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
                 <div
                     v-for="s in statItems"
                     :key="s.title"
-                    class="relative flex items-center p-6 bg-gradient-to-br from-blue-400 to-indigo-600 text-white rounded-2xl shadow-xl border-t-4 border-blue-200 transform transition-all duration-300 hover:scale-[1.03] hover:shadow-2xl hover:from-blue-500 hover:to-indigo-700"
+                    class="card flex items-center gap-4 p-5 sm:p-6"
                 >
-                    <div class="p-4 rounded-full bg-white bg-opacity-20 text-white mr-4">
-                        <svg class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
-                        </svg>
+                    <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/15 text-primary">
+                        <span class="material-symbols-outlined">insights</span>
                     </div>
-                    <div>
-                        <div class="text-lg opacity-90 font-semibold">{{ s.title }}</div>
-                        <div class="text-4xl font-extrabold mt-1">
-                            {{ s.formatted ?? s.value }}
-                        </div>
+                    <div class="space-y-1">
+                        <p class="text-xs uppercase tracking-wide text-gray-500">{{ s.title }}</p>
+                        <p class="text-2xl font-bold text-gray-900">{{ s.formatted ?? s.value }}</p>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-white p-6 rounded-2xl shadow-lg border-2 border-dashed border-gray-300">
-                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                    <div class="flex items-center gap-3">
-                        <span class="text-sm font-bold text-gray-600">GROUP BY:</span>
-                        <select v-model="groupBy" class="border-2 border-gray-300 rounded-full px-5 py-2 text-sm bg-gray-50 text-gray-700 shadow-sm transition-colors hover:border-blue-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                            <option value="cbo">CBO</option>
-                            <option value="district">District</option>
-                        </select>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <button @click="expandAll" class="text-sm font-semibold px-4 py-2 rounded-full border-2 border-blue-500 text-blue-500 bg-white hover:bg-blue-50 transition-colors shadow-sm">
-                            <svg class="h-4 w-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16" /></svg>
-                            Expand all
-                        </button>
-                        <button @click="collapseAll" class="text-sm font-semibold px-4 py-2 rounded-full border-2 border-red-500 text-red-500 bg-white hover:bg-red-50 transition-colors shadow-sm">
-                            <svg class="h-4 w-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" /></svg>
-                            Collapse all
-                        </button>
-                    </div>
+            <div class="card p-5 sm:p-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="text-sm font-semibold text-gray-700">Group by</span>
+                    <select v-model="groupBy" class="rounded-full border-gray-200 bg-white px-4 py-2 text-sm shadow-sm focus:ring-2 focus:ring-primary focus:border-primary">
+                        <option value="cbo">CBO</option>
+                        <option value="district">District</option>
+                    </select>
+                </div>
+                <div class="flex flex-wrap items-center gap-3">
+                    <button @click="expandAll" class="btn-secondary rounded-full px-4 py-2 text-sm">
+                        <span class="material-symbols-outlined text-base">unfold_more</span>
+                        Expand all
+                    </button>
+                    <button @click="collapseAll" class="btn-secondary rounded-full px-4 py-2 text-sm">
+                        <span class="material-symbols-outlined text-base">unfold_less</span>
+                        Collapse all
+                    </button>
                 </div>
             </div>
 
-            <section class="space-y-6">
-                <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-3xl font-bold text-gray-800">MHP Schemes</h2>
-                    <span class="text-base text-gray-500 font-medium bg-white px-4 py-1.5 rounded-full shadow-md">{{ mhp_projects?.length || 0 }} project(s)</span>
+            <section class="space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                    <h2 class="text-2xl font-bold text-gray-900">MHP Schemes</h2>
+                    <span class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm border border-gray-200">
+                        {{ mhp_projects?.length || 0 }} project(s)
+                    </span>
                 </div>
 
-                <div v-if="Object.keys(groupedMhp).length" class="space-y-6">
+                <div v-if="Object.keys(groupedMhp).length" class="space-y-4">
                     <div
                         v-for="(items, key) in groupedMhp"
                         :key="'mhp-' + key"
-                        class="bg-white rounded-2xl shadow-xl border border-gray-200 transition-all duration-300 overflow-hidden"
+                        class="card overflow-hidden"
                     >
                         <button
-                            class="w-full flex items-center justify-between p-6 bg-gradient-to-r from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 transition-colors"
+                            class="w-full flex items-center justify-between px-5 py-4 bg-primary/5 text-left hover:bg-primary/10 transition"
                             @click="toggle('mhp', key)"
                         >
                             <div class="flex items-center gap-3">
-                                <span class="font-bold text-xl text-blue-800">{{ key }}</span>
-                                <span class="text-sm font-medium text-blue-600 bg-white px-3 py-1 rounded-full shadow-inner">
+                                <span class="text-lg font-semibold text-gray-900">{{ key }}</span>
+                                <span class="text-xs font-semibold text-primary bg-white px-3 py-1 rounded-full border border-primary/30">
                                     {{ items.length }} project{{ items.length > 1 ? 's' : '' }}
                                 </span>
                             </div>
-                            <svg
-                                class="h-6 w-6 text-blue-500 transition-transform duration-300"
-                                :class="isOpen('mhp', key) ? 'rotate-180' : ''"
-                                fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                            >
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                            </svg>
+                            <span class="material-symbols-outlined text-gray-600 transition" :class="isOpen('mhp', key) ? 'rotate-180' : ''">
+                                expand_more
+                            </span>
                         </button>
 
-                        <div v-show="isOpen('mhp', key)" class="p-6">
-                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div v-show="isOpen('mhp', key)" class="p-5">
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                 <div
                                     v-for="project in items"
                                     :key="'mhp-item-' + project.id"
-                                    class="relative p-6 bg-white rounded-xl shadow-lg border-2 border-gray-200 transition-all duration-300 hover:border-blue-400 hover:shadow-xl"
+                                    class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm hover:border-primary/50 hover:shadow-lg transition"
                                 >
-                                    <div class="flex items-center justify-between mb-4">
-                                        <div class="font-bold text-xl truncate pr-2 text-gray-900">{{ project.name }}</div>
-                                        <div class="shrink-0 flex items-center gap-2">
-                                            <svg
-                                                :width="ringSize"
-                                                :height="ringSize"
-                                                viewBox="0 0 42 42"
-                                                class="block"
-                                            >
-                                                <circle
-                                                    cx="21" cy="21" :r="ringR"
-                                                    fill="none" stroke="#e5e7eb" :stroke-width="ringStroke"
-                                                />
-                                                <circle
-                                                    cx="21" cy="21" :r="ringR"
-                                                    fill="none"
-                                                    :stroke="(project.completion_percentage ?? 0) >= 100 ? '#16a34a' : '#3b82f6'"
-                                                    :stroke-width="ringStroke"
-                                                    stroke-linecap="round"
-                                                    :stroke-dasharray="dashArray(project.completion_percentage)"
-                                                    :transform="'rotate(-90 21 21)'"
-                                                />
-                                                <text x="21" y="22.5" text-anchor="middle" font-size="10" fill="#111827" font-weight="700">
-                                                    {{ toInt(project.completion_percentage) }}%
-                                                </text>
-                                            </svg>
+                                    <div class="flex items-start justify-between gap-3">
+                                        <div class="space-y-1">
+                                            <p class="text-base font-semibold text-gray-900 truncate">{{ project.name }}</p>
+                                            <p class="text-xs text-gray-500">Progress overview</p>
                                         </div>
+                                        <svg
+                                            :width="ringSize"
+                                            :height="ringSize"
+                                            viewBox="0 0 42 42"
+                                            class="shrink-0"
+                                        >
+                                            <circle cx="21" cy="21" :r="ringR" fill="none" stroke="#e5e7eb" :stroke-width="ringStroke" />
+                                            <circle
+                                                cx="21" cy="21" :r="ringR"
+                                                fill="none"
+                                                :stroke="(project.completion_percentage ?? 0) >= 100 ? '#11d45f' : '#2563eb'"
+                                                :stroke-width="ringStroke"
+                                                stroke-linecap="round"
+                                                :stroke-dasharray="dashArray(project.completion_percentage)"
+                                                :transform="'rotate(-90 21 21)'"
+                                            />
+                                            <text x="21" y="22.5" text-anchor="middle" font-size="10" fill="#0f172a" font-weight="700">
+                                                {{ toInt(project.completion_percentage) }}%
+                                            </text>
+                                        </svg>
                                     </div>
 
-                                    <div class="mt-4 flex flex-wrap gap-2">
+                                    <div class="mt-3 flex flex-wrap gap-2">
                                         <template v-for="chip in physicalChips(project)" :key="'phys-' + project.id + '-' + chip.label">
-                                            <span
-                                                class="inline-flex items-center gap-1 text-xs px-3 py-1.5 rounded-full border-2 border-blue-200 bg-blue-50 text-blue-800 font-medium animate-pulse-on-hover"
-                                            >
-                                                <span class="font-bold">Physical:</span>
-                                                <span class="font-normal">{{ chip.label }}</span>
-                                                <span class="opacity-70 font-normal">· {{ chip.value }}</span>
+                                            <span class="inline-flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+                                                <span>Physical</span>
+                                                <span class="text-gray-700">{{ chip.label }}</span>
+                                                <span class="text-gray-500">· {{ chip.value }}</span>
                                             </span>
                                         </template>
                                         <template v-for="chip in financialChips(project)" :key="'fin-' + project.id + '-' + chip.label">
-                                            <span
-                                                class="inline-flex items-center gap-1 text-xs px-3 py-1.5 rounded-full border-2 border-amber-200 bg-amber-50 text-amber-800 font-medium animate-pulse-on-hover"
-                                            >
-                                                <span class="font-bold">Financial:</span>
-                                                <span class="font-normal">{{ chip.label }}</span>
-                                                <span class="opacity-70 font-normal">· {{ chip.value }}</span>
+                                            <span class="inline-flex items-center gap-1 rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700">
+                                                <span>Financial</span>
+                                                <span class="text-gray-700">{{ chip.label }}</span>
+                                                <span class="text-gray-500">· {{ chip.value }}</span>
                                             </span>
                                         </template>
                                     </div>
@@ -137,107 +123,100 @@
                     </div>
                 </div>
 
-                <div v-else class="text-center text-gray-500 bg-white rounded-2xl border-2 border-dashed border-gray-300 py-12 px-6 shadow-md">
+                <div v-else class="card text-center py-10">
                     <p class="font-semibold text-lg">No MHP projects to show.</p>
-                    <p class="text-sm mt-1">Check your filters or try a different grouping.</p>
+                    <p class="text-sm text-gray-500">Check your filters or grouping.</p>
                 </div>
             </section>
 
-            <section class="space-y-6">
-                <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-3xl font-bold text-gray-800">Irrigation Schemes</h2>
-                    <span class="text-base text-gray-500 font-medium bg-white px-4 py-1.5 rounded-full shadow-md">{{ irrigation_projects?.length || 0 }} project(s)</span>
+            <section class="space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                    <h2 class="text-2xl font-bold text-gray-900">Irrigation Schemes</h2>
+                    <span class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm border border-gray-200">
+                        {{ irrigation_projects?.length || 0 }} project(s)
+                    </span>
                 </div>
 
-                <div v-if="Object.keys(groupedIrrigation).length" class="space-y-6">
+                <div v-if="Object.keys(groupedIrrigation).length" class="space-y-4">
                     <div
                         v-for="(items, key) in groupedIrrigation"
                         :key="'irr-' + key"
-                        class="bg-white rounded-2xl shadow-xl border border-gray-200 transition-all duration-300 overflow-hidden"
+                        class="card overflow-hidden"
                     >
                         <button
-                            class="w-full flex items-center justify-between p-6 bg-gradient-to-r from-green-50 to-green-100 hover:from-green-100 hover:to-green-200 transition-colors"
+                            class="w-full flex items-center justify-between px-5 py-4 bg-primary/5 text-left hover:bg-primary/10 transition"
                             @click="toggle('irrigation', key)"
                         >
                             <div class="flex items-center gap-3">
-                                <span class="font-bold text-xl text-green-800">{{ key }}</span>
-                                <span class="text-sm font-medium text-green-600 bg-white px-3 py-1 rounded-full shadow-inner">
+                                <span class="text-lg font-semibold text-gray-900">{{ key }}</span>
+                                <span class="text-xs font-semibold text-primary bg-white px-3 py-1 rounded-full border border-primary/30">
                                     {{ items.length }} project{{ items.length > 1 ? 's' : '' }}
                                 </span>
                             </div>
-                            <svg
-                                class="h-6 w-6 text-green-500 transition-transform duration-300"
-                                :class="isOpen('irrigation', key) ? 'rotate-180' : ''"
-                                fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                            >
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                            </svg>
+                            <span class="material-symbols-outlined text-gray-600 transition" :class="isOpen('irrigation', key) ? 'rotate-180' : ''">
+                                expand_more
+                            </span>
                         </button>
 
-                        <div v-show="isOpen('irrigation', key)" class="p-6">
-                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div v-show="isOpen('irrigation', key)" class="p-5">
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                 <div
                                     v-for="project in items"
                                     :key="'irr-item-' + project.id"
-                                    class="relative p-6 bg-white rounded-xl shadow-lg border-2 border-gray-200 transition-all duration-300 hover:border-green-400 hover:shadow-xl"
+                                    class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm hover:border-primary/50 hover:shadow-lg transition"
                                 >
-                                    <div class="flex items-center justify-between mb-4">
-                                        <div class="font-bold text-xl truncate pr-2 text-gray-900">{{ project.name }}</div>
-                                        <div class="shrink-0 flex items-center gap-2">
-                                            <svg
-                                                :width="ringSize"
-                                                :height="ringSize"
-                                                viewBox="0 0 42 42"
-                                                class="block"
-                                            >
-                                                <circle cx="21" cy="21" :r="ringR" fill="none" stroke="#e5e7eb" :stroke-width="ringStroke" />
-                                                <circle
-                                                    cx="21" cy="21" :r="ringR" fill="none"
-                                                    :stroke="(project.completion_percentage ?? 0) >= 100 ? '#16a34a' : '#3b82f6'"
-                                                    :stroke-width="ringStroke" stroke-linecap="round"
-                                                    :stroke-dasharray="dashArray(project.completion_percentage)"
-                                                    :transform="'rotate(-90 21 21)'"
-                                                />
-                                                <text x="21" y="22.5" text-anchor="middle" font-size="10" fill="#111827" font-weight="700">
-                                                    {{ toInt(project.completion_percentage) }}%
-                                                </text>
-                                            </svg>
+                                    <div class="flex items-start justify-between gap-3">
+                                        <div class="space-y-1">
+                                            <p class="text-base font-semibold text-gray-900 truncate">{{ project.name }}</p>
+                                            <p class="text-xs text-gray-500">Progress overview</p>
                                         </div>
+                                        <svg
+                                            :width="ringSize"
+                                            :height="ringSize"
+                                            viewBox="0 0 42 42"
+                                            class="shrink-0"
+                                        >
+                                            <circle cx="21" cy="21" :r="ringR" fill="none" stroke="#e5e7eb" :stroke-width="ringStroke" />
+                                            <circle
+                                                cx="21" cy="21" :r="ringR" fill="none"
+                                                :stroke="(project.completion_percentage ?? 0) >= 100 ? '#11d45f' : '#2563eb'"
+                                                :stroke-width="ringStroke" stroke-linecap="round"
+                                                :stroke-dasharray="dashArray(project.completion_percentage)"
+                                                :transform="'rotate(-90 21 21)'"
+                                            />
+                                            <text x="21" y="22.5" text-anchor="middle" font-size="10" fill="#0f172a" font-weight="700">
+                                                {{ toInt(project.completion_percentage) }}%
+                                            </text>
+                                        </svg>
                                     </div>
 
-                                    <div class="mt-4 flex flex-wrap gap-2">
+                                    <div class="mt-3 flex flex-wrap gap-2">
                                         <template v-for="chip in physicalChips(project, true)" :key="'physI-' + project.id + '-' + chip.label">
-                                            <span
-                                                class="inline-flex items-center gap-1 text-xs px-3 py-1.5 rounded-full border-2 border-blue-200 bg-blue-50 text-blue-800 font-medium animate-pulse-on-hover"
-                                            >
-                                                <span class="font-bold">Physical:</span>
-                                                <span class="font-normal">{{ chip.label }}</span>
-                                                <span class="opacity-70 font-normal">· {{ chip.value }}</span>
+                                            <span class="inline-flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+                                                <span>Physical</span>
+                                                <span class="text-gray-700">{{ chip.label }}</span>
+                                                <span class="text-gray-500">· {{ chip.value }}</span>
                                             </span>
                                         </template>
                                         <template v-for="chip in financialChips(project, true)" :key="'finI-' + project.id + '-' + chip.label">
-                                            <span
-                                                class="inline-flex items-center gap-1 text-xs px-3 py-1.5 rounded-full border-2 border-amber-200 bg-amber-50 text-amber-800 font-medium animate-pulse-on-hover"
-                                            >
-                                                <span class="font-bold">Financial:</span>
-                                                <span class="font-normal">{{ chip.label }}</span>
-                                                <span class="opacity-70 font-normal">· {{ chip.value }}</span>
+                                            <span class="inline-flex items-center gap-1 rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700">
+                                                <span>Financial</span>
+                                                <span class="text-gray-700">{{ chip.label }}</span>
+                                                <span class="text-gray-500">· {{ chip.value }}</span>
                                             </span>
                                         </template>
                                     </div>
 
-                                    <div class="mt-2 text-xs text-gray-500 italic">
-                                        Showing overall Physical & Financial only.
-                                    </div>
+                                    <p class="mt-2 text-xs text-gray-500 italic">Showing overall Physical & Financial only.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div v-else class="text-center text-gray-500 bg-white rounded-2xl border-2 border-dashed border-gray-300 py-12 px-6 shadow-md">
+                <div v-else class="card text-center py-10">
                     <p class="font-semibold text-lg">No Irrigation projects to show.</p>
-                    <p class="text-sm mt-1">Check your filters or try a different grouping.</p>
+                    <p class="text-sm text-gray-500">Check your filters or grouping.</p>
                 </div>
             </section>
         </div>
