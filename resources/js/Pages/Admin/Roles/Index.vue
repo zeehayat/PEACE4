@@ -12,6 +12,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 const props = defineProps({
     roles: Array,
     groupedPermissions: Object,
+    filters: Object,
 });
 
 const page = usePage();
@@ -26,6 +27,10 @@ const showDeleteModal = ref(false);
 const selectedRole = ref(null);
 
 const form = useForm({});
+
+if (props.filters?.open === 'create') {
+    showCreateModal.value = true;
+}
 
 const openNewRoleModal = () => {
     selectedRole.value = null;
@@ -102,7 +107,7 @@ const closeModal = () => {
             </div>
         </div>
 
-        <Modal :show="showCreateModal || showEditModal" @close="closeModal">
+        <Modal :show="showCreateModal || showEditModal" max-width="screen-85" @close="closeModal">
             <RoleForm
                 :role="selectedRole"
                 :grouped-permissions="groupedPermissions"

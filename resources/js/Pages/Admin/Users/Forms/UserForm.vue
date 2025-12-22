@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, watch, ref, onMounted } from 'vue';
+import { computed, reactive, watch, ref, onMounted } from 'vue';
 import { useForm, usePage } from '@inertiajs/vue3';
 
 import InputError from '@/Components/InputError.vue';
@@ -19,16 +19,22 @@ const props = defineProps({
 
 const emit = defineEmits(['success', 'cancel']);
 const isEditMode = ref(props.mode === 'update');
+const globalDistrictValue = 'global';
 
 const form = useForm({
     name: props.user?.name || '',
     email: props.user?.email || '',
     password: '',
     password_confirmation: '',
-    district_id: props.user?.district_id || null,
+    district_id: props.user?.district_id ?? globalDistrictValue,
     roles: props.user?.roles.map(role => role.name) || [],
     permissions: props.user?.permissions?.map(permission => permission.name) || [],
 });
+
+const districtOptions = computed(() => [
+    { id: globalDistrictValue, name: 'Global (All Districts)' },
+    ...props.districts,
+]);
 
 watch(() => props.user, (newUser) => {
     isEditMode.value = !!newUser;
@@ -36,12 +42,18 @@ watch(() => props.user, (newUser) => {
         form.defaults({
             name: newUser.name,
             email: newUser.email,
-            district_id: newUser.district_id,
+            district_id: newUser.district_id ?? globalDistrictValue,
             roles: newUser.roles.map(role => role.name),
             permissions: newUser.permissions.map(p => p.name),
         });
     } else {
-        form.defaults({ name: '', email: '', district_id: null, roles: [], permissions: [] });
+        form.defaults({
+            name: '',
+            email: '',
+            district_id: globalDistrictValue,
+            roles: [],
+            permissions: [],
+        });
     }
     form.reset();
 }, { immediate: true });
@@ -54,6 +66,9 @@ const handleSubmit = () => {
     form.transform((data) => {
         if (isEditMode.value) {
             data._method = 'put';
+        }
+        if (data.district_id === globalDistrictValue) {
+            data.district_id = null;
         }
         return data;
     }).post(url, {
@@ -110,7 +125,7 @@ const handleCancel = () => {
                 <SelectInput
                     id="district_id"
                     v-model="form.district_id"
-                    :options="districts"
+                    :options="districtOptions"
                     option-label="name"
                     option-value="id"
                     class="mt-1 block w-full"

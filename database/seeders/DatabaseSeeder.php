@@ -25,42 +25,6 @@ class DatabaseSeeder extends Seeder
             IrrigationSchemeSeeder::class, // Needs CBOs and Vendors
             LrmCommitteeSeeder::class, // Needs CBOs
             PermissionsSeeder::class,
-//            //UserAndPermissionSeeder::class,
         ]);
-        // 1. Reset the Spatie cache
-        // 1. Reset the Spatie cache
-        // 1. Reset the Spatie cache
-        // 1. Reset the Spatie cache
-        app()[PermissionRegistrar::class]->forgetCachedPermissions();
-
-        // 2. Define and create all necessary permissions
-        $permissions = [
-            'user_manage', 'role_manage',
-            'cbo_view', 'cbo_create', 'cbo_update', 'cbo_delete',
-            'mhp_site_view', 'mhp_site_create', 'mhp_site_update', 'mhp_site_delete',
-            'irrigation_scheme_view', 'irrigation_scheme_create', 'irrigation_scheme_update', 'irrigation_scheme_delete',
-            'lrm_committee_view', 'lrm_committee_create', 'lrm_committee_update', 'lrm_committee_delete',
-        ];
-        foreach ($permissions as $permission) {
-            Permission::firstOrCreate(['name' => $permission]);
-        }
-
-        // 3. Create the Root role
-        $rootRole = Role::firstOrCreate(['name' => 'Root']);
-
-        // 4. Assign ALL existing permissions to the Root role
-        $rootRole->syncPermissions(Permission::all());
-
-        // 5. Create the root user
-        $user = User::updateOrCreate(
-            ['email' => 'root@srsp.pk'],
-            [
-                'name' => 'Root User',
-                'password' => Hash::make('password'),
-            ]
-        );
-
-        // 6. Assign the Root role to the user
-        $user->syncRoles(['Root']);
     }
 }

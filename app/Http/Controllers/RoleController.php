@@ -18,7 +18,7 @@ class RoleController extends Controller
         //$this->middleware('can:role_manage');
     }
 
-    public function index()
+    public function index(Request $request)
     {
         //dd(Auth::user()->getPermissionNames());
 
@@ -36,7 +36,13 @@ class RoleController extends Controller
         return Inertia::render('Admin/Roles/Index', [
             'roles' => $roles,
             'groupedPermissions' => $groupedPermissions,
+            'filters' => $request->only('open'),
         ]);
+    }
+
+    public function create()
+    {
+        return redirect()->route('admin.roles.index', ['open' => 'create']);
     }
 
     public function store(Request $request)

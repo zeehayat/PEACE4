@@ -96,7 +96,7 @@ const formatDate = (value) => {
                 </div>
             </div>
 
-            <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 <Link
                     :href="route('admin.dashboard')"
                     class="flex items-center justify-between rounded-xl border border-gray-200 bg-white px-4 py-3 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
@@ -118,6 +118,16 @@ const formatDate = (value) => {
                     <span class="rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700">New</span>
                 </Link>
                 <Link
+                    :href="route('admin.users.index')"
+                    class="flex items-center justify-between rounded-xl border border-gray-200 bg-white px-4 py-3 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                >
+                    <div>
+                        <div class="text-xs uppercase tracking-wide text-gray-500">Users</div>
+                        <div class="text-base font-semibold text-gray-900">Manage Users</div>
+                    </div>
+                    <span class="rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-700">List</span>
+                </Link>
+                <Link
                     :href="route('admin.access-control.index')"
                     class="flex items-center justify-between rounded-xl border border-gray-200 bg-white px-4 py-3 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
                 >
@@ -128,6 +138,16 @@ const formatDate = (value) => {
                     <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">Assign</span>
                 </Link>
                 <Link
+                    :href="route('admin.roles.index', { open: 'create' })"
+                    class="flex items-center justify-between rounded-xl border border-gray-200 bg-white px-4 py-3 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                >
+                    <div>
+                        <div class="text-xs uppercase tracking-wide text-gray-500">Roles</div>
+                        <div class="text-base font-semibold text-gray-900">Create Role</div>
+                    </div>
+                    <span class="rounded-full bg-yellow-50 px-3 py-1 text-xs font-semibold text-yellow-700">New</span>
+                </Link>
+                <Link
                     :href="route('admin.roles.index')"
                     class="flex items-center justify-between rounded-xl border border-gray-200 bg-white px-4 py-3 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
                 >
@@ -136,6 +156,16 @@ const formatDate = (value) => {
                         <div class="text-base font-semibold text-gray-900">Manage Roles</div>
                     </div>
                     <span class="rounded-full bg-yellow-50 px-3 py-1 text-xs font-semibold text-yellow-700">Edit</span>
+                </Link>
+                <Link
+                    :href="route('admin.access-control.index')"
+                    class="flex items-center justify-between rounded-xl border border-gray-200 bg-white px-4 py-3 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                >
+                    <div>
+                        <div class="text-xs uppercase tracking-wide text-gray-500">Permissions</div>
+                        <div class="text-base font-semibold text-gray-900">District Permissions</div>
+                    </div>
+                    <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">Manage</span>
                 </Link>
             </div>
 

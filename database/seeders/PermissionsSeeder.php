@@ -13,27 +13,23 @@ class PermissionsSeeder extends Seeder
     {
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // CORRECTED PERMISSION NAMES
-        $permissions = [
+        $permissionNames = [
             'user_manage',
             'role_manage',
+            'view_reports',
             'cbo_view', 'cbo_create', 'cbo_update', 'cbo_delete',
             'mhp_site_view', 'mhp_site_create', 'mhp_site_update', 'mhp_site_delete',
             'irrigation_scheme_view', 'irrigation_scheme_create', 'irrigation_scheme_update', 'irrigation_scheme_delete',
             'lrm_committee_view', 'lrm_committee_create', 'lrm_committee_update', 'lrm_committee_delete',
             'vendor_view', 'vendor_create', 'vendor_update', 'vendor_delete',
-            'financial_installment_manage',
-            'physical_progress_manage',
         ];
 
-        foreach ($permissions as $permission) {
-            Permission::firstOrCreate(['name' => $permission]);
-        }
+        $permissions = collect($permissionNames)
+            ->map(fn ($name) => Permission::firstOrCreate(['name' => $name, 'guard_name' => 'web']))
+            ->values();
 
-        // Find the Super Admin role and assign it the correct permissions
-        $superAdmin = Role::firstOrCreate(['name' => 'Super Admin']);
-        $superAdmin->syncPermissions(['user_manage', 'role_manage']);
-
-        // ... assign other permissions to your other roles as needed ...
+        // Keep Super Admin in sync with the full set (mirrors Root)
+        $superAdmin = Role::firstOrCreate(['name' => 'Super Admin', 'guard_name' => 'web']);
+        $superAdmin->syncPermissions($permissions);
     }
 }

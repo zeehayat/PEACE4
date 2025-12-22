@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Inertia\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Permission;
 
 class ShareUserPermissions extends Middleware
 {
@@ -20,11 +21,12 @@ class ShareUserPermissions extends Middleware
         if (Auth::check()) {
             $user = Auth::user();
 
-            // Get all user permissions and format them into an object like:
-            // { 'user_manage': true, 'role_manage': true, ... }
-            $permissions = $user->getAllPermissions()->mapWithKeys(function ($permission) {
-                return [$permission->name => true];
-            });
+            // For Root / Super Admin, grant all permissions.
+            $permissionNames = ($user->hasAnyRole(['Root', 'Super Admin']))
+                ? Permission::pluck('name')
+                : $user->getAllPermissions()->pluck('name');
+
+            $permissions = $permissionNames->mapWithKeys(fn ($permission) => [$permission => true]);
 
             // Share the permissions with all Inertia views.
             inertia()->share('auth.user.can', $permissions);
