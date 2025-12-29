@@ -17,6 +17,7 @@ class AdminDashboardController extends Controller
             'user_id' => $request->input('user_id'),
             'method' => $request->input('method'),
             'search' => $request->input('search'),
+            'open' => $request->input('open'),
         ];
 
         $logs = ActivityLog::with(['user:id,name,email', 'district:id,name'])

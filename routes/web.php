@@ -33,9 +33,7 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'home'])->name('dashboard');
 });
 
 Route::get('/test-r2-upload', function() {
@@ -86,13 +84,13 @@ Route::get('/login', function () {
         return Inertia::render('Auth/Login');
 })->middleware('guest')->name('login');
 Route::middleware(['auth'])->group(function () {
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/', [DashboardController::class, 'home'])->name('dashboard');
 });
 
 
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index']);//->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'home']);//->name('dashboard');
 });
 
 // Handle login form submission

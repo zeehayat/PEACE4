@@ -65,6 +65,12 @@ function getInitialFormData(site) {
         retaining_walls_details: site ? site.retaining_walls_details : '',
         // --- END ADDING MISSING FIELDS ---
 
+        // Civil Procurement
+        civil_works_cost: site ? site.civil_works_cost : null,
+        opm_visit_date: site ? site.opm_visit_date : null,
+        layout_initiation_date: site ? site.layout_initiation_date : null,
+        ground_breaking_date: site ? site.ground_breaking_date : null,
+
         existing_capacity_kw: site ? site.existing_capacity_kw : null,
         planned_capacity_kw: site ? site.planned_capacity_kw : null,
         proposed_capacity_kw: site ? site.proposed_capacity_kw : null, // ADDED
@@ -612,6 +618,20 @@ const handleCancel = () => {
                     <InputError class="mt-2" :message="form.errors.estimated_cost" />
                 </div>
 
+                <!-- Civil Works Cost -->
+                <div>
+                    <InputLabel for="civil_works_cost" value="Civil Works Cost" />
+                    <TextInput
+                        id="civil_works_cost"
+                        v-model="form.civil_works_cost"
+                        type="number"
+                        step="0.01"
+                        class="mt-1 block w-full"
+                        :class="{ 'border-red-500': form.errors.civil_works_cost }"
+                    />
+                    <InputError class="mt-2" :message="form.errors.civil_works_cost" />
+                </div>
+
                 <!-- Per KW Cost -->
                 <div>
                     <InputLabel for="per_kw_cost" value="Per KW Cost" />
@@ -704,6 +724,42 @@ const handleCancel = () => {
                         placeholder="Select Date"
                     />
                     <InputError class="mt-2" :message="form.errors.physical_completion_date" />
+                </div>
+
+                <!-- OPM Visit Date -->
+                <div>
+                    <InputLabel for="opm_visit_date" value="OPM Visit to Site Date" />
+                    <DatePicker
+                        id="opm_visit_date"
+                        v-model="form.opm_visit_date"
+                        :class="{ 'border-red-500': form.errors.opm_visit_date }"
+                        placeholder="Select Date"
+                    />
+                    <InputError class="mt-2" :message="form.errors.opm_visit_date" />
+                </div>
+
+                <!-- Layout Initiation Date -->
+                <div>
+                    <InputLabel for="layout_initiation_date" value="Date of Layout Initiation" />
+                    <DatePicker
+                        id="layout_initiation_date"
+                        v-model="form.layout_initiation_date"
+                        :class="{ 'border-red-500': form.errors.layout_initiation_date }"
+                        placeholder="Select Date"
+                    />
+                    <InputError class="mt-2" :message="form.errors.layout_initiation_date" />
+                </div>
+
+                <!-- Ground Breaking Ceremony Date -->
+                <div>
+                    <InputLabel for="ground_breaking_date" value="Ground Breaking Ceremony Date" />
+                    <DatePicker
+                        id="ground_breaking_date"
+                        v-model="form.ground_breaking_date"
+                        :class="{ 'border-red-500': form.errors.ground_breaking_date }"
+                        placeholder="Select Date"
+                    />
+                    <InputError class="mt-2" :message="form.errors.ground_breaking_date" />
                 </div>
 
                 <!-- Remarks (WYSIWYG Editor) -->

@@ -42,6 +42,8 @@ const form = useForm({
     lt_conductor_type: props.tAndDWork?.lt_conductor_type ?? '',
     scope_of_work: props.tAndDWork?.scope_of_work ?? '',
     remarks: props.tAndDWork?.remarks ?? '',
+    estimated_cost: props.tAndDWork?.estimated_cost ?? null,
+    completion_date: props.tAndDWork?.completion_date ?? null,
     attachments: [],
     attachments_to_delete: [],
 });
@@ -135,6 +137,8 @@ watch(
                 lt_conductor_type: newVal.lt_conductor_type ?? '',
                 scope_of_work: newVal.scope_of_work ?? '',
                 remarks: newVal.remarks ?? '',
+                estimated_cost: newVal.estimated_cost ?? null,
+                completion_date: newVal.completion_date ?? null,
                 attachments: [],
                 attachments_to_delete: [],
             };
@@ -184,6 +188,30 @@ watch(
                     placeholder="Select Date"
                 />
                 <InputError class="mt-2" :message="form.errors.date_of_initiation" />
+            </div>
+
+            <div>
+                <InputLabel for="completion_date" value="Date of Completion" />
+                <DatePicker
+                    id="completion_date"
+                    v-model="form.completion_date"
+                    :class="{ 'border-red-500': form.errors.completion_date }"
+                    placeholder="Select Date"
+                />
+                <InputError class="mt-2" :message="form.errors.completion_date" />
+            </div>
+
+            <div>
+                <InputLabel for="estimated_cost" value="Estimated Cost" />
+                <TextInput
+                    id="estimated_cost"
+                    v-model="form.estimated_cost"
+                    type="number"
+                    step="0.01"
+                    class="mt-1 block w-full"
+                    :class="{ 'border-red-500': form.errors.estimated_cost }"
+                />
+                <InputError class="mt-2" :message="form.errors.estimated_cost" />
             </div>
 
             <div>

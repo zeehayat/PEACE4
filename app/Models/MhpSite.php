@@ -61,7 +61,12 @@ class MhpSite extends Model implements HasMedia
         'bottom_width_ft',
         'design_depth_ft',
         'freeboard_ft',
+        'freeboard_ft',
         'velocity_ft_per_sec',
+        'opm_visit_date',
+        'layout_initiation_date',
+        'ground_breaking_date',
+        'civil_works_cost',
     ];
 
     protected $casts = [
@@ -92,6 +97,10 @@ class MhpSite extends Model implements HasMedia
         'design_depth_ft' => 'decimal:2',
         'freeboard_ft' => 'decimal:2',
         'velocity_ft_per_sec' => 'decimal:2',
+        'opm_visit_date' => 'date',
+        'layout_initiation_date' => 'date',
+        'ground_breaking_date' => 'date',
+        'civil_works_cost' => 'decimal:2',
     ];
 
     public function scopeForUser(Builder $query, User $user): void

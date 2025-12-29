@@ -8,7 +8,7 @@ import media from './media'
 import reports from './reports'
 /**
 * @see \App\Http\Controllers\DashboardController::dashboard
-* @see app/Http/Controllers/DashboardController.php:23
+* @see app/Http/Controllers/DashboardController.php:33
 * @route '/mhp-dashboard'
 */
 export const dashboard = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -23,7 +23,7 @@ dashboard.definition = {
 
 /**
 * @see \App\Http\Controllers\DashboardController::dashboard
-* @see app/Http/Controllers/DashboardController.php:23
+* @see app/Http/Controllers/DashboardController.php:33
 * @route '/mhp-dashboard'
 */
 dashboard.url = (options?: RouteQueryOptions) => {
@@ -32,7 +32,7 @@ dashboard.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\DashboardController::dashboard
-* @see app/Http/Controllers/DashboardController.php:23
+* @see app/Http/Controllers/DashboardController.php:33
 * @route '/mhp-dashboard'
 */
 dashboard.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -42,7 +42,7 @@ dashboard.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\DashboardController::dashboard
-* @see app/Http/Controllers/DashboardController.php:23
+* @see app/Http/Controllers/DashboardController.php:33
 * @route '/mhp-dashboard'
 */
 dashboard.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({

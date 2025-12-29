@@ -7,6 +7,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import InputError from '@/Components/InputError.vue';
 import Checkbox from "@/Components/Checkbox.vue";
 import AttachmentUploader from "@/Components/AttachmentComponent/AttachmentUploader.vue";
+import DatePicker from '@/Components/DatePicker.vue';
 
 const props = defineProps({
     mhpSite: {
@@ -39,6 +40,9 @@ const form = useForm({
     station_generator_capacity: props.emeInfo?.station_generator_capacity ?? '',
     penstock_pipe: props.emeInfo?.penstock_pipe ?? '',
     no_of_penstock_pipe: props.emeInfo?.no_of_penstock_pipe ?? '',
+    estimated_cost: props.emeInfo?.estimated_cost ?? '',
+    initiation_date: props.emeInfo?.initiation_date ?? null,
+    completion_date: props.emeInfo?.completion_date ?? null,
     attachments: [], // Array for new file uploads
     attachments_to_delete: [], // Array for IDs of attachments to be deleted
 });
@@ -188,6 +192,33 @@ const submit = () => {
                 <InputError :message="form.errors.no_of_penstock_pipe" class="mt-2" />
             </div>
         </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 border-t pt-6 mt-6">
+            <div>
+                <InputLabel for="estimated_cost" value="Estimated Cost" />
+                <TextInput id="estimated_cost" v-model="form.estimated_cost" type="number" step="0.01" class="mt-1 block w-full" />
+                <InputError :message="form.errors.estimated_cost" class="mt-2" />
+            </div>
+            <div>
+                <InputLabel for="initiation_date" value="Date of EME Work Initiation" />
+                <DatePicker
+                    id="initiation_date"
+                    v-model="form.initiation_date"
+                    class="mt-1 block w-full"
+                />
+                <InputError :message="form.errors.initiation_date" class="mt-2" />
+            </div>
+            <div>
+                <InputLabel for="completion_date" value="Date of EME Work Completion" />
+                <DatePicker
+                    id="completion_date"
+                    v-model="form.completion_date"
+                    class="mt-1 block w-full"
+                />
+                <InputError :message="form.errors.completion_date" class="mt-2" />
+            </div>
+        </div>
+
         <div class="mt-6">
             <InputLabel value="Attachments" />
             <AttachmentUploader

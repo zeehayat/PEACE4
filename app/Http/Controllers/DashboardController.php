@@ -20,12 +20,19 @@ use Inertia\Inertia;
 use App\Services\ProgressService as PC;
 class DashboardController extends Controller
 {
-    public function index(Request $request)
+    public function home(Request $request)
     {
         $user = Auth::user();
         if ($user && $user->hasAnyRole(['Admin', 'Root'])) {
             return redirect()->route('admin.dashboard');
         }
+
+        return redirect()->route('mhp.dashboard');
+    }
+
+    public function index(Request $request)
+    {
+        $user = Auth::user();
         $isDistrictUser = $user->hasAnyRole(['M&E-DISTRICT', 'Engineer-DISTRICT', 'KPO-DISTRICT', 'Viewer-DISTRICT']);
         $districtName = $isDistrictUser ? $user->district->name : null;
 

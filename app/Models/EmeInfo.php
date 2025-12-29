@@ -28,9 +28,15 @@ class EmeInfo extends Model
         'station_generator_capacity',
         'penstock_pipe',
         'no_of_penstock_pipe',
+        'estimated_cost',
+        'initiation_date',
+        'completion_date',
     ];
     protected $casts = [
         'scada_system' => 'boolean',
+        'estimated_cost' => 'decimal:2',
+        'initiation_date' => 'date',
+        'completion_date' => 'date',
     ];
     /**
      * Get the MHP site that this EME profile belongs to.

@@ -31,6 +31,8 @@ class TAndDWork extends Model implements HasMedia
         'lt_conductor_length_km',
         'lt_conductor_type',
         'scope_of_work',
+        'estimated_cost',
+        'completion_date',
         'remarks',
     ];
 
@@ -40,6 +42,8 @@ class TAndDWork extends Model implements HasMedia
         'step_down_transformers' => 'array',
         'ht_conductor_length_km' => 'decimal:2',
         'lt_conductor_length_km' => 'decimal:2',
+        'estimated_cost' => 'decimal:2',
+        'completion_date' => 'date',
     ];
 
     public function projectable(): MorphTo
