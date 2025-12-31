@@ -63,10 +63,24 @@ class MhpSite extends Model implements HasMedia
         'freeboard_ft',
         'freeboard_ft',
         'velocity_ft_per_sec',
+        // Procurement & Milestones
         'opm_visit_date',
         'layout_initiation_date',
         'ground_breaking_date',
         'civil_works_cost',
+        'civil_advertisement_date',
+        'civil_pre_bid_meeting_date',
+        'civil_technical_bid_opening_date',
+        'civil_financial_bid_opening_date',
+        'civil_contract_award_date',
+        // Progress
+        'civil_work_initiation_date',
+        'civil_financial_progress_percent',
+        'civil_amount_disbursed',
+        'civil_amount_remaining',
+        'civil_physical_progress_percent',
+        'civil_progress_description',
+        'civil_completion_date',
     ];
 
     protected $casts = [
@@ -101,6 +115,17 @@ class MhpSite extends Model implements HasMedia
         'layout_initiation_date' => 'date',
         'ground_breaking_date' => 'date',
         'civil_works_cost' => 'decimal:2',
+        'civil_advertisement_date' => 'date',
+        'civil_pre_bid_meeting_date' => 'date',
+        'civil_technical_bid_opening_date' => 'date',
+        'civil_financial_bid_opening_date' => 'date',
+        'civil_contract_award_date' => 'date',
+        'civil_work_initiation_date' => 'date',
+        'civil_financial_progress_percent' => 'decimal:2',
+        'civil_amount_disbursed' => 'decimal:2',
+        'civil_amount_remaining' => 'decimal:2',
+        'civil_physical_progress_percent' => 'decimal:2',
+        'civil_completion_date' => 'date',
     ];
 
     public function scopeForUser(Builder $query, User $user): void

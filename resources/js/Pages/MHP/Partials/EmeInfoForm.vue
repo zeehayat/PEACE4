@@ -43,6 +43,21 @@ const form = useForm({
     estimated_cost: props.emeInfo?.estimated_cost ?? '',
     initiation_date: props.emeInfo?.initiation_date ?? null,
     completion_date: props.emeInfo?.completion_date ?? null,
+    
+    // Procurement
+    advertisement_date: props.emeInfo?.advertisement_date ?? null,
+    pre_bid_meeting_date: props.emeInfo?.pre_bid_meeting_date ?? null,
+    technical_bid_opening_date: props.emeInfo?.technical_bid_opening_date ?? null,
+    financial_bid_opening_date: props.emeInfo?.financial_bid_opening_date ?? null,
+    contract_award_date: props.emeInfo?.contract_award_date ?? null,
+
+    // Progress
+    financial_progress_percent: props.emeInfo?.financial_progress_percent ?? null,
+    amount_disbursed: props.emeInfo?.amount_disbursed ?? null,
+    amount_remaining: props.emeInfo?.amount_remaining ?? null,
+    physical_progress_percent: props.emeInfo?.physical_progress_percent ?? null,
+    progress_description: props.emeInfo?.progress_description ?? '',
+
     attachments: [], // Array for new file uploads
     attachments_to_delete: [], // Array for IDs of attachments to be deleted
 });
@@ -216,6 +231,76 @@ const submit = () => {
                     class="mt-1 block w-full"
                 />
                 <InputError :message="form.errors.completion_date" class="mt-2" />
+            </div>
+            </div>
+        </div>
+
+        <!-- Procurement Milestones -->
+        <div class="mt-6 border p-4 rounded-lg bg-gray-50">
+            <h3 class="text-lg font-medium text-gray-900 mb-4">Procurement Milestones</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                 <div>
+                    <InputLabel for="advertisement_date" value="Advertisement in Newspaper" />
+                    <DatePicker id="advertisement_date" v-model="form.advertisement_date" />
+                    <InputError class="mt-2" :message="form.errors.advertisement_date" />
+                </div>
+                 <div>
+                    <InputLabel for="pre_bid_meeting_date" value="Pre-Bid Meeting" />
+                    <DatePicker id="pre_bid_meeting_date" v-model="form.pre_bid_meeting_date" />
+                    <InputError class="mt-2" :message="form.errors.pre_bid_meeting_date" />
+                </div>
+                 <div>
+                    <InputLabel for="technical_bid_opening_date" value="Technical Bid Opening" />
+                    <DatePicker id="technical_bid_opening_date" v-model="form.technical_bid_opening_date" />
+                    <InputError class="mt-2" :message="form.errors.technical_bid_opening_date" />
+                </div>
+                 <div>
+                    <InputLabel for="financial_bid_opening_date" value="Financial Bid Opening" />
+                    <DatePicker id="financial_bid_opening_date" v-model="form.financial_bid_opening_date" />
+                    <InputError class="mt-2" :message="form.errors.financial_bid_opening_date" />
+                </div>
+                 <div>
+                    <InputLabel for="contract_award_date" value="Contractor Agreement & Work Order" />
+                    <DatePicker id="contract_award_date" v-model="form.contract_award_date" />
+                    <InputError class="mt-2" :message="form.errors.contract_award_date" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed Progress -->
+        <div class="mt-6 border p-4 rounded-lg bg-gray-50">
+            <h3 class="text-lg font-medium text-gray-900 mb-4">Physical & Financial Progress</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                 <div>
+                    <InputLabel for="financial_progress_percent" value="Financial Progress (%)" />
+                    <TextInput id="financial_progress_percent" v-model="form.financial_progress_percent" type="number" step="0.01" class="mt-1 block w-full" />
+                    <InputError class="mt-2" :message="form.errors.financial_progress_percent" />
+                </div>
+                <div>
+                    <InputLabel for="amount_disbursed" value="Amount Disbursed (PKR)" />
+                    <TextInput id="amount_disbursed" v-model="form.amount_disbursed" type="number" step="0.01" class="mt-1 block w-full" />
+                    <InputError class="mt-2" :message="form.errors.amount_disbursed" />
+                </div>
+                <div>
+                    <InputLabel for="amount_remaining" value="Remaining Amount (PKR)" />
+                    <TextInput id="amount_remaining" v-model="form.amount_remaining" type="number" step="0.01" class="mt-1 block w-full" />
+                    <InputError class="mt-2" :message="form.errors.amount_remaining" />
+                </div>
+                <div>
+                    <InputLabel for="physical_progress_percent" value="Physical Progress (%)" />
+                    <TextInput id="physical_progress_percent" v-model="form.physical_progress_percent" type="number" step="0.01" class="mt-1 block w-full" />
+                    <InputError class="mt-2" :message="form.errors.physical_progress_percent" />
+                </div>
+                <div class="md:col-span-2">
+                    <InputLabel for="progress_description" value="Progress Description" />
+                    <TextArea
+                        id="progress_description"
+                        v-model="form.progress_description"
+                        class="mt-1 block w-full"
+                        :class="{ 'border-red-500': form.errors.progress_description }"
+                    />
+                    <InputError class="mt-2" :message="form.errors.progress_description" />
+                </div>
             </div>
         </div>
 

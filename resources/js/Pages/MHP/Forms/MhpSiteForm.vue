@@ -65,11 +65,27 @@ function getInitialFormData(site) {
         retaining_walls_details: site ? site.retaining_walls_details : '',
         // --- END ADDING MISSING FIELDS ---
 
-        // Civil Procurement
-        civil_works_cost: site ? site.civil_works_cost : null,
+        // Civil Procurement - OLD
         opm_visit_date: site ? site.opm_visit_date : null,
         layout_initiation_date: site ? site.layout_initiation_date : null,
         ground_breaking_date: site ? site.ground_breaking_date : null,
+        civil_works_cost: site ? site.civil_works_cost : null,
+
+        // Civil Procurement - NEW Detailed
+        civil_advertisement_date: site ? site.civil_advertisement_date : null,
+        civil_pre_bid_meeting_date: site ? site.civil_pre_bid_meeting_date : null,
+        civil_technical_bid_opening_date: site ? site.civil_technical_bid_opening_date : null,
+        civil_financial_bid_opening_date: site ? site.civil_financial_bid_opening_date : null,
+        civil_contract_award_date: site ? site.civil_contract_award_date : null,
+
+        // Civil Progress - Detailed
+        civil_work_initiation_date: site ? site.civil_work_initiation_date : null,
+        civil_financial_progress_percent: site ? site.civil_financial_progress_percent : null,
+        civil_amount_disbursed: site ? site.civil_amount_disbursed : null,
+        civil_amount_remaining: site ? site.civil_amount_remaining : null,
+        civil_physical_progress_percent: site ? site.civil_physical_progress_percent : null,
+        civil_progress_description: site ? site.civil_progress_description : '',
+        civil_completion_date: site ? site.civil_completion_date : null,
 
         existing_capacity_kw: site ? site.existing_capacity_kw : null,
         planned_capacity_kw: site ? site.planned_capacity_kw : null,
@@ -760,6 +776,85 @@ const handleCancel = () => {
                         placeholder="Select Date"
                     />
                     <InputError class="mt-2" :message="form.errors.ground_breaking_date" />
+                </div>
+                
+                <!-- NEW SECTION: Civil Works Procurement Milestones -->
+                <div class="md:col-span-2 mt-6 mb-2 border-b pb-2">
+                    <h3 class="text-lg font-medium text-gray-900">Civil Works Procurement Milestones</h3>
+                </div>
+
+                <div>
+                    <InputLabel for="civil_advertisement_date" value="Advertisement in Newspaper" />
+                    <DatePicker id="civil_advertisement_date" v-model="form.civil_advertisement_date" />
+                    <InputError class="mt-2" :message="form.errors.civil_advertisement_date" />
+                </div>
+                <div>
+                    <InputLabel for="civil_pre_bid_meeting_date" value="Pre-Bid Meeting" />
+                    <DatePicker id="civil_pre_bid_meeting_date" v-model="form.civil_pre_bid_meeting_date" />
+                    <InputError class="mt-2" :message="form.errors.civil_pre_bid_meeting_date" />
+                </div>
+                <div>
+                    <InputLabel for="civil_technical_bid_opening_date" value="Technical Bid Opening" />
+                    <DatePicker id="civil_technical_bid_opening_date" v-model="form.civil_technical_bid_opening_date" />
+                    <InputError class="mt-2" :message="form.errors.civil_technical_bid_opening_date" />
+                </div>
+                <div>
+                    <InputLabel for="civil_financial_bid_opening_date" value="Financial Bid Opening" />
+                    <DatePicker id="civil_financial_bid_opening_date" v-model="form.civil_financial_bid_opening_date" />
+                    <InputError class="mt-2" :message="form.errors.civil_financial_bid_opening_date" />
+                </div>
+                 <div>
+                    <InputLabel for="civil_contract_award_date" value="Contractor Agreement & Work Order" />
+                    <DatePicker id="civil_contract_award_date" v-model="form.civil_contract_award_date" />
+                    <InputError class="mt-2" :message="form.errors.civil_contract_award_date" />
+                </div>
+
+                <!-- NEW SECTION: Physical Progress Civil -->
+                <div class="md:col-span-2 mt-6 mb-2 border-b pb-2">
+                    <h3 class="text-lg font-medium text-gray-900">Civil Works Physical & Financial Progress</h3>
+                </div>
+
+                <div>
+                    <InputLabel for="civil_work_initiation_date" value="Date of Civil Work Initiation" />
+                    <DatePicker id="civil_work_initiation_date" v-model="form.civil_work_initiation_date" />
+                    <InputError class="mt-2" :message="form.errors.civil_work_initiation_date" />
+                </div>
+                 <div>
+                    <InputLabel for="civil_completion_date" value="Date of Physical Work completion" />
+                    <DatePicker id="civil_completion_date" v-model="form.civil_completion_date" />
+                    <InputError class="mt-2" :message="form.errors.civil_completion_date" />
+                </div>
+                <div>
+                    <InputLabel for="civil_financial_progress_percent" value="Financial Progress (%)" />
+                    <TextInput id="civil_financial_progress_percent" v-model="form.civil_financial_progress_percent" type="number" step="0.01" class="mt-1 block w-full" />
+                    <InputError class="mt-2" :message="form.errors.civil_financial_progress_percent" />
+                </div>
+                <div>
+                    <InputLabel for="civil_amount_disbursed" value="Amount Disbursed (PKR)" />
+                    <TextInput id="civil_amount_disbursed" v-model="form.civil_amount_disbursed" type="number" step="0.01" class="mt-1 block w-full" />
+                    <InputError class="mt-2" :message="form.errors.civil_amount_disbursed" />
+                </div>
+                <div>
+                    <InputLabel for="civil_amount_remaining" value="Remaining Amount (PKR)" />
+                    <TextInput id="civil_amount_remaining" v-model="form.civil_amount_remaining" type="number" step="0.01" class="mt-1 block w-full" />
+                    <InputError class="mt-2" :message="form.errors.civil_amount_remaining" />
+                </div>
+                <div>
+                    <InputLabel for="civil_physical_progress_percent" value="Physical Progress (%)" />
+                    <TextInput id="civil_physical_progress_percent" v-model="form.civil_physical_progress_percent" type="number" step="0.01" class="mt-1 block w-full" />
+                    <InputError class="mt-2" :message="form.errors.civil_physical_progress_percent" />
+                </div>
+
+                <!-- Progress Description -->
+                <div class="md:col-span-2">
+                    <InputLabel for="civil_progress_description" value="Progress Description" />
+                    <TextArea
+                        id="civil_progress_description"
+                        v-model="form.civil_progress_description"
+                        class="mt-1 block w-full"
+                        :class="{ 'border-red-500': form.errors.civil_progress_description }"
+                    />
+                    <InputError class="mt-2" :message="form.errors.civil_progress_description" />
                 </div>
 
                 <!-- Remarks (WYSIWYG Editor) -->

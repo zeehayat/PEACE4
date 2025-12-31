@@ -33,6 +33,18 @@ class TAndDWork extends Model implements HasMedia
         'scope_of_work',
         'estimated_cost',
         'completion_date',
+        // Procurement
+        'advertisement_date',
+        'pre_bid_meeting_date',
+        'technical_bid_opening_date',
+        'financial_bid_opening_date',
+        'contract_award_date',
+        // Progress
+        'financial_progress_percent',
+        'amount_disbursed',
+        'amount_remaining',
+        'physical_progress_percent',
+        'progress_description',
         'remarks',
     ];
 
@@ -44,6 +56,15 @@ class TAndDWork extends Model implements HasMedia
         'lt_conductor_length_km' => 'decimal:2',
         'estimated_cost' => 'decimal:2',
         'completion_date' => 'date',
+        'advertisement_date' => 'date',
+        'pre_bid_meeting_date' => 'date',
+        'technical_bid_opening_date' => 'date',
+        'financial_bid_opening_date' => 'date',
+        'contract_award_date' => 'date',
+        'financial_progress_percent' => 'decimal:2',
+        'amount_disbursed' => 'decimal:2',
+        'amount_remaining' => 'decimal:2',
+        'physical_progress_percent' => 'decimal:2',
     ];
 
     public function projectable(): MorphTo

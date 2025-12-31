@@ -31,12 +31,33 @@ class EmeInfo extends Model
         'estimated_cost',
         'initiation_date',
         'completion_date',
+        // Procurement
+        'advertisement_date',
+        'pre_bid_meeting_date',
+        'technical_bid_opening_date',
+        'financial_bid_opening_date',
+        'contract_award_date',
+        // Progress
+        'financial_progress_percent',
+        'amount_disbursed',
+        'amount_remaining',
+        'physical_progress_percent',
+        'progress_description',
     ];
     protected $casts = [
         'scada_system' => 'boolean',
         'estimated_cost' => 'decimal:2',
         'initiation_date' => 'date',
         'completion_date' => 'date',
+        'advertisement_date' => 'date',
+        'pre_bid_meeting_date' => 'date',
+        'technical_bid_opening_date' => 'date',
+        'financial_bid_opening_date' => 'date',
+        'contract_award_date' => 'date',
+        'financial_progress_percent' => 'decimal:2',
+        'amount_disbursed' => 'decimal:2',
+        'amount_remaining' => 'decimal:2',
+        'physical_progress_percent' => 'decimal:2',
     ];
     /**
      * Get the MHP site that this EME profile belongs to.
