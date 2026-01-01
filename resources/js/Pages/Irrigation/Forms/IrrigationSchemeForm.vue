@@ -57,8 +57,8 @@ function getInitialFormData(scheme) {
             om_training_date: scheme?.profile ? scheme.profile.om_training_date : null,
             handover_date: scheme?.profile ? scheme.profile.handover_date : null,
             beneficiary_hhs: scheme?.profile ? scheme.profile.beneficiary_hhs : null,
-            area_irrigated_before_rehab_hectares: scheme?.profile ? scheme.profile.area_irrigated_before_rehab_hectares : null,
-            area_irrigated_after_rehab_hectares: scheme?.profile ? scheme.profile.area_irrigated_after_rehab_hectares : null,
+            ho_approval_date: scheme?.profile ? scheme.profile.ho_approval_date : null,
+            project_duration: scheme?.profile ? scheme.profile.project_duration : null,
             channel_length_rehab_rft: scheme?.profile ? scheme.profile.channel_length_rehab_rft : null,
             channel_length_new_rft: scheme?.profile ? scheme.profile.channel_length_new_rft : null,
             protection_length_rft: scheme?.profile ? scheme.profile.protection_length_rft : null,
@@ -364,33 +364,30 @@ const handleCancel = () => {
                 <InputError class="mt-2" :message="form.errors['profile.beneficiary_hhs']" />
             </div>
 
-            <!-- New Physical Dimension Fields -->
-            <div>
-                <InputLabel for="area_irrigated_before_rehab_hectares" value="Area Irrigated Before Rehab (Hectares)" />
-                <TextInput
-                    id="area_irrigated_before_rehab_hectares"
-                    v-model="form.profile.area_irrigated_before_rehab_hectares"
-                    type="number"
-                    step="0.01"
-                    min="0"
-                    class="mt-1 block w-full"
-                    :class="{ 'border-red-500': form.errors['profile.area_irrigated_before_rehab_hectares'] }"
+            <!-- HO Approval & Duration -->
+             <div>
+                <InputLabel for="ho_approval_date" value="Date of Approval from HO" />
+                <DatePicker
+                    id="ho_approval_date"
+                    v-model="form.profile.ho_approval_date"
+                    :class="{ 'border-red-500': form.errors['profile.ho_approval_date'] }"
+                    placeholder="Select Date"
                 />
-                <InputError class="mt-2" :message="form.errors['profile.area_irrigated_before_rehab_hectares']" />
+                <InputError class="mt-2" :message="form.errors['profile.ho_approval_date']" />
             </div>
              <div>
-                <InputLabel for="area_irrigated_after_rehab_hectares" value="Area Irrigated After Rehab (Hectares)" />
+                <InputLabel for="project_duration" value="Duration of the Project" />
                 <TextInput
-                    id="area_irrigated_after_rehab_hectares"
-                    v-model="form.profile.area_irrigated_after_rehab_hectares"
-                     type="number"
-                    step="0.01"
-                    min="0"
+                    id="project_duration"
+                    v-model="form.profile.project_duration"
+                    type="text"
                     class="mt-1 block w-full"
-                    :class="{ 'border-red-500': form.errors['profile.area_irrigated_after_rehab_hectares'] }"
+                    :class="{ 'border-red-500': form.errors['profile.project_duration'] }"
                 />
-                <InputError class="mt-2" :message="form.errors['profile.area_irrigated_after_rehab_hectares']" />
+                <InputError class="mt-2" :message="form.errors['profile.project_duration']" />
             </div>
+
+            <!-- New Physical Dimension Fields -->
              <div>
                 <InputLabel for="channel_length_rehab_rft" value="Channel Running Feet (REHAB)" />
                 <TextInput
