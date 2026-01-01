@@ -66,6 +66,7 @@ function getInitialFormData(site) {
         // --- END ADDING MISSING FIELDS ---
 
         // Civil Procurement - OLD
+        social_assessment_date: site ? site.social_assessment_date : null,
         opm_visit_date: site ? site.opm_visit_date : null,
         layout_initiation_date: site ? site.layout_initiation_date : null,
         ground_breaking_date: site ? site.ground_breaking_date : null,
@@ -77,6 +78,7 @@ function getInitialFormData(site) {
         civil_technical_bid_opening_date: site ? site.civil_technical_bid_opening_date : null,
         civil_financial_bid_opening_date: site ? site.civil_financial_bid_opening_date : null,
         civil_contract_award_date: site ? site.civil_contract_award_date : null,
+        civil_contractor_amount: site ? site.civil_contractor_amount : null,
 
         // Civil Progress - Detailed
         civil_work_initiation_date: site ? site.civil_work_initiation_date : null,
@@ -754,6 +756,18 @@ const handleCancel = () => {
                     <InputError class="mt-2" :message="form.errors.opm_visit_date" />
                 </div>
 
+                <!-- Social Assessment Date -->
+                <div>
+                    <InputLabel for="social_assessment_date" value="Social Assessment Date" />
+                    <DatePicker
+                        id="social_assessment_date"
+                        v-model="form.social_assessment_date"
+                        :class="{ 'border-red-500': form.errors.social_assessment_date }"
+                        placeholder="Select Date"
+                    />
+                    <InputError class="mt-2" :message="form.errors.social_assessment_date" />
+                </div>
+
                 <!-- Layout Initiation Date -->
                 <div>
                     <InputLabel for="layout_initiation_date" value="Date of Layout Initiation" />
@@ -807,6 +821,11 @@ const handleCancel = () => {
                     <InputLabel for="civil_contract_award_date" value="Contractor Agreement & Work Order" />
                     <DatePicker id="civil_contract_award_date" v-model="form.civil_contract_award_date" />
                     <InputError class="mt-2" :message="form.errors.civil_contract_award_date" />
+                </div>
+                <div>
+                    <InputLabel for="civil_contractor_amount" value="Cost Per Bid (PKR)" />
+                    <TextInput id="civil_contractor_amount" v-model="form.civil_contractor_amount" type="number" step="0.01" class="mt-1 block w-full" />
+                    <InputError class="mt-2" :message="form.errors.civil_contractor_amount" />
                 </div>
 
                 <!-- NEW SECTION: Physical Progress Civil -->

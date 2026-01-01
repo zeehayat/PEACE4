@@ -51,6 +51,7 @@ const form = useForm({
     technical_bid_opening_date: props.tAndDWork?.technical_bid_opening_date ?? null,
     financial_bid_opening_date: props.tAndDWork?.financial_bid_opening_date ?? null,
     contract_award_date: props.tAndDWork?.contract_award_date ?? null,
+    contractor_amount: props.tAndDWork?.contractor_amount ?? null,
 
     // Progress
     financial_progress_percent: props.tAndDWork?.financial_progress_percent ?? null,
@@ -160,6 +161,7 @@ watch(
                 technical_bid_opening_date: newVal.technical_bid_opening_date ?? null,
                 financial_bid_opening_date: newVal.financial_bid_opening_date ?? null,
                 contract_award_date: newVal.contract_award_date ?? null,
+                contractor_amount: newVal.contractor_amount ?? null,
 
                 financial_progress_percent: newVal.financial_progress_percent ?? null,
                 amount_disbursed: newVal.amount_disbursed ?? null,
@@ -456,6 +458,11 @@ watch(
                     <InputLabel for="contract_award_date" value="Contractor Agreement & Work Order" />
                     <DatePicker id="contract_award_date" v-model="form.contract_award_date" />
                     <InputError class="mt-2" :message="form.errors.contract_award_date" />
+                </div>
+                 <div>
+                    <InputLabel for="contractor_amount" value="Cost Per Bid (PKR)" />
+                    <TextInput id="contractor_amount" v-model="form.contractor_amount" type="number" step="0.01" class="mt-1 block w-full" />
+                    <InputError class="mt-2" :message="form.errors.contractor_amount" />
                 </div>
             </div>
         </div>

@@ -37,6 +37,7 @@ class EmeInfo extends Model
         'technical_bid_opening_date',
         'financial_bid_opening_date',
         'contract_award_date',
+        'contractor_amount',
         // Progress
         'financial_progress_percent',
         'amount_disbursed',
@@ -54,6 +55,7 @@ class EmeInfo extends Model
         'technical_bid_opening_date' => 'date',
         'financial_bid_opening_date' => 'date',
         'contract_award_date' => 'date',
+        'contractor_amount' => 'decimal:2',
         'financial_progress_percent' => 'decimal:2',
         'amount_disbursed' => 'decimal:2',
         'amount_remaining' => 'decimal:2',

@@ -64,7 +64,9 @@ class MhpSite extends Model implements HasMedia
         'freeboard_ft',
         'velocity_ft_per_sec',
         // Procurement & Milestones
+        'social_assessment_date',
         'opm_visit_date',
+        'layout_initiation_date',
         'layout_initiation_date',
         'ground_breaking_date',
         'civil_works_cost',
@@ -73,6 +75,7 @@ class MhpSite extends Model implements HasMedia
         'civil_technical_bid_opening_date',
         'civil_financial_bid_opening_date',
         'civil_contract_award_date',
+        'civil_contractor_amount',
         // Progress
         'civil_work_initiation_date',
         'civil_financial_progress_percent',
@@ -111,6 +114,7 @@ class MhpSite extends Model implements HasMedia
         'design_depth_ft' => 'decimal:2',
         'freeboard_ft' => 'decimal:2',
         'velocity_ft_per_sec' => 'decimal:2',
+        'social_assessment_date' => 'date',
         'opm_visit_date' => 'date',
         'layout_initiation_date' => 'date',
         'ground_breaking_date' => 'date',
@@ -120,6 +124,7 @@ class MhpSite extends Model implements HasMedia
         'civil_technical_bid_opening_date' => 'date',
         'civil_financial_bid_opening_date' => 'date',
         'civil_contract_award_date' => 'date',
+        'civil_contractor_amount' => 'decimal:2',
         'civil_work_initiation_date' => 'date',
         'civil_financial_progress_percent' => 'decimal:2',
         'civil_amount_disbursed' => 'decimal:2',
