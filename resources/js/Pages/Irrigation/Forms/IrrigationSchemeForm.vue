@@ -50,6 +50,19 @@ function getInitialFormData(scheme) {
             northening: scheme?.profile ? scheme.profile.northening : null,
             easting: scheme?.profile ? scheme.profile.easting : null,
             elevation: scheme?.profile ? scheme.profile.elevation : null,
+            social_assessment_date: scheme?.profile ? scheme.profile.social_assessment_date : null,
+            detail_design_finalized_date: scheme?.profile ? scheme.profile.detail_design_finalized_date : null,
+            work_initiated_date: scheme?.profile ? scheme.profile.work_initiated_date : null,
+            work_completed_date: scheme?.profile ? scheme.profile.work_completed_date : null,
+            om_training_date: scheme?.profile ? scheme.profile.om_training_date : null,
+            handover_date: scheme?.profile ? scheme.profile.handover_date : null,
+            beneficiary_hhs: scheme?.profile ? scheme.profile.beneficiary_hhs : null,
+            area_irrigated_before_rehab_hectares: scheme?.profile ? scheme.profile.area_irrigated_before_rehab_hectares : null,
+            area_irrigated_after_rehab_hectares: scheme?.profile ? scheme.profile.area_irrigated_after_rehab_hectares : null,
+            channel_length_rehab_rft: scheme?.profile ? scheme.profile.channel_length_rehab_rft : null,
+            channel_length_new_rft: scheme?.profile ? scheme.profile.channel_length_new_rft : null,
+            protection_length_rft: scheme?.profile ? scheme.profile.protection_length_rft : null,
+            intake_length_rft: scheme?.profile ? scheme.profile.intake_length_rft : null,
         },
     };
 }
@@ -263,6 +276,172 @@ const handleCancel = () => {
                     placeholder="Select Date"
                 />
                 <InputError class="mt-2" :message="form.errors['profile.date_technical_surveys']" />
+            </div>
+            
+            <!-- Social Assessment Date -->
+            <div>
+                <InputLabel for="social_assessment_date" value="Social Assessment Date" />
+                <DatePicker
+                    id="social_assessment_date"
+                    v-model="form.profile.social_assessment_date"
+                    :class="{ 'border-red-500': form.errors['profile.social_assessment_date'] }"
+                    placeholder="Select Date"
+                />
+                <InputError class="mt-2" :message="form.errors['profile.social_assessment_date']" />
+            </div>
+
+             <!-- Detail Design Finalized Date -->
+            <div>
+                <InputLabel for="detail_design_finalized_date" value="Detailed Design Finalized Date" />
+                <DatePicker
+                    id="detail_design_finalized_date"
+                    v-model="form.profile.detail_design_finalized_date"
+                    :class="{ 'border-red-500': form.errors['profile.detail_design_finalized_date'] }"
+                    placeholder="Select Date"
+                />
+                <InputError class="mt-2" :message="form.errors['profile.detail_design_finalized_date']" />
+            </div>
+
+             <!-- Work Initiated Date -->
+            <div>
+                <InputLabel for="work_initiated_date" value="Work Initiated Date" />
+                <DatePicker
+                    id="work_initiated_date"
+                    v-model="form.profile.work_initiated_date"
+                    :class="{ 'border-red-500': form.errors['profile.work_initiated_date'] }"
+                    placeholder="Select Date"
+                />
+                <InputError class="mt-2" :message="form.errors['profile.work_initiated_date']" />
+            </div>
+
+             <!-- Work Completed Date -->
+            <div>
+                <InputLabel for="work_completed_date" value="Work Completed Date" />
+                <DatePicker
+                    id="work_completed_date"
+                    v-model="form.profile.work_completed_date"
+                    :class="{ 'border-red-500': form.errors['profile.work_completed_date'] }"
+                    placeholder="Select Date"
+                />
+                <InputError class="mt-2" :message="form.errors['profile.work_completed_date']" />
+            </div>
+
+             <!-- O&M Training Date -->
+            <div>
+                <InputLabel for="om_training_date" value="O&M Training Date" />
+                <DatePicker
+                    id="om_training_date"
+                    v-model="form.profile.om_training_date"
+                    :class="{ 'border-red-500': form.errors['profile.om_training_date'] }"
+                    placeholder="Select Date"
+                />
+                <InputError class="mt-2" :message="form.errors['profile.om_training_date']" />
+            </div>
+
+             <!-- Handover Date -->
+            <div>
+                <InputLabel for="handover_date" value="Handed Over Date" />
+                <DatePicker
+                    id="handover_date"
+                    v-model="form.profile.handover_date"
+                    :class="{ 'border-red-500': form.errors['profile.handover_date'] }"
+                    placeholder="Select Date"
+                />
+                <InputError class="mt-2" :message="form.errors['profile.handover_date']" />
+            </div>
+
+             <!-- Beneficiary HHs -->
+            <div>
+                <InputLabel for="beneficiary_hhs" value="Beneficiary HHs" />
+                <TextInput
+                    id="beneficiary_hhs"
+                    v-model="form.profile.beneficiary_hhs"
+                    type="number"
+                    min="0"
+                    class="mt-1 block w-full"
+                    :class="{ 'border-red-500': form.errors['profile.beneficiary_hhs'] }"
+                />
+                <InputError class="mt-2" :message="form.errors['profile.beneficiary_hhs']" />
+            </div>
+
+            <!-- New Physical Dimension Fields -->
+            <div>
+                <InputLabel for="area_irrigated_before_rehab_hectares" value="Area Irrigated Before Rehab (Hectares)" />
+                <TextInput
+                    id="area_irrigated_before_rehab_hectares"
+                    v-model="form.profile.area_irrigated_before_rehab_hectares"
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    class="mt-1 block w-full"
+                    :class="{ 'border-red-500': form.errors['profile.area_irrigated_before_rehab_hectares'] }"
+                />
+                <InputError class="mt-2" :message="form.errors['profile.area_irrigated_before_rehab_hectares']" />
+            </div>
+             <div>
+                <InputLabel for="area_irrigated_after_rehab_hectares" value="Area Irrigated After Rehab (Hectares)" />
+                <TextInput
+                    id="area_irrigated_after_rehab_hectares"
+                    v-model="form.profile.area_irrigated_after_rehab_hectares"
+                     type="number"
+                    step="0.01"
+                    min="0"
+                    class="mt-1 block w-full"
+                    :class="{ 'border-red-500': form.errors['profile.area_irrigated_after_rehab_hectares'] }"
+                />
+                <InputError class="mt-2" :message="form.errors['profile.area_irrigated_after_rehab_hectares']" />
+            </div>
+             <div>
+                <InputLabel for="channel_length_rehab_rft" value="Channel Running Feet (REHAB)" />
+                <TextInput
+                    id="channel_length_rehab_rft"
+                    v-model="form.profile.channel_length_rehab_rft"
+                     type="number"
+                    step="0.01"
+                    min="0"
+                    class="mt-1 block w-full"
+                    :class="{ 'border-red-500': form.errors['profile.channel_length_rehab_rft'] }"
+                />
+                <InputError class="mt-2" :message="form.errors['profile.channel_length_rehab_rft']" />
+            </div>
+             <div>
+                <InputLabel for="channel_length_new_rft" value="Channel Running Feet (NEW)" />
+                <TextInput
+                    id="channel_length_new_rft"
+                    v-model="form.profile.channel_length_new_rft"
+                     type="number"
+                    step="0.01"
+                    min="0"
+                    class="mt-1 block w-full"
+                    :class="{ 'border-red-500': form.errors['profile.channel_length_new_rft'] }"
+                />
+                <InputError class="mt-2" :message="form.errors['profile.channel_length_new_rft']" />
+            </div>
+             <div>
+                <InputLabel for="protection_length_rft" value="Protection Length (Running Feet)" />
+                <TextInput
+                    id="protection_length_rft"
+                    v-model="form.profile.protection_length_rft"
+                     type="number"
+                    step="0.01"
+                    min="0"
+                    class="mt-1 block w-full"
+                    :class="{ 'border-red-500': form.errors['profile.protection_length_rft'] }"
+                />
+                <InputError class="mt-2" :message="form.errors['profile.protection_length_rft']" />
+            </div>
+             <div>
+                <InputLabel for="intake_length_rft" value="Intake Length (Running Feet)" />
+                <TextInput
+                    id="intake_length_rft"
+                    v-model="form.profile.intake_length_rft"
+                     type="number"
+                    step="0.01"
+                    min="0"
+                    class="mt-1 block w-full"
+                    :class="{ 'border-red-500': form.errors['profile.intake_length_rft'] }"
+                />
+                <InputError class="mt-2" :message="form.errors['profile.intake_length_rft']" />
             </div>
 
             <!-- Northening -->
