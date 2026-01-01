@@ -65,6 +65,13 @@ function getInitialFormData(site) {
         retaining_walls_details: site ? site.retaining_walls_details : '',
         // --- END ADDING MISSING FIELDS ---
 
+        // Approval Milestones
+        management_committee_date: site ? site.management_committee_date : null,
+        opm_shared_date: site ? site.opm_shared_date : null,
+        opm_review_meeting_date: site ? site.opm_review_meeting_date : null,
+        ta_eu_comments_date: site ? site.ta_eu_comments_date : null,
+        eu_approval_meeting_date: site ? site.eu_approval_meeting_date : null,
+        
         // Civil Procurement - OLD
         social_assessment_date: site ? site.social_assessment_date : null,
         opm_visit_date: site ? site.opm_visit_date : null,
@@ -742,6 +749,37 @@ const handleCancel = () => {
                         placeholder="Select Date"
                     />
                     <InputError class="mt-2" :message="form.errors.physical_completion_date" />
+                </div>
+
+                <!-- NEW SECTION: MHP Approval Milestones -->
+                <div class="md:col-span-2 mt-6 mb-2 border-b pb-2">
+                    <h3 class="text-lg font-medium text-gray-900">MHP Approval Milestones</h3>
+                </div>
+
+                <div>
+                    <InputLabel for="management_committee_date" value="Presented to Management Committee" />
+                    <DatePicker id="management_committee_date" v-model="form.management_committee_date" />
+                    <InputError class="mt-2" :message="form.errors.management_committee_date" />
+                </div>
+                 <div>
+                    <InputLabel for="opm_shared_date" value="Shared With OPM/EU for Review" />
+                    <DatePicker id="opm_shared_date" v-model="form.opm_shared_date" />
+                    <InputError class="mt-2" :message="form.errors.opm_shared_date" />
+                </div>
+                 <div>
+                    <InputLabel for="opm_review_meeting_date" value="Review Meeting with OPM" />
+                    <DatePicker id="opm_review_meeting_date" v-model="form.opm_review_meeting_date" />
+                    <InputError class="mt-2" :message="form.errors.opm_review_meeting_date" />
+                </div>
+                 <div>
+                    <InputLabel for="ta_eu_comments_date" value="(TA/EU) Comments and Feedback" />
+                    <DatePicker id="ta_eu_comments_date" v-model="form.ta_eu_comments_date" />
+                    <InputError class="mt-2" :message="form.errors.ta_eu_comments_date" />
+                </div>
+                 <div>
+                    <InputLabel for="eu_approval_meeting_date" value="Final Review Meeting with EU for Approval" />
+                    <DatePicker id="eu_approval_meeting_date" v-model="form.eu_approval_meeting_date" />
+                    <InputError class="mt-2" :message="form.errors.eu_approval_meeting_date" />
                 </div>
 
                 <!-- OPM Visit Date -->
