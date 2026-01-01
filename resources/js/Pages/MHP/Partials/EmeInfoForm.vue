@@ -233,7 +233,7 @@ const submit = () => {
                 <InputError :message="form.errors.completion_date" class="mt-2" />
             </div>
             </div>
-        </div>
+
 
         <!-- Procurement Milestones -->
         <div class="mt-6 border p-4 rounded-lg bg-gray-50">
