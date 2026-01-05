@@ -54,6 +54,53 @@ class UpdateMhpSiteRequest extends FormRequest
             'financial_initiation_date' => ['nullable', 'date'],
             'physical_completion_date' => ['nullable', 'date', 'after_or_equal:financial_initiation_date'],
             'remarks' => ['nullable', 'string'],
+            
+            // --- NEW FIELDS VALIDATION RULES (Sync from Store) ---
+            'observed_discharge' => ['nullable', 'numeric', 'min:0'],
+            'intake_details' => ['nullable', 'string'],
+            'settling_basin_details' => ['nullable', 'string'],
+            'approach_culvert_details' => ['nullable', 'string'],
+            'headrace_channel_details' => ['nullable', 'string'],
+            'aqueduct_details' => ['nullable', 'string'],
+            'tailrace_details' => ['nullable', 'string'],
+            'spillway_details' => ['nullable', 'string'],
+            'retaining_walls_details' => ['nullable', 'string'],
+            'design_net_head' => ['nullable', 'numeric', 'min:0'],
+            'proposed_capacity_kw' => ['nullable', 'numeric', 'min:0'],
+            'length_ft' => ['nullable', 'numeric', 'min:0'],
+            'bottom_width_ft' => ['nullable', 'numeric', 'min:0'],
+            'design_depth_ft' => ['nullable', 'numeric', 'min:0'],
+            'freeboard_ft' => ['nullable', 'numeric', 'min:0'],
+            'velocity_ft_per_sec' => ['nullable', 'numeric', 'min:0'],
+
+            // Approval Milestones
+            'management_committee_date' => ['nullable', 'date'],
+            'opm_shared_date' => ['nullable', 'date'],
+            'opm_review_meeting_date' => ['nullable', 'date'],
+            'ta_eu_comments_date' => ['nullable', 'date'],
+            'eu_approval_meeting_date' => ['nullable', 'date'],
+
+            // Purchase & Civil Works
+            'social_assessment_date' => ['nullable', 'date'],
+            'opm_visit_date' => ['nullable', 'date'],
+            'layout_initiation_date' => ['nullable', 'date'],
+            'ground_breaking_date' => ['nullable', 'date'],
+            'civil_works_cost' => ['nullable', 'numeric', 'min:0'],
+            'civil_advertisement_date' => ['nullable', 'date'],
+            'civil_pre_bid_meeting_date' => ['nullable', 'date'],
+            'civil_technical_bid_opening_date' => ['nullable', 'date'],
+            'civil_financial_bid_opening_date' => ['nullable', 'date'],
+            'civil_contract_award_date' => ['nullable', 'date'],
+            'civil_contractor_amount' => ['nullable', 'numeric', 'min:0'],
+
+            // Civil Progress
+            'civil_work_initiation_date' => ['nullable', 'date'],
+            'civil_financial_progress_percent' => ['nullable', 'numeric', 'min:0', 'max:100'],
+            'civil_amount_disbursed' => ['nullable', 'numeric', 'min:0'],
+            'civil_amount_remaining' => ['nullable', 'numeric', 'min:0'],
+            'civil_physical_progress_percent' => ['nullable', 'numeric', 'min:0', 'max:100'],
+            'civil_progress_description' => ['nullable', 'string'],
+            'civil_completion_date' => ['nullable', 'date'],
             'attachments' => ['nullable', 'array'], // For Spatie Media Library
             'attachments.*' => ['file', 'max:10240'],
             'attachments_to_delete' => ['nullable', 'array'], // Array of media IDs to delete
