@@ -5,10 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media as SpatieMedia;
 
-class EmeInfo extends Model
+class EmeInfo extends Model implements HasMedia
 {
-    use HasFactory;
+    use HasFactory, InteractsWithMedia;
 
     // Set the table name explicitly if it doesn't follow Laravel's convention
     protected $table = 'eme_info';
@@ -61,6 +64,26 @@ class EmeInfo extends Model
         'amount_remaining' => 'decimal:2',
         'physical_progress_percent' => 'decimal:2',
     ];
+    
+    protected $appends = ['attachments_frontend'];
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('attachments');
+    }
+
+    public function getAttachmentsFrontendAttribute(): array
+    {
+        return $this->getMedia('attachments')->map(fn (SpatieMedia $media) => [
+            'id' => $media->id,
+            'name' => $media->name,
+            'file_name' => $media->file_name,
+            'url' => $media->getUrl(),
+            'size' => $media->size,
+            'mime_type' => $media->mime_type,
+        ])->toArray();
+    }
+
     /**
      * Get the MHP site that this EME profile belongs to.
      */
