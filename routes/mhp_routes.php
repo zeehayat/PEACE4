@@ -94,6 +94,7 @@ Route::middleware(['web', 'auth'])->group(function () {
         return response()->json(['success' => true]);
     })->name('media.destroy');
     Route::post('sites/{site}/eme-info', [EmeInfoController::class, 'store'])->name('sites.eme-info.store');
+    Route::match(['put', 'patch'], 'sites/{site}/eme-info', [EmeInfoController::class, 'store'])->name('sites.eme-info.update');
 
     // Mhp Report
     Route::get('reports', [MhpReportController::class, 'index'])->name('reports.index');
