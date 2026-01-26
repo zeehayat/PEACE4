@@ -156,6 +156,10 @@ const isAdmin = computed(() => user.value?.roles?.some((r) => ['Admin', 'Root'].
                 <svg class="h-5 w-5 transition-colors duration-200" :class="isCollapsed ? 'mr-0' : 'mr-3'" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h2a2 2 0 002-2V4a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2h2m0 0l4-4m-4 4l-4-4m4 4V4"/></svg>
                 <span class="transition-colors duration-200" v-show="!isCollapsed">CBOs</span>
             </Link>
+            <Link :href="route('cro.cros.index')" :class="['nav-link group', isActive('cro.cros.index') ? 'bg-primary/20 text-white ring-1 ring-primary/40' : 'text-gray-200 hover:bg-white/5 hover:text-white', isCollapsed ? 'justify-center' : '']">
+                <svg class="h-5 w-5 transition-colors duration-200" :class="isCollapsed ? 'mr-0' : 'mr-3'" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                 <span class="transition-colors duration-200" v-show="!isCollapsed">CROs</span>
+            </Link>
             <Link :href="route('mhp.sites.index')" :class="['nav-link group', isActive('mhp.sites.index') ? 'bg-primary/20 text-white ring-1 ring-primary/40' : 'text-gray-200 hover:bg-white/5 hover:text-white', isCollapsed ? 'justify-center' : '']">
                 <svg class="h-5 w-5 transition-colors duration-200" :class="isCollapsed ? 'mr-0' : 'mr-3'" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                 <span class="transition-colors duration-200" v-show="!isCollapsed">MHP Sites</span>

@@ -33,6 +33,10 @@ return Application::configure(basePath: dirname(__DIR__))
                 ->prefix('lrm')
                 ->name('lrm.')
                 ->group(base_path('routes/lrm_routes.php'));
+            Route::middleware('web')
+                ->prefix('cro')
+                ->name('cro.')
+                ->group(base_path('routes/cro_routes.php'));
             Route::middleware(['web','auth'])
                 ->prefix('admin')
                 ->name('admin.')
