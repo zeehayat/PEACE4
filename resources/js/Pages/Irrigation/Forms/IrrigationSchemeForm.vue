@@ -44,6 +44,7 @@ function getInitialFormData(scheme) {
             beneficiary_farmers: scheme?.profile ? scheme.profile.beneficiary_farmers : null,
             channel_length_km: scheme?.profile ? scheme.profile.channel_length_km : null,
             land_area_hectares: scheme?.profile ? scheme.profile.land_area_hectares : null,
+            additional_area_covered: scheme?.profile ? scheme.profile.additional_area_covered : null,
             month_year_establishment: scheme?.profile ? scheme.profile.month_year_establishment : null,
             established_by: scheme?.profile ? scheme.profile.established_by : '',
             date_technical_surveys: scheme?.profile ? scheme.profile.date_technical_surveys : null,
@@ -239,6 +240,21 @@ const handleCancel = () => {
                     :class="{ 'border-red-500': form.errors['profile.land_area_hectares'] }"
                 />
                 <InputError class="mt-2" :message="form.errors['profile.land_area_hectares']" />
+            </div>
+
+             <!-- Additional Area Covered -->
+            <div>
+                <InputLabel for="additional_area_covered" value="Additional Area Covered (Hectares)" />
+                <TextInput
+                    id="additional_area_covered"
+                    v-model="form.profile.additional_area_covered"
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    class="mt-1 block w-full"
+                    :class="{ 'border-red-500': form.errors['profile.additional_area_covered'] }"
+                />
+                <InputError class="mt-2" :message="form.errors['profile.additional_area_covered']" />
             </div>
 
             <!-- Month/Year of Establishment -->

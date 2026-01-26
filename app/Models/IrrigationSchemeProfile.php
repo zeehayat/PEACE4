@@ -37,6 +37,7 @@ class IrrigationSchemeProfile extends Model implements HasMedia
         'northening',
         'easting',
         'elevation',
+        'additional_area_covered',
     ];
 
     protected $casts = [
@@ -59,6 +60,7 @@ class IrrigationSchemeProfile extends Model implements HasMedia
         'northening' => 'decimal:6',
         'easting' => 'decimal:6',
         'elevation' => 'decimal:2',
+        'additional_area_covered' => 'decimal:2',
     ];
 
     /**

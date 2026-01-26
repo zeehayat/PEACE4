@@ -34,6 +34,7 @@ class UpdateIrrigationSchemeRequest extends FormRequest
             'profile.beneficiary_farmers' => ['nullable', 'integer', 'min:0'],
             'profile.channel_length_km' => ['nullable', 'numeric', 'min:0'],
             'profile.land_area_hectares' => ['nullable', 'numeric', 'min:0'],
+            'profile.additional_area_covered' => ['nullable', 'numeric', 'min:0'],
             'profile.month_year_establishment' => ['nullable', 'date'],
             'profile.established_by' => ['nullable', 'string', 'max:255'],
             'profile.date_technical_surveys' => ['nullable', 'date'],
