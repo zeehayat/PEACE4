@@ -57,10 +57,8 @@ class IrrigationReportController extends Controller
                     ? Carbon::parse($initiatedDate)->diffInDays(Carbon::parse($completionDate))
                     : null;
 
-                $baseArea = $profile?->land_area_hectares;
-                $rehabArea = $completion?->area_of_land_covered_hectares;
-                $additionalAreaKanal = ($baseArea !== null && $rehabArea !== null)
-                    ? round(($rehabArea - $baseArea) * 19.768, 2)
+                $additionalAreaKanal = $profile?->additional_area_covered 
+                    ? round($profile->additional_area_covered * 19.768, 2) 
                     : null;
 
                 $omTrainings = $cbo?->trainings?->where('training_type', 'O&M Training')->count() ?? 0;
@@ -148,10 +146,8 @@ class IrrigationReportController extends Controller
                     ? Carbon::parse($initiatedDate)->diffInDays(Carbon::parse($completionDate))
                     : null;
 
-                $baseArea = $profile?->land_area_hectares;
-                $rehabArea = $completion?->area_of_land_covered_hectares;
-                $additionalAreaKanal = ($baseArea !== null && $rehabArea !== null)
-                    ? round(($rehabArea - $baseArea) * 19.768, 2)
+                $additionalAreaKanal = $profile?->additional_area_covered 
+                    ? round($profile->additional_area_covered * 19.768, 2) 
                     : null;
 
                 $omTrainings = $cbo?->trainings?->where('training_type', 'O&M Training')->count() ?? 0;
