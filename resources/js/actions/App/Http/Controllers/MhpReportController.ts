@@ -263,6 +263,94 @@ exportInstructionReport.head = (options?: RouteQueryOptions): RouteDefinition<'h
     method: 'head',
 })
 
-const MhpReportController = { index, exportMethod, districtReport, exportDistrictReport, instructionReport, exportInstructionReport, export: exportMethod }
+/**
+* @see \App\Http\Controllers\MhpReportController::detailedReport
+* @see app/Http/Controllers/MhpReportController.php:556
+* @route '/mhp/reports/detailed'
+*/
+export const detailedReport = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: detailedReport.url(options),
+    method: 'get',
+})
+
+detailedReport.definition = {
+    methods: ["get","head"],
+    url: '/mhp/reports/detailed',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \App\Http\Controllers\MhpReportController::detailedReport
+* @see app/Http/Controllers/MhpReportController.php:556
+* @route '/mhp/reports/detailed'
+*/
+detailedReport.url = (options?: RouteQueryOptions) => {
+    return detailedReport.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\MhpReportController::detailedReport
+* @see app/Http/Controllers/MhpReportController.php:556
+* @route '/mhp/reports/detailed'
+*/
+detailedReport.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: detailedReport.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\MhpReportController::detailedReport
+* @see app/Http/Controllers/MhpReportController.php:556
+* @route '/mhp/reports/detailed'
+*/
+detailedReport.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: detailedReport.url(options),
+    method: 'head',
+})
+
+/**
+* @see \App\Http\Controllers\MhpReportController::exportDetailedReport
+* @see app/Http/Controllers/MhpReportController.php:579
+* @route '/mhp/reports/detailed/export'
+*/
+export const exportDetailedReport = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: exportDetailedReport.url(options),
+    method: 'get',
+})
+
+exportDetailedReport.definition = {
+    methods: ["get","head"],
+    url: '/mhp/reports/detailed/export',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \App\Http\Controllers\MhpReportController::exportDetailedReport
+* @see app/Http/Controllers/MhpReportController.php:579
+* @route '/mhp/reports/detailed/export'
+*/
+exportDetailedReport.url = (options?: RouteQueryOptions) => {
+    return exportDetailedReport.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\MhpReportController::exportDetailedReport
+* @see app/Http/Controllers/MhpReportController.php:579
+* @route '/mhp/reports/detailed/export'
+*/
+exportDetailedReport.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: exportDetailedReport.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\MhpReportController::exportDetailedReport
+* @see app/Http/Controllers/MhpReportController.php:579
+* @route '/mhp/reports/detailed/export'
+*/
+exportDetailedReport.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: exportDetailedReport.url(options),
+    method: 'head',
+})
+
+const MhpReportController = { index, exportMethod, districtReport, exportDistrictReport, instructionReport, exportInstructionReport, detailedReport, exportDetailedReport, export: exportMethod }
 
 export default MhpReportController

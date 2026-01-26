@@ -103,6 +103,8 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('reports/district/export', [MhpReportController::class, 'exportDistrictReport'])->name('reports.district.export');
     Route::get('reports/district/instructions', [MhpReportController::class, 'instructionReport'])->name('reports.district.instructions');
     Route::get('reports/district/instructions/export', [MhpReportController::class, 'exportInstructionReport'])->name('reports.district.instructions.export');
+    Route::get('reports/detailed', [MhpReportController::class, 'detailedReport'])->name('reports.detailed');
+    Route::get('reports/detailed/export', [MhpReportController::class, 'exportDetailedReport'])->name('reports.detailed.export');
     Route::get('{mhpSite}/details', [MhpSiteController::class, 'getDetails'])->name('sites.details');
 
 });

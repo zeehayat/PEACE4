@@ -1,5 +1,6 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition } from './../../../wayfinder'
 import district from './district'
+import detailed from './detailed'
 /**
 * @see \App\Http\Controllers\MhpReportController::index
 * @see app/Http/Controllers/MhpReportController.php:18
@@ -132,10 +133,55 @@ district.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     method: 'head',
 })
 
+/**
+* @see \App\Http\Controllers\MhpReportController::detailed
+* @see app/Http/Controllers/MhpReportController.php:556
+* @route '/mhp/reports/detailed'
+*/
+export const detailed = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: detailed.url(options),
+    method: 'get',
+})
+
+detailed.definition = {
+    methods: ["get","head"],
+    url: '/mhp/reports/detailed',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \App\Http\Controllers\MhpReportController::detailed
+* @see app/Http/Controllers/MhpReportController.php:556
+* @route '/mhp/reports/detailed'
+*/
+detailed.url = (options?: RouteQueryOptions) => {
+    return detailed.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\MhpReportController::detailed
+* @see app/Http/Controllers/MhpReportController.php:556
+* @route '/mhp/reports/detailed'
+*/
+detailed.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: detailed.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\MhpReportController::detailed
+* @see app/Http/Controllers/MhpReportController.php:556
+* @route '/mhp/reports/detailed'
+*/
+detailed.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: detailed.url(options),
+    method: 'head',
+})
+
 const reports = {
     index,
     export: exportMethod,
     district,
+    detailed,
 }
 
 export default reports

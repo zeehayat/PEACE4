@@ -1,143 +1,56 @@
-app-JrSANRBg.js:19 Error: Ziggy error: route 'mhp.reports.district.instructions' is not in the route list.
-    at new wv (app-JrSANRBg.js:92:22906)
-    at Ov (app-JrSANRBg.js:92:27873)
-    at Proxy.r (app-JrSANRBg.js:92:27957)
-    at AppLayout-BYke0xgb.js:1:9372
-    at pP (app-JrSANRBg.js:20:3380)
-    at AppLayout-BYke0xgb.js:1:9327
-    at Object.n [as default] (app-JrSANRBg.js:19:2159)
-    at Proxy.<anonymous> (app-JrSANRBg.js:19:6182)
-    at mo (app-JrSANRBg.js:20:27610)
-    at Gd.Y [as fn] (app-JrSANRBg.js:20:19170)
-SE @ app-JrSANRBg.js:19
-xs @ app-JrSANRBg.js:19
-mo @ app-JrSANRBg.js:20
-Y @ app-JrSANRBg.js:20
-run @ app-JrSANRBg.js:15
-A @ app-JrSANRBg.js:20
-U @ app-JrSANRBg.js:20
-W @ app-JrSANRBg.js:20
-E @ app-JrSANRBg.js:20
-Y @ app-JrSANRBg.js:20
-run @ app-JrSANRBg.js:15
-A @ app-JrSANRBg.js:20
-U @ app-JrSANRBg.js:20
-W @ app-JrSANRBg.js:20
-E @ app-JrSANRBg.js:20
-O @ app-JrSANRBg.js:20
-R @ app-JrSANRBg.js:20
-T @ app-JrSANRBg.js:20
-E @ app-JrSANRBg.js:20
-O @ app-JrSANRBg.js:20
-b @ app-JrSANRBg.js:20
-E @ app-JrSANRBg.js:20
-O @ app-JrSANRBg.js:20
-R @ app-JrSANRBg.js:20
-T @ app-JrSANRBg.js:20
-E @ app-JrSANRBg.js:20
-O @ app-JrSANRBg.js:20
-R @ app-JrSANRBg.js:20
-T @ app-JrSANRBg.js:20
-E @ app-JrSANRBg.js:20
-O @ app-JrSANRBg.js:20
-R @ app-JrSANRBg.js:20
-T @ app-JrSANRBg.js:20
-E @ app-JrSANRBg.js:20
-O @ app-JrSANRBg.js:20
-b @ app-JrSANRBg.js:20
-E @ app-JrSANRBg.js:20
-Y @ app-JrSANRBg.js:20
-run @ app-JrSANRBg.js:15
-A @ app-JrSANRBg.js:20
-U @ app-JrSANRBg.js:20
-W @ app-JrSANRBg.js:20
-E @ app-JrSANRBg.js:20
-O @ app-JrSANRBg.js:20
-R @ app-JrSANRBg.js:20
-T @ app-JrSANRBg.js:20
-E @ app-JrSANRBg.js:20
-Y @ app-JrSANRBg.js:20
-run @ app-JrSANRBg.js:15
-A @ app-JrSANRBg.js:20
-U @ app-JrSANRBg.js:20
-W @ app-JrSANRBg.js:20
-E @ app-JrSANRBg.js:20
-Y @ app-JrSANRBg.js:20
-run @ app-JrSANRBg.js:15
-A @ app-JrSANRBg.js:20
-U @ app-JrSANRBg.js:20
-W @ app-JrSANRBg.js:20
-E @ app-JrSANRBg.js:20
-Y @ app-JrSANRBg.js:20
-run @ app-JrSANRBg.js:15
-A @ app-JrSANRBg.js:20
-U @ app-JrSANRBg.js:20
-W @ app-JrSANRBg.js:20
-E @ app-JrSANRBg.js:20
-Y @ app-JrSANRBg.js:20
-run @ app-JrSANRBg.js:15
-A @ app-JrSANRBg.js:20
-U @ app-JrSANRBg.js:20
-W @ app-JrSANRBg.js:20
-E @ app-JrSANRBg.js:20
-Re @ app-JrSANRBg.js:20
-mount @ app-JrSANRBg.js:20
-t.mount @ app-JrSANRBg.js:24
-setup @ app-JrSANRBg.js:135
-(anonymous) @ app-JrSANRBg.js:92
-Promise.then
-uv @ app-JrSANRBg.js:92
-(anonymous) @ app-JrSANRBg.js:135
-app-JrSANRBg.js:19 Error: Ziggy error: route 'mhp.reports.district.instructions' is not in the route list.
-    at new wv (app-JrSANRBg.js:92:22906)
-    at Ov (app-JrSANRBg.js:92:27873)
-    at Proxy.r (app-JrSANRBg.js:92:27957)
-    at AppLayout-BYke0xgb.js:1:9372
-    at pP (app-JrSANRBg.js:20:3380)
-    at AppLayout-BYke0xgb.js:1:9327
-    at Object.n [as default] (app-JrSANRBg.js:19:2159)
-    at Proxy.<anonymous> (app-JrSANRBg.js:19:6182)
-    at mo (app-JrSANRBg.js:20:27610)
-    at Gd.Y [as fn] (app-JrSANRBg.js:20:18627)
-SE @ app-JrSANRBg.js:19
-xs @ app-JrSANRBg.js:19
-mo @ app-JrSANRBg.js:20
-Y @ app-JrSANRBg.js:20
-run @ app-JrSANRBg.js:15
-Q @ app-JrSANRBg.js:20
-W @ app-JrSANRBg.js:20
-E @ app-JrSANRBg.js:20
-Y @ app-JrSANRBg.js:20
-run @ app-JrSANRBg.js:15
-Q @ app-JrSANRBg.js:20
-W @ app-JrSANRBg.js:20
-E @ app-JrSANRBg.js:20
-M @ app-JrSANRBg.js:20
-w @ app-JrSANRBg.js:20
-T @ app-JrSANRBg.js:20
-E @ app-JrSANRBg.js:20
-ce @ app-JrSANRBg.js:20
-C @ app-JrSANRBg.js:20
-b @ app-JrSANRBg.js:20
-E @ app-JrSANRBg.js:20
-M @ app-JrSANRBg.js:20
-b @ app-JrSANRBg.js:20
-E @ app-JrSANRBg.js:20
-Y @ app-JrSANRBg.js:20
-run @ app-JrSANRBg.js:15
-runIfDirty @ app-JrSANRBg.js:15
-mi @ app-JrSANRBg.js:19
-op @ app-JrSANRBg.js:19
-Promise.then
-sp @ app-JrSANRBg.js:19
-bl @ app-JrSANRBg.js:19
-A.k.scheduler @ app-JrSANRBg.js:20
-trigger @ app-JrSANRBg.js:15
-Il @ app-JrSANRBg.js:15
-ir @ app-JrSANRBg.js:15
-set @ app-JrSANRBg.js:15
-j @ AppLayout-BYke0xgb.js:1
-onClick @ AppLayout-BYke0xgb.js:1
-mi @ app-JrSANRBg.js:19
-jt @ app-JrSANRBg.js:19
-r @ app-JrSANRBg.js:24
+ [Vue warn]: Unhandled error during execution of native event handler 
+  at <SelectInput id="district" modelValue="" onUpdate:modelValue=fn  ... > 
+  at <AppLayout title="Detailed MHP Report" > 
+  at <MhpDetailedReport flash= {success: null, error: null} jetstream= {canCreateTeams: false, canManageTwoFactorAuthentication: true, canUpdatePassword: true, canUpdateProfileInformation: true, hasEmailVerification: false, …} auth= {user: {…}}  ... > 
+  at <Inertia initialPage= {component: 'MHP/MhpDetailedReport', props: {…}, url: '/mhp/reports/detailed', version: '0138cf059157c7e154e5370941981735', clearHistory: false, …} initialComponent= {__name: 'MhpDetailedReport', props: {…}, __hmrId: 'a5710f6c', setup: ƒ, render: ƒ, …} resolveComponent=fn<resolveComponent>  ... > 
+  at <App>
+warn$1 @ chunk-VZXQDS5F.js?v=b5145457:2125
+logError @ chunk-VZXQDS5F.js?v=b5145457:2336
+handleError @ chunk-VZXQDS5F.js?v=b5145457:2328
+callWithErrorHandling @ chunk-VZXQDS5F.js?v=b5145457:2274
+callWithAsyncErrorHandling @ chunk-VZXQDS5F.js?v=b5145457:2279
+callWithAsyncErrorHandling @ chunk-VZXQDS5F.js?v=b5145457:2290
+invoker @ chunk-VZXQDS5F.js?v=b5145457:11271
+handleMouseUp_ @ unknown
+chunk-VZXQDS5F.js?v=b5145457:2341 Uncaught Error: Ziggy error: route 'reports.detailed' is not in the route list.
+    at new n (ziggy-js.js?v=b5145457:727:37)
+    at s (ziggy-js.js?v=b5145457:798:14)
+    at applyFilters (MhpDetailedReport.vue:78:16)
+    at chunk-VZXQDS5F.js?v=b5145457:11300:45
+    at callWithErrorHandling (chunk-VZXQDS5F.js?v=b5145457:2272:19)
+    at callWithAsyncErrorHandling (chunk-VZXQDS5F.js?v=b5145457:2279:17)
+    at callWithAsyncErrorHandling (chunk-VZXQDS5F.js?v=b5145457:2290:19)
+    at HTMLSelectElement.invoker (chunk-VZXQDS5F.js?v=b5145457:11271:5)
+n @ ziggy-js.js?v=b5145457:727
+s @ ziggy-js.js?v=b5145457:798
+applyFilters @ MhpDetailedReport.vue:78
+(anonymous) @ chunk-VZXQDS5F.js?v=b5145457:11300
+callWithErrorHandling @ chunk-VZXQDS5F.js?v=b5145457:2272
+callWithAsyncErrorHandling @ chunk-VZXQDS5F.js?v=b5145457:2279
+callWithAsyncErrorHandling @ chunk-VZXQDS5F.js?v=b5145457:2290
+invoker @ chunk-VZXQDS5F.js?v=b5145457:11271
+chunk-VZXQDS5F.js?v=b5145457:2125 [Vue warn]: Unhandled error during execution of native event handler 
+  at <PrimaryButton class="h-10 bg-green-600 hover:bg-green-700 whitespace-nowrap" onClick=fn<exportExcel> > 
+  at <AppLayout title="Detailed MHP Report" > 
+  at <MhpDetailedReport flash= {success: null, error: null} jetstream= {canCreateTeams: false, canManageTwoFactorAuthentication: true, canUpdatePassword: true, canUpdateProfileInformation: true, hasEmailVerification: false, …} auth= {user: {…}}  ... > 
+  at <Inertia initialPage= {component: 'MHP/MhpDetailedReport', props: {…}, url: '/mhp/reports/detailed', version: '0138cf059157c7e154e5370941981735', clearHistory: false, …} initialComponent= {__name: 'MhpDetailedReport', props: {…}, __hmrId: 'a5710f6c', setup: ƒ, render: ƒ, …} resolveComponent=fn<resolveComponent>  ... > 
+  at <App>
+warn$1 @ chunk-VZXQDS5F.js?v=b5145457:2125
+logError @ chunk-VZXQDS5F.js?v=b5145457:2336
+handleError @ chunk-VZXQDS5F.js?v=b5145457:2328
+callWithErrorHandling @ chunk-VZXQDS5F.js?v=b5145457:2274
+callWithAsyncErrorHandling @ chunk-VZXQDS5F.js?v=b5145457:2279
+invoker @ chunk-VZXQDS5F.js?v=b5145457:11271
+chunk-VZXQDS5F.js?v=b5145457:2341 Uncaught Error: Ziggy error: route 'reports.detailed.export' is not in the route list.
+    at new n (ziggy-js.js?v=b5145457:727:37)
+    at s (ziggy-js.js?v=b5145457:798:14)
+    at exportExcel (MhpDetailedReport.vue:103:28)
+    at callWithErrorHandling (chunk-VZXQDS5F.js?v=b5145457:2272:19)
+    at callWithAsyncErrorHandling (chunk-VZXQDS5F.js?v=b5145457:2279:17)
+    at HTMLButtonElement.invoker (chunk-VZXQDS5F.js?v=b5145457:11271:5)
+n @ ziggy-js.js?v=b5145457:727
+s @ ziggy-js.js?v=b5145457:798
+exportExcel @ MhpDetailedReport.vue:103
+callWithErrorHandling @ chunk-VZXQDS5F.js?v=b5145457:2272
+callWithAsyncErrorHandling @ chunk-VZXQDS5F.js?v=b5145457:2279
+invoker @ chunk-VZXQDS5F.js?v=b5145457:11271
