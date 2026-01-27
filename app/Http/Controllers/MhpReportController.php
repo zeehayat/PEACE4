@@ -453,11 +453,15 @@ class MhpReportController extends Controller
             $countTransformers = function () use ($tnd, $eme) {
                 $tndCount = 0;
                 if ($tnd) {
-                    $tndCount += is_array($tnd->step_up_transformers) ? count($tnd->step_up_transformers) : 0;
-                    $tndCount += is_array($tnd->step_down_transformers) ? count($tnd->step_down_transformers) : 0;
+                    $sumQty = function ($items) {
+                        return collect($items ?? [])->sum(fn($item) => (int) ($item['qty'] ?? 0));
+                    };
+
+                    $tndCount += $sumQty($tnd->step_up_transformers);
+                    $tndCount += $sumQty($tnd->step_down_transformers);
                 }
-                $emeCount = $eme?->no_of_step_up_transformers ?? 0;
-                return $tndCount + (int) $emeCount;
+                $emeCount = (int) ($eme?->no_of_step_up_transformers ?? 0);
+                return $tndCount + $emeCount;
             };
 
             $civilProgress = $latestProgress(null);
@@ -765,11 +769,15 @@ class MhpReportController extends Controller
             $countTransformers = function () use ($tnd, $eme) {
                 $tndCount = 0;
                 if ($tnd) {
-                    $tndCount += is_array($tnd->step_up_transformers) ? count($tnd->step_up_transformers) : 0;
-                    $tndCount += is_array($tnd->step_down_transformers) ? count($tnd->step_down_transformers) : 0;
+                    $sumQty = function ($items) {
+                        return collect($items ?? [])->sum(fn($item) => (int) ($item['qty'] ?? 0));
+                    };
+
+                    $tndCount += $sumQty($tnd->step_up_transformers);
+                    $tndCount += $sumQty($tnd->step_down_transformers);
                 }
-                $emeCount = $eme?->no_of_step_up_transformers ?? 0;
-                return $tndCount + (int) $emeCount;
+                $emeCount = (int) ($eme?->no_of_step_up_transformers ?? 0);
+                return $tndCount + $emeCount;
             };
 
             $civilProgress = $latestProgress(null);
