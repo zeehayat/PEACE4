@@ -46,6 +46,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         // ⬇️ run proxy trust FIRST so the rest of the stack sees https
         $middleware->prepend(TrustProxies::class);
+        $middleware->trustProxies(at: '*');
 
         // Jetstream/Inertia
         $middleware->web(append: [
