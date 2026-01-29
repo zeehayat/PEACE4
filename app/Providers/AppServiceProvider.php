@@ -43,6 +43,13 @@ class AppServiceProvider extends ServiceProvider
     {
         if (app()->environment('production') || request()->getHost() === 'peace.srsp.cloud' || request()->header('x-forwarded-proto') === 'https') {
             URL::forceScheme('https');
+            request()->server->set('HTTPS', 'on');
+            
+            // Fix asset() helper if ASSET_URL is set to http
+            $url = config('app.asset_url');
+            if ($url && str_contains($url, 'http://')) {
+                config(['app.asset_url' => str_replace('http://', 'https://', $url)]);
+            }
         }
         Inertia::share('flash', function () {
             return [
