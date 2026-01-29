@@ -28,6 +28,7 @@ enum KpDistrict: int
     /**
      * Get all districts formatted as an array for a select dropdown.
      */
+    
     public static function toSelectArray(): array
     {
         return array_map(

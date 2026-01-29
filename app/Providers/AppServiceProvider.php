@@ -41,7 +41,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (app()->environment('production') || request()->getHost() === 'peace.srsp.cloud') {
+        if (app()->environment('production') || request()->getHost() === 'peace.srsp.cloud' || request()->header('x-forwarded-proto') === 'https') {
             URL::forceScheme('https');
         }
         Inertia::share('flash', function () {
