@@ -41,22 +41,23 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (app()->environment('production') || request()->getHost() === 'peace.srsp.cloud' || request()->header('x-forwarded-proto') === 'https') {
-            URL::forceScheme('https');
+       // RELIABLE: Check strictly for production environment OR the specific URL config
+    if (app()->environment('production') || config('app.url') === 'https://peace.srsp.cloud') {
+        
+        URL::forceScheme('https');
+        
+        // This is the "Octane-safe" way to handle the request context if needed,
+        // but URL::forceScheme is usually enough globally.
+        if (app()->bound('request')) {
             request()->server->set('HTTPS', 'on');
-            
-            // Fix asset() helper if ASSET_URL is set to http
-            $url = config('app.asset_url');
-            if ($url && str_contains($url, 'http://')) {
-                config(['app.asset_url' => str_replace('http://', 'https://', $url)]);
-            }
         }
-        Inertia::share('flash', function () {
-            return [
-                'success' => session('success'),
-                'error' => session('error'),
-            ];
-        });
+
+        // Fix asset() helper if ASSET_URL is set to http
+        $url = config('app.asset_url');
+        if ($url && str_contains($url, 'http://')) {
+            config(['app.asset_url' => str_replace('http://', 'https://', $url)]);
+        }
+    }
 
         Relation::enforceMorphMap([
             'cbo' => Cbo::class,
