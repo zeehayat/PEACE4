@@ -399,6 +399,7 @@ class MhpReportController extends Controller
      */
     private function buildDetailedDataset(Request $request): Collection
     {
+        dd('DIE');
         $user = Auth::user();
 
         $query = MhpSite::query()
