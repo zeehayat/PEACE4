@@ -391,6 +391,367 @@ class MhpReportController extends Controller
             })
             ->sortBy('district')
             ->values();
+        return $sites->map(function (MhpSite $site) {
+            $service = new \App\Services\MhpReportService($site);
+
+            return [
+                'district' => $site->cbo?->district,
+                'tehsil' => $site->cbo?->tehsil,
+                'vc_nc' => $site->cbo?->village_council,
+                'village' => $site->cbo?->village,
+                'cbo_name' => $site->cbo?->cbo_name,
+                'type' => $site->status,
+                'dialogue_date' => $service->getDialogueDate(),
+                'social_assessment' => $service->getSocialAssessmentDate(),
+                'technical_survey_date' => $service->getTechnicalSurveyDate(),
+                'existing_capacity_kw' => $site->existing_capacity_kw,
+                'total_capacity_kw' => $site->planned_capacity_kw,
+                'net_head_ft' => $site->head_ft,
+                'discharge_cusecs' => $site->design_discharge_cusecs,
+                'channel_length_ft' => $service->getChannelLengthFt(),
+                'turbine_type' => $site->turbine_type ?? $site->emeInfo?->turbine_type,
+                'turbine_count' => $site->emeInfo?->turbine_no,
+                'ht_length_km' => $site->tl_ht_km,
+                'lt_length_km' => $site->tl_lt_km,
+                'transformer_count' => $service->getTotalTransformersCount(),
+                'total_households' => $site->total_hh,
+                'commercial_consumers' => $site->commercial_units,
+                'total_connections' => $service->getTotalConnections(),
+                'population' => $site->population,
+                'total_cost' => $service->getTotalCost(),
+                'per_kw_cost' => $service->getPerKwCost(),
+                'per_hh_cost' => $service->getPerHhCost(),
+                'per_beneficiary_cost' => $service->getPerBeneficiaryCost(),
+                'presented_mc' => $service->getPresentationToMcStatus(),
+                'shared_opm' => $service->getSharedWithOpmStatus(),
+                'review_meeting_opm' => $service->getOpmReviewStatus(),
+                'opm_visit_date' => $service->getOpmVisitDate(),
+                'eu_final_review' => optional($site->eu_approval_meeting_date)->format('Y-m-d'),
+                'eu_approval' => optional($service->getApprovalFromEu())->format('Y-m-d'),
+                
+                // Civil Procurement
+                'civil_advertisement' => optional($site->civil_advertisement_date)->format('Y-m-d'),
+                'civil_pre_bid' => optional($site->civil_pre_bid_meeting_date)->format('Y-m-d'),
+                'civil_tech_bid' => optional($site->civil_technical_bid_opening_date)->format('Y-m-d'),
+                'civil_fin_bid' => optional($site->civil_financial_bid_opening_date)->format('Y-m-d'),
+                'civil_contract_award' => optional($site->civil_contract_award_date)->format('Y-m-d'),
+                'civil_contractor_amount' => $site->civil_contractor_amount,
+
+                // T&D Procurement
+                'tnd_advertisement' => optional($site->tAndDWorks->first()?->advertisement_date)->format('Y-m-d'),
+                'tnd_pre_bid' => optional($site->tAndDWorks->first()?->pre_bid_meeting_date)->format('Y-m-d'),
+                'tnd_tech_bid' => optional($site->tAndDWorks->first()?->technical_bid_opening_date)->format('Y-m-d'),
+                'tnd_fin_bid' => optional($site->tAndDWorks->first()?->financial_bid_opening_date)->format('Y-m-d'),
+                'tnd_contract_award' => optional($site->tAndDWorks->first()?->contract_award_date)->format('Y-m-d'),
+                'tnd_contractor_amount' => $site->tAndDWorks->first()?->contractor_amount,
+
+                 // EME Procurement
+                'eme_advertisement' => optional($site->emeInfo?->advertisement_date)->format('Y-m-d'),
+                'eme_pre_bid' => optional($site->emeInfo?->pre_bid_meeting_date)->format('Y-m-d'),
+                'eme_tech_bid' => optional($site->emeInfo?->technical_bid_opening_date)->format('Y-m-d'),
+                'eme_fin_bid' => optional($site->emeInfo?->financial_bid_opening_date)->format('Y-m-d'),
+                'eme_contract_award' => optional($site->emeInfo?->contract_award_date)->format('Y-m-d'),
+                'eme_contractor_amount' => $site->emeInfo?->contractor_amount,
+
+                'civil_initiation_ground_breaking' => optional($service->getDateOfCivilWorkLayoutInitiation())->format('Y-m-d'),
+                'civil_total' => $service->getTotalPaidAmount(null),
+                'civil_financial_progress' => $service->getTotalCost() > 0 ? round(($service->getTotalPaidAmount(null) / $service->getTotalCost()) * 100, 2) : null,
+                'civil_disbursed' => $service->getTotalPaidAmount(null),
+                'civil_remaining' => $service->getTotalCost() > 0 ? max($service->getTotalCost() - $service->getTotalPaidAmount(null), 0) : null,
+                'civil_physical_progress' => optional($service->getLatestPhysicalProgress(null))->progress_percentage,
+                'civil_progress_description' => $service->getProgressDescriptionCivl(),
+                'civil_completion_date' => $service->getCivilCompletionDate(),
+                'tnd_initiation_date' => optional($site->tAndDWorks->first()?->date_of_initiation)->format('Y-m-d'),
+                'tnd_total' => $service->getTotalPaidAmount('T&D'),
+                'tnd_disbursed' => $service->getTotalPaidAmount('T&D'),
+                'tnd_financial_progress' => $service->getTotalCost() > 0 ? round(($service->getTotalPaidAmount('T&D') / $service->getTotalCost()) * 100, 2) : null,
+                'tnd_remaining' => $service->getRemainingAmountTAndD(),
+                'tnd_physical_progress' => optional($service->getLatestPhysicalProgress('T&D'))->progress_percentage,
+                'tnd_progress_description' => optional($service->getLatestPhysicalProgress('T&D'))->remarks,
+                'tnd_completion_date' => $service->getTndCompletionDate(),
+                'eme_initiation_date' => optional($site->emeInfo?->initiation_date)->format('Y-m-d'),
+                'eme_total' => $service->getTotalPaidAmount('EME'),
+                'eme_disbursed' => $service->getTotalPaidAmount('EME'),
+                'eme_financial_progress' => $service->getTotalCost() > 0 ? round(($service->getTotalPaidAmount('EME') / $service->getTotalCost()) * 100, 2) : null,
+                'eme_remaining' => $site->emeInfo?->amount_remaining,
+                'eme_physical_progress' => optional($service->getLatestPhysicalProgress('EME'))->progress_percentage,
+                'eme_progress_description' => optional($service->getLatestPhysicalProgress('EME'))->remarks,
+                'eme_completion_date' => $service->getEmeCompletionDate(),
+                'overall_physical_progress' => $service->getCombinedCivilProgress(),
+                'overall_progress_description' => optional($site->physicalProgresses->sortByDesc('progress_date')->first())->remarks,
+                'overall_disbursed' => $service->getTotalPaidAmount(null) + $service->getTotalPaidAmount('T&D') + $service->getTotalPaidAmount('EME'),
+                'overall_remaining' => null,
+                'overall_financial_progress' => null,
+            ];
+        });
+    }
+
+    /**
+     * Build the dataset for the Detailed Report.
+     */
+    private function buildDetailedDataset(Request $request): Collection
+    {
+        $user = Auth::user();
+
+        $query = MhpSite::query()
+            ->with([
+                'cbo.dialogues',
+                'adminApproval',
+                'emeInfo',
+                'tAndDWorks' => fn ($q) => $q->latest('date_of_initiation'),
+                'physicalProgresses',
+                'financialInstallments',
+            ])
+            ->forUser($user);
+
+        // Apply Filters
+        if ($request->filled('district')) {
+            $query->whereHas('cbo', fn ($q) => $q->where('district', $request->district));
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                 $q->whereHas('cbo', function($cboQ) use ($search) {
+                     $cboQ->where('cbo_name', 'like', "%{$search}%")
+                          ->orWhere('reference_code', 'like', "%{$search}%");
+                 });
+            });
+        }
+
+        $sites = $query->get();
+
+        return $sites->map(function (MhpSite $site) {
+            $service = new \App\Services\MhpReportService($site);
+
+            return [
+                'district' => $site->cbo?->district,
+                'tehsil' => $site->cbo?->tehsil,
+                'vc_nc' => $site->cbo?->village_council,
+                'village' => $site->cbo?->village,
+                'cbo_name' => $site->cbo?->cbo_name,
+                'type' => $site->status,
+                'dialogue_date' => $service->getDialogueDate(),
+                'social_assessment' => $service->getSocialAssessmentDate(),
+                'technical_survey_date' => $service->getTechnicalSurveyDate(),
+                'existing_capacity_kw' => $site->existing_capacity_kw,
+                'total_capacity_kw' => $site->planned_capacity_kw,
+                'net_head_ft' => $site->head_ft,
+                'discharge_cusecs' => $site->design_discharge_cusecs,
+                'channel_length_ft' => $service->getChannelLengthFt(),
+                'turbine_type' => $site->turbine_type ?? $site->emeInfo?->turbine_type,
+                'turbine_count' => $site->emeInfo?->turbine_no,
+                'ht_length_km' => $site->tl_ht_km,
+                'lt_length_km' => $site->tl_lt_km,
+                'transformer_count' => $service->getTotalTransformersCount(),
+                'total_households' => $site->total_hh,
+                'commercial_consumers' => $site->commercial_units,
+                'total_connections' => $service->getTotalConnections(),
+                'population' => $site->population,
+                'total_cost' => $service->getTotalCost(),
+                'per_kw_cost' => $service->getPerKwCost(),
+                'per_hh_cost' => $service->getPerHhCost(),
+                'per_beneficiary_cost' => $service->getPerBeneficiaryCost(),
+                'presented_mc' => $service->getPresentationToMcStatus(),
+                'shared_opm' => $service->getSharedWithOpmStatus(),
+                'review_meeting_opm' => $service->getOpmReviewStatus(),
+                'opm_visit_date' => $service->getOpmVisitDate(),
+                'eu_final_review' => optional($site->eu_approval_meeting_date)->format('Y-m-d'),
+                'eu_approval' => optional($service->getApprovalFromEu())->format('Y-m-d'),
+                
+                // Civil Procurement
+                'civil_advertisement' => optional($site->civil_advertisement_date)->format('Y-m-d'),
+                'civil_pre_bid' => optional($site->civil_pre_bid_meeting_date)->format('Y-m-d'),
+                'civil_tech_bid' => optional($site->civil_technical_bid_opening_date)->format('Y-m-d'),
+                'civil_fin_bid' => optional($site->civil_financial_bid_opening_date)->format('Y-m-d'),
+                'civil_contract_award' => optional($site->civil_contract_award_date)->format('Y-m-d'),
+                'civil_contractor_amount' => $site->civil_contractor_amount,
+
+                // T&D Procurement
+                'tnd_advertisement' => optional($site->tAndDWorks->first()?->advertisement_date)->format('Y-m-d'),
+                'tnd_pre_bid' => optional($site->tAndDWorks->first()?->pre_bid_meeting_date)->format('Y-m-d'),
+                'tnd_tech_bid' => optional($site->tAndDWorks->first()?->technical_bid_opening_date)->format('Y-m-d'),
+                'tnd_fin_bid' => optional($site->tAndDWorks->first()?->financial_bid_opening_date)->format('Y-m-d'),
+                'tnd_contract_award' => optional($site->tAndDWorks->first()?->contract_award_date)->format('Y-m-d'),
+                'tnd_contractor_amount' => $site->tAndDWorks->first()?->contractor_amount,
+
+                 // EME Procurement
+                'eme_advertisement' => optional($site->emeInfo?->advertisement_date)->format('Y-m-d'),
+                'eme_pre_bid' => optional($site->emeInfo?->pre_bid_meeting_date)->format('Y-m-d'),
+                'eme_tech_bid' => optional($site->emeInfo?->technical_bid_opening_date)->format('Y-m-d'),
+                'eme_fin_bid' => optional($site->emeInfo?->financial_bid_opening_date)->format('Y-m-d'),
+                'eme_contract_award' => optional($site->emeInfo?->contract_award_date)->format('Y-m-d'),
+                'eme_contractor_amount' => $site->emeInfo?->contractor_amount,
+
+                'civil_initiation_ground_breaking' => optional($service->getDateOfCivilWorkLayoutInitiation())->format('Y-m-d'),
+                'civil_total' => $service->getTotalPaidAmount(null),
+                'civil_financial_progress' => $service->getTotalCost() > 0 ? round(($service->getTotalPaidAmount(null) / $service->getTotalCost()) * 100, 2) : null,
+                'civil_disbursed' => $service->getTotalPaidAmount(null),
+                'civil_remaining' => $service->getTotalCost() > 0 ? max($service->getTotalCost() - $service->getTotalPaidAmount(null), 0) : null,
+                'civil_physical_progress' => optional($service->getLatestPhysicalProgress(null))->progress_percentage,
+                'civil_progress_description' => $service->getProgressDescriptionCivl(),
+                'civil_completion_date' => $service->getCivilCompletionDate(),
+                'tnd_initiation_date' => optional($site->tAndDWorks->first()?->date_of_initiation)->format('Y-m-d'),
+                'tnd_total' => $service->getTotalPaidAmount('T&D'),
+                'tnd_disbursed' => $service->getTotalPaidAmount('T&D'),
+                'tnd_financial_progress' => $service->getTotalCost() > 0 ? round(($service->getTotalPaidAmount('T&D') / $service->getTotalCost()) * 100, 2) : null,
+                'tnd_remaining' => $service->getRemainingAmountTAndD(),
+                'tnd_physical_progress' => optional($service->getLatestPhysicalProgress('T&D'))->progress_percentage,
+                'tnd_progress_description' => optional($service->getLatestPhysicalProgress('T&D'))->remarks,
+                'tnd_completion_date' => $service->getTndCompletionDate(),
+                'eme_initiation_date' => optional($site->emeInfo?->initiation_date)->format('Y-m-d'),
+                'eme_total' => $service->getTotalPaidAmount('EME'),
+                'eme_disbursed' => $service->getTotalPaidAmount('EME'),
+                'eme_financial_progress' => $service->getTotalCost() > 0 ? round(($service->getTotalPaidAmount('EME') / $service->getTotalCost()) * 100, 2) : null,
+                'eme_remaining' => $site->emeInfo?->amount_remaining,
+                'eme_physical_progress' => optional($service->getLatestPhysicalProgress('EME'))->progress_percentage,
+                'eme_progress_description' => optional($service->getLatestPhysicalProgress('EME'))->remarks,
+                'eme_completion_date' => $service->getEmeCompletionDate(),
+                'overall_physical_progress' => $service->getCombinedCivilProgress(),
+                'overall_progress_description' => optional($site->physicalProgresses->sortByDesc('progress_date')->first())->remarks,
+                'overall_disbursed' => $service->getTotalPaidAmount(null) + $service->getTotalPaidAmount('T&D') + $service->getTotalPaidAmount('EME'),
+                'overall_remaining' => null,
+                'overall_financial_progress' => null,
+            ];
+        });
+    }
+
+    /**
+     * Build the dataset for the Detailed Report.
+     */
+    private function buildDetailedDataset(Request $request): Collection
+    {
+        $user = Auth::user();
+
+        $query = MhpSite::query()
+            ->with([
+                'cbo.dialogues',
+                'adminApproval',
+                'emeInfo',
+                'tAndDWorks' => fn ($q) => $q->latest('date_of_initiation'),
+                'physicalProgresses',
+                'financialInstallments',
+            ])
+            ->forUser($user);
+
+        // Apply Filters
+        if ($request->filled('district')) {
+            $query->whereHas('cbo', fn ($q) => $q->where('district', $request->district));
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                 $q->whereHas('cbo', function($cboQ) use ($search) {
+                     $cboQ->where('cbo_name', 'like', "%{$search}%")
+                          ->orWhere('reference_code', 'like', "%{$search}%");
+                 });
+            });
+        }
+
+        $sites = $query->get();
+
+        return $sites->map(function (MhpSite $site) {
+            $service = new \App\Services\MhpReportService($site);
+
+            return [
+                'district' => $site->cbo?->district,
+                'tehsil' => $site->cbo?->tehsil,
+                'vc_nc' => $site->cbo?->village_council,
+                'village' => $site->cbo?->village,
+                'cbo_name' => $site->cbo?->cbo_name,
+                'type' => $site->status,
+                'dialogue_date' => $service->getDialogueDate(),
+                'social_assessment' => $service->getSocialAssessmentDate(),
+                'technical_survey_date' => $service->getTechnicalSurveyDate(),
+                'existing_capacity_kw' => $site->existing_capacity_kw,
+                'total_capacity_kw' => $site->planned_capacity_kw,
+                'net_head_ft' => $site->head_ft,
+                'discharge_cusecs' => $site->design_discharge_cusecs,
+                'channel_length_ft' => $service->getChannelLengthFt(),
+                'turbine_type' => $site->turbine_type ?? $site->emeInfo?->turbine_type,
+                'turbine_count' => $site->emeInfo?->turbine_no,
+                'ht_length_km' => $site->tl_ht_km,
+                'lt_length_km' => $site->tl_lt_km,
+                'transformer_count' => $service->getTotalTransformersCount(),
+                'total_households' => $site->total_hh,
+                'commercial_consumers' => $site->commercial_units,
+                'total_connections' => $service->getTotalConnections(),
+                'population' => $site->population,
+                'total_cost' => $service->getTotalCost(),
+                'per_kw_cost' => $service->getPerKwCost(),
+                'per_hh_cost' => $service->getPerHhCost(),
+                'per_beneficiary_cost' => $service->getPerBeneficiaryCost(),
+                'presented_mc' => $service->getPresentationToMcStatus(),
+                'shared_opm' => $service->getSharedWithOpmStatus(),
+                'review_meeting_opm' => $service->getOpmReviewStatus(),
+                'opm_visit_date' => $service->getOpmVisitDate(),
+                'eu_final_review' => optional($site->eu_approval_meeting_date)->format('Y-m-d'),
+                'eu_approval' => optional($service->getApprovalFromEu())->format('Y-m-d'),
+                
+                // Civil Procurement
+                'civil_advertisement' => optional($site->civil_advertisement_date)->format('Y-m-d'),
+                'civil_pre_bid' => optional($site->civil_pre_bid_meeting_date)->format('Y-m-d'),
+                'civil_tech_bid' => optional($site->civil_technical_bid_opening_date)->format('Y-m-d'),
+                'civil_fin_bid' => optional($site->civil_financial_bid_opening_date)->format('Y-m-d'),
+                'civil_contract_award' => optional($site->civil_contract_award_date)->format('Y-m-d'),
+                'civil_contractor_amount' => $site->civil_contractor_amount,
+
+                // T&D Procurement
+                'tnd_advertisement' => optional($site->tAndDWorks->first()?->advertisement_date)->format('Y-m-d'),
+                'tnd_pre_bid' => optional($site->tAndDWorks->first()?->pre_bid_meeting_date)->format('Y-m-d'),
+                'tnd_tech_bid' => optional($site->tAndDWorks->first()?->technical_bid_opening_date)->format('Y-m-d'),
+                'tnd_fin_bid' => optional($site->tAndDWorks->first()?->financial_bid_opening_date)->format('Y-m-d'),
+                'tnd_contract_award' => optional($site->tAndDWorks->first()?->contract_award_date)->format('Y-m-d'),
+                'tnd_contractor_amount' => $site->tAndDWorks->first()?->contractor_amount,
+
+                 // EME Procurement
+                'eme_advertisement' => optional($site->emeInfo?->advertisement_date)->format('Y-m-d'),
+                'eme_pre_bid' => optional($site->emeInfo?->pre_bid_meeting_date)->format('Y-m-d'),
+                'eme_tech_bid' => optional($site->emeInfo?->technical_bid_opening_date)->format('Y-m-d'),
+                'eme_fin_bid' => optional($site->emeInfo?->financial_bid_opening_date)->format('Y-m-d'),
+                'eme_contract_award' => optional($site->emeInfo?->contract_award_date)->format('Y-m-d'),
+                'eme_contractor_amount' => $site->emeInfo?->contractor_amount,
+
+                'civil_initiation_ground_breaking' => optional($service->getDateOfCivilWorkLayoutInitiation())->format('Y-m-d'),
+                'civil_total' => $service->getTotalPaidAmount(null),
+                'civil_financial_progress' => $service->getTotalCost() > 0 ? round(($service->getTotalPaidAmount(null) / $service->getTotalCost()) * 100, 2) : null,
+                'civil_disbursed' => $service->getTotalPaidAmount(null),
+                'civil_remaining' => $service->getTotalCost() > 0 ? max($service->getTotalCost() - $service->getTotalPaidAmount(null), 0) : null,
+                'civil_physical_progress' => optional($service->getLatestPhysicalProgress(null))->progress_percentage,
+                'civil_progress_description' => $service->getProgressDescriptionCivl(),
+                'civil_completion_date' => $service->getCivilCompletionDate(),
+                'tnd_initiation_date' => optional($site->tAndDWorks->first()?->date_of_initiation)->format('Y-m-d'),
+                'tnd_total' => $service->getTotalPaidAmount('T&D'),
+                'tnd_disbursed' => $service->getTotalPaidAmount('T&D'),
+                'tnd_financial_progress' => $service->getTotalCost() > 0 ? round(($service->getTotalPaidAmount('T&D') / $service->getTotalCost()) * 100, 2) : null,
+                'tnd_remaining' => $service->getRemainingAmountTAndD(),
+                'tnd_physical_progress' => optional($service->getLatestPhysicalProgress('T&D'))->progress_percentage,
+                'tnd_progress_description' => optional($service->getLatestPhysicalProgress('T&D'))->remarks,
+                'tnd_completion_date' => $service->getTndCompletionDate(),
+                'eme_initiation_date' => optional($site->emeInfo?->initiation_date)->format('Y-m-d'),
+                'eme_total' => $service->getTotalPaidAmount('EME'),
+                'eme_disbursed' => $service->getTotalPaidAmount('EME'),
+                'eme_financial_progress' => $service->getTotalCost() > 0 ? round(($service->getTotalPaidAmount('EME') / $service->getTotalCost()) * 100, 2) : null,
+                'eme_remaining' => $site->emeInfo?->amount_remaining,
+                'eme_physical_progress' => optional($service->getLatestPhysicalProgress('EME'))->progress_percentage,
+                'eme_progress_description' => optional($service->getLatestPhysicalProgress('EME'))->remarks,
+                'eme_completion_date' => $service->getEmeCompletionDate(),
+                'overall_physical_progress' => $service->getCombinedCivilProgress(),
+                'overall_progress_description' => optional($site->physicalProgresses->sortByDesc('progress_date')->first())->remarks,
+                'overall_disbursed' => $service->getTotalPaidAmount(null) + $service->getTotalPaidAmount('T&D') + $service->getTotalPaidAmount('EME'),
+                'overall_remaining' => null,
+                'overall_financial_progress' => null,
+            ];
+        });
     }
 
     /**
@@ -433,128 +794,6 @@ class MhpReportController extends Controller
                         if ($component === null) {
                             return $p->payment_for === null || $p->payment_for === 'Civil';
                         }
-                        return $p->payment_for === $component;
-                    })
-                    ->sortByDesc('progress_date')
-                    ->first();
-            };
-
-            $sumInstallments = function (?string $component) use ($financial) {
-                return (float) $financial
-                    ->filter(function ($f) use ($component) {
-                        if ($component === null) {
-                            return $f->payment_for === null || $f->payment_for === 'Civil';
-                        }
-                        return $f->payment_for === $component;
-                    })
-                    ->sum('installment_amount');
-            };
-
-            $countTransformers = function () use ($tnd, $eme) {
-                $tndCount = 0;
-                if ($tnd) {
-                    $sumQty = function ($items) {
-                        return collect($items ?? [])->sum(fn($item) => (int) ($item['qty'] ?? 0));
-                    };
-
-                    $tndCount += $sumQty($tnd->step_up_transformers);
-                    $tndCount += $sumQty($tnd->step_down_transformers);
-                }
-                $emeCount = (int) ($eme?->no_of_step_up_transformers ?? 0);
-                return $tndCount + $emeCount;
-            };
-
-            $civilProgress = $latestProgress(null);
-            $tndProgress = $latestProgress('T&D');
-            $emeProgress = $latestProgress('EME');
-
-            $civilPaid = $sumInstallments(null);
-            $tndPaid = $sumInstallments('T&D');
-            $emePaid = $sumInstallments('EME');
-
-            $totalPaid = $civilPaid + $tndPaid + $emePaid;
-            $budget = (float) ($site->estimated_cost ?? 0);
-
-            $overallPhysicalComponents = collect([
-                optional($civilProgress)->progress_percentage,
-                optional($tndProgress)->progress_percentage,
-                optional($emeProgress)->progress_percentage,
-            ])->filter(fn ($v) => $v !== null);
-            $overallPhysical = $overallPhysicalComponents->count() > 0 ? $overallPhysicalComponents->avg() : null;
-
-            $perKwCost = $site->planned_capacity_kw > 0 ? $budget / (float) $site->planned_capacity_kw : null;
-            $totalConnections = (int) (($site->domestic_units ?? 0) + ($site->commercial_units ?? 0));
-            $perHhCost = $totalConnections > 0 ? $budget / $totalConnections : null;
-            $perBeneficiaryCost = ($site->population ?? 0) > 0 ? $budget / (float) $site->population : null;
-
-            $channelLengthFt = $site->length_ft ?? ($site->channel_length_km ? $site->channel_length_km * 3280.84 : null);
-
-            return [
-                'district' => $cbo?->district,
-                'tehsil' => $cbo?->tehsil,
-                'vc_nc' => $cbo?->village_council,
-                'village' => $cbo?->village,
-                'cbo_name' => $cbo?->cbo_name,
-                'type' => $site->status,
-                'dialogue_date' => $dialogueDate,
-                'social_assessment' => '', // not present in schema
-                'technical_survey_date' => $technicalSurveyDate,
-                'existing_capacity_kw' => $site->existing_capacity_kw,
-                'total_capacity_kw' => $site->planned_capacity_kw,
-                'net_head_ft' => $site->head_ft,
-                'discharge_cusecs' => $site->design_discharge_cusecs,
-                'channel_length_ft' => $channelLengthFt,
-                'turbine_type' => $site->turbine_type ?? $eme?->turbine_type,
-                'turbine_count' => $eme?->turbine_no,
-                'ht_length_km' => $site->tl_ht_km,
-                'lt_length_km' => $site->tl_lt_km,
-                'transformer_count' => $countTransformers(),
-                'total_households' => $site->total_hh,
-                'commercial_consumers' => $site->commercial_units,
-                'total_connections' => $totalConnections,
-                'population' => $site->population,
-                'total_cost' => $budget,
-                'per_kw_cost' => $perKwCost,
-                'per_hh_cost' => $perHhCost,
-                'per_beneficiary_cost' => $perBeneficiaryCost,
-                'presented_mc' => $admin && $admin->design_estimate_date ? 'Yes' : 'No',
-                'shared_opm' => $admin && $admin->eu_approval_submission_date ? 'Yes' : 'No',
-                'review_meeting_opm' => $admin && $admin->opm_validation_date ? 'Yes' : 'No',
-                'opm_visit_date' => optional($admin?->opm_validation_date)?->format('Y-m-d'),
-                'tnd_initiation_layout' => optional($tnd?->date_of_initiation)?->format('Y-m-d'),
-                'civil_total' => $civilPaid,
-                'civil_financial_progress' => $budget > 0 ? round(($civilPaid / $budget) * 100, 2) : null,
-                'civil_disbursed' => $civilPaid,
-                'civil_remaining' => $budget > 0 ? max($budget - $civilPaid, 0) : null,
-                'civil_physical_progress' => optional($civilProgress)->progress_percentage,
-                'civil_progress_description' => optional($civilProgress)->remarks,
-                'civil_completion_date' => optional($civilProgress?->progress_date)?->format('Y-m-d'),
-                'tnd_initiation_date' => optional($tnd?->date_of_initiation)?->format('Y-m-d'),
-                'tnd_total' => $tndPaid,
-                'tnd_disbursed' => $tndPaid,
-                'tnd_financial_progress' => $budget > 0 ? round(($tndPaid / $budget) * 100, 2) : null,
-                'tnd_remaining' => $budget > 0 ? max($budget - $tndPaid, 0) : null,
-                'tnd_physical_progress' => optional($tndProgress)->progress_percentage,
-                'tnd_progress_description' => optional($tndProgress)->remarks,
-                'tnd_completion_date' => optional($tndProgress?->progress_date)?->format('Y-m-d'),
-                'eme_initiation_date' => null,
-                'eme_total' => $emePaid,
-                'eme_disbursed' => $emePaid,
-                'eme_financial_progress' => $budget > 0 ? round(($emePaid / $budget) * 100, 2) : null,
-                'eme_remaining' => $budget > 0 ? max($budget - $emePaid, 0) : null,
-                'eme_physical_progress' => optional($emeProgress)->progress_percentage,
-                'eme_progress_description' => optional($emeProgress)->remarks,
-                'eme_completion_date' => optional($emeProgress?->progress_date)?->format('Y-m-d'),
-                'overall_physical_progress' => $overallPhysical,
-                'overall_progress_description' => optional($physical->sortByDesc('progress_date')->first())->remarks,
-                'overall_disbursed' => $totalPaid,
-                'overall_remaining' => $budget > 0 ? max($budget - $totalPaid, 0) : null,
-                'overall_financial_progress' => $budget > 0 ? round(($totalPaid / $budget) * 100, 2) : null,
-            ];
-        });
-    }
-
-    /**
      * Detailed MHP Report with all fields, sortable and filterable.
      */
     public function detailedReport(Request $request)
