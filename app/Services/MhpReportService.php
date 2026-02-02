@@ -232,12 +232,12 @@ class MhpReportService
 
     public function getHtConductorLengthKm(): ?float
     {
-        return $this->mhpSite->tl_ht_km;
+        return $this->mhpSite->ht_conductor_length_km;
     }
 
     public function getLtConductorLengthKm(): ?float
     {
-        return $this->mhpSite->tl_lt_km;
+        return $this->mhpSite->lt_conductor_length_km;
     }
 }
 
