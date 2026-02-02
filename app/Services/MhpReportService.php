@@ -237,7 +237,8 @@ class MhpReportService
 
     public function getLtConductorLengthKm(): ?float
     {
-        return $this->mhpSite->tAndDWorks->sortByDesc('date_of_initiation')->first()?->lt_conductor_length_km;
+        return 100.00;
+        //return $this->mhpSite->tAndDWorks->sortByDesc('date_of_initiation')->first()?->lt_conductor_length_km;
     }
 }
 
