@@ -229,5 +229,15 @@ class MhpReportService
         $progress = $this->getLatestPhysicalProgress('EME');
         return optional($progress?->progress_date)?->format('Y-m-d');
     }
+
+    public function getHtConductorLengthKm(): ?float
+    {
+        return $this->mhpSite->tl_ht_km;
+    }
+
+    public function getLtConductorLengthKm(): ?float
+    {
+        return $this->mhpSite->tl_lt_km;
+    }
 }
 
