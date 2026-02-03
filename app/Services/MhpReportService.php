@@ -232,10 +232,24 @@ class MhpReportService
 
     public function getHtConductorLengthKm(): ?float
     {
-        $val = $this->mhpSite->tAndDWorks->sortByDesc('date_of_initiation')->first()?->ht_conductor_length_km;
+        $works = $this->mhpSite->tAndDWorks;
+        \Illuminate\Support\Facades\Log::info("Site {$this->mhpSite->id}: T&D Works Count: " . $works->count());
+        
+        $sorted = $works->sortByDesc('date_of_initiation');
+        $first = $sorted->first();
+        
+        if ($first) {
+             \Illuminate\Support\Facades\Log::info("Site {$this->mhpSite->id}: First Work ID: {$first->id}, HT: {$first->ht_conductor_length_km}, InitDate: {$first->date_of_initiation}");
+        } else {
+             \Illuminate\Support\Facades\Log::info("Site {$this->mhpSite->id}: No First Work found after sort.");
+        }
+
+        $val = $first?->ht_conductor_length_km;
         if ($val) {
             return $val;
         }
+        
+        \Illuminate\Support\Facades\Log::info("Site {$this->mhpSite->id}: Fallback to MHP Site HT: {$this->mhpSite->tl_ht_km}");
         return $this->mhpSite->tl_ht_km;
     }
 
