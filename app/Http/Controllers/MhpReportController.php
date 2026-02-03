@@ -17,6 +17,7 @@ class MhpReportController extends Controller
      */
     public function index(Request $request)
     {
+        die('DEAD IN TRAck');
         // 1. Authorization check
         $this->authorize('viewAny', MhpSite::class);
 
