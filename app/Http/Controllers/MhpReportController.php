@@ -576,6 +576,29 @@ class MhpReportController extends Controller
         ]);
     }
 
+    public function detailedReportV2(Request $request)
+    {
+        $this->authorize('viewAny', MhpSite::class);
+
+        $districts = District::orderBy('name')->pluck('name');
+        
+        // Get unique statuses from MHP sites for the filter
+        $statuses = MhpSite::distinct()->pluck('status')->filter()->values();
+
+        $filters = $request->only('district', 'status', 'search');
+        
+        // Re-use the SAME dataset builder which we know works via CLI verification
+        $rows = $this->buildDetailedDataset($request);
+
+        return Inertia::render('MHP/MhpDetailedReportV2', [
+            'districts' => $districts,
+            'statuses' => $statuses,
+            'filters' => $filters,
+            'rows' => $rows,
+        ]);
+    }
+
+
     /**
      * Excel Export for the Detailed Report.
      */
