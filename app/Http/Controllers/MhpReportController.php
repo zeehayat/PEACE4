@@ -17,7 +17,7 @@ class MhpReportController extends Controller
      */
     public function index(Request $request)
     {
-        die('DEAD IN TRAck');
+        
         // 1. Authorization check
         $this->authorize('viewAny', MhpSite::class);
 
@@ -558,6 +558,7 @@ class MhpReportController extends Controller
     }
     public function detailedReport(Request $request)
     {
+        dd('DIE - DETAILED');
         \Illuminate\Support\Facades\Log::emergency('Reaching detailedReport IN CONTROLLER');
         $this->authorize('viewAny', MhpSite::class);
 
