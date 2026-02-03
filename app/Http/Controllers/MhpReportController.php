@@ -558,8 +558,6 @@ class MhpReportController extends Controller
     }
     public function detailedReport(Request $request)
     {
-        dd('DIE - DETAILED');
-        \Illuminate\Support\Facades\Log::emergency('Reaching detailedReport IN CONTROLLER');
         $this->authorize('viewAny', MhpSite::class);
 
         $districts = District::orderBy('name')->pluck('name');

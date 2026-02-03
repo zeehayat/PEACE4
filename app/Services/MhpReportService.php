@@ -232,31 +232,12 @@ class MhpReportService
 
     public function getHtConductorLengthKm(): ?float
     {
-        // Force refresh relation if empty to be sure
-        $works = $this->mhpSite->tAndDWorks;
-        
-        if ($works->isEmpty()) {
-            \Illuminate\Support\Facades\Log::error("Site {$this->mhpSite->id}: Eager loaded T&D Empty. Retrying direct query.");
-            $works = $this->mhpSite->tAndDWorks()->get();
-        }
-
-        \Illuminate\Support\Facades\Log::error("Site {$this->mhpSite->id}: Final T&D Count: " . $works->count());
-
-        $first = $works->sortByDesc('date_of_initiation')->first();
-        
-        if ($this->mhpSite->id == 5) {
-             \Illuminate\Support\Facades\Log::error("DEBUG SITE 5: Found Work? " . ($first ? 'Yes' : 'No'));
-             if ($first) {
-                 \Illuminate\Support\Facades\Log::error("DEBUG SITE 5: HT Value: " . $first->ht_conductor_length_km);
-             }
-        }
-
-        $val = $first?->ht_conductor_length_km;
+        // Check T&D Works first
+        $val = $this->mhpSite->tAndDWorks->sortByDesc('date_of_initiation')->first()?->ht_conductor_length_km;
         if ($val) {
             return $val;
         }
-        
-        \Illuminate\Support\Facades\Log::error("Site {$this->mhpSite->id}: Fallback to MHP Site HT: {$this->mhpSite->tl_ht_km}");
+        // Fallback to MHP Site column
         return $this->mhpSite->tl_ht_km;
     }
 
