@@ -399,7 +399,11 @@ class MhpReportController extends Controller
      */
     private function buildDetailedDataset(Request $request): Collection
     {
-        
+        \Illuminate\Support\Facades\Log::emergency('Reaching buildDetailedDataset in MhpReportController');
+
+        // Debugging: Confirm this method is hitting
+        // dd('Reached buildDetailedDataset');
+
         $user = Auth::user();
 
         $query = MhpSite::query()
