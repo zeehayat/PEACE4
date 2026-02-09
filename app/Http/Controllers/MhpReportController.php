@@ -444,14 +444,14 @@ class MhpReportController extends Controller
             $s = $sites->first();
             // Force load if not loaded, though eager load should have handled it
             // $s->load('tAndDWorks'); 
-            dd([
-                'debug_msg' => 'Controller Reached',
-                'site_id' => $s->id,
-                'tnd_collection' => $s->tAndDWorks,
-                'tnd_count' => $s->tAndDWorks->count(),
-                'ht_service_call' => (new \App\Services\MhpReportService($s))->getHtConductorLengthKm(),
-                'raw_first_tnd' => $s->tAndDWorks->first(),
-            ]);
+            // dd([
+            //     'debug_msg' => 'Controller Reached',
+            //     'site_id' => $s->id,
+            //     'tnd_collection' => $s->tAndDWorks,
+            //     'tnd_count' => $s->tAndDWorks->count(),
+            //     'ht_service_call' => (new \App\Services\MhpReportService($s))->getHtConductorLengthKm(),
+            //     'raw_first_tnd' => $s->tAndDWorks->first(),
+            // ]);
         }
 
         return $sites->map(function (MhpSite $site) {
