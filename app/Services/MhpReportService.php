@@ -145,6 +145,9 @@ class MhpReportService
         $tndCount = 0;
         
         $sumQty = function ($items) {
+            if (is_string($items)) {
+                $items = json_decode($items, true);
+            }
             return collect($items ?? [])->sum(fn($item) => (int) ($item['qty'] ?? 0));
         };
 
