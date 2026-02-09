@@ -612,12 +612,12 @@ class MhpReportController extends Controller
         $headerRow = [
            'S. No', 'District', 'Tehsil', 'VC/NC', 'Village',
            'Type of MHP',
-           'Dialogue With Community', 'Social Assessmnent', 'Detailed Technical Survey',
+           'Dialogue With Community', 'Social Assessment', 'Detailed Technical Survey',
            'Existing Capacity (KW)', 'Total Capacity kW', 'Net Head ft', 'Discharge cusecs',
            'Length of Channel ft', 'Turbine Type', 'No of Turbines required',
            'HT Line Length (Km)', 'LT Line Length (Km)', 'No. of Transformer',
            'Total H.H', 'Commercial Consumers', 'Total Connections', 'Total Population',
-           'Total Cost (PKR)', 'Per Kw Cost (PKR)', 'Per HH+Commercial Cost (PKR)', 'Per Beneficiery Cost (PKR)',
+           'Total Cost (PKR)', 'Per Kw Cost (PKR)', 'Per HH+Commercial Cost (PKR)', 'Per Beneficiary Cost (PKR)',
            'Presented to Management Committee', 'Shared With OPM/EU for Review',
            'Review Meeting with OPM (TA/EU) comments and feedback', 'OPM Visit to Site',
            'Final Review Meeting with EU for Approval', 'Approval from EU',
@@ -651,7 +651,7 @@ class MhpReportController extends Controller
 
             // Overall
             'Physical (Civil+EME+T&D) %', 'Description Progress Overall',
-            'Amoount Disbursed PKR Overall', 'Remaining Amount', 'Fianncial Progress %'
+            'Amount Disbursed PKR Overall', 'Remaining Amount', 'Financial Progress %'
         ];
 
 

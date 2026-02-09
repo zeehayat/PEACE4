@@ -143,13 +143,12 @@ class MhpReportService
     public function getTotalTransformersCount(): int
     {
         $tndCount = 0;
-        $tnd = $this->mhpSite->tAndDWorks->first(); // Assuming taking the latest or main one as per controller logic
         
-        if ($tnd) {
-            $sumQty = function ($items) {
-                return collect($items ?? [])->sum(fn($item) => (int) ($item['qty'] ?? 0));
-            };
+        $sumQty = function ($items) {
+            return collect($items ?? [])->sum(fn($item) => (int) ($item['qty'] ?? 0));
+        };
 
+        foreach ($this->mhpSite->tAndDWorks as $tnd) {
             $tndCount += $sumQty($tnd->step_up_transformers);
             $tndCount += $sumQty($tnd->step_down_transformers);
         }
@@ -249,5 +248,7 @@ class MhpReportService
         }
         return $this->mhpSite->tl_lt_km;
     }
+   
+    
 }
 
