@@ -29,6 +29,8 @@ class UpdateIrrigationSchemeRequest extends FormRequest
             'remarks' => ['nullable', 'string'],
             'number_of_watercourses' => ['nullable', 'integer', 'min:0'],
             'water_availability_cusecs' => ['nullable', 'numeric', 'min:0'],
+            'direct_household_beneficiary' => ['nullable', 'integer', 'min:0'],
+            'indirect_household_beneficiary' => ['nullable', 'integer', 'min:0'],
 
             // Nested profile fields
             'profile.beneficiary_farmers' => ['nullable', 'integer', 'min:0'],

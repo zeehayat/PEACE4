@@ -36,6 +36,8 @@ function getInitialFormData(scheme) {
         cbo_id: scheme ? scheme.cbo_id : null,
         status: scheme ? scheme.status : 'New',
         remarks: scheme ? scheme.remarks : '',
+        direct_household_beneficiary: scheme ? scheme.direct_household_beneficiary : null,
+        indirect_household_beneficiary: scheme ? scheme.indirect_household_beneficiary : null,
         attachments: [],
         attachments_to_delete: [],
 
@@ -210,6 +212,34 @@ const handleCancel = () => {
                     :class="{ 'border-red-500': form.errors['profile.beneficiary_farmers'] }"
                 />
                 <InputError class="mt-2" :message="form.errors['profile.beneficiary_farmers']" />
+            </div>
+
+            <!-- Direct Household Beneficiary -->
+            <div>
+                <InputLabel for="direct_household_beneficiary" value="Direct Household Beneficiaries" />
+                <TextInput
+                    id="direct_household_beneficiary"
+                    v-model="form.direct_household_beneficiary"
+                    type="number"
+                    min="0"
+                    class="mt-1 block w-full"
+                    :class="{ 'border-red-500': form.errors.direct_household_beneficiary }"
+                />
+                <InputError class="mt-2" :message="form.errors.direct_household_beneficiary" />
+            </div>
+
+            <!-- Indirect Household Beneficiary -->
+            <div>
+                <InputLabel for="indirect_household_beneficiary" value="Indirect Household Beneficiaries" />
+                <TextInput
+                    id="indirect_household_beneficiary"
+                    v-model="form.indirect_household_beneficiary"
+                    type="number"
+                    min="0"
+                    class="mt-1 block w-full"
+                    :class="{ 'border-red-500': form.errors.indirect_household_beneficiary }"
+                />
+                <InputError class="mt-2" :message="form.errors.indirect_household_beneficiary" />
             </div>
 
             <!-- Channel Length -->

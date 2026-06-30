@@ -45,7 +45,7 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::create
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:83
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:84
 * @route '/procurement/installments/create'
 */
 export const create = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -60,7 +60,7 @@ create.definition = {
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::create
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:83
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:84
 * @route '/procurement/installments/create'
 */
 create.url = (options?: RouteQueryOptions) => {
@@ -69,7 +69,7 @@ create.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::create
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:83
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:84
 * @route '/procurement/installments/create'
 */
 create.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -79,7 +79,7 @@ create.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::create
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:83
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:84
 * @route '/procurement/installments/create'
 */
 create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -89,7 +89,7 @@ create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::store
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:92
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:93
 * @route '/procurement/installments'
 */
 export const store = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -104,7 +104,7 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::store
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:92
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:93
 * @route '/procurement/installments'
 */
 store.url = (options?: RouteQueryOptions) => {
@@ -113,7 +113,7 @@ store.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::store
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:92
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:93
 * @route '/procurement/installments'
 */
 store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -123,7 +123,7 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::show
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:106
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:107
 * @route '/procurement/installments/{installment}'
 */
 export const show = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -138,7 +138,7 @@ show.definition = {
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::show
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:106
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:107
 * @route '/procurement/installments/{installment}'
 */
 show.url = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions) => {
@@ -165,7 +165,7 @@ show.url = (args: { installment: string | number } | [installment: string | numb
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::show
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:106
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:107
 * @route '/procurement/installments/{installment}'
 */
 show.get = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -175,7 +175,7 @@ show.get = (args: { installment: string | number } | [installment: string | numb
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::show
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:106
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:107
 * @route '/procurement/installments/{installment}'
 */
 show.head = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -185,7 +185,7 @@ show.head = (args: { installment: string | number } | [installment: string | num
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::edit
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:121
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:122
 * @route '/procurement/installments/{installment}/edit'
 */
 export const edit = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -200,7 +200,7 @@ edit.definition = {
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::edit
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:121
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:122
 * @route '/procurement/installments/{installment}/edit'
 */
 edit.url = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions) => {
@@ -227,7 +227,7 @@ edit.url = (args: { installment: string | number } | [installment: string | numb
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::edit
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:121
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:122
 * @route '/procurement/installments/{installment}/edit'
 */
 edit.get = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -237,7 +237,7 @@ edit.get = (args: { installment: string | number } | [installment: string | numb
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::edit
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:121
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:122
 * @route '/procurement/installments/{installment}/edit'
 */
 edit.head = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -247,7 +247,7 @@ edit.head = (args: { installment: string | number } | [installment: string | num
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::update
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:129
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:130
 * @route '/procurement/installments/{installment}'
 */
 export const update = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -262,7 +262,7 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::update
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:129
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:130
 * @route '/procurement/installments/{installment}'
 */
 update.url = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions) => {
@@ -289,7 +289,7 @@ update.url = (args: { installment: string | number } | [installment: string | nu
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::update
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:129
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:130
 * @route '/procurement/installments/{installment}'
 */
 update.put = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -299,7 +299,7 @@ update.put = (args: { installment: string | number } | [installment: string | nu
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::update
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:129
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:130
 * @route '/procurement/installments/{installment}'
 */
 update.patch = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
@@ -309,7 +309,7 @@ update.patch = (args: { installment: string | number } | [installment: string | 
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::destroy
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:144
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:145
 * @route '/procurement/installments/{installment}'
 */
 export const destroy = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -324,7 +324,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::destroy
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:144
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:145
 * @route '/procurement/installments/{installment}'
 */
 destroy.url = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions) => {
@@ -351,7 +351,7 @@ destroy.url = (args: { installment: string | number } | [installment: string | n
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::destroy
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:144
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:145
 * @route '/procurement/installments/{installment}'
 */
 destroy.delete = (args: { installment: string | number } | [installment: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({

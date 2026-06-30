@@ -186,6 +186,11 @@ const modalTitle = computed(() => {
                                 Date: {{ formatDate(installment.installment_date) }}
                             </p>
 
+                            <p v-if="installment.cheque_no" class="text-xs text-gray-600 flex items-center gap-1">
+                                <span class="material-symbols-outlined text-[13px]">payments</span>
+                                Cheque No: <span class="font-bold text-gray-900">{{ installment.cheque_no }}</span>
+                            </p>
+
                             <p v-if="installment.remarks" class="text-sm text-gray-700 leading-relaxed bg-gray-50 p-2 rounded-lg border border-gray-100">
                                 <span class="font-medium text-xs text-gray-500 block mb-0.5">Remarks</span>
                                 {{ installment.remarks }}

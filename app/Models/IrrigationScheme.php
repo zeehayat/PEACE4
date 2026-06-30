@@ -24,10 +24,14 @@ class IrrigationScheme extends Model implements HasMedia
         'sub_scheme_type',
         'number_of_watercourses',
         'water_availability_cusecs',
+        'direct_household_beneficiary',
+        'indirect_household_beneficiary',
     ];
 
     protected $casts = [
         'water_availability_cusecs' => 'decimal:2',
+        'direct_household_beneficiary' => 'integer',
+        'indirect_household_beneficiary' => 'integer',
     ];
 
     protected static function boot()

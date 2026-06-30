@@ -335,6 +335,7 @@ class MhpSiteService
             $installment->installment_number = $data['installment_number'];
             $installment->installment_date = $data['installment_date'];
             $installment->installment_amount = $data['installment_amount'];
+            $installment->cheque_no = $data['cheque_no'] ?? null;
             $installment->category = $data['category'] ?? null;
             $installment->remarks = $data['remarks'] ?? null;
             $installment->payment_for = $data['payment_for'];

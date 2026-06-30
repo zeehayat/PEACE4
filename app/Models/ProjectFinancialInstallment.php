@@ -19,6 +19,7 @@ class ProjectFinancialInstallment extends Model implements HasMedia
         'installment_number',
         'installment_date',
         'installment_amount',
+        'cheque_no',
         'category',
         'remarks',
         'payment_for',

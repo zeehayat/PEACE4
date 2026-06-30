@@ -43,6 +43,7 @@ const form = useForm({
     installment_number: props.installment?.installment_number || '',
     installment_date: props.installment?.installment_date || null,
     installment_amount: props.installment?.installment_amount || '',
+    cheque_no: props.installment?.cheque_no || '',
     category: props.installment?.category || '',
     remarks: props.installment?.remarks || '',
     payment_for: props.installment?.payment_for || props.progressType || 'Civil',
@@ -142,6 +143,12 @@ const handleCancel = () => {
                 <InputLabel for="installment_amount" value="Installment Amount" />
                 <TextInput id="installment_amount" v-model="form.installment_amount" type="number" step="0.01" min="0" class="mt-1 block w-full" :class="{ 'border-red-500': form.errors.installment_amount }" />
                 <InputError class="mt-2" :message="form.errors.installment_amount" />
+            </div>
+
+            <div>
+                <InputLabel for="cheque_no" value="Cheque Number" />
+                <TextInput id="cheque_no" v-model="form.cheque_no" type="text" class="mt-1 block w-full" :class="{ 'border-red-500': form.errors.cheque_no }" />
+                <InputError class="mt-2" :message="form.errors.cheque_no" />
             </div>
 
             <div>

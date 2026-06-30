@@ -65,6 +65,8 @@ const printDetails = () => {
                             <DetailItem v-if="hasProfile" label="Established By" :value="scheme.profile.established_by" />
                             <DetailItem v-if="hasProfile" label="Establishment Date" :value="formatDate(scheme.profile.month_year_establishment)" />
                             <DetailItem v-if="hasProfile" label="Beneficiary Farmers" :value="scheme.profile.beneficiary_farmers" />
+                            <DetailItem label="Direct Household Beneficiaries" :value="scheme.direct_household_beneficiary" />
+                            <DetailItem label="Indirect Household Beneficiaries" :value="scheme.indirect_household_beneficiary" />
                         </DetailGrid>
                         
                         <div v-if="hasRemarks" class="mt-6 p-4 bg-gray-50 rounded-xl border border-gray-200">

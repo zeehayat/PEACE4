@@ -69,6 +69,7 @@ class ProjectFinancialInstallmentController extends Controller
                     'installment_number' => $installment->installment_number,
                     'installment_date' => optional($installment->installment_date)->toDateString(),
                     'installment_amount' => (float) $installment->installment_amount,
+                    'cheque_no' => $installment->cheque_no,
                     'payment_for' => $installment->payment_for,
                     'remarks' => $installment->remarks,
                     'attachments_frontend' => $installment->attachments_frontend,

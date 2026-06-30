@@ -63,7 +63,7 @@ index.head = (args: { site: string | number } | [site: string | number ] | strin
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::create
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:83
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:84
 * @route '/mhp/sites/{site}/financial-installments/create'
 */
 export const create = (args: { site: string | number } | [site: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -78,7 +78,7 @@ create.definition = {
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::create
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:83
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:84
 * @route '/mhp/sites/{site}/financial-installments/create'
 */
 create.url = (args: { site: string | number } | [site: string | number ] | string | number, options?: RouteQueryOptions) => {
@@ -105,7 +105,7 @@ create.url = (args: { site: string | number } | [site: string | number ] | strin
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::create
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:83
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:84
 * @route '/mhp/sites/{site}/financial-installments/create'
 */
 create.get = (args: { site: string | number } | [site: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -115,7 +115,7 @@ create.get = (args: { site: string | number } | [site: string | number ] | strin
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::create
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:83
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:84
 * @route '/mhp/sites/{site}/financial-installments/create'
 */
 create.head = (args: { site: string | number } | [site: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -125,7 +125,7 @@ create.head = (args: { site: string | number } | [site: string | number ] | stri
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::store
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:92
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:93
 * @route '/mhp/sites/{site}/financial-installments'
 */
 export const store = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -140,7 +140,7 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::store
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:92
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:93
 * @route '/mhp/sites/{site}/financial-installments'
 */
 store.url = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -173,7 +173,7 @@ store.url = (args: { site: number | { id: number } } | [site: number | { id: num
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::store
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:92
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:93
 * @route '/mhp/sites/{site}/financial-installments'
 */
 store.post = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -183,7 +183,7 @@ store.post = (args: { site: number | { id: number } } | [site: number | { id: nu
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::show
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:106
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:107
 * @route '/mhp/sites/{site}/financial-installments/{financial_installment}'
 */
 export const show = (args: { site: string | number, financial_installment: string | number } | [site: string | number, financial_installment: string | number ], options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -198,7 +198,7 @@ show.definition = {
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::show
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:106
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:107
 * @route '/mhp/sites/{site}/financial-installments/{financial_installment}'
 */
 show.url = (args: { site: string | number, financial_installment: string | number } | [site: string | number, financial_installment: string | number ], options?: RouteQueryOptions) => {
@@ -224,7 +224,7 @@ show.url = (args: { site: string | number, financial_installment: string | numbe
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::show
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:106
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:107
 * @route '/mhp/sites/{site}/financial-installments/{financial_installment}'
 */
 show.get = (args: { site: string | number, financial_installment: string | number } | [site: string | number, financial_installment: string | number ], options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -234,7 +234,7 @@ show.get = (args: { site: string | number, financial_installment: string | numbe
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::show
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:106
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:107
 * @route '/mhp/sites/{site}/financial-installments/{financial_installment}'
 */
 show.head = (args: { site: string | number, financial_installment: string | number } | [site: string | number, financial_installment: string | number ], options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -244,7 +244,7 @@ show.head = (args: { site: string | number, financial_installment: string | numb
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::edit
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:121
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:122
 * @route '/mhp/sites/{site}/financial-installments/{financial_installment}/edit'
 */
 export const edit = (args: { site: string | number, financial_installment: string | number } | [site: string | number, financial_installment: string | number ], options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -259,7 +259,7 @@ edit.definition = {
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::edit
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:121
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:122
 * @route '/mhp/sites/{site}/financial-installments/{financial_installment}/edit'
 */
 edit.url = (args: { site: string | number, financial_installment: string | number } | [site: string | number, financial_installment: string | number ], options?: RouteQueryOptions) => {
@@ -285,7 +285,7 @@ edit.url = (args: { site: string | number, financial_installment: string | numbe
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::edit
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:121
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:122
 * @route '/mhp/sites/{site}/financial-installments/{financial_installment}/edit'
 */
 edit.get = (args: { site: string | number, financial_installment: string | number } | [site: string | number, financial_installment: string | number ], options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -295,7 +295,7 @@ edit.get = (args: { site: string | number, financial_installment: string | numbe
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::edit
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:121
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:122
 * @route '/mhp/sites/{site}/financial-installments/{financial_installment}/edit'
 */
 edit.head = (args: { site: string | number, financial_installment: string | number } | [site: string | number, financial_installment: string | number ], options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -305,7 +305,7 @@ edit.head = (args: { site: string | number, financial_installment: string | numb
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::update
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:129
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:130
 * @route '/mhp/sites/{site}/financial-installments/{financial_installment}'
 */
 export const update = (args: { site: number | { id: number }, financial_installment: string | number } | [site: number | { id: number }, financial_installment: string | number ], options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -320,7 +320,7 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::update
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:129
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:130
 * @route '/mhp/sites/{site}/financial-installments/{financial_installment}'
 */
 update.url = (args: { site: number | { id: number }, financial_installment: string | number } | [site: number | { id: number }, financial_installment: string | number ], options?: RouteQueryOptions) => {
@@ -348,7 +348,7 @@ update.url = (args: { site: number | { id: number }, financial_installment: stri
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::update
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:129
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:130
 * @route '/mhp/sites/{site}/financial-installments/{financial_installment}'
 */
 update.put = (args: { site: number | { id: number }, financial_installment: string | number } | [site: number | { id: number }, financial_installment: string | number ], options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -358,7 +358,7 @@ update.put = (args: { site: number | { id: number }, financial_installment: stri
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::update
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:129
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:130
 * @route '/mhp/sites/{site}/financial-installments/{financial_installment}'
 */
 update.patch = (args: { site: number | { id: number }, financial_installment: string | number } | [site: number | { id: number }, financial_installment: string | number ], options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
@@ -368,7 +368,7 @@ update.patch = (args: { site: number | { id: number }, financial_installment: st
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::destroy
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:144
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:145
 * @route '/mhp/sites/{site}/financial-installments/{financial_installment}'
 */
 export const destroy = (args: { site: string | number, financial_installment: string | number } | [site: string | number, financial_installment: string | number ], options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -383,7 +383,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::destroy
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:144
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:145
 * @route '/mhp/sites/{site}/financial-installments/{financial_installment}'
 */
 destroy.url = (args: { site: string | number, financial_installment: string | number } | [site: string | number, financial_installment: string | number ], options?: RouteQueryOptions) => {
@@ -409,7 +409,7 @@ destroy.url = (args: { site: string | number, financial_installment: string | nu
 
 /**
 * @see \App\Http\Controllers\ProjectFinancialInstallmentController::destroy
-* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:144
+* @see app/Http/Controllers/ProjectFinancialInstallmentController.php:145
 * @route '/mhp/sites/{site}/financial-installments/{financial_installment}'
 */
 destroy.delete = (args: { site: string | number, financial_installment: string | number } | [site: string | number, financial_installment: string | number ], options?: RouteQueryOptions): RouteDefinition<'delete'> => ({

@@ -30,6 +30,7 @@ class UpdateProjectFinancialInstallmentRequest extends FormRequest
             'installment_number' => ['required', 'integer', 'min:1'],
             'installment_date' => ['required', 'date'],
             'installment_amount' => ['required', 'numeric', 'min:0'],
+            'cheque_no' => ['nullable', 'string', 'max:255'],
             'category' => ['nullable', 'string', 'max:255'],
             'remarks' => ['nullable', 'string'],
             'payment_for' => ['required', Rule::in(['T&D', 'EME', 'Civil'])],
