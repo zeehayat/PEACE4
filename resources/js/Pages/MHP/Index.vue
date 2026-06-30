@@ -56,6 +56,7 @@ const menuPosition = ref({ top: 0, left: 0, width: 0, direction: 'down' });
 // Modals Visibility Control flags
 const showSiteCreateModal = ref(false);
 const showEditInfoModal = ref(false);
+const showAdminApprovalModal = ref(false);
 const approvalAction = ref('create');
 const showTAndDWorkModal = ref(false);
 const showProjectPhysicalProgressModal = ref(false);
