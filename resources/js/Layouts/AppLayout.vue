@@ -1,6 +1,8 @@
 <script setup>
 import { Head } from '@inertiajs/vue3';
 import SideBar from '@/Components/SideBar.vue';
+import ReportsHubModal from '@/Components/ReportsHubModal.vue';
+import CommandPalette from '@/Components/CommandPalette.vue';
 
 defineProps({ title: String });
 </script>
@@ -9,11 +11,16 @@ defineProps({ title: String });
     <div class="min-h-screen flex bg-background-light">
         <Head :title="title" class="bg-black" />
 
-        <!-- Sidebar (part of flex row) -->
+        <!-- Sidebar Component -->
         <SideBar />
 
+        <!-- Global Modals/Popups -->
+        <ReportsHubModal />
+        <CommandPalette />
+
         <!-- Main content area (fills rest of screen) -->
-        <div class="flex-1 flex flex-col min-w-0 ml-20 transition-all duration-300">
+        <!-- Fixed layout margin on desktop: md:ml-20 matches the slim sidebar -->
+        <div class="flex-1 flex flex-col min-w-0 ml-0 md:ml-20 transition-all duration-300">
             <header v-if="$slots.header" class="bg-white shadow-sm">
                 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                     <slot name="header" />

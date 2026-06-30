@@ -2,7 +2,7 @@ import { queryParams, type RouteQueryOptions, type RouteDefinition } from './../
 import instructions from './instructions'
 /**
 * @see \App\Http\Controllers\MhpReportController::exportMethod
-* @see app/Http/Controllers/MhpReportController.php:115
+* @see app/Http/Controllers/MhpReportController.php:116
 * @route '/mhp/reports/district/export'
 */
 export const exportMethod = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -17,7 +17,7 @@ exportMethod.definition = {
 
 /**
 * @see \App\Http\Controllers\MhpReportController::exportMethod
-* @see app/Http/Controllers/MhpReportController.php:115
+* @see app/Http/Controllers/MhpReportController.php:116
 * @route '/mhp/reports/district/export'
 */
 exportMethod.url = (options?: RouteQueryOptions) => {
@@ -26,7 +26,7 @@ exportMethod.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\MhpReportController::exportMethod
-* @see app/Http/Controllers/MhpReportController.php:115
+* @see app/Http/Controllers/MhpReportController.php:116
 * @route '/mhp/reports/district/export'
 */
 exportMethod.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -36,7 +36,7 @@ exportMethod.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\MhpReportController::exportMethod
-* @see app/Http/Controllers/MhpReportController.php:115
+* @see app/Http/Controllers/MhpReportController.php:116
 * @route '/mhp/reports/district/export'
 */
 exportMethod.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -46,7 +46,7 @@ exportMethod.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
 /**
 * @see \App\Http\Controllers\MhpReportController::instructions
-* @see app/Http/Controllers/MhpReportController.php:169
+* @see app/Http/Controllers/MhpReportController.php:170
 * @route '/mhp/reports/district/instructions'
 */
 export const instructions = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -61,7 +61,7 @@ instructions.definition = {
 
 /**
 * @see \App\Http\Controllers\MhpReportController::instructions
-* @see app/Http/Controllers/MhpReportController.php:169
+* @see app/Http/Controllers/MhpReportController.php:170
 * @route '/mhp/reports/district/instructions'
 */
 instructions.url = (options?: RouteQueryOptions) => {
@@ -70,7 +70,7 @@ instructions.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\MhpReportController::instructions
-* @see app/Http/Controllers/MhpReportController.php:169
+* @see app/Http/Controllers/MhpReportController.php:170
 * @route '/mhp/reports/district/instructions'
 */
 instructions.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -80,7 +80,7 @@ instructions.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\MhpReportController::instructions
-* @see app/Http/Controllers/MhpReportController.php:169
+* @see app/Http/Controllers/MhpReportController.php:170
 * @route '/mhp/reports/district/instructions'
 */
 instructions.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({

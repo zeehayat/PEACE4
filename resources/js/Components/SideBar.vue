@@ -1,16 +1,14 @@
 <script setup>
 import { Link, usePage, router } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
+import { useNavigation } from '@/Composables/useNavigation';
 
 const page = usePage();
-const isOpen = ref(false);
-const isCollapsed = ref(true);
+const isOpen = ref(false); // Mobile drawer open/close
+const { toggleReportsHub, toggleCommandPalette } = useNavigation();
 
-const toggleSidebar = () => {
+const toggleSidebarMobile = () => {
     isOpen.value = !isOpen.value;
-    if (isOpen.value) {
-        isCollapsed.value = false; // ensure readability on mobile when opened
-    }
 };
 
 const isActive = (routeName) => {
@@ -18,281 +16,133 @@ const isActive = (routeName) => {
 };
 
 const user = computed(() => page.props.auth.user);
-
-// --- Dynamic Report Menu Logic ---
-
-// 1. Define the report menu structure
-const reportMenu = ref([
-    {
-        title: 'CBO',
-        key: 'cbo',
-        links: [
-            // Example reports under CBO
-            { name: 'CBO Report', route: 'cbo.reports.cbo.index', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z' },
-            //{ name: 'CBO Report 2', route: 'cbo.report2', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z' },
-        ]
-    },
-    {
-        title: 'CRO',
-        key: 'cro',
-        links: [
-            { name: 'CRO Report', route: 'cro.reports.index', icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4' },
-        ]
-    },
-    {
-        title: 'MHP',
-        key: 'mhp',
-        links: [
-            // Example reports under MHP
-            { name: 'MHP Alpha', route: 'mhp.reports.index', icon: 'M13 10V3L4 14h7v7l9-11h-7z' },
-            { name: 'District Wise MHP', route: 'mhp.reports.district', icon: 'M4 6h16M4 12h12M4 18h8' },
-            { name: 'Instructions CSV', route: 'mhp.reports.district.instructions', icon: 'M3 6h18M3 12h18M3 18h10' },
-            { name: 'MHP Detailed Report', route: 'mhp.reports.detailed', icon: 'M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' },
-            { name: 'MHP Detailed V2 (Fresh)', route: 'mhp.reports.detailed-v2', icon: 'M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15' },
-            //{ name: 'MHP Beta', route: 'mhp.report.beta', icon: 'M13 10V3L4 14h7v7l9-11h-7z' },
-        ]
-    },
-    {
-        title: 'Irrigation',
-        key: 'irrigation',
-        links: [
-            // Example reports under Irrigation
-            { name: 'Irrigation Scheme Report', route: 'irrigation.reports.schemes', icon: 'M4 6h16M4 12h16M4 18h16' },
-        ]
-    },
-]);
-
-// 2. Centralized state for collapse status
-const reportCollapseState = ref({
-    cbo: true,
-    cro: true,
-    mhp: true,
-    irrigation: true,
-});
-
-// 3. Reusable toggle function
-const toggleReportSection = (key) => {
-    reportCollapseState.value[key] = !reportCollapseState.value[key];
-};
-
 const isAdmin = computed(() => user.value?.roles?.some((r) => ['Admin', 'Root'].includes(r.name)));
-// --- End Dynamic Report Menu Logic ---
 </script>
 
 <template>
-    <button @click="toggleSidebar" class="md:hidden fixed top-4 left-4 z-50 p-2 rounded-md bg-indigo-600 text-white shadow-lg transition-all duration-200 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+    <!-- Mobile Hamburger Toggle -->
+    <button @click="toggleSidebarMobile" class="md:hidden fixed top-4 left-4 z-50 p-2 rounded-md bg-indigo-600 text-white shadow-lg focus:outline-none transition hover:bg-indigo-700">
         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path v-if="!isOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             <path v-else stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
     </button>
 
-    <Transition
-        enter-active-class="transition-opacity ease-linear duration-300"
-        enter-from-class="opacity-0"
-        enter-to-class="opacity-100"
-        leave-active-class="transition-opacity ease-linear duration-300"
-        leave-from-class="opacity-100"
-        leave-to-class="opacity-0"
-    >
-        <div v-if="isOpen" @click="toggleSidebar" class="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"></div>
+    <!-- Mobile Backdrop -->
+    <Transition enter-active-class="transition-opacity ease-linear duration-300" enter-from-class="opacity-0" enter-to-class="opacity-100" leave-active-class="transition-opacity ease-linear duration-300" leave-from-class="opacity-100" leave-to-class="opacity-0">
+        <div v-if="isOpen" @click="toggleSidebarMobile" class="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"></div>
     </Transition>
 
-    <!-- Desktop Overlay/Backdrop -->
-    <Transition
-        enter-active-class="transition-opacity ease-linear duration-300"
-        enter-from-class="opacity-0"
-        enter-to-class="opacity-100"
-        leave-active-class="transition-opacity ease-linear duration-300"
-        leave-from-class="opacity-100"
-        leave-to-class="opacity-0"
-    >
-        <div v-if="!isCollapsed" @click="isCollapsed = true" class="hidden md:block fixed inset-0 bg-black bg-opacity-50 z-40"></div>
-    </Transition>
-
+    <!-- Sidebar Container -->
     <aside
         :class="{ 'translate-x-0': isOpen, '-translate-x-full': !isOpen }"
-        class="fixed inset-y-0 left-0 bg-gradient-to-b from-[#0f2a1b] via-[#122f1f] to-[#0c1f15] text-white p-5 space-y-6 z-50 transform md:relative md:translate-x-0 transition-all duration-300 ease-in-out shadow-2xl overflow-hidden"
-        :style="{ width: isCollapsed ? '5rem' : '18rem' }"
+        class="fixed inset-y-0 left-0 w-20 bg-gradient-to-b from-[#0f2a1b] via-[#122f1f] to-[#0c1f15] text-white p-4 flex flex-col items-center justify-between z-40 transform md:translate-x-0 transition-transform duration-300 ease-in-out shadow-2xl"
     >
-        <div class="flex items-center justify-between h-14 rounded-xl bg-white/5 px-4 ring-1 ring-white/10">
-            <Link :href="route('dashboard')" class="text-xl font-bold tracking-wide text-white truncate" v-show="!isCollapsed">
-                SRSP PEACE 2
+        <!-- Top Section: Logo & Modules -->
+        <div class="flex flex-col items-center gap-6 w-full">
+            <Link :href="route('dashboard')" class="h-12 w-12 rounded-xl bg-white/10 flex items-center justify-center ring-1 ring-white/20 hover:bg-white/15 transition group">
+                <span class="material-symbols-outlined text-emerald-400 font-bold text-2xl group-hover:scale-110 transition duration-200">spa</span>
+                <div class="tooltip">SRSP PEACE 2</div>
             </Link>
-            <span class="material-symbols-outlined text-primary bg-white/10 rounded-full p-1 cursor-pointer" @click="isCollapsed = !isCollapsed">
-                {{ isCollapsed ? 'menu' : 'spa' }}
-            </span>
+
+            <hr class="w-8 border-white/10" />
+
+            <!-- Nav Links -->
+            <nav class="flex flex-col gap-3 w-full items-center">
+                <!-- Dashboards -->
+                <Link :href="route('mhp.dashboard')" :class="['nav-btn relative group', isActive('mhp.dashboard') ? 'active' : '']">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    <div class="tooltip">MHP Dashboard</div>
+                </Link>
+
+                <Link :href="route('irrigation.dashboard')" :class="['nav-btn relative group', isActive('irrigation.dashboard') ? 'active' : '']">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                    <div class="tooltip">Irrigation Dashboard</div>
+                </Link>
+
+                <hr class="w-8 border-white/10 my-1" />
+
+                <!-- Modules (Quick Access) -->
+                <Link :href="route('cbo.cbos.index')" :class="['nav-btn relative group', isActive('cbo.cbos.index') ? 'active' : '']">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h2a2 2 0 002-2V4a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2h2m0 0l4-4m-4 4l-4-4m4 4V4"/></svg>
+                    <div class="tooltip">CBOs</div>
+                </Link>
+
+                <Link :href="route('cro.cros.index')" :class="['nav-btn relative group', isActive('cro.cros.index') ? 'active' : '']">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                    <div class="tooltip">CROs</div>
+                </Link>
+
+                <Link :href="route('mhp.sites.index')" :class="['nav-btn relative group', isActive('mhp.sites.index') ? 'active' : '']">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    <div class="tooltip">MHP Sites</div>
+                </Link>
+
+                <Link :href="route('irrigation.schemes.index')" :class="['nav-btn relative group', isActive('irrigation.schemes.index') ? 'active' : '']">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                    <div class="tooltip">Irrigation Schemes</div>
+                </Link>
+
+                <Link :href="route('vendor.vendors.index')" :class="['nav-btn relative group', isActive('vendor.vendors.index') ? 'active' : '']">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 01-2 2h4M10 6h4M10 6h4M14 6h4a2 2 0 012 2v10a2 2 0 01-2 2h-4M14 6h-4m0 0V4m0 2v4"/></svg>
+                    <div class="tooltip">Vendors</div>
+                </Link>
+
+                <Link :href="route('lrm.committees.index')" :class="['nav-btn relative group', isActive('lrm.committees.index') ? 'active' : '']">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h2a2 2 0 002-2V4a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2h2m0 0l4-4m-4 4l-4-4m4 4V4"/></svg>
+                    <div class="tooltip">LRM Committees</div>
+                </Link>
+
+                <hr class="w-8 border-white/10 my-1" />
+
+                <!-- Open Reports Hub (Triggers Modal) -->
+                <button @click="toggleReportsHub" class="nav-btn relative group">
+                    <span class="material-symbols-outlined text-2xl">analytics</span>
+                    <div class="tooltip">Reports Hub</div>
+                </button>
+
+                <!-- Search / Command Palette -->
+                <button @click="toggleCommandPalette" class="nav-btn relative group bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/25">
+                    <span class="material-symbols-outlined text-2xl">search</span>
+                    <div class="tooltip">Search (Ctrl+K)</div>
+                </button>
+            </nav>
         </div>
 
-        <button
-            @click="isCollapsed = !isCollapsed"
-            class="flex items-center gap-2 rounded-xl bg-white/10 text-white px-3 py-2 text-xs font-semibold ring-1 ring-white/10 hover:bg-white/15 transition w-full"
-            :class="{ 'justify-center': isCollapsed }"
-        >
-            <span class="material-symbols-outlined text-sm">{{ isCollapsed ? 'chevron_right' : 'chevron_left' }}</span>
-            <span v-show="!isCollapsed">Collapse</span>
-        </button>
-
-        <div v-if="user" class="flex items-center space-x-4 p-3 rounded-xl bg-white/5 ring-1 ring-white/10" :class="{ 'justify-center': isCollapsed }">
-            <div class="relative shrink-0">
-                <img :src="user.profile_photo_url || 'https://i.postimg.cc/DzL69Yng/images.png'" alt="Profile Photo" class="h-12 w-12 rounded-full object-cover border-2 border-primary transition-all duration-200 hover:scale-105">
-                <span class="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-emerald-400 ring-2 ring-[#0f2a1b]"></span>
-            </div>
-            <div v-show="!isCollapsed">
-                <div class="font-semibold text-white truncate">{{ user.name }}</div>
-                <div class="text-xs text-gray-300 truncate">{{ user.email }}</div>
-            </div>
-        </div>
-        <div v-else class="p-3 text-sm text-gray-200 rounded-xl bg-white/5 ring-1 ring-white/10">
-            Guest User
-        </div>
-
-        <nav class="space-y-4 font-medium">
-            <h3 class="text-xs uppercase tracking-[0.2em] text-gray-400 px-3" v-show="!isCollapsed">Dashboards</h3>
-
-            <Link :href="route('mhp.dashboard')" :class="['nav-link group', isActive('mhp.dashboard') ? 'bg-primary/20 text-white ring-1 ring-primary/40' : 'text-gray-200 hover:bg-white/5 hover:text-white', isCollapsed ? 'justify-center' : '']">
-                <svg class="h-5 w-5 transition-colors duration-200" :class="isCollapsed ? 'mr-0' : 'mr-3'" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                <span class="transition-colors duration-200" v-show="!isCollapsed">MHP Dashboard</span>
-            </Link>
-            <Link :href="route('irrigation.dashboard')" :class="['nav-link group', isActive('irrigation.dashboard') ? 'bg-primary/20 text-white ring-1 ring-primary/40' : 'text-gray-200 hover:bg-white/5 hover:text-white', isCollapsed ? 'justify-center' : '']">
-                <svg class="h-5 w-5 transition-colors duration-200" :class="isCollapsed ? 'mr-0' : 'mr-3'" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-                <span class="transition-colors duration-200" v-show="!isCollapsed">Irrigation Dashboard</span>
+        <!-- Footer / User Area -->
+        <div class="flex flex-col items-center gap-4 w-full">
+            <!-- Admin Dashboard -->
+            <Link v-if="isAdmin" :href="route('admin.dashboard')" :class="['nav-btn relative group', isActive('admin.dashboard') ? 'active' : '']">
+                <span class="material-symbols-outlined text-2xl text-amber-400">admin_panel_settings</span>
+                <div class="tooltip">Admin Panel</div>
             </Link>
 
-            <h3 class="text-xs uppercase tracking-[0.2em] text-gray-400 px-3 pt-2" v-show="!isCollapsed">Modules</h3>
-
-            <Link :href="route('cbo.cbos.index')" :class="['nav-link group', isActive('cbo.cbos.index') ? 'bg-primary/20 text-white ring-1 ring-primary/40' : 'text-gray-200 hover:bg-white/5 hover:text-white', isCollapsed ? 'justify-center' : '']">
-                <svg class="h-5 w-5 transition-colors duration-200" :class="isCollapsed ? 'mr-0' : 'mr-3'" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h2a2 2 0 002-2V4a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2h2m0 0l4-4m-4 4l-4-4m4 4V4"/></svg>
-                <span class="transition-colors duration-200" v-show="!isCollapsed">CBOs</span>
-            </Link>
-            <Link :href="route('cro.cros.index')" :class="['nav-link group', isActive('cro.cros.index') ? 'bg-primary/20 text-white ring-1 ring-primary/40' : 'text-gray-200 hover:bg-white/5 hover:text-white', isCollapsed ? 'justify-center' : '']">
-                <svg class="h-5 w-5 transition-colors duration-200" :class="isCollapsed ? 'mr-0' : 'mr-3'" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-                 <span class="transition-colors duration-200" v-show="!isCollapsed">CROs</span>
-            </Link>
-            <Link :href="route('mhp.sites.index')" :class="['nav-link group', isActive('mhp.sites.index') ? 'bg-primary/20 text-white ring-1 ring-primary/40' : 'text-gray-200 hover:bg-white/5 hover:text-white', isCollapsed ? 'justify-center' : '']">
-                <svg class="h-5 w-5 transition-colors duration-200" :class="isCollapsed ? 'mr-0' : 'mr-3'" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                <span class="transition-colors duration-200" v-show="!isCollapsed">MHP Sites</span>
-            </Link>
-            <Link :href="route('irrigation.schemes.index')" :class="['nav-link group', isActive('irrigation.schemes.index') ? 'bg-primary/20 text-white ring-1 ring-primary/40' : 'text-gray-200 hover:bg-white/5 hover:text-white', isCollapsed ? 'justify-center' : '']">
-                <svg class="h-5 w-5 transition-colors duration-200" :class="isCollapsed ? 'mr-0' : 'mr-3'" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-                <span class="transition-colors duration-200" v-show="!isCollapsed">Irrigation Schemes</span>
-            </Link>
-            <Link :href="route('vendor.vendors.index')" :class="['nav-link group', isActive('vendor.vendors.index') ? 'bg-primary/20 text-white ring-1 ring-primary/40' : 'text-gray-200 hover:bg-white/5 hover:text-white', isCollapsed ? 'justify-center' : '']">
-                <svg class="h-5 w-5 transition-colors duration-200" :class="isCollapsed ? 'mr-0' : 'mr-3'" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 01-2 2h4M10 6h4M10 6h4M14 6h4a2 2 0 012 2v10a2 2 0 01-2 2h-4M14 6h-4m0 0V4m0 2v4"/></svg>
-                <span class="transition-colors duration-200" v-show="!isCollapsed">Vendors</span>
-            </Link>
-            <Link :href="route('lrm.committees.index')" :class="['nav-link group', isActive('lrm.committees.index') ? 'bg-primary/20 text-white ring-1 ring-primary/40' : 'text-gray-200 hover:bg-white/5 hover:text-white', isCollapsed ? 'justify-center' : '']">
-                <svg class="h-5 w-5 transition-colors duration-200" :class="isCollapsed ? 'mr-0' : 'mr-3'" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h2a2 2 0 002-2V4a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2h2m0 0l4-4m-4 4l-4-4m4 4V4"/></svg>
-                <span class="transition-colors duration-200" v-show="!isCollapsed">LRM Committees</span>
-            </Link>
-
-            <div v-if="isAdmin" class="pt-4 border-t border-gray-800 mt-2">
-                <h3 class="text-xs uppercase tracking-[0.2em] text-gray-400 px-3 pt-1 pb-2" v-show="!isCollapsed">Admin</h3>
-                <Link :href="route('admin.dashboard')" :class="['nav-link group', isActive('admin.dashboard') ? 'bg-primary/20 text-white ring-1 ring-primary/40' : 'text-gray-200 hover:bg-white/5 hover:text-white', isCollapsed ? 'justify-center' : '']">
-                    <svg class="h-5 w-5 transition-colors duration-200" :class="isCollapsed ? 'mr-0' : 'mr-3'" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-                    <span class="transition-colors duration-200" v-show="!isCollapsed">Admin Dashboard</span>
-                </Link>
-                <Link :href="route('admin.users.index')" :class="['nav-link group', isActive('admin.users.index') ? 'bg-primary/20 text-white ring-1 ring-primary/40' : 'text-gray-200 hover:bg-white/5 hover:text-white', isCollapsed ? 'justify-center' : '']">
-                    <svg class="h-5 w-5 transition-colors duration-200" :class="isCollapsed ? 'mr-0' : 'mr-3'" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 14a4 4 0 10-8 0m8 0a4 4 0 01-8 0m8 0v1a4 4 0 01-8 0v-1m8 0a5 5 0 015 5v1H3v-1a5 5 0 015-5"/></svg>
-                    <span class="transition-colors duration-200" v-show="!isCollapsed">Users</span>
-                </Link>
-                <Link :href="route('admin.roles.index')" :class="['nav-link group', isActive('admin.roles.index') ? 'bg-primary/20 text-white ring-1 ring-primary/40' : 'text-gray-200 hover:bg-white/5 hover:text-white', isCollapsed ? 'justify-center' : '']">
-                    <svg class="h-5 w-5 transition-colors duration-200" :class="isCollapsed ? 'mr-0' : 'mr-3'" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2"/></svg>
-                    <span class="transition-colors duration-200" v-show="!isCollapsed">Roles</span>
-                </Link>
-                <Link :href="route('admin.access-control.index')" :class="['nav-link group', isActive('admin.access-control.index') ? 'bg-primary/20 text-white ring-1 ring-primary/40' : 'text-gray-200 hover:bg-white/5 hover:text-white', isCollapsed ? 'justify-center' : '']">
-                    <svg class="h-5 w-5 transition-colors duration-200" :class="isCollapsed ? 'mr-0' : 'mr-3'" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c1.657 0 3-1.343 3-3S13.657 5 12 5 9 6.343 9 8s1.343 3 3 3z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.4 15a1 1 0 010 2.1A7.964 7.964 0 0112 19a7.964 7.964 0 01-7.4-1.9A1 1 0 014.6 15a9.967 9.967 0 0114.8 0z"/></svg>
-                    <span class="transition-colors duration-200" v-show="!isCollapsed">Access Control</span>
-                </Link>
-            </div>
-            <button @click="router.post(route('logout'))" :class="['w-full flex items-center p-3 rounded-xl text-gray-200 hover:bg-white/5 hover:text-white transition-colors duration-200', isCollapsed ? 'justify-center' : '']">
-                <svg class="h-5 w-5 transition-colors duration-200" :class="isCollapsed ? 'mr-0' : 'mr-3'" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
-                <span class="transition-colors duration-200" v-show="!isCollapsed">Log Out</span>
-            </button>
-
-            <h3 class="text-xs uppercase tracking-[0.2em] text-gray-400 px-3 pt-4 pb-1" v-show="!isCollapsed">Reports</h3>
-
-            <div class="space-y-1">
-                <div v-for="section in reportMenu" :key="section.key">
-                    <h4
-                        class="text-xs uppercase tracking-wider text-gray-500 px-3 pt-4 pb-1 cursor-pointer select-none flex justify-between items-center"
-                        @click="toggleReportSection(section.key)"
-                        v-show="!isCollapsed" 
-                    >
-                        <span>{{ section.title }}</span>
-                        <svg
-                            :class="{'rotate-180': !reportCollapseState[section.key]}"
-                            class="h-4 w-4 transition-transform duration-300"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </h4>
-
-                    <Transition name="slide-fade">
-                        <div v-show="!reportCollapseState[section.key] || isCollapsed" :class="['space-y-1', !isCollapsed ? 'pl-2' : '']">
-
-                            <Link
-                                v-for="link in section.links"
-                                :key="link.route"
-                                :href="route(link.route)"
-                                :class="['w-full flex items-center p-3 rounded-xl text-gray-300 transition-colors duration-200',
-                                         // Highlight active link inside the collapsed menu
-                                         isActive(link.route) ? 'bg-gray-800 text-white shadow-md' : 'hover:bg-gray-800 hover:text-white', isCollapsed ? 'justify-center' : '']"
-                            >
-                                <svg class="h-5 w-5 transition-colors duration-200" :class="isCollapsed ? 'mr-0' : 'mr-3'" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="link.icon" />
-                                </svg>
-                                <span class="transition-colors duration-200 text-sm" v-show="!isCollapsed">{{ link.name }}</span>
-                            </Link>
-
-                        </div>
-                    </Transition>
+            <!-- User Profile -->
+            <div v-if="user" class="relative group cursor-pointer flex flex-col items-center">
+                <img :src="user.profile_photo_url || 'https://i.postimg.cc/DzL69Yng/images.png'" alt="User Profile" class="h-10 w-10 rounded-xl object-cover ring-2 ring-emerald-500/30 hover:scale-105 transition duration-200">
+                <div class="tooltip text-center">
+                    <div class="font-semibold">{{ user.name }}</div>
+                    <div class="text-[10px] text-gray-400">{{ user.email }}</div>
                 </div>
             </div>
-        </nav>
+
+            <!-- Logout -->
+            <button @click="router.post(route('logout'))" class="nav-btn relative group text-rose-400 hover:bg-rose-500/10 hover:text-rose-300">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                <div class="tooltip">Log Out</div>
+            </button>
+        </div>
     </aside>
 </template>
 
 <style scoped>
-/* The CSS for nav-link and slide-fade remains correct and is appended below for completeness */
-
-.nav-link {
-    @apply flex items-center p-3 rounded-xl transition-all duration-200 ease-in-out transform hover:translate-x-1;
+.nav-btn {
+    @apply flex items-center justify-center h-11 w-11 rounded-xl text-gray-400 hover:bg-white/5 hover:text-white transition duration-150;
 }
-
-.nav-link svg, .nav-link span {
-    transition: all 0.2s ease-in-out;
+.nav-btn.active {
+    @apply bg-emerald-500/15 text-emerald-400 border border-emerald-500/25;
 }
-
-/* Staggered fade-in animation for mobile */
-.sidebar-open .nav-link {
-    animation: fadeInSlide 0.5s ease-out forwards;
-}
-
-@keyframes fadeInSlide {
-    from {
-        opacity: 0;
-        transform: translateX(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-/* CSS for the collapse animation */
-.slide-fade-enter-active,
-.slide-fade-leave-active {
-    transition: all 0.3s ease-out;
-    overflow: hidden; /* Essential for height transition */
-}
-
-.slide-fade-enter-from,
-.slide-fade-leave-to {
-    height: 0;
-    opacity: 0;
+.tooltip {
+    @apply absolute left-16 bg-gray-950 text-white text-xs py-1.5 px-3 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition duration-150 shadow-xl border border-white/5 whitespace-nowrap z-50;
 }
 </style>
