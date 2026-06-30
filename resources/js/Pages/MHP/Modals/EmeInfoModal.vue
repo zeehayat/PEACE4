@@ -1,24 +1,20 @@
 <script setup>
+import { computed } from "vue";
 import Modal from '@/Components/Modal.vue';
 import EmeInfoForm from "@/Pages/MHP/Partials/EmeInfoForm.vue";
-import { computed } from "vue";
 
 const props = defineProps({
     show: Boolean,
-    mhpSite: { // <-- Change this to mhpSite
+    mhpSite: {
         type: Object,
         required: true,
-    },
-    action: {
-        type: String,
-        default: 'create',
     },
 });
 
 const emit = defineEmits(['close', 'updated', 'success']);
 
 const handleFormSuccess = (message) => {
-    emit('updated', message);
+    emit('success', message);
     emit('close');
 };
 
@@ -27,24 +23,19 @@ const handleFormCancel = () => {
 };
 
 const modalTitle = computed(() => {
-    // The presence of eme_info on the site object tells us if we are editing
-    return props.mhpSite.eme_info ? 'Edit EME Profile' : 'Add New EME Profile';
+    return props.mhpSite.eme_info ? `Edit EME Profile - ${props.mhpSite.project_id}` : `Add EME Profile - ${props.mhpSite.project_id}`;
 });
 </script>
 
 <template>
-    <Modal :show="show" @close="$emit('close')" maxWidth="4xl">
-        <div class="p-6">
-            <h2 class="text-2xl font-bold mb-4">{{ modalTitle }}</h2>
+    <Modal :show="show" @close="handleFormCancel" :maxWidth="'5xl'" :title="modalTitle">
+        <div class="p-6 max-h-[75vh] overflow-y-auto">
             <EmeInfoForm
                 :mhp-site="mhpSite"
-                :eme-info="mhpSite.eme_info" @success="$emit('success', 'EME Profile saved successfully!')"
-                @cancel="$emit('close')" class="bg-blue-100"
+                :eme-info="mhpSite.eme_info"
+                @success="handleFormSuccess"
+                @cancel="handleFormCancel"
             />
         </div>
     </Modal>
 </template>
-
-<style scoped>
-/* No specific scoped styles needed here */
-</style>
