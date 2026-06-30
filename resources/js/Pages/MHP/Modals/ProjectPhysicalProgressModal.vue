@@ -4,14 +4,13 @@ import { router } from '@inertiajs/vue3';
 import axios from 'axios';
 
 import Modal from '@/Components/Modal.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import DangerButton from '@/Components/DangerButton.vue';
 import ProjectPhysicalProgressForm from '@/Pages/MHP/Forms/ProjectPhysicalProgressForm.vue';
 import AttachmentViewer from '@/Components/AttachmentComponent/AttachmentViewer.vue';
+import { formatDate } from '@/Utils/formatters';
 
 const props = defineProps({
-    show: Boolean, // Controls modal visibility
-    site: { // The MHP Site object whose progress we are managing
+    show: Boolean,
+    site: {
         type: Object,
         required: true,
     },
@@ -20,32 +19,21 @@ const props = defineProps({
 const emit = defineEmits(['close', 'saved']);
 
 const isLoadingProgress = ref(true);
-const physicalProgresses = ref([]); // Local state for the list of progress entries
-const showForm = ref(false); // Controls visibility of the form within this modal
-const selectedProgress = ref(null); // The progress item being edited (or null for new)
-const formMode = ref('create'); // 'create' or 'update' for the form
-const progressTypeForForm = ref('Civil'); // To hold the type for the new progress form
+const physicalProgresses = ref([]);
+const showForm = ref(false);
+const selectedProgress = ref(null);
+const formMode = ref('create');
+const progressTypeForForm = ref('Civil');
 
-// Fetch physical progress for the current site
 const fetchPhysicalProgress = async () => {
     isLoadingProgress.value = true;
     try {
         const { data } = await axios.get(
-            // keep route params clean: ONLY the path params belong here
             route('mhp.sites.physical-progresses.index', { site: props.site.id }),
-            {
-                headers: { Accept: 'application/json' },   // force JSON instead of an Inertia page
-                params: {
-                    // optional: add a filter if you want
-                    // payment_for: 'EME' | 'Civil' | 'T&D'
-                },
-            }
+            { headers: { Accept: 'application/json' } }
         );
 
-        // Accept both { physicalProgresses: [...] } or a raw array
         const raw = Array.isArray(data) ? data : (data?.physicalProgresses ?? []);
-
-        // Normalize to what your template renders
         physicalProgresses.value = raw.map(p => ({
             id: p.id,
             percentage: p.progress_percentage ?? p.percentage ?? 0,
@@ -53,11 +41,8 @@ const fetchPhysicalProgress = async () => {
             type: p.payment_for ?? p.type,
             remarks: p.remarks ?? '',
             attachments: p.attachments_frontend ?? p.attachments ?? [],
-            original_model: p, // keep full model for edit/delete
+            original_model: p,
         }));
-
-        // Optional: log once to verify the shape
-        // console.log('Loaded physical progresses:', physicalProgresses.value);
     } catch (error) {
         console.error('API call failed to fetch physical progress:', error);
         physicalProgresses.value = [];
@@ -66,21 +51,17 @@ const fetchPhysicalProgress = async () => {
     }
 };
 
-
-
-// Watch for modal visibility to fetch data when it opens
 watch(() => props.show, (newVal) => {
     if (newVal && props.site) {
         fetchPhysicalProgress();
-        showForm.value = false; // Start by showing the list, not the form
+        showForm.value = false;
         selectedProgress.value = null;
         formMode.value = 'create';
     } else {
-        physicalProgresses.value = []; // Clear data when modal closes
+        physicalProgresses.value = [];
     }
 });
 
-// Handlers for managing the form state
 const openCreateForm = (type) => {
     selectedProgress.value = null;
     formMode.value = 'create';
@@ -89,113 +70,53 @@ const openCreateForm = (type) => {
 };
 
 const openEditForm = (progress) => {
-    // The 'progress' object is from our mapped collection.
-    // We need to pass the original model to the form for editing.
     selectedProgress.value = progress.original_model;
-    // Set the correct type for the form
     progressTypeForForm.value = progress.type;
     formMode.value = 'update';
     showForm.value = true;
 };
 
 const handleFormSuccess = (message) => {
-    showForm.value = false; // Hide form, show list
-    selectedProgress.value = null; // Clear selected item
-    fetchPhysicalProgress(); // Re-fetch list to show updated data
-    emit('saved', message); // Notify parent (Index.vue) for toast
+    showForm.value = false;
+    selectedProgress.value = null;
+    fetchPhysicalProgress();
+    emit('saved', message);
 };
 
 const handleFormCancel = () => {
-    showForm.value = false; // Hide form, show list
-    selectedProgress.value = null; // Clear selected item
+    showForm.value = false;
+    selectedProgress.value = null;
 };
 
 const handleDeleteProgress = (progress) => {
-    // The progress object is from our mapped collection.
-    // We need the ID from the original model to send to the backend.
     const progressId = progress.original_model.id;
     const progressType = progress.type;
 
     if (confirm(`Are you sure you want to delete this ${progressType} progress entry?`)) {
-        // The destroy route is the same for all unified progress types.
         router.delete(route('mhp.sites.physical-progresses.destroy', { physical_progress: progressId }), {
             onSuccess: () => {
                 emit('saved', 'Physical Progress deleted successfully!');
-                fetchPhysicalProgress(); // Re-fetch the list
+                fetchPhysicalProgress();
             },
-            onError: (errors) => {
-                console.error('Error deleting physical progress:', errors);
-            }
+            preserveScroll: true,
         });
     }
-};
-
-const closeModal = () => {
-    emit('close');
 };
 
 const modalTitle = computed(() => {
     if (showForm.value) {
         const action = formMode.value === 'create' ? 'Record' : 'Edit';
-        return `${action} ${progressTypeForForm.value} Progress for ${props.site.project_id}`;
+        return `${action} ${progressTypeForForm.value} Progress - ${props.site.project_id}`;
     }
-    return `Manage Physical Progress for ${props.site.project_id}`;
+    return `Manage Physical Progress: ${props.site.project_id}`;
 });
 </script>
 
 <template>
-
-    <Modal :show="show" @close="closeModal" :maxWidth="'5xl'">
-        <div class="p-6 overflow-y-auto max-h-[85vh]">
-            <h2 class="text-2xl font-bold text-gray-800 mb-6">{{ modalTitle }}</h2>
-            <div v-if="!showForm" class="space-y-4">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-semibold text-gray-800">Record New Progress</h3>
-                    <div class="flex space-x-2">
-                        <PrimaryButton @click="openCreateForm('Civil')">+ Civil</PrimaryButton>
-                        <PrimaryButton @click="openCreateForm('T&D')">+ T&D</PrimaryButton>
-                        <PrimaryButton @click="openCreateForm('EME')">+ EME</PrimaryButton>
-                    </div>
-                </div>
-
-                <div class="border-t border-gray-200 pt-4">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Existing Entries</h3>
-                    <div v-if="isLoadingProgress" class="text-center py-8 text-gray-500">
-                        Loading physical progress entries...
-                    </div>
-                    <div v-else-if="physicalProgresses.length === 0" class="text-center py-8 text-gray-500">
-                        No physical progress entries recorded yet for this site.
-                    </div>
-                    <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div v-for="progress in physicalProgresses" :key="progress.id" class="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
-                            <div class="flex justify-between items-start mb-2">
-                                <div>
-                                    <p class="text-lg font-semibold text-indigo-700">{{ progress.percentage }}% Progress</p>
-                                    <p class="text-sm text-gray-600">on {{ new Date(progress.date).toLocaleDateString() }}</p>
-                                    <p class="text-sm text-gray-500">Type: <span class="font-medium">{{ progress.type }}</span></p>
-                                    <p v-if="progress.original_model.activity" class="text-xs text-gray-500">
-                                        Activity: {{ progress.original_model.activity.name || `T&D Work #${progress.original_model.activity.id}` }}
-                                    </p>
-                                </div>
-                                <div class="flex space-x-2">
-                                    <PrimaryButton @click="openEditForm(progress)" class="px-3 py-1 text-sm">Edit</PrimaryButton>
-                                    <DangerButton @click="handleDeleteProgress(progress)" class="px-3 py-1 text-sm">Delete</DangerButton>
-                                </div>
-                            </div>
-                            <p v-if="progress.remarks" class="text-sm text-gray-700 mt-2">
-                                Remarks: <span class="text-gray-600">{{ progress.remarks }}</span>
-                            </p>
-                            <div v-if="progress.attachments && progress.attachments.length" class="mt-3">
-                                <p class="text-sm font-semibold text-gray-700 mb-1">Attachments:</p>
-                                <AttachmentViewer :attachments="progress.attachments" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+    <Modal :show="show" @close="emit('close')" :maxWidth="'4xl'" :title="modalTitle">
+        <!-- Form View -->
+        <div v-if="showForm" class="p-6 max-h-[75vh] overflow-y-auto">
             <ProjectPhysicalProgressForm
-                v-else
                 :mhp-site-id="site.id"
                 :progress="selectedProgress"
                 :mode="formMode"
@@ -203,6 +124,117 @@ const modalTitle = computed(() => {
                 @success="handleFormSuccess"
                 @cancel="handleFormCancel"
             />
+        </div>
+
+        <!-- List View -->
+        <div v-else class="p-6 max-h-[75vh] overflow-y-auto space-y-5">
+            <!-- Record New Action Buttons Header -->
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-gray-50 border border-gray-200 rounded-xl p-4 gap-3">
+                <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">Record New Progress</span>
+                <div class="flex flex-wrap gap-2">
+                    <button
+                        @click="openCreateForm('Civil')"
+                        class="inline-flex items-center gap-1 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold shadow-sm transition"
+                        type="button"
+                    >
+                        <span class="material-symbols-outlined text-[15px]">add</span>
+                        Civil
+                    </button>
+                    <button
+                        @click="openCreateForm('T&D')"
+                        class="inline-flex items-center gap-1 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold shadow-sm transition"
+                        type="button"
+                    >
+                        <span class="material-symbols-outlined text-[15px]">add</span>
+                        T&D
+                    </button>
+                    <button
+                        @click="openCreateForm('EME')"
+                        class="inline-flex items-center gap-1 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold shadow-sm transition"
+                        type="button"
+                    >
+                        <span class="material-symbols-outlined text-[15px]">add</span>
+                        EME
+                    </button>
+                </div>
+            </div>
+
+            <!-- List entries -->
+            <div class="space-y-3">
+                <h4 class="text-xs font-bold text-emerald-800 uppercase tracking-wider border-b pb-2 flex items-center gap-1.5">
+                    <span class="material-symbols-outlined text-base">timeline</span>
+                    Physical Progress Timeline
+                </h4>
+
+                <div v-if="isLoadingProgress" class="text-center py-8 text-gray-400 text-sm font-semibold">
+                    Loading physical progress entries...
+                </div>
+                <div v-else-if="physicalProgresses.length === 0" class="text-center py-8 bg-gray-50 border border-dashed rounded-xl text-gray-500 text-sm">
+                    No physical progress entries recorded yet for this site.
+                </div>
+                <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div
+                        v-for="progress in physicalProgresses"
+                        :key="progress.id"
+                        class="bg-white border border-gray-200 rounded-xl p-4 shadow-sm hover:shadow transition flex flex-col justify-between"
+                    >
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">
+                                        {{ progress.percentage }}% Progress
+                                    </span>
+                                    <p class="text-xs font-semibold text-gray-500 mt-1">
+                                        Component: <span class="text-gray-900 font-bold">{{ progress.type }}</span>
+                                    </p>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <button
+                                        @click="openEditForm(progress)"
+                                        class="p-1 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md transition"
+                                        title="Edit"
+                                    >
+                                        <span class="material-symbols-outlined text-lg">edit</span>
+                                    </button>
+                                    <button
+                                        @click="handleDeleteProgress(progress)"
+                                        class="p-1 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-md transition"
+                                        title="Delete"
+                                    >
+                                        <span class="material-symbols-outlined text-lg">delete</span>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <p class="text-xs text-gray-500 flex items-center gap-1">
+                                <span class="material-symbols-outlined text-[13px]">calendar_today</span>
+                                Registered on {{ formatDate(progress.date) }}
+                            </p>
+
+                            <p v-if="progress.remarks" class="text-sm text-gray-700 leading-relaxed bg-gray-50 p-2 rounded-lg border border-gray-100">
+                                <span class="font-medium text-xs text-gray-500 block mb-0.5">Remarks</span>
+                                {{ progress.remarks }}
+                            </p>
+
+                            <div v-if="progress.attachments?.length" class="mt-2 pt-2 border-t">
+                                <span class="text-xs font-semibold text-gray-500 block mb-1">Attachments</span>
+                                <AttachmentViewer :attachments="progress.attachments" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer view actions -->
+            <div class="flex justify-end pt-2 border-t border-gray-100">
+                <button
+                    type="button"
+                    @click="emit('close')"
+                    class="px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg font-semibold text-xs text-gray-700 uppercase hover:bg-gray-200 transition shadow-sm"
+                >
+                    Close
+                </button>
+            </div>
         </div>
     </Modal>
 </template>

@@ -12,9 +12,7 @@ import MhpSiteListCard from '@/Pages/MHP/Components/MhpSiteListCard.vue';
 import MhpSiteCreateModal from '@/Pages/MHP/Modals/MhpSiteCreateModal.vue';
 import MhpEditInfoModal from '@/Pages/MHP/Modals/MhpEditInfoModal.vue';
 import MhpAdminApprovalModal from '@/Pages/MHP/Modals/MhpAdminApprovalModal.vue';
-import MhpApprovalViewModal from '@/Pages/MHP/Modals/MhpApprovalViewModal.vue';
 import TAndDWorkModal from '@/Pages/MHP/Modals/TAndDWorkModal.vue';
-import TAndDWorkViewModal from '@/Pages/MHP/Modals/TAndDWorkViewModal.vue';
 import ProjectPhysicalProgressModal from '@/Pages/MHP/Modals/ProjectPhysicalProgressModal.vue';
 import ProjectFinancialInstallmentModal from '@/Pages/MHP/Modals/ProjectFinancialInstallmentModal.vue';
 import MhpCompletionModal from '@/Pages/MHP/Modals/MhpCompletionModal.vue';
@@ -58,12 +56,8 @@ const menuPosition = ref({ top: 0, left: 0, width: 0, direction: 'down' });
 // Modals Visibility Control flags
 const showSiteCreateModal = ref(false);
 const showEditInfoModal = ref(false);
-const showAdminApprovalModal = ref(false);
 const approvalAction = ref('create');
-const showApprovalViewModal = ref(false);
 const showTAndDWorkModal = ref(false);
-const tAndDWorkAction = ref('create');
-const showTAndDWorkViewModal = ref(false);
 const showProjectPhysicalProgressModal = ref(false);
 const showProjectFinancialInstallmentModal = ref(false);
 const showMhpCompletionModal = ref(false);
@@ -99,9 +93,7 @@ function closeModal() {
     showSiteCreateModal.value = false;
     showEditInfoModal.value = false;
     showAdminApprovalModal.value = false;
-    showApprovalViewModal.value = false;
     showTAndDWorkModal.value = false;
-    showTAndDWorkViewModal.value = false;
     showProjectPhysicalProgressModal.value = false;
     showProjectFinancialInstallmentModal.value = false;
     showMhpCompletionModal.value = false;
@@ -185,75 +177,9 @@ onBeforeUnmount(() => {
 function handleViewDetails(site) { selectedSite.value = site; showMhpSiteDetailsModal.value = true; openActionMenuId.value = null; }
 function handleEditInfo(site) { selectedSite.value = site; showEditInfoModal.value = true; openActionMenuId.value = null; }
 function handleAddEditApproval(site) { selectedSite.value = site; approvalAction.value = site.admin_approval ? 'update' : 'create'; showAdminApprovalModal.value = true; openActionMenuId.value = null; }
-function handleViewApproval(site) { selectedSite.value = site; showApprovalViewModal.value = true; openActionMenuId.value = null; }
-function handleOpenRevisedCostModal(site) { handleAddEditApproval(site); openActionMenuId.value = null; }
 function handleViewReport(site) { selectedSite.value = site; showReportModal.value = true; openActionMenuId.value = null; }
 function handleAddEditViewCompletion(site) { selectedSite.value = site; completionAction.value = site.completion ? 'update' : 'create'; showMhpCompletionModal.value = true; openActionMenuId.value = null; }
-function handleViewCompletion(site) { selectedSite.value = site; showMhpCompletionModal.value = true; completionAction.value = 'view'; openActionMenuId.value = null; }
-
-function handleAddTAndDWork(site) { selectedSite.value = site; selectedTAndDWork.value = null; tAndDWorkAction.value = 'create'; showTAndDWorkModal.value = true; openActionMenuId.value = null; }
-async function handleEditTAndDWork(site, tAndDWork) {
-    selectedSite.value = site;
-
-    // If no work was explicitly passed, fetch latest and use it
-    if (!tAndDWork) {
-        try {
-            const { data } = await axios.get(
-                route('mhp.sites.t-and-d-works.index', { site: site.id, only_data: 1 })
-            );
-            const full = data.fullTAndDWorks || [];
-            if (!full.length) {
-                toastMessage.value = 'No T&D Work to edit yet. Please add one first.';
-                toastType.value = 'error';
-                toastVisible.value = true;
-                setTimeout(() => (toastVisible.value = false), 3000);
-                return;
-            }
-            tAndDWork = full[0]; // or choose a specific one by criteria
-        } catch (e) {
-            console.error(e);
-            toastMessage.value = 'Could not load T&D works for editing.';
-            toastType.value = 'error';
-            toastVisible.value = true;
-            setTimeout(() => (toastVisible.value = false), 3000);
-            return;
-        }
-    }
-
-    selectedTAndDWork.value = tAndDWork;
-    tAndDWorkAction.value = 'update';
-    showTAndDWorkModal.value = true;
-    openActionMenuId.value = null;
-}
-
-function handleViewTAndDWork(site) {
-    selectedSite.value = site;
-
-    // fetch the works for this site and pick one (latest)
-    axios.get(route('mhp.sites.t-and-d-works.index', { site: site.id }), {
-        params: { only_data: true } // <- matches controller boolean('only_data')
-    })
-        .then(({ data }) => {
-            const works = data?.fullTAndDWorks || [];
-            if (!works.length) {
-                toastMessage.value = 'No T&D Work found for this site.';
-                toastType.value = 'error';
-                toastVisible.value = true;
-                setTimeout(() => (toastVisible.value = false), 2500);
-                return;
-            }
-            // pick the first (your controller orders latest first)
-            selectedTAndDWork.value = works[0];
-            showTAndDWorkViewModal.value = true;
-        })
-        .catch((e) => {
-            // console.error('Failed to fetch T&D works:', e);
-            toastMessage.value = 'Failed to load T&D Work.';
-            toastType.value = 'error';
-            toastVisible.value = true;
-            setTimeout(() => (toastVisible.value = false), 2500);
-        });
-}
+function handleOpenTAndDWorksManager(site) { selectedSite.value = site; showTAndDWorkModal.value = true; openActionMenuId.value = null; }
 
 function handleOpenEmeProgress(site) {
     selectedSite.value = site;
@@ -511,9 +437,7 @@ const handlePagination = (url) => {
         <MhpSiteCreateModal :show="showSiteCreateModal" @close="closeModal" @saved="handleUpdated" />
         <MhpEditInfoModal v-if="selectedSite" :show="showEditInfoModal" :site="selectedSite" @close="closeModal" @updated="handleUpdated" />
         <MhpAdminApprovalModal v-if="selectedSite" :show="showAdminApprovalModal" :action="approvalAction" :mhp-site-id="selectedSite.id" :approval="selectedSite.admin_approval" @close="closeModal" @updated="handleUpdated" />
-        <MhpApprovalViewModal v-if="selectedSite && selectedSite.admin_approval" :show="showApprovalViewModal" :approval="selectedSite.admin_approval" @close="closeModal" />
-        <TAndDWorkModal v-if="selectedSite" :show="showTAndDWorkModal" :mhp-site-id="selectedSite.id" :t-and-d-work="selectedTAndDWork" :action="tAndDWorkAction" @close="closeModal" @updated="handleUpdated" />
-        <TAndDWorkViewModal v-if="selectedTAndDWork" :show="showTAndDWorkViewModal" :t-and-d-work="selectedTAndDWork" @close="closeModal" />
+        <TAndDWorkModal v-if="selectedSite" :show="showTAndDWorkModal" :site="selectedSite" @close="closeModal" @updated="handleUpdated" />
 
         <ProjectPhysicalProgressModal
             v-if="selectedSite && showProjectPhysicalProgressModal"
@@ -563,90 +487,63 @@ const handlePagination = (url) => {
                 >
                     <div class="py-1 text-sm text-gray-700">
                         <button @click="handleViewDetails(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-                            View Details
+                            <span class="material-symbols-outlined text-[16px] text-gray-500">visibility</span>
+                            View Registry Details
                         </button>
                         <button @click="handleEditInfo(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="M15 5l4 4"/></svg>
-                            Edit Info
-                        </button>
-                        <button v-if="selectedSite.admin_approval" @click="handleViewApproval(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                            View Approval
+                            <span class="material-symbols-outlined text-[16px] text-gray-500">edit</span>
+                            Edit Registry Info
                         </button>
                         <button @click="handleAddEditApproval(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-circle"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
-                            {{ selectedSite.admin_approval ? 'Edit Approval' : '+ Add Approval' }}
-                        </button>
-                        <button @click="handleOpenRevisedCostModal(selectedSite)" :class="{ 'opacity-50 cursor-not-allowed': !determineNextField(selectedSite.admin_approval) }" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2" :disabled="!determineNextField(selectedSite.admin_approval)">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dollar-sign"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                            {{ nextRevisedCostLabel(selectedSite.admin_approval) }}
-                        </button>
-                        <button @click="handleEmeInfo(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bolt"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" x2="12" y1="22.08" y2="12"></line></svg>
-                            EME Profile
-                        </button>
-                    </div>
-                    <div class="py-1 text-sm text-gray-700">
-                        <button @click="handleViewReport(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>
-                            View Report
+                            <span class="material-symbols-outlined text-[16px] text-gray-500">gavel</span>
+                            Administrative Approval
                         </button>
                         <button @click="handleAddEditViewCompletion(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-square"><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/><polyline points="9 11 12 14 22 4"/></svg>
-                            {{ selectedSite.completion ? 'Edit Completion' : '+ Add Completion' }}
+                            <span class="material-symbols-outlined text-[16px] text-gray-500">verified_user</span>
+                            Completion Details
                         </button>
-                        <button v-if="selectedSite.completion" @click="handleViewCompletion(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/24/24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
-                            View Completion
+                        <button @click="handleEmeInfo(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[16px] text-gray-500">bolt</span>
+                            EME Profile
+                        </button>
+                        <button @click="handleOpenTAndDWorksManager(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[16px] text-gray-500">construction</span>
+                            T&D Works Manager
                         </button>
                     </div>
                     <div class="py-1 text-sm text-gray-700">
-                        <button @click="handleOpenEmeProgress(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-activity"><path d="M22 12H2"/><path d="M17 5 22 12 17 19"/><path d="M7 5 2 12 7 19"/></svg>
-                            EME Progress
-                        </button>
-                        <button @click="handleOpenOperationalCost(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dollar-sign"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                            Operational Costs
-                        </button>
-                        <button @click="handleAddTAndDWork(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-circle"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
-                            Add T&D Work
-                        </button>
-                        <button @click="handleEditTAndDWork(selectedSite, selectedTAndDWork)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="M15 5l4 4"/></svg>
-                            Edit T&D Work
-                        </button>
-                        <button @click="handleViewTAndDWork(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
-
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-                            View T&D Work
-                        </button>
                         <button @click="handleManagePhysicalProgress(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bar-chart-2"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+                            <span class="material-symbols-outlined text-[16px] text-gray-500">bar_chart</span>
                             Civil Physical Progress
                         </button>
                         <button @click="handleManageTAndDProgress(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bar-chart-2"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+                            <span class="material-symbols-outlined text-[16px] text-gray-500">analytics</span>
                             T&D Physical Progress
                         </button>
                         <button @click="handleManageFinancialProgress(selectedSite, 'Civil')" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wallet"><path d="M21 12V7H5a2 2 0 0 0 0 4h16v-1a2 2 0 0 0-2-2H5a2 2 0 0 0 0 4h16v-1a2 2 0 0 0-2-2Z"/><path d="M10 12v.01"/></svg>
+                            <span class="material-symbols-outlined text-[16px] text-gray-500">payments</span>
                             Civil Financial Progress
                         </button>
                         <button @click="handleManageFinancialProgress(selectedSite, 'EME')" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wallet"><path d="M21 12V7H5a2 2 0 0 0 0 4h16v-1a2 2 0 0 0-2-2H5a2 2 0 0 0 0 4h16v-1a2 2 0 0 0-2-2Z"/><path d="M10 12v.01"/></svg>
+                            <span class="material-symbols-outlined text-[16px] text-gray-500">credit_card</span>
                             EME Financial Progress
                         </button>
                         <button @click="handleManageFinancialProgress(selectedSite, 'T&D')" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wallet"><path d="M21 12V7H5a2 2 0 0 0 0 4h16v-1a2 2 0 0 0-2-2H5a2 2 0 0 0 0 4h16v-1a2 2 0 0 0-2-2Z"/><path d="M10 12v.01"/></svg>
+                            <span class="material-symbols-outlined text-[16px] text-gray-500">account_balance_wallet</span>
                             T&D Financial Progress
                         </button>
                     </div>
                     <div class="py-1 text-sm text-gray-700">
+                        <button @click="handleOpenOperationalCost(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[16px] text-gray-500">price_change</span>
+                            Operational Costs
+                        </button>
+                        <button @click="handleViewReport(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[16px] text-gray-500">picture_as_pdf</span>
+                            View PDF Report
+                        </button>
                         <button @click="handleDeleteSite(selectedSite.id)" class="w-full text-left block px-4 py-2 hover:bg-red-100 text-red-600 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                            <span class="material-symbols-outlined text-[16px] text-red-600">delete</span>
                             Delete Site
                         </button>
                     </div>
