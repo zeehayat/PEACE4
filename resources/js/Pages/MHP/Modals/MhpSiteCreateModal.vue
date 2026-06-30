@@ -1,5 +1,5 @@
 <script setup>
-import Modal from '@/Components/Modal.vue'; // Assuming this exists
+import Modal from '@/Components/Modal.vue';
 import MhpSiteForm from '@/Pages/MHP/Forms/MhpSiteForm.vue';
 
 const props = defineProps({
@@ -19,14 +19,12 @@ const handleFormCancel = () => {
 </script>
 
 <template>
-    <Modal :show="show" @close="handleFormCancel" :maxWidth="'4xl'" title="Create New MHP Site">
-        <div class="p-6 overflow-y-auto max-h-[85vh]">
-            <MhpSiteForm
-                :site="null"
+    <Modal :show="show" @close="handleFormCancel" :maxWidth="'5xl'" title="Create New MHP Site">
+        <MhpSiteForm
+            :site="null"
             @success="handleFormSuccess"
             @cancel="handleFormCancel"
-            />
-        </div>
+        />
     </Modal>
 </template>
 
