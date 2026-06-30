@@ -1,42 +1,32 @@
 <script setup>
-import { computed } from 'vue';
+import { ref, computed } from 'vue';
 import Modal from '@/Components/Modal.vue';
+import DetailGrid from '@/Components/Shared/DetailGrid.vue';
+import DetailItem from '@/Components/Shared/DetailItem.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 import AttachmentViewer from '@/Components/AttachmentComponent/AttachmentViewer.vue';
+import { formatDate, formatCurrency, formatDecimal } from '@/Utils/formatters';
 
 const props = defineProps({
     show: Boolean,
     site: {
-        type: Object, // The full MhpSite object with loaded relationships
+        type: Object,
         required: true,
     },
 });
 
 const emit = defineEmits(['close']);
+const activeTab = ref('overview');
 
-// Helper function to format nullable dates
-const formatNullableDate = (dateString) => {
-    if (!dateString) return 'N/A';
-    const date = new Date(dateString);
-    if (isNaN(date)) return 'Invalid Date';
-    return new Date(dateString).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-};
+const tabs = [
+    { id: 'overview', name: 'Overview', icon: 'info' },
+    { id: 'technical', name: 'Technical & T&D', icon: 'bolt' },
+    { id: 'execution', name: 'Approvals & Completion', icon: 'verified' },
+    { id: 'progress', name: 'Progress & Costs', icon: 'timeline' },
+    { id: 'revenue', name: 'Revenue logs', icon: 'payments' },
+];
 
-// Helper to format currency
-const formatNullableCurrency = (value) => {
-    if (value === null || value === undefined || value === '') return 'N/A';
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'PKR', minimumFractionDigits: 2 }).format(value);
-};
-
-// Helper for displaying transformer KVA/Qty
-const formatTransformers = (transformers) => {
-    if (!transformers || transformers.length === 0) return 'N/A';
-    // Filter out entries where kva or qty might be null/undefined/empty string from form submission
-    const validTransformers = transformers.filter(t => t.kva !== null && t.kva !== '' && t.qty !== null && t.qty !== '');
-    if (validTransformers.length === 0) return 'N/A';
-    return validTransformers.map(t => `${t.kva} KVA x ${t.qty}`).join(', ');
-};
-
-// Computed properties for conditional rendering
+// Computed properties for checks
 const hasSiteAttachments = computed(() => props.site.attachments_frontend && props.site.attachments_frontend.length > 0);
 const hasRemarks = computed(() => props.site.remarks && props.site.remarks.trim() !== '');
 const hasAdminApprovalRemarks = computed(() => props.site.admin_approval?.remarks && props.site.admin_approval.remarks.trim() !== '');
@@ -47,6 +37,13 @@ const hasTAndDWorks = computed(() => props.site.t_and_d_works && props.site.t_an
 const hasPhysicalProgress = computed(() => props.site.physical_progresses && props.site.physical_progresses.length > 0);
 const hasFinancialInstallments = computed(() => props.site.financial_installments && props.site.financial_installments.length > 0);
 
+const formatTransformers = (transformers) => {
+    if (!transformers || transformers.length === 0) return 'N/A';
+    const validTransformers = transformers.filter(t => t.kva !== null && t.kva !== '' && t.qty !== null && t.qty !== '');
+    if (validTransformers.length === 0) return 'N/A';
+    return validTransformers.map(t => `${t.kva} KVA x ${t.qty}`).join(', ');
+};
+
 const printDetails = () => {
     window.print();
 };
@@ -54,285 +51,266 @@ const printDetails = () => {
 
 <template>
     <Modal :show="show" @close="emit('close')" :maxWidth="'6xl'" :title="`MHP Site Details: ${site.project_id}`">
-        <div class="p-6 overflow-y-auto max-h-[85vh] text-gray-800 print-content">
+        <div class="flex flex-col max-h-[85vh] bg-white text-gray-800 print-content">
+            
+            <!-- Tabbed Header Navigation -->
+            <div class="flex flex-wrap border-b border-gray-200 px-6 bg-gray-50 shrink-0 print:hidden">
+                <button 
+                    v-for="tab in tabs" 
+                    :key="tab.id"
+                    @click="activeTab = tab.id"
+                    class="flex items-center gap-2 py-4 px-4 text-sm font-medium border-b-2 -mb-px transition focus:outline-none"
+                    :class="activeTab === tab.id ? 'border-emerald-600 text-emerald-600' : 'border-transparent text-gray-500 hover:text-gray-700'"
+                >
+                    <span class="material-symbols-outlined text-lg">{{ tab.icon }}</span>
+                    {{ tab.name }}
+                </button>
+            </div>
 
-            <section class="mb-8 border-b pb-6">
-                <h2 class="text-xl font-bold mb-4">General Information</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
-                    <div class="detail-item"><p class="font-semibold text-gray-700">CBO:</p><p>{{ site.cbo?.reference_code ?? 'N/A' }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Status:</p><p>{{ site.status ?? 'N/A' }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Grid Status:</p><p>{{ site.grid_status ?? 'N/A' }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Population:</p><p>{{ site.population ?? 'N/A' }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Established:</p><p>{{ formatNullableDate(site.month_year_establishment) }} by {{ site.established_by || 'N/A' }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Existing Capacity (KW):</p><p>{{ site.existing_capacity_kw ?? 'N/A' }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Planned Capacity (KW):</p><p>{{ site.planned_capacity_kw ?? 'N/A' }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Head (FT):</p><p>{{ site.head_ft ?? 'N/A' }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Design Discharge (Cusecs):</p><p>{{ site.design_discharge_cusecs ?? 'N/A' }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Channel Length (KM):</p><p>{{ site.channel_length_km ?? 'N/A' }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">TL HT (KM):</p><p>{{ site.tl_ht_km ?? 'N/A' }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">TL LT (KM):</p><p>{{ site.tl_lt_km ?? 'N/A' }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Turbine Type:</p><p>{{ site.turbine_type || 'N/A' }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Alternator Type:</p><p>{{ site.alternator_type || 'N/A' }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Accessible:</p><p>{{ site.accessible || 'N/A' }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Domestic Units:</p><p>{{ site.domestic_units ?? 'N/A' }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Commercial Units:</p><p>{{ site.commercial_units ?? 'N/A' }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Estimated Cost:</p><p>{{ formatNullableCurrency(site.estimated_cost) }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Per KW Cost:</p><p>{{ formatNullableCurrency(site.per_kw_cost) }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Total HH:</p><p>{{ site.total_hh ?? 'N/A' }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Avg HH Size:</p><p>{{ site.avg_hh_size ?? 'N/A' }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Cost Per Capita:</p><p>{{ formatNullableCurrency(site.cost_per_capita) }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Tentative Completion Date:</p><p>{{ formatNullableDate(site.tentative_completion_date) }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Financial Initiation Date:</p><p>{{ formatNullableDate(site.financial_initiation_date) }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Physical Completion Date:</p><p>{{ formatNullableDate(site.physical_completion_date) }}</p></div>
-                </div>
-                <div v-if="hasRemarks" class="mt-4"><p class="font-semibold text-gray-700">Remarks:</p><p class="text-gray-900 whitespace-pre-wrap">{{ site.remarks }}</p></div>
-                <div v-if="hasSiteAttachments" class="mt-4">
-                    <p class="font-semibold text-gray-700 mb-2">Attachments:</p>
-                    <AttachmentViewer :attachments="site.attachments_frontend" />
-                </div>
-            </section>
-
-
-            <section v-if="site.admin_approval" class="mb-8 border-b pb-6">
-                <h2 class="text-xl font-bold mb-4">Admin Approval</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                    <div class="detail-item"><p class="font-semibold text-gray-700">EU Approval Date:</p><p>{{ formatNullableDate(site.admin_approval.eu_approval_date) }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Approved Cost:</p><p>{{ formatNullableCurrency(site.admin_approval.approved_cost) }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Revised Cost 1:</p><p>{{ formatNullableCurrency(site.admin_approval.revised_cost_1) }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Revised Cost 2:</p><p>{{ formatNullableCurrency(site.admin_approval.revised_cost_2) }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Revised Cost 3:</p><p>{{ formatNullableCurrency(site.admin_approval.revised_cost_3) }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">HPP Inauguration Date:</p><p>{{ formatNullableDate(site.admin_approval.hpp_inauguration_date) }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Technical Survey Date:</p><p>{{ formatNullableDate(site.admin_approval.technical_survey_date) }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Design PSU Submission Date:</p><p>{{ formatNullableDate(site.admin_approval.date_design_psu_submission) }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Head Office Review Submission Date:</p><p>{{ formatNullableDate(site.admin_approval.headoffice_review_submission_date) }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Design Estimate Date:</p><p>{{ formatNullableDate(site.admin_approval.design_estimate_date) }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">EU Approval Submission Date:</p><p>{{ formatNullableDate(site.admin_approval.eu_approval_submission_date) }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">OPM Validation Date:</p><p>{{ formatNullableDate(site.admin_approval.opm_validation_date) }}</p></div>
-                </div>
-                <div v-if="hasAdminApprovalRemarks" class="mt-4"><p class="font-semibold text-gray-700">Remarks:</p><p class="text-gray-900 whitespace-pre-wrap">{{ site.admin_approval.remarks }}</p></div>
-                <div v-if="site.admin_approval.attachments_frontend && site.admin_approval.attachments_frontend.length" class="mt-4">
-                    <p class="font-semibold text-gray-700 mb-2">Attachments:</p>
-                    <AttachmentViewer :attachments="site.admin_approval.attachments_frontend" />
-                </div>
-            </section>
-
-
-            <section v-if="site.completion" class="mb-8 border-b pb-6">
-                <h2 class="text-xl font-bold mb-4">Completion Details</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Scheme Inauguration Date:</p><p>{{ formatNullableDate(site.completion.scheme_inauguration_date) }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Testing & Commissioning Date:</p><p>{{ formatNullableDate(site.completion.testing_commissioning_date) }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Handover Date:</p><p>{{ formatNullableDate(site.completion.handover_date) }}</p></div>
-                </div>
-                <div v-if="hasCompletionRemarks" class="mt-4"><p class="font-semibold text-gray-700">Remarks:</p><p class="text-gray-900 whitespace-pre-wrap">{{ site.completion.remarks }}</p></div>
-                <div v-if="site.completion.attachments_frontend && site.completion.attachments_frontend.length" class="mt-4">
-                    <p class="font-semibold text-gray-700 mb-2">Attachments:</p>
-                    <AttachmentViewer :attachments="site.completion.attachments_frontend" />
-                </div>
-            </section>
-
-
-            <section v-if="hasTAndDWorks" class="mb-8 border-b pb-6">
-                <h2 class="text-xl font-bold mb-4">T&D Works</h2>
-                <div v-for="tAndD in site.t_and_d_works" :key="tAndD.id" class="mb-6 p-4 border rounded-lg bg-gray-50">
-                    <h3 class="text-lg font-semibold mb-2">{{ tAndD.name || `T&D Work #${tAndD.id}` }}</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
-                        <div class="detail-item"><p class="font-semibold text-gray-700">Initiation Date:</p><p>{{ formatNullableDate(tAndD.date_of_initiation) }}</p></div>
-                        <div class="detail-item"><p class="font-semibold text-gray-700">HT Poles:</p><p>{{ tAndD.ht_poles_quantity ?? 'N/A' }}</p></div>
-                        <div class="detail-item"><p class="font-semibold text-gray-700">LT Poles:</p><p>{{ tAndD.lt_poles_quantity ?? 'N/A' }}</p></div>
-                        <div class="detail-item"><p class="font-semibold text-gray-700">HT Conductor Length (KM):</p><p>{{ tAndD.ht_conductor_length_km ?? 'N/A' }}</p></div>
-                        <div class="detail-item"><p class="font-semibold text-gray-700">HT Conductor Type:</p><p>{{ tAndD.ht_conductor_type || 'N/A' }}</p></div>
-                        <div class="detail-item"><p class="font-semibold text-gray-700">LT Conductor Length (KM):</p><p>{{ tAndD.lt_conductor_length_km ?? 'N/A' }}</p></div>
-                        <div class="detail-item"><p class="font-semibold text-gray-700">LT Conductor Type:</p><p>{{ tAndD.lt_conductor_type || 'N/A' }}</p></div>
-                        <div class="md:col-span-2">
-                            <p class="font-semibold text-gray-700">Step-Up Transformers:</p>
-                            <p class="text-gray-900">{{ formatTransformers(tAndD.step_up_transformers) }}</p>
+            <!-- Scrollable Tab Content Container -->
+            <div class="flex-1 overflow-y-auto p-6 space-y-6">
+                
+                <!-- Overview Tab Panel -->
+                <div v-show="activeTab === 'overview' || window?.matchMedia?.('print').matches" class="space-y-6">
+                    <div>
+                        <h3 class="text-base font-bold text-gray-800 border-b pb-2 mb-4">General Information</h3>
+                        <DetailGrid>
+                            <DetailItem label="CBO" :value="site.cbo?.reference_code" />
+                            <DetailItem label="Status" :value="site.status" />
+                            <DetailItem label="Grid Connection Status" :value="site.grid_status" />
+                            <DetailItem label="Population" :value="site.population" />
+                            <DetailItem label="Establishment Date" :value="formatDate(site.month_year_establishment)" />
+                            <DetailItem label="Established By" :value="site.established_by" />
+                            <DetailItem label="Estimated Cost" :value="formatCurrency(site.estimated_cost)" />
+                            <DetailItem label="Per KW Cost" :value="formatCurrency(site.per_kw_cost)" />
+                            <DetailItem label="Total Households (HH)" :value="site.total_hh" />
+                            <DetailItem label="Average HH Size" :value="site.avg_hh_size" />
+                            <DetailItem label="Cost Per Capita" :value="formatCurrency(site.cost_per_capita)" />
+                            <DetailItem label="Accessible" :value="site.accessible" />
+                            <DetailItem label="Domestic Units" :value="site.domestic_units" />
+                            <DetailItem label="Commercial Units" :value="site.commercial_units" />
+                        </DetailGrid>
+                        
+                        <div v-if="hasRemarks" class="mt-4 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Remarks</p>
+                            <p class="text-sm text-gray-900 whitespace-pre-wrap">{{ site.remarks }}</p>
                         </div>
-                        <div class="md:col-span-2">
-                            <p class="font-semibold text-gray-700">Step-Down Transformers:</p>
-                            <p class="text-gray-900">{{ formatTransformers(tAndD.step_down_transformers) }}</p>
+
+                        <div v-if="hasSiteAttachments" class="mt-4">
+                            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Attachments</p>
+                            <AttachmentViewer :attachments="site.attachments_frontend" />
                         </div>
-                        <div v-if="tAndD.scope_of_work" class="md:col-span-2"><p class="font-semibold text-gray-700">Scope of Work:</p><p class="text-gray-900 whitespace-pre-wrap">{{ tAndD.scope_of_work }}</p></div>
-                        <div v-if="tAndD.remarks" class="md:col-span-2"><p class="font-semibold text-gray-700">Remarks:</p><p class="text-gray-900 whitespace-pre-wrap">{{ tAndD.remarks }}</p></div>
-                    </div>
-                    <div v-if="tAndD.attachments_frontend && tAndD.attachments_frontend.length" class="mt-4">
-                        <p class="font-semibold text-gray-700 mb-2">Attachments:</p>
-                        <AttachmentViewer :attachments="tAndD.attachments_frontend" />
                     </div>
                 </div>
-            </section>
 
-
-            <section v-if="hasPhysicalProgress" class="mb-8 border-b pb-6">
-                <h2 class="text-xl font-bold mb-4">Physical Progress</h2>
-                <div v-for="progress in site.physical_progresses" :key="progress.id" class="mb-4 p-4 border rounded-lg bg-gray-50">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
-                        <div class="detail-item"><p class="font-semibold text-gray-700">Percentage:</p><p>{{ progress.progress_percentage }}%</p></div>
-                        <div class="detail-item"><p class="font-semibold text-gray-700">Date:</p><p>{{ formatNullableDate(progress.progress_date) }}</p></div>
-                        <div class="detail-item"><p class="font-semibold text-gray-700">Activity Type:</p><p>{{ progress.payment_for }}</p></div>
-                        <div v-if="progress.activity" class="detail-item"><p class="font-semibold text-gray-700">Linked Activity:</p><p>{{ progress.activity.name || `T&D Work #${progress.activity.id}` }}</p></div>
-                        <div v-if="progress.remarks" class="md:col-span-2"><p class="font-semibold text-gray-700">Remarks:</p><p class="text-gray-900 whitespace-pre-wrap">{{ progress.remarks }}</p></div>
+                <!-- Technical Tab Panel -->
+                <div v-show="activeTab === 'technical'" class="space-y-6">
+                    <div>
+                        <h3 class="text-base font-bold text-gray-800 border-b pb-2 mb-4">Capacity & Specs</h3>
+                        <DetailGrid>
+                            <DetailItem label="Planned Capacity" :value="site.planned_capacity_kw ? `${site.planned_capacity_kw} KW` : 'N/A'" />
+                            <DetailItem label="Existing Capacity" :value="site.existing_capacity_kw ? `${site.existing_capacity_kw} KW` : 'N/A'" />
+                            <DetailItem label="Water Drop Height (Head)" :value="site.head_ft ? `${site.head_ft} FT` : 'N/A'" tooltip="The vertical drop of water drive height in Feet." />
+                            <DetailItem label="Water Flow Rate (Discharge)" :value="site.design_discharge_cusecs ? `${site.design_discharge_cusecs} Cusecs` : 'N/A'" tooltip="The design discharge flowing volume in Cubic Feet per Second (Cusecs)." />
+                            <DetailItem label="Channel Length" :value="site.channel_length_km ? `${formatDecimal(site.channel_length_km)} KM` : 'N/A'" />
+                            <DetailItem label="Transmission Line HT" :value="site.tl_ht_km ? `${site.tl_ht_km} KM` : 'N/A'" />
+                            <DetailItem label="Transmission Line LT" :value="site.tl_lt_km ? `${site.tl_lt_km} KM` : 'N/A'" />
+                            <DetailItem label="Turbine Type" :value="site.turbine_type" />
+                            <DetailItem label="Alternator Type" :value="site.alternator_type" />
+                        </DetailGrid>
                     </div>
-                    <div v-if="progress.attachments_frontend && progress.attachments_frontend.length" class="mt-4">
-                        <p class="font-semibold text-gray-700 mb-2">Attachments:</p>
-                        <AttachmentViewer :attachments="progress.attachments_frontend" />
-                    </div>
-                </div>
-            </section>
 
-
-            <section v-if="hasFinancialInstallments" class="mb-8 border-b pb-6">
-                <h2 class="text-xl font-bold mb-4">Financial Installments</h2>
-                <div v-for="installment in site.financial_installments" :key="installment.id" class="mb-4 p-4 border rounded-lg bg-gray-50">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
-                        <div class="detail-item"><p class="font-semibold text-gray-700">Installment #:</p><p>{{ installment.installment_number }}</p></div>
-                        <div class="detail-item"><p class="font-semibold text-gray-700">Date:</p><p>{{ formatNullableDate(installment.installment_date) }}</p></div>
-                        <div class="detail-item"><p class="font-semibold text-gray-700">Amount:</p><p>{{ formatNullableCurrency(installment.installment_amount) }}</p></div>
-                        <div class="detail-item"><p class="font-semibold text-gray-700">Category:</p><p>{{ installment.category || 'N/A' }}</p></div>
-                        <div class="detail-item"><p class="font-semibold text-gray-700">Activity Type:</p><p>{{ installment.payment_for }}</p></div>
-                        <div v-if="installment.activity" class="detail-item"><p class="font-semibold text-gray-700">Linked Activity:</p><p>{{ installment.activity.name || `T&D Work #${installment.activity.id}` }}</p></div>
-                        <div v-if="installment.remarks" class="md:col-span-2"><p class="font-semibold text-gray-700">Remarks:</p><p class="text-gray-900 whitespace-pre-wrap">{{ installment.remarks }}</p></div>
-                    </div>
-                    <div v-if="installment.attachments_frontend && installment.attachments_frontend.length" class="mt-4">
-                        <p class="font-semibold text-gray-700 mb-2">Attachments:</p>
-                        <AttachmentViewer :attachments="installment.attachments_frontend" />
-                    </div>
-                </div>
-            </section>
-
-
-            <section v-if="hasOperationalCosts" class="mb-8 border-b pb-6">
-                <h2 class="text-xl font-bold mb-4">Operational Costs</h2>
-                <div v-for="cost in site.operational_costs" :key="cost.id" class="mb-4 p-4 border rounded-lg bg-gray-50">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
-                        <div class="detail-item"><p class="font-semibold text-gray-700">Date:</p><p>{{ formatNullableDate(cost.cost_date) }}</p></div>
-                        <div class="detail-item"><p class="font-semibold text-gray-700">Type:</p><p>{{ cost.expense_type?.name || 'N/A' }}</p></div>
-                        <div class="detail-item"><p class="font-semibold text-gray-700">Amount:</p><p>{{ formatNullableCurrency(cost.amount) }}</p></div>
-                        <div v-if="cost.remarks" class="md:col-span-2"><p class="font-semibold text-gray-700">Remarks:</p><p class="text-gray-900 whitespace-pre-wrap">{{ cost.remarks }}</p></div>
-                    </div>
-                </div>
-            </section>
-
-
-            <section v-if="hasRevenueRecords" class="mb-8 border-b pb-6">
-                <h2 class="text-xl font-bold mb-4">Revenue Records</h2>
-                <div v-for="revenue in site.revenue_records" :key="revenue.id" class="mb-4 p-4 border rounded-lg bg-gray-50">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
-                        <div class="detail-item"><p class="font-semibold text-gray-700">Billing Month:</p><p>{{ formatNullableDate(revenue.billing_month) }}</p></div>
-                        <div class="detail-item"><p class="font-semibold text-gray-700">Connection Charges:</p><p>{{ formatNullableCurrency(revenue.connection_charges) }}</p></div>
-                        <div class="detail-item"><p class="font-semibold text-gray-700">Billing Amount:</p><p>{{ formatNullableCurrency(revenue.billing_amount) }}</p></div>
-                        <div class="detail-item"><p class="font-semibold text-gray-700">Line Rent:</p><p>{{ formatNullableCurrency(revenue.line_rent_amount) }}</p></div>
-                        <div class="detail-item"><p class="font-semibold text-gray-700">Late Payment Surcharge:</p><p>{{ formatNullableCurrency(revenue.late_payment_surcharge) }}</p></div>
-                        <div class="detail-item"><p class="font-semibold text-gray-700">Fine/Additional Cost:</p><p>{{ formatNullableCurrency(revenue.fine_additional_cost) }}</p></div>
-                    </div>
-                    <div v-if="revenue.attachments_frontend && revenue.attachments_frontend.length" class="mt-4">
-                        <p class="font-semibold text-gray-700 mb-2">Attachments:</p>
-                        <AttachmentViewer :attachments="revenue.attachments_frontend" />
+                    <!-- T&D Works -->
+                    <div v-if="hasTAndDWorks" class="space-y-4">
+                        <h3 class="text-base font-bold text-gray-800 border-b pb-2">Transmission & Distribution (T&D) Works</h3>
+                        <div v-for="tAndD in site.t_and_d_works" :key="tAndD.id" class="p-5 border border-gray-150 rounded-xl bg-gray-50 space-y-4">
+                            <h4 class="text-sm font-bold text-emerald-700 flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-base">construction</span>
+                                {{ tAndD.name || `T&D Work Record #${tAndD.id}` }}
+                            </h4>
+                            <DetailGrid>
+                                <DetailItem label="Initiation Date" :value="formatDate(tAndD.date_of_initiation)" />
+                                <DetailItem label="HT Poles Quantity" :value="tAndD.ht_poles_quantity" />
+                                <DetailItem label="LT Poles Quantity" :value="tAndD.lt_poles_quantity" />
+                                <DetailItem label="HT Conductor Length" :value="tAndD.ht_conductor_length_km ? `${tAndD.ht_conductor_length_km} KM` : 'N/A'" />
+                                <DetailItem label="HT Conductor Type" :value="tAndD.ht_conductor_type" />
+                                <DetailItem label="LT Conductor Length" :value="tAndD.lt_conductor_length_km ? `${tAndD.lt_conductor_length_km} KM` : 'N/A'" />
+                                <DetailItem label="LT Conductor Type" :value="tAndD.lt_conductor_type" />
+                            </DetailGrid>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 px-4 text-sm">
+                                <div>
+                                    <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Step-Up Transformers</p>
+                                    <p class="text-gray-900 font-medium">{{ formatTransformers(tAndD.step_up_transformers) }}</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Step-Down Transformers</p>
+                                    <p class="text-gray-900 font-medium">{{ formatTransformers(tAndD.step_down_transformers) }}</p>
+                                </div>
+                            </div>
+                            <div v-if="tAndD.scope_of_work" class="px-4 text-sm">
+                                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Scope of Work</p>
+                                <p class="text-gray-900 whitespace-pre-wrap">{{ tAndD.scope_of_work }}</p>
+                            </div>
+                            <div v-if="tAndD.remarks" class="px-4 text-sm">
+                                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Remarks</p>
+                                <p class="text-gray-900 whitespace-pre-wrap">{{ tAndD.remarks }}</p>
+                            </div>
+                            <div v-if="tAndD.attachments_frontend && tAndD.attachments_frontend.length" class="px-4">
+                                <AttachmentViewer :attachments="tAndD.attachments_frontend" />
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </section>
 
-            <div class="flex justify-end mt-6 print:hidden"> <button
-                type="button"
-                @click="printDetails"
-                class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 mr-3"
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6m-6-4v-6a2 2 0 012-2h2a2 2 0 012 2v6m-6 0h6"/></svg>
-                Print
-            </button>
+                <!-- Execution Tab Panel -->
+                <div v-show="activeTab === 'execution'" class="space-y-6">
+                    <!-- Admin Approval -->
+                    <div v-if="site.admin_approval">
+                        <h3 class="text-base font-bold text-gray-800 border-b pb-2 mb-4">Admin Approvals</h3>
+                        <DetailGrid>
+                            <DetailItem label="EU Approval Date" :value="formatDate(site.admin_approval.eu_approval_date)" />
+                            <DetailItem label="Approved Cost" :value="formatCurrency(site.admin_approval.approved_cost)" />
+                            <DetailItem label="Revised Cost 1" :value="formatCurrency(site.admin_approval.revised_cost_1)" />
+                            <DetailItem label="Revised Cost 2" :value="formatCurrency(site.admin_approval.revised_cost_2)" />
+                            <DetailItem label="Revised Cost 3" :value="formatCurrency(site.admin_approval.revised_cost_3)" />
+                            <DetailItem label="HPP Inauguration Date" :value="formatDate(site.admin_approval.hpp_inauguration_date)" />
+                            <DetailItem label="Technical Survey Date" :value="formatDate(site.admin_approval.technical_survey_date)" />
+                            <DetailItem label="Design PSU Submission" :value="formatDate(site.admin_approval.date_design_psu_submission)" />
+                            <DetailItem label="Head Office Review Submission" :value="formatDate(site.admin_approval.headoffice_review_submission_date)" />
+                            <DetailItem label="Design Estimate Date" :value="formatDate(site.admin_approval.design_estimate_date)" />
+                            <DetailItem label="EU Approval Submission" :value="formatDate(site.admin_approval.eu_approval_submission_date)" />
+                            <DetailItem label="OPM Validation Date" :value="formatDate(site.admin_approval.opm_validation_date)" />
+                        </DetailGrid>
+                        <div v-if="hasAdminApprovalRemarks" class="mt-4 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Remarks</p>
+                            <p class="text-sm text-gray-900 whitespace-pre-wrap">{{ site.admin_approval.remarks }}</p>
+                        </div>
+                        <div v-if="site.admin_approval.attachments_frontend && site.admin_approval.attachments_frontend.length" class="mt-4">
+                            <AttachmentViewer :attachments="site.admin_approval.attachments_frontend" />
+                        </div>
+                    </div>
+
+                    <!-- Completion Details -->
+                    <div v-if="site.completion">
+                        <h3 class="text-base font-bold text-gray-800 border-b pb-2 mb-4">Completion Details</h3>
+                        <DetailGrid>
+                            <DetailItem label="Scheme Inauguration Date" :value="formatDate(site.completion.scheme_inauguration_date)" />
+                            <DetailItem label="Testing & Commissioning Date" :value="formatDate(site.completion.testing_commissioning_date)" />
+                            <DetailItem label="Handover Date" :value="formatDate(site.completion.handover_date)" />
+                        </DetailGrid>
+                        <div v-if="hasCompletionRemarks" class="mt-4 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Remarks</p>
+                            <p class="text-sm text-gray-900 whitespace-pre-wrap">{{ site.completion.remarks }}</p>
+                        </div>
+                        <div v-if="site.completion.attachments_frontend && site.completion.attachments_frontend.length" class="mt-4">
+                            <AttachmentViewer :attachments="site.completion.attachments_frontend" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress Tab Panel -->
+                <div v-show="activeTab === 'progress'" class="space-y-6">
+                    <!-- Physical Progress -->
+                    <div v-if="hasPhysicalProgress">
+                        <h3 class="text-base font-bold text-gray-800 border-b pb-2 mb-4">Physical Progress Records</h3>
+                        <div class="space-y-3">
+                            <div v-for="progress in site.physical_progresses" :key="progress.id" class="p-4 border rounded-xl bg-gray-50">
+                                <DetailGrid>
+                                    <DetailItem label="Progress Percentage" :value="`${progress.progress_percentage}%`" />
+                                    <DetailItem label="Progress Date" :value="formatDate(progress.progress_date)" />
+                                    <DetailItem label="Activity Type (Payment For)" :value="progress.payment_for" />
+                                    <DetailItem label="Linked Activity" :value="progress.activity?.name || 'N/A'" />
+                                </DetailGrid>
+                                <div v-if="progress.remarks" class="px-4 text-sm mt-2">
+                                    <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Remarks</p>
+                                    <p class="text-gray-900 font-medium whitespace-pre-wrap">{{ progress.remarks }}</p>
+                                </div>
+                                <div v-if="progress.attachments_frontend && progress.attachments_frontend.length" class="px-4 mt-3">
+                                    <AttachmentViewer :attachments="progress.attachments_frontend" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Financial Installments -->
+                    <div v-if="hasFinancialInstallments">
+                        <h3 class="text-base font-bold text-gray-800 border-b pb-2 mb-4">Financial Installments</h3>
+                        <div class="space-y-3">
+                            <div v-for="installment in site.financial_installments" :key="installment.id" class="p-4 border rounded-xl bg-gray-50">
+                                <DetailGrid>
+                                    <DetailItem label="Installment Number" :value="installment.installment_number" />
+                                    <DetailItem label="Installment Date" :value="formatDate(installment.installment_date)" />
+                                    <DetailItem label="Installment Amount" :value="formatCurrency(installment.installment_amount)" />
+                                    <DetailItem label="Category" :value="installment.category" />
+                                    <DetailItem label="Payment For" :value="installment.payment_for" />
+                                    <DetailItem label="Linked Activity" :value="installment.activity?.name || 'N/A'" />
+                                </DetailGrid>
+                                <div v-if="installment.remarks" class="px-4 text-sm mt-2">
+                                    <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Remarks</p>
+                                    <p class="text-gray-900 font-medium whitespace-pre-wrap">{{ installment.remarks }}</p>
+                                </div>
+                                <div v-if="installment.attachments_frontend && installment.attachments_frontend.length" class="px-4 mt-3">
+                                    <AttachmentViewer :attachments="installment.attachments_frontend" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Operational Costs -->
+                    <div v-if="hasOperationalCosts">
+                        <h3 class="text-base font-bold text-gray-800 border-b pb-2 mb-4">Operational Costs</h3>
+                        <div class="space-y-3">
+                            <div v-for="cost in site.operational_costs" :key="cost.id" class="p-4 border rounded-xl bg-gray-50">
+                                <DetailGrid>
+                                    <DetailItem label="Cost Date" :value="formatDate(cost.cost_date)" />
+                                    <DetailItem label="Expense Type" :value="cost.expense_type?.name" />
+                                    <DetailItem label="Amount" :value="formatCurrency(cost.amount)" />
+                                </DetailGrid>
+                                <div v-if="cost.remarks" class="px-4 text-sm mt-2">
+                                    <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Remarks</p>
+                                    <p class="text-gray-900 font-medium whitespace-pre-wrap">{{ cost.remarks }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Revenue Tab Panel -->
+                <div v-show="activeTab === 'revenue'" class="space-y-6">
+                    <div v-if="hasRevenueRecords">
+                        <h3 class="text-base font-bold text-gray-800 border-b pb-2 mb-4">Revenue Records</h3>
+                        <div class="space-y-3">
+                            <div v-for="revenue in site.revenue_records" :key="revenue.id" class="p-4 border rounded-xl bg-gray-50">
+                                <DetailGrid>
+                                    <DetailItem label="Billing Month" :value="formatDate(revenue.billing_month)" />
+                                    <DetailItem label="Connection Charges" :value="formatCurrency(revenue.connection_charges)" />
+                                    <DetailItem label="Billing Amount" :value="formatCurrency(revenue.billing_amount)" />
+                                    <DetailItem label="Line Rent" :value="formatCurrency(revenue.line_rent_amount)" />
+                                    <DetailItem label="Late Payment Surcharge" :value="formatCurrency(revenue.late_payment_surcharge)" />
+                                    <DetailItem label="Fine/Additional Cost" :value="formatCurrency(revenue.fine_additional_cost)" />
+                                </DetailGrid>
+                                <div v-if="revenue.attachments_frontend && revenue.attachments_frontend.length" class="px-4 mt-3">
+                                    <AttachmentViewer :attachments="revenue.attachments_frontend" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else class="text-gray-400 text-sm p-4 text-center">No revenue logs or billing sheets found.</div>
+                </div>
+            </div>
+
+            <!-- Footer Section -->
+            <div class="px-6 py-4 bg-gray-50 border-t border-gray-200 shrink-0 flex justify-end print:hidden">
                 <button
                     type="button"
-                    @click="emit('close')"
-                    class="inline-flex items-center px-4 py-2 bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-300 focus:bg-gray-300 active:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
+                    @click="printDetails"
+                    class="inline-flex items-center px-4 py-2 bg-emerald-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-emerald-700 active:bg-emerald-800 transition mr-3"
                 >
-                    Close
+                    <span class="material-symbols-outlined text-sm mr-2">print</span>
+                    Print Details
                 </button>
+                <PrimaryButton @click="emit('close')">Close</PrimaryButton>
             </div>
         </div>
     </Modal>
 </template>
-
-<style>
-/* Global print styles for this component.
-   Ideally these go into resources/css/app.css or a dedicated print.css. */
-@media print {
-    /* Hide the main page content. Assuming your Vue app is mounted on #app. */
-    #app > :not(.modal-container) {
-        display: none !important;
-    }
-
-    /* Ensure the modal container itself is visible and correctly positioned for print */
-    .modal-container {
-        position: static !important; /* Change from fixed to static for print flow */
-        top: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        bottom: 0 !important;
-        width: 100% !important; /* Full width */
-        height: auto !important; /* Auto height */
-        max-width: none !important;
-        max-height: none !important;
-        overflow: visible !important; /* Important: content must not be clipped */
-        transform: none !important; /* Remove any transforms */
-        background: white !important; /* Ensure white background for print */
-        box-shadow: none !important; /* Remove shadows */
-        border-radius: 0 !important; /* Remove border-radius */
-        margin: 0 !important; /* Remove margins */
-        padding: 0 !important; /* Remove padding if added by modal framework */
-        display: block !important; /* Ensure it's displayed */
-        z-index: auto !important; /* Reset z-index */
-    }
-
-    /* Hide the modal backdrop/overlay */
-    .modal-backdrop {
-        display: none !important;
-    }
-
-    /* Adjust modal header/footer for print if needed */
-    .modal-header {
-        border-bottom: none !important; /* Remove border from header */
-        padding-bottom: 0 !important;
-        margin-bottom: 0 !important;
-        background: none !important;
-    }
-
-    /* Adjust modal content body for print */
-    .modal-content-body {
-        max-height: none !important; /* Allow content to expand */
-        overflow: visible !important; /* Ensure no internal scrollbars */
-        padding: 1rem !important; /* Add padding back if you removed it from the outer div */
-    }
-
-    /* Hide the print button itself */
-    .print\:hidden {
-        display: none !important;
-    }
-
-    /* Ensure attachments are displayed well, but not gigantic images */
-    .attachment-viewer img {
-        max-width: 100% !important;
-        height: auto !important;
-    }
-
-    /* Improve readability for text */
-    h1, h2, h3, h4, h5, h6 {
-        color: #000 !important; /* Ensure black headings */
-    }
-    p, span, div, li {
-        color: #333 !important; /* Darker text for readability */
-    }
-    .detail-item p {
-        color: inherit !important; /* Inherit color for inner elements */
-    }
-}
-</style>
-
-<style scoped>
-/* Scoped styles for the component */
-.detail-item p {
-    margin-bottom: 0.25rem; /* Small space below label in detail item */
-}
-.detail-item p:last-child {
-    margin-bottom: 0; /* No margin below the last paragraph in a detail item */
-}
-</style>
