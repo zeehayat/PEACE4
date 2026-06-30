@@ -12,6 +12,7 @@ import DatePicker from '@/Components/DatePicker.vue';
 import SearchableCboSelect from '@/Components/SearchableCboSelect.vue';
 import AttachmentUploader from '@/Components/AttachmentComponent/AttachmentUploader.vue';
 import WysiwygEditor from '@/Components/WysiwygEditor.vue';
+import { formatCurrency, formatDecimal } from '@/Utils/formatters';
 
 const props = defineProps({
     site: {
@@ -23,9 +24,21 @@ const props = defineProps({
 const emit = defineEmits(['success', 'cancel']);
 const page = usePage();
 
+// --- Mode Detection ---
+const formMode = computed(() => props.site ? 'edit' : 'create');
+const isCreateMode = computed(() => formMode.value === 'create');
+const isEditMode = computed(() => formMode.value === 'edit');
+
 // --- Wizard / Tab Configuration ---
 const currentStep = ref(0);
-const tabs = [
+
+const createTabs = [
+    { id: 'general', name: 'General Info', icon: 'info' },
+    { id: 'estimates', name: 'Initial Estimates', icon: 'payments' },
+    { id: 'completion_remarks', name: 'Remarks & Files', icon: 'description' },
+];
+
+const editTabs = [
     { id: 'general', name: 'General Info', icon: 'info' },
     { id: 'design_technical', name: 'Design & Capacity', icon: 'bolt' },
     { id: 'physical_components', name: 'Physical Specs', icon: 'construction' },
@@ -33,16 +46,17 @@ const tabs = [
     { id: 'completion_remarks', name: 'Remarks & Files', icon: 'description' },
 ];
 
-const activeTab = computed(() => tabs[currentStep.value].id);
+const activeTabsList = computed(() => isCreateMode.value ? createTabs : editTabs);
+const activeTab = computed(() => activeTabsList.value[currentStep.value].id);
 
 const goToStep = (index) => {
-    if (index >= 0 && index < tabs.length) {
+    if (index >= 0 && index < activeTabsList.value.length) {
         currentStep.value = index;
     }
 };
 
 const nextStep = () => {
-    if (currentStep.value < tabs.length - 1) {
+    if (currentStep.value < activeTabsList.value.length - 1) {
         currentStep.value++;
     }
 };
@@ -58,7 +72,6 @@ const gridStatusOptions = ['On-Grid', 'Off-Grid', 'Partially on-Grid'];
 const siteStatusOptions = ['New', 'Rehabilitation', 'Upgradation'];
 const accessibleOptions = ['Yes', 'No'];
 
-const isEditMode = ref(!!props.site);
 const existingAttachments = ref([]);
 
 function getInitialFormData(site) {
@@ -143,12 +156,30 @@ function getInitialFormData(site) {
 const form = useForm(getInitialFormData(props.site));
 
 watch(() => props.site, (newSite) => {
-    isEditMode.value = !!newSite;
     form.defaults(getInitialFormData(newSite));
     form.reset();
     existingAttachments.value = newSite ? newSite.attachments_frontend : [];
     form.clearErrors();
 }, { immediate: true });
+
+// --- Computed Calculated Fields ---
+const computedPerKwCost = computed(() => {
+    const cost = Number(form.estimated_cost || 0);
+    const capacity = Number(form.planned_capacity_kw || form.proposed_capacity_kw || 0);
+    return capacity > 0 ? cost / capacity : 0;
+});
+
+const computedAvgHhSize = computed(() => {
+    const population = Number(form.population || 0);
+    const households = Number(form.total_hh || 0);
+    return households > 0 ? population / households : 0;
+});
+
+const computedCostPerCapita = computed(() => {
+    const cost = Number(form.estimated_cost || 0);
+    const population = Number(form.population || 0);
+    return population > 0 ? cost / population : 0;
+});
 
 const handleAttachmentsToDelete = (id) => {
     form.attachments_to_delete.push(id);
@@ -156,6 +187,11 @@ const handleAttachmentsToDelete = (id) => {
 };
 
 const handleSubmit = () => {
+    // Save computed values to database columns for compatibility
+    form.per_kw_cost = computedPerKwCost.value;
+    form.avg_hh_size = computedAvgHhSize.value;
+    form.cost_per_capita = computedCostPerCapita.value;
+
     const url = isEditMode.value
         ? route('mhp.sites.update', props.site.id)
         : route('mhp.sites.store');
@@ -195,7 +231,7 @@ const handleCancel = () => {
         <div class="border-b border-gray-200 pb-3 bg-gray-50 px-5 pt-3 rounded-t-xl">
             <nav class="flex flex-wrap justify-between items-center gap-3">
                 <button
-                    v-for="(tab, index) in tabs"
+                    v-for="(tab, index) in activeTabsList"
                     :key="tab.id"
                     @click="goToStep(index)"
                     class="flex items-center gap-1.5 py-1.5 px-2.5 text-xs font-semibold rounded-lg transition focus:outline-none"
@@ -302,9 +338,83 @@ const handleCancel = () => {
                 </div>
             </div>
 
-            <!-- Step 2: Design & Capacity -->
-            <div v-if="activeTab === 'design_technical'" class="space-y-4">
-                <!-- Capacity Specs -->
+            <!-- Create Mode Tab 2: Initial Estimates -->
+            <div v-if="activeTab === 'estimates'" class="space-y-4">
+                <div class="bg-gray-50 border border-gray-200 rounded-xl p-4 space-y-3">
+                    <h4 class="text-xs font-bold text-emerald-800 uppercase tracking-wider border-b pb-1.5 flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-base">payments</span>
+                        Estimates & Capacities
+                    </h4>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div>
+                            <InputLabel for="planned_capacity_kw" value="Planned Capacity (KW)" class="text-xs font-semibold text-gray-600" />
+                            <TextInput id="planned_capacity_kw" v-model="form.planned_capacity_kw" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
+                            <InputError class="mt-0.5 text-xs" :message="form.errors.planned_capacity_kw" />
+                        </div>
+                        <div>
+                            <InputLabel for="existing_capacity_kw" value="Existing Capacity (KW)" class="text-xs font-semibold text-gray-600" />
+                            <TextInput id="existing_capacity_kw" v-model="form.existing_capacity_kw" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
+                            <InputError class="mt-0.5 text-xs" :message="form.errors.existing_capacity_kw" />
+                        </div>
+                        <div>
+                            <InputLabel for="proposed_capacity_kw" value="Proposed Capacity (KW)" class="text-xs font-semibold text-gray-600" />
+                            <TextInput id="proposed_capacity_kw" v-model="form.proposed_capacity_kw" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
+                            <InputError class="mt-0.5 text-xs" :message="form.errors.proposed_capacity_kw" />
+                        </div>
+                        <div>
+                            <InputLabel for="estimated_cost" value="Estimated Cost (PKR)" class="text-xs font-semibold text-gray-600" />
+                            <TextInput id="estimated_cost" v-model="form.estimated_cost" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
+                            <InputError class="mt-0.5 text-xs" :message="form.errors.estimated_cost" />
+                        </div>
+                        <div>
+                            <InputLabel for="total_hh" value="Total Households (HH)" class="text-xs font-semibold text-gray-600" />
+                            <TextInput id="total_hh" v-model="form.total_hh" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
+                            <InputError class="mt-0.5 text-xs" :message="form.errors.total_hh" />
+                        </div>
+                        <div>
+                            <InputLabel for="domestic_units" value="Domestic Connections" class="text-xs font-semibold text-gray-600" />
+                            <TextInput id="domestic_units" v-model="form.domestic_units" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
+                            <InputError class="mt-0.5 text-xs" :message="form.errors.domestic_units" />
+                        </div>
+                        <div>
+                            <InputLabel for="commercial_units" value="Commercial Connections" class="text-xs font-semibold text-gray-600" />
+                            <TextInput id="commercial_units" v-model="form.commercial_units" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
+                            <InputError class="mt-0.5 text-xs" :message="form.errors.commercial_units" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Automated Calculations Grid -->
+                <div class="bg-emerald-50/40 border border-emerald-200 rounded-xl p-4 space-y-3">
+                    <h4 class="text-xs font-bold text-emerald-800 uppercase tracking-wider border-b pb-1.5 flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-base">analytics</span>
+                        Automated Metrics (Derived)
+                    </h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <InputLabel value="Calculated Per KW Cost" class="text-xs font-semibold text-emerald-700" />
+                            <div class="mt-0.5 block w-full rounded-lg bg-white border border-emerald-200 py-1.5 px-2.5 text-sm font-semibold text-emerald-900 shadow-sm">
+                                {{ formatCurrency(computedPerKwCost) }} / KW
+                            </div>
+                        </div>
+                        <div>
+                            <InputLabel value="Calculated Avg Household Size" class="text-xs font-semibold text-emerald-700" />
+                            <div class="mt-0.5 block w-full rounded-lg bg-white border border-emerald-200 py-1.5 px-2.5 text-sm font-semibold text-emerald-900 shadow-sm">
+                                {{ formatDecimal(computedAvgHhSize) }} Persons
+                            </div>
+                        </div>
+                        <div>
+                            <InputLabel value="Calculated Cost Per Capita" class="text-xs font-semibold text-emerald-700" />
+                            <div class="mt-0.5 block w-full rounded-lg bg-white border border-emerald-200 py-1.5 px-2.5 text-sm font-semibold text-emerald-900 shadow-sm">
+                                {{ formatCurrency(computedCostPerCapita) }} / Person
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Edit Mode: Design & Capacity Specs (Step 2) -->
+            <div v-if="activeTab === 'design_technical' && isEditMode" class="space-y-4">
                 <div class="bg-gray-50 border border-gray-200 rounded-xl p-4 space-y-3">
                     <h4 class="text-xs font-bold text-emerald-800 uppercase tracking-wider border-b pb-1.5 flex items-center gap-1.5">
                         <span class="material-symbols-outlined text-base">bolt</span>
@@ -419,41 +529,10 @@ const handleCancel = () => {
                         </div>
                     </div>
                 </div>
-
-                <!-- Demographics -->
-                <div class="bg-gray-50 border border-gray-200 rounded-xl p-4 space-y-3">
-                    <h4 class="text-xs font-bold text-emerald-800 uppercase tracking-wider border-b pb-1.5 flex items-center gap-1.5">
-                        <span class="material-symbols-outlined text-base">group</span>
-                        Demographic Coverage
-                    </h4>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div>
-                            <InputLabel for="domestic_units" value="Domestic Units" class="text-xs font-semibold text-gray-600" />
-                            <TextInput id="domestic_units" v-model="form.domestic_units" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.domestic_units" />
-                        </div>
-                        <div>
-                            <InputLabel for="commercial_units" value="Commercial Units" class="text-xs font-semibold text-gray-600" />
-                            <TextInput id="commercial_units" v-model="form.commercial_units" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.commercial_units" />
-                        </div>
-                        <div>
-                            <InputLabel for="total_hh" value="Total Households (HH)" class="text-xs font-semibold text-gray-600" />
-                            <TextInput id="total_hh" v-model="form.total_hh" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.total_hh" />
-                        </div>
-                        <div>
-                            <InputLabel for="avg_hh_size" value="Average HH Size" class="text-xs font-semibold text-gray-600" />
-                            <TextInput id="avg_hh_size" v-model="form.avg_hh_size" type="number" step="0.1" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.avg_hh_size" />
-                        </div>
-                    </div>
-                </div>
             </div>
 
-            <!-- Step 3: Physical Components -->
-            <div v-if="activeTab === 'physical_components'" class="space-y-4">
-                <!-- Civil Infrastructure Details -->
+            <!-- Edit Mode: Physical components (Step 3) -->
+            <div v-if="activeTab === 'physical_components' && isEditMode" class="space-y-4">
                 <div class="bg-gray-50 border border-gray-200 rounded-xl p-4 space-y-3">
                     <h4 class="text-xs font-bold text-emerald-800 uppercase tracking-wider border-b pb-1.5 flex items-center gap-1.5">
                         <span class="material-symbols-outlined text-base">home_repair_service</span>
@@ -513,8 +592,8 @@ const handleCancel = () => {
                 </div>
             </div>
 
-            <!-- Step 4: Finances & Timeline -->
-            <div v-if="activeTab === 'financial_demographics'" class="space-y-4">
+            <!-- Edit Mode: Finances & Timeline Specs (Step 4) -->
+            <div v-if="activeTab === 'financial_demographics' && isEditMode" class="space-y-4">
                 <!-- Finances & Timelines -->
                 <div class="bg-gray-50 border border-gray-200 rounded-xl p-4 space-y-3">
                     <h4 class="text-xs font-bold text-emerald-800 uppercase tracking-wider border-b pb-1.5 flex items-center gap-1.5">
@@ -528,14 +607,19 @@ const handleCancel = () => {
                             <InputError class="mt-0.5 text-xs" :message="form.errors.estimated_cost" />
                         </div>
                         <div>
-                            <InputLabel for="per_kw_cost" value="Per KW Cost (PKR)" class="text-xs font-semibold text-gray-600" />
-                            <TextInput id="per_kw_cost" v-model="form.per_kw_cost" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.per_kw_cost" />
+                            <InputLabel for="total_hh" value="Total Households (HH)" class="text-xs font-semibold text-gray-600" />
+                            <TextInput id="total_hh" v-model="form.total_hh" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
+                            <InputError class="mt-0.5 text-xs" :message="form.errors.total_hh" />
                         </div>
                         <div>
-                            <InputLabel for="cost_per_capita" value="Cost Per Capita (PKR)" class="text-xs font-semibold text-gray-600" />
-                            <TextInput id="cost_per_capita" v-model="form.cost_per_capita" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.cost_per_capita" />
+                            <InputLabel for="domestic_units" value="Domestic Connections" class="text-xs font-semibold text-gray-600" />
+                            <TextInput id="domestic_units" v-model="form.domestic_units" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
+                            <InputError class="mt-0.5 text-xs" :message="form.errors.domestic_units" />
+                        </div>
+                        <div>
+                            <InputLabel for="commercial_units" value="Commercial Connections" class="text-xs font-semibold text-gray-600" />
+                            <TextInput id="commercial_units" v-model="form.commercial_units" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
+                            <InputError class="mt-0.5 text-xs" :message="form.errors.commercial_units" />
                         </div>
                         <div>
                             <InputLabel for="tentative_completion_date" value="Tentative Completion" class="text-xs font-semibold text-gray-600" />
@@ -551,6 +635,34 @@ const handleCancel = () => {
                             <InputLabel for="physical_completion_date" value="Physical Completion Date" class="text-xs font-semibold text-gray-600" />
                             <DatePicker id="physical_completion_date" v-model="form.physical_completion_date" class="mt-0.5" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.physical_completion_date" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Derived metrics -->
+                <div class="bg-emerald-50/40 border border-emerald-200 rounded-xl p-4 space-y-3">
+                    <h4 class="text-xs font-bold text-emerald-800 uppercase tracking-wider border-b pb-1.5 flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-base">analytics</span>
+                        Automated Metrics (Derived)
+                    </h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <InputLabel value="Calculated Per KW Cost" class="text-xs font-semibold text-emerald-700" />
+                            <div class="mt-0.5 block w-full rounded-lg bg-white border border-emerald-200 py-1.5 px-2.5 text-sm font-semibold text-emerald-900 shadow-sm">
+                                {{ formatCurrency(computedPerKwCost) }} / KW
+                            </div>
+                        </div>
+                        <div>
+                            <InputLabel value="Calculated Avg Household Size" class="text-xs font-semibold text-emerald-700" />
+                            <div class="mt-0.5 block w-full rounded-lg bg-white border border-emerald-200 py-1.5 px-2.5 text-sm font-semibold text-emerald-900 shadow-sm">
+                                {{ formatDecimal(computedAvgHhSize) }} Persons
+                            </div>
+                        </div>
+                        <div>
+                            <InputLabel value="Calculated Cost Per Capita" class="text-xs font-semibold text-emerald-700" />
+                            <div class="mt-0.5 block w-full rounded-lg bg-white border border-emerald-200 py-1.5 px-2.5 text-sm font-semibold text-emerald-900 shadow-sm">
+                                {{ formatCurrency(computedCostPerCapita) }} / Person
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -701,7 +813,7 @@ const handleCancel = () => {
                 </div>
             </div>
 
-            <!-- Step 5: Remarks & Files -->
+            <!-- Step 5 (Create Step 3): Remarks & Files -->
             <div v-if="activeTab === 'completion_remarks'" class="space-y-4">
                 <div class="bg-gray-50 border border-gray-200 rounded-xl p-4 space-y-3">
                     <h4 class="text-xs font-bold text-emerald-800 uppercase tracking-wider border-b pb-1.5 flex items-center gap-1.5">
@@ -761,7 +873,7 @@ const handleCancel = () => {
 
                 <!-- Next Button -->
                 <button
-                    v-if="currentStep < tabs.length - 1"
+                    v-if="currentStep < activeTabsList.length - 1"
                     type="button"
                     @click="nextStep"
                     class="inline-flex items-center px-3.5 py-1.5 bg-emerald-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-emerald-700 active:bg-emerald-800 focus:outline-none transition shadow-sm"
@@ -772,7 +884,7 @@ const handleCancel = () => {
 
                 <!-- Submit Button -->
                 <PrimaryButton 
-                    v-if="currentStep === tabs.length - 1"
+                    v-if="currentStep === activeTabsList.length - 1"
                     :class="['bg-emerald-700 hover:bg-emerald-800 text-white shadow-sm rounded-lg px-3.5 py-1.5 text-xs', { 'opacity-25': form.processing }]" 
                     :disabled="form.processing"
                 >
