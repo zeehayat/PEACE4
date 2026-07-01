@@ -93,10 +93,21 @@ const handleSubmit = () => {
     form.transform((data) => {
         if (isEditMode.value) data._method = 'put'; // method spoofing
 
-        // If DatePicker returns an object, normalize to 'YYYY-MM-DD'
-        if (data.date_of_initiation && typeof data.date_of_initiation === 'object' && data.date_of_initiation.toISOString) {
-            data.date_of_initiation = data.date_of_initiation.toISOString().slice(0, 10);
-        }
+        // Normalize all date fields to YYYY-MM-DD
+        const dateFields = [
+            'date_of_initiation',
+            'completion_date',
+            'advertisement_date',
+            'pre_bid_meeting_date',
+            'technical_bid_opening_date',
+            'financial_bid_opening_date',
+            'contract_award_date'
+        ];
+        dateFields.forEach(field => {
+            if (data[field] && typeof data[field] === 'object' && data[field].toISOString) {
+                data[field] = data[field].toISOString().slice(0, 10);
+            }
+        });
 
         // Filter empty transformer rows
         data.step_up_transformers = (data.step_up_transformers || []).filter(t => t.kva != null && t.qty != null);
