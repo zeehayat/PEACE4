@@ -311,7 +311,7 @@ edit.head = (args: { scheme: string | number, financial_installment: string | nu
 
 /**
 * @see \App\Http\Controllers\IrrigationFinancialProgressController::update
-* @see app/Http/Controllers/IrrigationFinancialProgressController.php:65
+* @see app/Http/Controllers/IrrigationFinancialProgressController.php:66
 * @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
 */
 export const update = (args: { scheme: number | { id: number }, financial_installment: string | number } | [scheme: number | { id: number }, financial_installment: string | number ], options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -326,7 +326,7 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\IrrigationFinancialProgressController::update
-* @see app/Http/Controllers/IrrigationFinancialProgressController.php:65
+* @see app/Http/Controllers/IrrigationFinancialProgressController.php:66
 * @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
 */
 update.url = (args: { scheme: number | { id: number }, financial_installment: string | number } | [scheme: number | { id: number }, financial_installment: string | number ], options?: RouteQueryOptions) => {
@@ -354,7 +354,7 @@ update.url = (args: { scheme: number | { id: number }, financial_installment: st
 
 /**
 * @see \App\Http\Controllers\IrrigationFinancialProgressController::update
-* @see app/Http/Controllers/IrrigationFinancialProgressController.php:65
+* @see app/Http/Controllers/IrrigationFinancialProgressController.php:66
 * @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
 */
 update.put = (args: { scheme: number | { id: number }, financial_installment: string | number } | [scheme: number | { id: number }, financial_installment: string | number ], options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -364,7 +364,7 @@ update.put = (args: { scheme: number | { id: number }, financial_installment: st
 
 /**
 * @see \App\Http\Controllers\IrrigationFinancialProgressController::update
-* @see app/Http/Controllers/IrrigationFinancialProgressController.php:65
+* @see app/Http/Controllers/IrrigationFinancialProgressController.php:66
 * @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
 */
 update.patch = (args: { scheme: number | { id: number }, financial_installment: string | number } | [scheme: number | { id: number }, financial_installment: string | number ], options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
@@ -374,7 +374,7 @@ update.patch = (args: { scheme: number | { id: number }, financial_installment: 
 
 /**
 * @see \App\Http\Controllers\IrrigationFinancialProgressController::destroy
-* @see app/Http/Controllers/IrrigationFinancialProgressController.php:90
+* @see app/Http/Controllers/IrrigationFinancialProgressController.php:92
 * @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
 */
 export const destroy = (args: { scheme: number | { id: number }, financial_installment: string | number } | [scheme: number | { id: number }, financial_installment: string | number ], options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -389,7 +389,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\IrrigationFinancialProgressController::destroy
-* @see app/Http/Controllers/IrrigationFinancialProgressController.php:90
+* @see app/Http/Controllers/IrrigationFinancialProgressController.php:92
 * @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
 */
 destroy.url = (args: { scheme: number | { id: number }, financial_installment: string | number } | [scheme: number | { id: number }, financial_installment: string | number ], options?: RouteQueryOptions) => {
@@ -417,7 +417,7 @@ destroy.url = (args: { scheme: number | { id: number }, financial_installment: s
 
 /**
 * @see \App\Http\Controllers\IrrigationFinancialProgressController::destroy
-* @see app/Http/Controllers/IrrigationFinancialProgressController.php:90
+* @see app/Http/Controllers/IrrigationFinancialProgressController.php:92
 * @route '/irrigation/schemes/{scheme}/financial-installments/{financial_installment}'
 */
 destroy.delete = (args: { scheme: number | { id: number }, financial_installment: string | number } | [scheme: number | { id: number }, financial_installment: string | number ], options?: RouteQueryOptions): RouteDefinition<'delete'> => ({

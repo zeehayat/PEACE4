@@ -32,6 +32,7 @@ function getInitialFormData(installment) {
         installment_number: installment ? installment.installment_number : null,
         installment_date: installment ? installment.installment_date : null,
         installment_amount: installment ? installment.installment_amount : null,
+        cheque_no: installment ? installment.cheque_no : '',
         category: installment ? installment.category : '',
         remarks: installment ? installment.remarks : '',
         payment_for: 'Civil', // Force value to 'Civil'
@@ -54,10 +55,6 @@ const handleAttachmentsToDelete = (ids) => {
     form.attachments_to_delete = ids;
 };
 
-const handleFileUpdate = (files) => {
-    form.attachments = files.map(fileItem => fileItem.file);
-};
-
 const handleSubmit = () => {
     const url = isEditMode.value
         ? route('irrigation.schemes.financial-installments.update', { scheme: props.schemeId, financial_installment: props.installment.id })
@@ -67,6 +64,10 @@ const handleSubmit = () => {
         const transformedData = { ...data };
         if (isEditMode.value) {
             transformedData._method = 'put';
+        }
+        // Normalize date to YYYY-MM-DD
+        if (transformedData.installment_date && typeof transformedData.installment_date === 'object' && transformedData.installment_date.toISOString) {
+            transformedData.installment_date = transformedData.installment_date.toISOString().slice(0, 10);
         }
         return transformedData;
     }).post(url, {
@@ -150,6 +151,18 @@ const handleCancel = () => {
             </div>
 
             <div>
+                <InputLabel for="cheque_no" value="Cheque Number" />
+                <TextInput
+                    id="cheque_no"
+                    v-model="form.cheque_no"
+                    type="text"
+                    class="mt-1 block w-full"
+                    :class="{ 'border-red-500': form.errors.cheque_no }"
+                />
+                <InputError class="mt-2" :message="form.errors.cheque_no" />
+            </div>
+
+            <div>
                 <InputLabel for="category" value="Category (Optional)" />
                 <TextInput
                     id="category"
@@ -176,9 +189,9 @@ const handleCancel = () => {
         <div class="mt-6">
             <InputLabel value="Attachments" />
             <AttachmentUploader
-                @update-files="handleFileUpdate"
+                v-model="form.attachments"
                 :existing-attachments="existingAttachments"
-                @delete-existing-attachments="handleAttachmentsToDelete"
+                @remove-existing="handleAttachmentsToDelete"
                 :error-message="form.errors.attachments"
             />
             <InputError class="mt-2" :message="form.errors.attachments" />

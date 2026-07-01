@@ -138,6 +138,7 @@ const modalTitle = computed(() => {
                             <div>
                                 <p class="text-lg font-semibold text-indigo-700">Installment #{{ installment.installment_number }} ({{ installment.payment_for ?? 'N/A' }})</p>
                                 <p class="text-sm text-gray-600">Amount: {{ formatCurrency(installment.installment_amount) }} on {{ formatNullableDate(installment.installment_date) }}</p>
+                                <p v-if="installment.cheque_no" class="text-xs text-gray-500 mt-0.5 font-medium">Cheque Number: {{ installment.cheque_no }}</p>
                             </div>
                             <div class="flex space-x-2">
                                 <PrimaryButton @click="openEditForm(installment)" class="px-3 py-1 text-sm">Edit</PrimaryButton>
