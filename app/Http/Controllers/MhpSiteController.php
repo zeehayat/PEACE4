@@ -41,6 +41,7 @@ class MhpSiteController extends Controller
                 'latestFinancialInstallment',
                 'completion',
                 'emeInfo',
+                'tAndDWorks.media',
             ]);
 
 
@@ -182,6 +183,7 @@ class MhpSiteController extends Controller
 
             // Other Components (if distinct models)
             'tAndDWorks.physicalProgresses',
+            'tAndDWorks.media',
             'emeInfo', // Assuming this is the E&M profile/info
         ]);
 

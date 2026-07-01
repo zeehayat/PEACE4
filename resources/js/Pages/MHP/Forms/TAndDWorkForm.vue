@@ -79,11 +79,9 @@ const removeTransformer = (type, index) => {
     }
 };
 
-const handleFilePondUpdate = (files) => {
-    form.attachments = files.map(f => f.file);
-};
-const handleAttachmentsToDelete = (ids) => {
-    form.attachments_to_delete = ids;
+const handleAttachmentsToDelete = (id) => {
+    form.attachments_to_delete.push(id);
+    existingAttachments.value = existingAttachments.value.filter(att => att.id !== id);
 };
 
 const handleSubmit = () => {
@@ -507,9 +505,9 @@ watch(
         <div class="mt-6">
             <InputLabel value="Attachments" />
             <AttachmentUploader
+                v-model="form.attachments"
                 :existing-attachments="existingAttachments"
-                @update-files="handleFilePondUpdate"
-                @delete-existing-attachments="handleAttachmentsToDelete"
+                @remove-existing="handleAttachmentsToDelete"
                 :error-message="form.errors.attachments"
             />
             <InputError class="mt-2" :message="form.errors.attachments" />

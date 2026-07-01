@@ -6,7 +6,7 @@ import completion from './completion'
 import emeInfo from './eme-info'
 /**
 * @see \App\Http\Controllers\MhpSiteController::getCbos
-* @see app/Http/Controllers/MhpSiteController.php:144
+* @see app/Http/Controllers/MhpSiteController.php:145
 * @route '/mhp/sites/get-cbos'
 */
 export const getCbos = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -21,7 +21,7 @@ getCbos.definition = {
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::getCbos
-* @see app/Http/Controllers/MhpSiteController.php:144
+* @see app/Http/Controllers/MhpSiteController.php:145
 * @route '/mhp/sites/get-cbos'
 */
 getCbos.url = (options?: RouteQueryOptions) => {
@@ -30,7 +30,7 @@ getCbos.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::getCbos
-* @see app/Http/Controllers/MhpSiteController.php:144
+* @see app/Http/Controllers/MhpSiteController.php:145
 * @route '/mhp/sites/get-cbos'
 */
 getCbos.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -40,7 +40,7 @@ getCbos.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::getCbos
-* @see app/Http/Controllers/MhpSiteController.php:144
+* @see app/Http/Controllers/MhpSiteController.php:145
 * @route '/mhp/sites/get-cbos'
 */
 getCbos.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -138,7 +138,7 @@ create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::store
-* @see app/Http/Controllers/MhpSiteController.php:76
+* @see app/Http/Controllers/MhpSiteController.php:77
 * @route '/mhp/sites'
 */
 export const store = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -153,7 +153,7 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::store
-* @see app/Http/Controllers/MhpSiteController.php:76
+* @see app/Http/Controllers/MhpSiteController.php:77
 * @route '/mhp/sites'
 */
 store.url = (options?: RouteQueryOptions) => {
@@ -162,7 +162,7 @@ store.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::store
-* @see app/Http/Controllers/MhpSiteController.php:76
+* @see app/Http/Controllers/MhpSiteController.php:77
 * @route '/mhp/sites'
 */
 store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -172,7 +172,7 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::show
-* @see app/Http/Controllers/MhpSiteController.php:87
+* @see app/Http/Controllers/MhpSiteController.php:88
 * @route '/mhp/sites/{site}'
 */
 export const show = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -187,7 +187,7 @@ show.definition = {
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::show
-* @see app/Http/Controllers/MhpSiteController.php:87
+* @see app/Http/Controllers/MhpSiteController.php:88
 * @route '/mhp/sites/{site}'
 */
 show.url = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -220,7 +220,7 @@ show.url = (args: { site: number | { id: number } } | [site: number | { id: numb
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::show
-* @see app/Http/Controllers/MhpSiteController.php:87
+* @see app/Http/Controllers/MhpSiteController.php:88
 * @route '/mhp/sites/{site}'
 */
 show.get = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -230,7 +230,7 @@ show.get = (args: { site: number | { id: number } } | [site: number | { id: numb
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::show
-* @see app/Http/Controllers/MhpSiteController.php:87
+* @see app/Http/Controllers/MhpSiteController.php:88
 * @route '/mhp/sites/{site}'
 */
 show.head = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -302,7 +302,7 @@ edit.head = (args: { site: string | number } | [site: string | number ] | string
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::update
-* @see app/Http/Controllers/MhpSiteController.php:93
+* @see app/Http/Controllers/MhpSiteController.php:94
 * @route '/mhp/sites/{site}'
 */
 export const update = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -317,7 +317,7 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::update
-* @see app/Http/Controllers/MhpSiteController.php:93
+* @see app/Http/Controllers/MhpSiteController.php:94
 * @route '/mhp/sites/{site}'
 */
 update.url = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -350,7 +350,7 @@ update.url = (args: { site: number | { id: number } } | [site: number | { id: nu
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::update
-* @see app/Http/Controllers/MhpSiteController.php:93
+* @see app/Http/Controllers/MhpSiteController.php:94
 * @route '/mhp/sites/{site}'
 */
 update.put = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -360,7 +360,7 @@ update.put = (args: { site: number | { id: number } } | [site: number | { id: nu
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::update
-* @see app/Http/Controllers/MhpSiteController.php:93
+* @see app/Http/Controllers/MhpSiteController.php:94
 * @route '/mhp/sites/{site}'
 */
 update.patch = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
@@ -370,7 +370,7 @@ update.patch = (args: { site: number | { id: number } } | [site: number | { id: 
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::destroy
-* @see app/Http/Controllers/MhpSiteController.php:104
+* @see app/Http/Controllers/MhpSiteController.php:105
 * @route '/mhp/sites/{site}'
 */
 export const destroy = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -385,7 +385,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::destroy
-* @see app/Http/Controllers/MhpSiteController.php:104
+* @see app/Http/Controllers/MhpSiteController.php:105
 * @route '/mhp/sites/{site}'
 */
 destroy.url = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -418,7 +418,7 @@ destroy.url = (args: { site: number | { id: number } } | [site: number | { id: n
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::destroy
-* @see app/Http/Controllers/MhpSiteController.php:104
+* @see app/Http/Controllers/MhpSiteController.php:105
 * @route '/mhp/sites/{site}'
 */
 destroy.delete = (args: { site: number | { id: number } } | [site: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -428,7 +428,7 @@ destroy.delete = (args: { site: number | { id: number } } | [site: number | { id
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::autoSearch
-* @see app/Http/Controllers/MhpSiteController.php:115
+* @see app/Http/Controllers/MhpSiteController.php:116
 * @route '/mhp/sites/auto-search'
 */
 export const autoSearch = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -443,7 +443,7 @@ autoSearch.definition = {
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::autoSearch
-* @see app/Http/Controllers/MhpSiteController.php:115
+* @see app/Http/Controllers/MhpSiteController.php:116
 * @route '/mhp/sites/auto-search'
 */
 autoSearch.url = (options?: RouteQueryOptions) => {
@@ -452,7 +452,7 @@ autoSearch.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::autoSearch
-* @see app/Http/Controllers/MhpSiteController.php:115
+* @see app/Http/Controllers/MhpSiteController.php:116
 * @route '/mhp/sites/auto-search'
 */
 autoSearch.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -462,7 +462,7 @@ autoSearch.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::autoSearch
-* @see app/Http/Controllers/MhpSiteController.php:115
+* @see app/Http/Controllers/MhpSiteController.php:116
 * @route '/mhp/sites/auto-search'
 */
 autoSearch.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -540,7 +540,7 @@ financialProgress.head = (args: { site: number | { id: number } } | [site: numbe
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::details
-* @see app/Http/Controllers/MhpSiteController.php:170
+* @see app/Http/Controllers/MhpSiteController.php:171
 * @route '/mhp/{mhpSite}/details'
 */
 export const details = (args: { mhpSite: number | { id: number } } | [mhpSite: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -555,7 +555,7 @@ details.definition = {
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::details
-* @see app/Http/Controllers/MhpSiteController.php:170
+* @see app/Http/Controllers/MhpSiteController.php:171
 * @route '/mhp/{mhpSite}/details'
 */
 details.url = (args: { mhpSite: number | { id: number } } | [mhpSite: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -588,7 +588,7 @@ details.url = (args: { mhpSite: number | { id: number } } | [mhpSite: number | {
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::details
-* @see app/Http/Controllers/MhpSiteController.php:170
+* @see app/Http/Controllers/MhpSiteController.php:171
 * @route '/mhp/{mhpSite}/details'
 */
 details.get = (args: { mhpSite: number | { id: number } } | [mhpSite: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -598,7 +598,7 @@ details.get = (args: { mhpSite: number | { id: number } } | [mhpSite: number | {
 
 /**
 * @see \App\Http\Controllers\MhpSiteController::details
-* @see app/Http/Controllers/MhpSiteController.php:170
+* @see app/Http/Controllers/MhpSiteController.php:171
 * @route '/mhp/{mhpSite}/details'
 */
 details.head = (args: { mhpSite: number | { id: number } } | [mhpSite: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
