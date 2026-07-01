@@ -175,18 +175,28 @@ const handleDelete = (workId) => {
 
         <!-- View Mode -->
         <div v-else-if="mode === 'view' && selectedWork" class="p-6 max-h-[75vh] overflow-y-auto space-y-6">
+            
+            <!-- Specifications -->
             <div class="bg-gray-50 border border-gray-200 rounded-xl p-5 space-y-4">
                 <h4 class="text-xs font-bold text-emerald-800 uppercase tracking-wider border-b pb-2 flex items-center gap-1.5">
                     <span class="material-symbols-outlined text-base">bolt</span>
                     T&D Work Specification Summary
                 </h4>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 text-sm">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-4 text-sm">
                     <div class="flex flex-col">
                         <span class="text-xs font-semibold text-gray-500">Date of Initiation</span>
                         <span class="text-gray-900 font-medium mt-0.5">{{ formatDate(selectedWork.date_of_initiation) }}</span>
                     </div>
                     <div class="flex flex-col">
+                        <span class="text-xs font-semibold text-gray-500">Date of Completion</span>
+                        <span class="text-gray-900 font-medium mt-0.5">{{ formatDate(selectedWork.completion_date) }}</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-xs font-semibold text-gray-500">Estimated Cost</span>
+                        <span class="text-emerald-700 font-bold mt-0.5">{{ formatCurrency(selectedWork.estimated_cost) }}</span>
+                    </div>
+                    <div class="flex flex-col border-t pt-2 md:border-t-0 md:pt-0">
                         <span class="text-xs font-semibold text-gray-500">HT Poles Quantity</span>
                         <span class="text-gray-900 font-semibold mt-0.5">{{ selectedWork.ht_poles_quantity || '—' }}</span>
                     </div>
@@ -195,16 +205,12 @@ const handleDelete = (workId) => {
                         <span class="text-gray-900 font-semibold mt-0.5">{{ selectedWork.lt_poles_quantity || '—' }}</span>
                     </div>
                     <div class="flex flex-col border-t pt-2 md:border-t-0 md:pt-0">
-                        <span class="text-xs font-semibold text-gray-500">Estimated Cost</span>
-                        <span class="text-emerald-700 font-bold mt-0.5">{{ formatCurrency(selectedWork.estimated_cost) }}</span>
-                    </div>
-                    <div class="flex flex-col border-t pt-2">
                         <span class="text-xs font-semibold text-gray-500">HT Conductor Length / Type</span>
                         <span class="text-gray-900 font-medium mt-0.5">
                             {{ selectedWork.ht_conductor_length_km ? `${selectedWork.ht_conductor_length_km} KM` : '—' }} / {{ selectedWork.ht_conductor_type || '—' }}
                         </span>
                     </div>
-                    <div class="flex flex-col border-t pt-2">
+                    <div class="flex flex-col border-t pt-2 md:border-t-0 md:pt-0">
                         <span class="text-xs font-semibold text-gray-500">LT Conductor Length / Type</span>
                         <span class="text-gray-900 font-medium mt-0.5">
                             {{ selectedWork.lt_conductor_length_km ? `${selectedWork.lt_conductor_length_km} KM` : '—' }} / {{ selectedWork.lt_conductor_type || '—' }}
@@ -244,12 +250,87 @@ const handleDelete = (workId) => {
                 </div>
             </div>
 
+            <!-- Procurement & Agreement -->
+            <div class="bg-gray-50 border border-gray-200 rounded-xl p-5 space-y-4">
+                <h4 class="text-xs font-bold text-indigo-800 uppercase tracking-wider border-b pb-2 flex items-center gap-1.5">
+                    <span class="material-symbols-outlined text-base">gavel</span>
+                    Procurement & Contract Details
+                </h4>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-4 text-sm">
+                    <div class="flex flex-col">
+                        <span class="text-xs font-semibold text-gray-500">Advertisement Date</span>
+                        <span class="text-gray-900 font-medium mt-0.5">{{ formatDate(selectedWork.advertisement_date) }}</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-xs font-semibold text-gray-500">Pre-Bid Meeting Date</span>
+                        <span class="text-gray-900 font-medium mt-0.5">{{ formatDate(selectedWork.pre_bid_meeting_date) }}</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-xs font-semibold text-gray-500">Technical Bid Opening</span>
+                        <span class="text-gray-900 font-medium mt-0.5">{{ formatDate(selectedWork.technical_bid_opening_date) }}</span>
+                    </div>
+                    <div class="flex flex-col border-t pt-2 md:border-t-0 md:pt-0">
+                        <span class="text-xs font-semibold text-gray-500">Financial Bid Opening</span>
+                        <span class="text-gray-900 font-medium mt-0.5">{{ formatDate(selectedWork.financial_bid_opening_date) }}</span>
+                    </div>
+                    <div class="flex flex-col border-t pt-2 md:border-t-0 md:pt-0">
+                        <span class="text-xs font-semibold text-gray-500">Contract Award Date</span>
+                        <span class="text-gray-900 font-medium mt-0.5">{{ formatDate(selectedWork.contract_award_date) }}</span>
+                    </div>
+                    <div class="flex flex-col border-t pt-2 md:border-t-0 md:pt-0">
+                        <span class="text-xs font-semibold text-gray-500">Cost Per Bid (PKR)</span>
+                        <span class="text-indigo-700 font-bold mt-0.5">{{ formatCurrency(selectedWork.contractor_amount) }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress section -->
+            <div class="bg-gray-50 border border-gray-200 rounded-xl p-5 space-y-4">
+                <h4 class="text-xs font-bold text-amber-800 uppercase tracking-wider border-b pb-2 flex items-center gap-1.5">
+                    <span class="material-symbols-outlined text-base">trending_up</span>
+                    Physical & Financial Progress
+                </h4>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-4 text-sm mb-4">
+                    <div class="flex flex-col">
+                        <span class="text-xs font-semibold text-gray-500">Physical Progress</span>
+                        <span class="text-gray-900 font-bold mt-0.5">{{ selectedWork.physical_progress_percent ? `${selectedWork.physical_progress_percent}%` : '0%' }}</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-xs font-semibold text-gray-500">Financial Progress</span>
+                        <span class="text-gray-900 font-bold mt-0.5">{{ selectedWork.financial_progress_percent ? `${selectedWork.financial_progress_percent}%` : '0%' }}</span>
+                    </div>
+                    <div class="flex flex-col border-t pt-2 md:border-t-0 md:pt-0">
+                        <span class="text-xs font-semibold text-gray-500">Amount Disbursed</span>
+                        <span class="text-amber-700 font-bold mt-0.5">{{ formatCurrency(selectedWork.amount_disbursed) }}</span>
+                    </div>
+                    <div class="flex flex-col border-t pt-2 md:border-t-0 md:pt-0">
+                        <span class="text-xs font-semibold text-gray-500">Amount Remaining</span>
+                        <span class="text-amber-700 font-bold mt-0.5">{{ formatCurrency(selectedWork.amount_remaining) }}</span>
+                    </div>
+                </div>
+
+                <div v-if="selectedWork.progress_description" class="pt-2 border-t border-gray-200">
+                    <span class="text-xs font-semibold text-gray-500">Progress Description</span>
+                    <p class="text-sm text-gray-800 whitespace-pre-wrap leading-relaxed mt-1">{{ selectedWork.progress_description }}</p>
+                </div>
+            </div>
+
             <div v-if="selectedWork.scope_of_work" class="bg-gray-50 border border-gray-200 rounded-xl p-5 space-y-2">
                 <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider border-b pb-2 flex items-center gap-1.5">
                     <span class="material-symbols-outlined text-base">description</span>
                     Scope of Work
                 </h4>
                 <p class="text-sm text-gray-800 whitespace-pre-wrap leading-relaxed pt-1">{{ selectedWork.scope_of_work }}</p>
+            </div>
+
+            <div v-if="selectedWork.remarks" class="bg-gray-50 border border-gray-200 rounded-xl p-5 space-y-2">
+                <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider border-b pb-2 flex items-center gap-1.5">
+                    <span class="material-symbols-outlined text-base">comment</span>
+                    Remarks
+                </h4>
+                <p class="text-sm text-gray-800 whitespace-pre-wrap leading-relaxed pt-1">{{ selectedWork.remarks }}</p>
             </div>
 
             <div v-if="selectedWork.attachments_frontend?.length" class="bg-gray-50 border border-gray-200 rounded-xl p-5 space-y-3">
