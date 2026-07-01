@@ -25,6 +25,7 @@ import OperationalCostShowModal from '@/Pages/MHP/Modals/OperationalCostShowModa
 import EmeInfoModal from "@/Pages/MHP/Modals/EmeInfoModal.vue";
 
 import { getFileIcon } from '@/Utils/helpers';
+import { formatCurrency } from '@/Utils/formatters';
 
 
 const props = defineProps({
@@ -258,11 +259,11 @@ const filteredMhpSites = computed(() => {
 
 function getStatusClass(status) {
     switch (status) {
-        case 'New': return 'bg-blue-100 text-blue-800 border border-blue-200';
-        case 'Rehabilitation': return 'bg-yellow-100 text-yellow-800 border border-yellow-200';
-        case 'Upgradation': return 'bg-emerald-100 text-emerald-800 border border-emerald-200';
-        case 'Completed': return 'bg-green-100 text-green-800 border border-green-200';
-        default: return 'bg-gray-100 text-gray-800 border border-gray-200';
+        case 'New': return 'bg-cyan-50 text-cyan-700 border border-cyan-200';
+        case 'Rehabilitation': return 'bg-amber-50 text-amber-700 border border-amber-200';
+        case 'Upgradation': return 'bg-violet-50 text-violet-700 border border-violet-200';
+        case 'Completed': return 'bg-emerald-50 text-emerald-700 border border-emerald-200';
+        default: return 'bg-gray-50 text-gray-600 border border-gray-200';
     }
 }
 
@@ -398,19 +399,45 @@ const handlePagination = (url) => {
                                 <span v-else class="text-gray-400 text-sm">—</span>
                             </td>
 
-                            <td class="px-4 py-3">
-                                <div class="space-y-1 text-sm">
-                                    <div v-if="site.latest_physical_progress">
-                                        <p class="font-semibold text-gray-800">Latest Physical:</p>
-                                        <span class="text-xs text-gray-600">{{ site.latest_physical_progress.progress_percentage }}% on {{ new Date(site.latest_physical_progress.progress_date).toLocaleDateString() }} ({{ site.latest_physical_progress.payment_for }})</span>
+                            <td class="px-4 py-3 whitespace-nowrap min-w-[200px]">
+                                <div class="space-y-2">
+                                    <!-- Physical Progress Bar -->
+                                    <div class="space-y-0.5">
+                                        <div class="flex items-center justify-between text-[11px]">
+                                            <span class="font-bold text-emerald-800 flex items-center gap-0.5">
+                                                <span class="material-symbols-outlined text-[12px]">analytics</span>
+                                                Physical: {{ site.latest_physical_progress ? site.latest_physical_progress.payment_for : 'None' }}
+                                            </span>
+                                            <span class="font-extrabold text-emerald-700">
+                                                {{ site.latest_physical_progress ? site.latest_physical_progress.progress_percentage : 0 }}%
+                                            </span>
+                                        </div>
+                                        <div class="w-full bg-gray-100 rounded-full h-1 overflow-hidden">
+                                            <div
+                                                class="bg-emerald-500 h-1 rounded-full transition-all duration-300"
+                                                :style="{ width: (site.latest_physical_progress ? site.latest_physical_progress.progress_percentage : 0) + '%' }"
+                                            ></div>
+                                        </div>
+                                        <p v-if="site.latest_physical_progress" class="text-[9px] font-semibold text-gray-400">
+                                            As of {{ new Date(site.latest_physical_progress.progress_date).toLocaleDateString() }}
+                                        </p>
                                     </div>
-                                    <div v-else class="text-gray-400 text-xs">— No Physical Progress</div>
 
-                                    <div v-if="site.latest_financial_installment" class="pt-1 border-t border-gray-100 mt-1">
-                                        <p class="font-semibold text-gray-800">Latest Financial:</p>
-                                        <span class="text-xs text-gray-600">Inst. #{{ site.latest_financial_installment.installment_number }} ({{ site.latest_financial_installment.installment_amount }}) ({{ site.latest_financial_installment.payment_for }})</span>
+                                    <!-- Financial Progress Info -->
+                                    <div class="space-y-0.5 pt-1 border-t border-gray-100">
+                                        <div class="flex items-center justify-between text-[11px]">
+                                            <span class="font-bold text-amber-800 flex items-center gap-0.5">
+                                                <span class="material-symbols-outlined text-[12px]">payments</span>
+                                                Financial: {{ site.latest_financial_installment ? `Inst. #${site.latest_financial_installment.installment_number}` : 'None' }}
+                                            </span>
+                                            <span class="font-extrabold text-amber-700">
+                                                {{ site.latest_financial_installment ? `${formatCurrency(site.latest_financial_installment.installment_amount)}` : '—' }}
+                                            </span>
+                                        </div>
+                                        <p v-if="site.latest_financial_installment" class="text-[9px] font-semibold text-gray-400">
+                                            Type: {{ site.latest_financial_installment.payment_for }}
+                                        </p>
                                     </div>
-                                    <div v-else class="text-gray-400 text-xs">— No Financial Installments</div>
                                 </div>
                             </td>
 

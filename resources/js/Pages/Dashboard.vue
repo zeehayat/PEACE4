@@ -1,47 +1,59 @@
 <template>
     <AppLayout>
-        <div class="space-y-10 p-6 sm:p-8 bg-background-light min-h-screen text-gray-900">
-
+        <div class="space-y-8 p-6 sm:p-8 bg-gray-50/50 min-h-screen text-gray-900 font-sans antialiased">
+            
+            <!-- Bright & Colorful Stats Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
                 <div
                     v-for="s in statItems"
                     :key="s.title"
-                    class="card flex items-center gap-4 p-5 sm:p-6"
+                    class="bg-white border rounded-2xl p-5 shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-200 flex items-center gap-4 group"
+                    :class="statIcons[s.title]?.border || 'border-gray-200'"
                 >
-                    <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/15 text-primary">
-                        <span class="material-symbols-outlined">insights</span>
+                    <div class="flex h-12 w-12 items-center justify-center rounded-xl shrink-0 transition-transform group-hover:scale-110 duration-200" :class="statIcons[s.title]?.bg || 'bg-gray-100'">
+                        <span class="material-symbols-outlined text-2xl" :class="statIcons[s.title]?.text || 'text-gray-600'">
+                            {{ statIcons[s.title]?.icon || 'insights' }}
+                        </span>
                     </div>
-                    <div class="space-y-1">
-                        <p class="text-xs uppercase tracking-wide text-gray-500">{{ s.title }}</p>
-                        <p class="text-2xl font-bold text-gray-900">{{ s.formatted ?? s.value }}</p>
+                    <div class="space-y-0.5">
+                        <p class="text-[10px] font-extrabold uppercase tracking-widest text-gray-400">{{ s.title }}</p>
+                        <p class="text-2xl font-black text-gray-900 tracking-tight">{{ s.formatted ?? s.value }}</p>
                     </div>
                 </div>
             </div>
 
-            <div class="card p-5 sm:p-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <!-- Group & Collapse Control panel -->
+            <div class="bg-white border border-gray-200 rounded-2xl p-4 sm:p-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between shadow-sm">
                 <div class="flex items-center gap-3">
-                    <span class="text-sm font-semibold text-gray-700">Group by</span>
-                    <select v-model="groupBy" class="rounded-full border-gray-200 bg-white px-4 py-2 text-sm shadow-sm focus:ring-2 focus:ring-primary focus:border-primary">
-                        <option value="cbo">CBO</option>
-                        <option value="district">District</option>
-                    </select>
+                    <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">Group projects by</span>
+                    <div class="relative">
+                        <select v-model="groupBy" class="appearance-none rounded-full border border-gray-200 bg-gray-50/50 pl-4 pr-10 py-1.5 text-xs font-bold text-gray-700 shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors">
+                            <option value="cbo">CBO</option>
+                            <option value="district">District</option>
+                        </select>
+                        <span class="material-symbols-outlined text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-base">expand_more</span>
+                    </div>
                 </div>
-                <div class="flex flex-wrap items-center gap-3">
-                    <button @click="expandAll" class="btn-secondary rounded-full px-4 py-2 text-sm">
+                <div class="flex flex-wrap items-center gap-2">
+                    <button @click="expandAll" class="inline-flex items-center gap-1.5 px-4 py-2 bg-white hover:bg-gray-50 border border-gray-200 rounded-full text-xs font-bold text-gray-600 shadow-sm transition">
                         <span class="material-symbols-outlined text-base">unfold_more</span>
                         Expand all
                     </button>
-                    <button @click="collapseAll" class="btn-secondary rounded-full px-4 py-2 text-sm">
+                    <button @click="collapseAll" class="inline-flex items-center gap-1.5 px-4 py-2 bg-white hover:bg-gray-50 border border-gray-200 rounded-full text-xs font-bold text-gray-600 shadow-sm transition">
                         <span class="material-symbols-outlined text-base">unfold_less</span>
                         Collapse all
                     </button>
                 </div>
             </div>
 
+            <!-- MHP Projects Section -->
             <section class="space-y-4">
-                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                    <h2 class="text-2xl font-bold text-gray-900">MHP Schemes</h2>
-                    <span class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm border border-gray-200">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-xl font-black text-gray-900 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-emerald-600">electric_bolt</span>
+                        MHP Schemes
+                    </h2>
+                    <span class="inline-flex items-center rounded-full bg-emerald-50 border border-emerald-200 px-3 py-1 text-xs font-extrabold text-emerald-700 shadow-sm">
                         {{ mhp_projects?.length || 0 }} project(s)
                     </span>
                 </div>
@@ -50,34 +62,34 @@
                     <div
                         v-for="(items, key) in groupedMhp"
                         :key="'mhp-' + key"
-                        class="card overflow-hidden"
+                        class="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden"
                     >
                         <button
-                            class="w-full flex items-center justify-between px-5 py-4 bg-primary/5 text-left hover:bg-primary/10 transition"
+                            class="w-full flex items-center justify-between px-5 py-4 bg-gradient-to-r from-emerald-500/5 to-teal-500/5 text-left hover:from-emerald-500/10 hover:to-teal-500/10 transition-all duration-150"
                             @click="toggle('mhp', key)"
                         >
                             <div class="flex items-center gap-3">
-                                <span class="text-lg font-semibold text-gray-900">{{ key }}</span>
-                                <span class="text-xs font-semibold text-primary bg-white px-3 py-1 rounded-full border border-primary/30">
+                                <span class="text-sm font-extrabold text-gray-800 tracking-tight">{{ key }}</span>
+                                <span class="text-[10px] font-black text-emerald-700 bg-white border border-emerald-200/50 px-2.5 py-0.5 rounded-full shadow-sm">
                                     {{ items.length }} project{{ items.length > 1 ? 's' : '' }}
                                 </span>
                             </div>
-                            <span class="material-symbols-outlined text-gray-600 transition" :class="isOpen('mhp', key) ? 'rotate-180' : ''">
+                            <span class="material-symbols-outlined text-emerald-600 transition-transform duration-200" :class="isOpen('mhp', key) ? 'rotate-180' : ''">
                                 expand_more
                             </span>
                         </button>
 
-                        <div v-show="isOpen('mhp', key)" class="p-5">
+                        <div v-show="isOpen('mhp', key)" class="p-5 border-t border-gray-100 bg-white/50">
                             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                 <div
                                     v-for="project in items"
                                     :key="'mhp-item-' + project.id"
-                                    class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm hover:border-primary/50 hover:shadow-lg transition"
+                                    class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm hover:border-emerald-300 hover:shadow-lg hover:shadow-emerald-50/20 transition-all duration-200"
                                 >
                                     <div class="flex items-start justify-between gap-3">
                                         <div class="space-y-1">
-                                            <p class="text-base font-semibold text-gray-900 truncate">{{ project.name }}</p>
-                                            <p class="text-xs text-gray-500">Progress overview</p>
+                                            <p class="text-sm font-black text-gray-900 tracking-tight leading-tight">{{ project.name }}</p>
+                                            <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">MHP Scheme</p>
                                         </div>
                                         <svg
                                             :width="ringSize"
@@ -89,31 +101,29 @@
                                             <circle
                                                 cx="21" cy="21" :r="ringR"
                                                 fill="none"
-                                                :stroke="(project.completion_percentage ?? 0) >= 100 ? '#11d45f' : '#2563eb'"
+                                                :stroke="(project.completion_percentage ?? 0) >= 100 ? '#10b981' : '#0ea5e9'"
                                                 :stroke-width="ringStroke"
                                                 stroke-linecap="round"
                                                 :stroke-dasharray="dashArray(project.completion_percentage)"
                                                 :transform="'rotate(-90 21 21)'"
                                             />
-                                            <text x="21" y="22.5" text-anchor="middle" font-size="10" fill="#0f172a" font-weight="700">
+                                            <text x="21" y="24" text-anchor="middle" font-size="9" fill="#0f172a" font-weight="900">
                                                 {{ toInt(project.completion_percentage) }}%
                                             </text>
                                         </svg>
                                     </div>
 
-                                    <div class="mt-3 flex flex-wrap gap-2">
+                                    <div class="mt-4 flex flex-wrap gap-1.5">
                                         <template v-for="chip in physicalChips(project)" :key="'phys-' + project.id + '-' + chip.label">
-                                            <span class="inline-flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-                                                <span>Physical</span>
-                                                <span class="text-gray-700">{{ chip.label }}</span>
-                                                <span class="text-gray-500">· {{ chip.value }}</span>
+                                            <span class="inline-flex items-center gap-1 rounded-full bg-emerald-50 border border-emerald-100 px-2.5 py-0.5 text-[10px] font-bold text-emerald-800 shadow-sm">
+                                                <span class="opacity-80">Phys: {{ chip.label }}</span>
+                                                <span class="font-extrabold text-emerald-900">{{ chip.value }}</span>
                                             </span>
                                         </template>
                                         <template v-for="chip in financialChips(project)" :key="'fin-' + project.id + '-' + chip.label">
-                                            <span class="inline-flex items-center gap-1 rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700">
-                                                <span>Financial</span>
-                                                <span class="text-gray-700">{{ chip.label }}</span>
-                                                <span class="text-gray-500">· {{ chip.value }}</span>
+                                            <span class="inline-flex items-center gap-1 rounded-full bg-amber-50 border border-amber-100 px-2.5 py-0.5 text-[10px] font-bold text-amber-800 shadow-sm">
+                                                <span class="opacity-80">Fin: {{ chip.label }}</span>
+                                                <span class="font-extrabold text-amber-900">{{ chip.value }}</span>
                                             </span>
                                         </template>
                                     </div>
@@ -123,16 +133,19 @@
                     </div>
                 </div>
 
-                <div v-else class="card text-center py-10">
-                    <p class="font-semibold text-lg">No MHP projects to show.</p>
-                    <p class="text-sm text-gray-500">Check your filters or grouping.</p>
+                <div v-else class="bg-white border border-gray-200 border-dashed rounded-2xl text-center py-10">
+                    <p class="font-bold text-gray-500">No MHP projects to show.</p>
                 </div>
             </section>
 
+            <!-- Irrigation Schemes Section -->
             <section class="space-y-4">
-                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                    <h2 class="text-2xl font-bold text-gray-900">Irrigation Schemes</h2>
-                    <span class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm border border-gray-200">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-xl font-black text-gray-900 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-cyan-600">water_drop</span>
+                        Irrigation Schemes
+                    </h2>
+                    <span class="inline-flex items-center rounded-full bg-cyan-50 border border-cyan-200 px-3 py-1 text-xs font-extrabold text-cyan-700 shadow-sm">
                         {{ irrigation_projects?.length || 0 }} project(s)
                     </span>
                 </div>
@@ -141,34 +154,34 @@
                     <div
                         v-for="(items, key) in groupedIrrigation"
                         :key="'irr-' + key"
-                        class="card overflow-hidden"
+                        class="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden"
                     >
                         <button
-                            class="w-full flex items-center justify-between px-5 py-4 bg-primary/5 text-left hover:bg-primary/10 transition"
+                            class="w-full flex items-center justify-between px-5 py-4 bg-gradient-to-r from-cyan-500/5 to-blue-500/5 text-left hover:from-cyan-500/10 hover:to-blue-500/10 transition-all duration-150"
                             @click="toggle('irrigation', key)"
                         >
                             <div class="flex items-center gap-3">
-                                <span class="text-lg font-semibold text-gray-900">{{ key }}</span>
-                                <span class="text-xs font-semibold text-primary bg-white px-3 py-1 rounded-full border border-primary/30">
+                                <span class="text-sm font-extrabold text-gray-800 tracking-tight">{{ key }}</span>
+                                <span class="text-[10px] font-black text-cyan-700 bg-white border border-cyan-200/50 px-2.5 py-0.5 rounded-full shadow-sm">
                                     {{ items.length }} project{{ items.length > 1 ? 's' : '' }}
                                 </span>
                             </div>
-                            <span class="material-symbols-outlined text-gray-600 transition" :class="isOpen('irrigation', key) ? 'rotate-180' : ''">
+                            <span class="material-symbols-outlined text-cyan-600 transition-transform duration-200" :class="isOpen('irrigation', key) ? 'rotate-180' : ''">
                                 expand_more
                             </span>
                         </button>
 
-                        <div v-show="isOpen('irrigation', key)" class="p-5">
+                        <div v-show="isOpen('irrigation', key)" class="p-5 border-t border-gray-100 bg-white/50">
                             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                 <div
                                     v-for="project in items"
                                     :key="'irr-item-' + project.id"
-                                    class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm hover:border-primary/50 hover:shadow-lg transition"
+                                    class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm hover:border-cyan-300 hover:shadow-lg hover:shadow-cyan-50/20 transition-all duration-200"
                                 >
                                     <div class="flex items-start justify-between gap-3">
                                         <div class="space-y-1">
-                                            <p class="text-base font-semibold text-gray-900 truncate">{{ project.name }}</p>
-                                            <p class="text-xs text-gray-500">Progress overview</p>
+                                            <p class="text-sm font-black text-gray-900 tracking-tight leading-tight">{{ project.name }}</p>
+                                            <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Irrigation Scheme</p>
                                         </div>
                                         <svg
                                             :width="ringSize"
@@ -179,44 +192,39 @@
                                             <circle cx="21" cy="21" :r="ringR" fill="none" stroke="#e5e7eb" :stroke-width="ringStroke" />
                                             <circle
                                                 cx="21" cy="21" :r="ringR" fill="none"
-                                                :stroke="(project.completion_percentage ?? 0) >= 100 ? '#11d45f' : '#2563eb'"
+                                                :stroke="(project.completion_percentage ?? 0) >= 100 ? '#10b981' : '#0ea5e9'"
                                                 :stroke-width="ringStroke" stroke-linecap="round"
                                                 :stroke-dasharray="dashArray(project.completion_percentage)"
                                                 :transform="'rotate(-90 21 21)'"
                                             />
-                                            <text x="21" y="22.5" text-anchor="middle" font-size="10" fill="#0f172a" font-weight="700">
+                                            <text x="21" y="24" text-anchor="middle" font-size="9" fill="#0f172a" font-weight="900">
                                                 {{ toInt(project.completion_percentage) }}%
                                             </text>
                                         </svg>
                                     </div>
 
-                                    <div class="mt-3 flex flex-wrap gap-2">
+                                    <div class="mt-4 flex flex-wrap gap-1.5">
                                         <template v-for="chip in physicalChips(project, true)" :key="'physI-' + project.id + '-' + chip.label">
-                                            <span class="inline-flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-                                                <span>Physical</span>
-                                                <span class="text-gray-700">{{ chip.label }}</span>
-                                                <span class="text-gray-500">· {{ chip.value }}</span>
+                                            <span class="inline-flex items-center gap-1 rounded-full bg-emerald-50 border border-emerald-100 px-2.5 py-0.5 text-[10px] font-bold text-emerald-800 shadow-sm">
+                                                <span class="opacity-80">Phys: {{ chip.label }}</span>
+                                                <span class="font-extrabold text-emerald-900">{{ chip.value }}</span>
                                             </span>
                                         </template>
                                         <template v-for="chip in financialChips(project, true)" :key="'finI-' + project.id + '-' + chip.label">
-                                            <span class="inline-flex items-center gap-1 rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700">
-                                                <span>Financial</span>
-                                                <span class="text-gray-700">{{ chip.label }}</span>
-                                                <span class="text-gray-500">· {{ chip.value }}</span>
+                                            <span class="inline-flex items-center gap-1 rounded-full bg-amber-50 border border-amber-100 px-2.5 py-0.5 text-[10px] font-bold text-amber-800 shadow-sm">
+                                                <span class="opacity-80">Fin: {{ chip.label }}</span>
+                                                <span class="font-extrabold text-amber-900">{{ chip.value }}</span>
                                             </span>
                                         </template>
                                     </div>
-
-                                    <p class="mt-2 text-xs text-gray-500 italic">Showing overall Physical & Financial only.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div v-else class="card text-center py-10">
-                    <p class="font-semibold text-lg">No Irrigation projects to show.</p>
-                    <p class="text-sm text-gray-500">Check your filters or grouping.</p>
+                <div v-else class="bg-white border border-gray-200 border-dashed rounded-2xl text-center py-10">
+                    <p class="font-bold text-gray-500">No Irrigation projects to show.</p>
                 </div>
             </section>
         </div>
@@ -233,13 +241,28 @@ const props = defineProps({
     irrigation_projects: { type: Array, default: () => [] },
 })
 
-/* ---------- Stats rendering ---------- */
+/* ---------- Stats rendering configuration with bright themes ---------- */
+const statIcons = {
+    'MHPs Approved': { icon: 'verified_user', bg: 'bg-emerald-500/10', text: 'text-emerald-600', border: 'border-emerald-200' },
+    'MHPs Completed': { icon: 'task_alt', bg: 'bg-teal-500/10', text: 'text-teal-600', border: 'border-teal-200' },
+    'Irrigation Approved': { icon: 'water_drop', bg: 'bg-blue-500/10', text: 'text-blue-600', border: 'border-blue-200' },
+    'Irrigation Completed': { icon: 'waves', bg: 'bg-cyan-500/10', text: 'text-cyan-600', border: 'border-cyan-200' },
+    'CBO Dialogues': { icon: 'forum', bg: 'bg-violet-500/10', text: 'text-violet-600', border: 'border-violet-200' },
+    'CBOs Formed': { icon: 'group_add', bg: 'bg-fuchsia-500/10', text: 'text-fuchsia-600', border: 'border-fuchsia-200' },
+    'O&M Trainings': { icon: 'build_circle', bg: 'bg-amber-500/10', text: 'text-amber-600', border: 'border-amber-200' },
+    'Safe Use Trainings': { icon: 'health_and_safety', bg: 'bg-rose-500/10', text: 'text-rose-600', border: 'border-rose-200' },
+    'Capacity Installed (kW)': { icon: 'bolt', bg: 'bg-yellow-500/10', text: 'text-yellow-600', border: 'border-yellow-200' },
+    'Operational Cost (₨)': { icon: 'payments', bg: 'bg-orange-500/10', text: 'text-orange-600', border: 'border-orange-200' },
+    'Initiated MHPs': { icon: 'rocket_launch', bg: 'bg-sky-500/10', text: 'text-sky-600', border: 'border-sky-200' }
+};
+
 function formatNumber(n) {
     if (n == null) return '0'
     const num = Number(n)
     if (Number.isNaN(num)) return String(n)
     return new Intl.NumberFormat().format(num)
 }
+
 const statItems = computed(() => ([
     { title: 'MHPs Approved', value: props.stats?.total_mhps_approved ?? 0 },
     { title: 'MHPs Completed', value: props.stats?.total_mhps_completed ?? 0 },
@@ -255,7 +278,7 @@ const statItems = computed(() => ([
 ]))
 
 /* ---------- Grouping ---------- */
-const groupBy = ref('cbo') // 'cbo' | 'district'
+const groupBy = ref('cbo')
 const open = reactive({
     mhp: new Set(),
     irrigation: new Set(),
@@ -291,21 +314,28 @@ function groupByKey(items = []) {
 const groupedMhp = computed(() => groupByKey(props.mhp_projects))
 const groupedIrrigation = computed(() => groupByKey(props.irrigation_projects))
 
-function isOpen(scheme, key) {
-    return open[scheme].has(key)
+function isOpen(sec, key) {
+    return open[sec].has(key)
 }
-function toggle(scheme, key) {
-    if (open[scheme].has(key)) open[scheme].delete(key)
-    else open[scheme].add(key)
+
+function toggle(sec, key) {
+    if (open[sec].has(key)) {
+        open[sec].delete(key)
+    } else {
+        open[sec].add(key)
+    }
 }
+
 function expandAll() {
     Object.keys(groupedMhp.value).forEach(k => open.mhp.add(k))
     Object.keys(groupedIrrigation.value).forEach(k => open.irrigation.add(k))
 }
+
 function collapseAll() {
     open.mhp.clear()
     open.irrigation.clear()
 }
+
 watchEffect(() => {
     open.mhp.clear()
     open.irrigation.clear()
@@ -318,12 +348,14 @@ const ringR = 18
 const ringStroke = 4
 const ringC = 2 * Math.PI * ringR
 const ringSize = 60
+
 function clamp01(v) {
     const n = Number(v ?? 0)
     if (!isFinite(n) || n < 0) return 0
     if (n > 100) return 100
     return n
 }
+
 function dashArray(pct) {
     const p = clamp01(pct)
     const filled = (p / 100) * ringC
@@ -332,19 +364,23 @@ function dashArray(pct) {
 
 /* ---------- Chips helpers (hide zeroes) ---------- */
 const labelMap = { overall: 'Overall', mhp: 'MHP', eme: 'EME', tnd: 'T&D' }
+
 function toInt(n) {
     const x = Number(n ?? 0)
     return isNaN(x) ? 0 : Math.round(x)
 }
+
 function toPct(n) {
     const x = Number(n ?? 0)
     if (!isFinite(x) || x <= 0) return '0%'
     return `${Math.round(x)}%`
 }
+
 function hasValue(n) {
     const x = Number(n ?? 0)
     return isFinite(x) && x > 0
 }
+
 function physicalChips(project, irrigationOnly = false) {
     const m = project?.metrics?.physical || {}
     const keys = irrigationOnly ? ['overall'] : ['overall', 'mhp', 'eme', 'tnd']
@@ -355,6 +391,7 @@ function physicalChips(project, irrigationOnly = false) {
     }
     return chips
 }
+
 function financialChips(project, irrigationOnly = false) {
     const m = project?.metrics?.financial || {}
     const keys = irrigationOnly ? ['overall'] : ['overall', 'mhp', 'eme', 'tnd']
@@ -368,17 +405,5 @@ function financialChips(project, irrigationOnly = false) {
 </script>
 
 <style scoped>
-/* Custom style for a subtle pulsating effect on hover */
-@keyframes pulse-light {
-    0%, 100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.02);
-    }
-}
-
-.animate-pulse-on-hover:hover {
-    animation: pulse-light 0.5s ease-in-out infinite;
-}
+/* No extra overrides required */
 </style>
