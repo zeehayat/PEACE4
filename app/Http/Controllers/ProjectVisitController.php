@@ -26,10 +26,18 @@ class ProjectVisitController extends Controller
         $route = $request->route();
         
         if ($route->hasParameter('scheme')) {
-            return $route->parameter('scheme');
+            $scheme = $route->parameter('scheme');
+            if (is_string($scheme) || is_numeric($scheme)) {
+                return \App\Models\IrrigationScheme::findOrFail($scheme);
+            }
+            return $scheme;
         }
         if ($route->hasParameter('site')) {
-            return $route->parameter('site');
+            $site = $route->parameter('site');
+            if (is_string($site) || is_numeric($site)) {
+                return \App\Models\MhpSite::findOrFail($site);
+            }
+            return $site;
         }
         
         abort(400, 'Visitable parent model not resolved.');
