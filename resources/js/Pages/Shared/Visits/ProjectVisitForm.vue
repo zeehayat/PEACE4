@@ -22,6 +22,9 @@ const emit = defineEmits(['success', 'cancel']);
 const isEditMode = ref(props.mode === 'update');
 const existingAttachments = ref([]);
 
+const customRole = ref('');
+const customType = ref('');
+
 const visitorRoles = [
     'District Engineer',
     'Senior Engineer',
@@ -29,7 +32,8 @@ const visitorRoles = [
     'Project Manager',
     'Social Mobilizer',
     'Donor Representative',
-    'Third Party Monitor'
+    'Third Party Monitor',
+    'Other'
 ];
 
 const visitTypes = [
@@ -37,16 +41,25 @@ const visitTypes = [
     'Routine Monitoring',
     'Technical Assessment',
     'Pre-Completion Inspection',
-    'Final Handover Verification'
+    'Final Handover Verification',
+    'Other'
 ];
 
 function getInitialFormData(visit) {
+    const defaultRole = visit ? visit.visitor_role : '';
+    const isCustomRole = defaultRole && !visitorRoles.includes(defaultRole);
+    customRole.value = isCustomRole ? defaultRole : '';
+
+    const defaultType = visit ? visit.visit_type : '';
+    const isCustomType = defaultType && !visitTypes.includes(defaultType);
+    customType.value = isCustomType ? defaultType : '';
+
     return {
         visitable_id: props.parentId,
         visitable_type: props.visitableType,
         visit_date: visit ? visit.visit_date : null,
-        visitor_role: visit ? visit.visitor_role : '',
-        visit_type: visit ? visit.visit_type : '',
+        visitor_role: isCustomRole ? 'Other' : defaultRole,
+        visit_type: isCustomType ? 'Other' : defaultType,
         visitor_name: visit ? visit.visitor_name : '',
         remarks: visit ? visit.remarks : '',
         attachments: [],
@@ -84,6 +97,12 @@ const handleSubmit = () => {
         if (isEditMode.value) {
             transformedData._method = 'put';
         }
+        if (transformedData.visitor_role === 'Other') {
+            transformedData.visitor_role = customRole.value;
+        }
+        if (transformedData.visit_type === 'Other') {
+            transformedData.visit_type = customType.value;
+        }
         // Normalize date to YYYY-MM-DD
         if (transformedData.visit_date && typeof transformedData.visit_date === 'object' && transformedData.visit_date.toISOString) {
             transformedData.visit_date = transformedData.visit_date.toISOString().slice(0, 10);
@@ -92,6 +111,8 @@ const handleSubmit = () => {
     }).post(url, {
         onSuccess: () => {
             form.reset();
+            customRole.value = '';
+            customType.value = '';
             existingAttachments.value = [];
             form.attachments_to_delete = [];
             emit('success', isEditMode.value ? 'Visit updated successfully!' : 'Visit added successfully!');
@@ -106,6 +127,8 @@ const handleSubmit = () => {
 
 const handleCancel = () => {
     form.reset();
+    customRole.value = '';
+    customType.value = '';
     existingAttachments.value = [];
     form.attachments_to_delete = [];
     emit('cancel');
@@ -138,6 +161,18 @@ const handleCancel = () => {
                 <InputError class="mt-2" :message="form.errors.visitor_role" />
             </div>
 
+            <div v-if="form.visitor_role === 'Other'">
+                <InputLabel for="custom_role" value="Specify Visitor Role" />
+                <TextInput
+                    id="custom_role"
+                    v-model="customRole"
+                    type="text"
+                    class="mt-1 block w-full"
+                    placeholder="Enter custom role"
+                    required
+                />
+            </div>
+
             <div>
                 <InputLabel for="visit_type" value="Visit Type" />
                 <SelectInput
@@ -148,6 +183,18 @@ const handleCancel = () => {
                     :class="{ 'border-red-500': form.errors.visit_type }"
                 />
                 <InputError class="mt-2" :message="form.errors.visit_type" />
+            </div>
+
+            <div v-if="form.visit_type === 'Other'">
+                <InputLabel for="custom_type" value="Specify Visit Type" />
+                <TextInput
+                    id="custom_type"
+                    v-model="customType"
+                    type="text"
+                    class="mt-1 block w-full"
+                    placeholder="Enter custom visit type"
+                    required
+                />
             </div>
 
             <div>
