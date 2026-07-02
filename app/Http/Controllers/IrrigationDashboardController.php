@@ -34,10 +34,12 @@ class IrrigationDashboardController extends Controller
             'total_beneficiary_population' => 0, // Placeholder
 
             // FIX: Correctly sum fields from the nested profile relationship
-            'total_channel_length_km' => IrrigationScheme::when($isDistrictUser, fn($q) => $q->whereHas('cbo', fn($cq) => $cq->where('district', $districtName)))
-                ->whereHas('profile')->sum('channel_length_km'),
-            'total_land_covered_hectares' => IrrigationScheme::when($isDistrictUser, fn($q) => $q->whereHas('cbo', fn($cq) => $cq->where('district', $districtName)))
-                ->whereHas('profile')->sum('land_area_hectares'),
+            'total_channel_length_km' => \App\Models\IrrigationSchemeProfile::whereHas('irrigationScheme', function ($q) use ($isDistrictUser, $districtName) {
+                $q->when($isDistrictUser, fn($q2) => $q2->whereHas('cbo', fn($cq) => $cq->where('district', $districtName)));
+            })->sum('channel_length_km'),
+            'total_land_covered_hectares' => \App\Models\IrrigationSchemeProfile::whereHas('irrigationScheme', function ($q) use ($isDistrictUser, $districtName) {
+                $q->when($isDistrictUser, fn($q2) => $q2->whereHas('cbo', fn($cq) => $cq->where('district', $districtName)));
+            })->sum('land_area_hectares'),
         ];
 
         return Inertia::render('Irrigation/Dashboard', ['stats' => $stats]);
