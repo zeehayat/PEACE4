@@ -24,19 +24,28 @@ class ProjectVisitController extends Controller
     protected function resolveVisitable(Request $request)
     {
         $route = $request->route();
+        Log::info('ProjectVisitController resolveVisitable route parameters:', $route->parameters());
         
         if ($route->hasParameter('scheme')) {
             $scheme = $route->parameter('scheme');
+            Log::info('ProjectVisitController resolved scheme raw parameter:', ['value' => $scheme, 'type' => gettype($scheme)]);
             if (is_string($scheme) || is_numeric($scheme)) {
-                return \App\Models\IrrigationScheme::findOrFail($scheme);
+                $model = \App\Models\IrrigationScheme::findOrFail($scheme);
+                Log::info('ProjectVisitController resolved scheme from DB:', ['class' => get_class($model)]);
+                return $model;
             }
+            Log::info('ProjectVisitController returning scheme directly:', ['type' => gettype($scheme)]);
             return $scheme;
         }
         if ($route->hasParameter('site')) {
             $site = $route->parameter('site');
+            Log::info('ProjectVisitController resolved site raw parameter:', ['value' => $site, 'type' => gettype($site)]);
             if (is_string($site) || is_numeric($site)) {
-                return \App\Models\MhpSite::findOrFail($site);
+                $model = \App\Models\MhpSite::findOrFail($site);
+                Log::info('ProjectVisitController resolved site from DB:', ['class' => get_class($model)]);
+                return $model;
             }
+            Log::info('ProjectVisitController returning site directly:', ['type' => gettype($site)]);
             return $site;
         }
         
