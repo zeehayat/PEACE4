@@ -89,6 +89,8 @@ const printDetails = () => {
                             <DetailItem label="Accessible" :value="site.accessible" />
                             <DetailItem label="Domestic Units" :value="site.domestic_units" />
                             <DetailItem label="Commercial Units" :value="site.commercial_units" />
+                            <DetailItem label="Validation Visit by District Engineer" :value="formatDate(site.validation_visit_date)" />
+                            <DetailItem label="Recent Visit by Senior Engineer" :value="formatDate(site.recent_senior_engineer_visit_date)" />
                         </DetailGrid>
                         
                         <div v-if="hasRemarks" class="mt-4 p-4 bg-gray-50 rounded-xl border border-gray-100">

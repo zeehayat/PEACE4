@@ -23,6 +23,7 @@ import OperationalCostModal from '@/Pages/MHP/Modals/OperationalCostModal.vue';
 import OperationalCostShowModal from '@/Pages/MHP/Modals/OperationalCostShowModal.vue'; // <-- New import
 
 import EmeInfoModal from "@/Pages/MHP/Modals/EmeInfoModal.vue";
+import ProjectVisitModal from '@/Pages/Shared/Visits/ProjectVisitModal.vue';
 
 import { getFileIcon } from '@/Utils/helpers';
 import { formatCurrency } from '@/Utils/formatters';
@@ -71,6 +72,7 @@ const showEmeProgressModal = ref(false);
 const showOperationalCostModal = ref(false);
 const showOperationalCostShowModal = ref(false); // <-- New state variable
 const showEmeInfoModal =ref(false);
+const showVisitModal = ref(false);
 
 const progressType = ref(null);
 
@@ -104,7 +106,8 @@ function closeModal() {
     showEmeProgressModal.value = false; // Close EME Progress modal
     showOperationalCostModal.value = false;
     showOperationalCostShowModal.value = false; // <-- Reset new state variable
-    showEmeInfoModal.value=false
+    showEmeInfoModal.value=false;
+    showVisitModal.value = false;
 
     progressType.value = null;
 
@@ -194,6 +197,12 @@ function handleOpenEmeProgress(site) {
 function handleOpenOperationalCost(site) {
     selectedSite.value = site;
     showOperationalCostModal.value = true;
+    openActionMenuId.value = null;
+}
+
+function handleManageVisits(site) {
+    selectedSite.value = site;
+    showVisitModal.value = true;
     openActionMenuId.value = null;
 }
 
@@ -497,6 +506,16 @@ const handlePagination = (url) => {
         <OperationalCostModal v-if="selectedSite" :show="showOperationalCostModal" :site="selectedSite" @close="closeModal" @saved="handleUpdated" />
         <OperationalCostShowModal v-if="selectedSite" :show="showOperationalCostShowModal" :site="selectedSite" @close="closeModal" />
 
+        <ProjectVisitModal
+            v-if="selectedSite"
+            :show="showVisitModal"
+            :parent-id="selectedSite.id"
+            :visitable-type="'mhp_site'"
+            :project-name="selectedSite.cbo?.reference_code"
+            @close="closeModal"
+            @saved="handleUpdated"
+        />
+
 
         <!-- The EME Progress button now correctly opens the physical progress modal -->
         <!-- The showEmeProgressModal is now redundant and can be removed, but we'll leave it for now -->
@@ -565,6 +584,10 @@ const handlePagination = (url) => {
                         <button @click="handleOpenOperationalCost(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
                             <span class="material-symbols-outlined text-[16px] text-gray-500">price_change</span>
                             Operational Costs
+                        </button>
+                        <button @click="handleManageVisits(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-base">directions_walk</span>
+                            Manage Visits
                         </button>
                         <button @click="handleViewReport(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
                             <span class="material-symbols-outlined text-[16px] text-gray-500">picture_as_pdf</span>

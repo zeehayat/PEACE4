@@ -2,6 +2,7 @@ import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefa
 import tAndDWorks from './t-and-d-works'
 import physicalProgresses from './physical-progresses'
 import financialInstallments from './financial-installments'
+import visits from './visits'
 import completion from './completion'
 import emeInfo from './eme-info'
 /**
@@ -619,6 +620,7 @@ const sites = {
     tAndDWorks,
     physicalProgresses,
     financialInstallments,
+    visits,
     financialProgress,
     completion,
     emeInfo,

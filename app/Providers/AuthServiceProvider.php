@@ -74,7 +74,7 @@ class AuthServiceProvider extends ServiceProvider
         IrrigationCompletion::class => IrrigationCompletionPolicy::class,
         IrrigationSchemeContract::class => IrrigationSchemeContractPolicy::class,
         EmeInfo::class => EmeInfoPolicy::class, // ADD THIS LINE
-
+        \App\Models\ProjectVisit::class => \App\Policies\ProjectVisitPolicy::class,
 
 
 

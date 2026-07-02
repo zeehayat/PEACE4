@@ -63,6 +63,12 @@ Route::middleware(['web', 'auth'])->group(function () {
         'sites' => 'site',
     ]);
 
+    // Project Visits
+    Route::resource('sites.visits', \App\Http\Controllers\ProjectVisitController::class)->parameters([
+        'visits' => 'visit',
+        'sites' => 'site',
+    ])->except(['show', 'edit', 'create']);
+
     // Custom route for fetching filtered financial progress for the modal
     Route::get('sites/{site}/financial-progress', [ProjectFinancialInstallmentController::class, 'getFinancialProgress'])->name('sites.financial-progress');
 

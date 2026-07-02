@@ -188,6 +188,11 @@ class MhpSite extends Model implements HasMedia
         return $this->morphMany(ProjectFinancialInstallment::class, 'projectable');
     }
 
+    public function visits(): MorphMany
+    {
+        return $this->morphMany(\App\Models\ProjectVisit::class, 'visitable');
+    }
+
     public function emeInfo(): HasOne
     {
         return $this->hasOne(EmeInfo::class);
@@ -198,7 +203,28 @@ class MhpSite extends Model implements HasMedia
         $this->addMediaCollection('attachments');
     }
 
-    protected $appends = ['attachments_frontend', 'project_id'];
+    protected $appends = ['attachments_frontend', 'project_id', 'validation_visit_date', 'recent_senior_engineer_visit_date'];
+
+    public function getValidationVisitDateAttribute(): ?string
+    {
+        $visit = $this->visits()
+            ->where('visitor_role', 'District Engineer')
+            ->where('visit_type', 'Validation')
+            ->latest('visit_date')
+            ->first();
+
+        return $visit ? $visit->visit_date->format('Y-m-d') : null;
+    }
+
+    public function getRecentSeniorEngineerVisitDateAttribute(): ?string
+    {
+        $visit = $this->visits()
+            ->where('visitor_role', 'Senior Engineer')
+            ->latest('visit_date')
+            ->first();
+
+        return $visit ? $visit->visit_date->format('Y-m-d') : null;
+    }
 
     public function getAttachmentsFrontendAttribute(): array
     {

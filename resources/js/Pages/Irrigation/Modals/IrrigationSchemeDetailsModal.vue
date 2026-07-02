@@ -67,6 +67,8 @@ const printDetails = () => {
                             <DetailItem v-if="hasProfile" label="Beneficiary Farmers" :value="scheme.profile.beneficiary_farmers" />
                             <DetailItem label="Direct Household Beneficiaries" :value="scheme.direct_household_beneficiary" />
                             <DetailItem label="Indirect Household Beneficiaries" :value="scheme.indirect_household_beneficiary" />
+                            <DetailItem label="Validation Visit by District Engineer" :value="formatDate(scheme.validation_visit_date)" />
+                            <DetailItem label="Recent Visit by Senior Engineer" :value="formatDate(scheme.recent_senior_engineer_visit_date)" />
                         </DetailGrid>
                         
                         <div v-if="hasRemarks" class="mt-6 p-4 bg-gray-50 rounded-xl border border-gray-200">

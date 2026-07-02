@@ -105,6 +105,11 @@ class IrrigationScheme extends Model implements HasMedia
         return $this->morphMany(ProjectFinancialInstallment::class, 'projectable');
     }
 
+    public function visits(): MorphMany
+    {
+        return $this->morphMany(\App\Models\ProjectVisit::class, 'visitable');
+    }
+
     // FIX: Add custom relationships for fetching the latest records
     public function physicalProgresses()
     {
@@ -128,7 +133,28 @@ class IrrigationScheme extends Model implements HasMedia
         $this->addMediaCollection('attachments');
     }
 
-    protected $appends = ['attachments_frontend'];
+    protected $appends = ['attachments_frontend', 'validation_visit_date', 'recent_senior_engineer_visit_date'];
+
+    public function getValidationVisitDateAttribute(): ?string
+    {
+        $visit = $this->visits()
+            ->where('visitor_role', 'District Engineer')
+            ->where('visit_type', 'Validation')
+            ->latest('visit_date')
+            ->first();
+
+        return $visit ? $visit->visit_date->format('Y-m-d') : null;
+    }
+
+    public function getRecentSeniorEngineerVisitDateAttribute(): ?string
+    {
+        $visit = $this->visits()
+            ->where('visitor_role', 'Senior Engineer')
+            ->latest('visit_date')
+            ->first();
+
+        return $visit ? $visit->visit_date->format('Y-m-d') : null;
+    }
 
     public function getAttachmentsFrontendAttribute(): array
     {

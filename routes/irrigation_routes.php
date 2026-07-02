@@ -39,6 +39,12 @@ Route::middleware(['web', 'auth'])->group(function () {
         'schemes' => 'scheme',
     ]);
 
+    // Nested resources for ProjectVisit
+    Route::resource('schemes.visits', \App\Http\Controllers\ProjectVisitController::class)->parameters([
+        'visits' => 'visit',
+        'schemes' => 'scheme',
+    ])->except(['show', 'edit', 'create']);
+
     // Nested resources for Cost Revisions (nested under Admin Approvals)
     Route::resource('admin-approvals.cost-revisions', IrrigationCostRevisionController::class)->parameters([
         'cost-revisions' => 'cost_revision',

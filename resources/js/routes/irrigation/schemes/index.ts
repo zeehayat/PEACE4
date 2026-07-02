@@ -2,6 +2,7 @@ import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefa
 import adminApprovals from './admin-approvals'
 import physicalProgresses from './physical-progresses'
 import financialInstallments from './financial-installments'
+import visits from './visits'
 import contracts from './contracts'
 /**
 * @see \App\Http\Controllers\IrrigationSchemeController::autoSearch
@@ -430,6 +431,7 @@ const schemes = {
     adminApprovals,
     physicalProgresses,
     financialInstallments,
+    visits,
     contracts,
     index,
     create,

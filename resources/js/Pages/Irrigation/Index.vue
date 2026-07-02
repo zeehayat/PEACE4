@@ -17,6 +17,7 @@ import ProjectFinancialInstallmentModal from '@/Pages/Irrigation/Modals/ProjectF
 import IrrigationSchemeContractModal from '@/Pages/Irrigation/Modals/IrrigationSchemeContractModal.vue';
 import AppLayout from "@/Layouts/AppLayout.vue";
 import IrrigationCostRevisionModal from '@/Pages/Irrigation/Modals/IrrigationCostRevisionModal.vue';
+import ProjectVisitModal from '@/Pages/Shared/Visits/ProjectVisitModal.vue';
 
 
 const props = defineProps({
@@ -50,6 +51,7 @@ const showPhysicalProgressModal = ref(false);
 const showFinancialInstallmentModal = ref(false);
 const showSchemeContractModal = ref(false);
 const showCostRevisionModal = ref(false);
+const showVisitModal = ref(false);
 const approvalAction = ref('create');
 const progressType = ref(null);
 
@@ -72,6 +74,7 @@ function closeModal() {
     showFinancialInstallmentModal.value = false;
     showSchemeContractModal.value = false;
     showCostRevisionModal.value = false;
+    showVisitModal.value = false;
 
     setTimeout(() => {
         selectedScheme.value = null;
@@ -152,6 +155,7 @@ function handleViewAdminApproval(scheme) {
 function handleManagePhysicalProgress(scheme) { selectedScheme.value = scheme; showPhysicalProgressModal.value = true; openActionMenuId.value = null; }
 function handleManageFinancialInstallment(scheme) { selectedScheme.value = scheme; showFinancialInstallmentModal.value = true; openActionMenuId.value = null; }
 function handleManageSchemeContract(scheme) { selectedScheme.value = scheme; showSchemeContractModal.value = true; openActionMenuId.value = null; }
+function handleManageVisits(scheme) { selectedScheme.value = scheme; showVisitModal.value = true; openActionMenuId.value = null; }
 
 function handleManageCostRevisions(scheme) {
     if (!scheme.admin_approval) {
@@ -338,6 +342,16 @@ const handlePagination = (url) => {
         <!-- NEW: Modal for Cost Revisions -->
         <IrrigationCostRevisionModal v-if="selectedScheme && selectedAdminApproval" :show="showCostRevisionModal" :scheme="selectedScheme" :approval="selectedAdminApproval" @close="closeModal" @saved="handleUpdated" />
 
+        <ProjectVisitModal
+            v-if="selectedScheme"
+            :show="showVisitModal"
+            :parent-id="selectedScheme.id"
+            :visitable-type="'irrigation_scheme'"
+            :project-name="selectedScheme.cbo?.reference_code"
+            @close="closeModal"
+            @saved="handleUpdated"
+        />
+
         <Teleport to="body">
             <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
                 <div
@@ -382,6 +396,10 @@ const handlePagination = (url) => {
                         <button @click="handleManageFinancialInstallment(selectedScheme)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wallet"><path d="M21 12V7H5a2 2 0 0 0 0 4h16v-1a2 2 0 0 0-2-2H5a2 2 0 0 0 0 4h16v-1a2 2 0 0 0-2-2Z"/><path d="M10 12v.01"/></svg>
                             Manage Financial Installment
+                        </button>
+                        <button @click="handleManageVisits(selectedScheme)" class="w-full text-left block px-4 py-2 hover:bg-gray-100 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-base">directions_walk</span>
+                            Manage Visits
                         </button>
                     </div>
                     <div class="py-1 text-sm text-gray-700">
