@@ -84,7 +84,7 @@ const handleAttachmentsToDelete = (ids) => {
 const handleSubmit = () => {
     const routeName = props.visitableType === 'irrigation_scheme'
         ? (isEditMode.value ? 'irrigation.schemes.visits.update' : 'irrigation.schemes.visits.store')
-        : (isEditMode.value ? 'sites.visits.update' : 'sites.visits.store');
+        : (isEditMode.value ? 'mhp.sites.visits.update' : 'mhp.sites.visits.store');
 
     const params = props.visitableType === 'irrigation_scheme'
         ? (isEditMode.value ? { scheme: props.parentId, visit: props.visit.id } : { scheme: props.parentId })

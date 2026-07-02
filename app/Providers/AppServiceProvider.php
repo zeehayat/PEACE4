@@ -81,6 +81,7 @@ class AppServiceProvider extends ServiceProvider
             'completion'=>MhpCompletion::class,
             'operational_cost' => 'App\Models\OperationalCost',
             'eme_info' => \App\Models\EmeInfo::class,
+            'project_visit' => \App\Models\ProjectVisit::class,
 
 
 

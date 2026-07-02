@@ -39,7 +39,7 @@ const fetchVisits = async () => {
     try {
         const routeName = props.visitableType === 'irrigation_scheme'
             ? 'irrigation.schemes.visits.index'
-            : 'sites.visits.index';
+            : 'mhp.sites.visits.index';
 
         const params = props.visitableType === 'irrigation_scheme'
             ? { scheme: props.parentId }
@@ -93,7 +93,7 @@ const handleDeleteVisit = (visitId) => {
     if (confirm('Are you sure you want to delete this visit log?')) {
         const routeName = props.visitableType === 'irrigation_scheme'
             ? 'irrigation.schemes.visits.destroy'
-            : 'sites.visits.destroy';
+            : 'mhp.sites.visits.destroy';
 
         const params = props.visitableType === 'irrigation_scheme'
             ? { scheme: props.parentId, visit: visitId }
