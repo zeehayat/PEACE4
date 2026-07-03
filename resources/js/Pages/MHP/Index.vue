@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import { router, Link, usePage } from '@inertiajs/vue3';
+import { useStatusBadge } from '@/Composables/useStatusBadge';
 
 import SideBar from "@/Components/SideBar.vue";
 import Toast from '@/Components/Toast.vue';
@@ -266,15 +267,7 @@ const filteredMhpSites = computed(() => {
     );
 });
 
-function getStatusClass(status) {
-    switch (status) {
-        case 'New': return 'bg-cyan-50 text-cyan-700 border border-cyan-200';
-        case 'Rehabilitation': return 'bg-amber-50 text-amber-700 border border-amber-200';
-        case 'Upgradation': return 'bg-violet-50 text-violet-700 border border-violet-200';
-        case 'Completed': return 'bg-emerald-50 text-emerald-700 border border-emerald-200';
-        default: return 'bg-gray-50 text-gray-600 border border-gray-200';
-    }
-}
+const { getStatusClass } = useStatusBadge();
 
 function determineNextField(adminApproval) {
     if (!adminApproval) return 'revised_cost_1';

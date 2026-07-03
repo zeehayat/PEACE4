@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import { useStatusBadge } from '@/Composables/useStatusBadge';
 
 const props = defineProps({
     scheme: { type: Object, required: true },
@@ -20,15 +21,8 @@ const emit = defineEmits([
     'delete-scheme',
 ]);
 
-// Helper function to get status class
-function getStatusClass(status) {
-    switch (status) {
-        case 'New': return 'bg-blue-100 text-blue-800 border border-blue-200';
-        case 'Active': return 'bg-green-100 text-green-800 border border-green-200';
-        case 'Inactive': return 'bg-gray-100 text-gray-800 border border-gray-200';
-        default: return 'bg-gray-100 text-gray-800 border border-gray-200';
-    }
-}
+// Shared status badge color helper
+const { getStatusClass } = useStatusBadge();
 
 // Helper function to format nullable dates for display
 const formatNullableDate = (dateString) => {
