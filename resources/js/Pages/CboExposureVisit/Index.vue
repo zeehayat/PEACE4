@@ -13,7 +13,7 @@
 
         <div class="overflow-x-auto">
             <table class="min-w-full border text-sm">
-                <thead class="bg-gray-100">
+                <thead class="bg-slate-50">
                 <tr>
                     <th class="p-2 text-left">CBO Code</th>
                     <th class="p-2 text-left">District</th>
@@ -26,7 +26,7 @@
                 <tr
                     v-for="visit in visits.data"
                     :key="visit.id"
-                    class="border-t hover:bg-gray-50"
+                    class="border-t hover:bg-slate-50"
                 >
                     <td class="p-2">{{ visit.cbo?.reference_code ?? '—' }}</td>
                     <td class="p-2">{{ visit.cbo?.district ?? '—' }}</td>
@@ -41,7 +41,7 @@
                                 {{ file.file_name }}
                             </a>
                         </div>
-                        <div v-else class="text-gray-400 italic">No files</div>
+                        <div v-else class="text-slate-400 italic">No files</div>
                     </td>
                     <td class="p-2">
                         <Link

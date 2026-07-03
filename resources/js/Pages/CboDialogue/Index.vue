@@ -22,7 +22,7 @@
         <!-- Table -->
         <div class="overflow-x-auto">
             <table class="min-w-full border text-sm">
-                <thead class="bg-gray-100">
+                <thead class="bg-slate-50">
                 <tr>
                     <th class="p-2 text-left">CBO Code</th>
                     <th class="p-2 text-left">District</th>
@@ -33,7 +33,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="dialogue in dialogues.data" :key="dialogue.id" class="border-t hover:bg-gray-50">
+                <tr v-for="dialogue in dialogues.data" :key="dialogue.id" class="border-t hover:bg-slate-50">
                     <td class="p-2">{{ dialogue.cbo?.reference_code ?? '—' }}</td>
                     <td class="p-2">{{ dialogue.cbo?.district ?? '—' }}</td>
                     <td class="p-2">{{ dialogue.date_of_dialogue ?? '—' }}</td>
@@ -48,7 +48,7 @@
                                 {{ file.file_name }}
                             </a>
                         </div>
-                        <div v-else class="text-gray-400 italic">No files</div>
+                        <div v-else class="text-slate-400 italic">No files</div>
                     </td>
                     <td class="p-2">
                         <Link
@@ -89,7 +89,7 @@ function applyFilters() {
 
 <style scoped>
 .input {
-    @apply border border-gray-300 rounded px-3 py-2;
+    @apply border border-slate-300 rounded px-3 py-2;
 }
 .btn {
     @apply bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700;

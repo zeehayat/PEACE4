@@ -40,26 +40,26 @@ const hasTrainings = computed(() => props.cbo.trainings && props.cbo.trainings.l
 
 <template>
     <Modal :show="show" @close="emit('close')" :maxWidth="'6xl'" :title="`CBO Details: ${cbo.reference_code}`">
-        <div class="p-6 overflow-y-auto max-h-[85vh] text-gray-800 print-content">
+        <div class="p-6 overflow-y-auto max-h-[85vh] text-slate-800 print-content">
 
             <section class="mb-8 border-b pb-6">
                 <h2 class="text-xl font-bold mb-4">General Information</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Reference Code:</p><p>{{ cbo.reference_code }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">District:</p><p>{{ cbo.district ?? 'N/A' }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Tehsil:</p><p>{{ cbo.tehsil ?? 'N/A' }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Village Council:</p><p>{{ cbo.village_council ?? 'N/A' }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Village:</p><p>{{ cbo.village ?? 'N/A' }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Date of Formation:</p><p>{{ formatNullableDate(cbo.date_of_formation) }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Total Members:</p><p>{{ cbo.total_members ?? 'N/A' }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Gender:</p><p>{{ cbo.gender ?? 'N/A' }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">No. of CBO Members:</p><p>{{ cbo.num_cbo_members ?? 'N/A' }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">President Name:</p><p>{{ cbo.president_name ?? 'N/A' }} ({{ cbo.president_contact ?? 'N/A' }})</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Secretary Name:</p><p>{{ cbo.secretary_name ?? 'N/A' }} ({{ cbo.secretary_contact ?? 'N/A' }})</p></div>
+                    <div class="detail-item"><p class="font-semibold text-slate-700">Reference Code:</p><p>{{ cbo.reference_code }}</p></div>
+                    <div class="detail-item"><p class="font-semibold text-slate-700">District:</p><p>{{ cbo.district ?? 'N/A' }}</p></div>
+                    <div class="detail-item"><p class="font-semibold text-slate-700">Tehsil:</p><p>{{ cbo.tehsil ?? 'N/A' }}</p></div>
+                    <div class="detail-item"><p class="font-semibold text-slate-700">Village Council:</p><p>{{ cbo.village_council ?? 'N/A' }}</p></div>
+                    <div class="detail-item"><p class="font-semibold text-slate-700">Village:</p><p>{{ cbo.village ?? 'N/A' }}</p></div>
+                    <div class="detail-item"><p class="font-semibold text-slate-700">Date of Formation:</p><p>{{ formatNullableDate(cbo.date_of_formation) }}</p></div>
+                    <div class="detail-item"><p class="font-semibold text-slate-700">Total Members:</p><p>{{ cbo.total_members ?? 'N/A' }}</p></div>
+                    <div class="detail-item"><p class="font-semibold text-slate-700">Gender:</p><p>{{ cbo.gender ?? 'N/A' }}</p></div>
+                    <div class="detail-item"><p class="font-semibold text-slate-700">No. of CBO Members:</p><p>{{ cbo.num_cbo_members ?? 'N/A' }}</p></div>
+                    <div class="detail-item"><p class="font-semibold text-slate-700">President Name:</p><p>{{ cbo.president_name ?? 'N/A' }} ({{ cbo.president_contact ?? 'N/A' }})</p></div>
+                    <div class="detail-item"><p class="font-semibold text-slate-700">Secretary Name:</p><p>{{ cbo.secretary_name ?? 'N/A' }} ({{ cbo.secretary_contact ?? 'N/A' }})</p></div>
                 </div>
             </section>
 
-            <div v-if="hasRemarks" class="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+            <div v-if="hasRemarks" class="mt-6 p-4 bg-slate-50 rounded-lg border border-slate-200">
                 <h2 class="text-xl font-bold mb-4">Remarks</h2>
                 <WysiwygEditor
                     id="remarks-view"
@@ -71,7 +71,7 @@ const hasTrainings = computed(() => props.cbo.trainings && props.cbo.trainings.l
 
             <section v-if="hasDialogues" class="mt-6 border-b pb-6">
                 <h2 class="text-xl font-bold mb-4">Community Dialogues ({{ cbo.dialogues.length }})</h2>
-                <div v-for="dialogue in cbo.dialogues" :key="dialogue.id" class="p-4 border rounded-md mb-2 bg-gray-50">
+                <div v-for="dialogue in cbo.dialogues" :key="dialogue.id" class="p-4 border rounded-md mb-2 bg-slate-50">
                     <p class="font-semibold text-indigo-700">Date: {{ formatNullableDate(dialogue.date_of_dialogue) }}</p>
                     <p class="text-sm">Participants: {{ dialogue.participants }}</p>
                     <div v-if="dialogue.remarks" class="text-xs mt-1" v-html="dialogue.remarks"></div>
@@ -81,7 +81,7 @@ const hasTrainings = computed(() => props.cbo.trainings && props.cbo.trainings.l
 
             <section v-if="hasExposureVisits" class="mt-6 border-b pb-6">
                 <h2 class="text-xl font-bold mb-4">Exposure Visits ({{ cbo.exposure_visits.length }})</h2>
-                <div v-for="visit in cbo.exposure_visits" :key="visit.id" class="p-4 border rounded-md mb-2 bg-gray-50">
+                <div v-for="visit in cbo.exposure_visits" :key="visit.id" class="p-4 border rounded-md mb-2 bg-slate-50">
                     <p class="font-semibold text-indigo-700">Date: {{ formatNullableDate(visit.date_of_visit) }}</p>
                     <p class="text-sm">Purpose: {{ visit.purpose_of_visit }}</p>
                     <p class="text-sm">Participants: {{ visit.participants }}</p>
@@ -91,7 +91,7 @@ const hasTrainings = computed(() => props.cbo.trainings && props.cbo.trainings.l
 
             <section v-if="hasTrainings" class="mt-6">
                 <h2 class="text-xl font-bold mb-4">Trainings ({{ cbo.trainings.length }})</h2>
-                <div v-for="training in cbo.trainings" :key="training.id" class="p-4 border rounded-md mb-2 bg-gray-50">
+                <div v-for="training in cbo.trainings" :key="training.id" class="p-4 border rounded-md mb-2 bg-slate-50">
                     <p class="font-semibold text-indigo-700">Date: {{ formatNullableDate(training.date_of_training) }}</p>
                     <p class="text-sm">Type: {{ training.training_type }}</p>
                     <p class="text-sm">Participants: {{ training.total_participants }}</p>
@@ -133,7 +133,7 @@ const hasTrainings = computed(() => props.cbo.trainings && props.cbo.trainings.l
     .print-content .border-b {
         border-bottom: 1px solid #e5e7eb !important;
     }
-    .print-content .bg-gray-50 {
+    .print-content .bg-slate-50 {
         background-color: #f9fafb !important;
     }
 }

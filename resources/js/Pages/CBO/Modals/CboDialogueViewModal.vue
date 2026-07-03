@@ -36,31 +36,31 @@ const hasAttachments = computed(() => props.dialogue.attachments_frontend && pro
 
 <template>
     <Modal :show="show" @close="emit('close')" :maxWidth="'3xl'" :title="`Dialogue Details for CBO: ${dialogue.cbo?.reference_code ?? 'N/A'}`">
-        <div class="p-6 overflow-y-auto max-h-[85vh] text-gray-800 print-content">
+        <div class="p-6 overflow-y-auto max-h-[85vh] text-slate-800 print-content">
             <section class="mb-8 pb-6">
                 <h2 class="text-xl font-bold mb-4">Dialogue Information</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                     <div class="detail-item">
-                        <p class="font-semibold text-gray-700">Date of Dialogue:</p>
+                        <p class="font-semibold text-slate-700">Date of Dialogue:</p>
                         <p>{{ formatNullableDate(dialogue.date_of_dialogue) }}</p>
                     </div>
                     <div class="detail-item">
-                        <p class="font-semibold text-gray-700">Participants:</p>
+                        <p class="font-semibold text-slate-700">Participants:</p>
                         <p>{{ dialogue.participants ?? 'N/A' }}</p>
                     </div>
                 </div>
             </section>
 
-            <div v-if="hasRemarks" class="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+            <div v-if="hasRemarks" class="mt-6 p-4 bg-slate-50 rounded-lg border border-slate-200">
                 <h2 class="text-xl font-bold mb-4">Remarks</h2>
-                <div class="text-gray-800 prose max-w-none" v-html="dialogue.remarks"></div>
+                <div class="text-slate-800 prose max-w-none" v-html="dialogue.remarks"></div>
             </div>
 
             <div v-if="hasAttachments" class="mt-6">
                 <h2 class="text-xl font-bold mb-4">Attachments</h2>
                 <AttachmentViewer :attachments="dialogue.attachments_frontend" />
             </div>
-            <div v-else class="mt-6 text-gray-500 text-sm">
+            <div v-else class="mt-6 text-slate-500 text-sm">
                 No attachments available.
             </div>
 

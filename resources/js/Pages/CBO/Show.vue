@@ -72,7 +72,7 @@ const dialogueForm = ref(null)
 
 const tabClass = (tab) => [
     'px-4 py-2 border-b-2',
-    activeTab.value === tab ? 'border-blue-500 font-bold' : 'border-transparent text-gray-500',
+    activeTab.value === tab ? 'border-blue-500 font-bold' : 'border-transparent text-slate-500',
 ]
 
 // Modals control

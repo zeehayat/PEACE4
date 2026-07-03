@@ -53,14 +53,14 @@ const formatValue = (value) => {
     <AppLayout title="CBO Report">
         <template #header>
             <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">CBO Report</h2>
+                <h2 class="font-semibold text-xl text-slate-800 leading-tight">CBO Report</h2>
                 <div class="flex items-center space-x-2">
-                    <label for="district-select" class="font-semibold text-gray-700">Filter by District:</label>
+                    <label for="district-select" class="font-semibold text-slate-700">Filter by District:</label>
                     <select
                         id="district-select"
                         v-model="selectedDistrictRef"
                         @change="handleDistrictChange"
-                        class="form-select rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        class="form-select rounded-md shadow-sm border-slate-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     >
                         <option :value="null">All Districts</option>
                         <option v-for="district in districts" :key="district.id" :value="district.name">
@@ -74,12 +74,12 @@ const formatValue = (value) => {
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900">
+                    <div class="p-6 text-slate-900">
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                            <div v-for="(card, index) in cards" :key="index" class="bg-gray-100 p-6 rounded-lg shadow-md flex items-center justify-between">
+                            <div v-for="(card, index) in cards" :key="index" class="bg-slate-100 p-6 rounded-lg shadow-md flex items-center justify-between">
                                 <div>
-                                    <h3 class="text-lg font-bold text-gray-700">{{ card.title }}</h3>
-                                    <p class="text-2xl mt-2 font-extrabold text-gray-900">{{ formatValue(card.value) }}</p>
+                                    <h3 class="text-lg font-bold text-slate-700">{{ card.title }}</h3>
+                                    <p class="text-2xl mt-2 font-extrabold text-slate-900">{{ formatValue(card.value) }}</p>
                                 </div>
                                 <div :class="`text-4xl ${card.color}`">
                                     <i :class="card.icon"></i>

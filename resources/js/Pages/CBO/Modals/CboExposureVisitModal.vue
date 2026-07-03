@@ -132,38 +132,38 @@ const modalTitle = computed(() => {
         <div class="p-6 overflow-y-auto max-h-[85vh]">
             <div v-if="!showForm" class="space-y-4">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-semibold text-gray-800">Existing Exposure Visit Entries</h3>
+                    <h3 class="text-xl font-semibold text-slate-800">Existing Exposure Visit Entries</h3>
                     <PrimaryButton @click="openCreateForm">
                         + Add New Visit
                     </PrimaryButton>
                 </div>
 
-                <div v-if="isLoadingVisits" class="text-center py-8 text-gray-500">
+                <div v-if="isLoadingVisits" class="text-center py-8 text-slate-500">
                     Loading exposure visit entries...
                 </div>
 
-                <div v-else-if="exposureVisits.length === 0" class="text-center py-8 text-gray-500">
+                <div v-else-if="exposureVisits.length === 0" class="text-center py-8 text-slate-500">
                     No exposure visit entries recorded yet for this CBO.
                 </div>
 
                 <div v-else class="grid grid-cols-1 gap-4">
-                    <div v-for="visit in exposureVisits" :key="visit.id" class="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+                    <div v-for="visit in exposureVisits" :key="visit.id" class="bg-white border border-slate-200 rounded-lg p-4 shadow-sm">
                         <div class="flex justify-between items-start mb-2">
                             <div>
                                 <p class="text-lg font-semibold text-indigo-700">Visit on {{ formatNullableDate(visit.date_of_visit) }}</p>
-                                <p class="text-sm text-gray-600">Purpose: {{ visit.purpose_of_visit ?? 'N/A' }}</p>
-                                <p class="text-sm text-gray-600">Participants: {{ visit.participants ?? 'N/A' }}</p>
+                                <p class="text-sm text-slate-600">Purpose: {{ visit.purpose_of_visit ?? 'N/A' }}</p>
+                                <p class="text-sm text-slate-600">Participants: {{ visit.participants ?? 'N/A' }}</p>
                             </div>
                             <div class="flex space-x-2">
                                 <PrimaryButton @click="openEditForm(visit)" class="px-3 py-1 text-sm">Edit</PrimaryButton>
                                 <DangerButton @click="handleDeleteVisit(visit.id)" class="px-3 py-1 text-sm">Delete</DangerButton>
                             </div>
                         </div>
-                        <div v-if="visit.remarks" class="text-sm text-gray-700 mt-2">
-                            Remarks: <span class="text-gray-600 prose max-w-none" v-html="visit.remarks"></span>
+                        <div v-if="visit.remarks" class="text-sm text-slate-700 mt-2">
+                            Remarks: <span class="text-slate-600 prose max-w-none" v-html="visit.remarks"></span>
                         </div>
                         <div v-if="visit.attachments_frontend && visit.attachments_frontend.length" class="mt-3">
-                            <p class="text-sm font-semibold text-gray-700 mb-1">Attachments:</p>
+                            <p class="text-sm font-semibold text-slate-700 mb-1">Attachments:</p>
                             <AttachmentViewer :attachments="visit.attachments_frontend" />
                         </div>
                     </div>

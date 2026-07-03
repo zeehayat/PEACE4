@@ -66,11 +66,11 @@ const stats = computed(() => {
                     <h2 class="text-2xl md:text-3xl font-extrabold text-indigo-900 tracking-tight">
                         {{ cbo?.name || cbo?.title || 'CBO' }}
                     </h2>
-                    <p class="text-sm text-gray-600 mt-1">
-                        <span v-if="cbo?.reference_code" class="mr-3"><span class="font-medium text-gray-700">Ref:</span> {{ cbo.reference_code }}</span>
-                        <span v-if="cbo?.district" class="mr-3"><span class="font-medium text-gray-700">District:</span> {{ cbo.district }}</span>
-                        <span v-if="cbo?.gender" class="mr-3"><span class="font-medium text-gray-700">Gender:</span> {{ cbo.gender }}</span>
-                        <span v-if="cbo?.date_of_formation"><span class="font-medium text-gray-700">Formed:</span> {{ formatDate(cbo.date_of_formation) }}</span>
+                    <p class="text-sm text-slate-600 mt-1">
+                        <span v-if="cbo?.reference_code" class="mr-3"><span class="font-medium text-slate-700">Ref:</span> {{ cbo.reference_code }}</span>
+                        <span v-if="cbo?.district" class="mr-3"><span class="font-medium text-slate-700">District:</span> {{ cbo.district }}</span>
+                        <span v-if="cbo?.gender" class="mr-3"><span class="font-medium text-slate-700">Gender:</span> {{ cbo.gender }}</span>
+                        <span v-if="cbo?.date_of_formation"><span class="font-medium text-slate-700">Formed:</span> {{ formatDate(cbo.date_of_formation) }}</span>
                     </p>
                 </div>
 
@@ -91,28 +91,28 @@ const stats = computed(() => {
                 <div
                     v-for="(s, i) in stats"
                     :key="i"
-                    class="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm"
+                    class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"
                 >
-                    <div class="text-sm text-gray-500">{{ s.label }}</div>
-                    <div class="mt-1 text-2xl font-bold text-gray-900">{{ s.value }}</div>
+                    <div class="text-sm text-slate-500">{{ s.label }}</div>
+                    <div class="mt-1 text-2xl font-bold text-slate-900">{{ s.value }}</div>
                 </div>
             </div>
         </section>
 
         <!-- Dialogues -->
-        <section class="bg-white rounded-2xl border border-gray-200 shadow-sm">
+        <section class="bg-white rounded-2xl border border-slate-200 shadow-sm">
             <header class="p-5 border-b border-gray-100 flex items-center justify-between">
-                <h3 class="text-xl font-semibold text-gray-800 flex items-center gap-2">
+                <h3 class="text-xl font-semibold text-slate-800 flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-square-text"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M13 8H7"/><path d="M17 12H7"/></svg>
                     Dialogues
                 </h3>
-                <div class="text-sm text-gray-500">Total participants: {{ sumBy(dialogues, 'participants') }}</div>
+                <div class="text-sm text-slate-500">Total participants: {{ sumBy(dialogues, 'participants') }}</div>
             </header>
 
             <div class="overflow-x-auto">
                 <table class="min-w-full text-sm">
                     <thead>
-                    <tr class="bg-gray-50 text-gray-600">
+                    <tr class="bg-slate-50 text-slate-600">
                         <th class="text-left font-semibold px-4 py-3">Date</th>
                         <th class="text-left font-semibold px-4 py-3">Participants</th>
                         <th class="text-left font-semibold px-4 py-3">Remarks</th>
@@ -121,7 +121,7 @@ const stats = computed(() => {
                     </thead>
                     <tbody>
                     <tr v-if="!dialogues.length">
-                        <td colspan="4" class="px-4 py-6 text-center text-gray-500">No dialogues recorded.</td>
+                        <td colspan="4" class="px-4 py-6 text-center text-slate-500">No dialogues recorded.</td>
                     </tr>
                     <tr v-for="d in dialogues" :key="d.id" class="border-t border-gray-100">
                         <td class="px-4 py-3">{{ formatDate(d?.date_of_dialogue || d?.date) }}</td>
@@ -131,7 +131,7 @@ const stats = computed(() => {
                         </td>
                         <td class="px-4 py-3">
                             <div class="flex flex-wrap gap-2">
-                                <a v-for="m in d?.attachments || d?.media || []" :key="m.id || m.url" :href="m.url || m.original_url" target="_blank" class="inline-flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-gray-200 hover:bg-gray-50">
+                                <a v-for="m in d?.attachments || d?.media || []" :key="m.id || m.url" :href="m.url || m.original_url" target="_blank" class="inline-flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-50">
                                     <span class="i-file w-4 h-4" />
                                     <span class="truncate max-w-[10rem]">{{ m.name || m.file_name || 'file' }}</span>
                                 </a>
@@ -144,19 +144,19 @@ const stats = computed(() => {
         </section>
 
         <!-- Trainings -->
-        <section class="bg-white rounded-2xl border border-gray-200 shadow-sm">
+        <section class="bg-white rounded-2xl border border-slate-200 shadow-sm">
             <header class="p-5 border-b border-gray-100 flex items-center justify-between">
-                <h3 class="text-xl font-semibold text-gray-800 flex items-center gap-2">
+                <h3 class="text-xl font-semibold text-slate-800 flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-graduation-cap"><path d="m22 10-10-5L2 10l10 5 10-5Z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
                     Trainings
                 </h3>
-                <div class="text-sm text-gray-500">Total participants: {{ sumBy(trainings, 'participants') }}</div>
+                <div class="text-sm text-slate-500">Total participants: {{ sumBy(trainings, 'participants') }}</div>
             </header>
 
             <div class="overflow-x-auto">
                 <table class="min-w-full text-sm">
                     <thead>
-                    <tr class="bg-gray-50 text-gray-600">
+                    <tr class="bg-slate-50 text-slate-600">
                         <th class="text-left font-semibold px-4 py-3">Date</th>
                         <th class="text-left font-semibold px-4 py-3">Topic</th>
                         <th class="text-left font-semibold px-4 py-3">Participants</th>
@@ -166,7 +166,7 @@ const stats = computed(() => {
                     </thead>
                     <tbody>
                     <tr v-if="!trainings.length">
-                        <td colspan="5" class="px-4 py-6 text-center text-gray-500">No trainings recorded.</td>
+                        <td colspan="5" class="px-4 py-6 text-center text-slate-500">No trainings recorded.</td>
                     </tr>
                     <tr v-for="t in trainings" :key="t.id" class="border-t border-gray-100">
                         <td class="px-4 py-3">{{ formatDate(t?.date || t?.date_of_training) }}</td>
@@ -175,7 +175,7 @@ const stats = computed(() => {
                         <td class="px-4 py-3 max-w-xl"><p class="line-clamp-3">{{ t?.remarks || '—' }}</p></td>
                         <td class="px-4 py-3">
                             <div class="flex flex-wrap gap-2">
-                                <a v-for="m in t?.attachments || t?.media || []" :key="m.id || m.url" :href="m.url || m.original_url" target="_blank" class="inline-flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-gray-200 hover:bg-gray-50">
+                                <a v-for="m in t?.attachments || t?.media || []" :key="m.id || m.url" :href="m.url || m.original_url" target="_blank" class="inline-flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-50">
                                     <span class="i-file w-4 h-4" />
                                     <span class="truncate max-w-[10rem]">{{ m.name || m.file_name || 'file' }}</span>
                                 </a>
@@ -188,19 +188,19 @@ const stats = computed(() => {
         </section>
 
         <!-- Exposure Visits -->
-        <section class="bg-white rounded-2xl border border-gray-200 shadow-sm">
+        <section class="bg-white rounded-2xl border border-slate-200 shadow-sm">
             <header class="p-5 border-b border-gray-100 flex items-center justify-between">
-                <h3 class="text-xl font-semibold text-gray-800 flex items-center gap-2">
+                <h3 class="text-xl font-semibold text-slate-800 flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-route"><circle cx="6" cy="19" r="3"/><circle cx="18" cy="5" r="3"/><path d="M6 22V8a2 2 0 0 1 2-2h7"/></svg>
                     Exposure Visits
                 </h3>
-                <div class="text-sm text-gray-500">Total participants: {{ sumBy(exposureVisits, 'participants') }}</div>
+                <div class="text-sm text-slate-500">Total participants: {{ sumBy(exposureVisits, 'participants') }}</div>
             </header>
 
             <div class="overflow-x-auto">
                 <table class="min-w-full text-sm">
                     <thead>
-                    <tr class="bg-gray-50 text-gray-600">
+                    <tr class="bg-slate-50 text-slate-600">
                         <th class="text-left font-semibold px-4 py-3">Date</th>
                         <th class="text-left font-semibold px-4 py-3">Purpose</th>
                         <th class="text-left font-semibold px-4 py-3">Participants</th>
@@ -210,7 +210,7 @@ const stats = computed(() => {
                     </thead>
                     <tbody>
                     <tr v-if="!exposureVisits.length">
-                        <td colspan="5" class="px-4 py-6 text-center text-gray-500">No exposure visits recorded.</td>
+                        <td colspan="5" class="px-4 py-6 text-center text-slate-500">No exposure visits recorded.</td>
                     </tr>
                     <tr v-for="e in exposureVisits" :key="e.id" class="border-t border-gray-100">
                         <td class="px-4 py-3">{{ formatDate(e?.date_of_visit || e?.date) }}</td>
@@ -219,7 +219,7 @@ const stats = computed(() => {
                         <td class="px-4 py-3 max-w-xl"><p class="line-clamp-3">{{ e?.remarks || '—' }}</p></td>
                         <td class="px-4 py-3">
                             <div class="flex flex-wrap gap-2">
-                                <a v-for="m in e?.attachments || e?.media || []" :key="m.id || m.url" :href="m.url || m.original_url" target="_blank" class="inline-flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-gray-200 hover:bg-gray-50">
+                                <a v-for="m in e?.attachments || e?.media || []" :key="m.id || m.url" :href="m.url || m.original_url" target="_blank" class="inline-flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-50">
                                     <span class="i-file w-4 h-4" />
                                     <span class="truncate max-w-[10rem]">{{ m.name || m.file_name || 'file' }}</span>
                                 </a>
@@ -232,15 +232,15 @@ const stats = computed(() => {
         </section>
 
         <!-- Attachments (Gallery) -->
-        <section class="bg-white rounded-2xl border border-gray-200 shadow-sm">
+        <section class="bg-white rounded-2xl border border-slate-200 shadow-sm">
             <header class="p-5 border-b border-gray-100">
-                <h3 class="text-xl font-semibold text-gray-800 flex items-center gap-2">
+                <h3 class="text-xl font-semibold text-slate-800 flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-paperclip"><path d="M13.5 3.5 5 12a5 5 0 1 0 7.5 6.5L20 11"/><path d="M8.5 8.5 15 2"/></svg>
                     CBO Attachments
                 </h3>
             </header>
 
-            <div v-if="!attachments.length" class="p-6 text-center text-gray-500">
+            <div v-if="!attachments.length" class="p-6 text-center text-slate-500">
                 No attachments uploaded for this CBO.
             </div>
 
@@ -250,7 +250,7 @@ const stats = computed(() => {
                     :key="m.id || m.url"
                     :href="m.url || m.original_url"
                     target="_blank"
-                    class="group block rounded-xl border border-gray-200 overflow-hidden bg-gray-50 hover:bg-gray-100"
+                    class="group block rounded-xl border border-slate-200 overflow-hidden bg-slate-50 hover:bg-slate-100"
                 >
                     <div class="aspect-video bg-white flex items-center justify-center overflow-hidden">
                         <img
@@ -261,14 +261,14 @@ const stats = computed(() => {
                         />
                         <div v-else class="p-4 text-center">
                             <div class="text-5xl">📄</div>
-                            <div class="mt-2 text-xs text-gray-600 truncate">
+                            <div class="mt-2 text-xs text-slate-600 truncate">
                                 {{ m.name || m.file_name || 'file' }}
                             </div>
                         </div>
                     </div>
-                    <div class="p-3 border-t border-gray-200">
-                        <div class="text-sm font-medium text-gray-800 truncate">{{ m.name || m.file_name || 'file' }}</div>
-                        <div class="text-xs text-gray-500 truncate">{{ m.mime_type || fileExt(m?.name || m?.file_name) }}</div>
+                    <div class="p-3 border-t border-slate-200">
+                        <div class="text-sm font-medium text-slate-800 truncate">{{ m.name || m.file_name || 'file' }}</div>
+                        <div class="text-xs text-slate-500 truncate">{{ m.mime_type || fileExt(m?.name || m?.file_name) }}</div>
                     </div>
                 </a>
             </div>
