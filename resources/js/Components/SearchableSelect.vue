@@ -130,11 +130,11 @@ const displayCboValue = (cbo) => {
                 class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded bg-white border shadow-lg"
             >
                 <template v-if="loading">
-                    <div class="p-2 text-gray-500 italic">Loading…</div>
+                    <div class="p-2 text-slate-500 italic">Loading…</div>
                 </template>
 
                 <template v-else-if="options.length === 0 && query.length >= 2">
-                    <div class="p-2 text-gray-500 italic">No results found</div>
+                    <div class="p-2 text-slate-500 italic">No results found</div>
                 </template>
 
                 <template v-else>
@@ -148,7 +148,7 @@ const displayCboValue = (cbo) => {
                         <li
                             :class="[
                                 'cursor-pointer p-2 flex justify-between',
-                                active ? 'text-white bg-indigo-600' : 'text-gray-900',
+                                active ? 'text-white bg-indigo-600' : 'text-slate-900',
                             ]"
                         >
                             <span :class="['block truncate', optionSelected ? 'font-semibold' : 'font-normal']">
@@ -166,7 +166,7 @@ const displayCboValue = (cbo) => {
                     </ComboboxOption>
                 </template>
             </ComboboxOptions>
-            <div v-else-if="query.length < 2 && selectedCboId === null && !loading" class="p-2 text-gray-500 italic">
+            <div v-else-if="query.length < 2 && selectedCboId === null && !loading" class="p-2 text-slate-500 italic">
                 Type at least 2 characters to search.
             </div>
         </Combobox>

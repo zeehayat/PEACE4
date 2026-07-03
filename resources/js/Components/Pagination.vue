@@ -35,7 +35,7 @@ function handleClick(url) {
             <template v-for="link in filteredLinks" :key="link.key">
                 <div
                     v-if="link.url === null"
-                    class="mr-1 mb-1 px-4 py-3 text-sm leading-4 text-gray-400 border rounded"
+                    class="mr-1 mb-1 px-4 py-3 text-sm leading-4 text-slate-400 border rounded"
                     v-html="link.label"
                 />
                 <Link

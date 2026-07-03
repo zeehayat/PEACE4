@@ -61,7 +61,7 @@ onMounted(() => {
 
 <template>
     <div class="space-y-1">
-        <label v-if="label" class="font-medium text-gray-600">{{ label }}</label>
+        <label v-if="label" class="font-medium text-slate-600">{{ label }}</label>
         <DatePickerLib
             v-model:value="internal"           type="date"
             format="YYYY-MM-DD"                value-type="YYYY-MM-DD"            :input-class="['input-compact']"   :placeholder="placeholder"
@@ -73,7 +73,7 @@ onMounted(() => {
 <style scoped>
 /* Scoped styles for DatePicker component */
 .input-compact {
-    @apply appearance-none block w-full px-3 py-1.5 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm;
+    @apply appearance-none block w-full px-3 py-1.5 border border-slate-300 rounded-md shadow-sm placeholder-slate-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm;
 }
 
 /* Deep selectors to target internal elements of vue-datepicker-next for consistent styling */
@@ -88,6 +88,6 @@ onMounted(() => {
 }
 :deep(.mx-input) {
     /* Apply existing input-compact styles to the internal input element */
-    @apply appearance-none block w-full px-3 py-1.5 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm;
+    @apply appearance-none block w-full px-3 py-1.5 border border-slate-300 rounded-md shadow-sm placeholder-slate-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm;
 }
 </style>

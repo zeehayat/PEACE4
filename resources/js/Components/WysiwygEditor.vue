@@ -91,9 +91,9 @@ onBeforeUnmount(() => {
     <div>
         <InputLabel v-if="label" :for="id" :value="label" class="mb-1" />
 
-        <div class="border border-gray-300 rounded-md shadow-sm">
+        <div class="border border-slate-300 rounded-md shadow-sm">
             <!-- Toolbar - only show if editable -->
-            <div v-if="editor && editable" class="p-2 border-b border-gray-200 bg-gray-50 flex flex-wrap gap-1">
+            <div v-if="editor && editable" class="p-2 border-b border-slate-200 bg-slate-50 flex flex-wrap gap-1">
                 <button type="button" @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }" class="editor-btn">
                     <strong>B</strong>
                 </button>
@@ -136,7 +136,7 @@ onBeforeUnmount(() => {
             </div>
 
             <!-- Editor Content -->
-            <EditorContent :editor="editor" class="prose max-w-none p-3" :class="{'bg-gray-100 text-gray-500': !editable}" :style="{ 'min-height': height + 'px' }" />
+            <EditorContent :editor="editor" class="prose max-w-none p-3" :class="{'bg-slate-100 text-slate-500': !editable}" :style="{ 'min-height': height + 'px' }" />
         </div>
     </div>
 </template>
@@ -145,8 +145,8 @@ onBeforeUnmount(() => {
 .editor-btn {
     padding: 0.5rem 0.75rem;
     border-radius: 0.375rem; /* rounded-md */
-    background-color: #e5e7eb; /* gray-200 */
-    color: #4b5563; /* gray-700 */
+    background-color: #e2e8f0; /* slate-200 */
+    color: #334155; /* slate-700 */
     font-weight: 500; /* font-medium */
     font-size: 0.75rem; /* text-xs */
     line-height: 1rem; /* leading-4 */
@@ -156,7 +156,7 @@ onBeforeUnmount(() => {
 }
 
 .editor-btn:hover {
-    background-color: #d1d5db; /* gray-300 */
+    background-color: #cbd5e1; /* slate-300 */
 }
 
 .editor-btn.is-active {
@@ -180,7 +180,7 @@ onBeforeUnmount(() => {
 :deep(.ProseMirror p.is-editor-empty:first-child::before) {
     content: attr(data-placeholder);
     float: left;
-    color: #adb5bd; /* gray-400 */
+    color: #94a3b8; /* slate-400 */
     pointer-events: none;
     height: 0;
 }
