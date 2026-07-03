@@ -64,7 +64,7 @@ const closeModal = () => {
 <template>
     <AppLayout title="Roles &amp; Permissions">
         <template #header>
-            <h2 class="text-xl font-semibold leading-tight text-gray-800">
+            <h2 class="text-xl font-semibold leading-tight text-slate-800">
                 Roles &amp; Permissions
                 {{$page.props.auth.user}}
             </h2>
@@ -79,8 +79,8 @@ const closeModal = () => {
                 </div>
                 <div class="overflow-hidden bg-white shadow-xl sm:rounded-lg">
                     <div class="relative overflow-x-auto">
-                        <table class="min-w-full text-sm text-left text-gray-500 divide-y divide-gray-200">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                        <table class="min-w-full text-sm text-left text-slate-500 divide-y divide-slate-200">
+                            <thead class="text-xs text-slate-700 uppercase bg-slate-50">
                             <tr>
                                 <th scope="col" class="px-6 py-3">Role Name</th>
                                 <th scope="col" class="px-6 py-3">Permissions</th>
@@ -88,8 +88,8 @@ const closeModal = () => {
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="role in roles" :key="role.id" class="bg-white border-b hover:bg-gray-50">
-                                <td class="px-6 py-4 font-medium text-gray-900">{{ role.name }}</td>
+                            <tr v-for="role in roles" :key="role.id" class="bg-white border-b hover:bg-slate-50">
+                                <td class="px-6 py-4 font-medium text-slate-900">{{ role.name }}</td>
                                 <td class="flex flex-wrap gap-1 px-6 py-4">
                                         <span v-for="permission in role.permissions" :key="permission.id" class="px-2 py-1 text-xs font-medium text-green-800 bg-green-100 rounded-full">
                                             {{ permission.name }}
@@ -117,7 +117,7 @@ const closeModal = () => {
 
         <Modal :show="showDeleteModal" @close="closeModal">
             <div class="p-6">
-                <h2 class="text-lg font-medium text-gray-900">
+                <h2 class="text-lg font-medium text-slate-900">
                     Are you sure you want to delete the role "{{ selectedRole?.name }}"?
                 </h2>
                 <div class="flex justify-end mt-6">

@@ -55,7 +55,7 @@ const handleSearch = () => {
 <template>
     <AppLayout title="User Management">
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="font-semibold text-xl text-slate-800 leading-tight">
                 User Management
             </h2>
         </template>
@@ -68,7 +68,7 @@ const handleSearch = () => {
                         v-model="searchTerm"
                         @keyup.enter="handleSearch"
                         placeholder="Search..."
-                        class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                        class="border-slate-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
                     />
                     <button v-if="can.user_manage" @click="openNewUserModal" class="px-4 py-2 bg-indigo-600 text-white rounded-md">
                         New User
@@ -76,16 +76,16 @@ const handleSearch = () => {
                 </div>
 
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
+                    <table class="min-w-full divide-y divide-slate-200">
+                        <thead class="bg-slate-50">
                         <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Roles</th>
-                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Name</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Email</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Roles</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase">Actions</th>
                         </tr>
                         </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
+                        <tbody class="bg-white divide-y divide-slate-200">
                         <tr v-for="user in users.data" :key="user.id">
                             <td class="px-6 py-4 whitespace-nowrap">{{ user.name }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ user.email }}</td>

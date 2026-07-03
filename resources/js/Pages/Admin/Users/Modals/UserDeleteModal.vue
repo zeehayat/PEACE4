@@ -32,8 +32,8 @@ const closeModal = () => {
 <template>
     <Modal :show="show" @close="closeModal">
         <div class="p-6">
-            <h2 class="text-lg font-semibold text-gray-900">Delete User</h2>
-            <p class="mt-4 text-sm text-gray-600">
+            <h2 class="text-lg font-semibold text-slate-900">Delete User</h2>
+            <p class="mt-4 text-sm text-slate-600">
                 Are you sure you want to delete the user <strong>{{ user.name }}</strong>? This action cannot be undone.
             </p>
             <div class="mt-6 flex justify-end space-x-2">

@@ -60,13 +60,13 @@ const submit = () => {
 
 <template>
     <form @submit.prevent="submit" class="p-6">
-        <h2 class="text-lg font-medium text-gray-900">
+        <h2 class="text-lg font-medium text-slate-900">
             {{ isEditMode ? 'Edit Role' : 'Create New Role' }}
         </h2>
 
         <div class="mt-6 space-y-6">
-            <details class="border border-gray-200 rounded-lg bg-white shadow-sm">
-                <summary class="cursor-pointer select-none px-4 py-3 font-semibold text-gray-900">
+            <details class="border border-slate-200 rounded-lg bg-white shadow-sm">
+                <summary class="cursor-pointer select-none px-4 py-3 font-semibold text-slate-900">
                     Role Details
                 </summary>
                 <div class="px-4 pb-4 pt-2 space-y-4">
@@ -81,23 +81,23 @@ const submit = () => {
                         />
                         <InputError :message="form.errors.name" class="mt-2" />
                     </div>
-                    <label class="flex items-center text-sm text-gray-700">
+                    <label class="flex items-center text-sm text-slate-700">
                         <input
                             type="checkbox"
                             :checked="allPermissionsSelected"
                             @change="toggleAllPermissions"
-                            class="text-indigo-600 border-gray-300 rounded shadow-sm focus:ring-indigo-500"
+                            class="text-indigo-600 border-slate-300 rounded shadow-sm focus:ring-indigo-500"
                         />
                         <span class="ml-2">Check all permissions</span>
                     </label>
-                    <div class="text-xs text-gray-500">
+                    <div class="text-xs text-slate-500">
                         Assign permissions on the right to control access.
                     </div>
                 </div>
             </details>
 
-            <details class="border border-gray-200 rounded-lg bg-white shadow-sm">
-                <summary class="cursor-pointer select-none px-4 py-3 font-semibold text-gray-900">
+            <details class="border border-slate-200 rounded-lg bg-white shadow-sm">
+                <summary class="cursor-pointer select-none px-4 py-3 font-semibold text-slate-900">
                     Permissions
                 </summary>
                 <div class="px-4 pb-4 pt-2">
@@ -105,9 +105,9 @@ const submit = () => {
                         <details
                             v-for="[group, permissions] in groupEntries"
                             :key="group"
-                            class="border border-gray-200 rounded-md bg-gray-50"
+                            class="border border-slate-200 rounded-md bg-slate-50"
                         >
-                            <summary class="cursor-pointer select-none px-3 py-2 font-semibold text-gray-800 capitalize">
+                            <summary class="cursor-pointer select-none px-3 py-2 font-semibold text-slate-800 capitalize">
                                 {{ group }} Management
                             </summary>
                             <div class="px-3 pb-3 pt-2">
@@ -115,13 +115,13 @@ const submit = () => {
                                     <label
                                         v-for="permission in permissions"
                                         :key="permission.id"
-                                        class="flex items-center text-sm text-gray-700"
+                                        class="flex items-center text-sm text-slate-700"
                                     >
                                         <input
                                             type="checkbox"
                                             :value="permission.name"
                                             v-model="form.permissions"
-                                            class="text-indigo-600 border-gray-300 rounded shadow-sm focus:ring-indigo-500"
+                                            class="text-indigo-600 border-slate-300 rounded shadow-sm focus:ring-indigo-500"
                                         />
                                         <span class="ml-2">{{ permission.name.replace(/_/g, ' ') }}</span>
                                     </label>
