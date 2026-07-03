@@ -146,7 +146,7 @@ onBeforeUnmount(() => {
     padding: 0.5rem 0.75rem;
     border-radius: 0.375rem; /* rounded-md */
     background-color: #e2e8f0; /* slate-200 */
-    color: #334155; /* slate-700 */
+    color: #475569; /* slate-600 */
     font-weight: 500; /* font-medium */
     font-size: 0.75rem; /* text-xs */
     line-height: 1rem; /* leading-4 */
