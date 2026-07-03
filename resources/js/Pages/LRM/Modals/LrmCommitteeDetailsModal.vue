@@ -37,28 +37,28 @@ const hasFruitPlants = computed(() => props.lrmCommittee.fruit_plants && props.l
 
 <template>
     <Modal :show="show" @close="emit('close')" :maxWidth="'4xl'" :title="`LRM Committee Details`">
-        <div class="p-6 overflow-y-auto max-h-[85vh] text-gray-800 print-content">
+        <div class="p-6 overflow-y-auto max-h-[85vh] text-slate-800 print-content">
             <section class="mb-8 border-b pb-6">
                 <h2 class="text-xl font-bold mb-4">Committee Information</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                    <div class="detail-item"><p class="font-semibold text-gray-700">CBO:</p><p>{{ lrmCommittee.cbo?.reference_code ?? 'N/A' }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Date of Formation:</p><p>{{ formatNullableDate(lrmCommittee.date_of_lrm_committee_formation) }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">No. of Members:</p><p>{{ lrmCommittee.no_of_lrm_committee_members ?? 'N/A' }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">NRM Plan Finalized:</p><p>{{ lrmCommittee.date_of_nrm_plan_finalization ? formatNullableDate(lrmCommittee.date_of_nrm_plan_finalization) : 'N/A' }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Afforestation/Reforestation:</p><p>{{ lrmCommittee.has_afforestation_reforestation ? 'Yes' : 'No' }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Total Land Covered (Ha):</p><p>{{ lrmCommittee.total_land_covered_hectares ?? 'N/A' }}</p></div>
+                    <div class="detail-item"><p class="font-semibold text-slate-700">CBO:</p><p>{{ lrmCommittee.cbo?.reference_code ?? 'N/A' }}</p></div>
+                    <div class="detail-item"><p class="font-semibold text-slate-700">Date of Formation:</p><p>{{ formatNullableDate(lrmCommittee.date_of_lrm_committee_formation) }}</p></div>
+                    <div class="detail-item"><p class="font-semibold text-slate-700">No. of Members:</p><p>{{ lrmCommittee.no_of_lrm_committee_members ?? 'N/A' }}</p></div>
+                    <div class="detail-item"><p class="font-semibold text-slate-700">NRM Plan Finalized:</p><p>{{ lrmCommittee.date_of_nrm_plan_finalization ? formatNullableDate(lrmCommittee.date_of_nrm_plan_finalization) : 'N/A' }}</p></div>
+                    <div class="detail-item"><p class="font-semibold text-slate-700">Afforestation/Reforestation:</p><p>{{ lrmCommittee.has_afforestation_reforestation ? 'Yes' : 'No' }}</p></div>
+                    <div class="detail-item"><p class="font-semibold text-slate-700">Total Land Covered (Ha):</p><p>{{ lrmCommittee.total_land_covered_hectares ?? 'N/A' }}</p></div>
                 </div>
             </section>
 
             <section v-if="hasForestPlants || hasFruitPlants" class="mb-8 border-b pb-6">
                 <h2 class="text-xl font-bold mb-4">Plantation Details</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                    <div v-if="hasForestPlants" class="detail-item"><p class="font-semibold text-gray-700">Forest Plants:</p><p>{{ lrmCommittee.forest_plants.join(', ') }}</p></div>
-                    <div v-if="hasFruitPlants" class="detail-item"><p class="font-semibold text-gray-700">Fruit Plants:</p><p>{{ lrmCommittee.fruit_plants.join(', ') }}</p></div>
+                    <div v-if="hasForestPlants" class="detail-item"><p class="font-semibold text-slate-700">Forest Plants:</p><p>{{ lrmCommittee.forest_plants.join(', ') }}</p></div>
+                    <div v-if="hasFruitPlants" class="detail-item"><p class="font-semibold text-slate-700">Fruit Plants:</p><p>{{ lrmCommittee.fruit_plants.join(', ') }}</p></div>
                 </div>
             </section>
 
-            <div v-if="hasRemarks" class="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+            <div v-if="hasRemarks" class="mt-6 p-4 bg-slate-50 rounded-lg border border-slate-200">
                 <h2 class="text-xl font-bold mb-4">Remarks</h2>
                 <WysiwygEditor
                     id="remarks-view"
@@ -72,7 +72,7 @@ const hasFruitPlants = computed(() => props.lrmCommittee.fruit_plants && props.l
                 <h2 class="text-xl font-bold mb-4">Attachments</h2>
                 <AttachmentViewer :attachments="lrmCommittee.attachments_frontend" />
             </div>
-            <div v-else class="mt-6 text-gray-500 text-sm">
+            <div v-else class="mt-6 text-slate-500 text-sm">
                 No attachments available.
             </div>
 
