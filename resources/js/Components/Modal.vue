@@ -85,9 +85,9 @@ const maxWidthClass = computed(() => {
                     >
                         <div v-show="show" class="relative bg-white rounded-2xl overflow-hidden shadow-2xl border border-slate-200/80 transform transition-all sm:w-full sm:my-8 text-left" :class="maxWidthClass">
                             <div v-if="title || closeable" class="relative px-6 py-4 flex justify-between items-center bg-slate-50 border-b border-slate-200">
-                                <h3 v-if="title" class="text-lg font-semibold text-gray-800">{{ title }}</h3>
+                                <h3 v-if="title" class="text-lg font-semibold text-slate-800">{{ title }}</h3>
 
-                                <button v-if="closeable" @click="close" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 transition duration-150 ease-in-out">
+                                <button v-if="closeable" @click="close" class="absolute top-3 right-3 text-slate-400 hover:text-slate-600 transition duration-150 ease-in-out">
                                     <span class="sr-only">Close</span>
                                     <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />

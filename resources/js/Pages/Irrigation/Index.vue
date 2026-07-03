@@ -312,7 +312,7 @@ const handlePagination = (url) => {
                                 </div>
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap text-right text-sm font-medium relative action-menu-container">
-                                <button @click.stop="toggleActionMenu(scheme.id, $event)" class="p-2 text-slate-500 hover:text-slate-900 rounded-full hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity action-menu-trigger">
+                                <button @click.stop="toggleActionMenu(scheme.id, $event)" class="p-2 text-slate-500 hover:text-slate-900 rounded-full hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity action-menu-trigger">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" /></svg>
                                 </button>
                             </td>
