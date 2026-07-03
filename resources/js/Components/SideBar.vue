@@ -36,7 +36,7 @@ const isAdmin = computed(() => user.value?.roles?.some((r) => ['Admin', 'Root'].
     <!-- Sidebar Container -->
     <aside
         :class="{ 'translate-x-0': isOpen, '-translate-x-full': !isOpen }"
-        class="fixed inset-y-0 left-0 w-20 bg-gradient-to-b from-[#0f2a1b] via-[#122f1f] to-[#0c1f15] text-white p-4 flex flex-col items-center justify-between z-40 transform md:translate-x-0 transition-transform duration-300 ease-in-out shadow-2xl"
+        class="fixed inset-y-0 left-0 w-20 bg-slate-950 text-white p-4 flex flex-col items-center justify-between z-40 transform md:translate-x-0 transition-transform duration-300 ease-in-out shadow-2xl"
     >
         <!-- Top Section: Logo & Modules -->
         <div class="flex flex-col items-center gap-6 w-full">
@@ -122,7 +122,7 @@ const isAdmin = computed(() => user.value?.roles?.some((r) => ['Admin', 'Root'].
                 <img :src="user.profile_photo_url || 'https://i.postimg.cc/DzL69Yng/images.png'" alt="User Profile" class="h-10 w-10 rounded-xl object-cover ring-2 ring-emerald-500/30 hover:scale-105 transition duration-200">
                 <div class="tooltip text-center">
                     <div class="font-semibold">{{ user.name }}</div>
-                    <div class="text-[10px] text-gray-400">{{ user.email }}</div>
+                    <div class="text-[10px] text-slate-400">{{ user.email }}</div>
                 </div>
             </div>
 
@@ -137,10 +137,10 @@ const isAdmin = computed(() => user.value?.roles?.some((r) => ['Admin', 'Root'].
 
 <style scoped>
 .nav-btn {
-    @apply flex items-center justify-center h-11 w-11 rounded-xl text-gray-400 hover:bg-white/5 hover:text-white transition duration-150;
+    @apply flex items-center justify-center h-11 w-11 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800 transition duration-150;
 }
 .nav-btn.active {
-    @apply bg-emerald-500/15 text-emerald-400 border border-emerald-500/25;
+    @apply bg-indigo-600 text-white shadow-sm;
 }
 .tooltip {
     @apply absolute left-16 bg-gray-950 text-white text-xs py-1.5 px-3 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition duration-150 shadow-xl border border-white/5 whitespace-nowrap z-50;
