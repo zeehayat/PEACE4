@@ -42,21 +42,21 @@ const formatNullableDate = (dateString) => {
 
 <template>
 
-    <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-6 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:scale-[1.01] relative">
+    <div class="bg-white rounded-xl shadow-lg border border-slate-200 p-6 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:scale-[1.01] relative">
 
         <div class="absolute top-4 right-4 z-10">
             <button
                 @click.stop="emit('toggle-action-menu', scheme.id, $event)"
-                class="p-2 text-gray-500 hover:text-gray-900 rounded-full hover:bg-gray-200/70 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-opacity action-menu-trigger"
+                class="p-2 text-slate-500 hover:text-slate-900 rounded-full hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-opacity action-menu-trigger"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" /></svg>
             </button>
             <!-- Menu content is teleported from Irrigation/Index.vue -->
         </div>
 
-        <div class="mt-4 pt-4 border-t border-gray-200">
+        <div class="mt-4 pt-4 border-t border-slate-200">
             <div class="flex items-center justify-between mb-3">
-                <p class="text-sm text-gray-500">Status</p>
+                <p class="text-sm text-slate-500">Status</p>
                 <span :class="getStatusClass(scheme.status)" class="inline-flex items-center rounded-full px-3 py-1 text-xs font-medium border">
                   {{ scheme.status ?? 'N/A' }}
                 </span>
@@ -64,10 +64,10 @@ const formatNullableDate = (dateString) => {
 
             <div class="space-y-2">
                 <div class="flex items-center justify-between">
-                    <p class="text-sm text-gray-500">CBO</p>
-                    <p class="font-semibold text-sm text-gray-900">{{ scheme.cbo?.reference_code ?? 'N/A' }}</p>
+                    <p class="text-sm text-slate-500">CBO</p>
+                    <p class="font-semibold text-sm text-slate-900">{{ scheme.cbo?.reference_code ?? 'N/A' }}</p>
                 </div>
-                <div v-if="scheme.cbo" class="text-sm text-gray-600">
+                <div v-if="scheme.cbo" class="text-sm text-slate-600">
                     <p>{{ scheme.cbo.village ?? 'N/A' }}, {{ scheme.cbo.village_council ?? 'N/A' }}</p>
                     <p>{{ scheme.cbo.tehsil ?? 'N/A' }}, {{ scheme.cbo.district ?? 'N/A' }}</p>
                 </div>
@@ -75,39 +75,39 @@ const formatNullableDate = (dateString) => {
 
             <div class="space-y-2 mt-4">
                 <div class="flex items-center justify-between">
-                    <p class="text-sm text-gray-500">Scheme Type</p>
-                    <p class="font-semibold text-sm text-gray-900">{{ scheme.scheme_type ?? 'N/A' }}</p>
+                    <p class="text-sm text-slate-500">Scheme Type</p>
+                    <p class="font-semibold text-sm text-slate-900">{{ scheme.scheme_type ?? 'N/A' }}</p>
                 </div>
                 <div class="flex items-center justify-between">
-                    <p class="text-sm text-gray-500">Sub-Scheme Type</p>
-                    <p class="font-semibold text-sm text-gray-900">{{ scheme.sub_scheme_type ?? 'N/A' }}</p>
+                    <p class="text-sm text-slate-500">Sub-Scheme Type</p>
+                    <p class="font-semibold text-sm text-slate-900">{{ scheme.sub_scheme_type ?? 'N/A' }}</p>
                 </div>
             </div>
 
-            <div v-if="scheme.profile" class="space-y-2 mt-4 pt-4 border-t border-gray-200">
+            <div v-if="scheme.profile" class="space-y-2 mt-4 pt-4 border-t border-slate-200">
                 <div class="flex items-center justify-between">
-                    <p class="text-sm text-gray-500">Established by</p>
-                    <p class="font-semibold text-sm text-gray-900">{{ scheme.profile.established_by ?? 'N/A' }}</p>
+                    <p class="text-sm text-slate-500">Established by</p>
+                    <p class="font-semibold text-sm text-slate-900">{{ scheme.profile.established_by ?? 'N/A' }}</p>
                 </div>
                 <div class="flex items-center justify-between">
-                    <p class="text-sm text-gray-500">Land Area (Ha)</p>
-                    <p class="font-semibold text-sm text-gray-900">{{ scheme.profile.land_area_hectares ?? 'N/A' }}</p>
+                    <p class="text-sm text-slate-500">Land Area (Ha)</p>
+                    <p class="font-semibold text-sm text-slate-900">{{ scheme.profile.land_area_hectares ?? 'N/A' }}</p>
                 </div>
                 <div class="flex items-center justify-between">
-                    <p class="text-sm text-gray-500">Channel Length (Km)</p>
-                    <p class="font-semibold text-sm text-gray-900">{{ scheme.profile.channel_length_km ?? 'N/A' }}</p>
+                    <p class="text-sm text-slate-500">Channel Length (Km)</p>
+                    <p class="font-semibold text-sm text-slate-900">{{ scheme.profile.channel_length_km ?? 'N/A' }}</p>
                 </div>
                 <div class="flex items-center justify-between">
-                    <p class="text-sm text-gray-500">Beneficiary Farmers</p>
-                    <p class="font-semibold text-sm text-gray-900">{{ scheme.profile.beneficiary_farmers ?? 'N/A' }}</p>
+                    <p class="text-sm text-slate-500">Beneficiary Farmers</p>
+                    <p class="font-semibold text-sm text-slate-900">{{ scheme.profile.beneficiary_farmers ?? 'N/A' }}</p>
                 </div>
                 <div class="flex items-center justify-between">
-                    <p class="text-sm text-gray-500">Established on</p>
-                    <p class="font-semibold text-sm text-gray-900">{{ formatNullableDate(scheme.profile.month_year_establishment) }}</p>
+                    <p class="text-sm text-slate-500">Established on</p>
+                    <p class="font-semibold text-sm text-slate-900">{{ formatNullableDate(scheme.profile.month_year_establishment) }}</p>
                 </div>
                 <div class="flex items-center justify-between">
-                    <p class="text-sm text-gray-500">Date of Technical Survey</p>
-                    <p class="font-semibold text-sm text-gray-900">{{ formatNullableDate(scheme.profile.date_technical_surveys) }}</p>
+                    <p class="text-sm text-slate-500">Date of Technical Survey</p>
+                    <p class="font-semibold text-sm text-slate-900">{{ formatNullableDate(scheme.profile.date_technical_surveys) }}</p>
                 </div>
             </div>
         </div>

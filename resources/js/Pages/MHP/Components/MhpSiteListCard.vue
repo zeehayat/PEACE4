@@ -65,26 +65,26 @@ const triggerToggle = (event) => {
 </script>
 
 <template>
-    <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-6 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:scale-[1.01] relative">
+    <div class="bg-white rounded-xl shadow-lg border border-slate-200 p-6 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:scale-[1.01] relative">
         <div class="absolute top-4 right-4 z-10">
             <button
                 ref="menuButtonRef"
                 @click.stop="triggerToggle"
-                class="p-2 text-gray-500 hover:text-gray-900 rounded-full hover:bg-gray-200/70 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-opacity action-menu-trigger"
+                class="p-2 text-slate-500 hover:text-slate-900 rounded-full hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-opacity action-menu-trigger"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" /></svg>
             </button>
         </div>
 
-        <div class="mt-4 pt-4 border-t border-gray-200">
+        <div class="mt-4 pt-4 border-t border-slate-200">
             <div class="flex items-center justify-between mb-3">
-                <p class="text-sm text-gray-500">Status</p>
+                <p class="text-sm text-slate-500">Status</p>
                 <span :class="getStatusClass(site.status)" class="inline-flex items-center rounded-full px-3 py-1 text-xs font-medium border">
                   {{ site.status ?? 'N/A' }}
                 </span>
             </div>
             <div class="flex items-center justify-between">
-                <p class="text-sm text-gray-500">Admin Approval</p>
+                <p class="text-sm text-slate-500">Admin Approval</p>
                 <p :class="site.admin_approval ? 'text-green-600' : 'text-red-500'" class="font-semibold text-sm flex items-center gap-1">
                     <svg v-if="site.admin_approval" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" /></svg>
                     <svg v-else class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
