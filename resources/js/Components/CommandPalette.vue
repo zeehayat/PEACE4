@@ -95,13 +95,13 @@ onUnmounted(() => document.removeEventListener('keydown', handleGlobalKeydown));
                             :key="item.route"
                             :href="route(item.route)"
                             @click="close"
-                            class="flex items-center justify-between p-3 rounded-lg text-gray-300 hover:bg-emerald-500/20 hover:text-white transition group"
+                            class="flex items-center justify-between p-3 rounded-lg text-slate-300 hover:bg-emerald-500/20 hover:text-white transition group"
                         >
                             <div>
                                 <div class="text-sm font-semibold text-white group-hover:text-emerald-400">{{ item.name }}</div>
-                                <div class="text-xs text-gray-400/80 mt-0.5">{{ item.description }}</div>
+                                <div class="text-xs text-slate-400/80 mt-0.5">{{ item.description }}</div>
                             </div>
-                            <span class="text-[10px] px-2 py-0.5 bg-white/5 border border-white/10 rounded text-gray-400 group-hover:border-emerald-500/20">
+                            <span class="text-[10px] px-2 py-0.5 bg-white/5 border border-white/10 rounded text-slate-400 group-hover:border-emerald-500/20">
                                 {{ item.category }}
                             </span>
                         </Link>
@@ -109,8 +109,8 @@ onUnmounted(() => document.removeEventListener('keydown', handleGlobalKeydown));
                 </div>
 
                 <!-- Help footer -->
-                <div class="p-3 bg-white/5 border-t border-white/10 text-[10px] text-gray-400 flex justify-between items-center">
-                    <span>Press <kbd class="px-1.5 py-0.5 bg-gray-900 border border-white/10 rounded">ESC</kbd> to exit</span>
+                <div class="p-3 bg-white/5 border-t border-white/10 text-[10px] text-slate-400 flex justify-between items-center">
+                    <span>Press <kbd class="px-1.5 py-0.5 bg-slate-900 border border-white/10 rounded">ESC</kbd> to exit</span>
                     <span>Use search keywords to filter instantly</span>
                 </div>
             </div>

@@ -114,7 +114,7 @@ onMounted(() => {
 <template>
     <Modal :show="show" @close="emit('close')" :maxWidth="'3xl'" title="Manage Irrigation Scheme Contract">
         <div class="p-6">
-            <p class="text-gray-600">Attempting to open contract form for Scheme: {{ scheme.id }}</p>
+            <p class="text-slate-600">Attempting to open contract form for Scheme: {{ scheme.id }}</p>
         </div>
 
         <Modal :show="showAddEditModal" @close="handleContractCancel" :maxWidth="'2xl'" :title="addEditMode === 'create' ? 'Create Scheme Contract' : 'Edit Scheme Contract'">

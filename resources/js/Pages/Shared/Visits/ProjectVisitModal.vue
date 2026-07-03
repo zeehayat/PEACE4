@@ -129,34 +129,34 @@ const modalTitle = computed(() => {
         <div class="p-6 overflow-y-auto max-h-[85vh]">
             <div v-if="!showForm" class="space-y-4">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-bold text-gray-800">Visit History Log</h3>
+                    <h3 class="text-lg font-bold text-slate-800">Visit History Log</h3>
                     <PrimaryButton @click="openCreateForm">
                         + Log New Visit
                     </PrimaryButton>
                 </div>
 
-                <div v-if="isLoadingVisits" class="text-center py-8 text-gray-500">
+                <div v-if="isLoadingVisits" class="text-center py-8 text-slate-500">
                     Loading visit history...
                 </div>
 
-                <div v-else-if="visits.length === 0" class="text-center py-8 text-gray-500 border-2 border-dashed border-gray-200 rounded-xl">
-                    <span class="material-symbols-outlined text-4xl text-gray-300 block mb-2">directions_walk</span>
+                <div v-else-if="visits.length === 0" class="text-center py-8 text-slate-500 border-2 border-dashed border-slate-200 rounded-xl">
+                    <span class="material-symbols-outlined text-4xl text-slate-300 block mb-2">directions_walk</span>
                     No field visits logged for this project yet.
                 </div>
 
                 <div v-else class="grid grid-cols-1 gap-4">
-                    <div v-for="visit in visits" :key="visit.id" class="bg-gray-50 border border-gray-200 rounded-xl p-5 shadow-sm space-y-3">
+                    <div v-for="visit in visits" :key="visit.id" class="bg-slate-50 border border-slate-200 rounded-xl p-5 shadow-sm space-y-3">
                         <div class="flex justify-between items-start">
                             <div class="space-y-1">
                                 <div class="flex items-center gap-2">
                                     <span class="px-2.5 py-0.5 bg-emerald-50 text-emerald-700 text-xs font-semibold rounded-full border border-emerald-100">
                                         {{ visit.visit_type }}
                                     </span>
-                                    <span class="text-gray-900 font-bold text-base">
+                                    <span class="text-slate-900 font-bold text-base">
                                         {{ visit.visitor_role }}
                                     </span>
                                 </div>
-                                <div class="flex items-center gap-3 text-xs text-gray-500 mt-1">
+                                <div class="flex items-center gap-3 text-xs text-slate-500 mt-1">
                                     <span class="flex items-center gap-1 font-medium text-indigo-700">
                                         <span class="material-symbols-outlined text-[14px]">calendar_today</span>
                                         {{ formatDate(visit.visit_date) }}
@@ -168,21 +168,21 @@ const modalTitle = computed(() => {
                                 </div>
                             </div>
                             <div class="flex gap-2">
-                                <button @click="openEditForm(visit)" class="inline-flex items-center justify-center p-1.5 bg-white text-gray-500 hover:text-indigo-600 rounded-md border border-gray-200 shadow-sm hover:shadow-md transition duration-150">
+                                <button @click="openEditForm(visit)" class="inline-flex items-center justify-center p-1.5 bg-white text-slate-500 hover:text-indigo-600 rounded-md border border-slate-200 shadow-sm hover:shadow-md transition duration-150">
                                     <span class="material-symbols-outlined text-base">edit</span>
                                 </button>
-                                <button @click="handleDeleteVisit(visit.id)" class="inline-flex items-center justify-center p-1.5 bg-white text-gray-500 hover:text-red-600 rounded-md border border-gray-200 shadow-sm hover:shadow-md transition duration-150">
+                                <button @click="handleDeleteVisit(visit.id)" class="inline-flex items-center justify-center p-1.5 bg-white text-slate-500 hover:text-red-600 rounded-md border border-slate-200 shadow-sm hover:shadow-md transition duration-150">
                                     <span class="material-symbols-outlined text-base">delete</span>
                                 </button>
                             </div>
                         </div>
 
-                        <div v-if="visit.remarks" class="text-sm text-gray-700 bg-white border border-gray-100 rounded-lg p-3 whitespace-pre-wrap leading-relaxed">
+                        <div v-if="visit.remarks" class="text-sm text-slate-700 bg-white border border-slate-100 rounded-lg p-3 whitespace-pre-wrap leading-relaxed">
                             {{ visit.remarks }}
                         </div>
 
                         <div v-if="visit.attachments_frontend && visit.attachments_frontend.length" class="pt-2">
-                            <span class="text-xs font-semibold text-gray-500 block mb-1.5">Visit Attachments</span>
+                            <span class="text-xs font-semibold text-slate-500 block mb-1.5">Visit Attachments</span>
                             <AttachmentViewer :attachments="visit.attachments_frontend" />
                         </div>
                     </div>

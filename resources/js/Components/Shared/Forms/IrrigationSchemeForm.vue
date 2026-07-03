@@ -112,14 +112,14 @@ const submit = () => {
 
             <!-- CBO (full width) -->
             <div class="md:col-span-2">
-                <label for="cbo_id" class="block text-sm font-medium text-gray-700 mb-1">CBO</label>
+                <label for="cbo_id" class="block text-sm font-medium text-slate-700 mb-1">CBO</label>
                 <SearchableCboSelect v-model:selected-cbo-id="form.cbo_id" :initial-cbo-id="form.cbo_id" class="w-full" />
                 <div v-if="form.errors.cbo_id" class="text-red-500 text-xs mt-1">{{ form.errors.cbo_id }}</div>
             </div>
 
             <!-- Status -->
             <div>
-                <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                <label for="status" class="block text-sm font-medium text-slate-700 mb-1">Status</label>
                 <select id="status" v-model="form.status" class="w-full">
                     <option value="New">New</option>
                     <option value="Rehabilitation">Rehabilitation</option>
@@ -129,75 +129,75 @@ const submit = () => {
 
             <!-- Beneficiary Farmers -->
             <div>
-                <label for="beneficiary_farmers" class="block text-sm font-medium text-gray-700 mb-1">Beneficiary Farmers</label>
+                <label for="beneficiary_farmers" class="block text-sm font-medium text-slate-700 mb-1">Beneficiary Farmers</label>
                 <input type="number" id="beneficiary_farmers" v-model="form.beneficiary_farmers" class="w-full" />
                 <div v-if="form.errors.beneficiary_farmers" class="text-red-500 text-xs mt-1">{{ form.errors.beneficiary_farmers }}</div>
             </div>
 
             <!-- Channel Length -->
             <div>
-                <label for="channel_length_km" class="block text-sm font-medium text-gray-700 mb-1">Channel Length (km)</label>
+                <label for="channel_length_km" class="block text-sm font-medium text-slate-700 mb-1">Channel Length (km)</label>
                 <input type="number" step="0.01" id="channel_length_km" v-model="form.channel_length_km" class="w-full" />
                 <div v-if="form.errors.channel_length_km" class="text-red-500 text-xs mt-1">{{ form.errors.channel_length_km }}</div>
             </div>
 
             <!-- Land Area -->
             <div>
-                <label for="land_area_hectares" class="block text-sm font-medium text-gray-700 mb-1">Land Area (Hectares)</label>
+                <label for="land_area_hectares" class="block text-sm font-medium text-slate-700 mb-1">Land Area (Hectares)</label>
                 <input type="number" step="0.01" id="land_area_hectares" v-model="form.land_area_hectares" class="w-full" />
                 <div v-if="form.errors.land_area_hectares" class="text-red-500 text-xs mt-1">{{ form.errors.land_area_hectares }}</div>
             </div>
 
             <!-- Month/Year of Establishment -->
             <div>
-                <label for="month_year_establishment" class="block text-sm font-medium text-gray-700 mb-1">Month/Year of Establishment</label>
+                <label for="month_year_establishment" class="block text-sm font-medium text-slate-700 mb-1">Month/Year of Establishment</label>
                 <DatePicker v-model="form.month_year_establishment" id="month_year_establishment" class="w-full" />
                 <div v-if="form.errors.month_year_establishment" class="text-red-500 text-xs mt-1">{{ form.errors.month_year_establishment }}</div>
             </div>
 
             <!-- Established By -->
             <div>
-                <label for="established_by" class="block text-sm font-medium text-gray-700 mb-1">Established By</label>
+                <label for="established_by" class="block text-sm font-medium text-slate-700 mb-1">Established By</label>
                 <input type="text" id="established_by" v-model="form.established_by" class="w-full" />
                 <div v-if="form.errors.established_by" class="text-red-500 text-xs mt-1">{{ form.errors.established_by }}</div>
             </div>
 
             <!-- Technical Surveys -->
             <div>
-                <label for="date_technical_surveys" class="block text-sm font-medium text-gray-700 mb-1">Date of Technical Surveys</label>
+                <label for="date_technical_surveys" class="block text-sm font-medium text-slate-700 mb-1">Date of Technical Surveys</label>
                 <DatePicker v-model="form.date_technical_surveys" id="date_technical_surveys" class="w-full" />
                 <div v-if="form.errors.date_technical_surveys" class="text-red-500 text-xs mt-1">{{ form.errors.date_technical_surveys }}</div>
             </div>
 
             <!-- Completion Civil Works -->
             <div>
-                <label for="date_completion_civil_works" class="block text-sm font-medium text-gray-700 mb-1">Date of Completion Civil Works</label>
+                <label for="date_completion_civil_works" class="block text-sm font-medium text-slate-700 mb-1">Date of Completion Civil Works</label>
                 <DatePicker v-model="form.date_completion_civil_works" id="date_completion_civil_works" class="w-full" />
                 <div v-if="form.errors.date_completion_civil_works" class="text-red-500 text-xs mt-1">{{ form.errors.date_completion_civil_works }}</div>
             </div>
 
             <!-- Handover Date -->
             <div>
-                <label for="handover_to_community_date" class="block text-sm font-medium text-gray-700 mb-1">Handover to Community Date</label>
+                <label for="handover_to_community_date" class="block text-sm font-medium text-slate-700 mb-1">Handover to Community Date</label>
                 <DatePicker v-model="form.handover_to_community_date" id="handover_to_community_date" class="w-full" />
                 <div v-if="form.errors.handover_to_community_date" class="text-red-500 text-xs mt-1">{{ form.errors.handover_to_community_date }}</div>
             </div>
 
             <!-- Coordinates -->
             <div>
-                <label for="northening" class="block text-sm font-medium text-gray-700 mb-1">Northening</label>
+                <label for="northening" class="block text-sm font-medium text-slate-700 mb-1">Northening</label>
                 <input type="number" step="0.01" id="northening" v-model="form.northening" class="w-full" />
                 <div v-if="form.errors.northening" class="text-red-500 text-xs mt-1">{{ form.errors.northening }}</div>
             </div>
 
             <div>
-                <label for="easting" class="block text-sm font-medium text-gray-700 mb-1">Easting</label>
+                <label for="easting" class="block text-sm font-medium text-slate-700 mb-1">Easting</label>
                 <input type="number" step="0.01" id="easting" v-model="form.easting" class="w-full" />
                 <div v-if="form.errors.easting" class="text-red-500 text-xs mt-1">{{ form.errors.easting }}</div>
             </div>
 
             <div>
-                <label for="elevation" class="block text-sm font-medium text-gray-700 mb-1">Elevation</label>
+                <label for="elevation" class="block text-sm font-medium text-slate-700 mb-1">Elevation</label>
                 <input type="number" step="0.01" id="elevation" v-model="form.elevation" class="w-full" />
                 <div v-if="form.errors.elevation" class="text-red-500 text-xs mt-1">{{ form.errors.elevation }}</div>
             </div>
@@ -219,7 +219,7 @@ const submit = () => {
             <button
                 type="button"
                 @click="emit('cancel')"
-                class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                class="px-4 py-2 border border-slate-300 rounded-md shadow-sm text-sm font-medium text-slate-700 bg-white hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
                 Cancel
             </button>
@@ -237,7 +237,7 @@ const submit = () => {
 
 <style scoped>
 .input-compact {
-    @apply appearance-none block w-full px-3 py-1.5 border max-w-64  border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm;
+    @apply appearance-none block w-full px-3 py-1.5 border max-w-64  border-slate-300 rounded-md shadow-sm placeholder-slate-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm;
 }
 label {
     margin-bottom: 0.25rem;

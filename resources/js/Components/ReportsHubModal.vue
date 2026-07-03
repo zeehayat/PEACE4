@@ -80,7 +80,7 @@ const close = () => {
                         <p class="text-xs text-emerald-300/60 mt-1">Select and generate custom analytical reports</p>
                     </div>
                     <button @click="close" class="p-1 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition">
-                        <span class="material-symbols-outlined text-gray-400 hover:text-white">close</span>
+                        <span class="material-symbols-outlined text-slate-400 hover:text-white">close</span>
                     </button>
                 </div>
 
@@ -109,9 +109,9 @@ const close = () => {
                                     <Link 
                                         :href="route(link.route)" 
                                         @click="close"
-                                        class="flex items-center gap-3 p-3 rounded-lg text-gray-300 hover:bg-emerald-500/10 hover:text-white group transition duration-150"
+                                        class="flex items-center gap-3 p-3 rounded-lg text-slate-300 hover:bg-emerald-500/10 hover:text-white group transition duration-150"
                                     >
-                                        <svg class="h-5 w-5 text-gray-500 group-hover:text-emerald-400 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <svg class="h-5 w-5 text-slate-500 group-hover:text-emerald-400 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="link.icon" />
                                         </svg>
                                         <span class="text-sm font-medium">{{ link.name }}</span>

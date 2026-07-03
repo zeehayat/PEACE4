@@ -215,7 +215,7 @@ const handleCancel = () => {
                     id="remarks"
                     v-model="form.remarks"
                     rows="4"
-                    class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                    class="mt-1 block w-full border-slate-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
                     :class="{ 'border-red-500': form.errors.remarks }"
                 ></textarea>
                 <InputError class="mt-2" :message="form.errors.remarks" />
@@ -237,7 +237,7 @@ const handleCancel = () => {
             <button
                 type="button"
                 @click="handleCancel"
-                class="inline-flex items-center px-4 py-2 bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-300 focus:bg-gray-300 active:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
+                class="inline-flex items-center px-4 py-2 bg-slate-200 border border-transparent rounded-md font-semibold text-xs text-slate-700 uppercase tracking-widest hover:bg-slate-300 focus:bg-slate-300 active:bg-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
             >
                 Cancel
             </button>

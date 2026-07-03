@@ -64,7 +64,7 @@ const submit = () => {
                     <button
                         type="button"
                         @click="$emit('close')"
-                        class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 mr-2"
+                        class="px-4 py-2 bg-slate-300 rounded hover:bg-slate-400 mr-2"
                     >
                         Cancel
                     </button>
@@ -84,7 +84,7 @@ const submit = () => {
 
 <style scoped>
 .input {
-    @apply w-full border border-gray-300 rounded px-2 py-1 mt-1
+    @apply w-full border border-slate-300 rounded px-2 py-1 mt-1
     focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-500 text-sm;
 }
 </style>

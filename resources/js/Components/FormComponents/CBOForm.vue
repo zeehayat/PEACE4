@@ -116,6 +116,6 @@ const districts = [
 
 <style scoped>
 .input {
-    @apply mt-1 block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2;
+    @apply mt-1 block w-full border border-slate-300 rounded-md shadow-sm px-3 py-2;
 }
 </style>
