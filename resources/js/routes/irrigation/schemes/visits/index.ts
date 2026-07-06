@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\ProjectVisitController::index
-* @see app/Http/Controllers/ProjectVisitController.php:38
+* @see app/Http/Controllers/ProjectVisitController.php:55
 * @route '/irrigation/schemes/{scheme}/visits'
 */
 export const index = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -16,7 +16,7 @@ index.definition = {
 
 /**
 * @see \App\Http\Controllers\ProjectVisitController::index
-* @see app/Http/Controllers/ProjectVisitController.php:38
+* @see app/Http/Controllers/ProjectVisitController.php:55
 * @route '/irrigation/schemes/{scheme}/visits'
 */
 index.url = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: RouteQueryOptions) => {
@@ -43,7 +43,7 @@ index.url = (args: { scheme: string | number } | [scheme: string | number ] | st
 
 /**
 * @see \App\Http\Controllers\ProjectVisitController::index
-* @see app/Http/Controllers/ProjectVisitController.php:38
+* @see app/Http/Controllers/ProjectVisitController.php:55
 * @route '/irrigation/schemes/{scheme}/visits'
 */
 index.get = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -53,7 +53,7 @@ index.get = (args: { scheme: string | number } | [scheme: string | number ] | st
 
 /**
 * @see \App\Http\Controllers\ProjectVisitController::index
-* @see app/Http/Controllers/ProjectVisitController.php:38
+* @see app/Http/Controllers/ProjectVisitController.php:55
 * @route '/irrigation/schemes/{scheme}/visits'
 */
 index.head = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -63,7 +63,7 @@ index.head = (args: { scheme: string | number } | [scheme: string | number ] | s
 
 /**
 * @see \App\Http\Controllers\ProjectVisitController::store
-* @see app/Http/Controllers/ProjectVisitController.php:53
+* @see app/Http/Controllers/ProjectVisitController.php:70
 * @route '/irrigation/schemes/{scheme}/visits'
 */
 export const store = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -78,7 +78,7 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\ProjectVisitController::store
-* @see app/Http/Controllers/ProjectVisitController.php:53
+* @see app/Http/Controllers/ProjectVisitController.php:70
 * @route '/irrigation/schemes/{scheme}/visits'
 */
 store.url = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: RouteQueryOptions) => {
@@ -105,7 +105,7 @@ store.url = (args: { scheme: string | number } | [scheme: string | number ] | st
 
 /**
 * @see \App\Http\Controllers\ProjectVisitController::store
-* @see app/Http/Controllers/ProjectVisitController.php:53
+* @see app/Http/Controllers/ProjectVisitController.php:70
 * @route '/irrigation/schemes/{scheme}/visits'
 */
 store.post = (args: { scheme: string | number } | [scheme: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -115,7 +115,7 @@ store.post = (args: { scheme: string | number } | [scheme: string | number ] | s
 
 /**
 * @see \App\Http\Controllers\ProjectVisitController::update
-* @see app/Http/Controllers/ProjectVisitController.php:80
+* @see app/Http/Controllers/ProjectVisitController.php:97
 * @route '/irrigation/schemes/{scheme}/visits/{visit}'
 */
 export const update = (args: { scheme: string | number, visit: number | { id: number } } | [scheme: string | number, visit: number | { id: number } ], options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -130,7 +130,7 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\ProjectVisitController::update
-* @see app/Http/Controllers/ProjectVisitController.php:80
+* @see app/Http/Controllers/ProjectVisitController.php:97
 * @route '/irrigation/schemes/{scheme}/visits/{visit}'
 */
 update.url = (args: { scheme: string | number, visit: number | { id: number } } | [scheme: string | number, visit: number | { id: number } ], options?: RouteQueryOptions) => {
@@ -158,7 +158,7 @@ update.url = (args: { scheme: string | number, visit: number | { id: number } } 
 
 /**
 * @see \App\Http\Controllers\ProjectVisitController::update
-* @see app/Http/Controllers/ProjectVisitController.php:80
+* @see app/Http/Controllers/ProjectVisitController.php:97
 * @route '/irrigation/schemes/{scheme}/visits/{visit}'
 */
 update.put = (args: { scheme: string | number, visit: number | { id: number } } | [scheme: string | number, visit: number | { id: number } ], options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -168,7 +168,7 @@ update.put = (args: { scheme: string | number, visit: number | { id: number } } 
 
 /**
 * @see \App\Http\Controllers\ProjectVisitController::update
-* @see app/Http/Controllers/ProjectVisitController.php:80
+* @see app/Http/Controllers/ProjectVisitController.php:97
 * @route '/irrigation/schemes/{scheme}/visits/{visit}'
 */
 update.patch = (args: { scheme: string | number, visit: number | { id: number } } | [scheme: string | number, visit: number | { id: number } ], options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
@@ -178,7 +178,7 @@ update.patch = (args: { scheme: string | number, visit: number | { id: number } 
 
 /**
 * @see \App\Http\Controllers\ProjectVisitController::destroy
-* @see app/Http/Controllers/ProjectVisitController.php:113
+* @see app/Http/Controllers/ProjectVisitController.php:130
 * @route '/irrigation/schemes/{scheme}/visits/{visit}'
 */
 export const destroy = (args: { scheme: string | number, visit: number | { id: number } } | [scheme: string | number, visit: number | { id: number } ], options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -193,7 +193,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\ProjectVisitController::destroy
-* @see app/Http/Controllers/ProjectVisitController.php:113
+* @see app/Http/Controllers/ProjectVisitController.php:130
 * @route '/irrigation/schemes/{scheme}/visits/{visit}'
 */
 destroy.url = (args: { scheme: string | number, visit: number | { id: number } } | [scheme: string | number, visit: number | { id: number } ], options?: RouteQueryOptions) => {
@@ -221,7 +221,7 @@ destroy.url = (args: { scheme: string | number, visit: number | { id: number } }
 
 /**
 * @see \App\Http\Controllers\ProjectVisitController::destroy
-* @see app/Http/Controllers/ProjectVisitController.php:113
+* @see app/Http/Controllers/ProjectVisitController.php:130
 * @route '/irrigation/schemes/{scheme}/visits/{visit}'
 */
 destroy.delete = (args: { scheme: string | number, visit: number | { id: number } } | [scheme: string | number, visit: number | { id: number } ], options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
