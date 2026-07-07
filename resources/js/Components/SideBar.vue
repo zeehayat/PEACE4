@@ -16,7 +16,7 @@ const isActive = (routeName) => {
 };
 
 const user = computed(() => page.props.auth.user);
-const isAdmin = computed(() => user.value?.roles?.some((r) => ['Admin', 'Root'].includes(r.name)));
+const isAdmin = computed(() => user.value?.roles?.some((r) => ['Admin', 'Root'].includes(r)));
 </script>
 
 <template>

@@ -22,9 +22,13 @@ class UserService
             $roles = $data['roles'] ?? [];
             unset($data['roles']);
 
+            $permissions = $data['permissions'] ?? [];
+            unset($data['permissions']);
+
             $data['password'] = Hash::make($data['password']);
             $user = User::create($data);
             $user->syncRoles($roles);
+            $user->syncPermissions($permissions);
 
             Log::info('User created.', ['user_id' => $user->id]);
             return $user;
