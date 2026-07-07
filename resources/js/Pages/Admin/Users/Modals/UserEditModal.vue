@@ -6,7 +6,7 @@ const props = defineProps({
     show: Boolean,
     user: { type: Object, required: true },
     roles: Array,
-    permissions: Array,
+    groupedPermissions: Object,
     districts: Array,
 });
 
@@ -28,7 +28,7 @@ const handleFormCancel = () => {
             <UserForm
                 :user="user"
                 :roles="roles"
-                :permissions="permissions"
+                :grouped-permissions="groupedPermissions"
                 :districts="districts"
                 mode="update"
                 @success="handleFormSuccess"

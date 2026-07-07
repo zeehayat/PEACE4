@@ -10,6 +10,7 @@ import UserDeleteModal from '@/Pages/Admin/Users/Modals/UserDeleteModal.vue';
 const props = defineProps({
     users: Object,
     roles: Array,
+    groupedPermissions: Object,
     districts: Array,
     filters: Object,
     can: Object,
@@ -106,8 +107,8 @@ const handleSearch = () => {
             </div>
         </div>
 
-        <UserCreateModal :show="showUserCreateModal" :roles="roles" :districts="districts" @close="closeModal" />
-        <UserEditModal v-if="selectedUser" :show="showUserEditModal" :user="selectedUser" :roles="roles" :districts="districts" @close="closeModal" />
+        <UserCreateModal :show="showUserCreateModal" :roles="roles" :grouped-permissions="groupedPermissions" :districts="districts" @close="closeModal" />
+        <UserEditModal v-if="selectedUser" :show="showUserEditModal" :user="selectedUser" :roles="roles" :grouped-permissions="groupedPermissions" :districts="districts" @close="closeModal" />
         <UserDeleteModal v-if="selectedUser" :show="showUserDeleteModal" :user="selectedUser" @close="closeModal" />
     </AppLayout>
 </template>

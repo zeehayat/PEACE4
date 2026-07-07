@@ -5,7 +5,7 @@ import UserForm from '@/Pages/Admin/Users/Forms/UserForm.vue';
 const props = defineProps({
     show: Boolean,
     roles: Array,
-    permissions: Array,
+    groupedPermissions: Object,
     districts: Array,
 });
 
@@ -27,7 +27,7 @@ const handleFormCancel = () => {
             <UserForm
                 :user="null"
                 :roles="roles"
-                :permissions="permissions"
+                :grouped-permissions="groupedPermissions"
                 :districts="districts"
                 @success="handleFormSuccess"
                 @cancel="handleFormCancel"

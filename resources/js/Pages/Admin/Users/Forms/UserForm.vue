@@ -11,10 +11,15 @@ import PasswordInput from '@/Components/PasswordInput.vue'; // Assuming a Passwo
 
 const props = defineProps({
     user: { type: Object, default: null },
-    roles: { type: Array, default: () => [] }, // Good practice to add defaults
-    permissions: { type: Array, default: () => [] }, // Good practice to add defaults
-    districts: { type: Array, default: () => [] }, // <-- ADD THIS DEFAULT
+    roles: { type: Array, default: () => [] },
+    groupedPermissions: { type: Object, default: () => ({}) },
+    districts: { type: Array, default: () => [] },
     mode: { type: String, default: 'create' },
+});
+
+const groupEntries = computed(() => {
+    const entries = Object.entries(props.groupedPermissions || {});
+    return entries.sort(([a], [b]) => a.localeCompare(b));
 });
 
 const emit = defineEmits(['success', 'cancel']);
@@ -148,6 +153,43 @@ const handleCancel = () => {
                     :class="{ 'border-red-500': form.errors.roles }"
                 />
                 <InputError class="mt-2" :message="form.errors.roles" />
+            </div>
+
+            <!-- Direct Permissions -->
+            <div class="md:col-span-2">
+                <InputLabel value="Direct Permissions" />
+                <p class="text-xs text-slate-500 mt-1 mb-2">
+                    Granted directly to this user, in addition to whatever their roles above already grant.
+                </p>
+                <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+                    <details
+                        v-for="[group, groupPermissions] in groupEntries"
+                        :key="group"
+                        class="border border-slate-200 rounded-md bg-slate-50"
+                    >
+                        <summary class="cursor-pointer select-none px-3 py-2 font-semibold text-slate-800 capitalize">
+                            {{ group }} Management
+                        </summary>
+                        <div class="px-3 pb-3 pt-2">
+                            <div class="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                                <label
+                                    v-for="permission in groupPermissions"
+                                    :key="permission.id"
+                                    class="flex items-center text-sm text-slate-700"
+                                >
+                                    <input
+                                        type="checkbox"
+                                        :value="permission.name"
+                                        v-model="form.permissions"
+                                        class="text-indigo-600 border-slate-300 rounded shadow-sm focus:ring-indigo-500"
+                                    />
+                                    <span class="ml-2">{{ permission.name.replace(/_/g, ' ') }}</span>
+                                </label>
+                            </div>
+                        </div>
+                    </details>
+                </div>
+                <InputError :message="form.errors.permissions" class="mt-2" />
             </div>
 
             <!-- Password (only for create mode, or nullable for update) -->
