@@ -13,9 +13,7 @@ class RoleController extends Controller
 {
     public function __construct()
     {
-        // This will apply the UserPolicy and check for 'role_manage' permission.
-        // Make sure your seeder assigns this permission to the Super Admin role.
-        //$this->middleware('can:role_manage');
+        $this->middleware('can:role_manage');
     }
 
     public function index(Request $request)

@@ -16,7 +16,6 @@ const props = defineProps({
 });
 
 const page = usePage();
-console.log('Auth Object:', page.props.auth);
 
 // Helper to check for permission
 const canManageRoles = ()=> page.props.auth.user.can.role_manage;
@@ -66,7 +65,6 @@ const closeModal = () => {
         <template #header>
             <h2 class="text-xl font-semibold leading-tight text-slate-800">
                 Roles &amp; Permissions
-                {{$page.props.auth.user}}
             </h2>
         </template>
 
