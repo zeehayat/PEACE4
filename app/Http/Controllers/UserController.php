@@ -35,9 +35,14 @@ class UserController extends Controller
 
         $users = $query->paginate(10)->withQueryString();
 
+        $groupedPermissions = Permission::all()->groupBy(function ($permission) {
+            return explode('_', $permission->name)[0];
+        });
+
         return Inertia::render('Admin/Users/Index', [
             'users' => $users,
             'roles' => Role::all(['id', 'name']),
+            'groupedPermissions' => $groupedPermissions,
             'districts' => \App\Models\District::orderBy('name')->get(['id', 'name']),
             'filters' => $request->only('search', 'open'),
             'can' => [
