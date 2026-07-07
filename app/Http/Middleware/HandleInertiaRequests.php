@@ -40,23 +40,17 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-
-//        dd([
-//            'route'          => optional(request()->route())->getName(),
-//            'defaults.guard' => config('auth.defaults.guard'),
-//            'guards'         => collect(array_keys(config('auth.guards')))
-//                ->mapWithKeys(fn ($g) => [$g => Auth::guard($g)->id()])
-//                ->all(),
-//            'request.user()' => optional($request->user())->id,
-//        ]);
-
         return array_merge(parent::share($request), [
             'auth' => [
-                'user' => [
-                    'can' => [
-                        'user_manage' => true,
-                    ],
-                ],
+                'user' => $request->user() ? array_merge(
+                    $request->user()->only(['id', 'name', 'email']),
+                    [
+                        'roles' => $request->user()->getRoleNames(),
+                        'can' => $request->user()->getAllPermissions()->mapWithKeys(
+                            fn ($permission) => [$permission->name => true]
+                        ),
+                    ]
+                ) : null,
             ],
             'errors' => fn () => $request->session()->get('errors')
                 ? $request->session()->get('errors')->getBag('default')->toArray()
@@ -65,9 +59,6 @@ class HandleInertiaRequests extends Middleware
                 'success' => fn () => $request->session()->get('success'),
                 'error' => fn () => $request->session()->get('error'),
             ],
-//            'auth.user.can' => $request->user() ? $request->user()->getAllPermissions()->mapWithKeys(function ($permission) {
-//                return [$permission->name => true];
-//            }) : [],
         ]);
     }
 }
