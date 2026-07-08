@@ -6,6 +6,7 @@ import AttachmentViewer from '@/Components/AttachmentComponent/AttachmentViewer.
 import WysiwygEditor from '@/Components/WysiwygEditor.vue';
 import { router } from '@inertiajs/vue3';
 import LrmAchievementModal from '@/Pages/LRM/Modals/LrmAchievementModal.vue';
+import LrmCroModal from '@/Pages/LRM/Modals/LrmCroModal.vue';
 
 const props = defineProps({
     show: Boolean,
@@ -52,6 +53,26 @@ const editAchievement = (achievement) => {
 const deleteAchievement = (achievement) => {
     if (!confirm('Delete this NRM achievement entry?')) return;
     router.delete(route('lrm.committees.achievements.destroy', [props.lrmCommittee.id, achievement.id]), {
+        preserveScroll: true,
+    });
+};
+
+const showCroModal = ref(false);
+const selectedCro = ref(null);
+
+const openNewCroModal = () => {
+    selectedCro.value = null;
+    showCroModal.value = true;
+};
+
+const editCro = (cro) => {
+    selectedCro.value = cro;
+    showCroModal.value = true;
+};
+
+const deleteCro = (cro) => {
+    if (!confirm('Delete this CRO record?')) return;
+    router.delete(route('lrm.committees.cros.destroy', [props.lrmCommittee.id, cro.id]), {
         preserveScroll: true,
     });
 };
@@ -112,6 +133,49 @@ const deleteAchievement = (achievement) => {
                 </div>
                 <p v-else class="text-slate-500 text-sm">No NRM achievements recorded yet.</p>
             </section>
+
+            <section class="mb-8 border-b pb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-xl font-bold">Community Resource Organisations</h2>
+                    <PrimaryButton @click="openNewCroModal">Add CRO</PrimaryButton>
+                </div>
+                <div v-if="lrmCommittee.lrm_cros && lrmCommittee.lrm_cros.length" class="overflow-x-auto">
+                    <table class="min-w-full text-sm text-left border-collapse">
+                        <thead>
+                            <tr class="border-b">
+                                <th class="py-2 pr-4">Name</th>
+                                <th class="py-2 pr-4">Village</th>
+                                <th class="py-2 pr-4">Type</th>
+                                <th class="py-2 pr-4">Members (M/F/Total)</th>
+                                <th class="py-2 pr-4">President</th>
+                                <th class="py-2 pr-4">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="cro in lrmCommittee.lrm_cros" :key="cro.id" class="border-b">
+                                <td class="py-2 pr-4">{{ cro.name }}</td>
+                                <td class="py-2 pr-4">{{ cro.village ?? 'N/A' }}</td>
+                                <td class="py-2 pr-4">{{ cro.type ?? 'N/A' }}</td>
+                                <td class="py-2 pr-4">{{ cro.male_members ?? '—' }} / {{ cro.female_members ?? '—' }} / {{ cro.total_members ?? '—' }}</td>
+                                <td class="py-2 pr-4">{{ cro.president_name ?? 'N/A' }}</td>
+                                <td class="py-2 pr-4 space-x-2">
+                                    <button @click="editCro(cro)" class="text-indigo-600 hover:underline">Edit</button>
+                                    <button @click="deleteCro(cro)" class="text-red-600 hover:underline">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p v-else class="text-slate-500 text-sm">No CROs recorded yet.</p>
+            </section>
+
+            <LrmCroModal
+                :show="showCroModal"
+                :lrm-committee-id="lrmCommittee.id"
+                :cro="selectedCro"
+                @close="showCroModal = false"
+                @saved="() => router.reload({ only: ['lrmCommittees'] })"
+            />
 
             <LrmAchievementModal
                 :show="showAchievementModal"
