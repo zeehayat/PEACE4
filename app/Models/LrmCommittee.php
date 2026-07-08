@@ -23,6 +23,27 @@ class LrmCommittee extends Model implements HasMedia
         'fruit_plants',
         'total_land_covered_hectares',
         'remarks',
+        'target_forest_area_value',
+        'target_forest_area_unit',
+        'target_fruit_area_value',
+        'target_fruit_area_unit',
+        'target_forest_plants_count',
+        'target_fruit_plants_count',
+        'target_drr_training_persons',
+        'target_check_dams_value',
+        'target_check_dams_unit',
+        'target_greenbelt_lawn_value',
+        'target_greenbelt_lawn_unit',
+        'target_composting_training_persons',
+        'target_pest_control_training_persons',
+        'target_pest_control_kits',
+    ];
+
+    protected $attributes = [
+        'target_forest_area_unit' => 'Kanal',
+        'target_fruit_area_unit' => 'Kanal',
+        'target_check_dams_unit' => 'CFT',
+        'target_greenbelt_lawn_unit' => 'Sft',
     ];
 
     protected $casts = [
@@ -63,6 +84,11 @@ class LrmCommittee extends Model implements HasMedia
     public function cbo(): BelongsTo
     {
         return $this->belongsTo(Cbo::class);
+    }
+
+    public function lrmNrmAchievements(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(LrmNrmAchievement::class);
     }
 
     // --- Spatie Media Library ---

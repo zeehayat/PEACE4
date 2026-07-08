@@ -36,7 +36,7 @@ class LrmCommitteePolicy extends BasePolicy
 
         // District roles can only view committees in their assigned district.
         if ($user->hasAnyRole(['M&E-DISTRICT', 'Engineer-DISTRICT', 'KPO-DISTRICT', 'Viewer-DISTRICT'])) {
-            return $user->district_id === $lrmCommittee->cbo->district_id;
+            return $user->district && $lrmCommittee->cbo->district === $user->district->name;
         }
 
         return false;
@@ -60,7 +60,7 @@ class LrmCommitteePolicy extends BasePolicy
 
         // District roles can only update committees in their district.
         if ($user->hasAnyRole(['M&E-DISTRICT', 'Engineer-DISTRICT'])) {
-            return $user->district_id === $lrmCommittee->cbo->district_id;
+            return $user->district && $lrmCommittee->cbo->district === $user->district->name;
         }
 
         return false;
@@ -79,7 +79,7 @@ class LrmCommitteePolicy extends BasePolicy
 
         // District roles can only delete committees in their district.
         if ($user->hasAnyRole(['M&E-DISTRICT', 'Engineer-DISTRICT'])) {
-            return $user->district_id === $lrmCommittee->cbo->district_id;
+            return $user->district && $lrmCommittee->cbo->district === $user->district->name;
         }
 
         return false;
