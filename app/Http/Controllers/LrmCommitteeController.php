@@ -30,7 +30,7 @@ class LrmCommitteeController extends Controller
     public function index(Request $request)
     {
         $query = LrmCommittee::query()->forUser(Auth::user())
-            ->with(['cbo', 'media']);
+            ->with(['cbo', 'media', 'lrmNrmAchievements']);
 
         // --- ACL: Scope by district for DISTRICT roles ---
         $user = Auth::user();

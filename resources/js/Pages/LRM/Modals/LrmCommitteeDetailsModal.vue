@@ -1,9 +1,11 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import Modal from '@/Components/Modal.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import AttachmentViewer from '@/Components/AttachmentComponent/AttachmentViewer.vue';
 import WysiwygEditor from '@/Components/WysiwygEditor.vue';
+import { router } from '@inertiajs/vue3';
+import LrmAchievementModal from '@/Pages/LRM/Modals/LrmAchievementModal.vue';
 
 const props = defineProps({
     show: Boolean,
@@ -33,6 +35,26 @@ const hasAttachments = computed(() => props.lrmCommittee.attachments_frontend &&
 const hasRemarks = computed(() => props.lrmCommittee.remarks && props.lrmCommittee.remarks.trim() !== '');
 const hasForestPlants = computed(() => props.lrmCommittee.forest_plants && props.lrmCommittee.forest_plants.length > 0);
 const hasFruitPlants = computed(() => props.lrmCommittee.fruit_plants && props.lrmCommittee.fruit_plants.length > 0);
+
+const showAchievementModal = ref(false);
+const selectedAchievement = ref(null);
+
+const openNewAchievementModal = () => {
+    selectedAchievement.value = null;
+    showAchievementModal.value = true;
+};
+
+const editAchievement = (achievement) => {
+    selectedAchievement.value = achievement;
+    showAchievementModal.value = true;
+};
+
+const deleteAchievement = (achievement) => {
+    if (!confirm('Delete this NRM achievement entry?')) return;
+    router.delete(route('lrm.committees.achievements.destroy', [props.lrmCommittee.id, achievement.id]), {
+        preserveScroll: true,
+    });
+};
 </script>
 
 <template>
@@ -57,6 +79,47 @@ const hasFruitPlants = computed(() => props.lrmCommittee.fruit_plants && props.l
                     <div v-if="hasFruitPlants" class="detail-item"><p class="font-semibold text-slate-700">Fruit Plants:</p><p>{{ lrmCommittee.fruit_plants.join(', ') }}</p></div>
                 </div>
             </section>
+
+            <section class="mb-8 border-b pb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-xl font-bold">NRM Achievements</h2>
+                    <PrimaryButton @click="openNewAchievementModal">Record Achievement</PrimaryButton>
+                </div>
+                <div v-if="lrmCommittee.lrm_nrm_achievements && lrmCommittee.lrm_nrm_achievements.length" class="overflow-x-auto">
+                    <table class="min-w-full text-sm text-left border-collapse">
+                        <thead>
+                            <tr class="border-b">
+                                <th class="py-2 pr-4">Date</th>
+                                <th class="py-2 pr-4">Forest Plants</th>
+                                <th class="py-2 pr-4">Fruit Plants</th>
+                                <th class="py-2 pr-4">DRR Trained</th>
+                                <th class="py-2 pr-4">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="achievement in lrmCommittee.lrm_nrm_achievements" :key="achievement.id" class="border-b">
+                                <td class="py-2 pr-4">{{ formatNullableDate(achievement.date) }}</td>
+                                <td class="py-2 pr-4">{{ achievement.achieved_forest_plants_count ?? 'N/A' }}</td>
+                                <td class="py-2 pr-4">{{ achievement.achieved_fruit_plants_count ?? 'N/A' }}</td>
+                                <td class="py-2 pr-4">{{ achievement.achieved_drr_training_persons ?? 'N/A' }}</td>
+                                <td class="py-2 pr-4 space-x-2">
+                                    <button @click="editAchievement(achievement)" class="text-indigo-600 hover:underline">Edit</button>
+                                    <button @click="deleteAchievement(achievement)" class="text-red-600 hover:underline">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p v-else class="text-slate-500 text-sm">No NRM achievements recorded yet.</p>
+            </section>
+
+            <LrmAchievementModal
+                :show="showAchievementModal"
+                :lrm-committee-id="lrmCommittee.id"
+                :achievement="selectedAchievement"
+                @close="showAchievementModal = false"
+                @saved="() => router.reload({ only: ['lrmCommittees'] })"
+            />
 
             <div v-if="hasRemarks" class="mt-6 p-4 bg-slate-50 rounded-lg border border-slate-200">
                 <h2 class="text-xl font-bold mb-4">Remarks</h2>
