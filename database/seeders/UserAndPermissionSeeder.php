@@ -24,6 +24,7 @@ class UserAndPermissionSeeder extends Seeder
             'mhp_site_view', 'mhp_site_create', 'mhp_site_update', 'mhp_site_delete',
             'irrigation_scheme_view', 'irrigation_scheme_create', 'irrigation_scheme_update', 'irrigation_scheme_delete',
             'lrm_committee_view', 'lrm_committee_create', 'lrm_committee_update', 'lrm_committee_delete',
+            'lrm_nrm_achievement_view', 'lrm_nrm_achievement_create', 'lrm_nrm_achievement_update', 'lrm_nrm_achievement_delete',
             'vendor_view', 'vendor_create', 'vendor_update', 'vendor_delete',
             'financial_installment_manage',
             'physical_progress_manage',

@@ -2,11 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LrmCommitteeController;
+use App\Http\Controllers\LrmNrmAchievementController;
 
-// All routes within this file will inherit the 'web' middleware
-Route::middleware(['web'])->group(function () {
-    // ... other routes ...
+Route::middleware(['web', 'auth'])->group(function () {
+    Route::resource('lrm-committees', LrmCommitteeController::class)->names('committees');
 
-    // LRM module routes
-    Route::resource('lrm-committees', LrmCommitteeController::class)->names('committees'); // Namespaced route names
+    Route::resource('lrm-committees.achievements', LrmNrmAchievementController::class)
+        ->parameters(['achievements' => 'achievement'])
+        ->except(['create', 'edit', 'show'])
+        ->names('committees.achievements');
 });

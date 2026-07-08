@@ -11,6 +11,7 @@ use App\Models\IrrigationCostRevision;
 use App\Models\IrrigationScheme;
 use App\Models\IrrigationSchemeContract;
 use App\Models\LrmCommittee;
+use App\Models\LrmNrmAchievement;
 use App\Models\MhpAdminApproval;
 use App\Models\MhpCompletion;
 use App\Models\MhpEmeFinancialProgress;
@@ -29,6 +30,7 @@ use App\Policies\IrrigationCostRevisionPolicy;
 use App\Policies\IrrigationSchemeContractPolicy;
 use App\Policies\IrrigationSchemePolicy;
 use App\Policies\LrmCommitteePolicy;
+use App\Policies\LrmNrmAchievementPolicy;
 use App\Policies\MhpAdminApprovalPolicy;
 use App\Policies\MhpCompletionPolicy;
 use App\Policies\MhpEmeFinancialProgressPolicy;
@@ -58,6 +60,7 @@ class AuthServiceProvider extends ServiceProvider
         MhpSite::class => MhpSitePolicy::class,
 
         LrmCommittee::class => LrmCommitteePolicy::class,
+        LrmNrmAchievement::class => LrmNrmAchievementPolicy::class,
 
         ProjectPhysicalProgress::class => ProjectPhysicalProgressPolicy::class,
         ProjectFinancialInstallment::class => ProjectFinancialInstallmentPolicy::class,

@@ -50,6 +50,10 @@ class RolesAndPermissionsSeeder extends Seeder
             'lrm_committee_create',
             'lrm_committee_update',
             'lrm_committee_delete',
+            'lrm_nrm_achievement_view',
+            'lrm_nrm_achievement_create',
+            'lrm_nrm_achievement_update',
+            'lrm_nrm_achievement_delete',
 
             // Vendor module (keep existing)
             'vendor_view',
@@ -94,6 +98,7 @@ class RolesAndPermissionsSeeder extends Seeder
             'irrigation_scheme_view', 'irrigation_scheme_create', 'irrigation_scheme_update', 'irrigation_scheme_delete',
             // supporting modules
             'lrm_committee_view', 'lrm_committee_create', 'lrm_committee_update', 'lrm_committee_delete',
+            'lrm_nrm_achievement_view', 'lrm_nrm_achievement_create', 'lrm_nrm_achievement_update', 'lrm_nrm_achievement_delete',
             'vendor_view', 'vendor_create', 'vendor_update', 'vendor_delete',
         ]);
 
@@ -104,6 +109,7 @@ class RolesAndPermissionsSeeder extends Seeder
             'mhp_site_view',
             'irrigation_scheme_view',
             'lrm_committee_view',
+            'lrm_nrm_achievement_view',
             'vendor_view',
         ]);
 
