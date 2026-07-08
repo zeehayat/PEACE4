@@ -46,6 +46,20 @@ function getInitialFormData(lrmCommittee) {
         forest_plants: lrmCommittee ? lrmCommittee.forest_plants : [],
         fruit_plants: lrmCommittee ? lrmCommittee.fruit_plants : [],
         total_land_covered_hectares: lrmCommittee ? lrmCommittee.total_land_covered_hectares : null,
+        target_forest_area_value: lrmCommittee ? lrmCommittee.target_forest_area_value : null,
+        target_forest_area_unit: lrmCommittee ? lrmCommittee.target_forest_area_unit : 'Kanal',
+        target_fruit_area_value: lrmCommittee ? lrmCommittee.target_fruit_area_value : null,
+        target_fruit_area_unit: lrmCommittee ? lrmCommittee.target_fruit_area_unit : 'Kanal',
+        target_forest_plants_count: lrmCommittee ? lrmCommittee.target_forest_plants_count : null,
+        target_fruit_plants_count: lrmCommittee ? lrmCommittee.target_fruit_plants_count : null,
+        target_drr_training_persons: lrmCommittee ? lrmCommittee.target_drr_training_persons : null,
+        target_check_dams_value: lrmCommittee ? lrmCommittee.target_check_dams_value : null,
+        target_check_dams_unit: lrmCommittee ? lrmCommittee.target_check_dams_unit : 'CFT',
+        target_greenbelt_lawn_value: lrmCommittee ? lrmCommittee.target_greenbelt_lawn_value : null,
+        target_greenbelt_lawn_unit: lrmCommittee ? lrmCommittee.target_greenbelt_lawn_unit : 'Sft',
+        target_composting_training_persons: lrmCommittee ? lrmCommittee.target_composting_training_persons : null,
+        target_pest_control_training_persons: lrmCommittee ? lrmCommittee.target_pest_control_training_persons : null,
+        target_pest_control_kits: lrmCommittee ? lrmCommittee.target_pest_control_kits : null,
         remarks: lrmCommittee ? lrmCommittee.remarks : '',
         attachments: [],
         attachments_to_delete: [],
@@ -208,6 +222,95 @@ const handleCancel = () => {
                     :class="{ 'border-red-500': form.errors.total_land_covered_hectares }"
                 />
                 <InputError class="mt-2" :message="form.errors.total_land_covered_hectares" />
+            </div>
+
+            <!-- NRM Targets -->
+            <div class="md:col-span-2 border-t border-slate-200 pt-6 mt-2">
+                <h3 class="text-sm font-bold text-slate-700 uppercase tracking-wide mb-4">NRM Targets</h3>
+            </div>
+
+            <div class="flex gap-2 items-end">
+                <div class="flex-1">
+                    <InputLabel for="target_forest_area_value" value="Forest Area Target" />
+                    <TextInput id="target_forest_area_value" v-model="form.target_forest_area_value" type="number" step="0.01" min="0" class="mt-1 block w-full" :class="{ 'border-red-500': form.errors.target_forest_area_value }" />
+                    <InputError class="mt-2" :message="form.errors.target_forest_area_value" />
+                </div>
+                <div class="w-24">
+                    <InputLabel for="target_forest_area_unit" value="Unit" />
+                    <TextInput id="target_forest_area_unit" v-model="form.target_forest_area_unit" type="text" class="mt-1 block w-full" />
+                </div>
+            </div>
+
+            <div class="flex gap-2 items-end">
+                <div class="flex-1">
+                    <InputLabel for="target_fruit_area_value" value="Fruit Area Target" />
+                    <TextInput id="target_fruit_area_value" v-model="form.target_fruit_area_value" type="number" step="0.01" min="0" class="mt-1 block w-full" :class="{ 'border-red-500': form.errors.target_fruit_area_value }" />
+                    <InputError class="mt-2" :message="form.errors.target_fruit_area_value" />
+                </div>
+                <div class="w-24">
+                    <InputLabel for="target_fruit_area_unit" value="Unit" />
+                    <TextInput id="target_fruit_area_unit" v-model="form.target_fruit_area_unit" type="text" class="mt-1 block w-full" />
+                </div>
+            </div>
+
+            <div>
+                <InputLabel for="target_forest_plants_count" value="Forest Plants Target (Count)" />
+                <TextInput id="target_forest_plants_count" v-model="form.target_forest_plants_count" type="number" min="0" class="mt-1 block w-full" :class="{ 'border-red-500': form.errors.target_forest_plants_count }" />
+                <InputError class="mt-2" :message="form.errors.target_forest_plants_count" />
+            </div>
+
+            <div>
+                <InputLabel for="target_fruit_plants_count" value="Fruit Plants Target (Count)" />
+                <TextInput id="target_fruit_plants_count" v-model="form.target_fruit_plants_count" type="number" min="0" class="mt-1 block w-full" :class="{ 'border-red-500': form.errors.target_fruit_plants_count }" />
+                <InputError class="mt-2" :message="form.errors.target_fruit_plants_count" />
+            </div>
+
+            <div>
+                <InputLabel for="target_drr_training_persons" value="DRR Training Target (Persons)" />
+                <TextInput id="target_drr_training_persons" v-model="form.target_drr_training_persons" type="number" min="0" class="mt-1 block w-full" :class="{ 'border-red-500': form.errors.target_drr_training_persons }" />
+                <InputError class="mt-2" :message="form.errors.target_drr_training_persons" />
+            </div>
+
+            <div>
+                <InputLabel for="target_composting_training_persons" value="Composting Training Target (Persons)" />
+                <TextInput id="target_composting_training_persons" v-model="form.target_composting_training_persons" type="number" min="0" class="mt-1 block w-full" :class="{ 'border-red-500': form.errors.target_composting_training_persons }" />
+                <InputError class="mt-2" :message="form.errors.target_composting_training_persons" />
+            </div>
+
+            <div>
+                <InputLabel for="target_pest_control_training_persons" value="Pest Control Training Target (Persons)" />
+                <TextInput id="target_pest_control_training_persons" v-model="form.target_pest_control_training_persons" type="number" min="0" class="mt-1 block w-full" :class="{ 'border-red-500': form.errors.target_pest_control_training_persons }" />
+                <InputError class="mt-2" :message="form.errors.target_pest_control_training_persons" />
+            </div>
+
+            <div>
+                <InputLabel for="target_pest_control_kits" value="Pest Control Kits Target" />
+                <TextInput id="target_pest_control_kits" v-model="form.target_pest_control_kits" type="number" min="0" class="mt-1 block w-full" :class="{ 'border-red-500': form.errors.target_pest_control_kits }" />
+                <InputError class="mt-2" :message="form.errors.target_pest_control_kits" />
+            </div>
+
+            <div class="flex gap-2 items-end">
+                <div class="flex-1">
+                    <InputLabel for="target_check_dams_value" value="Check Dams Target" />
+                    <TextInput id="target_check_dams_value" v-model="form.target_check_dams_value" type="number" step="0.01" min="0" class="mt-1 block w-full" :class="{ 'border-red-500': form.errors.target_check_dams_value }" />
+                    <InputError class="mt-2" :message="form.errors.target_check_dams_value" />
+                </div>
+                <div class="w-24">
+                    <InputLabel for="target_check_dams_unit" value="Unit" />
+                    <TextInput id="target_check_dams_unit" v-model="form.target_check_dams_unit" type="text" class="mt-1 block w-full" />
+                </div>
+            </div>
+
+            <div class="flex gap-2 items-end">
+                <div class="flex-1">
+                    <InputLabel for="target_greenbelt_lawn_value" value="Green Belt / Lawn Target" />
+                    <TextInput id="target_greenbelt_lawn_value" v-model="form.target_greenbelt_lawn_value" type="number" step="0.01" min="0" class="mt-1 block w-full" :class="{ 'border-red-500': form.errors.target_greenbelt_lawn_value }" />
+                    <InputError class="mt-2" :message="form.errors.target_greenbelt_lawn_value" />
+                </div>
+                <div class="w-24">
+                    <InputLabel for="target_greenbelt_lawn_unit" value="Unit" />
+                    <TextInput id="target_greenbelt_lawn_unit" v-model="form.target_greenbelt_lawn_unit" type="text" class="mt-1 block w-full" />
+                </div>
             </div>
 
             <!-- Remarks (WYSIWYG Editor) -->
