@@ -25,8 +25,8 @@ const exportCsv = () => {
     <AppLayout title="LRM/NRM Report">
         <div class="py-8 max-w-7xl mx-auto px-4">
             <div class="flex items-center justify-between mb-6">
-                <h1 class="text-xl font-bold text-slate-900">LRM/NRM Targets vs. Achievements</h1>
-                <button @click="exportCsv" class="px-4 py-2 bg-indigo-600 text-white rounded-md text-sm font-semibold">Export CSV</button>
+                <h1 class="text-xl font-bold text-ink-900">LRM/NRM Targets vs. Achievements</h1>
+                <button @click="exportCsv" class="px-4 py-2 bg-accent-600 text-white rounded-md text-sm font-semibold">Export CSV</button>
             </div>
 
             <div class="mb-6 w-64">
@@ -39,9 +39,9 @@ const exportCsv = () => {
                 />
             </div>
 
-            <div class="overflow-x-auto bg-white border border-slate-200 rounded-lg">
+            <div class="overflow-x-auto bg-surface border border-ink-200 rounded-lg">
                 <table class="min-w-full text-sm text-left">
-                    <thead class="bg-slate-50 text-slate-600 uppercase text-xs">
+                    <thead class="bg-paper-50 text-ink-600 uppercase text-xs">
                         <tr>
                             <th class="px-4 py-3">District</th>
                             <th class="px-4 py-3">CBO</th>
@@ -52,7 +52,7 @@ const exportCsv = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="row in rows" :key="row.id" class="border-t border-slate-100">
+                        <tr v-for="row in rows" :key="row.id" class="border-t border-ink-100">
                             <td class="px-4 py-2">{{ row.district }}</td>
                             <td class="px-4 py-2">{{ row.cbo_name }}</td>
                             <td class="px-4 py-2 text-right">{{ row.target_forest_plants_count ?? '—' }} / {{ row.achieved_forest_plants_count ?? '—' }}</td>

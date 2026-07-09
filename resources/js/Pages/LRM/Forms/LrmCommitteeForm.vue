@@ -225,8 +225,8 @@ const handleCancel = () => {
             </div>
 
             <!-- NRM Targets -->
-            <div class="md:col-span-2 border-t border-slate-200 pt-6 mt-2">
-                <h3 class="text-sm font-bold text-slate-700 uppercase tracking-wide mb-4">NRM Targets</h3>
+            <div class="md:col-span-2 border-t border-ink-200 pt-6 mt-2">
+                <h3 class="text-sm font-bold text-ink-700 uppercase tracking-wide mb-4">NRM Targets</h3>
             </div>
 
             <div class="flex gap-2 items-end">
@@ -342,7 +342,7 @@ const handleCancel = () => {
             <button
                 type="button"
                 @click="handleCancel"
-                class="inline-flex items-center px-4 py-2 bg-slate-200 border border-transparent rounded-md font-semibold text-xs text-slate-700 uppercase tracking-widest hover:bg-slate-300 focus:bg-slate-300 active:bg-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
+                class="inline-flex items-center px-4 py-2 bg-paper-200 border border-transparent rounded-md font-semibold text-xs text-ink-700 uppercase tracking-widest hover:bg-paper-300 focus:bg-paper-300 active:bg-paper-400 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 transition ease-in-out duration-150"
             >
                 Cancel
             </button>

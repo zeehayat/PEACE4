@@ -80,24 +80,24 @@ const deleteCro = (cro) => {
 
 <template>
     <Modal :show="show" @close="emit('close')" :maxWidth="'4xl'" :title="`LRM Committee Details`">
-        <div class="p-6 overflow-y-auto max-h-[85vh] text-slate-800 print-content">
+        <div class="p-6 overflow-y-auto max-h-[85vh] text-ink-800 print-content">
             <section class="mb-8 border-b pb-6">
                 <h2 class="text-xl font-bold mb-4">Committee Information</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                    <div class="detail-item"><p class="font-semibold text-slate-700">CBO:</p><p>{{ lrmCommittee.cbo?.reference_code ?? 'N/A' }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-slate-700">Date of Formation:</p><p>{{ formatNullableDate(lrmCommittee.date_of_lrm_committee_formation) }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-slate-700">No. of Members:</p><p>{{ lrmCommittee.no_of_lrm_committee_members ?? 'N/A' }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-slate-700">NRM Plan Finalized:</p><p>{{ lrmCommittee.date_of_nrm_plan_finalization ? formatNullableDate(lrmCommittee.date_of_nrm_plan_finalization) : 'N/A' }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-slate-700">Afforestation/Reforestation:</p><p>{{ lrmCommittee.has_afforestation_reforestation ? 'Yes' : 'No' }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-slate-700">Total Land Covered (Ha):</p><p>{{ lrmCommittee.total_land_covered_hectares ?? 'N/A' }}</p></div>
+                    <div class="detail-item"><p class="font-semibold text-ink-700">CBO:</p><p>{{ lrmCommittee.cbo?.reference_code ?? 'N/A' }}</p></div>
+                    <div class="detail-item"><p class="font-semibold text-ink-700">Date of Formation:</p><p>{{ formatNullableDate(lrmCommittee.date_of_lrm_committee_formation) }}</p></div>
+                    <div class="detail-item"><p class="font-semibold text-ink-700">No. of Members:</p><p>{{ lrmCommittee.no_of_lrm_committee_members ?? 'N/A' }}</p></div>
+                    <div class="detail-item"><p class="font-semibold text-ink-700">NRM Plan Finalized:</p><p>{{ lrmCommittee.date_of_nrm_plan_finalization ? formatNullableDate(lrmCommittee.date_of_nrm_plan_finalization) : 'N/A' }}</p></div>
+                    <div class="detail-item"><p class="font-semibold text-ink-700">Afforestation/Reforestation:</p><p>{{ lrmCommittee.has_afforestation_reforestation ? 'Yes' : 'No' }}</p></div>
+                    <div class="detail-item"><p class="font-semibold text-ink-700">Total Land Covered (Ha):</p><p>{{ lrmCommittee.total_land_covered_hectares ?? 'N/A' }}</p></div>
                 </div>
             </section>
 
             <section v-if="hasForestPlants || hasFruitPlants" class="mb-8 border-b pb-6">
                 <h2 class="text-xl font-bold mb-4">Plantation Details</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                    <div v-if="hasForestPlants" class="detail-item"><p class="font-semibold text-slate-700">Forest Plants:</p><p>{{ lrmCommittee.forest_plants.join(', ') }}</p></div>
-                    <div v-if="hasFruitPlants" class="detail-item"><p class="font-semibold text-slate-700">Fruit Plants:</p><p>{{ lrmCommittee.fruit_plants.join(', ') }}</p></div>
+                    <div v-if="hasForestPlants" class="detail-item"><p class="font-semibold text-ink-700">Forest Plants:</p><p>{{ lrmCommittee.forest_plants.join(', ') }}</p></div>
+                    <div v-if="hasFruitPlants" class="detail-item"><p class="font-semibold text-ink-700">Fruit Plants:</p><p>{{ lrmCommittee.fruit_plants.join(', ') }}</p></div>
                 </div>
             </section>
 
@@ -124,14 +124,14 @@ const deleteCro = (cro) => {
                                 <td class="py-2 pr-4">{{ achievement.achieved_fruit_plants_count ?? 'N/A' }}</td>
                                 <td class="py-2 pr-4">{{ achievement.achieved_drr_training_persons ?? 'N/A' }}</td>
                                 <td class="py-2 pr-4 space-x-2">
-                                    <button @click="editAchievement(achievement)" class="text-indigo-600 hover:underline">Edit</button>
+                                    <button @click="editAchievement(achievement)" class="text-accent-600 hover:underline">Edit</button>
                                     <button @click="deleteAchievement(achievement)" class="text-red-600 hover:underline">Delete</button>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <p v-else class="text-slate-500 text-sm">No NRM achievements recorded yet.</p>
+                <p v-else class="text-ink-500 text-sm">No NRM achievements recorded yet.</p>
             </section>
 
             <section class="mb-8 border-b pb-6">
@@ -159,14 +159,14 @@ const deleteCro = (cro) => {
                                 <td class="py-2 pr-4">{{ cro.male_members ?? '—' }} / {{ cro.female_members ?? '—' }} / {{ cro.total_members ?? '—' }}</td>
                                 <td class="py-2 pr-4">{{ cro.president_name ?? 'N/A' }}</td>
                                 <td class="py-2 pr-4 space-x-2">
-                                    <button @click="editCro(cro)" class="text-indigo-600 hover:underline">Edit</button>
+                                    <button @click="editCro(cro)" class="text-accent-600 hover:underline">Edit</button>
                                     <button @click="deleteCro(cro)" class="text-red-600 hover:underline">Delete</button>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <p v-else class="text-slate-500 text-sm">No CROs recorded yet.</p>
+                <p v-else class="text-ink-500 text-sm">No CROs recorded yet.</p>
             </section>
 
             <LrmCroModal
@@ -185,7 +185,7 @@ const deleteCro = (cro) => {
                 @saved="() => router.reload({ only: ['lrmCommittees'] })"
             />
 
-            <div v-if="hasRemarks" class="mt-6 p-4 bg-slate-50 rounded-lg border border-slate-200">
+            <div v-if="hasRemarks" class="mt-6 p-4 bg-paper-50 rounded-lg border border-ink-200">
                 <h2 class="text-xl font-bold mb-4">Remarks</h2>
                 <WysiwygEditor
                     id="remarks-view"
@@ -199,7 +199,7 @@ const deleteCro = (cro) => {
                 <h2 class="text-xl font-bold mb-4">Attachments</h2>
                 <AttachmentViewer :attachments="lrmCommittee.attachments_frontend" />
             </div>
-            <div v-else class="mt-6 text-slate-500 text-sm">
+            <div v-else class="mt-6 text-ink-500 text-sm">
                 No attachments available.
             </div>
 
