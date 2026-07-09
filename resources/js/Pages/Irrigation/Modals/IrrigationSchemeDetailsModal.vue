@@ -43,7 +43,7 @@ const printDetails = () => {
                     :key="tab.id"
                     @click="activeTab = tab.id"
                     class="flex items-center gap-2 py-4 px-4 text-sm font-medium border-b-2 -mb-px transition focus:outline-none"
-                    :class="activeTab === tab.id ? 'border-emerald-600 text-emerald-600' : 'border-transparent text-ink-500 hover:text-ink-700'"
+                    :class="activeTab === tab.id ? 'border-irrigation-600 text-irrigation-600' : 'border-transparent text-ink-500 hover:text-ink-700'"
                 >
                     <span class="material-symbols-outlined text-lg">{{ tab.icon }}</span>
                     {{ tab.name }}
@@ -106,7 +106,7 @@ const printDetails = () => {
                 <button
                     type="button"
                     @click="printDetails"
-                    class="inline-flex items-center px-4 py-2 bg-emerald-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-emerald-700 active:bg-emerald-800 transition mr-3"
+                    class="inline-flex items-center px-4 py-2 bg-irrigation-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-irrigation-700 active:bg-irrigation-800 transition mr-3"
                 >
                     <span class="material-symbols-outlined text-sm mr-2">print</span>
                     Print Details
