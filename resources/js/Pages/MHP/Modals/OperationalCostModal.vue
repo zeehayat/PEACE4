@@ -137,7 +137,7 @@ const totalCosts = computed(() => {
     <Modal :show="show" @close="closeModal" max-width="4xl">
         <div class="p-6">
             <div class="flex items-center justify-between mb-4">
-                <h2 class="text-2xl font-semibold text-gray-800">Operational Costs for {{ site.name }}</h2>
+                <h2 class="text-2xl font-semibold text-ink-800">Operational Costs for {{ site.name }}</h2>
                 <div v-if="!showForm">
                     <SecondaryButton @click="handleAddCost">
                         + Add New Cost
@@ -157,46 +157,46 @@ const totalCosts = computed(() => {
             </div>
 
             <div v-else>
-                <div v-if="isLoading" class="text-center py-8 text-gray-500">
+                <div v-if="isLoading" class="text-center py-8 text-ink-500">
                     Loading operational costs...
                 </div>
 
-                <div v-else-if="operationalCosts.length === 0" class="text-center py-8 text-gray-500">
+                <div v-else-if="operationalCosts.length === 0" class="text-center py-8 text-ink-500">
                     No operational costs found for this site.
                 </div>
 
-                <div v-else class="overflow-hidden border border-gray-200 rounded-lg shadow-sm">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
+                <div v-else class="overflow-hidden border border-ink-200 rounded-lg shadow-sm">
+                    <table class="min-w-full divide-y divide-ink-200">
+                        <thead class="bg-paper-50">
                         <tr>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Expense Type</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount (Rs)</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Attachments</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-ink-500 uppercase tracking-wider">Date</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-ink-500 uppercase tracking-wider">Expense Type</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-ink-500 uppercase tracking-wider">Amount (Rs)</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-ink-500 uppercase tracking-wider">Attachments</th>
                             <th scope="col" class="relative px-6 py-3"><span class="sr-only">Actions</span></th>
                         </tr>
                         </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
+                        <tbody class="bg-surface divide-y divide-ink-200">
                         <tr v-for="cost in operationalCosts" :key="cost.id">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ new Date(cost.cost_date).toLocaleDateString() }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ cost.expense_type_name }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ cost.amount }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-ink-900">{{ new Date(cost.cost_date).toLocaleDateString() }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-ink-500">{{ cost.expense_type_name }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-ink-500">{{ cost.amount }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-ink-500">
                                 <div v-if="cost.media && cost.media.length" class="flex items-center space-x-2">
-                                    <a v-for="media in cost.media" :key="media.id" :href="media.url" target="_blank" class="text-indigo-600 hover:text-indigo-900" :title="media.name">
+                                    <a v-for="media in cost.media" :key="media.id" :href="media.url" target="_blank" class="text-accent-600 hover:text-accent-900" :title="media.name">
                                         {{ getFileIcon(media.name) }}
                                     </a>
                                 </div>
                                 <span v-else>—</span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
-                                <a @click.prevent="handleEditCost(cost)" class="text-indigo-600 hover:text-indigo-900 cursor-pointer">Edit</a>
+                                <a @click.prevent="handleEditCost(cost)" class="text-accent-600 hover:text-accent-900 cursor-pointer">Edit</a>
                                 <a @click.prevent="handleDeleteCost(cost)" class="text-red-600 hover:text-red-900 cursor-pointer">Delete</a>
                             </td>
                         </tr>
                         </tbody>
                     </table>
-                    <div class="bg-gray-100 px-6 py-3 text-right font-bold text-gray-800">
+                    <div class="bg-paper-100 px-6 py-3 text-right font-bold text-ink-800">
                         Total: Rs. {{ totalCosts }}
                     </div>
                 </div>

@@ -332,8 +332,8 @@ watch(
             </div>
         </div>
 
-        <div class="mt-6 border p-4 rounded-lg bg-gray-50">
-            <h3 class="text-lg font-medium text-gray-900 mb-4 flex items-center justify-between">
+        <div class="mt-6 border p-4 rounded-lg bg-paper-50">
+            <h3 class="text-lg font-medium text-ink-900 mb-4 flex items-center justify-between">
                 Step-Up Transformers
                 <PrimaryButton type="button" @click="addTransformer('step_up')" class="ml-4 px-3 py-1 text-sm">
                     + Add
@@ -374,8 +374,8 @@ watch(
             <InputError class="mt-2" :message="form.errors.step_up_transformers" />
         </div>
 
-        <div class="mt-6 border p-4 rounded-lg bg-gray-50">
-            <h3 class="text-lg font-medium text-gray-900 mb-4 flex items-center justify-between">
+        <div class="mt-6 border p-4 rounded-lg bg-paper-50">
+            <h3 class="text-lg font-medium text-ink-900 mb-4 flex items-center justify-between">
                 Step-Down Transformers
                 <PrimaryButton type="button" @click="addTransformer('step_down')" class="ml-4 px-3 py-1 text-sm">
                     + Add
@@ -440,8 +440,8 @@ watch(
         </div>
 
         <!-- Procurement Milestones -->
-        <div class="mt-6 border p-4 rounded-lg bg-gray-50">
-            <h3 class="text-lg font-medium text-gray-900 mb-4">Procurement Milestones</h3>
+        <div class="mt-6 border p-4 rounded-lg bg-paper-50">
+            <h3 class="text-lg font-medium text-ink-900 mb-4">Procurement Milestones</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                  <div>
                     <InputLabel for="advertisement_date" value="Advertisement in Newspaper" />
@@ -477,8 +477,8 @@ watch(
         </div>
 
         <!-- Detailed Progress -->
-        <div class="mt-6 border p-4 rounded-lg bg-gray-50">
-            <h3 class="text-lg font-medium text-gray-900 mb-4">Physical & Financial Progress</h3>
+        <div class="mt-6 border p-4 rounded-lg bg-paper-50">
+            <h3 class="text-lg font-medium text-ink-900 mb-4">Physical & Financial Progress</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                  <div>
                     <InputLabel for="financial_progress_percent" value="Financial Progress (%)" />
@@ -529,7 +529,7 @@ watch(
             <button
                 type="button"
                 @click="handleCancel"
-                class="inline-flex items-center px-4 py-2 bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-300 focus:bg-gray-300 active:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
+                class="inline-flex items-center px-4 py-2 bg-paper-200 border border-transparent rounded-md font-semibold text-xs text-ink-700 uppercase tracking-widest hover:bg-paper-300 focus:bg-paper-300 active:bg-paper-400 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 transition ease-in-out duration-150"
             >
                 Cancel
             </button>

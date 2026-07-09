@@ -77,55 +77,55 @@ const closeModal = () => {
 <template>
     <Modal :show="show" @close="closeModal" max-width="4xl">
         <div class="p-6">
-            <h2 class="text-2xl font-semibold text-gray-800 mb-4">Operational Costs for {{ site.name }}</h2>
+            <h2 class="text-2xl font-semibold text-ink-800 mb-4">Operational Costs for {{ site.name }}</h2>
 
             <!-- Loading State -->
-            <div v-if="isLoading" class="text-center py-8 text-gray-500">
+            <div v-if="isLoading" class="text-center py-8 text-ink-500">
                 Loading operational costs...
             </div>
 
             <!-- No Data State -->
-            <div v-else-if="operationalCosts.length === 0" class="text-center py-8 text-gray-500">
+            <div v-else-if="operationalCosts.length === 0" class="text-center py-8 text-ink-500">
                 No operational costs found for this site.
             </div>
 
             <!-- Costs List Table -->
-            <div v-else class="overflow-hidden border border-gray-200 rounded-lg shadow-sm">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
+            <div v-else class="overflow-hidden border border-ink-200 rounded-lg shadow-sm">
+                <table class="min-w-full divide-y divide-ink-200">
+                    <thead class="bg-paper-50">
                     <tr>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Expense Type</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount (Rs)</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Attachments</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Remarks</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-ink-500 uppercase tracking-wider">Date</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-ink-500 uppercase tracking-wider">Expense Type</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-ink-500 uppercase tracking-wider">Amount (Rs)</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-ink-500 uppercase tracking-wider">Attachments</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-ink-500 uppercase tracking-wider">Remarks</th>
                     </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
+                    <tbody class="bg-surface divide-y divide-ink-200">
                     <tr v-for="cost in operationalCosts" :key="cost.id">
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ new Date(cost.cost_date).toLocaleDateString() }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ cost.expense_type_name }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ cost.amount }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-ink-900">{{ new Date(cost.cost_date).toLocaleDateString() }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-ink-500">{{ cost.expense_type_name }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-ink-500">{{ cost.amount }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-ink-500">
                             <div v-if="cost.media && cost.media.length" class="flex items-center space-x-2">
-                                <a v-for="media in cost.media" :key="media.id" :href="media.url" target="_blank" class="text-indigo-600 hover:text-indigo-900" :title="media.name">
+                                <a v-for="media in cost.media" :key="media.id" :href="media.url" target="_blank" class="text-accent-600 hover:text-accent-900" :title="media.name">
                                     {{ getFileIcon(media.name) }}
                                 </a>
                             </div>
                             <span v-else>—</span>
                         </td>
-                        <td class="px-6 py-4 text-sm text-gray-500 truncate max-w-sm">{{ cost.remarks || 'N/A' }}</td>
+                        <td class="px-6 py-4 text-sm text-ink-500 truncate max-w-sm">{{ cost.remarks || 'N/A' }}</td>
                     </tr>
                     </tbody>
                 </table>
                 <!-- Total Costs -->
-                <div class="bg-gray-100 px-6 py-3 text-right font-bold text-gray-800">
+                <div class="bg-paper-100 px-6 py-3 text-right font-bold text-ink-800">
                     Total: Rs. {{ totalCosts }}
                 </div>
             </div>
 
             <div class="mt-6 text-right">
-                <button @click="closeModal" type="button" class="inline-flex items-center px-4 py-2 bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-300 focus:bg-gray-300 active:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                <button @click="closeModal" type="button" class="inline-flex items-center px-4 py-2 bg-paper-200 border border-transparent rounded-md font-semibold text-xs text-ink-700 uppercase tracking-widest hover:bg-paper-300 focus:bg-paper-300 active:bg-paper-400 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 transition ease-in-out duration-150">
                     Close
                 </button>
             </div>

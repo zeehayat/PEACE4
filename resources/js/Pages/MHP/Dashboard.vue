@@ -1,14 +1,14 @@
 <template>
     <AppLayout title="Dashboard">
-        <div class="space-y-10 p-6 sm:p-8 bg-gray-50 min-h-screen text-gray-800">
+        <div class="space-y-10 p-6 sm:p-8 bg-paper-50 min-h-screen text-ink-800">
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 <div
                     v-for="s in statItems"
                     :key="s.title"
-                    class="relative flex items-center p-6 bg-white text-gray-900 rounded-2xl shadow-lg border-t-4 border-indigo-500 transform transition-all duration-300 hover:scale-[1.03] hover:shadow-2xl hover:border-indigo-600"
+                    class="relative flex items-center p-6 bg-surface text-ink-900 rounded-2xl shadow-lg border-t-4 border-accent-500 transform transition-all duration-300 hover:scale-[1.03] hover:shadow-2xl hover:border-accent-600"
                 >
-                    <div class="p-4 rounded-full bg-indigo-100 text-indigo-600 mr-4 flex-shrink-0">
+                    <div class="p-4 rounded-full bg-accent-100 text-accent-600 mr-4 flex-shrink-0">
                         <svg class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
                         </svg>
@@ -22,20 +22,20 @@
                 </div>
             </div>
 
-            <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="bg-surface p-6 rounded-2xl shadow-md border border-ink-200 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div class="flex items-center gap-3 w-full sm:w-auto">
-                    <span class="text-sm font-bold text-gray-600">GROUP BY:</span>
-                    <select v-model="groupBy" class="appearance-none border-2 border-gray-300 rounded-full pl-5 pr-10 py-2 text-sm bg-gray-50 text-gray-700 shadow-inner transition-colors hover:border-indigo-400 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                    <span class="text-sm font-bold text-ink-600">GROUP BY:</span>
+                    <select v-model="groupBy" class="appearance-none border-2 border-ink-300 rounded-full pl-5 pr-10 py-2 text-sm bg-paper-50 text-ink-700 shadow-inner transition-colors hover:border-accent-400 focus:ring-2 focus:ring-accent-500 focus:border-accent-500">
                         <option value="cbo">CBO</option>
                         <option value="district">District</option>
                     </select>
                 </div>
                 <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
-                    <button @click="expandAll" class="text-sm font-semibold px-4 py-2 rounded-full border border-indigo-500 text-indigo-500 bg-white hover:bg-indigo-50 transition-colors shadow-sm">
+                    <button @click="expandAll" class="text-sm font-semibold px-4 py-2 rounded-full border border-accent-500 text-accent-500 bg-surface hover:bg-accent-50 transition-colors shadow-sm">
                         <svg class="h-4 w-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16" /></svg>
                         Expand all
                     </button>
-                    <button @click="collapseAll" class="text-sm font-semibold px-4 py-2 rounded-full border border-gray-400 text-gray-600 bg-white hover:bg-gray-100 transition-colors shadow-sm">
+                    <button @click="collapseAll" class="text-sm font-semibold px-4 py-2 rounded-full border border-ink-400 text-ink-600 bg-surface hover:bg-paper-100 transition-colors shadow-sm">
                         <svg class="h-4 w-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" /></svg>
                         Collapse all
                     </button>
@@ -44,28 +44,28 @@
 
             <section>
                 <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-2xl font-bold text-gray-900">MHP Schemes</h2>
-                    <span class="text-sm font-medium text-gray-600 bg-white px-3 py-1.5 rounded-full shadow-sm">{{ mhp_projects?.length || 0 }} project(s)</span>
+                    <h2 class="text-2xl font-bold text-ink-900">MHP Schemes</h2>
+                    <span class="text-sm font-medium text-ink-600 bg-surface px-3 py-1.5 rounded-full shadow-sm">{{ mhp_projects?.length || 0 }} project(s)</span>
                 </div>
 
                 <div v-if="Object.keys(groupedMhp).length" class="space-y-4">
                     <div
                         v-for="(items, key) in groupedMhp"
                         :key="'mhp-' + key"
-                        class="bg-white rounded-xl shadow-md border border-gray-200 transition-all duration-300 overflow-hidden"
+                        class="bg-surface rounded-xl shadow-md border border-ink-200 transition-all duration-300 overflow-hidden"
                     >
                         <button
-                            class="w-full flex items-center justify-between p-5 bg-gray-100 hover:bg-gray-200 transition-colors"
+                            class="w-full flex items-center justify-between p-5 bg-paper-100 hover:bg-paper-200 transition-colors"
                             @click="toggle('mhp', key)"
                         >
                             <div class="flex items-center gap-3">
-                                <span class="font-bold text-lg text-gray-800">{{ key }}</span>
-                                <span class="text-xs font-medium text-gray-600 bg-white px-2 py-1 rounded-full shadow-inner">
+                                <span class="font-bold text-lg text-ink-800">{{ key }}</span>
+                                <span class="text-xs font-medium text-ink-600 bg-surface px-2 py-1 rounded-full shadow-inner">
                                     {{ items.length }} project{{ items.length > 1 ? 's' : '' }}
                                 </span>
                             </div>
                             <svg
-                                class="h-5 w-5 text-gray-500 transition-transform duration-300"
+                                class="h-5 w-5 text-ink-500 transition-transform duration-300"
                                 :class="isOpen('mhp', key) ? 'rotate-180' : ''"
                                 fill="none" viewBox="0 0 24 24" stroke="currentColor"
                             >
@@ -73,15 +73,15 @@
                             </svg>
                         </button>
 
-                        <div v-show="isOpen('mhp', key)" class="p-5 bg-white">
+                        <div v-show="isOpen('mhp', key)" class="p-5 bg-surface">
                             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                                 <div
                                     v-for="project in items"
                                     :key="'mhp-item-' + project.id"
-                                    class="relative p-5 bg-white rounded-lg shadow-sm border border-gray-200 transition-all duration-300 hover:border-indigo-400 hover:shadow-lg"
+                                    class="relative p-5 bg-surface rounded-lg shadow-sm border border-ink-200 transition-all duration-300 hover:border-accent-400 hover:shadow-lg"
                                 >
                                     <div class="flex items-start justify-between mb-4">
-                                        <div class="font-bold text-lg truncate pr-2 text-gray-900">{{ project.name }}</div>
+                                        <div class="font-bold text-lg truncate pr-2 text-ink-900">{{ project.name }}</div>
                                         <div class="shrink-0">
                                             <svg
                                                 :width="ringSize"
@@ -112,7 +112,7 @@
                                     <div class="mt-2 flex flex-wrap gap-2">
                                         <template v-for="chip in physicalChips(project)" :key="'phys-' + project.id + '-' + chip.label">
                                             <span
-                                                class="inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full border border-indigo-200 bg-indigo-50 text-indigo-800 font-medium"
+                                                class="inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full border border-accent-200 bg-accent-50 text-accent-800 font-medium"
                                             >
                                                 <span class="font-bold">Physical:</span>
                                                 <span class="font-normal">{{ chip.label }}</span>
@@ -134,35 +134,35 @@
                         </div>
                     </div>
                 </div>
-                <div v-else class="text-center text-gray-500 bg-white rounded-2xl border-2 border-dashed border-gray-300 py-12 px-6 shadow-md">
+                <div v-else class="text-center text-ink-500 bg-surface rounded-2xl border-2 border-dashed border-ink-300 py-12 px-6 shadow-md">
                     <p class="font-semibold text-lg">No MHP projects to show.</p>
                 </div>
             </section>
 
             <section>
                 <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-2xl font-bold text-gray-900">Irrigation Schemes</h2>
-                    <span class="text-sm font-medium text-gray-600 bg-white px-3 py-1.5 rounded-full shadow-sm">{{ irrigation_projects?.length || 0 }} project(s)</span>
+                    <h2 class="text-2xl font-bold text-ink-900">Irrigation Schemes</h2>
+                    <span class="text-sm font-medium text-ink-600 bg-surface px-3 py-1.5 rounded-full shadow-sm">{{ irrigation_projects?.length || 0 }} project(s)</span>
                 </div>
 
                 <div v-if="Object.keys(groupedIrrigation).length" class="space-y-4">
                     <div
                         v-for="(items, key) in groupedIrrigation"
                         :key="'irr-' + key"
-                        class="bg-white rounded-xl shadow-md border border-gray-200 transition-all duration-300 overflow-hidden"
+                        class="bg-surface rounded-xl shadow-md border border-ink-200 transition-all duration-300 overflow-hidden"
                     >
                         <button
-                            class="w-full flex items-center justify-between p-5 bg-gray-100 hover:bg-gray-200 transition-colors"
+                            class="w-full flex items-center justify-between p-5 bg-paper-100 hover:bg-paper-200 transition-colors"
                             @click="toggle('irrigation', key)"
                         >
                             <div class="flex items-center gap-3">
-                                <span class="font-bold text-lg text-gray-800">{{ key }}</span>
-                                <span class="text-xs font-medium text-gray-600 bg-white px-2 py-1 rounded-full shadow-inner">
+                                <span class="font-bold text-lg text-ink-800">{{ key }}</span>
+                                <span class="text-xs font-medium text-ink-600 bg-surface px-2 py-1 rounded-full shadow-inner">
                                     {{ items.length }} project{{ items.length > 1 ? 's' : '' }}
                                 </span>
                             </div>
                             <svg
-                                class="h-5 w-5 text-gray-500 transition-transform duration-300"
+                                class="h-5 w-5 text-ink-500 transition-transform duration-300"
                                 :class="isOpen('irrigation', key) ? 'rotate-180' : ''"
                                 fill="none" viewBox="0 0 24 24" stroke="currentColor"
                             >
@@ -170,15 +170,15 @@
                             </svg>
                         </button>
 
-                        <div v-show="isOpen('irrigation', key)" class="p-5 bg-white">
+                        <div v-show="isOpen('irrigation', key)" class="p-5 bg-surface">
                             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                                 <div
                                     v-for="project in items"
                                     :key="'irr-item-' + project.id"
-                                    class="relative p-5 bg-white rounded-lg shadow-sm border border-gray-200 transition-all duration-300 hover:border-green-400 hover:shadow-lg"
+                                    class="relative p-5 bg-surface rounded-lg shadow-sm border border-ink-200 transition-all duration-300 hover:border-green-400 hover:shadow-lg"
                                 >
                                     <div class="flex items-start justify-between mb-4">
-                                        <div class="font-bold text-lg truncate pr-2 text-gray-900">{{ project.name }}</div>
+                                        <div class="font-bold text-lg truncate pr-2 text-ink-900">{{ project.name }}</div>
                                         <div class="shrink-0">
                                             <svg
                                                 :width="ringSize"
@@ -204,7 +204,7 @@
                                     <div class="mt-2 flex flex-wrap gap-2">
                                         <template v-for="chip in physicalChips(project, true)" :key="'physI-' + project.id + '-' + chip.label">
                                             <span
-                                                class="inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full border border-indigo-200 bg-indigo-50 text-indigo-800 font-medium"
+                                                class="inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full border border-accent-200 bg-accent-50 text-accent-800 font-medium"
                                             >
                                                 <span class="font-bold">Physical:</span>
                                                 <span class="font-normal">{{ chip.label }}</span>
@@ -227,7 +227,7 @@
                     </div>
                 </div>
 
-                <div v-else class="text-center text-gray-500 bg-white rounded-2xl border-2 border-dashed border-gray-300 py-12 px-6 shadow-md">
+                <div v-else class="text-center text-ink-500 bg-surface rounded-2xl border-2 border-dashed border-ink-300 py-12 px-6 shadow-md">
                     <p class="font-semibold text-lg">No Irrigation projects to show.</p>
                 </div>
             </section>

@@ -293,32 +293,32 @@ const handlePagination = (url) => {
     <AppLayout title="MHP Sites">
         <template #header >
             <div class="flex flex-col gap-1">
-                <p class="text-xs uppercase tracking-[0.2em] text-cyan-600">MHP</p>
-                <h2 class="text-2xl font-bold text-slate-900">Sites Overview</h2>
+                <p class="text-xs uppercase tracking-[0.2em] text-hydro-600">MHP</p>
+                <h2 class="text-2xl font-bold text-ink-900">Sites Overview</h2>
             </div>
 
         </template>
 
-        <div class="bg-background-light font-sans antialiased text-slate-900 min-h-screen">
+        <div class="bg-background-light font-sans antialiased text-ink-900 min-h-screen">
             <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
                 <header class="card p-5 sm:p-6 mb-6">
                     <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                         <div>
-                            <h1 class="text-3xl font-extrabold tracking-tight text-slate-900">MHP Sites Overview</h1>
-                            <p class="mt-1 text-base text-slate-600">Centralized management for micro-hydel project sites and their progress.</p>
+                            <h1 class="text-3xl font-extrabold tracking-tight text-ink-900">MHP Sites Overview</h1>
+                            <p class="mt-1 text-base text-ink-600">Centralized management for micro-hydel project sites and their progress.</p>
                         </div>
                         <div class="flex w-full md:w-auto items-center gap-3">
                             <div class="relative flex-grow">
                                 <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                                    <span class="material-symbols-outlined text-slate-400 text-lg">search</span>
+                                    <span class="material-symbols-outlined text-ink-400 text-lg">search</span>
                                 </div>
                                 <input
                                     type="text"
                                     v-model="searchTerm"
                                     @input="router.get(route('mhp.sites.index'), { search: searchTerm }, { preserveState: true, replace: true })"
                                     placeholder="Search by CBO, Status, or ID..."
-                                    class="block w-full bg-white py-2.5 pl-10 pr-3 border-slate-300 focus:ring-indigo-500 focus:border-indigo-500"
+                                    class="block w-full bg-surface py-2.5 pl-10 pr-3 border-ink-300 focus:ring-accent-500 focus:border-accent-500"
                                 />
                             </div>
                             <button @click="openNewMhoModal" class="btn-primary px-4 py-2.5 flex-shrink-0">
@@ -367,12 +367,12 @@ const handlePagination = (url) => {
                             <th scope="col" class="relative px-4 py-3"><span class="sr-only">Actions</span></th>
                         </tr>
                         </thead>
-                        <tbody class="divide-y divide-slate-100">
-                        <tr v-for="site in filteredMhpSites" :key="site.id" class="hover:bg-blue-500/5 transition-colors duration-150 group">
+                        <tbody class="divide-y divide-ink-100">
+                        <tr v-for="site in filteredMhpSites" :key="site.id" class="hover:bg-hydro-500/5 transition-colors duration-150 group">
 
                             <td class="px-4 py-3 whitespace-nowrap">
-                                <div class="text-sm font-semibold text-slate-900">{{ site.cbo?.reference_code ?? 'N/A' }}</div>
-                                <div class="text-xs text-slate-500 mt-0.5">Project ID: {{ site.project_id }}</div>
+                                <div class="text-sm font-semibold text-ink-900">{{ site.cbo?.reference_code ?? 'N/A' }}</div>
+                                <div class="text-xs text-ink-500 mt-0.5">Project ID: {{ site.project_id }}</div>
                             </td>
 
                             <td class="px-4 py-3 whitespace-nowrap">
@@ -381,7 +381,7 @@ const handlePagination = (url) => {
                             </span>
                             </td>
 
-                            <td class="px-4 py-3 whitespace-nowrap text-sm text-slate-700">{{ site.population ?? 'N/A' }}</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-ink-700">{{ site.population ?? 'N/A' }}</td>
 
                             <td class="px-4 py-3 whitespace-nowrap text-sm font-semibold">
                             <span :class="site.admin_approval ? 'text-green-600' : 'text-red-500'" class="flex items-center gap-1.5">
@@ -394,11 +394,11 @@ const handlePagination = (url) => {
                             <td class="px-4 py-3">
                                 <div v-if="site.attachments_frontend && site.attachments_frontend.length" class="space-y-2 text-xs max-h-24 overflow-y-auto pr-2">
                                     <div v-for="file in site.attachments_frontend" :key="file.id" class="flex items-center gap-2" :title="`Size: ${(file.size/1024).toFixed(1)} KB | Uploaded: ${new Date(file.created_at).toLocaleDateString()}`">
-                                        <span class="text-slate-500 flex-shrink-0">{{ getFileIcon(file) }}</span>
-                                        <a :href="file.url" target="_blank" class="text-indigo-600 hover:text-indigo-800 hover:underline truncate">{{ file.file_name }}</a>
+                                        <span class="text-ink-500 flex-shrink-0">{{ getFileIcon(file) }}</span>
+                                        <a :href="file.url" target="_blank" class="text-accent-600 hover:text-accent-800 hover:underline truncate">{{ file.file_name }}</a>
                                     </div>
                                 </div>
-                                <span v-else class="text-slate-400 text-sm">—</span>
+                                <span v-else class="text-ink-400 text-sm">—</span>
                             </td>
 
                             <td class="px-4 py-3 whitespace-nowrap min-w-[200px]">
@@ -414,19 +414,19 @@ const handlePagination = (url) => {
                                                 {{ site.latest_physical_progress ? site.latest_physical_progress.progress_percentage : 0 }}%
                                             </span>
                                         </div>
-                                        <div class="w-full bg-slate-100 rounded-full h-1 overflow-hidden">
+                                        <div class="w-full bg-paper-100 rounded-full h-1 overflow-hidden">
                                             <div
                                                 class="bg-emerald-500 h-1 rounded-full transition-all duration-300"
                                                 :style="{ width: (site.latest_physical_progress ? site.latest_physical_progress.progress_percentage : 0) + '%' }"
                                             ></div>
                                         </div>
-                                        <p v-if="site.latest_physical_progress" class="text-[9px] font-semibold text-slate-400">
+                                        <p v-if="site.latest_physical_progress" class="text-[9px] font-semibold text-ink-400">
                                             As of {{ new Date(site.latest_physical_progress.progress_date).toLocaleDateString() }}
                                         </p>
                                     </div>
 
                                     <!-- Financial Progress Info -->
-                                    <div class="space-y-0.5 pt-1 border-t border-slate-100">
+                                    <div class="space-y-0.5 pt-1 border-t border-ink-100">
                                         <div class="flex items-center justify-between text-[11px]">
                                             <span class="font-bold text-amber-800 flex items-center gap-0.5">
                                                 <span class="material-symbols-outlined text-[12px]">payments</span>
@@ -436,7 +436,7 @@ const handlePagination = (url) => {
                                                 {{ site.latest_financial_installment ? `${formatCurrency(site.latest_financial_installment.installment_amount)}` : '—' }}
                                             </span>
                                         </div>
-                                        <p v-if="site.latest_financial_installment" class="text-[9px] font-semibold text-slate-400">
+                                        <p v-if="site.latest_financial_installment" class="text-[9px] font-semibold text-ink-400">
                                             Type: {{ site.latest_financial_installment.payment_for }}
                                         </p>
                                     </div>
@@ -444,7 +444,7 @@ const handlePagination = (url) => {
                             </td>
 
                             <td class="px-4 py-3 whitespace-nowrap text-right text-sm font-medium relative action-menu-container">
-                                <button @click.stop="toggleActionMenu(site.id, $event)" class="p-2 text-slate-500 hover:text-slate-900 rounded-full hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity action-menu-trigger">
+                                <button @click.stop="toggleActionMenu(site.id, $event)" class="p-2 text-ink-500 hover:text-ink-900 rounded-full hover:bg-paper-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity action-menu-trigger">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" /></svg>
                                 </button>
                                 <!-- The menu div is now teleported from Index.vue -->
@@ -519,71 +519,71 @@ const handlePagination = (url) => {
             <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from="transform opacity-100 scale-100" leave-to="transform opacity-0 scale-95">
                 <div
                     v-if="openActionMenuId !== null && selectedSite"
-                    :class="['action-menu-dropdown origin-top-right absolute w-56 rounded-xl shadow-xl bg-white ring-1 ring-black ring-opacity-5 z-30 divide-y divide-slate-100', menuPosition.direction === 'up' ? 'bottom-full mb-2 right-0' : 'top-full mt-2 right-0']"
+                    :class="['action-menu-dropdown origin-top-right absolute w-56 rounded-xl shadow-xl bg-surface ring-1 ring-black ring-opacity-5 z-30 divide-y divide-ink-100', menuPosition.direction === 'up' ? 'bottom-full mb-2 right-0' : 'top-full mt-2 right-0']"
                     :style="{
                     top: menuPosition.top + 'px',
                     left: (menuPosition.left + menuPosition.width - 224) + 'px',
                 }"
                 >
-                    <div class="py-1 text-sm text-slate-700">
-                        <button @click="handleViewDetails(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-slate-100 flex items-center gap-2">
-                            <span class="material-symbols-outlined text-[16px] text-slate-500">visibility</span>
+                    <div class="py-1 text-sm text-ink-700">
+                        <button @click="handleViewDetails(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-paper-100 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[16px] text-ink-500">visibility</span>
                             View Registry Details
                         </button>
-                        <button @click="handleEditInfo(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-slate-100 flex items-center gap-2">
-                            <span class="material-symbols-outlined text-[16px] text-slate-500">edit</span>
+                        <button @click="handleEditInfo(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-paper-100 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[16px] text-ink-500">edit</span>
                             Edit Registry Info
                         </button>
-                        <button @click="handleAddEditApproval(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-slate-100 flex items-center gap-2">
-                            <span class="material-symbols-outlined text-[16px] text-slate-500">gavel</span>
+                        <button @click="handleAddEditApproval(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-paper-100 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[16px] text-ink-500">gavel</span>
                             Administrative Approval
                         </button>
-                        <button @click="handleAddEditViewCompletion(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-slate-100 flex items-center gap-2">
-                            <span class="material-symbols-outlined text-[16px] text-slate-500">verified_user</span>
+                        <button @click="handleAddEditViewCompletion(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-paper-100 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[16px] text-ink-500">verified_user</span>
                             Completion Details
                         </button>
-                        <button @click="handleEmeInfo(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-slate-100 flex items-center gap-2">
-                            <span class="material-symbols-outlined text-[16px] text-slate-500">bolt</span>
+                        <button @click="handleEmeInfo(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-paper-100 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[16px] text-ink-500">bolt</span>
                             EME Profile
                         </button>
-                        <button @click="handleOpenTAndDWorksManager(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-slate-100 flex items-center gap-2">
-                            <span class="material-symbols-outlined text-[16px] text-slate-500">construction</span>
+                        <button @click="handleOpenTAndDWorksManager(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-paper-100 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[16px] text-ink-500">construction</span>
                             T&D Works Manager
                         </button>
                     </div>
-                    <div class="py-1 text-sm text-slate-700">
-                        <button @click="handleManagePhysicalProgress(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-slate-100 flex items-center gap-2">
-                            <span class="material-symbols-outlined text-[16px] text-slate-500">bar_chart</span>
+                    <div class="py-1 text-sm text-ink-700">
+                        <button @click="handleManagePhysicalProgress(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-paper-100 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[16px] text-ink-500">bar_chart</span>
                             Civil Physical Progress
                         </button>
-                        <button @click="handleManageTAndDProgress(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-slate-100 flex items-center gap-2">
-                            <span class="material-symbols-outlined text-[16px] text-slate-500">analytics</span>
+                        <button @click="handleManageTAndDProgress(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-paper-100 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[16px] text-ink-500">analytics</span>
                             T&D Physical Progress
                         </button>
-                        <button @click="handleManageFinancialProgress(selectedSite, 'Civil')" class="w-full text-left block px-4 py-2 hover:bg-slate-100 flex items-center gap-2">
-                            <span class="material-symbols-outlined text-[16px] text-slate-500">payments</span>
+                        <button @click="handleManageFinancialProgress(selectedSite, 'Civil')" class="w-full text-left block px-4 py-2 hover:bg-paper-100 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[16px] text-ink-500">payments</span>
                             Civil Financial Progress
                         </button>
-                        <button @click="handleManageFinancialProgress(selectedSite, 'EME')" class="w-full text-left block px-4 py-2 hover:bg-slate-100 flex items-center gap-2">
-                            <span class="material-symbols-outlined text-[16px] text-slate-500">credit_card</span>
+                        <button @click="handleManageFinancialProgress(selectedSite, 'EME')" class="w-full text-left block px-4 py-2 hover:bg-paper-100 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[16px] text-ink-500">credit_card</span>
                             EME Financial Progress
                         </button>
-                        <button @click="handleManageFinancialProgress(selectedSite, 'T&D')" class="w-full text-left block px-4 py-2 hover:bg-slate-100 flex items-center gap-2">
-                            <span class="material-symbols-outlined text-[16px] text-slate-500">account_balance_wallet</span>
+                        <button @click="handleManageFinancialProgress(selectedSite, 'T&D')" class="w-full text-left block px-4 py-2 hover:bg-paper-100 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[16px] text-ink-500">account_balance_wallet</span>
                             T&D Financial Progress
                         </button>
                     </div>
-                    <div class="py-1 text-sm text-slate-700">
-                        <button @click="handleOpenOperationalCost(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-slate-100 flex items-center gap-2">
-                            <span class="material-symbols-outlined text-[16px] text-slate-500">price_change</span>
+                    <div class="py-1 text-sm text-ink-700">
+                        <button @click="handleOpenOperationalCost(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-paper-100 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[16px] text-ink-500">price_change</span>
                             Operational Costs
                         </button>
-                        <button @click="handleManageVisits(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-slate-100 flex items-center gap-2">
+                        <button @click="handleManageVisits(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-paper-100 flex items-center gap-2">
                             <span class="material-symbols-outlined text-base">directions_walk</span>
                             Manage Visits
                         </button>
-                        <button @click="handleViewReport(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-slate-100 flex items-center gap-2">
-                            <span class="material-symbols-outlined text-[16px] text-slate-500">picture_as_pdf</span>
+                        <button @click="handleViewReport(selectedSite)" class="w-full text-left block px-4 py-2 hover:bg-paper-100 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[16px] text-ink-500">picture_as_pdf</span>
                             View PDF Report
                         </button>
                         <button @click="handleDeleteSite(selectedSite.id)" class="w-full text-left block px-4 py-2 hover:bg-red-100 text-red-600 flex items-center gap-2">

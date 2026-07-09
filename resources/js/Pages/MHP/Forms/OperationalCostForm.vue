@@ -114,7 +114,7 @@ const handleCancel = () => {
 </script>
 
 <template>
-    <form @submit.prevent="handleSubmit" class="p-4 space-y-6 bg-gray-50 rounded-lg shadow-inner">
+    <form @submit.prevent="handleSubmit" class="p-4 space-y-6 bg-paper-50 rounded-lg shadow-inner">
         <input type="hidden" v-model="form.mhp_site_id" />
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -155,7 +155,7 @@ const handleCancel = () => {
         </div>
 
         <div class="flex items-center justify-end mt-6 space-x-4">
-            <button type="button" @click="handleCancel" class="inline-flex items-center px-4 py-2 bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-300 focus:bg-gray-300 active:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+            <button type="button" @click="handleCancel" class="inline-flex items-center px-4 py-2 bg-paper-200 border border-transparent rounded-md font-semibold text-xs text-ink-700 uppercase tracking-widest hover:bg-paper-300 focus:bg-paper-300 active:bg-paper-400 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 transition ease-in-out duration-150">
                 Cancel
             </button>
             <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">

@@ -171,7 +171,7 @@ const handleCancel = () => {
                     <option v-if="!fetchingTAndDWorks && tAndDWorksOptions.length === 0" disabled>No T&D Works available for this site.</option>
                 </SelectInput>
                 <InputError class="mt-2" :message="form.errors.activity_id" />
-                <p v-if="!fetchingTAndDWorks && tAndDWorksOptions.length === 0" class="mt-1 text-sm text-gray-500">
+                <p v-if="!fetchingTAndDWorks && tAndDWorksOptions.length === 0" class="mt-1 text-sm text-ink-500">
                     No T&D Works found. Add one first.
                 </p>
             </div>
@@ -191,7 +191,7 @@ const handleCancel = () => {
         </div>
 
         <div class="flex items-center justify-end mt-6 space-x-4">
-            <button type="button" @click="handleCancel" class="inline-flex items-center px-4 py-2 bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-300 focus:bg-gray-300 active:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+            <button type="button" @click="handleCancel" class="inline-flex items-center px-4 py-2 bg-paper-200 border border-transparent rounded-md font-semibold text-xs text-ink-700 uppercase tracking-widest hover:bg-paper-300 focus:bg-paper-300 active:bg-paper-400 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 transition ease-in-out duration-150">
                 Cancel
             </button>
             <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">

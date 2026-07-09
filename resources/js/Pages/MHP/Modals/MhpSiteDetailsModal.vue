@@ -51,16 +51,16 @@ const printDetails = () => {
 
 <template>
     <Modal :show="show" @close="emit('close')" :maxWidth="'6xl'" :title="`MHP Site Details: ${site.project_id}`">
-        <div class="flex flex-col max-h-[85vh] bg-white text-gray-800 print-content">
+        <div class="flex flex-col max-h-[85vh] bg-surface text-ink-800 print-content">
             
             <!-- Tabbed Header Navigation -->
-            <div class="flex flex-wrap border-b border-gray-200 px-6 bg-gray-50 shrink-0 print:hidden">
+            <div class="flex flex-wrap border-b border-ink-200 px-6 bg-paper-50 shrink-0 print:hidden">
                 <button 
                     v-for="tab in tabs" 
                     :key="tab.id"
                     @click="activeTab = tab.id"
                     class="flex items-center gap-2 py-4 px-4 text-sm font-medium border-b-2 -mb-px transition focus:outline-none"
-                    :class="activeTab === tab.id ? 'border-emerald-600 text-emerald-600' : 'border-transparent text-gray-500 hover:text-gray-700'"
+                    :class="activeTab === tab.id ? 'border-emerald-600 text-emerald-600' : 'border-transparent text-ink-500 hover:text-ink-700'"
                 >
                     <span class="material-symbols-outlined text-lg">{{ tab.icon }}</span>
                     {{ tab.name }}
@@ -73,7 +73,7 @@ const printDetails = () => {
                 <!-- Overview Tab Panel -->
                 <div v-show="activeTab === 'overview' || window?.matchMedia?.('print').matches" class="space-y-6">
                     <div>
-                        <h3 class="text-base font-bold text-gray-800 border-b pb-2 mb-4">General Information</h3>
+                        <h3 class="text-base font-bold text-ink-800 border-b pb-2 mb-4">General Information</h3>
                         <DetailGrid>
                             <DetailItem label="CBO" :value="site.cbo?.reference_code" />
                             <DetailItem label="Status" :value="site.status" />
@@ -93,13 +93,13 @@ const printDetails = () => {
                             <DetailItem label="Recent Visit by Senior Engineer" :value="formatDate(site.recent_senior_engineer_visit_date)" />
                         </DetailGrid>
                         
-                        <div v-if="hasRemarks" class="mt-4 p-4 bg-gray-50 rounded-xl border border-gray-100">
-                            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Remarks</p>
-                            <p class="text-sm text-gray-900 whitespace-pre-wrap">{{ site.remarks }}</p>
+                        <div v-if="hasRemarks" class="mt-4 p-4 bg-paper-50 rounded-xl border border-ink-100">
+                            <p class="text-xs font-semibold text-ink-500 uppercase tracking-wider mb-1">Remarks</p>
+                            <p class="text-sm text-ink-900 whitespace-pre-wrap">{{ site.remarks }}</p>
                         </div>
 
                         <div v-if="hasSiteAttachments" class="mt-4">
-                            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Attachments</p>
+                            <p class="text-xs font-semibold text-ink-500 uppercase tracking-wider mb-2">Attachments</p>
                             <AttachmentViewer :attachments="site.attachments_frontend" />
                         </div>
                     </div>
@@ -108,7 +108,7 @@ const printDetails = () => {
                 <!-- Technical Tab Panel -->
                 <div v-show="activeTab === 'technical'" class="space-y-6">
                     <div>
-                        <h3 class="text-base font-bold text-gray-800 border-b pb-2 mb-4">Capacity & Specs</h3>
+                        <h3 class="text-base font-bold text-ink-800 border-b pb-2 mb-4">Capacity & Specs</h3>
                         <DetailGrid>
                             <DetailItem label="Planned Capacity" :value="site.planned_capacity_kw ? `${site.planned_capacity_kw} KW` : 'N/A'" />
                             <DetailItem label="Existing Capacity" :value="site.existing_capacity_kw ? `${site.existing_capacity_kw} KW` : 'N/A'" />
@@ -124,8 +124,8 @@ const printDetails = () => {
 
                     <!-- T&D Works -->
                     <div v-if="hasTAndDWorks" class="space-y-4">
-                        <h3 class="text-base font-bold text-gray-800 border-b pb-2">Transmission & Distribution (T&D) Works</h3>
-                        <div v-for="tAndD in site.t_and_d_works" :key="tAndD.id" class="p-5 border border-gray-150 rounded-xl bg-gray-50 space-y-4">
+                        <h3 class="text-base font-bold text-ink-800 border-b pb-2">Transmission & Distribution (T&D) Works</h3>
+                        <div v-for="tAndD in site.t_and_d_works" :key="tAndD.id" class="p-5 border border-ink-150 rounded-xl bg-paper-50 space-y-4">
                             <h4 class="text-sm font-bold text-emerald-700 flex items-center gap-1.5">
                                 <span class="material-symbols-outlined text-base">construction</span>
                                 {{ tAndD.name || `T&D Work Record #${tAndD.id}` }}
@@ -141,21 +141,21 @@ const printDetails = () => {
                             </DetailGrid>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 px-4 text-sm">
                                 <div>
-                                    <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Step-Up Transformers</p>
-                                    <p class="text-gray-900 font-medium">{{ formatTransformers(tAndD.step_up_transformers) }}</p>
+                                    <p class="text-xs font-semibold text-ink-500 uppercase tracking-wider mb-1">Step-Up Transformers</p>
+                                    <p class="text-ink-900 font-medium">{{ formatTransformers(tAndD.step_up_transformers) }}</p>
                                 </div>
                                 <div>
-                                    <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Step-Down Transformers</p>
-                                    <p class="text-gray-900 font-medium">{{ formatTransformers(tAndD.step_down_transformers) }}</p>
+                                    <p class="text-xs font-semibold text-ink-500 uppercase tracking-wider mb-1">Step-Down Transformers</p>
+                                    <p class="text-ink-900 font-medium">{{ formatTransformers(tAndD.step_down_transformers) }}</p>
                                 </div>
                             </div>
                             <div v-if="tAndD.scope_of_work" class="px-4 text-sm">
-                                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Scope of Work</p>
-                                <p class="text-gray-900 whitespace-pre-wrap">{{ tAndD.scope_of_work }}</p>
+                                <p class="text-xs font-semibold text-ink-500 uppercase tracking-wider mb-1">Scope of Work</p>
+                                <p class="text-ink-900 whitespace-pre-wrap">{{ tAndD.scope_of_work }}</p>
                             </div>
                             <div v-if="tAndD.remarks" class="px-4 text-sm">
-                                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Remarks</p>
-                                <p class="text-gray-900 whitespace-pre-wrap">{{ tAndD.remarks }}</p>
+                                <p class="text-xs font-semibold text-ink-500 uppercase tracking-wider mb-1">Remarks</p>
+                                <p class="text-ink-900 whitespace-pre-wrap">{{ tAndD.remarks }}</p>
                             </div>
                             <div v-if="tAndD.attachments_frontend && tAndD.attachments_frontend.length" class="px-4">
                                 <AttachmentViewer :attachments="tAndD.attachments_frontend" />
@@ -168,7 +168,7 @@ const printDetails = () => {
                 <div v-show="activeTab === 'execution'" class="space-y-6">
                     <!-- Admin Approval -->
                     <div v-if="site.admin_approval">
-                        <h3 class="text-base font-bold text-gray-800 border-b pb-2 mb-4">Admin Approvals</h3>
+                        <h3 class="text-base font-bold text-ink-800 border-b pb-2 mb-4">Admin Approvals</h3>
                         <DetailGrid>
                             <DetailItem label="EU Approval Date" :value="formatDate(site.admin_approval.eu_approval_date)" />
                             <DetailItem label="Approved Cost" :value="formatCurrency(site.admin_approval.approved_cost)" />
@@ -183,9 +183,9 @@ const printDetails = () => {
                             <DetailItem label="EU Approval Submission" :value="formatDate(site.admin_approval.eu_approval_submission_date)" />
                             <DetailItem label="OPM Validation Date" :value="formatDate(site.admin_approval.opm_validation_date)" />
                         </DetailGrid>
-                        <div v-if="hasAdminApprovalRemarks" class="mt-4 p-4 bg-gray-50 rounded-xl border border-gray-100">
-                            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Remarks</p>
-                            <p class="text-sm text-gray-900 whitespace-pre-wrap">{{ site.admin_approval.remarks }}</p>
+                        <div v-if="hasAdminApprovalRemarks" class="mt-4 p-4 bg-paper-50 rounded-xl border border-ink-100">
+                            <p class="text-xs font-semibold text-ink-500 uppercase tracking-wider mb-1">Remarks</p>
+                            <p class="text-sm text-ink-900 whitespace-pre-wrap">{{ site.admin_approval.remarks }}</p>
                         </div>
                         <div v-if="site.admin_approval.attachments_frontend && site.admin_approval.attachments_frontend.length" class="mt-4">
                             <AttachmentViewer :attachments="site.admin_approval.attachments_frontend" />
@@ -194,15 +194,15 @@ const printDetails = () => {
 
                     <!-- Completion Details -->
                     <div v-if="site.completion">
-                        <h3 class="text-base font-bold text-gray-800 border-b pb-2 mb-4">Completion Details</h3>
+                        <h3 class="text-base font-bold text-ink-800 border-b pb-2 mb-4">Completion Details</h3>
                         <DetailGrid>
                             <DetailItem label="Scheme Inauguration Date" :value="formatDate(site.completion.scheme_inauguration_date)" />
                             <DetailItem label="Testing & Commissioning Date" :value="formatDate(site.completion.testing_commissioning_date)" />
                             <DetailItem label="Handover Date" :value="formatDate(site.completion.handover_date)" />
                         </DetailGrid>
-                        <div v-if="hasCompletionRemarks" class="mt-4 p-4 bg-gray-50 rounded-xl border border-gray-100">
-                            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Remarks</p>
-                            <p class="text-sm text-gray-900 whitespace-pre-wrap">{{ site.completion.remarks }}</p>
+                        <div v-if="hasCompletionRemarks" class="mt-4 p-4 bg-paper-50 rounded-xl border border-ink-100">
+                            <p class="text-xs font-semibold text-ink-500 uppercase tracking-wider mb-1">Remarks</p>
+                            <p class="text-sm text-ink-900 whitespace-pre-wrap">{{ site.completion.remarks }}</p>
                         </div>
                         <div v-if="site.completion.attachments_frontend && site.completion.attachments_frontend.length" class="mt-4">
                             <AttachmentViewer :attachments="site.completion.attachments_frontend" />
@@ -214,9 +214,9 @@ const printDetails = () => {
                 <div v-show="activeTab === 'progress'" class="space-y-6">
                     <!-- Physical Progress -->
                     <div v-if="hasPhysicalProgress">
-                        <h3 class="text-base font-bold text-gray-800 border-b pb-2 mb-4">Physical Progress Records</h3>
+                        <h3 class="text-base font-bold text-ink-800 border-b pb-2 mb-4">Physical Progress Records</h3>
                         <div class="space-y-3">
-                            <div v-for="progress in site.physical_progresses" :key="progress.id" class="p-4 border rounded-xl bg-gray-50">
+                            <div v-for="progress in site.physical_progresses" :key="progress.id" class="p-4 border rounded-xl bg-paper-50">
                                 <DetailGrid>
                                     <DetailItem label="Progress Percentage" :value="`${progress.progress_percentage}%`" />
                                     <DetailItem label="Progress Date" :value="formatDate(progress.progress_date)" />
@@ -224,8 +224,8 @@ const printDetails = () => {
                                     <DetailItem label="Linked Activity" :value="progress.activity?.name || 'N/A'" />
                                 </DetailGrid>
                                 <div v-if="progress.remarks" class="px-4 text-sm mt-2">
-                                    <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Remarks</p>
-                                    <p class="text-gray-900 font-medium whitespace-pre-wrap">{{ progress.remarks }}</p>
+                                    <p class="text-xs font-semibold text-ink-500 uppercase tracking-wider">Remarks</p>
+                                    <p class="text-ink-900 font-medium whitespace-pre-wrap">{{ progress.remarks }}</p>
                                 </div>
                                 <div v-if="progress.attachments_frontend && progress.attachments_frontend.length" class="px-4 mt-3">
                                     <AttachmentViewer :attachments="progress.attachments_frontend" />
@@ -236,9 +236,9 @@ const printDetails = () => {
 
                     <!-- Financial Installments -->
                     <div v-if="hasFinancialInstallments">
-                        <h3 class="text-base font-bold text-gray-800 border-b pb-2 mb-4">Financial Installments</h3>
+                        <h3 class="text-base font-bold text-ink-800 border-b pb-2 mb-4">Financial Installments</h3>
                         <div class="space-y-3">
-                            <div v-for="installment in site.financial_installments" :key="installment.id" class="p-4 border rounded-xl bg-gray-50">
+                            <div v-for="installment in site.financial_installments" :key="installment.id" class="p-4 border rounded-xl bg-paper-50">
                                 <DetailGrid>
                                     <DetailItem label="Installment Number" :value="installment.installment_number" />
                                     <DetailItem label="Installment Date" :value="formatDate(installment.installment_date)" />
@@ -248,8 +248,8 @@ const printDetails = () => {
                                     <DetailItem label="Linked Activity" :value="installment.activity?.name || 'N/A'" />
                                 </DetailGrid>
                                 <div v-if="installment.remarks" class="px-4 text-sm mt-2">
-                                    <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Remarks</p>
-                                    <p class="text-gray-900 font-medium whitespace-pre-wrap">{{ installment.remarks }}</p>
+                                    <p class="text-xs font-semibold text-ink-500 uppercase tracking-wider">Remarks</p>
+                                    <p class="text-ink-900 font-medium whitespace-pre-wrap">{{ installment.remarks }}</p>
                                 </div>
                                 <div v-if="installment.attachments_frontend && installment.attachments_frontend.length" class="px-4 mt-3">
                                     <AttachmentViewer :attachments="installment.attachments_frontend" />
@@ -260,17 +260,17 @@ const printDetails = () => {
 
                     <!-- Operational Costs -->
                     <div v-if="hasOperationalCosts">
-                        <h3 class="text-base font-bold text-gray-800 border-b pb-2 mb-4">Operational Costs</h3>
+                        <h3 class="text-base font-bold text-ink-800 border-b pb-2 mb-4">Operational Costs</h3>
                         <div class="space-y-3">
-                            <div v-for="cost in site.operational_costs" :key="cost.id" class="p-4 border rounded-xl bg-gray-50">
+                            <div v-for="cost in site.operational_costs" :key="cost.id" class="p-4 border rounded-xl bg-paper-50">
                                 <DetailGrid>
                                     <DetailItem label="Cost Date" :value="formatDate(cost.cost_date)" />
                                     <DetailItem label="Expense Type" :value="cost.expense_type?.name" />
                                     <DetailItem label="Amount" :value="formatCurrency(cost.amount)" />
                                 </DetailGrid>
                                 <div v-if="cost.remarks" class="px-4 text-sm mt-2">
-                                    <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Remarks</p>
-                                    <p class="text-gray-900 font-medium whitespace-pre-wrap">{{ cost.remarks }}</p>
+                                    <p class="text-xs font-semibold text-ink-500 uppercase tracking-wider">Remarks</p>
+                                    <p class="text-ink-900 font-medium whitespace-pre-wrap">{{ cost.remarks }}</p>
                                 </div>
                             </div>
                         </div>
@@ -280,9 +280,9 @@ const printDetails = () => {
                 <!-- Revenue Tab Panel -->
                 <div v-show="activeTab === 'revenue'" class="space-y-6">
                     <div v-if="hasRevenueRecords">
-                        <h3 class="text-base font-bold text-gray-800 border-b pb-2 mb-4">Revenue Records</h3>
+                        <h3 class="text-base font-bold text-ink-800 border-b pb-2 mb-4">Revenue Records</h3>
                         <div class="space-y-3">
-                            <div v-for="revenue in site.revenue_records" :key="revenue.id" class="p-4 border rounded-xl bg-gray-50">
+                            <div v-for="revenue in site.revenue_records" :key="revenue.id" class="p-4 border rounded-xl bg-paper-50">
                                 <DetailGrid>
                                     <DetailItem label="Billing Month" :value="formatDate(revenue.billing_month)" />
                                     <DetailItem label="Connection Charges" :value="formatCurrency(revenue.connection_charges)" />
@@ -297,12 +297,12 @@ const printDetails = () => {
                             </div>
                         </div>
                     </div>
-                    <div v-else class="text-gray-400 text-sm p-4 text-center">No revenue logs or billing sheets found.</div>
+                    <div v-else class="text-ink-400 text-sm p-4 text-center">No revenue logs or billing sheets found.</div>
                 </div>
             </div>
 
             <!-- Footer Section -->
-            <div class="px-6 py-4 bg-gray-50 border-t border-gray-200 shrink-0 flex justify-end print:hidden">
+            <div class="px-6 py-4 bg-paper-50 border-t border-ink-200 shrink-0 flex justify-end print:hidden">
                 <button
                     type="button"
                     @click="printDetails"

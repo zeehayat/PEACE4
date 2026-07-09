@@ -108,8 +108,8 @@ const exportExcel = () => {
     <AppLayout title="Detailed MHP Report">
         <template #header>
             <div class="flex flex-col gap-1">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">Detailed MHP Report</h2>
-                <p class="text-sm text-gray-500">Comprehensive report with sorting, filtering, and detailed procurement info.</p>
+                <h2 class="font-semibold text-xl text-ink-800 leading-tight">Detailed MHP Report</h2>
+                <p class="text-sm text-ink-500">Comprehensive report with sorting, filtering, and detailed procurement info.</p>
             </div>
         </template>
 
@@ -118,7 +118,7 @@ const exportExcel = () => {
             <div class="w-full px-4 sm:px-6 lg:px-8 space-y-6">
                 
                 <!-- Filters Section -->
-                <div class="bg-white shadow-sm sm:rounded-lg p-6 border border-gray-100">
+                <div class="bg-surface shadow-sm sm:rounded-lg p-6 border border-ink-100">
                     <div class="flex flex-wrap items-end gap-6 justify-between">
                         <div class="flex flex-wrap gap-4 items-end flex-grow">
                             <!-- District Filter -->
@@ -161,7 +161,7 @@ const exportExcel = () => {
                                 <PrimaryButton @click="applyFilters" class="h-10">Search</PrimaryButton>
                                 <button
                                     type="button"
-                                    class="h-10 px-4 py-2 bg-gray-100 text-gray-700 rounded-md text-sm hover:bg-gray-200"
+                                    class="h-10 px-4 py-2 bg-paper-100 text-ink-700 rounded-md text-sm hover:bg-paper-200"
                                     @click="clearFilters"
                                 >
                                     Clear
@@ -177,11 +177,11 @@ const exportExcel = () => {
                 </div>
 
                 <!-- Data Table -->
-                <div class="bg-white shadow-sm sm:rounded-lg border border-gray-100">
+                <div class="bg-surface shadow-sm sm:rounded-lg border border-ink-100">
                      <!-- Max height and auto overflow for sticky header support -->
                     <div class="overflow-x-auto max-h-[75vh] relative"> 
-                        <table class="min-w-max divide-y divide-gray-200 text-sm">
-                            <thead class="bg-gray-50 sticky top-0 z-10 shadow-sm">
+                        <table class="min-w-max divide-y divide-ink-200 text-sm">
+                            <thead class="bg-paper-50 sticky top-0 z-10 shadow-sm">
                                 <tr>
                                     <!-- Using TH for every column. Adding click handler for sorting. -->
                                     <th v-for="(header, key) in {
@@ -219,7 +219,7 @@ const exportExcel = () => {
                                         eu_final_review: 'EU Final Review',
                                         eu_approval: 'EU Approval',
                                     }" :key="key" 
-                                    class="px-3 py-3 text-left font-semibold text-gray-600 uppercase tracking-wider cursor-pointer hover:bg-gray-100 whitespace-nowrap"
+                                    class="px-3 py-3 text-left font-semibold text-ink-600 uppercase tracking-wider cursor-pointer hover:bg-paper-100 whitespace-nowrap"
                                     @click="sortBy(key)">
                                         <div class="flex items-center gap-1">
                                             {{ header }}
@@ -256,7 +256,7 @@ const exportExcel = () => {
                                         eme_fin_bid: 'EME Fin Bid',
                                         eme_contract_award: 'EME Award',
                                         eme_contractor_amount: 'EME Amount'
-                                     }" :key="key" class="px-3 py-3 text-left font-semibold text-indigo-600 uppercase tracking-wider cursor-pointer hover:bg-indigo-50 whitespace-nowrap" @click="sortBy(key)">{{ header }}</th>
+                                     }" :key="key" class="px-3 py-3 text-left font-semibold text-accent-600 uppercase tracking-wider cursor-pointer hover:bg-accent-50 whitespace-nowrap" @click="sortBy(key)">{{ header }}</th>
                                     
                                      <!-- Progress -->
                                      <th v-for="(header, key) in {
@@ -281,11 +281,11 @@ const exportExcel = () => {
                                      }" :key="key" class="px-3 py-3 text-left font-semibold text-green-600 uppercase tracking-wider cursor-pointer hover:bg-green-50 whitespace-nowrap" @click="sortBy(key)">{{ header }}</th>
                                 </tr>
                             </thead>
-                            <tbody class="bg-white divide-y divide-gray-100">
+                            <tbody class="bg-surface divide-y divide-ink-100">
                                 <tr v-if="!sortedRows.length">
-                                    <td colspan="100" class="px-4 py-8 text-center text-gray-500">No records found.</td>
+                                    <td colspan="100" class="px-4 py-8 text-center text-ink-500">No records found.</td>
                                 </tr>
-                                <tr v-for="row in sortedRows" :key="row.id" class="hover:bg-gray-50 transition-colors">
+                                <tr v-for="row in sortedRows" :key="row.id" class="hover:bg-paper-50 transition-colors">
                                     <td v-for="key in [
                                         'district', 'tehsil', 'vc_nc', 'village', 'cbo_name', 'type',
                                         'dialogue_date', 'social_assessment', 'technical_survey_date',
@@ -304,7 +304,7 @@ const exportExcel = () => {
                                         'tnd_initiation_date', 'tnd_total', 'tnd_financial_progress', 'tnd_physical_progress',
                                         'eme_initiation_date', 'eme_total', 'eme_financial_progress', 'eme_physical_progress',
                                         'overall_physical_progress', 'overall_disbursed', 'overall_financial_progress'
-                                    ]" :key="key" class="px-3 py-2 whitespace-nowrap text-gray-700 border-r border-gray-50 last:border-r-0">
+                                    ]" :key="key" class="px-3 py-2 whitespace-nowrap text-ink-700 border-r border-ink-50 last:border-r-0">
                                         {{ row[key] }}
                                     </td>
                                 </tr>

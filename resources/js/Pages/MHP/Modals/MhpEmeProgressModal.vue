@@ -119,28 +119,28 @@ const modalTitle = computed(() => {
         <div class="p-6 overflow-y-auto max-h-[85vh]">
             <div v-if="!showForm" class="space-y-4">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-semibold text-gray-800">Existing {{ progressType }} Progress Entries</h3>
+                    <h3 class="text-xl font-semibold text-ink-800">Existing {{ progressType }} Progress Entries</h3>
                     <PrimaryButton @click="openCreateForm">
                         + Record New Progress
                     </PrimaryButton>
                 </div>
 
-                <div v-if="isLoadingProgress" class="text-center py-8 text-gray-500">
+                <div v-if="isLoadingProgress" class="text-center py-8 text-ink-500">
                     Loading physical progress entries...
                 </div>
 
-                <div v-else-if="physicalProgresses.length === 0" class="text-center py-8 text-gray-500">
+                <div v-else-if="physicalProgresses.length === 0" class="text-center py-8 text-ink-500">
                     No physical progress entries recorded yet for this site.
                 </div>
 
                 <div v-else class="grid grid-cols-1 gap-4">
-                    <div v-for="progress in physicalProgresses" :key="progress.id" class="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+                    <div v-for="progress in physicalProgresses" :key="progress.id" class="bg-surface border border-ink-200 rounded-lg p-4 shadow-sm">
                         <div class="flex justify-between items-start mb-2">
                             <div>
-                                <p class="text-lg font-semibold text-indigo-700">{{ progress.progress_percentage }}% Progress</p>
-                                <p class="text-sm text-gray-600">on {{ new Date(progress.progress_date).toLocaleDateString() }}</p>
-                                <p class="text-sm text-gray-500">Type: <span class="font-medium">{{ progress.payment_for }}</span></p>
-                                <p v-if="progress.activity" class="text-xs text-gray-500">
+                                <p class="text-lg font-semibold text-accent-700">{{ progress.progress_percentage }}% Progress</p>
+                                <p class="text-sm text-ink-600">on {{ new Date(progress.progress_date).toLocaleDateString() }}</p>
+                                <p class="text-sm text-ink-500">Type: <span class="font-medium">{{ progress.payment_for }}</span></p>
+                                <p v-if="progress.activity" class="text-xs text-ink-500">
                                     Activity: {{ progress.activity.name || `T&D Work #${progress.activity.id}` }}
                                 </p>
                             </div>
@@ -149,11 +149,11 @@ const modalTitle = computed(() => {
                                 <DangerButton @click="handleDeleteProgress(progress.id)" class="px-3 py-1 text-sm">Delete</DangerButton>
                             </div>
                         </div>
-                        <p v-if="progress.remarks" class="text-sm text-gray-700 mt-2">
-                            Remarks: <span class="text-gray-600">{{ progress.remarks }}</span>
+                        <p v-if="progress.remarks" class="text-sm text-ink-700 mt-2">
+                            Remarks: <span class="text-ink-600">{{ progress.remarks }}</span>
                         </p>
                         <div v-if="progress.attachments_frontend && progress.attachments_frontend.length" class="mt-3">
-                            <p class="text-sm font-semibold text-gray-700 mb-1">Attachments:</p>
+                            <p class="text-sm font-semibold text-ink-700 mb-1">Attachments:</p>
                             <AttachmentViewer :attachments="progress.attachments_frontend" />
                         </div>
                     </div>

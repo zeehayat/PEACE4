@@ -129,8 +129,8 @@ const modalTitle = computed(() => {
         <!-- List View -->
         <div v-else class="p-6 max-h-[75vh] overflow-y-auto space-y-5">
             <!-- Record New Action Buttons Header -->
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-gray-50 border border-gray-200 rounded-xl p-4 gap-3">
-                <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">Record New Progress</span>
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-paper-50 border border-ink-200 rounded-xl p-4 gap-3">
+                <span class="text-xs font-bold text-ink-500 uppercase tracking-wider">Record New Progress</span>
                 <div class="flex flex-wrap gap-2">
                     <button
                         @click="openCreateForm('Civil')"
@@ -166,17 +166,17 @@ const modalTitle = computed(() => {
                     Physical Progress Timeline
                 </h4>
 
-                <div v-if="isLoadingProgress" class="text-center py-8 text-gray-400 text-sm font-semibold">
+                <div v-if="isLoadingProgress" class="text-center py-8 text-ink-400 text-sm font-semibold">
                     Loading physical progress entries...
                 </div>
-                <div v-else-if="physicalProgresses.length === 0" class="text-center py-8 bg-gray-50 border border-dashed rounded-xl text-gray-500 text-sm">
+                <div v-else-if="physicalProgresses.length === 0" class="text-center py-8 bg-paper-50 border border-dashed rounded-xl text-ink-500 text-sm">
                     No physical progress entries recorded yet for this site.
                 </div>
                 <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div
                         v-for="progress in physicalProgresses"
                         :key="progress.id"
-                        class="bg-white border border-gray-200 rounded-xl p-4 shadow-sm hover:shadow transition flex flex-col justify-between"
+                        class="bg-surface border border-ink-200 rounded-xl p-4 shadow-sm hover:shadow transition flex flex-col justify-between"
                     >
                         <div class="space-y-2">
                             <div class="flex justify-between items-start">
@@ -184,14 +184,14 @@ const modalTitle = computed(() => {
                                     <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">
                                         {{ progress.percentage }}% Progress
                                     </span>
-                                    <p class="text-xs font-semibold text-gray-500 mt-1">
-                                        Component: <span class="text-gray-900 font-bold">{{ progress.type }}</span>
+                                    <p class="text-xs font-semibold text-ink-500 mt-1">
+                                        Component: <span class="text-ink-900 font-bold">{{ progress.type }}</span>
                                     </p>
                                 </div>
                                 <div class="flex items-center gap-1">
                                     <button
                                         @click="openEditForm(progress)"
-                                        class="p-1 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md transition"
+                                        class="p-1 text-ink-500 hover:text-ink-900 hover:bg-paper-100 rounded-md transition"
                                         title="Edit"
                                     >
                                         <span class="material-symbols-outlined text-lg">edit</span>
@@ -206,18 +206,18 @@ const modalTitle = computed(() => {
                                 </div>
                             </div>
                             
-                            <p class="text-xs text-gray-500 flex items-center gap-1">
+                            <p class="text-xs text-ink-500 flex items-center gap-1">
                                 <span class="material-symbols-outlined text-[13px]">calendar_today</span>
                                 Registered on {{ formatDate(progress.date) }}
                             </p>
 
-                            <p v-if="progress.remarks" class="text-sm text-gray-700 leading-relaxed bg-gray-50 p-2 rounded-lg border border-gray-100">
-                                <span class="font-medium text-xs text-gray-500 block mb-0.5">Remarks</span>
+                            <p v-if="progress.remarks" class="text-sm text-ink-700 leading-relaxed bg-paper-50 p-2 rounded-lg border border-ink-100">
+                                <span class="font-medium text-xs text-ink-500 block mb-0.5">Remarks</span>
                                 {{ progress.remarks }}
                             </p>
 
                             <div v-if="progress.attachments?.length" class="mt-2 pt-2 border-t">
-                                <span class="text-xs font-semibold text-gray-500 block mb-1">Attachments</span>
+                                <span class="text-xs font-semibold text-ink-500 block mb-1">Attachments</span>
                                 <AttachmentViewer :attachments="progress.attachments" />
                             </div>
                         </div>
@@ -226,11 +226,11 @@ const modalTitle = computed(() => {
             </div>
 
             <!-- Footer view actions -->
-            <div class="flex justify-end pt-2 border-t border-gray-100">
+            <div class="flex justify-end pt-2 border-t border-ink-100">
                 <button
                     type="button"
                     @click="emit('close')"
-                    class="px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg font-semibold text-xs text-gray-700 uppercase hover:bg-gray-200 transition shadow-sm"
+                    class="px-4 py-2 bg-paper-100 border border-ink-300 rounded-lg font-semibold text-xs text-ink-700 uppercase hover:bg-paper-200 transition shadow-sm"
                 >
                     Close
                 </button>

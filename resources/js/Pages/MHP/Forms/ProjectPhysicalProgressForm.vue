@@ -64,7 +64,7 @@ const title = computed(() => `Record ${form.payment_for} Progress`);
 
 <template>
     <form @submit.prevent="submit" class="space-y-6">
-        <h2 class="text-xl font-semibold text-gray-900">{{ title }}</h2>
+        <h2 class="text-xl font-semibold text-ink-900">{{ title }}</h2>
 
         <div>
             <InputLabel for="progress_percentage" value="Progress Percentage" />
@@ -97,7 +97,7 @@ const title = computed(() => `Record ${form.payment_for} Progress`);
             <InputLabel for="works" value="Works" />
             <textarea
                 id="works"
-                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+                class="mt-1 block w-full border-ink-300 rounded-md shadow-sm"
                 rows="3"
                 v-model="form.works"
             ></textarea>
@@ -108,7 +108,7 @@ const title = computed(() => `Record ${form.payment_for} Progress`);
             <InputLabel for="remarks" value="Remarks" />
             <textarea
                 id="remarks"
-                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+                class="mt-1 block w-full border-ink-300 rounded-md shadow-sm"
                 rows="3"
                 v-model="form.remarks"
             ></textarea>

@@ -71,7 +71,7 @@ const hasRemarks = computed(() => {
 
         <!-- View Mode (Details View) -->
         <div v-else-if="completion" class="p-6 max-h-[75vh] overflow-y-auto space-y-6">
-            <div class="bg-gray-50 border border-gray-200 rounded-xl p-5 space-y-4">
+            <div class="bg-paper-50 border border-ink-200 rounded-xl p-5 space-y-4">
                 <h4 class="text-xs font-bold text-emerald-800 uppercase tracking-wider border-b pb-2 flex items-center gap-1.5">
                     <span class="material-symbols-outlined text-base">verified_user</span>
                     Inauguration & Handover Schedule
@@ -79,30 +79,30 @@ const hasRemarks = computed(() => {
                 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
                     <div class="flex flex-col">
-                        <span class="text-xs font-semibold text-gray-500">Scheme Inauguration Date</span>
-                        <span class="text-gray-900 font-semibold mt-0.5">{{ formatDate(completion.scheme_inauguration_date) }}</span>
+                        <span class="text-xs font-semibold text-ink-500">Scheme Inauguration Date</span>
+                        <span class="text-ink-900 font-semibold mt-0.5">{{ formatDate(completion.scheme_inauguration_date) }}</span>
                     </div>
                     <div class="flex flex-col">
-                        <span class="text-xs font-semibold text-gray-500">Testing & Commissioning Date</span>
-                        <span class="text-gray-900 font-semibold mt-0.5">{{ formatDate(completion.testing_commissioning_date) }}</span>
+                        <span class="text-xs font-semibold text-ink-500">Testing & Commissioning Date</span>
+                        <span class="text-ink-900 font-semibold mt-0.5">{{ formatDate(completion.testing_commissioning_date) }}</span>
                     </div>
                     <div class="flex flex-col">
-                        <span class="text-xs font-semibold text-gray-500">Handover Date</span>
-                        <span class="text-gray-900 font-semibold mt-0.5">{{ formatDate(completion.handover_date) }}</span>
+                        <span class="text-xs font-semibold text-ink-500">Handover Date</span>
+                        <span class="text-ink-900 font-semibold mt-0.5">{{ formatDate(completion.handover_date) }}</span>
                     </div>
                 </div>
             </div>
 
-            <div v-if="hasRemarks" class="bg-gray-50 border border-gray-200 rounded-xl p-5 space-y-2">
-                <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider border-b pb-2 flex items-center gap-1.5">
+            <div v-if="hasRemarks" class="bg-paper-50 border border-ink-200 rounded-xl p-5 space-y-2">
+                <h4 class="text-xs font-bold text-ink-500 uppercase tracking-wider border-b pb-2 flex items-center gap-1.5">
                     <span class="material-symbols-outlined text-base">notes</span>
                     Remarks
                 </h4>
-                <p class="text-sm text-gray-800 whitespace-pre-wrap leading-relaxed pt-1">{{ completion.remarks }}</p>
+                <p class="text-sm text-ink-800 whitespace-pre-wrap leading-relaxed pt-1">{{ completion.remarks }}</p>
             </div>
 
-            <div v-if="completion.attachments_frontend?.length" class="bg-gray-50 border border-gray-200 rounded-xl p-5 space-y-3">
-                <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider border-b pb-2 flex items-center gap-1.5">
+            <div v-if="completion.attachments_frontend?.length" class="bg-paper-50 border border-ink-200 rounded-xl p-5 space-y-3">
+                <h4 class="text-xs font-bold text-ink-500 uppercase tracking-wider border-b pb-2 flex items-center gap-1.5">
                     <span class="material-symbols-outlined text-base">attachment</span>
                     Attachments
                 </h4>
@@ -112,11 +112,11 @@ const hasRemarks = computed(() => {
             </div>
 
             <!-- Footer view actions -->
-            <div class="flex items-center justify-end gap-3 pt-2 border-t border-gray-100">
+            <div class="flex items-center justify-end gap-3 pt-2 border-t border-ink-100">
                 <button
                     type="button"
                     @click="emit('close')"
-                    class="inline-flex items-center px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-200 focus:outline-none transition shadow-sm"
+                    class="inline-flex items-center px-4 py-2 bg-paper-100 border border-ink-300 rounded-lg font-semibold text-xs text-ink-700 uppercase tracking-widest hover:bg-paper-200 focus:outline-none transition shadow-sm"
                 >
                     Close
                 </button>

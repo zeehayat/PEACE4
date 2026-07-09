@@ -122,8 +122,8 @@ const modalTitle = computed(() => {
         <!-- List View -->
         <div v-else class="p-6 max-h-[75vh] overflow-y-auto space-y-5">
             <!-- Record New Action Header -->
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-gray-50 border border-gray-200 rounded-xl p-4 gap-3">
-                <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">Add Installment Record</span>
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-paper-50 border border-ink-200 rounded-xl p-4 gap-3">
+                <span class="text-xs font-bold text-ink-500 uppercase tracking-wider">Add Installment Record</span>
                 <button
                     @click="openCreateForm"
                     class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold shadow-sm transition"
@@ -141,17 +141,17 @@ const modalTitle = computed(() => {
                     {{ progressType }} Financial Installments
                 </h4>
 
-                <div v-if="isLoadingInstallments" class="text-center py-8 text-gray-400 text-sm font-semibold">
+                <div v-if="isLoadingInstallments" class="text-center py-8 text-ink-400 text-sm font-semibold">
                     Loading {{ progressType }} financial installments...
                 </div>
-                <div v-else-if="financialInstallments.length === 0" class="text-center py-8 bg-gray-50 border border-dashed rounded-xl text-gray-500 text-sm">
+                <div v-else-if="financialInstallments.length === 0" class="text-center py-8 bg-paper-50 border border-dashed rounded-xl text-ink-500 text-sm">
                     No {{ progressType }} financial installments recorded yet.
                 </div>
                 <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div
                         v-for="installment in financialInstallments"
                         :key="installment.id"
-                        class="bg-white border border-gray-200 rounded-xl p-4 shadow-sm hover:shadow transition flex flex-col justify-between"
+                        class="bg-surface border border-ink-200 rounded-xl p-4 shadow-sm hover:shadow transition flex flex-col justify-between"
                     >
                         <div class="space-y-2">
                             <div class="flex justify-between items-start">
@@ -159,14 +159,14 @@ const modalTitle = computed(() => {
                                     <span class="text-emerald-700 font-bold text-base">
                                         {{ formatCurrency(installment.installment_amount) }}
                                     </span>
-                                    <p class="text-xs font-semibold text-gray-500 mt-0.5">
-                                        Installment Number: <span class="text-gray-900 font-bold">#{{ installment.installment_number }}</span>
+                                    <p class="text-xs font-semibold text-ink-500 mt-0.5">
+                                        Installment Number: <span class="text-ink-900 font-bold">#{{ installment.installment_number }}</span>
                                     </p>
                                 </div>
                                 <div class="flex items-center gap-1">
                                     <button
                                         @click="openEditForm(installment)"
-                                        class="p-1 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md transition"
+                                        class="p-1 text-ink-500 hover:text-ink-900 hover:bg-paper-100 rounded-md transition"
                                         title="Edit"
                                     >
                                         <span class="material-symbols-outlined text-lg">edit</span>
@@ -181,23 +181,23 @@ const modalTitle = computed(() => {
                                 </div>
                             </div>
                             
-                            <p class="text-xs text-gray-500 flex items-center gap-1">
+                            <p class="text-xs text-ink-500 flex items-center gap-1">
                                 <span class="material-symbols-outlined text-[13px]">calendar_today</span>
                                 Date: {{ formatDate(installment.installment_date) }}
                             </p>
 
-                            <p v-if="installment.cheque_no" class="text-xs text-gray-600 flex items-center gap-1">
+                            <p v-if="installment.cheque_no" class="text-xs text-ink-600 flex items-center gap-1">
                                 <span class="material-symbols-outlined text-[13px]">payments</span>
-                                Cheque No: <span class="font-bold text-gray-900">{{ installment.cheque_no }}</span>
+                                Cheque No: <span class="font-bold text-ink-900">{{ installment.cheque_no }}</span>
                             </p>
 
-                            <p v-if="installment.remarks" class="text-sm text-gray-700 leading-relaxed bg-gray-50 p-2 rounded-lg border border-gray-100">
-                                <span class="font-medium text-xs text-gray-500 block mb-0.5">Remarks</span>
+                            <p v-if="installment.remarks" class="text-sm text-ink-700 leading-relaxed bg-paper-50 p-2 rounded-lg border border-ink-100">
+                                <span class="font-medium text-xs text-ink-500 block mb-0.5">Remarks</span>
                                 {{ installment.remarks }}
                             </p>
 
                             <div v-if="installment.attachments_frontend?.length" class="mt-2 pt-2 border-t">
-                                <span class="text-xs font-semibold text-gray-500 block mb-1">Attachments</span>
+                                <span class="text-xs font-semibold text-ink-500 block mb-1">Attachments</span>
                                 <AttachmentViewer :attachments="installment.attachments_frontend" />
                             </div>
                         </div>
@@ -206,11 +206,11 @@ const modalTitle = computed(() => {
             </div>
 
             <!-- Footer actions -->
-            <div class="flex justify-end pt-2 border-t border-gray-100">
+            <div class="flex justify-end pt-2 border-t border-ink-100">
                 <button
                     type="button"
                     @click="emit('close')"
-                    class="px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg font-semibold text-xs text-gray-700 uppercase hover:bg-gray-200 transition shadow-sm"
+                    class="px-4 py-2 bg-paper-100 border border-ink-300 rounded-lg font-semibold text-xs text-ink-700 uppercase hover:bg-paper-200 transition shadow-sm"
                 >
                     Close
                 </button>

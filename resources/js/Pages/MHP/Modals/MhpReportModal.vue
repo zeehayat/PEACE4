@@ -20,11 +20,11 @@ const printReport = () => {
 
 <template>
     <Modal :show="show" @close="emit('close')" :maxWidth="'6xl'" :title="`Report for MHP Site: ${site.project_id}`">
-        <div class="p-6 overflow-y-auto max-h-[85vh] text-gray-800 print-content">
+        <div class="p-6 overflow-y-auto max-h-[85vh] text-ink-800 print-content">
             <h2 class="text-2xl font-bold mb-4">MHP Site Report Overview</h2>
-            <p class="mb-4 text-gray-700">This is a placeholder for the MHP Site Report. You can customize this section to display various data, charts, or generated report content.</p>
+            <p class="mb-4 text-ink-700">This is a placeholder for the MHP Site Report. You can customize this section to display various data, charts, or generated report content.</p>
 
-            <div class="border p-4 rounded-lg bg-gray-50 mb-6">
+            <div class="border p-4 rounded-lg bg-paper-50 mb-6">
                 <h3 class="text-xl font-semibold mb-2">Site Basic Info</h3>
                 <p><strong>Reference Code:</strong> {{ site.cbo?.reference_code ?? 'N/A' }}</p>
                 <p><strong>Project ID:</strong> {{ site.project_id ?? 'N/A' }}</p>
@@ -33,7 +33,7 @@ const printReport = () => {
                 <p><strong>Remarks:</strong> <span v-html="site.remarks ?? 'N/A'"></span></p>
             </div>
 
-            <div class="border p-4 rounded-lg bg-gray-50 mb-6">
+            <div class="border p-4 rounded-lg bg-paper-50 mb-6">
                 <h3 class="text-xl font-semibold mb-2">Latest Progress Summary</h3>
                 <p v-if="site.latest_physical_progress">
                     <strong>Physical:</strong> {{ site.latest_physical_progress.progress_percentage }}% on {{ new Date(site.latest_physical_progress.progress_date).toLocaleDateString() }}
@@ -53,7 +53,7 @@ const printReport = () => {
                 <button
                     type="button"
                     @click="emit('close')"
-                    class="inline-flex items-center px-4 py-2 bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-300 focus:bg-gray-300 active:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
+                    class="inline-flex items-center px-4 py-2 bg-paper-200 border border-transparent rounded-md font-semibold text-xs text-ink-700 uppercase tracking-widest hover:bg-paper-300 focus:bg-paper-300 active:bg-paper-400 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 transition ease-in-out duration-150"
                 >
                     Close
                 </button>

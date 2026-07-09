@@ -77,18 +77,18 @@ const closeDetailsModal = () => {
 <template>
     <AppLayout title="MHP Comprehensive Report">
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">MHP Comprehensive Report</h2>
+            <h2 class="font-semibold text-xl text-ink-800 leading-tight">MHP Comprehensive Report</h2>
         </template>
 
         <div class="py-12">
             <div class="max-w-full mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+                <div class="bg-surface overflow-hidden shadow-sm sm:rounded-lg p-6">
 
                     <!-- Filters and Export -->
                     <div class="flex flex-wrap items-end justify-between gap-4 mb-6 pb-4 border-b">
                         <div class="flex flex-wrap gap-4">
                             <div>
-                                <label for="district" class="block text-sm font-medium text-gray-700">District</label>
+                                <label for="district" class="block text-sm font-medium text-ink-700">District</label>
                                 <SelectInput
                                     id="district"
                                     v-model="form.district"
@@ -97,7 +97,7 @@ const closeDetailsModal = () => {
                                 />
                             </div>
                             <div>
-                                <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+                                <label for="status" class="block text-sm font-medium text-ink-700">Status</label>
                                 <SelectInput
                                     id="status"
                                     v-model="form.status"
@@ -107,7 +107,7 @@ const closeDetailsModal = () => {
                             </div>
                             <div class="flex items-end space-x-2">
                                 <PrimaryButton @click="applyFilters" class="h-10">Apply Filters</PrimaryButton>
-                                <button @click="clearFilters" type="button" class="h-10 px-4 py-2 bg-gray-200 text-gray-700 rounded-md text-sm hover:bg-gray-300">Clear</button>
+                                <button @click="clearFilters" type="button" class="h-10 px-4 py-2 bg-paper-200 text-ink-700 rounded-md text-sm hover:bg-paper-300">Clear</button>
                             </div>
                         </div>
 
@@ -118,22 +118,22 @@ const closeDetailsModal = () => {
 
                     <!-- Report Table -->
                     <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
+                        <table class="min-w-full divide-y divide-ink-200">
+                            <thead class="bg-paper-50">
                             <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Project ID</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">MHP Descriptive Name</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Linked CBO Details</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Capacity (KW)</th>
-                                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Civil Progress (%)</th>
-                                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">E&M Progress (%)</th>
-                                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Financial MHP (PKR)</th>
-                                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Financial T&D (PKR)</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-ink-500 uppercase tracking-wider">Action</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-ink-500 uppercase tracking-wider">Project ID</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-ink-500 uppercase tracking-wider">MHP Descriptive Name</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-ink-500 uppercase tracking-wider">Linked CBO Details</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-ink-500 uppercase tracking-wider">Status</th>
+                                <th class="px-6 py-3 text-right text-xs font-medium text-ink-500 uppercase tracking-wider">Capacity (KW)</th>
+                                <th class="px-6 py-3 text-right text-xs font-medium text-ink-500 uppercase tracking-wider">Civil Progress (%)</th>
+                                <th class="px-6 py-3 text-right text-xs font-medium text-ink-500 uppercase tracking-wider">E&M Progress (%)</th>
+                                <th class="px-6 py-3 text-right text-xs font-medium text-ink-500 uppercase tracking-wider">Financial MHP (PKR)</th>
+                                <th class="px-6 py-3 text-right text-xs font-medium text-ink-500 uppercase tracking-wider">Financial T&D (PKR)</th>
                             </tr>
                             </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
+                            <tbody class="bg-surface divide-y divide-ink-200">
                             <tr v-for="site in mhpSites.data" :key="site.id">
                                 <!-- Details Button -->
                                 <td class="px-6 py-4 whitespace-nowrap text-sm">
@@ -143,10 +143,10 @@ const closeDetailsModal = () => {
                                 </td>
 
                                 <!-- Existing data columns -->
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-indigo-600">{{ site.project_identifier }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{{ site.site_name }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{{ site.cbo_name }} ({{ site.cbo_reference }})</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{{ site.status }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-accent-600">{{ site.project_identifier }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-ink-600">{{ site.site_name }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-ink-600">{{ site.cbo_name }} ({{ site.cbo_reference }})</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-ink-600">{{ site.status }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-right">{{ site.planned_capacity_kw }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-right">{{ Math.round(site.civil_progress_sum) }}%</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-right">{{ Math.round(site.eme_progress_sum) }}%</td>
@@ -161,8 +161,8 @@ const closeDetailsModal = () => {
                     <div v-if="mhpSites.links.length > 3" class="mt-4">
                         <div class="flex flex-wrap -mb-1">
                             <template v-for="(link, key) in mhpSites.links" :key="key">
-                                <div v-if="link.url === null" class="mr-1 mb-1 px-4 py-3 text-sm leading-4 text-gray-400 border rounded-md" v-html="link.label" />
-                                <button v-else :class="{ 'bg-indigo-500 text-white': link.active }" class="mr-1 mb-1 px-4 py-3 text-sm leading-4 border rounded-md hover:bg-white focus:border-indigo-500 focus:text-indigo-500" @click="router.get(link.url)" v-html="link.label" />
+                                <div v-if="link.url === null" class="mr-1 mb-1 px-4 py-3 text-sm leading-4 text-ink-400 border rounded-md" v-html="link.label" />
+                                <button v-else :class="{ 'bg-accent-500 text-white': link.active }" class="mr-1 mb-1 px-4 py-3 text-sm leading-4 border rounded-md hover:bg-surface focus:border-accent-500 focus:text-accent-500" @click="router.get(link.url)" v-html="link.label" />
                             </template>
                         </div>
                     </div>

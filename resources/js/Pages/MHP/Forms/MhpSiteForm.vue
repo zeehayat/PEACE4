@@ -228,7 +228,7 @@ const handleCancel = () => {
     <form @submit.prevent="handleSubmit" class="space-y-4">
         
         <!-- Step Stepper Progress Bar -->
-        <div class="border-b border-gray-200 pb-3 bg-gray-50 px-5 pt-3 rounded-t-xl">
+        <div class="border-b border-ink-200 pb-3 bg-paper-50 px-5 pt-3 rounded-t-xl">
             <nav class="flex flex-wrap justify-between items-center gap-3">
                 <button
                     v-for="(tab, index) in activeTabsList"
@@ -240,7 +240,7 @@ const handleCancel = () => {
                             ? 'bg-emerald-600 text-white shadow-sm'
                             : currentStep > index
                                 ? 'bg-emerald-50 text-emerald-800'
-                                : 'bg-white text-gray-500 border border-gray-200 hover:bg-gray-100'
+                                : 'bg-surface text-ink-500 border border-ink-200 hover:bg-paper-100'
                     ]"
                     type="button"
                 >
@@ -257,14 +257,14 @@ const handleCancel = () => {
             
             <!-- Step 1: General Information -->
             <div v-if="activeTab === 'general'" class="space-y-4">
-                <div class="bg-gray-50 border border-gray-200 rounded-xl p-4 space-y-3">
+                <div class="bg-paper-50 border border-ink-200 rounded-xl p-4 space-y-3">
                     <h4 class="text-xs font-bold text-emerald-800 uppercase tracking-wider border-b pb-1.5 flex items-center gap-1.5">
                         <span class="material-symbols-outlined text-base">info</span>
                         Core MHP Site Registry
                     </h4>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
-                            <InputLabel for="cbo_id" value="Associated CBO" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="cbo_id" value="Associated CBO" class="text-xs font-semibold text-ink-600" />
                             <SearchableCboSelect
                                 id="cbo_id"
                                 v-model="form.cbo_id"
@@ -276,7 +276,7 @@ const handleCancel = () => {
                         </div>
 
                         <div>
-                            <InputLabel for="month_year_establishment" value="Month & Year of Establishment" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="month_year_establishment" value="Month & Year of Establishment" class="text-xs font-semibold text-ink-600" />
                             <DatePicker
                                 id="month_year_establishment"
                                 v-model="form.month_year_establishment"
@@ -288,7 +288,7 @@ const handleCancel = () => {
                         </div>
 
                         <div v-if="form.status !== 'New'">
-                            <InputLabel for="established_by" value="Established By" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="established_by" value="Established By" class="text-xs font-semibold text-ink-600" />
                             <TextInput
                                 id="established_by"
                                 v-model="form.established_by"
@@ -300,7 +300,7 @@ const handleCancel = () => {
                         </div>
 
                         <div>
-                            <InputLabel for="population" value="Population Served" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="population" value="Population Served" class="text-xs font-semibold text-ink-600" />
                             <TextInput
                                 id="population"
                                 v-model="form.population"
@@ -312,7 +312,7 @@ const handleCancel = () => {
                         </div>
 
                         <div>
-                            <InputLabel for="grid_status" value="Grid Connection Status" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="grid_status" value="Grid Connection Status" class="text-xs font-semibold text-ink-600" />
                             <SelectInput
                                 id="grid_status"
                                 v-model="form.grid_status"
@@ -324,7 +324,7 @@ const handleCancel = () => {
                         </div>
 
                         <div>
-                            <InputLabel for="status" value="Project Status Type" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="status" value="Project Status Type" class="text-xs font-semibold text-ink-600" />
                             <SelectInput
                                 id="status"
                                 v-model="form.status"
@@ -340,44 +340,44 @@ const handleCancel = () => {
 
             <!-- Create Mode Tab 2: Initial Estimates -->
             <div v-if="activeTab === 'estimates'" class="space-y-4">
-                <div class="bg-gray-50 border border-gray-200 rounded-xl p-4 space-y-3">
+                <div class="bg-paper-50 border border-ink-200 rounded-xl p-4 space-y-3">
                     <h4 class="text-xs font-bold text-emerald-800 uppercase tracking-wider border-b pb-1.5 flex items-center gap-1.5">
                         <span class="material-symbols-outlined text-base">payments</span>
                         Estimates & Capacities
                     </h4>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                         <div>
-                            <InputLabel for="planned_capacity_kw" value="Planned Capacity (KW)" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="planned_capacity_kw" value="Planned Capacity (KW)" class="text-xs font-semibold text-ink-600" />
                             <TextInput id="planned_capacity_kw" v-model="form.planned_capacity_kw" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.planned_capacity_kw" />
                         </div>
                         <div>
-                            <InputLabel for="existing_capacity_kw" value="Existing Capacity (KW)" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="existing_capacity_kw" value="Existing Capacity (KW)" class="text-xs font-semibold text-ink-600" />
                             <TextInput id="existing_capacity_kw" v-model="form.existing_capacity_kw" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.existing_capacity_kw" />
                         </div>
                         <div>
-                            <InputLabel for="proposed_capacity_kw" value="Proposed Capacity (KW)" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="proposed_capacity_kw" value="Proposed Capacity (KW)" class="text-xs font-semibold text-ink-600" />
                             <TextInput id="proposed_capacity_kw" v-model="form.proposed_capacity_kw" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.proposed_capacity_kw" />
                         </div>
                         <div>
-                            <InputLabel for="estimated_cost" value="Estimated Cost (PKR)" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="estimated_cost" value="Estimated Cost (PKR)" class="text-xs font-semibold text-ink-600" />
                             <TextInput id="estimated_cost" v-model="form.estimated_cost" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.estimated_cost" />
                         </div>
                         <div>
-                            <InputLabel for="total_hh" value="Total Households (HH)" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="total_hh" value="Total Households (HH)" class="text-xs font-semibold text-ink-600" />
                             <TextInput id="total_hh" v-model="form.total_hh" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.total_hh" />
                         </div>
                         <div>
-                            <InputLabel for="domestic_units" value="Domestic Connections" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="domestic_units" value="Domestic Connections" class="text-xs font-semibold text-ink-600" />
                             <TextInput id="domestic_units" v-model="form.domestic_units" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.domestic_units" />
                         </div>
                         <div>
-                            <InputLabel for="commercial_units" value="Commercial Connections" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="commercial_units" value="Commercial Connections" class="text-xs font-semibold text-ink-600" />
                             <TextInput id="commercial_units" v-model="form.commercial_units" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.commercial_units" />
                         </div>
@@ -393,19 +393,19 @@ const handleCancel = () => {
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
                             <InputLabel value="Calculated Per KW Cost" class="text-xs font-semibold text-emerald-700" />
-                            <div class="mt-0.5 block w-full rounded-lg bg-white border border-emerald-200 py-1.5 px-2.5 text-sm font-semibold text-emerald-900 shadow-sm">
+                            <div class="mt-0.5 block w-full rounded-lg bg-surface border border-emerald-200 py-1.5 px-2.5 text-sm font-semibold text-emerald-900 shadow-sm">
                                 {{ formatCurrency(computedPerKwCost) }} / KW
                             </div>
                         </div>
                         <div>
                             <InputLabel value="Calculated Avg Household Size" class="text-xs font-semibold text-emerald-700" />
-                            <div class="mt-0.5 block w-full rounded-lg bg-white border border-emerald-200 py-1.5 px-2.5 text-sm font-semibold text-emerald-900 shadow-sm">
+                            <div class="mt-0.5 block w-full rounded-lg bg-surface border border-emerald-200 py-1.5 px-2.5 text-sm font-semibold text-emerald-900 shadow-sm">
                                 {{ formatDecimal(computedAvgHhSize) }} Persons
                             </div>
                         </div>
                         <div>
                             <InputLabel value="Calculated Cost Per Capita" class="text-xs font-semibold text-emerald-700" />
-                            <div class="mt-0.5 block w-full rounded-lg bg-white border border-emerald-200 py-1.5 px-2.5 text-sm font-semibold text-emerald-900 shadow-sm">
+                            <div class="mt-0.5 block w-full rounded-lg bg-surface border border-emerald-200 py-1.5 px-2.5 text-sm font-semibold text-emerald-900 shadow-sm">
                                 {{ formatCurrency(computedCostPerCapita) }} / Person
                             </div>
                         </div>
@@ -415,80 +415,80 @@ const handleCancel = () => {
 
             <!-- Edit Mode: Design & Capacity Specs (Step 2) -->
             <div v-if="activeTab === 'design_technical' && isEditMode" class="space-y-4">
-                <div class="bg-gray-50 border border-gray-200 rounded-xl p-4 space-y-3">
+                <div class="bg-paper-50 border border-ink-200 rounded-xl p-4 space-y-3">
                     <h4 class="text-xs font-bold text-emerald-800 uppercase tracking-wider border-b pb-1.5 flex items-center gap-1.5">
                         <span class="material-symbols-outlined text-base">bolt</span>
                         Technical Specifications & Discharge
                     </h4>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                         <div>
-                            <InputLabel for="planned_capacity_kw" value="Planned Capacity (KW)" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="planned_capacity_kw" value="Planned Capacity (KW)" class="text-xs font-semibold text-ink-600" />
                             <TextInput id="planned_capacity_kw" v-model="form.planned_capacity_kw" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.planned_capacity_kw" />
                         </div>
                         <div>
-                            <InputLabel for="existing_capacity_kw" value="Existing Capacity (KW)" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="existing_capacity_kw" value="Existing Capacity (KW)" class="text-xs font-semibold text-ink-600" />
                             <TextInput id="existing_capacity_kw" v-model="form.existing_capacity_kw" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.existing_capacity_kw" />
                         </div>
                         <div>
-                            <InputLabel for="proposed_capacity_kw" value="Proposed Capacity (KW)" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="proposed_capacity_kw" value="Proposed Capacity (KW)" class="text-xs font-semibold text-ink-600" />
                             <TextInput id="proposed_capacity_kw" v-model="form.proposed_capacity_kw" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.proposed_capacity_kw" />
                         </div>
                         <div>
                             <div class="flex items-center gap-1">
-                                <InputLabel for="head_ft" value="Water Drop (Head FT)" class="text-xs font-semibold text-gray-600" />
-                                <span class="material-symbols-outlined text-[10px] text-gray-400 cursor-help" title="Total vertical drop height of water in Feet.">info</span>
+                                <InputLabel for="head_ft" value="Water Drop (Head FT)" class="text-xs font-semibold text-ink-600" />
+                                <span class="material-symbols-outlined text-[10px] text-ink-400 cursor-help" title="Total vertical drop height of water in Feet.">info</span>
                             </div>
                             <TextInput id="head_ft" v-model="form.head_ft" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.head_ft" />
                         </div>
                         <div>
-                            <InputLabel for="design_net_head" value="Design Net Head (FT)" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="design_net_head" value="Design Net Head (FT)" class="text-xs font-semibold text-ink-600" />
                             <TextInput id="design_net_head" v-model="form.design_net_head" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.design_net_head" />
                         </div>
                         <div>
                             <div class="flex items-center gap-1">
-                                <InputLabel for="design_discharge_cusecs" value="Flow Rate (Discharge)" class="text-xs font-semibold text-gray-600" />
-                                <span class="material-symbols-outlined text-[10px] text-gray-400 cursor-help" title="Calculated in Cubic Feet per Second (Cusecs).">info</span>
+                                <InputLabel for="design_discharge_cusecs" value="Flow Rate (Discharge)" class="text-xs font-semibold text-ink-600" />
+                                <span class="material-symbols-outlined text-[10px] text-ink-400 cursor-help" title="Calculated in Cubic Feet per Second (Cusecs).">info</span>
                             </div>
                             <TextInput id="design_discharge_cusecs" v-model="form.design_discharge_cusecs" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.design_discharge_cusecs" />
                         </div>
                         <div>
-                            <InputLabel for="observed_discharge" value="Observed Discharge" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="observed_discharge" value="Observed Discharge" class="text-xs font-semibold text-ink-600" />
                             <TextInput id="observed_discharge" v-model="form.observed_discharge" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.observed_discharge" />
                         </div>
                         <div>
-                            <InputLabel for="channel_length_km" value="Channel Length (KM)" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="channel_length_km" value="Channel Length (KM)" class="text-xs font-semibold text-ink-600" />
                             <TextInput id="channel_length_km" v-model="form.channel_length_km" type="number" step="0.01" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.channel_length_km" />
                         </div>
                         <div>
-                            <InputLabel for="tl_ht_km" value="TL HT (KM)" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="tl_ht_km" value="TL HT (KM)" class="text-xs font-semibold text-ink-600" />
                             <TextInput id="tl_ht_km" v-model="form.tl_ht_km" type="number" step="0.01" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.tl_ht_km" />
                         </div>
                         <div>
-                            <InputLabel for="tl_lt_km" value="TL LT (KM)" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="tl_lt_km" value="TL LT (KM)" class="text-xs font-semibold text-ink-600" />
                             <TextInput id="tl_lt_km" v-model="form.tl_lt_km" type="number" step="0.01" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.tl_lt_km" />
                         </div>
                         <div>
-                            <InputLabel for="turbine_type" value="Turbine Type" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="turbine_type" value="Turbine Type" class="text-xs font-semibold text-ink-600" />
                             <TextInput id="turbine_type" v-model="form.turbine_type" type="text" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.turbine_type" />
                         </div>
                         <div>
-                            <InputLabel for="alternator_type" value="Alternator Type" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="alternator_type" value="Alternator Type" class="text-xs font-semibold text-ink-600" />
                             <TextInput id="alternator_type" v-model="form.alternator_type" type="text" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.alternator_type" />
                         </div>
                         <div>
-                            <InputLabel for="accessible" value="Site Accessibility" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="accessible" value="Site Accessibility" class="text-xs font-semibold text-ink-600" />
                             <SelectInput id="accessible" v-model="form.accessible" :options="accessibleOptions" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.accessible" />
                         </div>
@@ -496,34 +496,34 @@ const handleCancel = () => {
                 </div>
 
                 <!-- Channel Dimensions -->
-                <div class="bg-gray-50 border border-gray-200 rounded-xl p-4 space-y-3">
+                <div class="bg-paper-50 border border-ink-200 rounded-xl p-4 space-y-3">
                     <h4 class="text-xs font-bold text-emerald-800 uppercase tracking-wider border-b pb-1.5 flex items-center gap-1.5">
                         <span class="material-symbols-outlined text-base">straighten</span>
                         Channel Dimension Parameters
                     </h4>
                     <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
                         <div>
-                            <InputLabel for="length_ft" value="Length (FT)" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="length_ft" value="Length (FT)" class="text-xs font-semibold text-ink-600" />
                             <TextInput id="length_ft" v-model="form.length_ft" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.length_ft" />
                         </div>
                         <div>
-                            <InputLabel for="bottom_width_ft" value="Bottom Width (FT)" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="bottom_width_ft" value="Bottom Width (FT)" class="text-xs font-semibold text-ink-600" />
                             <TextInput id="bottom_width_ft" v-model="form.bottom_width_ft" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.bottom_width_ft" />
                         </div>
                         <div>
-                            <InputLabel for="design_depth_ft" value="Design Depth (FT)" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="design_depth_ft" value="Design Depth (FT)" class="text-xs font-semibold text-ink-600" />
                             <TextInput id="design_depth_ft" v-model="form.design_depth_ft" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.design_depth_ft" />
                         </div>
                         <div>
-                            <InputLabel for="freeboard_ft" value="Freeboard (FT)" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="freeboard_ft" value="Freeboard (FT)" class="text-xs font-semibold text-ink-600" />
                             <TextInput id="freeboard_ft" v-model="form.freeboard_ft" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.freeboard_ft" />
                         </div>
                         <div>
-                            <InputLabel for="velocity_ft_per_sec" value="Velocity (FT/sec)" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="velocity_ft_per_sec" value="Velocity (FT/sec)" class="text-xs font-semibold text-ink-600" />
                             <TextInput id="velocity_ft_per_sec" v-model="form.velocity_ft_per_sec" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.velocity_ft_per_sec" />
                         </div>
@@ -533,58 +533,58 @@ const handleCancel = () => {
 
             <!-- Edit Mode: Physical components (Step 3) -->
             <div v-if="activeTab === 'physical_components' && isEditMode" class="space-y-4">
-                <div class="bg-gray-50 border border-gray-200 rounded-xl p-4 space-y-3">
+                <div class="bg-paper-50 border border-ink-200 rounded-xl p-4 space-y-3">
                     <h4 class="text-xs font-bold text-emerald-800 uppercase tracking-wider border-b pb-1.5 flex items-center gap-1.5">
                         <span class="material-symbols-outlined text-base">home_repair_service</span>
                         Intake & Channel Layout
                     </h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <InputLabel for="intake_details" value="Intake Structure Details" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="intake_details" value="Intake Structure Details" class="text-xs font-semibold text-ink-600" />
                             <TextArea id="intake_details" v-model="form.intake_details" rows="2" class="mt-0.5 block w-full rounded-lg py-1 px-2 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.intake_details" />
                         </div>
                         <div>
-                            <InputLabel for="settling_basin_details" value="Settling Basin Details" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="settling_basin_details" value="Settling Basin Details" class="text-xs font-semibold text-ink-600" />
                             <TextArea id="settling_basin_details" v-model="form.settling_basin_details" rows="2" class="mt-0.5 block w-full rounded-lg py-1 px-2 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.settling_basin_details" />
                         </div>
                         <div>
-                            <InputLabel for="approach_culvert_details" value="Approach Culvert Details" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="approach_culvert_details" value="Approach Culvert Details" class="text-xs font-semibold text-ink-600" />
                             <TextArea id="approach_culvert_details" v-model="form.approach_culvert_details" rows="2" class="mt-0.5 block w-full rounded-lg py-1 px-2 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.approach_culvert_details" />
                         </div>
                         <div>
-                            <InputLabel for="headrace_channel_details" value="Headrace Channel Details" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="headrace_channel_details" value="Headrace Channel Details" class="text-xs font-semibold text-ink-600" />
                             <TextArea id="headrace_channel_details" v-model="form.headrace_channel_details" rows="2" class="mt-0.5 block w-full rounded-lg py-1 px-2 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.headrace_channel_details" />
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-gray-50 border border-gray-200 rounded-xl p-4 space-y-3">
+                <div class="bg-paper-50 border border-ink-200 rounded-xl p-4 space-y-3">
                     <h4 class="text-xs font-bold text-emerald-800 uppercase tracking-wider border-b pb-1.5 flex items-center gap-1.5">
                         <span class="material-symbols-outlined text-base">water_damage</span>
                         Outflow & Retaining Components
                     </h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <InputLabel for="aqueduct_details" value="Aqueduct & Crossing Details" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="aqueduct_details" value="Aqueduct & Crossing Details" class="text-xs font-semibold text-ink-600" />
                             <TextArea id="aqueduct_details" v-model="form.aqueduct_details" rows="2" class="mt-0.5 block w-full rounded-lg py-1 px-2 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.aqueduct_details" />
                         </div>
                         <div>
-                            <InputLabel for="tailrace_details" value="Tailrace Channel Details" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="tailrace_details" value="Tailrace Channel Details" class="text-xs font-semibold text-ink-600" />
                             <TextArea id="tailrace_details" v-model="form.tailrace_details" rows="2" class="mt-0.5 block w-full rounded-lg py-1 px-2 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.tailrace_details" />
                         </div>
                         <div>
-                            <InputLabel for="spillway_details" value="Spillway Details" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="spillway_details" value="Spillway Details" class="text-xs font-semibold text-ink-600" />
                             <TextArea id="spillway_details" v-model="form.spillway_details" rows="2" class="mt-0.5 block w-full rounded-lg py-1 px-2 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.spillway_details" />
                         </div>
                         <div>
-                            <InputLabel for="retaining_walls_details" value="Retaining Walls Details" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="retaining_walls_details" value="Retaining Walls Details" class="text-xs font-semibold text-ink-600" />
                             <TextArea id="retaining_walls_details" v-model="form.retaining_walls_details" rows="2" class="mt-0.5 block w-full rounded-lg py-1 px-2 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.retaining_walls_details" />
                         </div>
@@ -595,44 +595,44 @@ const handleCancel = () => {
             <!-- Edit Mode: Finances & Timeline Specs (Step 4) -->
             <div v-if="activeTab === 'financial_demographics' && isEditMode" class="space-y-4">
                 <!-- Finances & Timelines -->
-                <div class="bg-gray-50 border border-gray-200 rounded-xl p-4 space-y-3">
+                <div class="bg-paper-50 border border-ink-200 rounded-xl p-4 space-y-3">
                     <h4 class="text-xs font-bold text-emerald-800 uppercase tracking-wider border-b pb-1.5 flex items-center gap-1.5">
                         <span class="material-symbols-outlined text-base">monetization_on</span>
                         Budgets & Key Execution Dates
                     </h4>
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
                         <div>
-                            <InputLabel for="estimated_cost" value="Estimated Cost (PKR)" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="estimated_cost" value="Estimated Cost (PKR)" class="text-xs font-semibold text-ink-600" />
                             <TextInput id="estimated_cost" v-model="form.estimated_cost" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.estimated_cost" />
                         </div>
                         <div>
-                            <InputLabel for="total_hh" value="Total Households (HH)" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="total_hh" value="Total Households (HH)" class="text-xs font-semibold text-ink-600" />
                             <TextInput id="total_hh" v-model="form.total_hh" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.total_hh" />
                         </div>
                         <div>
-                            <InputLabel for="domestic_units" value="Domestic Connections" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="domestic_units" value="Domestic Connections" class="text-xs font-semibold text-ink-600" />
                             <TextInput id="domestic_units" v-model="form.domestic_units" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.domestic_units" />
                         </div>
                         <div>
-                            <InputLabel for="commercial_units" value="Commercial Connections" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="commercial_units" value="Commercial Connections" class="text-xs font-semibold text-ink-600" />
                             <TextInput id="commercial_units" v-model="form.commercial_units" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.commercial_units" />
                         </div>
                         <div>
-                            <InputLabel for="tentative_completion_date" value="Tentative Completion" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="tentative_completion_date" value="Tentative Completion" class="text-xs font-semibold text-ink-600" />
                             <DatePicker id="tentative_completion_date" v-model="form.tentative_completion_date" class="mt-0.5" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.tentative_completion_date" />
                         </div>
                         <div>
-                            <InputLabel for="financial_initiation_date" value="Financial Initiation Date" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="financial_initiation_date" value="Financial Initiation Date" class="text-xs font-semibold text-ink-600" />
                             <DatePicker id="financial_initiation_date" v-model="form.financial_initiation_date" class="mt-0.5" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.financial_initiation_date" />
                         </div>
                         <div>
-                            <InputLabel for="physical_completion_date" value="Physical Completion Date" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="physical_completion_date" value="Physical Completion Date" class="text-xs font-semibold text-ink-600" />
                             <DatePicker id="physical_completion_date" v-model="form.physical_completion_date" class="mt-0.5" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.physical_completion_date" />
                         </div>
@@ -648,19 +648,19 @@ const handleCancel = () => {
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
                             <InputLabel value="Calculated Per KW Cost" class="text-xs font-semibold text-emerald-700" />
-                            <div class="mt-0.5 block w-full rounded-lg bg-white border border-emerald-200 py-1.5 px-2.5 text-sm font-semibold text-emerald-900 shadow-sm">
+                            <div class="mt-0.5 block w-full rounded-lg bg-surface border border-emerald-200 py-1.5 px-2.5 text-sm font-semibold text-emerald-900 shadow-sm">
                                 {{ formatCurrency(computedPerKwCost) }} / KW
                             </div>
                         </div>
                         <div>
                             <InputLabel value="Calculated Avg Household Size" class="text-xs font-semibold text-emerald-700" />
-                            <div class="mt-0.5 block w-full rounded-lg bg-white border border-emerald-200 py-1.5 px-2.5 text-sm font-semibold text-emerald-900 shadow-sm">
+                            <div class="mt-0.5 block w-full rounded-lg bg-surface border border-emerald-200 py-1.5 px-2.5 text-sm font-semibold text-emerald-900 shadow-sm">
                                 {{ formatDecimal(computedAvgHhSize) }} Persons
                             </div>
                         </div>
                         <div>
                             <InputLabel value="Calculated Cost Per Capita" class="text-xs font-semibold text-emerald-700" />
-                            <div class="mt-0.5 block w-full rounded-lg bg-white border border-emerald-200 py-1.5 px-2.5 text-sm font-semibold text-emerald-900 shadow-sm">
+                            <div class="mt-0.5 block w-full rounded-lg bg-surface border border-emerald-200 py-1.5 px-2.5 text-sm font-semibold text-emerald-900 shadow-sm">
                                 {{ formatCurrency(computedCostPerCapita) }} / Person
                             </div>
                         </div>
@@ -668,34 +668,34 @@ const handleCancel = () => {
                 </div>
 
                 <!-- Approval Milestones -->
-                <div class="bg-gray-50 border border-gray-200 rounded-xl p-4 space-y-3">
+                <div class="bg-paper-50 border border-ink-200 rounded-xl p-4 space-y-3">
                     <h4 class="text-xs font-bold text-emerald-800 uppercase tracking-wider border-b pb-1.5 flex items-center gap-1.5">
                         <span class="material-symbols-outlined text-base">task_alt</span>
                         Approval Milestones
                     </h4>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                         <div>
-                            <InputLabel for="management_committee_date" value="Management Committee" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="management_committee_date" value="Management Committee" class="text-xs font-semibold text-ink-600" />
                             <DatePicker id="management_committee_date" v-model="form.management_committee_date" class="mt-0.5" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.management_committee_date" />
                         </div>
                         <div>
-                            <InputLabel for="opm_shared_date" value="OPM Shared Date" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="opm_shared_date" value="OPM Shared Date" class="text-xs font-semibold text-ink-600" />
                             <DatePicker id="opm_shared_date" v-model="form.opm_shared_date" class="mt-0.5" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.opm_shared_date" />
                         </div>
                         <div>
-                            <InputLabel for="opm_review_meeting_date" value="OPM Review Meeting" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="opm_review_meeting_date" value="OPM Review Meeting" class="text-xs font-semibold text-ink-600" />
                             <DatePicker id="opm_review_meeting_date" v-model="form.opm_review_meeting_date" class="mt-0.5" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.opm_review_meeting_date" />
                         </div>
                         <div>
-                            <InputLabel for="ta_eu_comments_date" value="TA EU Comments Date" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="ta_eu_comments_date" value="TA EU Comments Date" class="text-xs font-semibold text-ink-600" />
                             <DatePicker id="ta_eu_comments_date" v-model="form.ta_eu_comments_date" class="mt-0.5" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.ta_eu_comments_date" />
                         </div>
                         <div>
-                            <InputLabel for="eu_approval_meeting_date" value="EU Approval Meeting" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="eu_approval_meeting_date" value="EU Approval Meeting" class="text-xs font-semibold text-ink-600" />
                             <DatePicker id="eu_approval_meeting_date" v-model="form.eu_approval_meeting_date" class="mt-0.5" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.eu_approval_meeting_date" />
                         </div>
@@ -703,64 +703,64 @@ const handleCancel = () => {
                 </div>
 
                 <!-- Civil Procurement -->
-                <div class="bg-gray-50 border border-gray-200 rounded-xl p-4 space-y-3">
+                <div class="bg-paper-50 border border-ink-200 rounded-xl p-4 space-y-3">
                     <h4 class="text-xs font-bold text-emerald-800 uppercase tracking-wider border-b pb-1.5 flex items-center gap-1.5">
                         <span class="material-symbols-outlined text-base">gavel</span>
                         Civil Procurement & Contracting
                     </h4>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                         <div>
-                            <InputLabel for="social_assessment_date" value="Social Assessment Date" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="social_assessment_date" value="Social Assessment Date" class="text-xs font-semibold text-ink-600" />
                             <DatePicker id="social_assessment_date" v-model="form.social_assessment_date" class="mt-0.5" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.social_assessment_date" />
                         </div>
                         <div>
-                            <InputLabel for="opm_visit_date" value="OPM Visit Date" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="opm_visit_date" value="OPM Visit Date" class="text-xs font-semibold text-ink-600" />
                             <DatePicker id="opm_visit_date" v-model="form.opm_visit_date" class="mt-0.5" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.opm_visit_date" />
                         </div>
                         <div>
-                            <InputLabel for="layout_initiation_date" value="Layout Initiation Date" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="layout_initiation_date" value="Layout Initiation Date" class="text-xs font-semibold text-ink-600" />
                             <DatePicker id="layout_initiation_date" v-model="form.layout_initiation_date" class="mt-0.5" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.layout_initiation_date" />
                         </div>
                         <div>
-                            <InputLabel for="ground_breaking_date" value="Ground Breaking Date" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="ground_breaking_date" value="Ground Breaking Date" class="text-xs font-semibold text-ink-600" />
                             <DatePicker id="ground_breaking_date" v-model="form.ground_breaking_date" class="mt-0.5" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.ground_breaking_date" />
                         </div>
                         <div>
-                            <InputLabel for="civil_works_cost" value="Civil Works Cost (PKR)" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="civil_works_cost" value="Civil Works Cost (PKR)" class="text-xs font-semibold text-ink-600" />
                             <TextInput id="civil_works_cost" v-model="form.civil_works_cost" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.civil_works_cost" />
                         </div>
                         <div>
-                            <InputLabel for="civil_advertisement_date" value="Civil Advertisement Date" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="civil_advertisement_date" value="Civil Advertisement Date" class="text-xs font-semibold text-ink-600" />
                             <DatePicker id="civil_advertisement_date" v-model="form.civil_advertisement_date" class="mt-0.5" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.civil_advertisement_date" />
                         </div>
                         <div>
-                            <InputLabel for="civil_pre_bid_meeting_date" value="Pre-Bid Meeting Date" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="civil_pre_bid_meeting_date" value="Pre-Bid Meeting Date" class="text-xs font-semibold text-ink-600" />
                             <DatePicker id="civil_pre_bid_meeting_date" v-model="form.civil_pre_bid_meeting_date" class="mt-0.5" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.civil_pre_bid_meeting_date" />
                         </div>
                         <div>
-                            <InputLabel for="civil_technical_bid_opening_date" value="Technical Bid Opening" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="civil_technical_bid_opening_date" value="Technical Bid Opening" class="text-xs font-semibold text-ink-600" />
                             <DatePicker id="civil_technical_bid_opening_date" v-model="form.civil_technical_bid_opening_date" class="mt-0.5" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.civil_technical_bid_opening_date" />
                         </div>
                         <div>
-                            <InputLabel for="civil_financial_bid_opening_date" value="Financial Bid Opening" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="civil_financial_bid_opening_date" value="Financial Bid Opening" class="text-xs font-semibold text-ink-600" />
                             <DatePicker id="civil_financial_bid_opening_date" v-model="form.civil_financial_bid_opening_date" class="mt-0.5" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.civil_financial_bid_opening_date" />
                         </div>
                         <div>
-                            <InputLabel for="civil_contract_award_date" value="Contract Award Date" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="civil_contract_award_date" value="Contract Award Date" class="text-xs font-semibold text-ink-600" />
                             <DatePicker id="civil_contract_award_date" v-model="form.civil_contract_award_date" class="mt-0.5" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.civil_contract_award_date" />
                         </div>
                         <div>
-                            <InputLabel for="civil_contractor_amount" value="Contractor Amount (PKR)" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="civil_contractor_amount" value="Contractor Amount (PKR)" class="text-xs font-semibold text-ink-600" />
                             <TextInput id="civil_contractor_amount" v-model="form.civil_contractor_amount" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.civil_contractor_amount" />
                         </div>
@@ -768,44 +768,44 @@ const handleCancel = () => {
                 </div>
 
                 <!-- Civil Works Progress -->
-                <div class="bg-gray-50 border border-gray-200 rounded-xl p-4 space-y-3">
+                <div class="bg-paper-50 border border-ink-200 rounded-xl p-4 space-y-3">
                     <h4 class="text-xs font-bold text-emerald-800 uppercase tracking-wider border-b pb-1.5 flex items-center gap-1.5">
                         <span class="material-symbols-outlined text-base">running_with_errors</span>
                         Civil Works Progress Logs
                     </h4>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                         <div>
-                            <InputLabel for="civil_work_initiation_date" value="Civil Work Initiation" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="civil_work_initiation_date" value="Civil Work Initiation" class="text-xs font-semibold text-ink-600" />
                             <DatePicker id="civil_work_initiation_date" v-model="form.civil_work_initiation_date" class="mt-0.5" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.civil_work_initiation_date" />
                         </div>
                         <div>
-                            <InputLabel for="civil_completion_date" value="Physical Work Completion" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="civil_completion_date" value="Physical Work Completion" class="text-xs font-semibold text-ink-600" />
                             <DatePicker id="civil_completion_date" v-model="form.civil_completion_date" class="mt-0.5" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.civil_completion_date" />
                         </div>
                         <div>
-                            <InputLabel for="civil_financial_progress_percent" value="Financial Progress (%)" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="civil_financial_progress_percent" value="Financial Progress (%)" class="text-xs font-semibold text-ink-600" />
                             <TextInput id="civil_financial_progress_percent" v-model="form.civil_financial_progress_percent" type="number" step="0.01" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.civil_financial_progress_percent" />
                         </div>
                         <div>
-                            <InputLabel for="civil_amount_disbursed" value="Amount Disbursed (PKR)" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="civil_amount_disbursed" value="Amount Disbursed (PKR)" class="text-xs font-semibold text-ink-600" />
                             <TextInput id="civil_amount_disbursed" v-model="form.civil_amount_disbursed" type="number" step="0.01" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.civil_amount_disbursed" />
                         </div>
                         <div>
-                            <InputLabel for="civil_amount_remaining" value="Remaining Amount (PKR)" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="civil_amount_remaining" value="Remaining Amount (PKR)" class="text-xs font-semibold text-ink-600" />
                             <TextInput id="civil_amount_remaining" v-model="form.civil_amount_remaining" type="number" step="0.01" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.civil_amount_remaining" />
                         </div>
                         <div>
-                            <InputLabel for="civil_physical_progress_percent" value="Physical Progress (%)" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="civil_physical_progress_percent" value="Physical Progress (%)" class="text-xs font-semibold text-ink-600" />
                             <TextInput id="civil_physical_progress_percent" v-model="form.civil_physical_progress_percent" type="number" step="0.01" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.civil_physical_progress_percent" />
                         </div>
                         <div class="col-span-2 md:col-span-4">
-                            <InputLabel for="civil_progress_description" value="Progress Description Details" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="civil_progress_description" value="Progress Description Details" class="text-xs font-semibold text-ink-600" />
                             <TextArea id="civil_progress_description" v-model="form.civil_progress_description" rows="2" class="mt-0.5 block w-full rounded-lg py-1 px-2 text-sm" />
                             <InputError class="mt-0.5 text-xs" :message="form.errors.civil_progress_description" />
                         </div>
@@ -815,14 +815,14 @@ const handleCancel = () => {
 
             <!-- Step 5 (Create Step 3): Remarks & Files -->
             <div v-if="activeTab === 'completion_remarks'" class="space-y-4">
-                <div class="bg-gray-50 border border-gray-200 rounded-xl p-4 space-y-3">
+                <div class="bg-paper-50 border border-ink-200 rounded-xl p-4 space-y-3">
                     <h4 class="text-xs font-bold text-emerald-800 uppercase tracking-wider border-b pb-1.5 flex items-center gap-1.5">
                         <span class="material-symbols-outlined text-base">attachment</span>
                         Attachments & Executive Summary Remarks
                     </h4>
                     <div class="space-y-4">
                         <div>
-                            <InputLabel for="remarks" value="Executive / Summary Remarks" class="text-xs font-semibold text-gray-600" />
+                            <InputLabel for="remarks" value="Executive / Summary Remarks" class="text-xs font-semibold text-ink-600" />
                             <WysiwygEditor
                                 id="remarks"
                                 v-model="form.remarks"
@@ -833,7 +833,7 @@ const handleCancel = () => {
                         </div>
 
                         <div>
-                            <InputLabel value="Upload Attachment Documents" class="text-xs font-semibold text-gray-600 mb-1" />
+                            <InputLabel value="Upload Attachment Documents" class="text-xs font-semibold text-ink-600 mb-1" />
                             <AttachmentUploader
                                 v-model="form.attachments"
                                 :existing-attachments="existingAttachments"
@@ -848,12 +848,12 @@ const handleCancel = () => {
         </div>
 
         <!-- Footnote Navigation Actions -->
-        <div class="px-5 py-3 bg-gray-50 border-t border-gray-200 rounded-b-xl flex justify-between items-center shrink-0">
+        <div class="px-5 py-3 bg-paper-50 border-t border-ink-200 rounded-b-xl flex justify-between items-center shrink-0">
             <div>
                 <button
                     type="button"
                     @click="handleCancel"
-                    class="inline-flex items-center px-3.5 py-1.5 bg-gray-200 border border-transparent rounded-lg font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-300 focus:bg-gray-300 active:bg-gray-400 focus:outline-none transition"
+                    class="inline-flex items-center px-3.5 py-1.5 bg-paper-200 border border-transparent rounded-lg font-semibold text-xs text-ink-700 uppercase tracking-widest hover:bg-paper-300 focus:bg-paper-300 active:bg-paper-400 focus:outline-none transition"
                 >
                     Cancel
                 </button>
@@ -865,7 +865,7 @@ const handleCancel = () => {
                     v-if="currentStep > 0"
                     type="button"
                     @click="prevStep"
-                    class="inline-flex items-center px-3.5 py-1.5 bg-white border border-gray-300 rounded-lg font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-50 focus:outline-none transition shadow-sm"
+                    class="inline-flex items-center px-3.5 py-1.5 bg-surface border border-ink-300 rounded-lg font-semibold text-xs text-ink-700 uppercase tracking-widest hover:bg-paper-50 focus:outline-none transition shadow-sm"
                 >
                     <span class="material-symbols-outlined text-[12px] mr-1">arrow_back</span>
                     Back

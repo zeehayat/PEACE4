@@ -37,7 +37,7 @@ const printDetails = () => {
         <div v-if="mhpSite" class="p-6 overflow-y-auto max-h-[85vh] print-content">
 
             <section class="mb-8 border-b pb-4">
-                <h2 class="text-xl font-bold text-indigo-700 mb-3">Core Project Information</h2>
+                <h2 class="text-xl font-bold text-accent-700 mb-3">Core Project Information</h2>
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm">
                     <div class="detail-item"><p class="font-semibold">Project ID:</p><p>{{ mhpSite.id }}</p></div>
                     <div class="detail-item"><p class="font-semibold">Status:</p><p>{{ mhpSite.status }}</p></div>
@@ -64,7 +64,7 @@ const printDetails = () => {
                         <AttachmentViewer v-if="inst.attachments_frontend.length" :attachments="inst.attachments_frontend" class="mt-2" />
                     </div>
                 </div>
-                <p v-else class="text-gray-500 text-sm">No financial installment records found.</p>
+                <p v-else class="text-ink-500 text-sm">No financial installment records found.</p>
             </section>
 
             <section class="mb-8 border-b pb-4">
@@ -80,7 +80,7 @@ const printDetails = () => {
                         </div>
                     </div>
                 </div>
-                <p v-else class="text-gray-500 text-sm">No physical progress records found.</p>
+                <p v-else class="text-ink-500 text-sm">No physical progress records found.</p>
             </section>
 
             <section v-if="mhpSite.t_and_d_works && mhpSite.t_and_d_works.length" class="mb-8 border-b pb-4">
@@ -96,14 +96,14 @@ const printDetails = () => {
                 <button
                     type="button"
                     @click="printDetails"
-                    class="inline-flex items-center px-4 py-2 mr-3 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
+                    class="inline-flex items-center px-4 py-2 mr-3 bg-accent-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-accent-700 focus:bg-accent-700 active:bg-accent-800 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 transition ease-in-out duration-150"
                 >
                     Print Details
                 </button>
                 <PrimaryButton @click="closeDetailsModal">Close</PrimaryButton>
             </div>
         </div>
-        <div v-else class="p-6 text-center text-gray-500">
+        <div v-else class="p-6 text-center text-ink-500">
             Loading MHP site details...
         </div>
     </Modal>

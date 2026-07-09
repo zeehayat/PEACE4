@@ -63,18 +63,18 @@ const exportCsv = () => {
     <AppLayout title="District Wise MHP Data">
         <template #header>
             <div class="flex flex-col gap-2">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">District Wise MHP Data</h2>
-                <p class="text-sm text-gray-500">Counts of CBO formation and outreach activities, filtered by district.</p>
+                <h2 class="font-semibold text-xl text-ink-800 leading-tight">District Wise MHP Data</h2>
+                <p class="text-sm text-ink-500">Counts of CBO formation and outreach activities, filtered by district.</p>
             </div>
         </template>
 
         <div class="py-10">
             <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 space-y-6">
-                <div class="bg-white shadow-sm sm:rounded-lg p-6 border border-gray-100">
+                <div class="bg-surface shadow-sm sm:rounded-lg p-6 border border-ink-100">
                     <div class="flex flex-wrap items-end gap-4 justify-between">
                         <div class="flex flex-wrap gap-4">
                             <div>
-                                <label for="district" class="block text-sm font-medium text-gray-700">District</label>
+                                <label for="district" class="block text-sm font-medium text-ink-700">District</label>
                                 <SelectInput
                                     id="district"
                                     v-model="form.district"
@@ -86,7 +86,7 @@ const exportCsv = () => {
                                 <PrimaryButton @click="applyFilters" class="h-10">Apply</PrimaryButton>
                                 <button
                                     type="button"
-                                    class="h-10 px-4 py-2 bg-gray-100 text-gray-700 rounded-md text-sm hover:bg-gray-200"
+                                    class="h-10 px-4 py-2 bg-paper-100 text-ink-700 rounded-md text-sm hover:bg-paper-200"
                                     @click="clearFilters"
                                 >
                                     Clear
@@ -99,49 +99,49 @@ const exportCsv = () => {
                     </div>
                 </div>
 
-                <div class="bg-white shadow-sm sm:rounded-lg border border-gray-100">
+                <div class="bg-surface shadow-sm sm:rounded-lg border border-ink-100">
                     <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
+                        <table class="min-w-full divide-y divide-ink-200">
+                            <thead class="bg-paper-50">
                                 <tr>
-                                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">District</th>
-                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">CBOs formed</th>
-                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">Total members</th>
-                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">Exposure visits</th>
-                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">Exposure participants</th>
-                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">O&M trainings</th>
-                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">O&M participants</th>
-                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">Electrical appliance sessions (women)</th>
-                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">Electrical appliance participants (women)</th>
+                                    <th class="px-4 py-3 text-left text-xs font-semibold text-ink-500 uppercase tracking-wide">District</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-ink-500 uppercase tracking-wide">CBOs formed</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-ink-500 uppercase tracking-wide">Total members</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-ink-500 uppercase tracking-wide">Exposure visits</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-ink-500 uppercase tracking-wide">Exposure participants</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-ink-500 uppercase tracking-wide">O&M trainings</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-ink-500 uppercase tracking-wide">O&M participants</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-ink-500 uppercase tracking-wide">Electrical appliance sessions (women)</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-ink-500 uppercase tracking-wide">Electrical appliance participants (women)</th>
                                 </tr>
                             </thead>
-                            <tbody class="bg-white divide-y divide-gray-100">
+                            <tbody class="bg-surface divide-y divide-ink-100">
                                 <tr v-if="!props.rows.length">
-                                    <td colspan="9" class="px-4 py-6 text-center text-sm text-gray-500">No records for the selected filters.</td>
+                                    <td colspan="9" class="px-4 py-6 text-center text-sm text-ink-500">No records for the selected filters.</td>
                                 </tr>
                                 <tr v-for="row in props.rows" :key="row.district">
-                                    <td class="px-4 py-3 text-sm text-gray-700">{{ row.district }}</td>
-                                    <td class="px-4 py-3 text-sm text-right font-semibold text-gray-800">{{ row.cbos_formed }}</td>
-                                    <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.total_members?.toLocaleString() }}</td>
-                                    <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.exposure_visits }}</td>
-                                    <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.exposure_participants }}</td>
-                                    <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.om_trainings }}</td>
-                                    <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.om_training_participants }}</td>
-                                    <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.appliance_sessions_women }}</td>
-                                    <td class="px-4 py-3 text-sm text-right text-gray-700">{{ row.appliance_participants_women }}</td>
+                                    <td class="px-4 py-3 text-sm text-ink-700">{{ row.district }}</td>
+                                    <td class="px-4 py-3 text-sm text-right font-semibold text-ink-800">{{ row.cbos_formed }}</td>
+                                    <td class="px-4 py-3 text-sm text-right text-ink-700">{{ row.total_members?.toLocaleString() }}</td>
+                                    <td class="px-4 py-3 text-sm text-right text-ink-700">{{ row.exposure_visits }}</td>
+                                    <td class="px-4 py-3 text-sm text-right text-ink-700">{{ row.exposure_participants }}</td>
+                                    <td class="px-4 py-3 text-sm text-right text-ink-700">{{ row.om_trainings }}</td>
+                                    <td class="px-4 py-3 text-sm text-right text-ink-700">{{ row.om_training_participants }}</td>
+                                    <td class="px-4 py-3 text-sm text-right text-ink-700">{{ row.appliance_sessions_women }}</td>
+                                    <td class="px-4 py-3 text-sm text-right text-ink-700">{{ row.appliance_participants_women }}</td>
                                 </tr>
                             </tbody>
-                            <tfoot v-if="props.rows.length" class="bg-gray-50">
+                            <tfoot v-if="props.rows.length" class="bg-paper-50">
                                 <tr>
-                                    <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wide">Totals</th>
-                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-800">{{ totals.cbos }}</th>
-                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-800">{{ totals.members.toLocaleString() }}</th>
-                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-800">{{ totals.exposures }}</th>
-                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-800">{{ totals.exposureParticipants }}</th>
-                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-800">{{ totals.om }}</th>
-                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-800">{{ totals.omParticipants }}</th>
-                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-800">{{ totals.applianceWomen }}</th>
-                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-800">{{ totals.applianceParticipantsWomen }}</th>
+                                    <th class="px-4 py-3 text-left text-xs font-semibold text-ink-700 uppercase tracking-wide">Totals</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-ink-800">{{ totals.cbos }}</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-ink-800">{{ totals.members.toLocaleString() }}</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-ink-800">{{ totals.exposures }}</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-ink-800">{{ totals.exposureParticipants }}</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-ink-800">{{ totals.om }}</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-ink-800">{{ totals.omParticipants }}</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-ink-800">{{ totals.applianceWomen }}</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-ink-800">{{ totals.applianceParticipantsWomen }}</th>
                                 </tr>
                             </tfoot>
                         </table>
