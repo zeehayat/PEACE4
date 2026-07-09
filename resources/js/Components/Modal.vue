@@ -69,7 +69,7 @@ const maxWidthClass = computed(() => {
                     leave-to-class="opacity-0"
                 >
                     <div v-show="show" class="fixed inset-0 transform transition-all" @click="close">
-                        <div class="absolute inset-0 bg-slate-900/50 backdrop-blur-sm" />
+                        <div class="absolute inset-0 bg-ink-900/50 backdrop-blur-sm" />
                     </div>
                 </transition>
 
@@ -83,11 +83,11 @@ const maxWidthClass = computed(() => {
                         leave-from-class="opacity-100 translate-y-0 sm:scale-100"
                         leave-to-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                     >
-                        <div v-show="show" class="relative bg-white rounded-2xl overflow-hidden shadow-2xl border border-slate-200/80 transform transition-all sm:w-full sm:my-8 text-left" :class="maxWidthClass">
-                            <div v-if="title || closeable" class="relative px-6 py-4 flex justify-between items-center bg-slate-50 border-b border-slate-200">
-                                <h3 v-if="title" class="text-lg font-semibold text-slate-800">{{ title }}</h3>
+                        <div v-show="show" class="relative bg-surface rounded-2xl overflow-hidden shadow-2xl border border-ink-200/80 transform transition-all sm:w-full sm:my-8 text-left" :class="maxWidthClass">
+                            <div v-if="title || closeable" class="relative px-6 py-4 flex justify-between items-center bg-paper-50 border-b border-ink-200">
+                                <h3 v-if="title" class="text-lg font-semibold text-ink-800">{{ title }}</h3>
 
-                                <button v-if="closeable" @click="close" class="absolute top-3 right-3 text-slate-400 hover:text-slate-600 transition duration-150 ease-in-out">
+                                <button v-if="closeable" @click="close" class="absolute top-3 right-3 text-ink-400 hover:text-ink-600 transition duration-150 ease-in-out">
                                     <span class="sr-only">Close</span>
                                     <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />

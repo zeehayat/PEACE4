@@ -21,7 +21,7 @@ const isAdmin = computed(() => user.value?.roles?.some((r) => ['Admin', 'Root'].
 
 <template>
     <!-- Mobile Hamburger Toggle -->
-    <button @click="toggleSidebarMobile" class="md:hidden fixed top-4 left-4 z-50 p-2 rounded-md bg-indigo-600 text-white shadow-lg focus:outline-none transition hover:bg-indigo-700">
+    <button @click="toggleSidebarMobile" class="md:hidden fixed top-4 left-4 z-50 p-2 rounded-md bg-accent-600 text-white shadow-lg focus:outline-none transition hover:bg-accent-700">
         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path v-if="!isOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             <path v-else stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -36,7 +36,7 @@ const isAdmin = computed(() => user.value?.roles?.some((r) => ['Admin', 'Root'].
     <!-- Sidebar Container -->
     <aside
         :class="{ 'translate-x-0': isOpen, '-translate-x-full': !isOpen }"
-        class="fixed inset-y-0 left-0 w-20 bg-slate-950 text-white p-4 flex flex-col items-center justify-between z-40 transform md:translate-x-0 transition-transform duration-300 ease-in-out shadow-2xl"
+        class="fixed inset-y-0 left-0 w-20 bg-paper-950 text-white p-4 flex flex-col items-center justify-between z-40 transform md:translate-x-0 transition-transform duration-300 ease-in-out shadow-2xl"
     >
         <!-- Top Section: Logo & Modules -->
         <div class="flex flex-col items-center gap-6 w-full">
@@ -122,7 +122,7 @@ const isAdmin = computed(() => user.value?.roles?.some((r) => ['Admin', 'Root'].
                 <img :src="user.profile_photo_url || 'https://i.postimg.cc/DzL69Yng/images.png'" alt="User Profile" class="h-10 w-10 rounded-xl object-cover ring-2 ring-emerald-500/30 hover:scale-105 transition duration-200">
                 <div class="tooltip text-center">
                     <div class="font-semibold">{{ user.name }}</div>
-                    <div class="text-[10px] text-slate-400">{{ user.email }}</div>
+                    <div class="text-[10px] text-ink-400">{{ user.email }}</div>
                 </div>
             </div>
 
@@ -137,10 +137,10 @@ const isAdmin = computed(() => user.value?.roles?.some((r) => ['Admin', 'Root'].
 
 <style scoped>
 .nav-btn {
-    @apply flex items-center justify-center h-11 w-11 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800 transition duration-150;
+    @apply flex items-center justify-center h-11 w-11 rounded-xl text-ink-300 hover:text-white hover:bg-paper-800 transition duration-150;
 }
 .nav-btn.active {
-    @apply bg-indigo-600 text-white shadow-sm;
+    @apply bg-accent-600 text-white shadow-sm;
 }
 .tooltip {
     @apply absolute left-16 bg-gray-950 text-white text-xs py-1.5 px-3 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition duration-150 shadow-xl border border-white/5 whitespace-nowrap z-50;
