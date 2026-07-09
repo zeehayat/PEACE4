@@ -158,16 +158,16 @@ const handleCancel = () => {
             <!-- Direct Permissions -->
             <div class="md:col-span-2">
                 <InputLabel value="Direct Permissions" />
-                <p class="text-xs text-slate-500 mt-1 mb-2">
+                <p class="text-xs text-ink-500 mt-1 mb-2">
                     Granted directly to this user, in addition to whatever their roles above already grant.
                 </p>
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                     <details
                         v-for="[group, groupPermissions] in groupEntries"
                         :key="group"
-                        class="border border-slate-200 rounded-md bg-slate-50"
+                        class="border border-ink-200 rounded-md bg-paper-50"
                     >
-                        <summary class="cursor-pointer select-none px-3 py-2 font-semibold text-slate-800 capitalize">
+                        <summary class="cursor-pointer select-none px-3 py-2 font-semibold text-ink-800 capitalize">
                             {{ group }} Management
                         </summary>
                         <div class="px-3 pb-3 pt-2">
@@ -175,13 +175,13 @@ const handleCancel = () => {
                                 <label
                                     v-for="permission in groupPermissions"
                                     :key="permission.id"
-                                    class="flex items-center text-sm text-slate-700"
+                                    class="flex items-center text-sm text-ink-700"
                                 >
                                     <input
                                         type="checkbox"
                                         :value="permission.name"
                                         v-model="form.permissions"
-                                        class="text-indigo-600 border-slate-300 rounded shadow-sm focus:ring-indigo-500"
+                                        class="text-accent-600 border-ink-300 rounded shadow-sm focus:ring-accent-500"
                                     />
                                     <span class="ml-2">{{ permission.name.replace(/_/g, ' ') }}</span>
                                 </label>
@@ -219,7 +219,7 @@ const handleCancel = () => {
             <button
                 type="button"
                 @click="handleCancel"
-                class="inline-flex items-center px-4 py-2 bg-slate-200 border border-transparent rounded-md font-semibold text-xs text-slate-700 uppercase tracking-widest hover:bg-slate-300 focus:bg-slate-300 active:bg-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
+                class="inline-flex items-center px-4 py-2 bg-paper-200 border border-transparent rounded-md font-semibold text-xs text-ink-700 uppercase tracking-widest hover:bg-paper-300 focus:bg-paper-300 active:bg-paper-400 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 transition ease-in-out duration-150"
             >
                 Cancel
             </button>

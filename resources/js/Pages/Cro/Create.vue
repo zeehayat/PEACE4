@@ -56,20 +56,20 @@ const genderOptions = ['Male', 'Female', 'Mixed'];
 <template>
     <AppLayout :title="isEditMode ? 'Edit CRO' : 'Create CRO'">
         <template #header>
-            <h2 class="text-xl font-semibold leading-tight text-slate-800">
+            <h2 class="text-xl font-semibold leading-tight text-ink-800">
                 {{ isEditMode ? 'Edit CRO' : 'Create New CRO' }}
             </h2>
         </template>
 
         <div class="py-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
+                <div class="bg-surface overflow-hidden shadow-xl sm:rounded-lg p-6">
                     <form @submit.prevent="submit">
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             
                             <!-- Location Details -->
                             <div class="col-span-1 md:col-span-2 lg:col-span-3">
-                                <h3 class="text-lg font-medium text-slate-900 border-b pb-2 mb-4">Location Details</h3>
+                                <h3 class="text-lg font-medium text-ink-900 border-b pb-2 mb-4">Location Details</h3>
                             </div>
 
                             <div>
@@ -108,7 +108,7 @@ const genderOptions = ['Male', 'Female', 'Mixed'];
 
                              <!-- Formation Details -->
                              <div class="col-span-1 md:col-span-2 lg:col-span-3 mt-6">
-                                <h3 class="text-lg font-medium text-slate-900 border-b pb-2 mb-4">Formation Details</h3>
+                                <h3 class="text-lg font-medium text-ink-900 border-b pb-2 mb-4">Formation Details</h3>
                             </div>
 
                             <div>
@@ -161,7 +161,7 @@ const genderOptions = ['Male', 'Female', 'Mixed'];
 
                             <!-- Leadership -->
                             <div class="col-span-1 md:col-span-2 lg:col-span-3 mt-6">
-                                <h3 class="text-lg font-medium text-slate-900 border-b pb-2 mb-4">Leadership</h3>
+                                <h3 class="text-lg font-medium text-ink-900 border-b pb-2 mb-4">Leadership</h3>
                             </div>
 
                             <div>
@@ -190,7 +190,7 @@ const genderOptions = ['Male', 'Female', 'Mixed'];
 
                             <!-- Training & Exposure -->
                              <div class="col-span-1 md:col-span-2 lg:col-span-3 mt-6">
-                                <h3 class="text-lg font-medium text-slate-900 border-b pb-2 mb-4">Training & Exposure</h3>
+                                <h3 class="text-lg font-medium text-ink-900 border-b pb-2 mb-4">Training & Exposure</h3>
                             </div>
 
                             <div>
@@ -235,7 +235,7 @@ const genderOptions = ['Male', 'Female', 'Mixed'];
                                 <textarea
                                     id="remarks"
                                     v-model="form.remarks"
-                                    class="w-full border-slate-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                                    class="w-full border-ink-300 focus:border-accent-500 focus:ring-accent-500 rounded-md shadow-sm"
                                     rows="3"
                                 ></textarea>
                                 <InputError :message="form.errors.remarks" class="mt-2" />
