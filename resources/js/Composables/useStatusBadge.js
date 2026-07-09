@@ -20,7 +20,7 @@ export function useStatusBadge() {
             case 'Inactive':
                 return 'bg-rose-50 text-rose-700 border border-rose-200/60';
             default:
-                return 'bg-slate-100 text-slate-600 border border-slate-200';
+                return 'bg-ink-100 text-ink-600 border border-ink-200';
         }
     }
 
