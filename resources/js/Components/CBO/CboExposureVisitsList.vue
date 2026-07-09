@@ -27,34 +27,34 @@ function getFileIcon(file) {
 
 <template>
     <div class="p-6">
-        <h2 class="text-2xl font-bold text-indigo-700 mb-6 border-b pb-3 flex items-center gap-2">
+        <h2 class="text-2xl font-bold text-accent-700 mb-6 border-b pb-3 flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plane"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-3.5 1.5L13 8 4.8 6.2c-.5-.1-1-.1-1.4.2L.4 7.5c-.3.3-.2.9.2 1.3L5.4 14l-2 2.5c-.3.5-.1 1.1.3 1.5.5.4 1.2.5 1.7.2L7.5 16l2.5 2c.7.6 1.7.7 2.6.5L19.2 17.8c.9-.9 1.2-2.2.4-3.1Z"/><path d="M10.95 20.84 12.22 17.5 15.5 16.22"/></svg>
             Exposure Visits for {{ cbo.reference_code }}
         </h2>
 
         <div v-if="cbo.exposure_visits && cbo.exposure_visits.length > 0" class="space-y-6">
-            <div v-for="visit in cbo.exposure_visits" :key="visit.id" class="bg-gray-50 border border-gray-200 rounded-lg p-4 shadow-sm relative group">
+            <div v-for="visit in cbo.exposure_visits" :key="visit.id" class="bg-paper-50 border border-ink-200 rounded-lg p-4 shadow-sm relative group">
                 <div class="flex justify-between items-center mb-2">
-                    <p class="text-lg font-semibold text-gray-800">Date: <span class="font-normal">{{ visit.date_of_visit }}</span></p>
+                    <p class="text-lg font-semibold text-ink-800">Date: <span class="font-normal">{{ visit.date_of_visit }}</span></p>
                     <span class="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm font-medium">
                         {{ visit.participants }} Participants
                     </span>
                 </div>
-                <p v-if="visit.purpose_of_visit" class="text-gray-700 mb-3">Purpose: {{ visit.purpose_of_visit }}</p>
-                <p v-if="visit.remarks" class="text-gray-700 mb-3">Remarks: {{ visit.remarks }}</p>
+                <p v-if="visit.purpose_of_visit" class="text-ink-700 mb-3">Purpose: {{ visit.purpose_of_visit }}</p>
+                <p v-if="visit.remarks" class="text-ink-700 mb-3">Remarks: {{ visit.remarks }}</p>
 
-                <div v-if="visit.attachments && visit.attachments.length > 0" class="mt-4 border-t border-gray-200 pt-3">
-                    <p class="text-sm font-semibold text-gray-700 mb-2">Attachments:</p>
-                    <ul class="space-y-2 text-sm text-gray-600">
+                <div v-if="visit.attachments && visit.attachments.length > 0" class="mt-4 border-t border-ink-200 pt-3">
+                    <p class="text-sm font-semibold text-ink-700 mb-2">Attachments:</p>
+                    <ul class="space-y-2 text-sm text-ink-600">
                         <li v-for="mediaItem in visit.attachments" :key="mediaItem.id" class="flex items-center gap-2">
                             <span class="flex-shrink-0" v-html="getFileIcon(mediaItem)"></span>
-                            <a :href="mediaItem.url" target="_blank" class="text-indigo-600 hover:underline truncate">
+                            <a :href="mediaItem.url" target="_blank" class="text-accent-600 hover:underline truncate">
                                 {{ mediaItem.file_name }} ({{ (mediaItem.size / 1024).toFixed(1) }} KB)
                             </a>
                         </li>
                     </ul>
                 </div>
-                <p v-else class="text-gray-500 text-sm italic mt-4">No attachments for this exposure visit.</p>
+                <p v-else class="text-ink-500 text-sm italic mt-4">No attachments for this exposure visit.</p>
 
                 <div class="absolute top-2 right-2 flex space-x-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                     <button @click="emit('edit-exposure-visit', visit.id)"
@@ -70,7 +70,7 @@ function getFileIcon(file) {
                 </div>
             </div>
         </div>
-        <div v-else class="text-center p-6 text-gray-500 italic">
+        <div v-else class="text-center p-6 text-ink-500 italic">
             No exposure visits recorded for this CBO.
         </div>
     </div>
@@ -84,7 +84,7 @@ function getFileIcon(file) {
 
 /* Tooltip Styling */
 .tooltip {
-    @apply absolute top-full left-1/2 -translate-x-1/2 mt-2 text-xs bg-gray-800 text-white px-2 py-1 rounded-md
+    @apply absolute top-full left-1/2 -translate-x-1/2 mt-2 text-xs bg-paper-800 text-white px-2 py-1 rounded-md
     opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-10
     pointer-events-none; /* Ensures tooltip doesn't block clicks */
 }

@@ -24,8 +24,8 @@
 
         <!-- Report -->
         <div v-for="cbo in cbos" :key="cbo.id" class="mb-10 border-b pb-6">
-            <h2 class="text-lg font-semibold text-gray-800 mb-2">CBO: {{ cbo.reference_code }}</h2>
-            <p class="text-sm text-gray-600 mb-2">
+            <h2 class="text-lg font-semibold text-ink-800 mb-2">CBO: {{ cbo.reference_code }}</h2>
+            <p class="text-sm text-ink-600 mb-2">
                 <strong>District:</strong> {{ cbo.district }} |
                 <strong>Gender:</strong> {{ cbo.gender }} |
                 <strong>Formed:</strong> {{ cbo.date_of_formation }}
@@ -39,7 +39,7 @@
                         {{ d.date_of_dialogue }} – {{ d.participants }} participants
                     </li>
                 </ul>
-                <p v-else class="text-gray-500">No dialogues</p>
+                <p v-else class="text-ink-500">No dialogues</p>
 
                 <!-- Trainings -->
                 <h3 class="text-md font-bold mt-4">Trainings</h3>
@@ -48,7 +48,7 @@
                         {{ t.training_type }} – {{ t.total_participants }} participants
                     </li>
                 </ul>
-                <p v-else class="text-gray-500">No trainings</p>
+                <p v-else class="text-ink-500">No trainings</p>
 
                 <!-- Exposure Visits -->
                 <h3 class="text-md font-bold mt-4">Exposure Visits</h3>
@@ -57,7 +57,7 @@
                         {{ e.date_of_visit }} – {{ e.participants }} participants
                     </li>
                 </ul>
-                <p v-else class="text-gray-500">No exposure visits</p>
+                <p v-else class="text-ink-500">No exposure visits</p>
             </div>
         </div>
     </div>
@@ -93,6 +93,6 @@ const exportCSV = () => {
 
 <style scoped>
 .input {
-    @apply border border-gray-300 rounded px-3 py-2 w-full;
+    @apply border border-ink-300 rounded px-3 py-2 w-full;
 }
 </style>

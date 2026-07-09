@@ -150,14 +150,14 @@ watch(selected, (newVal) => {
 
                 <ComboboxOptions
                     v-if="query && (options.length > 0 || loading) && !disabled"
-                    class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded bg-white border shadow-lg"
+                    class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded bg-surface border shadow-lg"
                 >
                     <template v-if="loading">
-                        <div class="p-2 text-gray-500 italic">Loading…</div>
+                        <div class="p-2 text-ink-500 italic">Loading…</div>
                     </template>
 
                     <template v-else-if="options.length === 0">
-                        <div class="p-2 text-gray-500 italic">No results found</div>
+                        <div class="p-2 text-ink-500 italic">No results found</div>
                     </template>
 
                     <template v-else>

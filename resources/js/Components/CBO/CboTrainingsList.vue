@@ -30,34 +30,34 @@ function getFileIcon(file) {
 
 <template>
     <div class="p-6">
-        <h2 class="text-2xl font-bold text-indigo-700 mb-6 border-b pb-3 flex items-center gap-2">
+        <h2 class="text-2xl font-bold text-accent-700 mb-6 border-b pb-3 flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-award"><circle cx="12" cy="8" r="7"/><path d="M8.21 13.89 7 22l5-3 5 3-1.21-8.11"/></svg>
             Trainings for {{ cbo.reference_code }}
         </h2>
 
         <div v-if="cbo.trainings && cbo.trainings.length > 0" class="space-y-6">
-            <div v-for="training in cbo.trainings" :key="training.id" class="bg-gray-50 border border-gray-200 rounded-lg p-4 shadow-sm relative group">
+            <div v-for="training in cbo.trainings" :key="training.id" class="bg-paper-50 border border-ink-200 rounded-lg p-4 shadow-sm relative group">
                 <div class="flex justify-between items-center mb-2">
-                    <p class="text-lg font-semibold text-gray-800">Type: <span class="font-normal">{{ training.training_type }}</span></p>
+                    <p class="text-lg font-semibold text-ink-800">Type: <span class="font-normal">{{ training.training_type }}</span></p>
                     <span class="px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm font-medium">
                         {{ training.total_participants }} Participants
                     </span>
                 </div>
-                <p class="text-gray-700 mb-3">Date: {{ training.date_of_training }}</p>
-                <p v-if="training.remarks" class="text-gray-700 mb-3">Remarks: {{ training.remarks }}</p>
+                <p class="text-ink-700 mb-3">Date: {{ training.date_of_training }}</p>
+                <p v-if="training.remarks" class="text-ink-700 mb-3">Remarks: {{ training.remarks }}</p>
 
-                <div v-if="training.attachments && training.attachments.length > 0" class="mt-4 border-t border-gray-200 pt-3">
-                    <p class="text-sm font-semibold text-gray-700 mb-2">Attachments:</p>
-                    <ul class="space-y-2 text-sm text-gray-600">
+                <div v-if="training.attachments && training.attachments.length > 0" class="mt-4 border-t border-ink-200 pt-3">
+                    <p class="text-sm font-semibold text-ink-700 mb-2">Attachments:</p>
+                    <ul class="space-y-2 text-sm text-ink-600">
                         <li v-for="mediaItem in training.attachments" :key="mediaItem.id" class="flex items-center gap-2">
                             <span class="flex-shrink-0" v-html="getFileIcon(mediaItem)"></span>
-                            <a :href="mediaItem.url" target="_blank" class="text-indigo-600 hover:underline truncate">
+                            <a :href="mediaItem.url" target="_blank" class="text-accent-600 hover:underline truncate">
                                 {{ mediaItem.file_name }} ({{ (mediaItem.size / 1024).toFixed(1) }} KB)
                             </a>
                         </li>
                     </ul>
                 </div>
-                <p v-else class="text-gray-500 text-sm italic mt-4">No attachments for this training.</p>
+                <p v-else class="text-ink-500 text-sm italic mt-4">No attachments for this training.</p>
 
                 <div class="absolute top-2 right-2 flex space-x-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                     <button @click="emit('edit-training', training.id)"
@@ -73,7 +73,7 @@ function getFileIcon(file) {
                 </div>
             </div>
         </div>
-        <div v-else class="text-center p-6 text-gray-500 italic">
+        <div v-else class="text-center p-6 text-ink-500 italic">
             No trainings recorded for this CBO.
         </div>
     </div>
@@ -87,7 +87,7 @@ function getFileIcon(file) {
 
 /* Tooltip Styling (re-defined here for CboTrainingsList) */
 .tooltip {
-    @apply absolute top-full left-1/2 -translate-x-1/2 mt-2 text-xs bg-gray-800 text-white px-2 py-1 rounded-md
+    @apply absolute top-full left-1/2 -translate-x-1/2 mt-2 text-xs bg-paper-800 text-white px-2 py-1 rounded-md
     opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-10
     pointer-events-none; /* Ensures tooltip doesn't block clicks */
 }

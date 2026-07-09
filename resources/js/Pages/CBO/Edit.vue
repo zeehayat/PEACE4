@@ -1,6 +1,6 @@
 <template>
     <div class="max-w-4xl mx-auto py-10">
-        <h1 class="text-2xl font-bold text-gray-800 mb-6">Edit Community-Based Organization</h1>
+        <h1 class="text-2xl font-bold text-ink-800 mb-6">Edit Community-Based Organization</h1>
 
         <form @submit.prevent="submit" class="space-y-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -112,6 +112,6 @@ const submit = () => {
 
 <style scoped>
 .input {
-    @apply w-full border border-gray-300 rounded px-3 py-2 mt-1;
+    @apply w-full border border-ink-300 rounded px-3 py-2 mt-1;
 }
 </style>

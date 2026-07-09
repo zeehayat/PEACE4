@@ -277,12 +277,12 @@ const handleEditExposureVisit = (exposureVisitId) => { // NEW handler
 </script>
 
 <template>
-    <div class="bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen p-6 sm:p-8 md:p-10 font-sans antialiased text-slate-800">
-        <header class="text-center mb-10 bg-white p-6 rounded-xl shadow-lg border border-slate-200">
-            <h1 class="text-4xl sm:text-5xl font-extrabold text-indigo-800 tracking-tight leading-tight mb-4">
+    <div class="bg-gradient-to-br from-paper-50 to-paper-100 min-h-screen p-6 sm:p-8 md:p-10 font-sans antialiased text-ink-800">
+        <header class="text-center mb-10 bg-surface p-6 rounded-xl shadow-lg border border-ink-200">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-accent-800 tracking-tight leading-tight mb-4">
                 Community-Based Organizations
             </h1>
-            <p class="text-lg text-slate-600 mb-6">Manage and track the progress of your CBOs with ease.</p>
+            <p class="text-lg text-ink-600 mb-6">Manage and track the progress of your CBOs with ease.</p>
 
             <div class="flex flex-col sm:flex-row justify-center gap-4">
                 <Link
@@ -303,8 +303,8 @@ const handleEditExposureVisit = (exposureVisitId) => { // NEW handler
             </div>
         </header>
 
-        <div class="bg-white shadow-lg rounded-xl p-6 mb-12 border border-slate-200">
-            <h2 class="text-2xl font-semibold text-slate-700 mb-5 flex items-center gap-2">
+        <div class="bg-surface shadow-lg rounded-xl p-6 mb-12 border border-ink-200">
+            <h2 class="text-2xl font-semibold text-ink-700 mb-5 flex items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-filter"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
                 Filter CBOs
             </h2>
@@ -323,7 +323,7 @@ const handleEditExposureVisit = (exposureVisitId) => { // NEW handler
                     <input id="district" v-model="filters.district" type="text" class="input-modern pt-4" placeholder="Search District" />
                 </div>
                 <div class="relative">
-                    <label for="date_of_formation" class="block text-sm font-medium text-slate-700 mb-1">Date of Formation</label>
+                    <label for="date_of_formation" class="block text-sm font-medium text-ink-700 mb-1">Date of Formation</label>
                     <input id="date_of_formation" v-model="filters.date_of_formation" type="date" class="input-modern pt-4" />
                 </div>
                 <div class="flex items-end justify-end md:justify-start">
@@ -355,7 +355,7 @@ const handleEditExposureVisit = (exposureVisitId) => { // NEW handler
             />
         </div>
 
-        <div v-else class="bg-white shadow-lg rounded-xl p-8 text-center text-slate-500 text-lg mt-8">
+        <div v-else class="bg-surface shadow-lg rounded-xl p-8 text-center text-ink-500 text-lg mt-8">
             No CBOs found matching your criteria.
         </div>
 
@@ -380,12 +380,12 @@ const handleEditExposureVisit = (exposureVisitId) => { // NEW handler
 
         <Modal :show="modal === 'details'" @close="closeModal" title="CBO Details Report">
             <CboDetails v-if="selectedCbo" :cbo="selectedCbo" />
-            <div v-else class="p-4 text-center text-slate-600">Loading CBO details...</div>
+            <div v-else class="p-4 text-center text-ink-600">Loading CBO details...</div>
         </Modal>
 
         <Modal :show="modal === 'view-dialogues'" @close="closeModal" title="CBO Dialogues List">
             <CboDialoguesList v-if="selectedCbo" :cbo="selectedCbo" @delete-dialogue="handleDeleteDialogue"/>
-            <div v-else class="p-4 text-center text-slate-600">Loading dialogues...</div>
+            <div v-else class="p-4 text-center text-ink-600">Loading dialogues...</div>
         </Modal>
 
         <Modal :show="modal === 'view-trainings'" @close="closeModal" title="CBO Trainings List">
@@ -395,7 +395,7 @@ const handleEditExposureVisit = (exposureVisitId) => { // NEW handler
                 @delete-training="handleDeleteTraining"
                 @edit-training="handleEditTraining"
             />
-            <div v-else class="p-4 text-center text-slate-600">Loading trainings...</div>
+            <div v-else class="p-4 text-center text-ink-600">Loading trainings...</div>
         </Modal>
 
         <Modal :show="modal === 'view-exposure-visits'" @close="closeModal" title="CBO Exposure Visits List">
@@ -405,7 +405,7 @@ const handleEditExposureVisit = (exposureVisitId) => { // NEW handler
                 @delete-exposure-visit="handleDeleteExposureVisit"
                 @edit-exposure-visit="handleEditExposureVisit"
             />
-            <div v-else class="p-4 text-center text-slate-600">Loading exposure visits...</div>
+            <div v-else class="p-4 text-center text-ink-600">Loading exposure visits...</div>
         </Modal>
     </div>
 </template>
@@ -413,19 +413,19 @@ const handleEditExposureVisit = (exposureVisitId) => { // NEW handler
 <style scoped>
 /* Modern Input Styling */
 .input-modern {
-    @apply appearance-none block w-full px-4 py-2 border border-slate-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-base transition-all duration-200 ease-in-out;
+    @apply appearance-none block w-full px-4 py-2 border border-ink-300 rounded-lg shadow-sm placeholder-ink-400 focus:outline-none focus:ring-accent-500 focus:border-accent-500 sm:text-base transition-all duration-200 ease-in-out;
 }
 
 /* Input Label (for floating effect) */
 .input-label {
-    @apply absolute -top-2 left-3 text-xs text-slate-500 bg-white px-1;
+    @apply absolute -top-2 left-3 text-xs text-ink-500 bg-surface px-1;
 }
 
 /* Main Action Buttons (Add CBO, Report) */
 .btn-primary-gradient {
     @apply inline-flex items-center justify-center px-6 py-3 text-sm font-semibold rounded-full shadow-lg text-white
-    bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700
-    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
+    bg-gradient-to-r from-accent-600 to-blue-600 hover:from-accent-700 hover:to-blue-700
+    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500
     transition-all duration-300 ease-in-out transform hover:scale-105;
 }
 
