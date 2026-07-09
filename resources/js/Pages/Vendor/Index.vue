@@ -168,8 +168,8 @@ function getStatusClass(status) {
         case 'NEW': return 'bg-blue-100 text-blue-800 border border-blue-200';
         case 'BLACK-LISTED': return 'bg-red-100 text-red-800 border border-red-200';
         case 'UNAPPROVED': return 'bg-yellow-100 text-yellow-800 border border-yellow-200';
-        case 'OLD': return 'bg-gray-100 text-gray-800 border border-gray-200';
-        default: return 'bg-gray-100 text-gray-800 border border-gray-200';
+        case 'OLD': return 'bg-paper-100 text-ink-800 border border-ink-200';
+        default: return 'bg-paper-100 text-ink-800 border border-ink-200';
     }
 }
 
@@ -190,26 +190,26 @@ const handlePagination = (url) => {
 <template>
     <AppLayout title="Dashboard">
         <template #header >
-            <div class="bg-indigo-800 p-5 flex place-content-center items-center">
+            <div class="bg-accent-800 p-5 flex place-content-center items-center">
 
-                <h2 class="text-4xl font-extrabold text-indigo-400 border-collapse">SRSP PEACE 2</h2>
+                <h2 class="text-4xl font-extrabold text-accent-400 border-collapse">SRSP PEACE 2</h2>
             </div>
 
         </template>
 
-    <div class="bg-slate-50 font-sans antialiased text-slate-800 min-h-screen">
+    <div class="bg-paper-50 font-sans antialiased text-ink-800 min-h-screen">
         <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
-            <header class="mb-8 bg-white p-6 rounded-lg shadow-md">
+            <header class="mb-8 bg-surface p-6 rounded-lg shadow-md">
                 <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                     <div>
-                        <h1 class="text-3xl font-extrabold tracking-tight text-slate-900">Vendors Overview</h1>
-                        <p class="mt-1 text-base text-slate-600">Manage your organization's vendors and their details.</p>
+                        <h1 class="text-3xl font-extrabold tracking-tight text-ink-900">Vendors Overview</h1>
+                        <p class="mt-1 text-base text-ink-600">Manage your organization's vendors and their details.</p>
                     </div>
                     <div class="flex w-full md:w-auto items-center gap-x-3">
                         <div class="relative flex-grow">
                             <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                                <svg class="h-5 w-5 text-slate-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <svg class="h-5 w-5 text-ink-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                     <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
                                 </svg>
                             </div>
@@ -218,10 +218,10 @@ const handlePagination = (url) => {
                                 v-model="searchTerm"
                                 @input="router.get(route('vendor.vendors.index'), { search: searchTerm }, { preserveState: true, replace: true })"
                                 placeholder="Search by Name, Contact, Email..."
-                                class="block w-full rounded-lg border-slate-300 bg-white py-2.5 pl-10 pr-3 text-slate-900 shadow-sm placeholder:text-slate-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors duration-200"
+                                class="block w-full rounded-lg border-ink-300 bg-surface py-2.5 pl-10 pr-3 text-ink-900 shadow-sm placeholder:text-ink-400 focus:ring-accent-500 focus:border-accent-500 sm:text-sm transition-colors duration-200"
                             />
                         </div>
-                        <button @click="openNewVendorModal" class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-colors duration-200 flex-shrink-0">
+                        <button @click="openNewVendorModal" class="inline-flex items-center justify-center rounded-lg bg-accent-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md hover:bg-accent-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-600 transition-colors duration-200 flex-shrink-0">
                             <svg class="-ml-0.5 mr-2 h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                 <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
                             </svg>
@@ -247,37 +247,37 @@ const handlePagination = (url) => {
             </div>
 
             <!-- Table View for larger screens -->
-            <div class="hidden md:block bg-white rounded-xl shadow-xl border border-slate-200 overflow-hidden">
-                <table class="min-w-full divide-y divide-slate-200">
-                    <thead class="bg-slate-50">
+            <div class="hidden md:block bg-surface rounded-xl shadow-xl border border-ink-200 overflow-hidden">
+                <table class="min-w-full divide-y divide-ink-200">
+                    <thead class="bg-paper-50">
                     <tr>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Vendor Info</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Contact</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Address</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">NTN / Status</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Attachments</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-ink-600 uppercase tracking-wider">Vendor Info</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-ink-600 uppercase tracking-wider">Contact</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-ink-600 uppercase tracking-wider">Address</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-ink-600 uppercase tracking-wider">NTN / Status</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-ink-600 uppercase tracking-wider">Attachments</th>
                         <th scope="col" class="relative px-6 py-3"><span class="sr-only">Actions</span></th>
                     </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-200">
-                    <tr v-for="vendor in filteredVendors" :key="vendor.id" class="hover:bg-slate-50 transition-colors duration-150 group">
+                    <tbody class="divide-y divide-ink-200">
+                    <tr v-for="vendor in filteredVendors" :key="vendor.id" class="hover:bg-paper-50 transition-colors duration-150 group">
 
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm font-medium text-slate-900">{{ vendor.name ?? 'N/A' }}</div>
-                            <div class="text-xs text-slate-500 mt-0.5">Contact Person: {{ vendor.contact_person ?? 'N/A' }}</div>
+                            <div class="text-sm font-medium text-ink-900">{{ vendor.name ?? 'N/A' }}</div>
+                            <div class="text-xs text-ink-500 mt-0.5">Contact Person: {{ vendor.contact_person ?? 'N/A' }}</div>
                         </td>
 
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-700">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-ink-700">
                             <div>{{ vendor.phone ?? 'N/A' }}</div>
-                            <div class="text-xs text-slate-500">{{ vendor.email ?? 'N/A' }}</div>
+                            <div class="text-xs text-ink-500">{{ vendor.email ?? 'N/A' }}</div>
                         </td>
 
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-700">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-ink-700">
                             {{ vendor.address ?? 'N/A' }}
                         </td>
 
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-slate-700">NTN: {{ vendor.ntn_no ?? 'N/A' }}</div>
+                            <div class="text-sm text-ink-700">NTN: {{ vendor.ntn_no ?? 'N/A' }}</div>
                             <span :class="getStatusClass(vendor.status)" class="inline-flex items-center rounded-full px-3 py-1 text-xs font-medium border mt-1">
                               {{ vendor.status ?? 'N/A' }}
                             </span>
@@ -286,15 +286,15 @@ const handlePagination = (url) => {
                         <td class="px-6 py-4">
                             <div v-if="vendor.attachments_frontend && vendor.attachments_frontend.length" class="space-y-2 text-xs max-h-24 overflow-y-auto pr-2">
                                 <div v-for="file in vendor.attachments_frontend" :key="file.id" class="flex items-center gap-2" :title="`Size: ${(file.size/1024).toFixed(1)} KB | Uploaded: ${new Date(file.created_at).toLocaleDateString()}`">
-                                    <span class="text-slate-500 flex-shrink-0">{{ getFileIcon(file) }}</span>
-                                    <a :href="file.url" target="_blank" class="text-indigo-600 hover:text-indigo-800 hover:underline truncate">{{ file.file_name }}</a>
+                                    <span class="text-ink-500 flex-shrink-0">{{ getFileIcon(file) }}</span>
+                                    <a :href="file.url" target="_blank" class="text-accent-600 hover:text-accent-800 hover:underline truncate">{{ file.file_name }}</a>
                                 </div>
                             </div>
-                            <span v-else class="text-slate-400 text-sm">—</span>
+                            <span v-else class="text-ink-400 text-sm">—</span>
                         </td>
 
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium relative action-menu-container">
-                            <button @click.stop="toggleActionMenu(vendor.id, $event)" class="p-2 text-slate-500 hover:text-slate-900 rounded-full hover:bg-slate-200/70 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity action-menu-trigger">
+                            <button @click.stop="toggleActionMenu(vendor.id, $event)" class="p-2 text-ink-500 hover:text-ink-900 rounded-full hover:bg-paper-200/70 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity action-menu-trigger">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" /></svg>
                             </button>
                             <!-- The menu div is now teleported from Index.vue -->
@@ -323,23 +323,23 @@ const handlePagination = (url) => {
         <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
             <div
                 v-if="openActionMenuId !== null && selectedVendor"
-                :class="['action-menu-dropdown origin-top-right absolute w-56 rounded-xl shadow-xl bg-white ring-1 ring-black ring-opacity-5 z-30 divide-y divide-slate-100', menuPosition.direction === 'up' ? 'bottom-full mb-2 right-0' : 'top-full mt-2 right-0']"
+                :class="['action-menu-dropdown origin-top-right absolute w-56 rounded-xl shadow-xl bg-surface ring-1 ring-black ring-opacity-5 z-30 divide-y divide-ink-100', menuPosition.direction === 'up' ? 'bottom-full mb-2 right-0' : 'top-full mt-2 right-0']"
                 :style="{
                     top: menuPosition.top + 'px',
                     left: (menuPosition.left + menuPosition.width - 224) + 'px',
                 }"
             >
-                <div class="py-1 text-sm text-slate-700">
-                    <button @click="handleViewDetails(selectedVendor)" class="w-full text-left block px-4 py-2 hover:bg-slate-100 flex items-center gap-2">
+                <div class="py-1 text-sm text-ink-700">
+                    <button @click="handleViewDetails(selectedVendor)" class="w-full text-left block px-4 py-2 hover:bg-paper-100 flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                         View Details
                     </button>
-                    <button @click="handleEditVendor(selectedVendor)" class="w-full text-left block px-4 py-2 hover:bg-slate-100 flex items-center gap-2">
+                    <button @click="handleEditVendor(selectedVendor)" class="w-full text-left block px-4 py-2 hover:bg-paper-100 flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="M15 5l4 4"/></svg>
                         Edit Vendor
                     </button>
                 </div>
-                <div class="py-1 text-sm text-slate-700">
+                <div class="py-1 text-sm text-ink-700">
                     <button @click="handleDeleteVendor(selectedVendor.id)" class="w-full text-left block px-4 py-2 hover:bg-red-100 text-red-600 flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
                         Delete Vendor
