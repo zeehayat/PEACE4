@@ -132,18 +132,18 @@ watch(() => props.show, (newVal) => {
             <!-- FIX: Move cost revision list to the modal, as it manages the state -->
             <div v-if="props.approval" class="p-6 mt-4 border-t">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-semibold text-gray-800">Cost Revisions</h3>
+                    <h3 class="text-xl font-semibold text-ink-800">Cost Revisions</h3>
                     <PrimaryButton @click="openCreateRevisionForm">
                         + Add New Revision
                     </PrimaryButton>
                 </div>
 
                 <div v-if="costRevisions.length > 0">
-                    <div v-for="revision in costRevisions" :key="revision.id" class="border rounded-md p-4 mb-2 flex justify-between items-center bg-gray-50">
+                    <div v-for="revision in costRevisions" :key="revision.id" class="border rounded-md p-4 mb-2 flex justify-between items-center bg-paper-50">
                         <div>
                             <p class="font-semibold">Revision #{{ revision.revision_number }}</p>
                             <p class="text-sm">Cost: PKR {{ revision.revised_cost }} on {{ formatNullableDate(revision.approved_on) }}</p>
-                            <p v-if="revision.remarks" class="text-xs text-gray-600 mt-1" v-html="revision.remarks"></p>
+                            <p v-if="revision.remarks" class="text-xs text-ink-600 mt-1" v-html="revision.remarks"></p>
                         </div>
                         <div class="flex space-x-2">
                             <PrimaryButton @click="openEditRevisionForm(revision)" class="px-3 py-1 text-sm">Edit</PrimaryButton>
@@ -151,7 +151,7 @@ watch(() => props.show, (newVal) => {
                         </div>
                     </div>
                 </div>
-                <p v-else class="text-gray-500 text-center">No cost revisions have been recorded.</p>
+                <p v-else class="text-ink-500 text-center">No cost revisions have been recorded.</p>
             </div>
         </div>
     </Modal>

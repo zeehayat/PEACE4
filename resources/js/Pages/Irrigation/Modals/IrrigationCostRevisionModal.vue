@@ -123,37 +123,37 @@ const closeModal = () => {
         <div class="p-6">
             <div v-if="!showForm" class="space-y-4">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-semibold text-gray-800">Existing Cost Revisions</h3>
+                    <h3 class="text-xl font-semibold text-ink-800">Existing Cost Revisions</h3>
                     <PrimaryButton @click="openCreateForm">
                         + Add New Revision
                     </PrimaryButton>
                 </div>
 
-                <div v-if="isLoading" class="text-center py-8 text-gray-500">
+                <div v-if="isLoading" class="text-center py-8 text-ink-500">
                     Loading cost revisions...
                 </div>
 
-                <div v-else-if="costRevisions.length === 0" class="text-center py-8 text-gray-500">
+                <div v-else-if="costRevisions.length === 0" class="text-center py-8 text-ink-500">
                     No cost revisions have been recorded.
                 </div>
 
                 <div v-else class="grid grid-cols-1 gap-4">
-                    <div v-for="revision in costRevisions" :key="revision.id" class="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+                    <div v-for="revision in costRevisions" :key="revision.id" class="bg-surface border border-ink-200 rounded-lg p-4 shadow-sm">
                         <div class="flex justify-between items-start mb-2">
                             <div>
-                                <p class="text-lg font-semibold text-indigo-700">Revision #{{ revision.revision_number }}</p>
-                                <p class="text-sm text-gray-600">Cost: PKR {{ revision.revised_cost }} on {{ formatNullableDate(revision.approved_on) }}</p>
+                                <p class="text-lg font-semibold text-accent-700">Revision #{{ revision.revision_number }}</p>
+                                <p class="text-sm text-ink-600">Cost: PKR {{ revision.revised_cost }} on {{ formatNullableDate(revision.approved_on) }}</p>
                             </div>
                             <div class="flex space-x-2">
                                 <PrimaryButton @click="openEditForm(revision)" class="px-3 py-1 text-sm">Edit</PrimaryButton>
                                 <DangerButton @click="handleDeleteRevision(revision.id)" class="px-3 py-1 text-sm">Delete</DangerButton>
                             </div>
                         </div>
-                        <div v-if="revision.remarks" class="text-sm text-gray-700 mt-2">
-                            Remarks: <span class="text-gray-600 prose max-w-none" v-html="revision.remarks"></span>
+                        <div v-if="revision.remarks" class="text-sm text-ink-700 mt-2">
+                            Remarks: <span class="text-ink-600 prose max-w-none" v-html="revision.remarks"></span>
                         </div>
                         <div v-if="revision.attachments_frontend && revision.attachments_frontend.length" class="mt-3">
-                            <p class="text-sm font-semibold text-gray-700 mb-1">Attachments:</p>
+                            <p class="text-sm font-semibold text-ink-700 mb-1">Attachments:</p>
                             <AttachmentViewer :attachments="revision.attachments_frontend" />
                         </div>
                     </div>

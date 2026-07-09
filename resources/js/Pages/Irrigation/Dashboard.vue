@@ -56,28 +56,28 @@ const formatValue = (value) => {
 <template>
     <AppLayout title="Dashboard">
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>
+            <h2 class="font-semibold text-xl text-ink-800 leading-tight">Dashboard</h2>
         </template>
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900">
-                        <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
+                <div class="bg-surface overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 text-ink-900">
+                        <div class="mb-4 border-b border-ink-200 dark:border-ink-700">
                             <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist">
                                 <li class="me-2" role="presentation">
-                                    <button @click="activeTab = 'mhp'" :class="{'bg-gray-200 text-gray-800': activeTab === 'mhp'}" class="inline-block p-4 border-b-2 rounded-t-lg">MHP Metrics</button>
+                                    <button @click="activeTab = 'mhp'" :class="{'bg-paper-200 text-ink-800': activeTab === 'mhp'}" class="inline-block p-4 border-b-2 rounded-t-lg">MHP Metrics</button>
                                 </li>
                                 <li class="me-2" role="presentation">
-                                    <button @click="activeTab = 'irrigation'" :class="{'bg-gray-200 text-gray-800': activeTab === 'irrigation'}" class="inline-block p-4 border-b-2 rounded-t-lg">Irrigation Metrics</button>
+                                    <button @click="activeTab = 'irrigation'" :class="{'bg-paper-200 text-ink-800': activeTab === 'irrigation'}" class="inline-block p-4 border-b-2 rounded-t-lg">Irrigation Metrics</button>
                                 </li>
                             </ul>
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                            <div v-for="(card, index) in displayedCards" :key="index" class="bg-gray-100 p-6 rounded-lg shadow-md flex items-center justify-between">
+                            <div v-for="(card, index) in displayedCards" :key="index" class="bg-paper-100 p-6 rounded-lg shadow-md flex items-center justify-between">
                                 <div>
-                                    <h3 class="text-lg font-bold text-gray-700">{{ card.title }}</h3>
-                                    <p class="text-2xl mt-2 font-extrabold text-gray-900">{{ formatValue(card.value) }}</p>
+                                    <h3 class="text-lg font-bold text-ink-700">{{ card.title }}</h3>
+                                    <p class="text-2xl mt-2 font-extrabold text-ink-900">{{ formatValue(card.value) }}</p>
                                 </div>
                                 <div :class="`text-4xl text-${card.color}-500`">
                                     <i :class="card.icon"></i>

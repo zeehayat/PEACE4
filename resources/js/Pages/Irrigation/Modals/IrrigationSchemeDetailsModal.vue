@@ -34,16 +34,16 @@ const printDetails = () => {
 
 <template>
     <Modal :show="show" @close="emit('close')" :maxWidth="'5xl'" :title="`Irrigation Scheme Details`">
-        <div class="flex flex-col max-h-[85vh] bg-white text-gray-800 print-content">
+        <div class="flex flex-col max-h-[85vh] bg-surface text-ink-800 print-content">
             
             <!-- Tabbed Navigation Header -->
-            <div class="flex border-b border-gray-200 px-6 bg-gray-50 shrink-0 print:hidden">
+            <div class="flex border-b border-ink-200 px-6 bg-paper-50 shrink-0 print:hidden">
                 <button 
                     v-for="tab in tabs" 
                     :key="tab.id"
                     @click="activeTab = tab.id"
                     class="flex items-center gap-2 py-4 px-4 text-sm font-medium border-b-2 -mb-px transition focus:outline-none"
-                    :class="activeTab === tab.id ? 'border-emerald-600 text-emerald-600' : 'border-transparent text-gray-500 hover:text-gray-700'"
+                    :class="activeTab === tab.id ? 'border-emerald-600 text-emerald-600' : 'border-transparent text-ink-500 hover:text-ink-700'"
                 >
                     <span class="material-symbols-outlined text-lg">{{ tab.icon }}</span>
                     {{ tab.name }}
@@ -56,7 +56,7 @@ const printDetails = () => {
                 <!-- General Info Tab Panel -->
                 <div v-show="activeTab === 'general' || window?.matchMedia?.('print').matches" class="space-y-6">
                     <div>
-                        <h3 class="text-base font-bold text-gray-800 border-b pb-2 mb-4">Scheme Overview</h3>
+                        <h3 class="text-base font-bold text-ink-800 border-b pb-2 mb-4">Scheme Overview</h3>
                         <DetailGrid>
                             <DetailItem label="CBO" :value="scheme.cbo?.reference_code" />
                             <DetailItem label="Status" :value="scheme.status" />
@@ -71,13 +71,13 @@ const printDetails = () => {
                             <DetailItem label="Recent Visit by Senior Engineer" :value="formatDate(scheme.recent_senior_engineer_visit_date)" />
                         </DetailGrid>
                         
-                        <div v-if="hasRemarks" class="mt-6 p-4 bg-gray-50 rounded-xl border border-gray-200">
-                            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Remarks</p>
-                            <div class="text-sm text-gray-900 prose max-w-none" v-html="scheme.remarks"></div>
+                        <div v-if="hasRemarks" class="mt-6 p-4 bg-paper-50 rounded-xl border border-ink-200">
+                            <p class="text-xs font-semibold text-ink-500 uppercase tracking-wider mb-1">Remarks</p>
+                            <div class="text-sm text-ink-900 prose max-w-none" v-html="scheme.remarks"></div>
                         </div>
 
                         <div v-if="hasAttachments" class="mt-6">
-                            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Attachments</p>
+                            <p class="text-xs font-semibold text-ink-500 uppercase tracking-wider mb-2">Attachments</p>
                             <AttachmentViewer :attachments="scheme.attachments_frontend" />
                         </div>
                     </div>
@@ -86,7 +86,7 @@ const printDetails = () => {
                 <!-- Technical Specs Tab Panel -->
                 <div v-show="activeTab === 'technical'" class="space-y-6">
                     <div>
-                        <h3 class="text-base font-bold text-gray-800 border-b pb-2 mb-4">Technical Details</h3>
+                        <h3 class="text-base font-bold text-ink-800 border-b pb-2 mb-4">Technical Details</h3>
                         <DetailGrid>
                             <DetailItem label="Water Availability" :value="scheme.water_availability_cusecs ? `${formatDecimal(scheme.water_availability_cusecs)} Cusecs` : 'N/A'" tooltip="Flow volume of water available, measured in Cubic Feet per Second (Cusecs)." />
                             <DetailItem label="No. of Watercourses" :value="scheme.number_of_watercourses" />
@@ -102,7 +102,7 @@ const printDetails = () => {
             </div>
 
             <!-- Footer Section -->
-            <div class="px-6 py-4 bg-gray-50 border-t border-gray-200 shrink-0 flex justify-end print:hidden">
+            <div class="px-6 py-4 bg-paper-50 border-t border-ink-200 shrink-0 flex justify-end print:hidden">
                 <button
                     type="button"
                     @click="printDetails"

@@ -220,29 +220,29 @@ const handlePagination = (url) => {
     <AppLayout title="Irrigation Schemes">
         <template #header>
             <div class="flex flex-col gap-1">
-                <p class="text-xs uppercase tracking-[0.2em] text-teal-600">Irrigation</p>
-                <h2 class="text-2xl font-bold text-slate-900">Scheme Management</h2>
+                <p class="text-xs uppercase tracking-[0.2em] text-irrigation-600">Irrigation</p>
+                <h2 class="text-2xl font-bold text-ink-900">Scheme Management</h2>
             </div>
         </template>
-        <div class="bg-background-light min-h-screen text-slate-900">
+        <div class="bg-background-light min-h-screen text-ink-900">
             <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
                 <header class="card p-5 sm:p-6">
                     <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                         <div>
-                            <h1 class="text-2xl font-semibold tracking-tight text-slate-900">Irrigation Schemes Overview</h1>
-                            <p class="mt-1 text-sm text-slate-600">Centralized management for schemes and progress.</p>
+                            <h1 class="text-2xl font-semibold tracking-tight text-ink-900">Irrigation Schemes Overview</h1>
+                            <p class="mt-1 text-sm text-ink-600">Centralized management for schemes and progress.</p>
                         </div>
                         <div class="flex w-full md:w-auto items-center gap-3">
                             <div class="relative flex-grow">
                                 <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                                    <span class="material-symbols-outlined text-slate-400 text-lg">search</span>
+                                    <span class="material-symbols-outlined text-ink-400 text-lg">search</span>
                                 </div>
                                 <input
                                     type="text"
                                     v-model="searchTerm"
                                     @input="router.get(route('irrigation.schemes.index'), { search: searchTerm }, { preserveState: true, replace: true })"
                                     placeholder="Search by CBO, Status, or Type..."
-                                    class="block w-full bg-white py-2.5 pl-10 pr-3 border-slate-300 focus:ring-indigo-500 focus:border-indigo-500"
+                                    class="block w-full bg-surface py-2.5 pl-10 pr-3 border-ink-300 focus:ring-accent-500 focus:border-accent-500"
                                 />
                             </div>
                             <button @click="openNewSchemeModal" class="btn-primary px-4 py-2.5 flex-shrink-0">
@@ -280,39 +280,39 @@ const handlePagination = (url) => {
                             <th scope="col" class="relative px-4 py-3"><span class="sr-only">Actions</span></th>
                         </tr>
                         </thead>
-                        <tbody class="divide-y divide-slate-100">
-                        <tr v-for="scheme in filteredSchemes" :key="scheme.id" class="hover:bg-teal-500/5 transition-colors group">
+                        <tbody class="divide-y divide-ink-100">
+                        <tr v-for="scheme in filteredSchemes" :key="scheme.id" class="hover:bg-irrigation-500/5 transition-colors group">
                             <td class="px-4 py-3 whitespace-nowrap">
-                                <div class="text-sm font-semibold text-slate-900">{{ scheme.id }}</div>
+                                <div class="text-sm font-semibold text-ink-900">{{ scheme.id }}</div>
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap">
-                                <div class="text-sm font-semibold text-slate-900">{{ scheme.cbo?.reference_code ?? 'N/A' }}</div>
-                                <div class="text-xs text-slate-500 mt-0.5">Status: {{ scheme.status ?? 'N/A' }}</div>
+                                <div class="text-sm font-semibold text-ink-900">{{ scheme.cbo?.reference_code ?? 'N/A' }}</div>
+                                <div class="text-xs text-ink-500 mt-0.5">Status: {{ scheme.status ?? 'N/A' }}</div>
                             </td>
-                            <td class="px-4 py-3 whitespace-nowrap text-sm text-slate-700">
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-ink-700">
                                 <div>Scheme: {{ scheme.scheme_type ?? 'N/A' }}</div>
-                                <div class="text-xs text-slate-500">{{ scheme.sub_scheme_type ?? 'N/A' }}</div>
+                                <div class="text-xs text-ink-500">{{ scheme.sub_scheme_type ?? 'N/A' }}</div>
                             </td>
-                            <td class="px-4 py-3 whitespace-nowrap text-sm text-slate-700">
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-ink-700">
                                 <div>Watercourses: {{ scheme.number_of_watercourses ?? 'N/A' }}</div>
-                                <div class="text-xs text-slate-500">Water Avail: {{ scheme.water_availability_cusecs ?? 'N/A' }} cusecs</div>
+                                <div class="text-xs text-ink-500">Water Avail: {{ scheme.water_availability_cusecs ?? 'N/A' }} cusecs</div>
                             </td>
                             <td class="px-4 py-3">
                                 <div class="space-y-1 text-sm">
                                     <div v-if="scheme.latest_physical_progress">
-                                        <p class="font-semibold text-slate-800">Latest Physical:</p>
-                                        <span class="text-xs text-slate-600">{{ scheme.latest_physical_progress.progress_percentage }}% on {{ new Date(scheme.latest_physical_progress.progress_date).toLocaleDateString() }} ({{ scheme.latest_physical_progress.payment_for }})</span>
+                                        <p class="font-semibold text-ink-800">Latest Physical:</p>
+                                        <span class="text-xs text-ink-600">{{ scheme.latest_physical_progress.progress_percentage }}% on {{ new Date(scheme.latest_physical_progress.progress_date).toLocaleDateString() }} ({{ scheme.latest_physical_progress.payment_for }})</span>
                                     </div>
-                                    <div v-else class="text-slate-400 text-xs">— No Physical Progress</div>
-                                    <div v-if="scheme.latest_financial_installment" class="pt-1 border-t border-slate-100 mt-1">
-                                        <p class="font-semibold text-slate-800">Latest Financial:</p>
-                                        <span class="text-xs text-slate-600">Inst. #{{ scheme.latest_financial_installment.installment_number }} ({{ scheme.latest_financial_installment.installment_amount }}) ({{ scheme.latest_financial_installment.payment_for }})</span>
+                                    <div v-else class="text-ink-400 text-xs">— No Physical Progress</div>
+                                    <div v-if="scheme.latest_financial_installment" class="pt-1 border-t border-ink-100 mt-1">
+                                        <p class="font-semibold text-ink-800">Latest Financial:</p>
+                                        <span class="text-xs text-ink-600">Inst. #{{ scheme.latest_financial_installment.installment_number }} ({{ scheme.latest_financial_installment.installment_amount }}) ({{ scheme.latest_financial_installment.payment_for }})</span>
                                     </div>
-                                    <div v-else class="text-slate-400 text-xs">— No Financial Installments</div>
+                                    <div v-else class="text-ink-400 text-xs">— No Financial Installments</div>
                                 </div>
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap text-right text-sm font-medium relative action-menu-container">
-                                <button @click.stop="toggleActionMenu(scheme.id, $event)" class="p-2 text-slate-500 hover:text-slate-900 rounded-full hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity action-menu-trigger">
+                                <button @click.stop="toggleActionMenu(scheme.id, $event)" class="p-2 text-ink-500 hover:text-ink-900 rounded-full hover:bg-paper-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity action-menu-trigger">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" /></svg>
                                 </button>
                             </td>
@@ -350,53 +350,53 @@ const handlePagination = (url) => {
             <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
                 <div
                     v-if="openActionMenuId !== null && selectedScheme"
-                    :class="['action-menu-dropdown origin-top-right absolute w-56 rounded-xl shadow-xl bg-white ring-1 ring-black ring-opacity-5 z-30 divide-y divide-slate-100', menuPosition.direction === 'up' ? 'bottom-full mb-2 right-0' : 'top-full mt-2 right-0']"
+                    :class="['action-menu-dropdown origin-top-right absolute w-56 rounded-xl shadow-xl bg-surface ring-1 ring-black ring-opacity-5 z-30 divide-y divide-ink-100', menuPosition.direction === 'up' ? 'bottom-full mb-2 right-0' : 'top-full mt-2 right-0']"
                     :style="{
                         top: menuPosition.top + 'px',
                         left: (menuPosition.left + menuPosition.width - 224) + 'px',
                     }"
                 >
-                    <div class="py-1 text-sm text-slate-700">
-                        <button @click="handleViewDetails(selectedScheme)" class="w-full text-left block px-4 py-2 hover:bg-slate-100 flex items-center gap-2">
+                    <div class="py-1 text-sm text-ink-700">
+                        <button @click="handleViewDetails(selectedScheme)" class="w-full text-left block px-4 py-2 hover:bg-paper-100 flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                             View Details
                         </button>
-                        <button @click="handleEditScheme(selectedScheme)" class="w-full text-left block px-4 py-2 hover:bg-slate-100 flex items-center gap-2">
+                        <button @click="handleEditScheme(selectedScheme)" class="w-full text-left block px-4 py-2 hover:bg-paper-100 flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="M15 5l4 4"/></svg>
                             Edit Scheme
                         </button>
                     </div>
-                    <div class="py-1 text-sm text-slate-700">
-                        <button v-if="selectedScheme.admin_approval" @click="handleViewAdminApproval(selectedScheme)" class="w-full text-left block px-4 py-2 hover:bg-slate-100 flex items-center gap-2">
+                    <div class="py-1 text-sm text-ink-700">
+                        <button v-if="selectedScheme.admin_approval" @click="handleViewAdminApproval(selectedScheme)" class="w-full text-left block px-4 py-2 hover:bg-paper-100 flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                             View Approval
                         </button>
-                        <button @click="handleManageAdminApproval(selectedScheme)" class="w-full text-left block px-4 py-2 hover:bg-slate-100 flex items-center gap-2">
+                        <button @click="handleManageAdminApproval(selectedScheme)" class="w-full text-left block px-4 py-2 hover:bg-paper-100 flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-circle"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
                             {{ selectedScheme.admin_approval ? 'Edit Approval' : '+ Add Approval' }}
                         </button>
-                        <button v-if="selectedScheme.admin_approval" @click="handleManageCostRevisions(selectedScheme)" class="w-full text-left block px-4 py-2 hover:bg-slate-100 flex items-center gap-2">
+                        <button v-if="selectedScheme.admin_approval" @click="handleManageCostRevisions(selectedScheme)" class="w-full text-left block px-4 py-2 hover:bg-paper-100 flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dollar-sign"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                             Manage Cost Revisions
                         </button>
-                        <button v-if="selectedScheme.irrigationSchemeContract" @click="handleManageSchemeContract(selectedScheme)" class="w-full text-left block px-4 py-2 hover:bg-slate-100 flex items-center gap-2">
+                        <button v-if="selectedScheme.irrigationSchemeContract" @click="handleManageSchemeContract(selectedScheme)" class="w-full text-left block px-4 py-2 hover:bg-paper-100 flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-signature"><path d="M20 19.5A1.5 1.5 0 0 0 18.5 18H5.5A1.5 1.5 0 0 0 4 19.5V20"/><path d="M10 13a2.5 2.5 0 0 0-2.5 2.5v.5h5v-.5a2.5 2.5 0 0 0-2.5-2.5Z"/><path d="M8 15v1"/><path d="M16 13h2l2 2"/><path d="M14 17h6"/><path d="M2 13h2l2 2"/><path d="M16 9h2l2 2"/></svg>
                             Manage Contract
                         </button>
-                        <button @click="handleManagePhysicalProgress(selectedScheme)" class="w-full text-left block px-4 py-2 hover:bg-slate-100 flex items-center gap-2">
+                        <button @click="handleManagePhysicalProgress(selectedScheme)" class="w-full text-left block px-4 py-2 hover:bg-paper-100 flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bar-chart-2"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
                             Manage Physical Progress
                         </button>
-                        <button @click="handleManageFinancialInstallment(selectedScheme)" class="w-full text-left block px-4 py-2 hover:bg-slate-100 flex items-center gap-2">
+                        <button @click="handleManageFinancialInstallment(selectedScheme)" class="w-full text-left block px-4 py-2 hover:bg-paper-100 flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wallet"><path d="M21 12V7H5a2 2 0 0 0 0 4h16v-1a2 2 0 0 0-2-2H5a2 2 0 0 0 0 4h16v-1a2 2 0 0 0-2-2Z"/><path d="M10 12v.01"/></svg>
                             Manage Financial Installment
                         </button>
-                        <button @click="handleManageVisits(selectedScheme)" class="w-full text-left block px-4 py-2 hover:bg-slate-100 flex items-center gap-2">
+                        <button @click="handleManageVisits(selectedScheme)" class="w-full text-left block px-4 py-2 hover:bg-paper-100 flex items-center gap-2">
                             <span class="material-symbols-outlined text-base">directions_walk</span>
                             Manage Visits
                         </button>
                     </div>
-                    <div class="py-1 text-sm text-slate-700">
+                    <div class="py-1 text-sm text-ink-700">
                         <button @click="handleDeleteScheme(selectedScheme.id)" class="w-full text-left block px-4 py-2 hover:bg-red-100 text-red-600 flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
                             Delete Scheme

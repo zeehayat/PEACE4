@@ -39,17 +39,17 @@ const hasRevisions = computed(() => props.approval.cost_revisions && props.appro
 
 <template>
     <Modal :show="show" @close="emit('close')" :maxWidth="'4xl'" :title="`Admin Approval Details`">
-        <div class="p-6 overflow-y-auto max-h-[85vh] text-gray-800 print-content">
+        <div class="p-6 overflow-y-auto max-h-[85vh] text-ink-800 print-content">
             <section class="mb-8 pb-6">
                 <h2 class="text-xl font-bold mb-4">Approval Information</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Scheme ID:</p><p>{{ approval.irrigation_scheme_id }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Approved Vendor:</p><p>{{ approval.approved_vendor ?? 'N/A' }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Vendor ID:</p><p>{{ approval.vendor?.name ?? 'N/A' }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Approved Cost:</p><p>{{ formatNullableCurrency(approval.approved_cost) }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Date of Technical Surveys:</p><p>{{ formatNullableDate(approval.date_technical_surveys) }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Design & Estimates Submission:</p><p>{{ formatNullableDate(approval.date_design_estimates_submission_psu) }}</p></div>
-                    <div class="detail-item"><p class="font-semibold text-gray-700">Validation Visit by PSU:</p><p>{{ formatNullableDate(approval.date_validation_visit_psu) }}</p></div>
+                    <div class="detail-item"><p class="font-semibold text-ink-700">Scheme ID:</p><p>{{ approval.irrigation_scheme_id }}</p></div>
+                    <div class="detail-item"><p class="font-semibold text-ink-700">Approved Vendor:</p><p>{{ approval.approved_vendor ?? 'N/A' }}</p></div>
+                    <div class="detail-item"><p class="font-semibold text-ink-700">Vendor ID:</p><p>{{ approval.vendor?.name ?? 'N/A' }}</p></div>
+                    <div class="detail-item"><p class="font-semibold text-ink-700">Approved Cost:</p><p>{{ formatNullableCurrency(approval.approved_cost) }}</p></div>
+                    <div class="detail-item"><p class="font-semibold text-ink-700">Date of Technical Surveys:</p><p>{{ formatNullableDate(approval.date_technical_surveys) }}</p></div>
+                    <div class="detail-item"><p class="font-semibold text-ink-700">Design & Estimates Submission:</p><p>{{ formatNullableDate(approval.date_design_estimates_submission_psu) }}</p></div>
+                    <div class="detail-item"><p class="font-semibold text-ink-700">Validation Visit by PSU:</p><p>{{ formatNullableDate(approval.date_validation_visit_psu) }}</p></div>
                 </div>
             </section>
 
@@ -65,7 +65,7 @@ const hasRevisions = computed(() => props.approval.cost_revisions && props.appro
                 <h2 class="text-xl font-bold mb-4">Attachments</h2>
                 <AttachmentViewer :attachments="approval.attachments_frontend" />
             </div>
-            <div v-else class="mt-6 text-gray-500 text-sm">
+            <div v-else class="mt-6 text-ink-500 text-sm">
                 No attachments available.
             </div>
 
