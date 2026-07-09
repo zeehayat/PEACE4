@@ -6,7 +6,7 @@
         </div>
 
         <table class="table-auto w-full text-left border">
-            <thead class="bg-slate-100">
+            <thead class="bg-paper-100">
             <tr>
                 <th class="px-4 py-2">Date</th>
                 <th class="px-4 py-2">Type</th>
@@ -29,7 +29,7 @@
                             </a>
                         </li>
                     </ul>
-                    <span v-else class="text-slate-500">No files</span>
+                    <span v-else class="text-ink-500">No files</span>
                 </td>
             </tr>
             </tbody>

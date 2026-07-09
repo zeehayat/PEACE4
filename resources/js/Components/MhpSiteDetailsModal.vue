@@ -114,7 +114,7 @@ const printReport = () => {
                   border: 1px solid #eee; /* Lighter borders for cells in print */
                   padding: 6px 10px; /* Adjust padding for print */
               }
-              .bg-slate-50 {
+              .bg-paper-50 {
                   background-color: #f8f8f8 !important; /* Lighter background for keys in print */
               }
           }
@@ -142,33 +142,33 @@ watch(() => props.show, (val) => {
             class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
         >
             <div
-                class="bg-white rounded-lg shadow-2xl relative max-w-4xl w-full max-h-[90vh] overflow-y-auto p-8"
+                class="bg-surface rounded-lg shadow-2xl relative max-w-4xl w-full max-h-[90vh] overflow-y-auto p-8"
             >
                 <button
                     @click="close"
-                    class="absolute top-4 right-4 text-slate-600 hover:text-slate-900 text-2xl"
+                    class="absolute top-4 right-4 text-ink-600 hover:text-ink-900 text-2xl"
                     aria-label="Close"
                 >
                     &times;
                 </button>
 
-                <div id="site-report" class="font-sans text-slate-800">
+                <div id="site-report" class="font-sans text-ink-800">
                     <h1 class="text-3xl font-extrabold text-center mb-6 text-blue-700">
                         🌟 MHP Site Report 🌟
                     </h1>
 
-                    <section class="mb-8 p-4 border border-slate-200 rounded-lg shadow-sm">
+                    <section class="mb-8 p-4 border border-ink-200 rounded-lg shadow-sm">
                         <h2 class="text-xl font-semibold border-b-2 border-blue-400 pb-2 mb-4 text-blue-600">
                             General Information
                         </h2>
-                        <table class="min-w-full divide-y divide-slate-200">
+                        <table class="min-w-full divide-y divide-ink-200">
                             <thead class="hidden-print">
                             <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider bg-slate-100">Field</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider bg-slate-100">Value</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-ink-500 uppercase tracking-wider bg-paper-100">Field</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-ink-500 uppercase tracking-wider bg-paper-100">Value</th>
                             </tr>
                             </thead>
-                            <tbody class="bg-white divide-y divide-slate-200">
+                            <tbody class="bg-surface divide-y divide-ink-200">
                             <tr v-for="{key, value} in renderSection(site, [
                                     'id',
                                     'month_year_establishment',
@@ -203,10 +203,10 @@ watch(() => props.show, (val) => {
                                     'project_id',
                                     'media'
                                 ])" :key="key">
-                                <td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-slate-700 bg-slate-50 w-1/3">
+                                <td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-ink-700 bg-paper-50 w-1/3">
                                     {{ key }}
                                 </td>
-                                <td class="px-6 py-3 whitespace-normal text-sm text-slate-900">
+                                <td class="px-6 py-3 whitespace-normal text-sm text-ink-900">
                                     {{ value }}
                                 </td>
                             </tr>
@@ -214,18 +214,18 @@ watch(() => props.show, (val) => {
                         </table>
                     </section>
 
-                    <section v-if="site?.cbo" class="mb-8 p-4 border border-slate-200 rounded-lg shadow-sm">
+                    <section v-if="site?.cbo" class="mb-8 p-4 border border-ink-200 rounded-lg shadow-sm">
                         <h2 class="text-xl font-semibold border-b-2 border-blue-400 pb-2 mb-4 text-blue-600">
                             CBO Information
                         </h2>
-                        <table class="min-w-full divide-y divide-slate-200">
+                        <table class="min-w-full divide-y divide-ink-200">
                             <thead class="hidden-print">
                             <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider bg-slate-100">Field</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider bg-slate-100">Value</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-ink-500 uppercase tracking-wider bg-paper-100">Field</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-ink-500 uppercase tracking-wider bg-paper-100">Value</th>
                             </tr>
                             </thead>
-                            <tbody class="bg-white divide-y divide-slate-200">
+                            <tbody class="bg-surface divide-y divide-ink-200">
                             <tr v-for="{key, value} in renderSection(site.cbo, [
                                     'reference_code',
                                     'district',
@@ -241,10 +241,10 @@ watch(() => props.show, (val) => {
                                     'secretary_name',
                                     'secretary_contact'
                                 ])" :key="key">
-                                <td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-slate-700 bg-slate-50 w-1/3">
+                                <td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-ink-700 bg-paper-50 w-1/3">
                                     {{ key }}
                                 </td>
-                                <td class="px-6 py-3 whitespace-normal text-sm text-slate-900">
+                                <td class="px-6 py-3 whitespace-normal text-sm text-ink-900">
                                     {{ value }}
                                 </td>
                             </tr>
@@ -252,18 +252,18 @@ watch(() => props.show, (val) => {
                         </table>
                     </section>
 
-                    <section v-if="site?.admin_approval" class="mb-8 p-4 border border-slate-200 rounded-lg shadow-sm">
+                    <section v-if="site?.admin_approval" class="mb-8 p-4 border border-ink-200 rounded-lg shadow-sm">
                         <h2 class="text-xl font-semibold border-b-2 border-blue-400 pb-2 mb-4 text-blue-600">
                             Admin Approval
                         </h2>
-                        <table class="min-w-full divide-y divide-slate-200">
+                        <table class="min-w-full divide-y divide-ink-200">
                             <thead class="hidden-print">
                             <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider bg-slate-100">Field</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider bg-slate-100">Value</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-ink-500 uppercase tracking-wider bg-paper-100">Field</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-ink-500 uppercase tracking-wider bg-paper-100">Value</th>
                             </tr>
                             </thead>
-                            <tbody class="bg-white divide-y divide-slate-200">
+                            <tbody class="bg-surface divide-y divide-ink-200">
                             <tr v-for="{key, value} in renderSection(site.admin_approval, [
                                     'technical_survey_date',
                                     'date_design_psu_submission',
@@ -282,10 +282,10 @@ watch(() => props.show, (val) => {
                                     'attachments',
                                     'media'
                                 ])" :key="key">
-                                <td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-slate-700 bg-slate-50 w-1/3">
+                                <td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-ink-700 bg-paper-50 w-1/3">
                                     {{ key }}
                                 </td>
-                                <td class="px-6 py-3 whitespace-normal text-sm text-slate-900">
+                                <td class="px-6 py-3 whitespace-normal text-sm text-ink-900">
                                     {{ value }}
                                 </td>
                             </tr>
@@ -330,7 +330,7 @@ watch(() => props.show, (val) => {
         border: 1px solid #eee; /* Lighter borders for cells in print */
         padding: 6px 10px; /* Adjust padding for print */
     }
-    .bg-slate-50 {
+    .bg-paper-50 {
         background-color: #f8f8f8 !important; /* Lighter background for keys in print */
     }
 }

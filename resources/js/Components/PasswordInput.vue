@@ -35,7 +35,7 @@ onMounted(() => {
             type="password"
             :value="modelValue"
             @input="emit('update:modelValue', $event.target.value)"
-            class="block w-full px-4 py-2.5 rounded-lg border-slate-300 bg-white text-slate-900 shadow-sm placeholder:text-slate-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors duration-200"
+            class="block w-full px-4 py-2.5 rounded-lg border-ink-300 bg-surface text-ink-900 shadow-sm placeholder:text-ink-400 focus:ring-accent-500 focus:border-accent-500 sm:text-sm transition-colors duration-200"
             :disabled="disabled"
         />
         <!-- You could add a toggle for visibility here later if needed -->

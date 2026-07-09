@@ -127,14 +127,14 @@ const displayCboValue = (cbo) => {
 
             <ComboboxOptions
                 v-if="query.length >= 2 && (options.length > 0 || loading)"
-                class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded bg-white border shadow-lg"
+                class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded bg-surface border shadow-lg"
             >
                 <template v-if="loading">
-                    <div class="p-2 text-slate-500 italic">Loading…</div>
+                    <div class="p-2 text-ink-500 italic">Loading…</div>
                 </template>
 
                 <template v-else-if="options.length === 0 && query.length >= 2">
-                    <div class="p-2 text-slate-500 italic">No results found</div>
+                    <div class="p-2 text-ink-500 italic">No results found</div>
                 </template>
 
                 <template v-else>
@@ -148,7 +148,7 @@ const displayCboValue = (cbo) => {
                         <li
                             :class="[
                                 'cursor-pointer p-2 flex justify-between',
-                                active ? 'text-white bg-indigo-600' : 'text-slate-900',
+                                active ? 'text-white bg-accent-600' : 'text-ink-900',
                             ]"
                         >
                             <span :class="['block truncate', optionSelected ? 'font-semibold' : 'font-normal']">
@@ -156,7 +156,7 @@ const displayCboValue = (cbo) => {
                             </span>
 
                             <span v-if="optionSelected"
-                                  :class="['absolute inset-y-0 right-0 flex items-center pr-4', active ? 'text-white' : 'text-indigo-600']"
+                                  :class="['absolute inset-y-0 right-0 flex items-center pr-4', active ? 'text-white' : 'text-accent-600']"
                             >
                                 <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                     <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.052-.143z" clip-rule="evenodd" />
@@ -166,7 +166,7 @@ const displayCboValue = (cbo) => {
                     </ComboboxOption>
                 </template>
             </ComboboxOptions>
-            <div v-else-if="query.length < 2 && selectedCboId === null && !loading" class="p-2 text-slate-500 italic">
+            <div v-else-if="query.length < 2 && selectedCboId === null && !loading" class="p-2 text-ink-500 italic">
                 Type at least 2 characters to search.
             </div>
         </Combobox>

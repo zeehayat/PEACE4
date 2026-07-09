@@ -35,14 +35,14 @@ function handleClick(url) {
             <template v-for="link in filteredLinks" :key="link.key">
                 <div
                     v-if="link.url === null"
-                    class="mr-1 mb-1 px-4 py-3 text-sm leading-4 text-slate-400 border rounded"
+                    class="mr-1 mb-1 px-4 py-3 text-sm leading-4 text-ink-400 border rounded"
                     v-html="link.label"
                 />
                 <Link
                     v-else
                     :href="link.url"
-                    class="mr-1 mb-1 px-4 py-3 text-sm leading-4 border rounded hover:bg-white focus:border-indigo-500 focus:text-indigo-500"
-                    :class="{ 'bg-white text-indigo-500': link.active }"
+                    class="mr-1 mb-1 px-4 py-3 text-sm leading-4 border rounded hover:bg-surface focus:border-accent-500 focus:text-accent-500"
+                    :class="{ 'bg-surface text-accent-500': link.active }"
                     @click.prevent="handleClick(link.url)"
                     v-html="link.label"
                 />

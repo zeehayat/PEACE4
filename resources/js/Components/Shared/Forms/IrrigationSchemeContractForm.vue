@@ -139,18 +139,18 @@ const submit = () => {
     <form @submit.prevent="submit" class="space-y-4 p-4">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-3">
             <div class="col-span-full">
-                <label for="irrigation_scheme_id" class="block text-sm font-medium text-slate-700 mb-1">Irrigation Scheme ID</label>
+                <label for="irrigation_scheme_id" class="block text-sm font-medium text-ink-700 mb-1">Irrigation Scheme ID</label>
                 <input
                     type="text"
                     :value="irrigationSchemeId"
                     id="irrigation_scheme_id"
-                    class="input-compact bg-slate-100"
+                    class="input-compact bg-paper-100"
                     readonly
                 />
             </div>
 
             <div>
-                <label for="vendor_id" class="block text-sm font-medium text-slate-700 mb-1">Contractor (Vendor ID for Test)</label>
+                <label for="vendor_id" class="block text-sm font-medium text-ink-700 mb-1">Contractor (Vendor ID for Test)</label>
                 <input
                     type="number"
                     id="vendor_id"
@@ -162,7 +162,7 @@ const submit = () => {
             </div>
 
             <div>
-                <label for="date_civil_work_initiation" class="block text-sm font-medium text-slate-700 mb-1">Date of Civil Work Initiation (YYYY-MM-DD)</label>
+                <label for="date_civil_work_initiation" class="block text-sm font-medium text-ink-700 mb-1">Date of Civil Work Initiation (YYYY-MM-DD)</label>
                 <input
                     type="date"
                     id="date_civil_work_initiation"
@@ -173,7 +173,7 @@ const submit = () => {
             </div>
 
             <div>
-                <label for="contract_amount" class="block text-sm font-medium text-slate-700 mb-1">Contract Amount</label>
+                <label for="contract_amount" class="block text-sm font-medium text-ink-700 mb-1">Contract Amount</label>
                 <input
                     type="number"
                     step="0.01"
@@ -189,14 +189,14 @@ const submit = () => {
             <button
                 type="button"
                 @click="emit('cancel')"
-                class="px-4 py-2 border border-slate-300 rounded-md shadow-sm text-sm font-medium text-slate-700 bg-white hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                class="px-4 py-2 border border-ink-300 rounded-md shadow-sm text-sm font-medium text-ink-700 bg-surface hover:bg-paper-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500"
             >
                 Cancel
             </button>
             <button
                 type="submit"
                 :disabled="form.processing"
-                class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-accent-600 hover:bg-accent-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500"
             >
                 {{ form.processing ? 'Saving...' : (props.mode === 'create' ? 'Create Contract' : 'Update Contract') }}
             </button>
@@ -207,7 +207,7 @@ const submit = () => {
 <style scoped>
 /* INPUT STYLING: Consistent style for form inputs */
 .input-compact {
-    @apply appearance-none block w-full px-3 py-1.5 border border-slate-300 rounded-md shadow-sm placeholder-slate-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm;
+    @apply appearance-none block w-full px-3 py-1.5 border border-ink-300 rounded-md shadow-sm placeholder-ink-400 focus:outline-none focus:ring-accent-500 focus:border-accent-500 sm:text-sm;
 }
 /* LABEL STYLING: Reduce margin for compactness */
 label {

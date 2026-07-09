@@ -16,7 +16,7 @@
         <div v-if="existingMedia?.length" class="mt-4 space-y-2">
             <h3 class="text-sm font-semibold mb-1">Existing Attachments</h3>
             <ul>
-                <li v-for="file in existingMedia" :key="file.id" class="flex justify-between items-center bg-slate-100 px-3 py-2 rounded text-sm">
+                <li v-for="file in existingMedia" :key="file.id" class="flex justify-between items-center bg-paper-100 px-3 py-2 rounded text-sm">
                     <a :href="file.original_url" target="_blank" class="text-blue-600 hover:underline">
                         {{ file.file_name }}
                     </a>

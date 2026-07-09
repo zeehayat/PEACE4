@@ -35,20 +35,20 @@ const hasAttachments = computed(() => props.attachments && props.attachments.len
         <div
             v-for="file in attachments"
             :key="file.id"
-            class="flex items-center gap-2 p-2 bg-slate-100 rounded-md text-sm text-slate-800 hover:bg-slate-200 transition-colors duration-150"
+            class="flex items-center gap-2 p-2 bg-paper-100 rounded-md text-sm text-ink-800 hover:bg-paper-200 transition-colors duration-150"
             :title="`Size: ${formatBytes(file.size)} | Type: ${file.mime_type || 'N/A'}`"
         >
-            <span class="text-slate-500 flex-shrink-0">{{ getFileIcon(file) }}</span>
+            <span class="text-ink-500 flex-shrink-0">{{ getFileIcon(file) }}</span>
             <a
                 :href="file.url"
                 target="_blank"
-                class="text-indigo-600 hover:text-indigo-800 hover:underline truncate flex-grow"
+                class="text-accent-600 hover:text-accent-800 hover:underline truncate flex-grow"
             >
                 {{ file.file_name }}
             </a>
         </div>
     </div>
-    <div v-else class="text-slate-500 text-sm italic">
+    <div v-else class="text-ink-500 text-sm italic">
         No attachments.
     </div>
 </template>

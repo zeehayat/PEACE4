@@ -7,7 +7,7 @@
                 type="text"
                 :value="cbo.reference_code"
                 readonly
-                class="mt-1 w-full bg-slate-100 border rounded px-3 py-2"
+                class="mt-1 w-full bg-paper-100 border rounded px-3 py-2"
             />
             <input type="hidden" v-model="form.cbo_id" />
         </div>

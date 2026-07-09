@@ -9,15 +9,15 @@ defineProps({
 
 <template>
     <div>
-        <button v-if="as == 'button'" type="submit" class="block w-full px-4 py-2 text-start text-sm leading-5 text-slate-700 hover:bg-slate-100 focus:outline-none focus:bg-slate-100 transition duration-150 ease-in-out">
+        <button v-if="as == 'button'" type="submit" class="block w-full px-4 py-2 text-start text-sm leading-5 text-ink-700 hover:bg-paper-100 focus:outline-none focus:bg-paper-100 transition duration-150 ease-in-out">
             <slot />
         </button>
 
-        <a v-else-if="as =='a'" :href="href" class="block px-4 py-2 text-sm leading-5 text-slate-700 hover:bg-slate-100 focus:outline-none focus:bg-slate-100 transition duration-150 ease-in-out">
+        <a v-else-if="as =='a'" :href="href" class="block px-4 py-2 text-sm leading-5 text-ink-700 hover:bg-paper-100 focus:outline-none focus:bg-paper-100 transition duration-150 ease-in-out">
             <slot />
         </a>
 
-        <Link v-else :href="href" class="block px-4 py-2 text-sm leading-5 text-slate-700 hover:bg-slate-100 focus:outline-none focus:bg-slate-100 transition duration-150 ease-in-out">
+        <Link v-else :href="href" class="block px-4 py-2 text-sm leading-5 text-ink-700 hover:bg-paper-100 focus:outline-none focus:bg-paper-100 transition duration-150 ease-in-out">
             <slot />
         </Link>
     </div>
