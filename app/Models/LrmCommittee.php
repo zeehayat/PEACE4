@@ -91,6 +91,11 @@ class LrmCommittee extends Model implements HasMedia
         return $this->hasMany(LrmNrmAchievement::class);
     }
 
+    public function lrmCros(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(LrmCro::class);
+    }
+
     // --- Spatie Media Library ---
     public function registerMediaCollections(): void
     {
