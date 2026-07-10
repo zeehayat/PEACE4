@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\District;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -27,7 +28,7 @@ class UpdateCboRequest extends FormRequest
             'reference_code' => ['required', 'string', 'max:255', Rule::unique('cbos', 'reference_code')->ignore($cboId)],
             'cbo_name'=>['required','string'],
             'region'=>['required','string'],
-            'district' => ['required', 'string', 'max:255'],
+            'district' => ['required', 'string', 'max:255', Rule::in(District::pluck('name'))],
             'tehsil' => ['required', 'string', 'max:255'],
             'village_council' => ['required', 'string', 'max:255'],
             'village' => ['required', 'string', 'max:255'],
