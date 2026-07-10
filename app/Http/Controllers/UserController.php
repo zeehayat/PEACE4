@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
-use App\Enums\KpDistrict;
 use App\Http\Controllers\Controller;
 class UserController extends Controller
 {
