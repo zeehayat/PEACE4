@@ -1,5 +1,6 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../../wayfinder'
 import achievements from './achievements'
+import cros from './cros'
 /**
 * @see \App\Http\Controllers\LrmCommitteeController::index
 * @see app/Http/Controllers/LrmCommitteeController.php:30
@@ -369,6 +370,7 @@ const committees = {
     update,
     destroy,
     achievements,
+    cros,
 }
 
 export default committees

@@ -30,6 +30,7 @@ import CboTrainingController from './CboTrainingController'
 import CboReportController from './CboReportController'
 import LrmCommitteeController from './LrmCommitteeController'
 import LrmNrmAchievementController from './LrmNrmAchievementController'
+import LrmCroController from './LrmCroController'
 import LrmReportController from './LrmReportController'
 import CroReportController from './CroReportController'
 import CroController from './CroController'
@@ -70,6 +71,7 @@ const Controllers = {
     CboReportController,
     LrmCommitteeController,
     LrmNrmAchievementController,
+    LrmCroController,
     LrmReportController,
     CroReportController,
     CroController,
