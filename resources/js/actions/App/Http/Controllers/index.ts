@@ -37,6 +37,7 @@ import CroController from './CroController'
 import AdminDashboardController from './AdminDashboardController'
 import RoleController from './RoleController'
 import AccessControlController from './AccessControlController'
+import DistrictController from './DistrictController'
 
 const Controllers = {
     Auth,
@@ -78,6 +79,7 @@ const Controllers = {
     AdminDashboardController,
     RoleController,
     AccessControlController,
+    DistrictController,
 }
 
 export default Controllers

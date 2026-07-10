@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\UserController::index
-* @see app/Http/Controllers/UserController.php:28
+* @see app/Http/Controllers/UserController.php:27
 * @route '/users'
 */
 const index6e8299a085c11017e62ab420951fb27c = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -16,7 +16,7 @@ index6e8299a085c11017e62ab420951fb27c.definition = {
 
 /**
 * @see \App\Http\Controllers\UserController::index
-* @see app/Http/Controllers/UserController.php:28
+* @see app/Http/Controllers/UserController.php:27
 * @route '/users'
 */
 index6e8299a085c11017e62ab420951fb27c.url = (options?: RouteQueryOptions) => {
@@ -25,7 +25,7 @@ index6e8299a085c11017e62ab420951fb27c.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\UserController::index
-* @see app/Http/Controllers/UserController.php:28
+* @see app/Http/Controllers/UserController.php:27
 * @route '/users'
 */
 index6e8299a085c11017e62ab420951fb27c.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -35,7 +35,7 @@ index6e8299a085c11017e62ab420951fb27c.get = (options?: RouteQueryOptions): Route
 
 /**
 * @see \App\Http\Controllers\UserController::index
-* @see app/Http/Controllers/UserController.php:28
+* @see app/Http/Controllers/UserController.php:27
 * @route '/users'
 */
 index6e8299a085c11017e62ab420951fb27c.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -45,7 +45,7 @@ index6e8299a085c11017e62ab420951fb27c.head = (options?: RouteQueryOptions): Rout
 
 /**
 * @see \App\Http\Controllers\UserController::index
-* @see app/Http/Controllers/UserController.php:28
+* @see app/Http/Controllers/UserController.php:27
 * @route '/admin/users'
 */
 const indexde7b92f5d57ab3be25571f27f05793f8 = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -60,7 +60,7 @@ indexde7b92f5d57ab3be25571f27f05793f8.definition = {
 
 /**
 * @see \App\Http\Controllers\UserController::index
-* @see app/Http/Controllers/UserController.php:28
+* @see app/Http/Controllers/UserController.php:27
 * @route '/admin/users'
 */
 indexde7b92f5d57ab3be25571f27f05793f8.url = (options?: RouteQueryOptions) => {
@@ -69,7 +69,7 @@ indexde7b92f5d57ab3be25571f27f05793f8.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\UserController::index
-* @see app/Http/Controllers/UserController.php:28
+* @see app/Http/Controllers/UserController.php:27
 * @route '/admin/users'
 */
 indexde7b92f5d57ab3be25571f27f05793f8.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -79,7 +79,7 @@ indexde7b92f5d57ab3be25571f27f05793f8.get = (options?: RouteQueryOptions): Route
 
 /**
 * @see \App\Http\Controllers\UserController::index
-* @see app/Http/Controllers/UserController.php:28
+* @see app/Http/Controllers/UserController.php:27
 * @route '/admin/users'
 */
 indexde7b92f5d57ab3be25571f27f05793f8.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -94,7 +94,7 @@ export const index = {
 
 /**
 * @see \App\Http\Controllers\UserController::create
-* @see app/Http/Controllers/UserController.php:54
+* @see app/Http/Controllers/UserController.php:53
 * @route '/users/create'
 */
 const createec5b3671142b81b262ce84c1986109db = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -109,7 +109,7 @@ createec5b3671142b81b262ce84c1986109db.definition = {
 
 /**
 * @see \App\Http\Controllers\UserController::create
-* @see app/Http/Controllers/UserController.php:54
+* @see app/Http/Controllers/UserController.php:53
 * @route '/users/create'
 */
 createec5b3671142b81b262ce84c1986109db.url = (options?: RouteQueryOptions) => {
@@ -118,7 +118,7 @@ createec5b3671142b81b262ce84c1986109db.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\UserController::create
-* @see app/Http/Controllers/UserController.php:54
+* @see app/Http/Controllers/UserController.php:53
 * @route '/users/create'
 */
 createec5b3671142b81b262ce84c1986109db.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -128,7 +128,7 @@ createec5b3671142b81b262ce84c1986109db.get = (options?: RouteQueryOptions): Rout
 
 /**
 * @see \App\Http\Controllers\UserController::create
-* @see app/Http/Controllers/UserController.php:54
+* @see app/Http/Controllers/UserController.php:53
 * @route '/users/create'
 */
 createec5b3671142b81b262ce84c1986109db.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -138,7 +138,7 @@ createec5b3671142b81b262ce84c1986109db.head = (options?: RouteQueryOptions): Rou
 
 /**
 * @see \App\Http\Controllers\UserController::create
-* @see app/Http/Controllers/UserController.php:54
+* @see app/Http/Controllers/UserController.php:53
 * @route '/admin/users/create'
 */
 const create7057a041592e3390f6febd1e2eee4682 = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -153,7 +153,7 @@ create7057a041592e3390f6febd1e2eee4682.definition = {
 
 /**
 * @see \App\Http\Controllers\UserController::create
-* @see app/Http/Controllers/UserController.php:54
+* @see app/Http/Controllers/UserController.php:53
 * @route '/admin/users/create'
 */
 create7057a041592e3390f6febd1e2eee4682.url = (options?: RouteQueryOptions) => {
@@ -162,7 +162,7 @@ create7057a041592e3390f6febd1e2eee4682.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\UserController::create
-* @see app/Http/Controllers/UserController.php:54
+* @see app/Http/Controllers/UserController.php:53
 * @route '/admin/users/create'
 */
 create7057a041592e3390f6febd1e2eee4682.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -172,7 +172,7 @@ create7057a041592e3390f6febd1e2eee4682.get = (options?: RouteQueryOptions): Rout
 
 /**
 * @see \App\Http\Controllers\UserController::create
-* @see app/Http/Controllers/UserController.php:54
+* @see app/Http/Controllers/UserController.php:53
 * @route '/admin/users/create'
 */
 create7057a041592e3390f6febd1e2eee4682.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -187,7 +187,7 @@ export const create = {
 
 /**
 * @see \App\Http\Controllers\UserController::store
-* @see app/Http/Controllers/UserController.php:67
+* @see app/Http/Controllers/UserController.php:66
 * @route '/users'
 */
 const store6e8299a085c11017e62ab420951fb27c = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -202,7 +202,7 @@ store6e8299a085c11017e62ab420951fb27c.definition = {
 
 /**
 * @see \App\Http\Controllers\UserController::store
-* @see app/Http/Controllers/UserController.php:67
+* @see app/Http/Controllers/UserController.php:66
 * @route '/users'
 */
 store6e8299a085c11017e62ab420951fb27c.url = (options?: RouteQueryOptions) => {
@@ -211,7 +211,7 @@ store6e8299a085c11017e62ab420951fb27c.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\UserController::store
-* @see app/Http/Controllers/UserController.php:67
+* @see app/Http/Controllers/UserController.php:66
 * @route '/users'
 */
 store6e8299a085c11017e62ab420951fb27c.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -221,7 +221,7 @@ store6e8299a085c11017e62ab420951fb27c.post = (options?: RouteQueryOptions): Rout
 
 /**
 * @see \App\Http\Controllers\UserController::store
-* @see app/Http/Controllers/UserController.php:67
+* @see app/Http/Controllers/UserController.php:66
 * @route '/admin/users'
 */
 const storede7b92f5d57ab3be25571f27f05793f8 = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -236,7 +236,7 @@ storede7b92f5d57ab3be25571f27f05793f8.definition = {
 
 /**
 * @see \App\Http\Controllers\UserController::store
-* @see app/Http/Controllers/UserController.php:67
+* @see app/Http/Controllers/UserController.php:66
 * @route '/admin/users'
 */
 storede7b92f5d57ab3be25571f27f05793f8.url = (options?: RouteQueryOptions) => {
@@ -245,7 +245,7 @@ storede7b92f5d57ab3be25571f27f05793f8.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\UserController::store
-* @see app/Http/Controllers/UserController.php:67
+* @see app/Http/Controllers/UserController.php:66
 * @route '/admin/users'
 */
 storede7b92f5d57ab3be25571f27f05793f8.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -518,7 +518,7 @@ export const edit = {
 
 /**
 * @see \App\Http\Controllers\UserController::update
-* @see app/Http/Controllers/UserController.php:75
+* @see app/Http/Controllers/UserController.php:74
 * @route '/users/{user}'
 */
 const updatef898f2daa993cc45af847e1a1f899673 = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -533,7 +533,7 @@ updatef898f2daa993cc45af847e1a1f899673.definition = {
 
 /**
 * @see \App\Http\Controllers\UserController::update
-* @see app/Http/Controllers/UserController.php:75
+* @see app/Http/Controllers/UserController.php:74
 * @route '/users/{user}'
 */
 updatef898f2daa993cc45af847e1a1f899673.url = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -566,7 +566,7 @@ updatef898f2daa993cc45af847e1a1f899673.url = (args: { user: number | { id: numbe
 
 /**
 * @see \App\Http\Controllers\UserController::update
-* @see app/Http/Controllers/UserController.php:75
+* @see app/Http/Controllers/UserController.php:74
 * @route '/users/{user}'
 */
 updatef898f2daa993cc45af847e1a1f899673.put = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -576,7 +576,7 @@ updatef898f2daa993cc45af847e1a1f899673.put = (args: { user: number | { id: numbe
 
 /**
 * @see \App\Http\Controllers\UserController::update
-* @see app/Http/Controllers/UserController.php:75
+* @see app/Http/Controllers/UserController.php:74
 * @route '/users/{user}'
 */
 updatef898f2daa993cc45af847e1a1f899673.patch = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
@@ -586,7 +586,7 @@ updatef898f2daa993cc45af847e1a1f899673.patch = (args: { user: number | { id: num
 
 /**
 * @see \App\Http\Controllers\UserController::update
-* @see app/Http/Controllers/UserController.php:75
+* @see app/Http/Controllers/UserController.php:74
 * @route '/admin/users/{user}'
 */
 const updatefcf537c0ef09758de25ef4ed617562a1 = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -601,7 +601,7 @@ updatefcf537c0ef09758de25ef4ed617562a1.definition = {
 
 /**
 * @see \App\Http\Controllers\UserController::update
-* @see app/Http/Controllers/UserController.php:75
+* @see app/Http/Controllers/UserController.php:74
 * @route '/admin/users/{user}'
 */
 updatefcf537c0ef09758de25ef4ed617562a1.url = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -634,7 +634,7 @@ updatefcf537c0ef09758de25ef4ed617562a1.url = (args: { user: number | { id: numbe
 
 /**
 * @see \App\Http\Controllers\UserController::update
-* @see app/Http/Controllers/UserController.php:75
+* @see app/Http/Controllers/UserController.php:74
 * @route '/admin/users/{user}'
 */
 updatefcf537c0ef09758de25ef4ed617562a1.put = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -644,7 +644,7 @@ updatefcf537c0ef09758de25ef4ed617562a1.put = (args: { user: number | { id: numbe
 
 /**
 * @see \App\Http\Controllers\UserController::update
-* @see app/Http/Controllers/UserController.php:75
+* @see app/Http/Controllers/UserController.php:74
 * @route '/admin/users/{user}'
 */
 updatefcf537c0ef09758de25ef4ed617562a1.patch = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
@@ -659,7 +659,7 @@ export const update = {
 
 /**
 * @see \App\Http\Controllers\UserController::destroy
-* @see app/Http/Controllers/UserController.php:83
+* @see app/Http/Controllers/UserController.php:82
 * @route '/users/{user}'
 */
 const destroyf898f2daa993cc45af847e1a1f899673 = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -674,7 +674,7 @@ destroyf898f2daa993cc45af847e1a1f899673.definition = {
 
 /**
 * @see \App\Http\Controllers\UserController::destroy
-* @see app/Http/Controllers/UserController.php:83
+* @see app/Http/Controllers/UserController.php:82
 * @route '/users/{user}'
 */
 destroyf898f2daa993cc45af847e1a1f899673.url = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -707,7 +707,7 @@ destroyf898f2daa993cc45af847e1a1f899673.url = (args: { user: number | { id: numb
 
 /**
 * @see \App\Http\Controllers\UserController::destroy
-* @see app/Http/Controllers/UserController.php:83
+* @see app/Http/Controllers/UserController.php:82
 * @route '/users/{user}'
 */
 destroyf898f2daa993cc45af847e1a1f899673.delete = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -717,7 +717,7 @@ destroyf898f2daa993cc45af847e1a1f899673.delete = (args: { user: number | { id: n
 
 /**
 * @see \App\Http\Controllers\UserController::destroy
-* @see app/Http/Controllers/UserController.php:83
+* @see app/Http/Controllers/UserController.php:82
 * @route '/admin/users/{user}'
 */
 const destroyfcf537c0ef09758de25ef4ed617562a1 = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -732,7 +732,7 @@ destroyfcf537c0ef09758de25ef4ed617562a1.definition = {
 
 /**
 * @see \App\Http\Controllers\UserController::destroy
-* @see app/Http/Controllers/UserController.php:83
+* @see app/Http/Controllers/UserController.php:82
 * @route '/admin/users/{user}'
 */
 destroyfcf537c0ef09758de25ef4ed617562a1.url = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -765,7 +765,7 @@ destroyfcf537c0ef09758de25ef4ed617562a1.url = (args: { user: number | { id: numb
 
 /**
 * @see \App\Http\Controllers\UserController::destroy
-* @see app/Http/Controllers/UserController.php:83
+* @see app/Http/Controllers/UserController.php:82
 * @route '/admin/users/{user}'
 */
 destroyfcf537c0ef09758de25ef4ed617562a1.delete = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
