@@ -2,6 +2,7 @@ import { queryParams, type RouteQueryOptions, type RouteDefinition } from './../
 import users from './users'
 import roles from './roles'
 import accessControl from './access-control'
+import districts from './districts'
 /**
 * @see \App\Http\Controllers\AdminDashboardController::__invoke
 * @see app/Http/Controllers/AdminDashboardController.php:12
@@ -51,6 +52,7 @@ const admin = {
     dashboard,
     roles,
     accessControl,
+    districts,
 }
 
 export default admin
