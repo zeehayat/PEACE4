@@ -84,4 +84,25 @@ class MhpDashboardControllerTest extends TestCase
                 ->where('stats.pipeline.0.capacity_kw', 1500)
             );
     }
+
+    public function test_index_returns_mobilization_and_type_breakdown_charts(): void
+    {
+        District::create(['name' => 'Chitral Upper']);
+        District::create(['name' => 'Swat']);
+
+        $cboA = Cbo::factory()->create(['district' => 'Chitral Upper']);
+        $cboB = Cbo::factory()->create(['district' => 'Swat']);
+
+        MhpSite::factory()->create(['cbo_id' => $cboA->id, 'status' => 'New', 'layout_initiation_date' => now()]);
+        MhpSite::factory()->create(['cbo_id' => $cboA->id, 'status' => 'Rehabilitation', 'layout_initiation_date' => now()]);
+        MhpSite::factory()->create(['cbo_id' => $cboB->id, 'status' => 'New']); // no layout_initiation_date -> excluded from type breakdown
+
+        $this->actingAs($this->actingAsAdmin())
+            ->get(route('mhp.overview'))
+            ->assertInertia(fn (Assert $page) => $page
+                ->has('chart_mobilization.labels', 2)
+                ->where('chart_type_breakdown.labels', ['New', 'Rehabilitation'])
+                ->where('chart_type_breakdown.counts', [1, 1])
+            );
+    }
 }

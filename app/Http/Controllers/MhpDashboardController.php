@@ -31,6 +31,8 @@ class MhpDashboardController extends Controller
                 'beneficiaries' => $this->buildBeneficiaryStats($sites),
                 'cbo' => $this->buildCboStats($sites),
             ],
+            'chart_mobilization' => $this->buildMobilizationChart($sites),
+            'chart_type_breakdown' => $this->buildTypeBreakdownChart($sites),
         ]);
     }
 
@@ -79,5 +81,42 @@ class MhpDashboardController extends Controller
             'total_members' => (int) $cbos->sum('total_members'),
             'members_trained' => (int) $membersTrained,
         ];
+    }
+
+    private function buildMobilizationChart($sites): array
+    {
+        $grouped = $sites->groupBy(fn (MhpSite $s) => $s->cbo?->district ?? 'Unassigned');
+
+        $labels = [];
+        $schemeCounts = [];
+        $cboCounts = [];
+        $table = [];
+
+        foreach ($grouped->sortKeys() as $district => $group) {
+            $labels[] = $district;
+            $schemeCounts[] = $group->count();
+            $cboCount = $group->pluck('cbo_id')->filter()->unique()->count();
+            $cboCounts[] = $cboCount;
+            $table[] = ['district' => $district, 'schemes' => $group->count(), 'cbos' => $cboCount];
+        }
+
+        return [
+            'labels' => $labels,
+            'scheme_counts' => $schemeCounts,
+            'cbo_counts' => $cboCounts,
+            'table' => $table,
+        ];
+    }
+
+    private function buildTypeBreakdownChart($sites): array
+    {
+        $detailed = $sites->filter(fn (MhpSite $s) => $s->layout_initiation_date !== null);
+        $grouped = $detailed->groupBy('status')->sortKeys();
+
+        $labels = $grouped->keys()->values()->all();
+        $counts = $grouped->map->count()->values()->all();
+        $table = $grouped->map(fn ($group, $type) => ['type' => $type, 'count' => $group->count()])->values()->all();
+
+        return ['labels' => $labels, 'counts' => $counts, 'table' => $table];
     }
 }
