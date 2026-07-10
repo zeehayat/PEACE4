@@ -39,6 +39,7 @@ class MhpDashboardController extends Controller
             'chart_beneficiaries' => $this->buildBeneficiaryChart($sites),
             'scheme_log' => $this->buildSchemeLog($sites),
             'cbo_log' => $this->buildCboLog($sites),
+            'stalled' => $this->buildStalledList($sites),
         ]);
     }
 
@@ -211,6 +212,32 @@ class MhpDashboardController extends Controller
                     'members_trained' => (int) $cbo->trainings->sum('total_participants'),
                 ];
             })->values()->all();
+    }
+
+    private function buildStalledList($sites): array
+    {
+        $threshold = now()->subDays(90);
+
+        return $sites
+            ->filter(function (MhpSite $s) use ($threshold) {
+                $approvedDate = $s->adminApproval?->eu_approval_date;
+                return $approvedDate !== null
+                    && $approvedDate->lt($threshold)
+                    && $s->civil_work_initiation_date === null;
+            })
+            ->map(function (MhpSite $s) {
+                $approvedDate = $s->adminApproval->eu_approval_date;
+                return [
+                    'id' => $s->id,
+                    'district' => $s->cbo?->district,
+                    'cbo_name' => $s->cbo?->cbo_name,
+                    'stalled_since' => $approvedDate->format('Y-m-d'),
+                    'days_stalled' => (int) $approvedDate->diffInDays(now()),
+                ];
+            })
+            ->sortByDesc('days_stalled')
+            ->values()
+            ->all();
     }
 
     public function exportSchemes(Request $request)

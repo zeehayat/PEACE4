@@ -184,4 +184,29 @@ class MhpDashboardControllerTest extends TestCase
         $response->assertOk();
         $response->assertHeader('Content-Type', 'text/csv; charset=UTF-8');
     }
+
+    public function test_index_flags_stalled_schemes(): void
+    {
+        District::create(['name' => 'North Waziristan']);
+        $cbo = Cbo::factory()->create(['district' => 'North Waziristan', 'cbo_name' => 'NW CBO']);
+
+        // Approved > 90 days ago, civil not yet initiated -> stalled
+        $stalled = MhpSite::factory()->create(['cbo_id' => $cbo->id]);
+        MhpAdminApproval::create(['mhp_site_id' => $stalled->id, 'eu_approval_date' => now()->subDays(120)]);
+
+        // Approved recently, civil not initiated -> not stalled
+        $recent = MhpSite::factory()->create(['cbo_id' => $cbo->id]);
+        MhpAdminApproval::create(['mhp_site_id' => $recent->id, 'eu_approval_date' => now()->subDays(10)]);
+
+        // Approved long ago but civil already initiated -> not stalled
+        $progressing = MhpSite::factory()->create(['cbo_id' => $cbo->id, 'civil_work_initiation_date' => now()->subDays(5)]);
+        MhpAdminApproval::create(['mhp_site_id' => $progressing->id, 'eu_approval_date' => now()->subDays(150)]);
+
+        $this->actingAs($this->actingAsAdmin())
+            ->get(route('mhp.overview'))
+            ->assertInertia(fn (Assert $page) => $page
+                ->has('stalled', 1)
+                ->where('stalled.0.id', $stalled->id)
+            );
+    }
 }
