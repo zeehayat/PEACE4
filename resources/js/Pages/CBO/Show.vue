@@ -52,7 +52,7 @@ import CBOTrainingList from '@/Components/FormComponents/CBOTrainingList.vue'
 
 import CBODialogueForm from '@/Components/FormComponents/CBODialogueForm.vue'
 import CBOExposureVisitForm from '@/Components/FormComponents/CBOExposureVisitForm.vue'
-import CBOTrainingForm from './Create.vue'
+import CBOTrainingForm from '@/Pages/CboTraining/Create.vue'
 
 import Modal from '@/Components/Modal.vue'
 
