@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Cbo;
 use App\Models\Cro;
+use App\Models\District;
 use App\Models\EmeInfo;
 use App\Models\IrrigationAdminApproval;
 use App\Models\IrrigationCompletion;
@@ -24,6 +25,7 @@ use App\Models\User;
 use App\Models\Vendor;
 use App\Policies\CboPolicy;
 use App\Policies\CroPolicy;
+use App\Policies\DistrictPolicy;
 use App\Policies\EmeInfoPolicy;
 use App\Policies\IrrigationAdminApprovalPolicy;
 use App\Policies\IrrigationCompletionPolicy;
@@ -64,6 +66,7 @@ class AuthServiceProvider extends ServiceProvider
         LrmCommittee::class => LrmCommitteePolicy::class,
         LrmNrmAchievement::class => LrmNrmAchievementPolicy::class,
         LrmCro::class => LrmCroPolicy::class,
+        District::class => DistrictPolicy::class,
 
         ProjectPhysicalProgress::class => ProjectPhysicalProgressPolicy::class,
         ProjectFinancialInstallment::class => ProjectFinancialInstallmentPolicy::class,

@@ -20,6 +20,7 @@ class UserAndPermissionSeeder extends Seeder
         $permissions = [
             'user_manage',
             'role_manage',
+            'district_manage',
             'cbo_view', 'cbo_create', 'cbo_update', 'cbo_delete',
             'mhp_site_view', 'mhp_site_create', 'mhp_site_update', 'mhp_site_delete',
             'irrigation_scheme_view', 'irrigation_scheme_create', 'irrigation_scheme_update', 'irrigation_scheme_delete',

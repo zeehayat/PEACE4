@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\AccessControlController;
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\DistrictController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,9 @@ Route::middleware(['role:Admin|Root'])->group(function () {
     // District-scoped access control + audit
     Route::get('access-control', [AccessControlController::class, 'index'])->name('access-control.index');
     Route::post('access-control', [AccessControlController::class, 'store'])->name('access-control.store');
+
+    // District Management Routes
+    Route::resource('districts', DistrictController::class)->only(['index', 'store']);
 });
 
 Route::get('/test-auth', function () {
