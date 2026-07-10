@@ -90,13 +90,13 @@ const cboExportUrl = route('mhp.overview.export-cbos', { district: props.filters
 <template>
     <AppLayout>
         <div class="mx-auto max-w-7xl space-y-6 p-4 sm:p-6 lg:p-8">
-            <div class="flex flex-wrap items-center justify-between gap-4">
+            <div class="flex flex-wrap items-center justify-between gap-4 rounded-lg bg-gradient-to-r from-hydro-600 to-hydro-800 p-6 shadow-sm">
                 <div>
-                    <p class="text-xs font-semibold uppercase tracking-wide text-hydro-700">MHP</p>
-                    <h1 class="text-2xl font-bold text-ink-900">MHP Overview Dashboard</h1>
+                    <p class="text-xs font-semibold uppercase tracking-wide text-hydro-100">MHP</p>
+                    <h1 class="text-2xl font-bold text-white sm:text-3xl">MHP Overview Dashboard</h1>
                 </div>
                 <select
-                    class="rounded-md border-ink-300 text-sm focus:border-hydro-500 focus:ring-hydro-500"
+                    class="rounded-md border-transparent bg-white/90 text-sm text-ink-800 focus:border-hydro-300 focus:ring-hydro-300"
                     :value="filters.district ?? ''"
                     @change="onDistrictChange"
                 >
