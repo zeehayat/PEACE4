@@ -8,6 +8,7 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    districts: Array,
 });
 
 const emit = defineEmits(['close', 'updated']); // 'updated' when form successfully updates
@@ -27,6 +28,7 @@ const handleFormCancel = () => {
         <div class="p-6 overflow-y-auto max-h-[85vh]">
             <CboForm
                 :cbo="cbo"
+                :districts="districts"
 
             @success="handleFormSuccess"
             @cancel="handleFormCancel"

@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\District;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreCroRequest extends FormRequest
 {
@@ -14,7 +16,7 @@ class StoreCroRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'district' => ['required', 'string', 'max:255'],
+            'district' => ['required', 'string', 'max:255', Rule::in(District::pluck('name'))],
             'tehsil' => ['required', 'string', 'max:255'],
             'village_council' => ['required', 'string', 'max:255'],
             'village' => ['required', 'string', 'max:255'],

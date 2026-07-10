@@ -63,6 +63,7 @@ class CboController extends Controller
 
         return Inertia::render('CBO/Index', [
             'cbos' => $cbos,
+            'districts' => District::orderBy('name')->get(['id', 'name']),
             'filters' => $request->only('search', 'district'),
         ]);
     }

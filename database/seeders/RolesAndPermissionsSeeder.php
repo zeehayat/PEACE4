@@ -26,6 +26,7 @@ class RolesAndPermissionsSeeder extends Seeder
             'user_manage',
             'role_manage',
             'view_reports',
+            'district_manage',
 
             // CBO module
             'cbo_view',
@@ -96,6 +97,7 @@ class RolesAndPermissionsSeeder extends Seeder
             'user_manage',
             'role_manage',
             'view_reports',
+            'district_manage',
             // full CBO/MHP/Irrigation CRUD
             'cbo_view', 'cbo_create', 'cbo_update', 'cbo_delete',
             'mhp_site_view', 'mhp_site_create', 'mhp_site_update', 'mhp_site_delete',

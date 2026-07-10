@@ -8,7 +8,7 @@ use App\Http\Requests\UpdateCroRequest;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
-use App\Enums\KpDistrict;
+use App\Models\District;
 
 class CroController extends Controller
 {
@@ -46,7 +46,7 @@ class CroController extends Controller
     public function create()
     {
         return Inertia::render('Cro/Create', [
-             'districts' => KpDistrict::toSelectArray(),
+             'districts' => District::orderBy('name')->get(['id', 'name']),
         ]);
     }
 
@@ -67,7 +67,7 @@ class CroController extends Controller
     {
         return Inertia::render('Cro/Create', [
             'cro' => $cro,
-            'districts' => KpDistrict::toSelectArray(),
+            'districts' => District::orderBy('name')->get(['id', 'name']),
         ]);
     }
 

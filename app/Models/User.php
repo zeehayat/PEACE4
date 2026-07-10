@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\KpDistrict;
 use App\Models\District;
 use App\Models\DistrictPermission;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

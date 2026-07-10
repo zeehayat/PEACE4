@@ -4,6 +4,7 @@ import CboForm from '@/Pages/CBO/Forms/CboForm.vue';
 
 const props = defineProps({
     show: Boolean, // Controls modal visibility
+    districts: Array,
 });
 
 const emit = defineEmits(['close', 'saved']); // 'saved' when form successfully saves
@@ -23,6 +24,7 @@ const handleFormCancel = () => {
         <div class="p-6 overflow-y-auto max-h-[85vh]">
             <CboForm
                 :cbo="null"
+                :districts="districts"
             @success="handleFormSuccess"
             @cancel="handleFormCancel"
             />

@@ -17,11 +17,11 @@ class DistrictSeeder extends Seeder
             'Dir Lower',
             'Chitral Lower',
             'Chitral Upper',
-            'Chitral',
             'North Waziristan',
             'South Waziristan',
             'Kurram',
             'Swat',
+            'Shangla',
         ];
 
         // Ensure only the requested districts remain seeded
