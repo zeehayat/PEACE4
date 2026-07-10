@@ -9,6 +9,8 @@ const props = defineProps({
     stats: { type: Object, required: true },
     chart_mobilization: { type: Object, required: true },
     chart_type_breakdown: { type: Object, required: true },
+    chart_progress: { type: Object, required: true },
+    chart_beneficiaries: { type: Object, required: true },
 });
 
 function onDistrictChange(event) {
@@ -47,6 +49,23 @@ const typeChartData = {
             backgroundColor: ['#0e7490', '#67e8f9', '#155e75'],
             data: props.chart_type_breakdown.counts,
         },
+    ],
+};
+
+const progressChartData = {
+    labels: props.chart_progress.labels,
+    datasets: [
+        { label: 'Physical %', backgroundColor: '#0e7490', data: props.chart_progress.physical },
+        { label: 'Financial %', backgroundColor: '#67e8f9', data: props.chart_progress.financial },
+    ],
+};
+const progressChartOptions = { indexAxis: 'y' };
+
+const beneficiaryChartData = {
+    labels: props.chart_beneficiaries.labels,
+    datasets: [
+        { label: 'Total HH', backgroundColor: '#0e7490', data: props.chart_beneficiaries.total_hh },
+        { label: 'Commercial Units', backgroundColor: '#67e8f9', data: props.chart_beneficiaries.commercial_units },
     ],
 };
 </script>
@@ -128,6 +147,23 @@ const typeChartData = {
                     :chart-data="typeChartData"
                     :table-columns="[{ key: 'type', label: 'Type' }, { key: 'count', label: 'Count' }]"
                     :table-rows="chart_type_breakdown.table"
+                />
+                <ChartWithTable
+                    title="04 · Overall Physical Progress by MHP Scheme"
+                    subtitle="Combined Civil + T&D + EME physical progress, paired with financial disbursement progress. Schemes not yet approved or initiated show 0%."
+                    chart-type="bar"
+                    :chart-data="progressChartData"
+                    :chart-options="progressChartOptions"
+                    :table-columns="[{ key: 'scheme', label: 'Scheme' }, { key: 'physical', label: 'Physical %' }, { key: 'financial', label: 'Financial %' }]"
+                    :table-rows="chart_progress.table"
+                />
+                <ChartWithTable
+                    title="05 · Beneficiary Overview"
+                    subtitle="Projected households and commercial connections per district, based on schemes with completed technical surveys."
+                    chart-type="bar"
+                    :chart-data="beneficiaryChartData"
+                    :table-columns="[{ key: 'district', label: 'District' }, { key: 'total_hh', label: 'Total HH' }, { key: 'commercial_units', label: 'Commercial Units' }]"
+                    :table-rows="chart_beneficiaries.table"
                 />
             </div>
         </div>

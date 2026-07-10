@@ -105,4 +105,29 @@ class MhpDashboardControllerTest extends TestCase
                 ->where('chart_type_breakdown.counts', [1, 1])
             );
     }
+
+    public function test_index_returns_progress_and_beneficiary_charts(): void
+    {
+        District::create(['name' => 'Kurram']);
+        $cbo = Cbo::factory()->create(['district' => 'Kurram', 'cbo_name' => 'Kurram CBO 1']);
+
+        $site = MhpSite::factory()->create([
+            'cbo_id' => $cbo->id,
+            'civil_contractor_amount' => 1000,
+            'civil_physical_progress_percent' => 50,
+            'total_hh' => 120,
+            'commercial_units' => 10,
+        ]);
+        MhpAdminApproval::create(['mhp_site_id' => $site->id, 'technical_survey_date' => now()]);
+
+        $this->actingAs($this->actingAsAdmin())
+            ->get(route('mhp.overview'))
+            ->assertInertia(fn (Assert $page) => $page
+                ->has('chart_progress.labels', 1)
+                ->where('chart_progress.physical.0', 50)
+                ->has('chart_beneficiaries.labels', 1)
+                ->where('chart_beneficiaries.total_hh.0', 120)
+                ->where('chart_beneficiaries.commercial_units.0', 10)
+            );
+    }
 }

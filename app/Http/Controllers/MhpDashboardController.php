@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Cbo;
 use App\Models\District;
 use App\Models\MhpSite;
+use App\Models\Views\MhpProgressLatest;
+use App\Services\MhpReportService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -33,6 +35,8 @@ class MhpDashboardController extends Controller
             ],
             'chart_mobilization' => $this->buildMobilizationChart($sites),
             'chart_type_breakdown' => $this->buildTypeBreakdownChart($sites),
+            'chart_progress' => $this->buildProgressChart($sites),
+            'chart_beneficiaries' => $this->buildBeneficiaryChart($sites),
         ]);
     }
 
@@ -118,5 +122,52 @@ class MhpDashboardController extends Controller
         $table = $grouped->map(fn ($group, $type) => ['type' => $type, 'count' => $group->count()])->values()->all();
 
         return ['labels' => $labels, 'counts' => $counts, 'table' => $table];
+    }
+
+    private function buildProgressChart($sites): array
+    {
+        $financialBySite = MhpProgressLatest::query()
+            ->whereIn('mhp_id', $sites->pluck('id'))
+            ->pluck('fin_overall_latest_pct', 'mhp_id');
+
+        $labels = [];
+        $physical = [];
+        $financial = [];
+        $table = [];
+
+        foreach ($sites->sortBy('id') as $site) {
+            $name = $site->cbo?->cbo_name ?? "Scheme #{$site->id}";
+            $physicalProgress = (new MhpReportService($site))->getCombinedCivilProgress();
+            $financialProgress = (float) ($financialBySite[$site->id] ?? 0.0);
+
+            $labels[] = $name;
+            $physical[] = $physicalProgress;
+            $financial[] = $financialProgress;
+            $table[] = ['scheme' => $name, 'physical' => $physicalProgress, 'financial' => $financialProgress];
+        }
+
+        return ['labels' => $labels, 'physical' => $physical, 'financial' => $financial, 'table' => $table];
+    }
+
+    private function buildBeneficiaryChart($sites): array
+    {
+        $surveyed = $sites->filter(fn (MhpSite $s) => $s->adminApproval?->technical_survey_date !== null);
+        $grouped = $surveyed->groupBy(fn (MhpSite $s) => $s->cbo?->district ?? 'Unassigned')->sortKeys();
+
+        $labels = [];
+        $totalHh = [];
+        $commercialUnits = [];
+        $table = [];
+
+        foreach ($grouped as $district => $group) {
+            $hh = (int) $group->sum('total_hh');
+            $units = (int) $group->sum('commercial_units');
+            $labels[] = $district;
+            $totalHh[] = $hh;
+            $commercialUnits[] = $units;
+            $table[] = ['district' => $district, 'total_hh' => $hh, 'commercial_units' => $units];
+        }
+
+        return ['labels' => $labels, 'total_hh' => $totalHh, 'commercial_units' => $commercialUnits, 'table' => $table];
     }
 }
