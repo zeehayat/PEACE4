@@ -16,6 +16,10 @@ const props = defineProps({
         type: Object,
         default: null,
     },
+    districts: {
+        type: Array,
+        default: () => [],
+    },
 });
 
 const emit = defineEmits(['success', 'cancel']);
@@ -171,10 +175,10 @@ const handleCancel = () => {
 
             <div>
                 <InputLabel for="district" value="District" />
-                <TextInput
+                <SelectInput
                     id="district"
                     v-model="form.district"
-                    type="text"
+                    :options="districts.map(d => d.name)"
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.district }"
                 />
@@ -355,13 +359,3 @@ const handleCancel = () => {
 <style scoped>
 /* No specific scoped styles needed here */
 </style>
-```
-
-***
-
-### 2. `resources/js/Pages/CBO/Modals/CboDetailsViewModal.vue`
-
-This modal has been updated to display the `cbo_name` and `region` fields in the General Information section.
-
-
-```vue

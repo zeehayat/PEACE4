@@ -24,6 +24,7 @@ import CboDetailsViewModal from "@/Pages/CBO/Modals/CboDetailsViewModal.vue";
 
 const props = defineProps({
     cbos: Object, // Paginated data for CBOs
+    districts: Array,
     filters: Object,
     errors: Object, // Validation errors from backend
 });
@@ -361,8 +362,8 @@ const handlePagination = (url) => {
     <Toast :show="toastVisible" :message="toastMessage" :type="toastType" @hide="toastVisible = false" />
 
     <!-- Modals -->
-    <CboCreateModal :show="showCboCreateModal" @close="closeModal" @saved="handleUpdated" />
-    <CboEditModal v-if="selectedCbo" :show="showCboEditModal" :cbo="selectedCbo" @close="closeModal" @updated="handleUpdated" />
+    <CboCreateModal :show="showCboCreateModal" :districts="districts" @close="closeModal" @saved="handleUpdated" />
+    <CboEditModal v-if="selectedCbo" :show="showCboEditModal" :cbo="selectedCbo" :districts="districts" @close="closeModal" @updated="handleUpdated" />
 
         <CboDetailsViewModal v-if="selectedCbo" :show="showCboDetailsViewModal" :cbo="selectedCbo" @close="closeModal" />
     <CboDialogueModal v-if="selectedCbo" :show="showCboDialogueModal" :cbo="selectedCbo" @close="closeModal" @saved="handleUpdated" />
