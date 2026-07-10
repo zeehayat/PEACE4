@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cro;
-use App\Enums\KpDistrict;
+use App\Models\District;
 use App\Traits\SimpleXlsxGenerator;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -20,7 +20,7 @@ class CroReportController extends Controller
     {
         $this->authorize('viewAny', Cro::class);
 
-        $districts = collect(KpDistrict::cases())->map(fn($d) => $d->getLabel())->values();
+        $districts = District::orderBy('name')->pluck('name');
 
         $filters = $request->only('district', 'search');
         $rows = $this->buildDataset($request);
