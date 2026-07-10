@@ -24,12 +24,26 @@ const props = defineProps({
     tableRows: { type: Array, required: true },
 });
 
-const mergedOptions = computed(() => ({
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: { legend: { position: 'bottom' } },
-    ...props.chartOptions,
-}));
+const emit = defineEmits(['chart-click']);
+
+const mergedOptions = computed(() => {
+    const callerOnClick = props.chartOptions.onClick;
+
+    return {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { position: 'bottom' } },
+        ...props.chartOptions,
+        onClick: (event, elements) => {
+            if (elements.length > 0) {
+                emit('chart-click', elements[0].index);
+            }
+            if (typeof callerOnClick === 'function') {
+                callerOnClick(event, elements);
+            }
+        },
+    };
+});
 
 const chartComponent = computed(() => (props.chartType === 'pie' ? Pie : Bar));
 </script>

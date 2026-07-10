@@ -75,7 +75,7 @@ class MhpDashboardController extends Controller
     private function buildCboStats($sites): array
     {
         $cboIds = $sites->pluck('cbo_id')->filter()->unique();
-        $cbos = Cbo::query()->whereIn('id', $cboIds)->withCount(['trainings'])->get();
+        $cbos = Cbo::query()->whereIn('id', $cboIds)->with(['trainings'])->get();
 
         $membersTrained = 0;
         foreach ($cbos as $cbo) {

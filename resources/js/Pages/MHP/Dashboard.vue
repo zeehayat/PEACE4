@@ -16,12 +16,23 @@ const props = defineProps({
     stalled: { type: Array, required: true },
 });
 
-function onDistrictChange(event) {
+function applyDistrictFilter(district) {
     router.get(
         route('mhp.overview'),
-        { district: event.target.value || undefined },
+        { district: district || undefined },
         { preserveState: true, preserveScroll: true }
     );
+}
+
+function onDistrictChange(event) {
+    applyDistrictFilter(event.target.value);
+}
+
+function onChartClick(labels, index) {
+    const district = labels[index];
+    if (district) {
+        applyDistrictFilter(district);
+    }
 }
 
 const mobilizationChartData = {
@@ -120,7 +131,7 @@ const cboExportUrl = route('mhp.overview.export-cbos', { district: props.filters
             </div>
 
             <!-- Stat tile row 2: beneficiaries + CBO -->
-            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div class="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-8">
                 <div class="rounded-lg border border-ink-200 bg-surface p-4 text-center shadow-sm">
                     <p class="text-2xl font-bold text-hydro-700">{{ stats.beneficiaries.total_hh_and_commercial }}</p>
                     <p class="mt-1 text-xs font-medium text-ink-600">Total Beneficiary HH + Commercial</p>
@@ -137,6 +148,22 @@ const cboExportUrl = route('mhp.overview.export-cbos', { district: props.filters
                     <p class="text-2xl font-bold text-hydro-700">{{ stats.cbo.members_trained }}</p>
                     <p class="mt-1 text-xs font-medium text-ink-600">Members Trained</p>
                 </div>
+                <div class="rounded-lg border border-ink-200 bg-surface p-4 text-center shadow-sm">
+                    <p class="text-2xl font-bold text-hydro-700">{{ stats.beneficiaries.detailed_capacity_kw.toLocaleString() }}</p>
+                    <p class="mt-1 text-xs font-medium text-ink-600">Cumulative Capacity, Detailed Schemes (kW)</p>
+                </div>
+                <div class="rounded-lg border border-ink-200 bg-surface p-4 text-center shadow-sm">
+                    <p class="text-2xl font-bold text-hydro-700">{{ stats.beneficiaries.detailed_total_hh }}</p>
+                    <p class="mt-1 text-xs font-medium text-ink-600">Total HH, Detailed Schemes</p>
+                </div>
+                <div class="rounded-lg border border-ink-200 bg-surface p-4 text-center shadow-sm">
+                    <p class="text-2xl font-bold text-hydro-700">{{ stats.cbo.districts_covered }}</p>
+                    <p class="mt-1 text-xs font-medium text-ink-600">Districts Covered</p>
+                </div>
+                <div class="rounded-lg border border-ink-200 bg-surface p-4 text-center shadow-sm">
+                    <p class="text-2xl font-bold text-hydro-700">{{ stats.cbo.total_members }}</p>
+                    <p class="mt-1 text-xs font-medium text-ink-600">Total Members</p>
+                </div>
             </div>
 
             <!-- Charts 1-3 -->
@@ -148,6 +175,7 @@ const cboExportUrl = route('mhp.overview.export-cbos', { district: props.filters
                     :chart-data="mobilizationChartData"
                     :table-columns="[{ key: 'district', label: 'District' }, { key: 'schemes', label: 'Schemes' }, { key: 'cbos', label: 'CBOs' }]"
                     :table-rows="chart_mobilization.table"
+                    @chart-click="onChartClick(chart_mobilization.labels, $event)"
                 />
                 <ChartWithTable
                     title="02 · Design, Approval & Construction Pipeline"
@@ -182,6 +210,7 @@ const cboExportUrl = route('mhp.overview.export-cbos', { district: props.filters
                     :chart-data="beneficiaryChartData"
                     :table-columns="[{ key: 'district', label: 'District' }, { key: 'total_hh', label: 'Total HH' }, { key: 'commercial_units', label: 'Commercial Units' }]"
                     :table-rows="chart_beneficiaries.table"
+                    @chart-click="onChartClick(chart_beneficiaries.labels, $event)"
                 />
             </div>
 
