@@ -130,4 +130,58 @@ class MhpDashboardControllerTest extends TestCase
                 ->where('chart_beneficiaries.commercial_units.0', 10)
             );
     }
+
+    public function test_index_returns_scheme_and_cbo_log_tables(): void
+    {
+        District::create(['name' => 'Shangla']);
+        $cbo = Cbo::factory()->create([
+            'district' => 'Shangla',
+            'village' => 'Test Village',
+            'cbo_name' => 'Shangla CBO',
+            'total_members' => 25,
+            'date_of_formation' => '2024-01-15',
+        ]);
+        $site = MhpSite::factory()->create([
+            'cbo_id' => $cbo->id,
+            'total_hh' => 80,
+        ]);
+        MhpAdminApproval::create(['mhp_site_id' => $site->id, 'eu_approval_date' => '2024-06-01']);
+
+        $this->actingAs($this->actingAsAdmin())
+            ->get(route('mhp.overview'))
+            ->assertInertia(fn (Assert $page) => $page
+                ->has('scheme_log', 1)
+                ->where('scheme_log.0.district', 'Shangla')
+                ->where('scheme_log.0.total_hh', 80)
+                ->has('cbo_log', 1)
+                ->where('cbo_log.0.cbo_name', 'Shangla CBO')
+                ->where('cbo_log.0.members', 25)
+            );
+    }
+
+    public function test_export_schemes_streams_csv(): void
+    {
+        District::create(['name' => 'Swat']);
+        $cbo = Cbo::factory()->create(['district' => 'Swat']);
+        MhpSite::factory()->create(['cbo_id' => $cbo->id]);
+
+        $response = $this->actingAs($this->actingAsAdmin())
+            ->get(route('mhp.overview.export-schemes'));
+
+        $response->assertOk();
+        $response->assertHeader('Content-Type', 'text/csv; charset=UTF-8');
+    }
+
+    public function test_export_cbos_streams_csv(): void
+    {
+        District::create(['name' => 'Swat']);
+        $cbo = Cbo::factory()->create(['district' => 'Swat']);
+        MhpSite::factory()->create(['cbo_id' => $cbo->id]);
+
+        $response = $this->actingAs($this->actingAsAdmin())
+            ->get(route('mhp.overview.export-cbos'));
+
+        $response->assertOk();
+        $response->assertHeader('Content-Type', 'text/csv; charset=UTF-8');
+    }
 }

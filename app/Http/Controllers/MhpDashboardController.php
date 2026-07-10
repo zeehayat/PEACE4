@@ -37,6 +37,8 @@ class MhpDashboardController extends Controller
             'chart_type_breakdown' => $this->buildTypeBreakdownChart($sites),
             'chart_progress' => $this->buildProgressChart($sites),
             'chart_beneficiaries' => $this->buildBeneficiaryChart($sites),
+            'scheme_log' => $this->buildSchemeLog($sites),
+            'cbo_log' => $this->buildCboLog($sites),
         ]);
     }
 
@@ -169,5 +171,129 @@ class MhpDashboardController extends Controller
         }
 
         return ['labels' => $labels, 'total_hh' => $totalHh, 'commercial_units' => $commercialUnits, 'table' => $table];
+    }
+
+    private function buildSchemeLog($sites): array
+    {
+        return $sites->sortBy('id')->map(function (MhpSite $site) {
+            return [
+                'id' => $site->id,
+                'district' => $site->cbo?->district,
+                'village' => $site->cbo?->village,
+                'type' => $site->status,
+                'capacity_kw' => (float) $site->planned_capacity_kw,
+                'total_hh' => (int) $site->total_hh,
+                'approved_eu' => optional($site->adminApproval?->eu_approval_date)->format('Y-m-d'),
+                'initiated' => optional($site->civil_work_initiation_date)->format('Y-m-d'),
+                'progress' => (new MhpReportService($site))->getCombinedCivilProgress(),
+            ];
+        })->values()->all();
+    }
+
+    private function buildCboLog($sites): array
+    {
+        $cboIds = $sites->pluck('cbo_id')->filter()->unique();
+
+        return Cbo::query()
+            ->whereIn('id', $cboIds)
+            ->with(['dialogues', 'trainings'])
+            ->orderBy('district')
+            ->get()
+            ->map(function (Cbo $cbo) {
+                return [
+                    'id' => $cbo->id,
+                    'district' => $cbo->district,
+                    'village' => $cbo->village,
+                    'cbo_name' => $cbo->cbo_name,
+                    'formed' => optional($cbo->date_of_formation)->format('Y-m-d'),
+                    'members' => (int) $cbo->total_members,
+                    'dialogues' => $cbo->dialogues->count(),
+                    'members_trained' => (int) $cbo->trainings->sum('total_participants'),
+                ];
+            })->values()->all();
+    }
+
+    public function exportSchemes(Request $request)
+    {
+        $this->authorize('viewAny', MhpSite::class);
+
+        $district = $request->input('district');
+        $sites = MhpSite::query()
+            ->with(['cbo', 'adminApproval', 'emeInfo', 'tAndDWorks'])
+            ->forUser(Auth::user())
+            ->when($district, fn ($q) => $q->whereHas('cbo', fn ($cq) => $cq->where('district', $district)))
+            ->get();
+
+        $rows = $this->buildSchemeLog($sites);
+
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="mhp_scheme_log_' . now()->format('Ymd_His') . '.csv"',
+            'Pragma' => 'no-cache',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Expires' => '0',
+        ];
+
+        $callback = static function () use ($rows) {
+            $out = fopen('php://output', 'w');
+            fputcsv($out, ['#', 'District', 'Village', 'Type', 'Capacity (kW)', 'Total HH', 'Approved (EU)', 'Initiated', 'Progress']);
+            foreach ($rows as $index => $row) {
+                fputcsv($out, [
+                    $index + 1,
+                    $row['district'],
+                    $row['village'],
+                    $row['type'],
+                    $row['capacity_kw'],
+                    $row['total_hh'],
+                    $row['approved_eu'],
+                    $row['initiated'],
+                    $row['progress'],
+                ]);
+            }
+            fclose($out);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
+    public function exportCbos(Request $request)
+    {
+        $this->authorize('viewAny', MhpSite::class);
+
+        $district = $request->input('district');
+        $sites = MhpSite::query()
+            ->forUser(Auth::user())
+            ->when($district, fn ($q) => $q->whereHas('cbo', fn ($cq) => $cq->where('district', $district)))
+            ->get();
+
+        $rows = $this->buildCboLog($sites);
+
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="mhp_cbo_log_' . now()->format('Ymd_His') . '.csv"',
+            'Pragma' => 'no-cache',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Expires' => '0',
+        ];
+
+        $callback = static function () use ($rows) {
+            $out = fopen('php://output', 'w');
+            fputcsv($out, ['#', 'District', 'Village', 'CBO Name', 'Formed', 'Members', 'Dialogues', 'Members Trained']);
+            foreach ($rows as $index => $row) {
+                fputcsv($out, [
+                    $index + 1,
+                    $row['district'],
+                    $row['village'],
+                    $row['cbo_name'],
+                    $row['formed'],
+                    $row['members'],
+                    $row['dialogues'],
+                    $row['members_trained'],
+                ]);
+            }
+            fclose($out);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
 }

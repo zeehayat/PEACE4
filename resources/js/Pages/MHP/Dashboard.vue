@@ -11,6 +11,8 @@ const props = defineProps({
     chart_type_breakdown: { type: Object, required: true },
     chart_progress: { type: Object, required: true },
     chart_beneficiaries: { type: Object, required: true },
+    scheme_log: { type: Array, required: true },
+    cbo_log: { type: Array, required: true },
 });
 
 function onDistrictChange(event) {
@@ -68,6 +70,9 @@ const beneficiaryChartData = {
         { label: 'Commercial Units', backgroundColor: '#67e8f9', data: props.chart_beneficiaries.commercial_units },
     ],
 };
+
+const schemeExportUrl = route('mhp.overview.export-schemes', { district: props.filters.district || undefined });
+const cboExportUrl = route('mhp.overview.export-cbos', { district: props.filters.district || undefined });
 </script>
 
 <template>
@@ -165,6 +170,89 @@ const beneficiaryChartData = {
                     :table-columns="[{ key: 'district', label: 'District' }, { key: 'total_hh', label: 'Total HH' }, { key: 'commercial_units', label: 'Commercial Units' }]"
                     :table-rows="chart_beneficiaries.table"
                 />
+            </div>
+
+            <!-- Chart 6: Scheme Log -->
+            <div class="rounded-lg border border-ink-200 bg-surface p-5 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-sm font-semibold uppercase tracking-wide text-hydro-700">06 · MHP Scheme Log</h3>
+                    <div class="flex gap-3">
+                        <a :href="schemeExportUrl" class="text-xs font-medium text-hydro-700 hover:text-hydro-800">Export CSV</a>
+                        <a :href="route('mhp.reports.detailed')" class="text-xs font-medium text-accent-600 hover:text-accent-700">View full report</a>
+                    </div>
+                </div>
+                <div class="mt-3 overflow-x-auto">
+                    <table class="min-w-full divide-y divide-ink-200 text-xs">
+                        <thead class="bg-paper-50">
+                            <tr>
+                                <th class="px-3 py-2 text-left font-semibold text-ink-600">#</th>
+                                <th class="px-3 py-2 text-left font-semibold text-ink-600">District</th>
+                                <th class="px-3 py-2 text-left font-semibold text-ink-600">Village</th>
+                                <th class="px-3 py-2 text-left font-semibold text-ink-600">Type</th>
+                                <th class="px-3 py-2 text-left font-semibold text-ink-600">Capacity (kW)</th>
+                                <th class="px-3 py-2 text-left font-semibold text-ink-600">Total HH</th>
+                                <th class="px-3 py-2 text-left font-semibold text-ink-600">Approved (EU)</th>
+                                <th class="px-3 py-2 text-left font-semibold text-ink-600">Initiated</th>
+                                <th class="px-3 py-2 text-left font-semibold text-ink-600">Progress</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-ink-100">
+                            <tr v-for="(row, idx) in scheme_log" :key="row.id">
+                                <td class="px-3 py-2 text-ink-700">{{ idx + 1 }}</td>
+                                <td class="px-3 py-2 text-ink-700">{{ row.district }}</td>
+                                <td class="px-3 py-2 text-ink-700">{{ row.village }}</td>
+                                <td class="px-3 py-2 text-ink-700">{{ row.type }}</td>
+                                <td class="px-3 py-2 text-ink-700">{{ row.capacity_kw }}</td>
+                                <td class="px-3 py-2 text-ink-700">{{ row.total_hh }}</td>
+                                <td class="px-3 py-2 text-ink-700">{{ row.approved_eu }}</td>
+                                <td class="px-3 py-2 text-ink-700">{{ row.initiated }}</td>
+                                <td class="px-3 py-2 text-ink-700">{{ row.progress }}%</td>
+                            </tr>
+                            <tr v-if="scheme_log.length === 0">
+                                <td colspan="9" class="px-3 py-4 text-center text-ink-400">No data</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Chart 7: CBO Log -->
+            <div class="rounded-lg border border-ink-200 bg-surface p-5 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-sm font-semibold uppercase tracking-wide text-hydro-700">07 · MHP/CBO Log</h3>
+                    <a :href="cboExportUrl" class="text-xs font-medium text-hydro-700 hover:text-hydro-800">Export CSV</a>
+                </div>
+                <div class="mt-3 overflow-x-auto">
+                    <table class="min-w-full divide-y divide-ink-200 text-xs">
+                        <thead class="bg-paper-50">
+                            <tr>
+                                <th class="px-3 py-2 text-left font-semibold text-ink-600">#</th>
+                                <th class="px-3 py-2 text-left font-semibold text-ink-600">District</th>
+                                <th class="px-3 py-2 text-left font-semibold text-ink-600">Village</th>
+                                <th class="px-3 py-2 text-left font-semibold text-ink-600">CBO Name</th>
+                                <th class="px-3 py-2 text-left font-semibold text-ink-600">Formed</th>
+                                <th class="px-3 py-2 text-left font-semibold text-ink-600">Members</th>
+                                <th class="px-3 py-2 text-left font-semibold text-ink-600">Dialogues</th>
+                                <th class="px-3 py-2 text-left font-semibold text-ink-600">Members Trained</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-ink-100">
+                            <tr v-for="(row, idx) in cbo_log" :key="row.id">
+                                <td class="px-3 py-2 text-ink-700">{{ idx + 1 }}</td>
+                                <td class="px-3 py-2 text-ink-700">{{ row.district }}</td>
+                                <td class="px-3 py-2 text-ink-700">{{ row.village }}</td>
+                                <td class="px-3 py-2 text-ink-700">{{ row.cbo_name }}</td>
+                                <td class="px-3 py-2 text-ink-700">{{ row.formed }}</td>
+                                <td class="px-3 py-2 text-ink-700">{{ row.members }}</td>
+                                <td class="px-3 py-2 text-ink-700">{{ row.dialogues }}</td>
+                                <td class="px-3 py-2 text-ink-700">{{ row.members_trained }}</td>
+                            </tr>
+                            <tr v-if="cbo_log.length === 0">
+                                <td colspan="8" class="px-3 py-4 text-center text-ink-400">No data</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </AppLayout>
