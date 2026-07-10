@@ -14,6 +14,7 @@ use App\Http\Controllers\ProjectPhysicalProgressController;
 use App\Http\Controllers\ProjectFinancialInstallmentController;
 use App\Http\Controllers\MhpCompletionController;
 use App\Http\Controllers\VendorController;
+use App\Http\Controllers\MhpDashboardController;
 // use App\Http\Controllers\MhpSchemeContractController;
 
 
@@ -113,5 +114,8 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('reports/detailed-v2', [MhpReportController::class, 'detailedReportV2'])->name('reports.detailed-v2');
     Route::get('reports/detailed/export', [MhpReportController::class, 'exportDetailedReport'])->name('reports.detailed.export');
     Route::get('{mhpSite}/details', [MhpSiteController::class, 'getDetails'])->name('sites.details');
+    Route::get('overview', [MhpDashboardController::class, 'index'])->name('overview');
+    Route::get('overview/export-schemes', [MhpDashboardController::class, 'exportSchemes'])->name('overview.export-schemes');
+    Route::get('overview/export-cbos', [MhpDashboardController::class, 'exportCbos'])->name('overview.export-cbos');
 
 });
