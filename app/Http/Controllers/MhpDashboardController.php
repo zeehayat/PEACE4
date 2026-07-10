@@ -46,7 +46,7 @@ class MhpDashboardController extends Controller
     private function buildPipelineStats($sites): array
     {
         $prioritized = $sites;
-        $designDone = $sites->filter(fn (MhpSite $s) => $s->layout_initiation_date !== null);
+        $designDone = $sites->filter(fn (MhpSite $s) => $s->management_committee_date !== null);
         $approved = $sites->filter(fn (MhpSite $s) => $s->adminApproval?->eu_approval_date !== null);
         $civilInitiated = $sites->filter(fn (MhpSite $s) => $s->civil_work_initiation_date !== null);
         $completed = $sites->filter(fn (MhpSite $s) => $s->completion?->handover_date !== null);
@@ -62,7 +62,7 @@ class MhpDashboardController extends Controller
 
     private function buildBeneficiaryStats($sites): array
     {
-        $detailed = $sites->filter(fn (MhpSite $s) => $s->layout_initiation_date !== null);
+        $detailed = $sites->filter(fn (MhpSite $s) => $s->management_committee_date !== null);
 
         return [
             'total_hh_and_commercial' => (int) ($sites->sum('total_hh') + $sites->sum('commercial_units')),
@@ -117,7 +117,7 @@ class MhpDashboardController extends Controller
 
     private function buildTypeBreakdownChart($sites): array
     {
-        $detailed = $sites->filter(fn (MhpSite $s) => $s->layout_initiation_date !== null);
+        $detailed = $sites->filter(fn (MhpSite $s) => $s->management_committee_date !== null);
         $grouped = $detailed->groupBy('status')->sortKeys();
 
         $labels = $grouped->keys()->values()->all();

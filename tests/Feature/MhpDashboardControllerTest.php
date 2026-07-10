@@ -37,14 +37,14 @@ class MhpDashboardControllerTest extends TestCase
         $designed = MhpSite::factory()->create([
             'cbo_id' => $cbo->id,
             'planned_capacity_kw' => 200,
-            'layout_initiation_date' => now(),
+            'management_committee_date' => now(),
         ]);
 
         // Prioritized + design + approved
         $approved = MhpSite::factory()->create([
             'cbo_id' => $cbo->id,
             'planned_capacity_kw' => 300,
-            'layout_initiation_date' => now(),
+            'management_committee_date' => now(),
         ]);
         MhpAdminApproval::create(['mhp_site_id' => $approved->id, 'eu_approval_date' => now()]);
 
@@ -52,7 +52,7 @@ class MhpDashboardControllerTest extends TestCase
         $civil = MhpSite::factory()->create([
             'cbo_id' => $cbo->id,
             'planned_capacity_kw' => 400,
-            'layout_initiation_date' => now(),
+            'management_committee_date' => now(),
             'civil_work_initiation_date' => now(),
         ]);
         MhpAdminApproval::create(['mhp_site_id' => $civil->id, 'eu_approval_date' => now()]);
@@ -61,7 +61,7 @@ class MhpDashboardControllerTest extends TestCase
         $completed = MhpSite::factory()->create([
             'cbo_id' => $cbo->id,
             'planned_capacity_kw' => 500,
-            'layout_initiation_date' => now(),
+            'management_committee_date' => now(),
             'civil_work_initiation_date' => now(),
         ]);
         MhpAdminApproval::create(['mhp_site_id' => $completed->id, 'eu_approval_date' => now()]);
@@ -93,9 +93,9 @@ class MhpDashboardControllerTest extends TestCase
         $cboA = Cbo::factory()->create(['district' => 'Chitral Upper']);
         $cboB = Cbo::factory()->create(['district' => 'Swat']);
 
-        MhpSite::factory()->create(['cbo_id' => $cboA->id, 'status' => 'New', 'layout_initiation_date' => now()]);
-        MhpSite::factory()->create(['cbo_id' => $cboA->id, 'status' => 'Rehabilitation', 'layout_initiation_date' => now()]);
-        MhpSite::factory()->create(['cbo_id' => $cboB->id, 'status' => 'New']); // no layout_initiation_date -> excluded from type breakdown
+        MhpSite::factory()->create(['cbo_id' => $cboA->id, 'status' => 'New', 'management_committee_date' => now()]);
+        MhpSite::factory()->create(['cbo_id' => $cboA->id, 'status' => 'Rehabilitation', 'management_committee_date' => now()]);
+        MhpSite::factory()->create(['cbo_id' => $cboB->id, 'status' => 'New']); // no management_committee_date -> excluded from type breakdown
 
         $this->actingAs($this->actingAsAdmin())
             ->get(route('mhp.overview'))
