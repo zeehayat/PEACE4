@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cbo;
 use App\Models\District;
 use App\Models\IrrigationScheme;
+use App\Models\Views\IrrigationProgressLatest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -29,6 +30,9 @@ class IrrigationDashboardController extends Controller
             ],
             'chart_implementation_status' => $this->buildImplementationStatusChart($schemes),
             'chart_district_alignment' => $this->buildDistrictAlignmentChart($schemes),
+            'chart_progress' => $this->buildProgressChart($schemes),
+            'chart_direct_beneficiaries' => $this->buildBeneficiaryChart($schemes, 'direct_household_beneficiary'),
+            'chart_indirect_beneficiaries' => $this->buildBeneficiaryChart($schemes, 'indirect_household_beneficiary'),
         ]);
     }
 
@@ -141,5 +145,50 @@ class IrrigationDashboardController extends Controller
             'cbo_counts' => $cboCounts,
             'table' => $table,
         ];
+    }
+
+    private function buildProgressChart($schemes): array
+    {
+        $progressBySite = IrrigationProgressLatest::query()
+            ->whereIn('irrigation_id', $schemes->pluck('id'))
+            ->get()
+            ->keyBy('irrigation_id');
+
+        $labels = [];
+        $physical = [];
+        $financial = [];
+        $table = [];
+
+        foreach ($schemes->sortBy('id') as $scheme) {
+            $name = $scheme->cbo?->cbo_name ?? "Scheme #{$scheme->id}";
+            $progress = $progressBySite->get($scheme->id);
+            $physicalPct = (float) ($progress?->phys_overall_latest ?? 0.0);
+            $financialPct = (float) ($progress?->fin_overall_latest_pct ?? 0.0);
+
+            $labels[] = $name;
+            $physical[] = $physicalPct;
+            $financial[] = $financialPct;
+            $table[] = ['scheme' => $name, 'physical' => $physicalPct, 'financial' => $financialPct];
+        }
+
+        return ['labels' => $labels, 'physical' => $physical, 'financial' => $financial, 'table' => $table];
+    }
+
+    private function buildBeneficiaryChart($schemes, string $field): array
+    {
+        $labels = [];
+        $counts = [];
+        $table = [];
+
+        foreach ($schemes->sortBy('id') as $scheme) {
+            $name = $scheme->cbo?->cbo_name ?? "Scheme #{$scheme->id}";
+            $value = (int) ($scheme->{$field} ?? 0);
+
+            $labels[] = $name;
+            $counts[] = $value;
+            $table[] = ['scheme' => $name, 'beneficiaries' => $value];
+        }
+
+        return ['labels' => $labels, 'counts' => $counts, 'table' => $table];
     }
 }

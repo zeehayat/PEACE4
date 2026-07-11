@@ -9,6 +9,9 @@ const props = defineProps({
     stats: { type: Object, required: true },
     chart_implementation_status: { type: Object, required: true },
     chart_district_alignment: { type: Object, required: true },
+    chart_progress: { type: Object, required: true },
+    chart_direct_beneficiaries: { type: Object, required: true },
+    chart_indirect_beneficiaries: { type: Object, required: true },
 });
 
 function applyDistrictFilter(district) {
@@ -43,6 +46,25 @@ const implementationStatusChartData = {
 };
 
 const implementationStatusChartOptions = { indexAxis: 'y' };
+
+const progressChartData = {
+    labels: props.chart_progress.labels,
+    datasets: [
+        { label: 'Physical %', backgroundColor: '#059669', data: props.chart_progress.physical },
+        { label: 'Financial %', backgroundColor: '#6ee7b7', data: props.chart_progress.financial },
+    ],
+};
+const progressChartOptions = { indexAxis: 'y' };
+
+const directBeneficiariesChartData = {
+    labels: props.chart_direct_beneficiaries.labels,
+    datasets: [{ label: 'Direct HH Beneficiaries', backgroundColor: '#059669', data: props.chart_direct_beneficiaries.counts }],
+};
+
+const indirectBeneficiariesChartData = {
+    labels: props.chart_indirect_beneficiaries.labels,
+    datasets: [{ label: 'Indirect HH Beneficiaries', backgroundColor: '#6ee7b7', data: props.chart_indirect_beneficiaries.counts }],
+};
 </script>
 
 <template>
@@ -137,6 +159,31 @@ const implementationStatusChartOptions = { indexAxis: 'y' };
                     :chart-options="implementationStatusChartOptions"
                     :table-columns="[{ key: 'status', label: 'Status' }, { key: 'count', label: 'Count' }]"
                     :table-rows="chart_implementation_status.table"
+                />
+                <ChartWithTable
+                    title="03 · Physical Progress by Scheme"
+                    subtitle="Approved schemes not yet started show 0%."
+                    chart-type="bar"
+                    :chart-data="progressChartData"
+                    :chart-options="progressChartOptions"
+                    :table-columns="[{ key: 'scheme', label: 'Scheme' }, { key: 'physical', label: 'Physical %' }, { key: 'financial', label: 'Financial %' }]"
+                    :table-rows="chart_progress.table"
+                />
+                <ChartWithTable
+                    title="04a · Direct Household Beneficiaries by Scheme"
+                    subtitle="Note: totals here may differ from the Beneficiary Households stat tile — these are separately entered fields."
+                    chart-type="bar"
+                    :chart-data="directBeneficiariesChartData"
+                    :table-columns="[{ key: 'scheme', label: 'Scheme' }, { key: 'beneficiaries', label: 'Direct HH' }]"
+                    :table-rows="chart_direct_beneficiaries.table"
+                />
+                <ChartWithTable
+                    title="04b · Indirect Household Beneficiaries by Scheme"
+                    subtitle="Note: totals here may differ from the Beneficiary Households stat tile — these are separately entered fields."
+                    chart-type="bar"
+                    :chart-data="indirectBeneficiariesChartData"
+                    :table-columns="[{ key: 'scheme', label: 'Scheme' }, { key: 'beneficiaries', label: 'Indirect HH' }]"
+                    :table-rows="chart_indirect_beneficiaries.table"
                 />
             </div>
         </div>

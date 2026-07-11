@@ -83,4 +83,26 @@ class IrrigationDashboardControllerTest extends TestCase
                 ->where('chart_district_alignment.cbo_counts', [1, 1])
             );
     }
+
+    public function test_index_returns_beneficiary_charts(): void
+    {
+        District::create(['name' => 'Shangla']);
+        $cbo = Cbo::factory()->create(['district' => 'Shangla', 'cbo_name' => 'Shangla CBO 1']);
+
+        $scheme = IrrigationScheme::factory()->create([
+            'cbo_id' => $cbo->id,
+            'direct_household_beneficiary' => 40,
+            'indirect_household_beneficiary' => 160,
+        ]);
+
+        $this->actingAs($this->actingAsAdmin())
+            ->get(route('irrigation.overview'))
+            ->assertInertia(fn (Assert $page) => $page
+                ->has('chart_progress.labels', 1)
+                ->has('chart_direct_beneficiaries.labels', 1)
+                ->where('chart_direct_beneficiaries.counts.0', 40)
+                ->has('chart_indirect_beneficiaries.labels', 1)
+                ->where('chart_indirect_beneficiaries.counts.0', 160)
+            );
+    }
 }
