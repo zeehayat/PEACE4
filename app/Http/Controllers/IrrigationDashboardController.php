@@ -35,6 +35,8 @@ class IrrigationDashboardController extends Controller
             'chart_indirect_beneficiaries' => $this->buildBeneficiaryChart($schemes, 'indirect_household_beneficiary'),
             'chart_cbo_formation' => $this->buildCboFormationChart($schemes),
             'chart_land_channel_coverage' => $this->buildLandChannelChart($schemes),
+            'scheme_log' => $this->buildSchemeLog($schemes),
+            'cbo_log' => $this->buildCboLog($schemes),
         ]);
     }
 
@@ -248,5 +250,127 @@ class IrrigationDashboardController extends Controller
         }
 
         return ['labels' => $labels, 'acres' => $acres, 'channel_km' => $channelKm, 'table' => $table];
+    }
+
+    private function buildSchemeLog($schemes): array
+    {
+        $progressBySite = IrrigationProgressLatest::query()
+            ->whereIn('irrigation_id', $schemes->pluck('id'))
+            ->get()
+            ->keyBy('irrigation_id');
+
+        return $schemes->sortBy('id')->map(function (IrrigationScheme $scheme) use ($progressBySite) {
+            $hectares = (float) ($scheme->profile?->land_area_hectares ?? 0);
+
+            return [
+                'id' => $scheme->id,
+                'district' => $scheme->cbo?->district,
+                'village' => $scheme->cbo?->village,
+                'type' => $scheme->status,
+                'status' => $this->deriveStatus($scheme),
+                'beneficiary_hh' => (int) ($scheme->profile?->beneficiary_hhs ?? 0),
+                'acres' => round($hectares * 2.47105, 2),
+                'channel_km' => (float) ($scheme->profile?->channel_length_km ?? 0),
+                'progress' => (float) ($progressBySite->get($scheme->id)?->phys_overall_latest ?? 0.0),
+            ];
+        })->values()->all();
+    }
+
+    private function buildCboLog($schemes): array
+    {
+        $cboIds = $schemes->pluck('cbo_id')->filter()->unique();
+
+        return Cbo::query()
+            ->whereIn('id', $cboIds)
+            ->with(['dialogues', 'trainings'])
+            ->orderBy('district')
+            ->get()
+            ->map(function (Cbo $cbo) {
+                return [
+                    'id' => $cbo->id,
+                    'district' => $cbo->district,
+                    'village' => $cbo->village,
+                    'cbo_name' => $cbo->cbo_name,
+                    'formed' => optional($cbo->date_of_formation)->format('Y-m-d'),
+                    'members' => (int) $cbo->total_members,
+                    'gender' => $cbo->gender,
+                    'dialogues' => $cbo->dialogues->count(),
+                    'members_trained' => (int) $cbo->trainings->sum('total_participants'),
+                ];
+            })->values()->all();
+    }
+
+    public function exportSchemes(Request $request)
+    {
+        $this->authorize('viewAny', IrrigationScheme::class);
+
+        $schemes = $this->loadSchemes($request->input('district'));
+        $rows = $this->buildSchemeLog($schemes);
+
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="irrigation_scheme_log_' . now()->format('Ymd_His') . '.csv"',
+            'Pragma' => 'no-cache',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Expires' => '0',
+        ];
+
+        $callback = static function () use ($rows) {
+            $out = fopen('php://output', 'w');
+            fputcsv($out, ['#', 'District', 'Village', 'Type', 'Status', 'Beneficiary HH', 'Acres', 'Channel (Km)', 'Progress']);
+            foreach ($rows as $index => $row) {
+                fputcsv($out, [
+                    $index + 1,
+                    $row['district'],
+                    $row['village'],
+                    $row['type'],
+                    $row['status'],
+                    $row['beneficiary_hh'],
+                    $row['acres'],
+                    $row['channel_km'],
+                    $row['progress'],
+                ]);
+            }
+            fclose($out);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
+    public function exportCbos(Request $request)
+    {
+        $this->authorize('viewAny', IrrigationScheme::class);
+
+        $schemes = $this->loadSchemes($request->input('district'));
+        $rows = $this->buildCboLog($schemes);
+
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="irrigation_cbo_log_' . now()->format('Ymd_His') . '.csv"',
+            'Pragma' => 'no-cache',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Expires' => '0',
+        ];
+
+        $callback = static function () use ($rows) {
+            $out = fopen('php://output', 'w');
+            fputcsv($out, ['#', 'District', 'Village', 'CBO Name', 'Formed', 'Members', 'Gender', 'Dialogues', 'Members Trained']);
+            foreach ($rows as $index => $row) {
+                fputcsv($out, [
+                    $index + 1,
+                    $row['district'],
+                    $row['village'],
+                    $row['cbo_name'],
+                    $row['formed'],
+                    $row['members'],
+                    $row['gender'],
+                    $row['dialogues'],
+                    $row['members_trained'],
+                ]);
+            }
+            fclose($out);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
 }

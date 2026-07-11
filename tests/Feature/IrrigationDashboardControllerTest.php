@@ -130,4 +130,58 @@ class IrrigationDashboardControllerTest extends TestCase
                 ->where('chart_land_channel_coverage.channel_km.1', 2)
             );
     }
+
+    public function test_index_returns_scheme_and_cbo_log_tables(): void
+    {
+        District::create(['name' => 'Shangla']);
+        $cbo = Cbo::factory()->create([
+            'district' => 'Shangla',
+            'village' => 'Test Village',
+            'cbo_name' => 'Shangla CBO',
+            'total_members' => 25,
+            'gender' => 'Female',
+            'date_of_formation' => '2024-01-15',
+        ]);
+        $scheme = IrrigationScheme::factory()->create(['cbo_id' => $cbo->id]);
+        $scheme->profile->update(['beneficiary_hhs' => 80, 'land_area_hectares' => 10, 'channel_length_km' => 2, 'ho_approval_date' => '2024-06-01']);
+
+        $this->actingAs($this->actingAsAdmin())
+            ->get(route('irrigation.overview'))
+            ->assertInertia(fn (Assert $page) => $page
+                ->has('scheme_log', 1)
+                ->where('scheme_log.0.district', 'Shangla')
+                ->where('scheme_log.0.beneficiary_hh', 80)
+                ->where('scheme_log.0.status', 'Approved')
+                ->has('cbo_log', 1)
+                ->where('cbo_log.0.cbo_name', 'Shangla CBO')
+                ->where('cbo_log.0.members', 25)
+                ->where('cbo_log.0.gender', 'Female')
+            );
+    }
+
+    public function test_export_schemes_streams_csv(): void
+    {
+        District::create(['name' => 'Swat']);
+        $cbo = Cbo::factory()->create(['district' => 'Swat']);
+        IrrigationScheme::factory()->create(['cbo_id' => $cbo->id]);
+
+        $response = $this->actingAs($this->actingAsAdmin())
+            ->get(route('irrigation.overview.export-schemes'));
+
+        $response->assertOk();
+        $response->assertHeader('Content-Type', 'text/csv; charset=UTF-8');
+    }
+
+    public function test_export_cbos_streams_csv(): void
+    {
+        District::create(['name' => 'Swat']);
+        $cbo = Cbo::factory()->create(['district' => 'Swat']);
+        IrrigationScheme::factory()->create(['cbo_id' => $cbo->id]);
+
+        $response = $this->actingAs($this->actingAsAdmin())
+            ->get(route('irrigation.overview.export-cbos'));
+
+        $response->assertOk();
+        $response->assertHeader('Content-Type', 'text/csv; charset=UTF-8');
+    }
 }
