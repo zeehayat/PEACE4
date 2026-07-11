@@ -13,8 +13,8 @@ const isAdmin = computed(() => user.value?.roles?.some((r) => ['Admin', 'Root'].
 // Global routes list
 const commandItems = computed(() => {
     const items = [
-        { name: 'MHP Dashboard', description: 'View MHP data charts and graphs', route: 'mhp.dashboard', category: 'Dashboards' },
-        { name: 'Irrigation Dashboard', description: 'View irrigation flow statistics', route: 'irrigation.dashboard', category: 'Dashboards' },
+        { name: 'MHP Dashboard', description: 'View MHP data charts and graphs', route: 'mhp.overview', category: 'Dashboards' },
+        { name: 'Irrigation Dashboard', description: 'View irrigation flow statistics', route: 'irrigation.overview', category: 'Dashboards' },
         { name: 'CBO Registry', description: 'Manage Community Based Organizations', route: 'cbo.cbos.index', category: 'Modules' },
         { name: 'CRO Registry', description: 'Manage Community Resource Organizations', route: 'cro.cros.index', category: 'Modules' },
         { name: 'MHP Site List', description: 'Micro Hydro Power Site Locations', route: 'mhp.sites.index', category: 'Modules' },

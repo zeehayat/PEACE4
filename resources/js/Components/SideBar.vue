@@ -50,12 +50,12 @@ const isAdmin = computed(() => user.value?.roles?.some((r) => ['Admin', 'Root'].
             <!-- Nav Links -->
             <nav class="flex flex-col gap-3 w-full items-center">
                 <!-- Dashboards -->
-                <Link :href="route('mhp.dashboard')" :class="['nav-btn relative group', isActive('mhp.dashboard') ? 'active' : '']">
+                <Link :href="route('mhp.overview')" :class="['nav-btn relative group', isActive('mhp.overview') ? 'active' : '']">
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                     <div class="tooltip">MHP Dashboard</div>
                 </Link>
 
-                <Link :href="route('irrigation.dashboard')" :class="['nav-btn relative group', isActive('irrigation.dashboard') ? 'active' : '']">
+                <Link :href="route('irrigation.overview')" :class="['nav-btn relative group', isActive('irrigation.overview') ? 'active' : '']">
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                     <div class="tooltip">Irrigation Dashboard</div>
                 </Link>
