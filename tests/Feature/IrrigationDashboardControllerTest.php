@@ -62,4 +62,25 @@ class IrrigationDashboardControllerTest extends TestCase
                 ->where('chart_implementation_status.counts', [2, 1, 1, 1])
             );
     }
+
+    public function test_index_returns_district_alignment_chart(): void
+    {
+        District::create(['name' => 'Chitral Upper']);
+        District::create(['name' => 'Kurram']);
+
+        $cboA = Cbo::factory()->create(['district' => 'Chitral Upper']);
+        $cboB = Cbo::factory()->create(['district' => 'Kurram']);
+
+        IrrigationScheme::factory()->create(['cbo_id' => $cboA->id]);
+        IrrigationScheme::factory()->create(['cbo_id' => $cboA->id]);
+        IrrigationScheme::factory()->create(['cbo_id' => $cboB->id]);
+
+        $this->actingAs($this->actingAsAdmin())
+            ->get(route('irrigation.overview'))
+            ->assertInertia(fn (Assert $page) => $page
+                ->where('chart_district_alignment.labels', ['Chitral Upper', 'Kurram'])
+                ->where('chart_district_alignment.scheme_counts', [2, 1])
+                ->where('chart_district_alignment.cbo_counts', [1, 1])
+            );
+    }
 }

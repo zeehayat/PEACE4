@@ -28,6 +28,7 @@ class IrrigationDashboardController extends Controller
                 'cbo' => $this->buildCboStats($schemes),
             ],
             'chart_implementation_status' => $this->buildImplementationStatusChart($schemes),
+            'chart_district_alignment' => $this->buildDistrictAlignmentChart($schemes),
         ]);
     }
 
@@ -115,5 +116,30 @@ class IrrigationDashboardController extends Controller
         }
 
         return ['labels' => $labels, 'counts' => $counts, 'table' => $table];
+    }
+
+    private function buildDistrictAlignmentChart($schemes): array
+    {
+        $grouped = $schemes->groupBy(fn (IrrigationScheme $s) => $s->cbo?->district ?? 'Unassigned');
+
+        $labels = [];
+        $schemeCounts = [];
+        $cboCounts = [];
+        $table = [];
+
+        foreach ($grouped->sortKeys() as $district => $group) {
+            $labels[] = $district;
+            $schemeCounts[] = $group->count();
+            $cboCount = $group->pluck('cbo_id')->filter()->unique()->count();
+            $cboCounts[] = $cboCount;
+            $table[] = ['district' => $district, 'schemes' => $group->count(), 'cbos' => $cboCount];
+        }
+
+        return [
+            'labels' => $labels,
+            'scheme_counts' => $schemeCounts,
+            'cbo_counts' => $cboCounts,
+            'table' => $table,
+        ];
     }
 }
