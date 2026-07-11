@@ -37,6 +37,7 @@ class IrrigationDashboardController extends Controller
             'chart_land_channel_coverage' => $this->buildLandChannelChart($schemes),
             'scheme_log' => $this->buildSchemeLog($schemes),
             'cbo_log' => $this->buildCboLog($schemes),
+            'stalled' => $this->buildStalledList($schemes),
         ]);
     }
 
@@ -298,6 +299,32 @@ class IrrigationDashboardController extends Controller
                     'members_trained' => (int) $cbo->trainings->sum('total_participants'),
                 ];
             })->values()->all();
+    }
+
+    private function buildStalledList($schemes): array
+    {
+        $threshold = now()->subDays(90);
+
+        return $schemes
+            ->filter(function (IrrigationScheme $s) use ($threshold) {
+                $approvedDate = $s->profile?->ho_approval_date;
+                return $approvedDate !== null
+                    && $approvedDate->lt($threshold)
+                    && $s->profile?->work_initiated_date === null;
+            })
+            ->map(function (IrrigationScheme $s) {
+                $approvedDate = $s->profile->ho_approval_date;
+                return [
+                    'id' => $s->id,
+                    'district' => $s->cbo?->district,
+                    'cbo_name' => $s->cbo?->cbo_name,
+                    'stalled_since' => $approvedDate->format('Y-m-d'),
+                    'days_stalled' => (int) $approvedDate->diffInDays(now()),
+                ];
+            })
+            ->sortByDesc('days_stalled')
+            ->values()
+            ->all();
     }
 
     public function exportSchemes(Request $request)

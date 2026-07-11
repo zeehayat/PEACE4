@@ -16,6 +16,7 @@ const props = defineProps({
     chart_land_channel_coverage: { type: Object, required: true },
     scheme_log: { type: Array, required: true },
     cbo_log: { type: Array, required: true },
+    stalled: { type: Array, required: true },
 });
 
 function applyDistrictFilter(district) {
@@ -109,6 +110,18 @@ const cboExportUrl = route('irrigation.overview.export-cbos', { district: props.
                     <option value="">All Districts</option>
                     <option v-for="d in districts" :key="d" :value="d">{{ d }}</option>
                 </select>
+            </div>
+
+            <div
+                v-if="stalled.length > 0"
+                class="rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm text-amber-800"
+            >
+                <p class="font-semibold">{{ stalled.length }} scheme(s) stalled — approved &gt;90 days ago, work not yet initiated</p>
+                <ul class="mt-2 list-disc space-y-1 pl-5">
+                    <li v-for="s in stalled" :key="s.id">
+                        {{ s.cbo_name }} ({{ s.district }}) — approved {{ s.stalled_since }}, {{ s.days_stalled }} days ago
+                    </li>
+                </ul>
             </div>
 
             <!-- Stat tile row 1: infrastructure -->

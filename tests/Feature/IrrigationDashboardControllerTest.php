@@ -184,4 +184,29 @@ class IrrigationDashboardControllerTest extends TestCase
         $response->assertOk();
         $response->assertHeader('Content-Type', 'text/csv; charset=UTF-8');
     }
+
+    public function test_index_flags_stalled_schemes(): void
+    {
+        District::create(['name' => 'North Waziristan']);
+        $cbo = Cbo::factory()->create(['district' => 'North Waziristan', 'cbo_name' => 'NW CBO']);
+
+        // Approved > 90 days ago, work not yet initiated -> stalled
+        $stalled = IrrigationScheme::factory()->create(['cbo_id' => $cbo->id]);
+        $stalled->profile->update(['ho_approval_date' => now()->subDays(120)]);
+
+        // Approved recently -> not stalled
+        $recent = IrrigationScheme::factory()->create(['cbo_id' => $cbo->id]);
+        $recent->profile->update(['ho_approval_date' => now()->subDays(10)]);
+
+        // Approved long ago but work already initiated -> not stalled
+        $progressing = IrrigationScheme::factory()->create(['cbo_id' => $cbo->id]);
+        $progressing->profile->update(['ho_approval_date' => now()->subDays(150), 'work_initiated_date' => now()->subDays(5)]);
+
+        $this->actingAs($this->actingAsAdmin())
+            ->get(route('irrigation.overview'))
+            ->assertInertia(fn (Assert $page) => $page
+                ->has('stalled', 1)
+                ->where('stalled.0.id', $stalled->id)
+            );
+    }
 }
