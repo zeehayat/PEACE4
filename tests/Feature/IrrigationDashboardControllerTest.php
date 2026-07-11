@@ -105,4 +105,29 @@ class IrrigationDashboardControllerTest extends TestCase
                 ->where('chart_indirect_beneficiaries.counts.0', 160)
             );
     }
+
+    public function test_index_returns_cbo_formation_and_land_channel_charts(): void
+    {
+        District::create(['name' => 'Swat']);
+        District::create(['name' => 'Kurram']);
+
+        $cboA = Cbo::factory()->create(['district' => 'Swat', 'date_of_formation' => '2025-06-15']);
+        $cboB = Cbo::factory()->create(['district' => 'Kurram', 'date_of_formation' => '2025-07-10']);
+
+        $schemeA = IrrigationScheme::factory()->create(['cbo_id' => $cboA->id]);
+        $schemeA->profile->update(['land_area_hectares' => 10, 'channel_length_km' => 2]);
+
+        $schemeB = IrrigationScheme::factory()->create(['cbo_id' => $cboB->id]);
+        $schemeB->profile->update(['land_area_hectares' => 20, 'channel_length_km' => 3]);
+
+        $this->actingAs($this->actingAsAdmin())
+            ->get(route('irrigation.overview'))
+            ->assertInertia(fn (Assert $page) => $page
+                ->has('chart_cbo_formation.labels', 2)
+                ->has('chart_cbo_formation.series', 2)
+                ->where('chart_land_channel_coverage.labels', ['Kurram', 'Swat'])
+                ->where('chart_land_channel_coverage.channel_km.0', 3)
+                ->where('chart_land_channel_coverage.channel_km.1', 2)
+            );
+    }
 }

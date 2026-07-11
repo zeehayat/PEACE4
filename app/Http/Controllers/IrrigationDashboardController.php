@@ -33,6 +33,8 @@ class IrrigationDashboardController extends Controller
             'chart_progress' => $this->buildProgressChart($schemes),
             'chart_direct_beneficiaries' => $this->buildBeneficiaryChart($schemes, 'direct_household_beneficiary'),
             'chart_indirect_beneficiaries' => $this->buildBeneficiaryChart($schemes, 'indirect_household_beneficiary'),
+            'chart_cbo_formation' => $this->buildCboFormationChart($schemes),
+            'chart_land_channel_coverage' => $this->buildLandChannelChart($schemes),
         ]);
     }
 
@@ -190,5 +192,61 @@ class IrrigationDashboardController extends Controller
         }
 
         return ['labels' => $labels, 'counts' => $counts, 'table' => $table];
+    }
+
+    private function buildCboFormationChart($schemes): array
+    {
+        $cboIds = $schemes->pluck('cbo_id')->filter()->unique();
+        $cbos = Cbo::query()
+            ->whereIn('id', $cboIds)
+            ->whereNotNull('date_of_formation')
+            ->get(['id', 'district', 'date_of_formation']);
+
+        $months = $cbos->map(fn (Cbo $c) => $c->date_of_formation->format('Y-m'))->unique()->sort()->values();
+        $districts = $cbos->pluck('district')->filter()->unique()->sort()->values();
+
+        $series = [];
+        $table = [];
+
+        foreach ($districts as $district) {
+            $counts = [];
+            foreach ($months as $month) {
+                $count = $cbos->filter(fn (Cbo $c) => $c->district === $district && $c->date_of_formation->format('Y-m') === $month)->count();
+                $counts[] = $count;
+                if ($count > 0) {
+                    $table[] = ['month' => $month, 'district' => $district, 'cbos_formed' => $count];
+                }
+            }
+            $series[] = ['district' => $district, 'counts' => $counts];
+        }
+
+        return ['labels' => $months->all(), 'series' => $series, 'table' => $table];
+    }
+
+    private function buildLandChannelChart($schemes): array
+    {
+        $grouped = $schemes->groupBy(fn (IrrigationScheme $s) => $s->cbo?->district ?? 'Unassigned');
+
+        $labels = [];
+        $acres = [];
+        $channelKm = [];
+        $table = [];
+
+        foreach ($grouped->sortKeys() as $district => $group) {
+            $hectares = (float) $group->sum(fn (IrrigationScheme $s) => (float) ($s->profile?->land_area_hectares ?? 0));
+            $acresValue = round($hectares * 2.47105, 2);
+
+            $channelSum = (float) $group->sum(function (IrrigationScheme $s) {
+                $km = (float) ($s->profile?->channel_length_km ?? 0);
+                return $km <= self::CHANNEL_LENGTH_CAP_KM ? $km : 0;
+            });
+
+            $labels[] = $district;
+            $acres[] = $acresValue;
+            $channelKm[] = round($channelSum, 2);
+            $table[] = ['district' => $district, 'acres' => $acresValue, 'channel_km' => round($channelSum, 2)];
+        }
+
+        return ['labels' => $labels, 'acres' => $acres, 'channel_km' => $channelKm, 'table' => $table];
     }
 }

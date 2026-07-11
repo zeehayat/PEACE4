@@ -12,6 +12,8 @@ const props = defineProps({
     chart_progress: { type: Object, required: true },
     chart_direct_beneficiaries: { type: Object, required: true },
     chart_indirect_beneficiaries: { type: Object, required: true },
+    chart_cbo_formation: { type: Object, required: true },
+    chart_land_channel_coverage: { type: Object, required: true },
 });
 
 function applyDistrictFilter(district) {
@@ -64,6 +66,25 @@ const directBeneficiariesChartData = {
 const indirectBeneficiariesChartData = {
     labels: props.chart_indirect_beneficiaries.labels,
     datasets: [{ label: 'Indirect HH Beneficiaries', backgroundColor: '#6ee7b7', data: props.chart_indirect_beneficiaries.counts }],
+};
+
+const districtPalette = ['#059669', '#6ee7b7', '#047857', '#34d399', '#065f46', '#10b981', '#022c22'];
+
+const cboFormationChartData = {
+    labels: props.chart_cbo_formation.labels,
+    datasets: props.chart_cbo_formation.series.map((s, i) => ({
+        label: s.district,
+        backgroundColor: districtPalette[i % districtPalette.length],
+        data: s.counts,
+    })),
+};
+
+const landChannelChartData = {
+    labels: props.chart_land_channel_coverage.labels,
+    datasets: [
+        { label: 'Acres Irrigated', backgroundColor: '#059669', data: props.chart_land_channel_coverage.acres },
+        { label: 'Channel (Km)', backgroundColor: '#6ee7b7', data: props.chart_land_channel_coverage.channel_km },
+    ],
 };
 </script>
 
@@ -184,6 +205,23 @@ const indirectBeneficiariesChartData = {
                     :chart-data="indirectBeneficiariesChartData"
                     :table-columns="[{ key: 'scheme', label: 'Scheme' }, { key: 'beneficiaries', label: 'Indirect HH' }]"
                     :table-rows="chart_indirect_beneficiaries.table"
+                />
+                <ChartWithTable
+                    title="05 · CBO Formation Timeline"
+                    subtitle="CBOs formed per month by district."
+                    chart-type="bar"
+                    :chart-data="cboFormationChartData"
+                    :table-columns="[{ key: 'month', label: 'Month' }, { key: 'district', label: 'District' }, { key: 'cbos_formed', label: 'CBOs Formed' }]"
+                    :table-rows="chart_cbo_formation.table"
+                />
+                <ChartWithTable
+                    title="06 · Land & Channel Coverage by District"
+                    subtitle="Total land irrigated and channel length, by district, across all schemes."
+                    chart-type="bar"
+                    :chart-data="landChannelChartData"
+                    :table-columns="[{ key: 'district', label: 'District' }, { key: 'acres', label: 'Acres' }, { key: 'channel_km', label: 'Channel (Km)' }]"
+                    :table-rows="chart_land_channel_coverage.table"
+                    @chart-click="onChartClick(chart_land_channel_coverage.labels, $event)"
                 />
             </div>
         </div>
