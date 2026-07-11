@@ -130,5 +130,5 @@ Route::middleware(['web', 'auth', 'role:Admin|Root'])->prefix('admin')->name('ad
 
 Route::middleware(['auth'])->group(function () {
     Route::redirect('/mhp-dashboard', '/mhp/overview')->name('mhp.dashboard');
-    Route::get('/irrigation-dashboard', [IrrigationDashboardController::class, 'index'])->name('irrigation.dashboard');
+    Route::redirect('/irrigation-dashboard', '/irrigation/overview')->name('irrigation.dashboard');
 });
