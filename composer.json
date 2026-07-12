@@ -11,12 +11,16 @@
         "inertiajs/inertia-laravel": "^2.0",
         "laravel/framework": "^12.0",
         "laravel/jetstream": "^5.3",
+        "laravel/octane": "^2.17",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",
         "laravel/wayfinder": "^0.1.6",
         "league/flysystem-aws-s3-v3": "~3.0",
         "spatie/laravel-medialibrary": "^11.13",
         "spatie/laravel-permission": "^6.21",
+        "spiral/roadrunner-cli": "^2.6.0",
+        "spiral/roadrunner-http": "^3.3.0",
+        "symfony/console": "7.3.3",
         "tightenco/ziggy": "^2.5"
     },
     "require-dev": {
