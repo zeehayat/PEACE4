@@ -36,6 +36,7 @@ class MhpDashboardController extends Controller
             'chart_mobilization' => $this->buildMobilizationChart($sites),
             'chart_type_breakdown' => $this->buildTypeBreakdownChart($sites),
             'chart_progress' => $this->buildProgressChart($sites),
+            'chart_component_progress' => $this->buildComponentProgressChart($sites),
             'chart_beneficiaries' => $this->buildBeneficiaryChart($sites),
             'scheme_log' => $this->buildSchemeLog($sites),
             'cbo_log' => $this->buildCboLog($sites),
@@ -150,6 +151,37 @@ class MhpDashboardController extends Controller
         }
 
         return ['labels' => $labels, 'physical' => $physical, 'financial' => $financial, 'table' => $table];
+    }
+
+    private function buildComponentProgressChart($sites): array
+    {
+        $progressBySite = MhpProgressLatest::query()
+            ->whereIn('mhp_id', $sites->pluck('id'))
+            ->get()
+            ->keyBy('mhp_id');
+
+        $labels = [];
+        $civil = [];
+        $eme = [];
+        $td = [];
+        $table = [];
+
+        foreach ($sites->sortBy('id') as $site) {
+            $name = $site->cbo?->cbo_name ?? "Scheme #{$site->id}";
+            $row = $progressBySite->get($site->id);
+
+            $civilPct = (float) ($row->phys_mhp_latest ?? 0.0);
+            $emePct = (float) ($row->phys_eme_latest ?? 0.0);
+            $tdPct = (float) ($row->phys_tnd_latest ?? 0.0);
+
+            $labels[] = $name;
+            $civil[] = $civilPct;
+            $eme[] = $emePct;
+            $td[] = $tdPct;
+            $table[] = ['scheme' => $name, 'civil' => $civilPct, 'eme' => $emePct, 'td' => $tdPct];
+        }
+
+        return ['labels' => $labels, 'civil' => $civil, 'eme' => $eme, 'td' => $td, 'table' => $table];
     }
 
     private function buildBeneficiaryChart($sites): array

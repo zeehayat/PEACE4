@@ -7,6 +7,7 @@ use App\Models\District;
 use App\Models\MhpAdminApproval;
 use App\Models\MhpCompletion;
 use App\Models\MhpSite;
+use App\Models\ProjectPhysicalProgress;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
@@ -183,6 +184,55 @@ class MhpDashboardControllerTest extends TestCase
 
         $response->assertOk();
         $response->assertHeader('Content-Type', 'text/csv; charset=UTF-8');
+    }
+
+    public function test_index_returns_component_progress_chart(): void
+    {
+        District::create(['name' => 'Kohistan']);
+        $cbo = Cbo::factory()->create(['district' => 'Kohistan', 'cbo_name' => 'Kohistan CBO 1']);
+        $site = MhpSite::factory()->create(['cbo_id' => $cbo->id]);
+
+        // Civil: two rows, MAX should win (70 over 40)
+        ProjectPhysicalProgress::factory()->create([
+            'projectable_id' => $site->id,
+            'projectable_type' => MhpSite::class,
+            'payment_for' => 'Civil',
+            'progress_percentage' => 40,
+        ]);
+        ProjectPhysicalProgress::factory()->create([
+            'projectable_id' => $site->id,
+            'projectable_type' => MhpSite::class,
+            'payment_for' => 'Civil',
+            'progress_percentage' => 70,
+        ]);
+
+        // EME
+        ProjectPhysicalProgress::factory()->create([
+            'projectable_id' => $site->id,
+            'projectable_type' => MhpSite::class,
+            'payment_for' => 'EME',
+            'progress_percentage' => 30,
+        ]);
+
+        // T&D
+        ProjectPhysicalProgress::factory()->create([
+            'projectable_id' => $site->id,
+            'projectable_type' => MhpSite::class,
+            'payment_for' => 'T&D',
+            'progress_percentage' => 15,
+        ]);
+
+        $this->actingAs($this->actingAsAdmin())
+            ->get(route('mhp.overview'))
+            ->assertInertia(fn (Assert $page) => $page
+                ->has('chart_component_progress.labels', 1)
+                ->where('chart_component_progress.labels.0', 'Kohistan CBO 1')
+                ->where('chart_component_progress.civil.0', 70)
+                ->where('chart_component_progress.eme.0', 30)
+                ->where('chart_component_progress.td.0', 15)
+                ->where('chart_component_progress.table.0.scheme', 'Kohistan CBO 1')
+                ->where('chart_component_progress.table.0.civil', 70)
+            );
     }
 
     public function test_index_flags_stalled_schemes(): void
