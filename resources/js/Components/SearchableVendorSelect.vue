@@ -3,9 +3,8 @@ import { ref, watch, onMounted, computed } from 'vue';
 import { debounce } from 'lodash';
 import axios from 'axios';
 
-import InputLabel from '@/Components/InputLabel.vue';
 import SelectInput from '@/Components/SelectInput.vue';
-import InputError from '@/Components/InputError.vue';
+import InputGroup from '@/Components/FormComponents/InputGroup.vue';
 
 const props = defineProps({
     modelValue: [String, Number, null],
@@ -56,8 +55,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <div>
-        <InputLabel v-if="label" :for="id" :value="label" />
+    <InputGroup :id="id" :label="label" :error="errorMessage">
         <!-- We directly bind v-model to the modelValue (ID) -->
         <SelectInput
             :id="id"
@@ -70,8 +68,7 @@ onMounted(() => {
             :placeholder="'Select a Vendor'"
             @input="fetchVendors($event.target.value)"
         />
-        <InputError class="mt-2" :message="errorMessage" />
-    </div>
+    </InputGroup>
 </template>
 
 <style scoped>

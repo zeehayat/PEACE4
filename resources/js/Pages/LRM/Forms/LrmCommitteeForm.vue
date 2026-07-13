@@ -2,8 +2,7 @@
 import { reactive, watch, ref, onMounted } from 'vue';
 import { useForm, usePage } from '@inertiajs/vue3';
 
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
+import InputGroup from '@/Components/FormComponents/InputGroup.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import TextArea from '@/Components/TextArea.vue';
@@ -119,32 +118,37 @@ const handleCancel = () => {
     <form @submit.prevent="handleSubmit" class="p-6 space-y-6">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- CBO -->
-            <div>
-                <InputLabel for="cbo_id" value="CBO" />
+            <InputGroup id="cbo_id" label="CBO" :required="true" :error="form.errors.cbo_id">
                 <SearchableCboSelect
                     id="cbo_id"
                     v-model="form.cbo_id"
                     :initial-cbo-object="lrmCommittee ? lrmCommittee.cbo : null"
                     :class="{ 'border-red-500': form.errors.cbo_id }"
                 />
-                <InputError class="mt-2" :message="form.errors.cbo_id" />
-            </div>
+            </InputGroup>
 
             <!-- Date of LRM Committee Formation -->
-            <div>
-                <InputLabel for="date_of_lrm_committee_formation" value="Date of Committee Formation" />
+            <InputGroup
+                id="date_of_lrm_committee_formation"
+                label="Date of Committee Formation"
+                :required="true"
+                :error="form.errors.date_of_lrm_committee_formation"
+            >
                 <DatePicker
                     id="date_of_lrm_committee_formation"
                     v-model="form.date_of_lrm_committee_formation"
                     :class="{ 'border-red-500': form.errors.date_of_lrm_committee_formation }"
                     placeholder="Select Date"
                 />
-                <InputError class="mt-2" :message="form.errors.date_of_lrm_committee_formation" />
-            </div>
+            </InputGroup>
 
             <!-- No. of LRM Committee Members -->
-            <div>
-                <InputLabel for="no_of_lrm_committee_members" value="No. of Committee Members" />
+            <InputGroup
+                id="no_of_lrm_committee_members"
+                label="No. of Committee Members"
+                :required="true"
+                :error="form.errors.no_of_lrm_committee_members"
+            >
                 <TextInput
                     id="no_of_lrm_committee_members"
                     v-model="form.no_of_lrm_committee_members"
@@ -153,24 +157,30 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.no_of_lrm_committee_members }"
                 />
-                <InputError class="mt-2" :message="form.errors.no_of_lrm_committee_members" />
-            </div>
+            </InputGroup>
 
             <!-- Date of NRM Plan Finalization -->
-            <div>
-                <InputLabel for="date_of_nrm_plan_finalization" value="Date of NRM Plan Finalization (Optional)" />
+            <InputGroup
+                id="date_of_nrm_plan_finalization"
+                label="Date of NRM Plan Finalization (Optional)"
+                help="NRM means Natural Resource Management — the plan governing this committee's forestry and land activities."
+                :error="form.errors.date_of_nrm_plan_finalization"
+            >
                 <DatePicker
                     id="date_of_nrm_plan_finalization"
                     v-model="form.date_of_nrm_plan_finalization"
                     :class="{ 'border-red-500': form.errors.date_of_nrm_plan_finalization }"
                     placeholder="Select Date"
                 />
-                <InputError class="mt-2" :message="form.errors.date_of_nrm_plan_finalization" />
-            </div>
+            </InputGroup>
 
             <!-- Has Afforestation/Reforestation -->
-            <div>
-                <InputLabel for="has_afforestation_reforestation" value="Afforestation/Reforestation Activity?" />
+            <InputGroup
+                id="has_afforestation_reforestation"
+                label="Afforestation/Reforestation Activity?"
+                :required="true"
+                :error="form.errors.has_afforestation_reforestation"
+            >
                 <SelectInput
                     id="has_afforestation_reforestation"
                     v-model="form.has_afforestation_reforestation"
@@ -178,12 +188,10 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.has_afforestation_reforestation }"
                 />
-                <InputError class="mt-2" :message="form.errors.has_afforestation_reforestation" />
-            </div>
+            </InputGroup>
 
             <!-- Forest Plants (Multi-select or tags) -->
-            <div>
-                <InputLabel for="forest_plants" value="Forest Plants (Select all that apply)" />
+            <InputGroup id="forest_plants" label="Forest Plants (Select all that apply)" :error="form.errors.forest_plants">
                 <SelectInput
                     id="forest_plants"
                     v-model="form.forest_plants"
@@ -192,12 +200,10 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.forest_plants }"
                 />
-                <InputError class="mt-2" :message="form.errors.forest_plants" />
-            </div>
+            </InputGroup>
 
             <!-- Fruit Plants (Multi-select or tags) -->
-            <div>
-                <InputLabel for="fruit_plants" value="Fruit Plants (Select all that apply)" />
+            <InputGroup id="fruit_plants" label="Fruit Plants (Select all that apply)" :error="form.errors.fruit_plants">
                 <SelectInput
                     id="fruit_plants"
                     v-model="form.fruit_plants"
@@ -206,12 +212,14 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.fruit_plants }"
                 />
-                <InputError class="mt-2" :message="form.errors.fruit_plants" />
-            </div>
+            </InputGroup>
 
             <!-- Total Land Covered (Hectares) -->
-            <div>
-                <InputLabel for="total_land_covered_hectares" value="Total Land Covered (Hectares)" />
+            <InputGroup
+                id="total_land_covered_hectares"
+                label="Total Land Covered (Hectares)"
+                :error="form.errors.total_land_covered_hectares"
+            >
                 <TextInput
                     id="total_land_covered_hectares"
                     v-model="form.total_land_covered_hectares"
@@ -221,8 +229,7 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.total_land_covered_hectares }"
                 />
-                <InputError class="mt-2" :message="form.errors.total_land_covered_hectares" />
-            </div>
+            </InputGroup>
 
             <!-- NRM Targets -->
             <div class="md:col-span-2 border-t border-ink-200 pt-6 mt-2">
@@ -230,112 +237,103 @@ const handleCancel = () => {
             </div>
 
             <div class="flex gap-2 items-end">
-                <div class="flex-1">
-                    <InputLabel for="target_forest_area_value" value="Forest Area Target" />
+                <InputGroup id="target_forest_area_value" label="Forest Area Target" class="flex-1" :error="form.errors.target_forest_area_value">
                     <TextInput id="target_forest_area_value" v-model="form.target_forest_area_value" type="number" step="0.01" min="0" class="mt-1 block w-full" :class="{ 'border-red-500': form.errors.target_forest_area_value }" />
-                    <InputError class="mt-2" :message="form.errors.target_forest_area_value" />
-                </div>
-                <div class="w-24">
-                    <InputLabel for="target_forest_area_unit" value="Unit" />
+                </InputGroup>
+                <InputGroup id="target_forest_area_unit" label="Unit" class="w-24">
                     <TextInput id="target_forest_area_unit" v-model="form.target_forest_area_unit" type="text" class="mt-1 block w-full" />
-                </div>
+                </InputGroup>
             </div>
 
             <div class="flex gap-2 items-end">
-                <div class="flex-1">
-                    <InputLabel for="target_fruit_area_value" value="Fruit Area Target" />
+                <InputGroup id="target_fruit_area_value" label="Fruit Area Target" class="flex-1" :error="form.errors.target_fruit_area_value">
                     <TextInput id="target_fruit_area_value" v-model="form.target_fruit_area_value" type="number" step="0.01" min="0" class="mt-1 block w-full" :class="{ 'border-red-500': form.errors.target_fruit_area_value }" />
-                    <InputError class="mt-2" :message="form.errors.target_fruit_area_value" />
-                </div>
-                <div class="w-24">
-                    <InputLabel for="target_fruit_area_unit" value="Unit" />
+                </InputGroup>
+                <InputGroup id="target_fruit_area_unit" label="Unit" class="w-24">
                     <TextInput id="target_fruit_area_unit" v-model="form.target_fruit_area_unit" type="text" class="mt-1 block w-full" />
-                </div>
+                </InputGroup>
             </div>
 
-            <div>
-                <InputLabel for="target_forest_plants_count" value="Forest Plants Target (Count)" />
+            <InputGroup id="target_forest_plants_count" label="Forest Plants Target (Count)" :error="form.errors.target_forest_plants_count">
                 <TextInput id="target_forest_plants_count" v-model="form.target_forest_plants_count" type="number" min="0" class="mt-1 block w-full" :class="{ 'border-red-500': form.errors.target_forest_plants_count }" />
-                <InputError class="mt-2" :message="form.errors.target_forest_plants_count" />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="target_fruit_plants_count" value="Fruit Plants Target (Count)" />
+            <InputGroup id="target_fruit_plants_count" label="Fruit Plants Target (Count)" :error="form.errors.target_fruit_plants_count">
                 <TextInput id="target_fruit_plants_count" v-model="form.target_fruit_plants_count" type="number" min="0" class="mt-1 block w-full" :class="{ 'border-red-500': form.errors.target_fruit_plants_count }" />
-                <InputError class="mt-2" :message="form.errors.target_fruit_plants_count" />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="target_drr_training_persons" value="DRR Training Target (Persons)" />
+            <InputGroup
+                id="target_drr_training_persons"
+                label="DRR Training Target (Persons)"
+                help="DRR means Disaster Risk Reduction training for committee members."
+                :error="form.errors.target_drr_training_persons"
+            >
                 <TextInput id="target_drr_training_persons" v-model="form.target_drr_training_persons" type="number" min="0" class="mt-1 block w-full" :class="{ 'border-red-500': form.errors.target_drr_training_persons }" />
-                <InputError class="mt-2" :message="form.errors.target_drr_training_persons" />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="target_composting_training_persons" value="Composting Training Target (Persons)" />
+            <InputGroup id="target_composting_training_persons" label="Composting Training Target (Persons)" :error="form.errors.target_composting_training_persons">
                 <TextInput id="target_composting_training_persons" v-model="form.target_composting_training_persons" type="number" min="0" class="mt-1 block w-full" :class="{ 'border-red-500': form.errors.target_composting_training_persons }" />
-                <InputError class="mt-2" :message="form.errors.target_composting_training_persons" />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="target_pest_control_training_persons" value="Pest Control Training Target (Persons)" />
+            <InputGroup id="target_pest_control_training_persons" label="Pest Control Training Target (Persons)" :error="form.errors.target_pest_control_training_persons">
                 <TextInput id="target_pest_control_training_persons" v-model="form.target_pest_control_training_persons" type="number" min="0" class="mt-1 block w-full" :class="{ 'border-red-500': form.errors.target_pest_control_training_persons }" />
-                <InputError class="mt-2" :message="form.errors.target_pest_control_training_persons" />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="target_pest_control_kits" value="Pest Control Kits Target" />
+            <InputGroup id="target_pest_control_kits" label="Pest Control Kits Target" :error="form.errors.target_pest_control_kits">
                 <TextInput id="target_pest_control_kits" v-model="form.target_pest_control_kits" type="number" min="0" class="mt-1 block w-full" :class="{ 'border-red-500': form.errors.target_pest_control_kits }" />
-                <InputError class="mt-2" :message="form.errors.target_pest_control_kits" />
-            </div>
+            </InputGroup>
 
             <div class="flex gap-2 items-end">
-                <div class="flex-1">
-                    <InputLabel for="target_check_dams_value" value="Check Dams Target" />
+                <InputGroup
+                    id="target_check_dams_value"
+                    label="Check Dams Target"
+                    class="flex-1"
+                    help="CFT means Cubic Feet, the default unit for check dam volume."
+                    :error="form.errors.target_check_dams_value"
+                >
                     <TextInput id="target_check_dams_value" v-model="form.target_check_dams_value" type="number" step="0.01" min="0" class="mt-1 block w-full" :class="{ 'border-red-500': form.errors.target_check_dams_value }" />
-                    <InputError class="mt-2" :message="form.errors.target_check_dams_value" />
-                </div>
-                <div class="w-24">
-                    <InputLabel for="target_check_dams_unit" value="Unit" />
+                </InputGroup>
+                <InputGroup id="target_check_dams_unit" label="Unit" class="w-24">
                     <TextInput id="target_check_dams_unit" v-model="form.target_check_dams_unit" type="text" class="mt-1 block w-full" />
-                </div>
+                </InputGroup>
             </div>
 
             <div class="flex gap-2 items-end">
-                <div class="flex-1">
-                    <InputLabel for="target_greenbelt_lawn_value" value="Green Belt / Lawn Target" />
+                <InputGroup
+                    id="target_greenbelt_lawn_value"
+                    label="Green Belt / Lawn Target"
+                    class="flex-1"
+                    help="Sft means Square Feet, the default unit for green belt/lawn area."
+                    :error="form.errors.target_greenbelt_lawn_value"
+                >
                     <TextInput id="target_greenbelt_lawn_value" v-model="form.target_greenbelt_lawn_value" type="number" step="0.01" min="0" class="mt-1 block w-full" :class="{ 'border-red-500': form.errors.target_greenbelt_lawn_value }" />
-                    <InputError class="mt-2" :message="form.errors.target_greenbelt_lawn_value" />
-                </div>
-                <div class="w-24">
-                    <InputLabel for="target_greenbelt_lawn_unit" value="Unit" />
+                </InputGroup>
+                <InputGroup id="target_greenbelt_lawn_unit" label="Unit" class="w-24">
                     <TextInput id="target_greenbelt_lawn_unit" v-model="form.target_greenbelt_lawn_unit" type="text" class="mt-1 block w-full" />
-                </div>
+                </InputGroup>
             </div>
 
             <!-- Remarks (WYSIWYG Editor) -->
-            <div class="md:col-span-2">
-                <InputLabel for="remarks" value="Remarks" />
+            <InputGroup id="remarks" label="Remarks" class="md:col-span-2" :error="form.errors.remarks">
                 <WysiwygEditor
                     id="remarks"
                     v-model="form.remarks"
                     :class="{ 'border-red-500': form.errors.remarks }"
                     :height="200"
                 />
-                <InputError class="mt-2" :message="form.errors.remarks" />
-            </div>
+            </InputGroup>
         </div>
 
         <!-- Attachments Section -->
         <div class="mt-6">
-            <InputLabel value="Attachments" />
-            <AttachmentUploader
-                v-model="form.attachments"
-                :existing-attachments="existingAttachments"
-                @remove-existing="handleAttachmentsToDelete"
-                :error-message="form.errors.attachments"
-            />
-            <InputError class="mt-2" :message="form.errors.attachments" />
+            <InputGroup label="Attachments" :error="form.errors.attachments">
+                <AttachmentUploader
+                    v-model="form.attachments"
+                    :existing-attachments="existingAttachments"
+                    @remove-existing="handleAttachmentsToDelete"
+                    :error-message="form.errors.attachments"
+                />
+            </InputGroup>
         </div>
 
         <div class="flex items-center justify-end mt-6 space-x-4">
