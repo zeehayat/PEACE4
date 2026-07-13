@@ -2,8 +2,7 @@
 import { reactive, watch, ref, onMounted } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
+import InputGroup from '@/Components/FormComponents/InputGroup.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import TextArea from '@/Components/TextArea.vue';
@@ -124,20 +123,17 @@ const handleCancel = () => {
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- EU Approval Date -->
-            <div>
-                <InputLabel for="eu_approval_date" value="EU Approval Date" />
+            <InputGroup id="eu_approval_date" label="EU Approval Date" :error="form.errors.eu_approval_date">
                 <DatePicker
                     id="eu_approval_date"
                     v-model="form.eu_approval_date"
                     :class="{ 'border-red-500': form.errors.eu_approval_date }"
                     placeholder="Select Date"
                 />
-                <InputError class="mt-2" :message="form.errors.eu_approval_date" />
-            </div>
+            </InputGroup>
 
             <!-- Approved Cost -->
-            <div>
-                <InputLabel for="approved_cost" value="Approved Cost" />
+            <InputGroup id="approved_cost" label="Approved Cost" :error="form.errors.approved_cost">
                 <TextInput
                     id="approved_cost"
                     v-model="form.approved_cost"
@@ -146,12 +142,10 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.approved_cost }"
                 />
-                <InputError class="mt-2" :message="form.errors.approved_cost" />
-            </div>
+            </InputGroup>
 
             <!-- Revised Cost 1 -->
-            <div>
-                <InputLabel for="revised_cost_1" value="Revised Cost 1" />
+            <InputGroup id="revised_cost_1" label="Revised Cost 1" :error="form.errors.revised_cost_1">
                 <TextInput
                     id="revised_cost_1"
                     v-model="form.revised_cost_1"
@@ -160,12 +154,10 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.revised_cost_1 }"
                 />
-                <InputError class="mt-2" :message="form.errors.revised_cost_1" />
-            </div>
+            </InputGroup>
 
             <!-- Revised Cost 2 -->
-            <div>
-                <InputLabel for="revised_cost_2" value="Revised Cost 2" />
+            <InputGroup id="revised_cost_2" label="Revised Cost 2" :error="form.errors.revised_cost_2">
                 <TextInput
                     id="revised_cost_2"
                     v-model="form.revised_cost_2"
@@ -174,12 +166,10 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.revised_cost_2 }"
                 />
-                <InputError class="mt-2" :message="form.errors.revised_cost_2" />
-            </div>
+            </InputGroup>
 
             <!-- Revised Cost 3 -->
-            <div>
-                <InputLabel for="revised_cost_3" value="Revised Cost 3" />
+            <InputGroup id="revised_cost_3" label="Revised Cost 3" :error="form.errors.revised_cost_3">
                 <TextInput
                     id="revised_cost_3"
                     v-model="form.revised_cost_3"
@@ -188,117 +178,118 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.revised_cost_3 }"
                 />
-                <InputError class="mt-2" :message="form.errors.revised_cost_3" />
-            </div>
+            </InputGroup>
 
             <!-- HPP Inauguration Date -->
-            <div>
-                <InputLabel for="hpp_inauguration_date" value="HPP Inauguration Date" />
+            <InputGroup
+                id="hpp_inauguration_date"
+                label="HPP Inauguration Date"
+                help="HPP means Hydro Power Plant — the date the plant was formally inaugurated."
+                :error="form.errors.hpp_inauguration_date"
+            >
                 <DatePicker
                     id="hpp_inauguration_date"
                     v-model="form.hpp_inauguration_date"
                     :class="{ 'border-red-500': form.errors.hpp_inauguration_date }"
                     placeholder="Select Date"
                 />
-                <InputError class="mt-2" :message="form.errors.hpp_inauguration_date" />
-            </div>
+            </InputGroup>
 
             <!-- Technical Survey Date -->
-            <div>
-                <InputLabel for="technical_survey_date" value="Technical Survey Date" />
+            <InputGroup id="technical_survey_date" label="Technical Survey Date" :error="form.errors.technical_survey_date">
                 <DatePicker
                     id="technical_survey_date"
                     v-model="form.technical_survey_date"
                     :class="{ 'border-red-500': form.errors.technical_survey_date }"
                     placeholder="Select Date"
                 />
-                <InputError class="mt-2" :message="form.errors.technical_survey_date" />
-            </div>
+            </InputGroup>
 
             <!-- Date Design PSU Submission -->
-            <div>
-                <InputLabel for="date_design_psu_submission" value="Date Design PSU Submission" />
+            <InputGroup
+                id="date_design_psu_submission"
+                label="Date Design PSU Submission"
+                help="PSU means Project Support Unit — the date the design/estimate package was submitted to the PSU for review."
+                :error="form.errors.date_design_psu_submission"
+            >
                 <DatePicker
                     id="date_design_psu_submission"
                     v-model="form.date_design_psu_submission"
                     :class="{ 'border-red-500': form.errors.date_design_psu_submission }"
                     placeholder="Select Date"
                 />
-                <InputError class="mt-2" :message="form.errors.date_design_psu_submission" />
-            </div>
+            </InputGroup>
 
             <!-- Head Office Review Submission Date -->
-            <div>
-                <InputLabel for="headoffice_review_submission_date" value="Head Office Review Submission Date" />
+            <InputGroup id="headoffice_review_submission_date" label="Head Office Review Submission Date" :error="form.errors.headoffice_review_submission_date">
                 <DatePicker
                     id="headoffice_review_submission_date"
                     v-model="form.headoffice_review_submission_date"
                     :class="{ 'border-red-500': form.errors.headoffice_review_submission_date }"
                     placeholder="Select Date"
                 />
-                <InputError class="mt-2" :message="form.errors.headoffice_review_submission_date" />
-            </div>
+            </InputGroup>
 
             <!-- Design Estimate Date -->
-            <div>
-                <InputLabel for="design_estimate_date" value="Design Estimate Date" />
+            <InputGroup id="design_estimate_date" label="Design Estimate Date" :error="form.errors.design_estimate_date">
                 <DatePicker
                     id="design_estimate_date"
                     v-model="form.design_estimate_date"
                     :class="{ 'border-red-500': form.errors.design_estimate_date }"
                     placeholder="Select Date"
                 />
-                <InputError class="mt-2" :message="form.errors.design_estimate_date" />
-            </div>
+            </InputGroup>
 
             <!-- EU Approval Submission Date -->
-            <div>
-                <InputLabel for="eu_approval_submission_date" value="EU Approval Submission Date" />
+            <InputGroup
+                id="eu_approval_submission_date"
+                label="EU Approval Submission Date"
+                help="The date this site's approval package was submitted to the European Union (EU) for sign-off."
+                :error="form.errors.eu_approval_submission_date"
+            >
                 <DatePicker
                     id="eu_approval_submission_date"
                     v-model="form.eu_approval_submission_date"
                     :class="{ 'border-red-500': form.errors.eu_approval_submission_date }"
                     placeholder="Select Date"
                 />
-                <InputError class="mt-2" :message="form.errors.eu_approval_submission_date" />
-            </div>
+            </InputGroup>
 
             <!-- OPM Validation Date -->
-            <div>
-                <InputLabel for="opm_validation_date" value="OPM Validation Date" />
+            <InputGroup
+                id="opm_validation_date"
+                label="OPM Validation Date"
+                help="OPM means Office of the Prime Minister — the date the OPM validated this site's approval."
+                :error="form.errors.opm_validation_date"
+            >
                 <DatePicker
                     id="opm_validation_date"
                     v-model="form.opm_validation_date"
                     :class="{ 'border-red-500': form.errors.opm_validation_date }"
                     placeholder="Select Date"
                 />
-                <InputError class="mt-2" :message="form.errors.opm_validation_date" />
-            </div>
+            </InputGroup>
 
             <!-- Remarks (WYSIWYG Editor) -->
-            <div class="md:col-span-2">
-                <InputLabel for="remarks" value="Remarks" />
+            <InputGroup id="remarks" label="Remarks" class="md:col-span-2" :error="form.errors.remarks">
                 <WysiwygEditor
                     id="remarks"
                     v-model="form.remarks"
                     :class="{ 'border-red-500': form.errors.remarks }"
                     :height="200"
                 />
-                <InputError class="mt-2" :message="form.errors.remarks" />
-            </div>
+            </InputGroup>
         </div>
 
         <!-- Attachments Section -->
-        <div class="mt-6">
-            <InputLabel value="Attachments" />
+        <InputGroup label="Attachments" class="mt-6" :error="form.errors.attachments">
             <AttachmentUploader
                 v-model="form.attachments"
                 :existing-attachments="existingAttachments"
                 @remove-existing="handleAttachmentsToDelete"
                 :error-message="form.errors.attachments"
             />
-            <InputError class="mt-2" :message="form.errors.attachments" />
-        </div>
+        </InputGroup>
 
         <div class="flex items-center justify-end mt-6 space-x-4">
             <button

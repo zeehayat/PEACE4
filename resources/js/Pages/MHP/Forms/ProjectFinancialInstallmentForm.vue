@@ -2,8 +2,7 @@
 import { watch, ref } from 'vue';
 import { useForm, router } from '@inertiajs/vue3';
 
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
+import InputGroup from '@/Components/FormComponents/InputGroup.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import TextArea from '@/Components/TextArea.vue';
@@ -127,68 +126,50 @@ const handleCancel = () => {
         <input type="hidden" v-model="form.projectable_type" />
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-                <InputLabel for="installment_number" value="Installment Number" />
+            <InputGroup id="installment_number" label="Installment Number" :required="true" :error="form.errors.installment_number">
                 <TextInput id="installment_number" v-model="form.installment_number" type="number" min="1" class="mt-1 block w-full" :class="{ 'border-red-500': form.errors.installment_number }" />
-                <InputError class="mt-2" :message="form.errors.installment_number" />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="installment_date" value="Installment Date" />
+            <InputGroup id="installment_date" label="Installment Date" :required="true" :error="form.errors.installment_date">
                 <DatePicker id="installment_date" v-model="form.installment_date" :class="{ 'border-red-500': form.errors.installment_date }" placeholder="Select Date" />
-                <InputError class="mt-2" :message="form.errors.installment_date" />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="installment_amount" value="Installment Amount" />
+            <InputGroup id="installment_amount" label="Installment Amount" :required="true" :error="form.errors.installment_amount">
                 <TextInput id="installment_amount" v-model="form.installment_amount" type="number" step="0.01" min="0" class="mt-1 block w-full" :class="{ 'border-red-500': form.errors.installment_amount }" />
-                <InputError class="mt-2" :message="form.errors.installment_amount" />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="cheque_no" value="Cheque Number" />
+            <InputGroup id="cheque_no" label="Cheque Number" :error="form.errors.cheque_no">
                 <TextInput id="cheque_no" v-model="form.cheque_no" type="text" class="mt-1 block w-full" :class="{ 'border-red-500': form.errors.cheque_no }" />
-                <InputError class="mt-2" :message="form.errors.cheque_no" />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="category" value="Category" />
+            <InputGroup id="category" label="Category" :error="form.errors.category">
                 <SelectInput id="category" v-model="form.category" :options="categoryOptions" class="mt-1 block w-full" :class="{ 'border-red-500': form.errors.category }" />
-                <InputError class="mt-2" :message="form.errors.category" />
-            </div>
+            </InputGroup>
 
-            <div v-if="!progressType">
-                <InputLabel for="payment_for" value="Activity Type (Payment For)" />
+            <InputGroup v-if="!progressType" id="payment_for" label="Activity Type (Payment For)" :required="true" :error="form.errors.payment_for">
                 <SelectInput id="payment_for" v-model="form.payment_for" :options="paymentForOptions" class="mt-1 block w-full" :class="{ 'border-red-500': form.errors.payment_for }" />
-                <InputError class="mt-2" :message="form.errors.payment_for" />
-            </div>
+            </InputGroup>
             <input v-else type="hidden" v-model="form.payment_for" />
 
-            <div v-if="form.payment_for === 'T&D'">
-                <InputLabel for="activity_id" value="Select T&D Work" />
+            <InputGroup v-if="form.payment_for === 'T&D'" id="activity_id" label="Select T&D Work" :error="form.errors.activity_id">
                 <SelectInput id="activity_id" v-model="form.activity_id" :options="tAndDWorksOptions" :disabled="fetchingTAndDWorks || tAndDWorksOptions.length === 0" class="mt-1 block w-full" :class="{ 'border-red-500': form.errors.activity_id }">
                     <option v-if="fetchingTAndDWorks" disabled>Loading T&D Works...</option>
                     <option v-if="!fetchingTAndDWorks && tAndDWorksOptions.length === 0" disabled>No T&D Works available for this site.</option>
                 </SelectInput>
-                <InputError class="mt-2" :message="form.errors.activity_id" />
                 <p v-if="!fetchingTAndDWorks && tAndDWorksOptions.length === 0" class="mt-1 text-sm text-ink-500">
                     No T&D Works found. Add one first.
                 </p>
-            </div>
+            </InputGroup>
             <input type="hidden" v-model="form.activity_type" />
 
-            <div class="md:col-span-2">
-                <InputLabel for="remarks" value="Remarks" />
+            <InputGroup id="remarks" label="Remarks" class="md:col-span-2" :error="form.errors.remarks">
                 <TextArea id="remarks" v-model="form.remarks" class="mt-1 block w-full" :class="{ 'border-red-500': form.errors.remarks }" />
-                <InputError class="mt-2" :message="form.errors.remarks" />
-            </div>
+            </InputGroup>
         </div>
 
-        <div class="mt-6">
-            <InputLabel value="Attachments" />
+        <InputGroup label="Attachments" class="mt-6" :error="form.errors.attachments">
             <AttachmentUploader :existing-attachments="existingAttachments" @update-files="handleFilePondUpdate" @delete-existing-attachments="handleAttachmentsToDelete" :error-message="form.errors.attachments" />
-            <InputError class="mt-2" :message="form.errors.attachments" />
-        </div>
+        </InputGroup>
 
         <div class="flex items-center justify-end mt-6 space-x-4">
             <button type="button" @click="handleCancel" class="inline-flex items-center px-4 py-2 bg-paper-200 border border-transparent rounded-md font-semibold text-xs text-ink-700 uppercase tracking-widest hover:bg-paper-300 focus:bg-paper-300 active:bg-paper-400 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 transition ease-in-out duration-150">

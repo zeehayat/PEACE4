@@ -2,8 +2,8 @@
 import { reactive, watch, ref, onMounted, computed } from 'vue';
 import { useForm, usePage } from '@inertiajs/vue3';
 
-import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
+import InputGroup from '@/Components/FormComponents/InputGroup.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import TextArea from '@/Components/TextArea.vue';
@@ -263,8 +263,7 @@ const handleCancel = () => {
                         Core MHP Site Registry
                     </h4>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                            <InputLabel for="cbo_id" value="Associated CBO" class="text-xs font-semibold text-ink-600" />
+                        <InputGroup id="cbo_id" label="Associated CBO" :required="true" :error="form.errors.cbo_id">
                             <SearchableCboSelect
                                 id="cbo_id"
                                 v-model="form.cbo_id"
@@ -272,11 +271,9 @@ const handleCancel = () => {
                                 :class="{ 'border-red-500': form.errors.cbo_id }"
                                 class="mt-0.5"
                             />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.cbo_id" />
-                        </div>
+                        </InputGroup>
 
-                        <div>
-                            <InputLabel for="month_year_establishment" value="Month & Year of Establishment" class="text-xs font-semibold text-ink-600" />
+                        <InputGroup id="month_year_establishment" label="Month & Year of Establishment" :error="form.errors.month_year_establishment">
                             <DatePicker
                                 id="month_year_establishment"
                                 v-model="form.month_year_establishment"
@@ -284,11 +281,9 @@ const handleCancel = () => {
                                 placeholder="Select Date"
                                 class="mt-0.5"
                             />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.month_year_establishment" />
-                        </div>
+                        </InputGroup>
 
-                        <div v-if="form.status !== 'New'">
-                            <InputLabel for="established_by" value="Established By" class="text-xs font-semibold text-ink-600" />
+                        <InputGroup v-if="form.status !== 'New'" id="established_by" label="Established By" :error="form.errors.established_by">
                             <TextInput
                                 id="established_by"
                                 v-model="form.established_by"
@@ -296,11 +291,9 @@ const handleCancel = () => {
                                 class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm"
                                 :class="{ 'border-red-500': form.errors.established_by }"
                             />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.established_by" />
-                        </div>
+                        </InputGroup>
 
-                        <div>
-                            <InputLabel for="population" value="Population Served" class="text-xs font-semibold text-ink-600" />
+                        <InputGroup id="population" label="Population Served" :error="form.errors.population">
                             <TextInput
                                 id="population"
                                 v-model="form.population"
@@ -308,11 +301,9 @@ const handleCancel = () => {
                                 class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm"
                                 :class="{ 'border-red-500': form.errors.population }"
                             />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.population" />
-                        </div>
+                        </InputGroup>
 
-                        <div>
-                            <InputLabel for="grid_status" value="Grid Connection Status" class="text-xs font-semibold text-ink-600" />
+                        <InputGroup id="grid_status" label="Grid Connection Status" :required="true" :error="form.errors.grid_status">
                             <SelectInput
                                 id="grid_status"
                                 v-model="form.grid_status"
@@ -320,11 +311,9 @@ const handleCancel = () => {
                                 class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm"
                                 :class="{ 'border-red-500': form.errors.grid_status }"
                             />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.grid_status" />
-                        </div>
+                        </InputGroup>
 
-                        <div>
-                            <InputLabel for="status" value="Project Status Type" class="text-xs font-semibold text-ink-600" />
+                        <InputGroup id="status" label="Project Status Type" :required="true" :error="form.errors.status">
                             <SelectInput
                                 id="status"
                                 v-model="form.status"
@@ -332,8 +321,7 @@ const handleCancel = () => {
                                 class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm"
                                 :class="{ 'border-red-500': form.errors.status }"
                             />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.status" />
-                        </div>
+                        </InputGroup>
                     </div>
                 </div>
             </div>
@@ -346,41 +334,27 @@ const handleCancel = () => {
                         Estimates & Capacities
                     </h4>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div>
-                            <InputLabel for="planned_capacity_kw" value="Planned Capacity (KW)" class="text-xs font-semibold text-ink-600" />
+                        <InputGroup id="planned_capacity_kw" label="Planned Capacity (KW)" :error="form.errors.planned_capacity_kw">
                             <TextInput id="planned_capacity_kw" v-model="form.planned_capacity_kw" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.planned_capacity_kw" />
-                        </div>
-                        <div>
-                            <InputLabel for="existing_capacity_kw" value="Existing Capacity (KW)" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="existing_capacity_kw" label="Existing Capacity (KW)" :error="form.errors.existing_capacity_kw">
                             <TextInput id="existing_capacity_kw" v-model="form.existing_capacity_kw" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.existing_capacity_kw" />
-                        </div>
-                        <div>
-                            <InputLabel for="proposed_capacity_kw" value="Proposed Capacity (KW)" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="proposed_capacity_kw" label="Proposed Capacity (KW)" :error="form.errors.proposed_capacity_kw">
                             <TextInput id="proposed_capacity_kw" v-model="form.proposed_capacity_kw" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.proposed_capacity_kw" />
-                        </div>
-                        <div>
-                            <InputLabel for="estimated_cost" value="Estimated Cost (PKR)" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="estimated_cost" label="Estimated Cost (PKR)" :error="form.errors.estimated_cost">
                             <TextInput id="estimated_cost" v-model="form.estimated_cost" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.estimated_cost" />
-                        </div>
-                        <div>
-                            <InputLabel for="total_hh" value="Total Households (HH)" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="total_hh" label="Total Households (HH)" :error="form.errors.total_hh">
                             <TextInput id="total_hh" v-model="form.total_hh" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.total_hh" />
-                        </div>
-                        <div>
-                            <InputLabel for="domestic_units" value="Domestic Connections" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="domestic_units" label="Domestic Connections" :error="form.errors.domestic_units">
                             <TextInput id="domestic_units" v-model="form.domestic_units" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.domestic_units" />
-                        </div>
-                        <div>
-                            <InputLabel for="commercial_units" value="Commercial Connections" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="commercial_units" label="Commercial Connections" :error="form.errors.commercial_units">
                             <TextInput id="commercial_units" v-model="form.commercial_units" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.commercial_units" />
-                        </div>
+                        </InputGroup>
                     </div>
                 </div>
 
@@ -421,77 +395,65 @@ const handleCancel = () => {
                         Technical Specifications & Discharge
                     </h4>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div>
-                            <InputLabel for="planned_capacity_kw" value="Planned Capacity (KW)" class="text-xs font-semibold text-ink-600" />
+                        <InputGroup id="planned_capacity_kw" label="Planned Capacity (KW)" :error="form.errors.planned_capacity_kw">
                             <TextInput id="planned_capacity_kw" v-model="form.planned_capacity_kw" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.planned_capacity_kw" />
-                        </div>
-                        <div>
-                            <InputLabel for="existing_capacity_kw" value="Existing Capacity (KW)" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="existing_capacity_kw" label="Existing Capacity (KW)" :error="form.errors.existing_capacity_kw">
                             <TextInput id="existing_capacity_kw" v-model="form.existing_capacity_kw" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.existing_capacity_kw" />
-                        </div>
-                        <div>
-                            <InputLabel for="proposed_capacity_kw" value="Proposed Capacity (KW)" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="proposed_capacity_kw" label="Proposed Capacity (KW)" :error="form.errors.proposed_capacity_kw">
                             <TextInput id="proposed_capacity_kw" v-model="form.proposed_capacity_kw" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.proposed_capacity_kw" />
-                        </div>
-                        <div>
-                            <div class="flex items-center gap-1">
-                                <InputLabel for="head_ft" value="Water Drop (Head FT)" class="text-xs font-semibold text-ink-600" />
-                                <span class="material-symbols-outlined text-[10px] text-ink-400 cursor-help" title="Total vertical drop height of water in Feet.">info</span>
-                            </div>
+                        </InputGroup>
+                        <InputGroup
+                            id="head_ft"
+                            label="Water Drop (Head FT)"
+                            help="Total vertical drop height of water in Feet."
+                            :error="form.errors.head_ft"
+                        >
                             <TextInput id="head_ft" v-model="form.head_ft" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.head_ft" />
-                        </div>
-                        <div>
-                            <InputLabel for="design_net_head" value="Design Net Head (FT)" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="design_net_head" label="Design Net Head (FT)" :error="form.errors.design_net_head">
                             <TextInput id="design_net_head" v-model="form.design_net_head" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.design_net_head" />
-                        </div>
-                        <div>
-                            <div class="flex items-center gap-1">
-                                <InputLabel for="design_discharge_cusecs" value="Flow Rate (Discharge)" class="text-xs font-semibold text-ink-600" />
-                                <span class="material-symbols-outlined text-[10px] text-ink-400 cursor-help" title="Calculated in Cubic Feet per Second (Cusecs).">info</span>
-                            </div>
+                        </InputGroup>
+                        <InputGroup
+                            id="design_discharge_cusecs"
+                            label="Flow Rate (Discharge)"
+                            help="Calculated in Cubic Feet per Second (Cusecs)."
+                            :error="form.errors.design_discharge_cusecs"
+                        >
                             <TextInput id="design_discharge_cusecs" v-model="form.design_discharge_cusecs" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.design_discharge_cusecs" />
-                        </div>
-                        <div>
-                            <InputLabel for="observed_discharge" value="Observed Discharge" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="observed_discharge" label="Observed Discharge" :error="form.errors.observed_discharge">
                             <TextInput id="observed_discharge" v-model="form.observed_discharge" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.observed_discharge" />
-                        </div>
-                        <div>
-                            <InputLabel for="channel_length_km" value="Channel Length (KM)" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="channel_length_km" label="Channel Length (KM)" :error="form.errors.channel_length_km">
                             <TextInput id="channel_length_km" v-model="form.channel_length_km" type="number" step="0.01" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.channel_length_km" />
-                        </div>
-                        <div>
-                            <InputLabel for="tl_ht_km" value="TL HT (KM)" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup
+                            id="tl_ht_km"
+                            label="TL HT (KM)"
+                            help="TL HT means Transmission Line High-Tension length — the length of the high-voltage transmission line in kilometres."
+                            :error="form.errors.tl_ht_km"
+                        >
                             <TextInput id="tl_ht_km" v-model="form.tl_ht_km" type="number" step="0.01" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.tl_ht_km" />
-                        </div>
-                        <div>
-                            <InputLabel for="tl_lt_km" value="TL LT (KM)" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup
+                            id="tl_lt_km"
+                            label="TL LT (KM)"
+                            help="TL LT means Transmission Line Low-Tension length — the length of the low-voltage transmission line in kilometres."
+                            :error="form.errors.tl_lt_km"
+                        >
                             <TextInput id="tl_lt_km" v-model="form.tl_lt_km" type="number" step="0.01" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.tl_lt_km" />
-                        </div>
-                        <div>
-                            <InputLabel for="turbine_type" value="Turbine Type" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="turbine_type" label="Turbine Type" :error="form.errors.turbine_type">
                             <TextInput id="turbine_type" v-model="form.turbine_type" type="text" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.turbine_type" />
-                        </div>
-                        <div>
-                            <InputLabel for="alternator_type" value="Alternator Type" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="alternator_type" label="Alternator Type" :error="form.errors.alternator_type">
                             <TextInput id="alternator_type" v-model="form.alternator_type" type="text" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.alternator_type" />
-                        </div>
-                        <div>
-                            <InputLabel for="accessible" value="Site Accessibility" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="accessible" label="Site Accessibility" :error="form.errors.accessible">
                             <SelectInput id="accessible" v-model="form.accessible" :options="accessibleOptions" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.accessible" />
-                        </div>
+                        </InputGroup>
                     </div>
                 </div>
 
@@ -502,31 +464,21 @@ const handleCancel = () => {
                         Channel Dimension Parameters
                     </h4>
                     <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-                        <div>
-                            <InputLabel for="length_ft" value="Length (FT)" class="text-xs font-semibold text-ink-600" />
+                        <InputGroup id="length_ft" label="Length (FT)" :error="form.errors.length_ft">
                             <TextInput id="length_ft" v-model="form.length_ft" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.length_ft" />
-                        </div>
-                        <div>
-                            <InputLabel for="bottom_width_ft" value="Bottom Width (FT)" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="bottom_width_ft" label="Bottom Width (FT)" :error="form.errors.bottom_width_ft">
                             <TextInput id="bottom_width_ft" v-model="form.bottom_width_ft" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.bottom_width_ft" />
-                        </div>
-                        <div>
-                            <InputLabel for="design_depth_ft" value="Design Depth (FT)" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="design_depth_ft" label="Design Depth (FT)" :error="form.errors.design_depth_ft">
                             <TextInput id="design_depth_ft" v-model="form.design_depth_ft" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.design_depth_ft" />
-                        </div>
-                        <div>
-                            <InputLabel for="freeboard_ft" value="Freeboard (FT)" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="freeboard_ft" label="Freeboard (FT)" :error="form.errors.freeboard_ft">
                             <TextInput id="freeboard_ft" v-model="form.freeboard_ft" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.freeboard_ft" />
-                        </div>
-                        <div>
-                            <InputLabel for="velocity_ft_per_sec" value="Velocity (FT/sec)" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="velocity_ft_per_sec" label="Velocity (FT/sec)" :error="form.errors.velocity_ft_per_sec">
                             <TextInput id="velocity_ft_per_sec" v-model="form.velocity_ft_per_sec" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.velocity_ft_per_sec" />
-                        </div>
+                        </InputGroup>
                     </div>
                 </div>
             </div>
@@ -539,26 +491,18 @@ const handleCancel = () => {
                         Intake & Channel Layout
                     </h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <InputLabel for="intake_details" value="Intake Structure Details" class="text-xs font-semibold text-ink-600" />
+                        <InputGroup id="intake_details" label="Intake Structure Details" :error="form.errors.intake_details">
                             <TextArea id="intake_details" v-model="form.intake_details" rows="2" class="mt-0.5 block w-full rounded-lg py-1 px-2 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.intake_details" />
-                        </div>
-                        <div>
-                            <InputLabel for="settling_basin_details" value="Settling Basin Details" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="settling_basin_details" label="Settling Basin Details" :error="form.errors.settling_basin_details">
                             <TextArea id="settling_basin_details" v-model="form.settling_basin_details" rows="2" class="mt-0.5 block w-full rounded-lg py-1 px-2 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.settling_basin_details" />
-                        </div>
-                        <div>
-                            <InputLabel for="approach_culvert_details" value="Approach Culvert Details" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="approach_culvert_details" label="Approach Culvert Details" :error="form.errors.approach_culvert_details">
                             <TextArea id="approach_culvert_details" v-model="form.approach_culvert_details" rows="2" class="mt-0.5 block w-full rounded-lg py-1 px-2 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.approach_culvert_details" />
-                        </div>
-                        <div>
-                            <InputLabel for="headrace_channel_details" value="Headrace Channel Details" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="headrace_channel_details" label="Headrace Channel Details" :error="form.errors.headrace_channel_details">
                             <TextArea id="headrace_channel_details" v-model="form.headrace_channel_details" rows="2" class="mt-0.5 block w-full rounded-lg py-1 px-2 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.headrace_channel_details" />
-                        </div>
+                        </InputGroup>
                     </div>
                 </div>
 
@@ -568,26 +512,18 @@ const handleCancel = () => {
                         Outflow & Retaining Components
                     </h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <InputLabel for="aqueduct_details" value="Aqueduct & Crossing Details" class="text-xs font-semibold text-ink-600" />
+                        <InputGroup id="aqueduct_details" label="Aqueduct & Crossing Details" :error="form.errors.aqueduct_details">
                             <TextArea id="aqueduct_details" v-model="form.aqueduct_details" rows="2" class="mt-0.5 block w-full rounded-lg py-1 px-2 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.aqueduct_details" />
-                        </div>
-                        <div>
-                            <InputLabel for="tailrace_details" value="Tailrace Channel Details" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="tailrace_details" label="Tailrace Channel Details" :error="form.errors.tailrace_details">
                             <TextArea id="tailrace_details" v-model="form.tailrace_details" rows="2" class="mt-0.5 block w-full rounded-lg py-1 px-2 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.tailrace_details" />
-                        </div>
-                        <div>
-                            <InputLabel for="spillway_details" value="Spillway Details" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="spillway_details" label="Spillway Details" :error="form.errors.spillway_details">
                             <TextArea id="spillway_details" v-model="form.spillway_details" rows="2" class="mt-0.5 block w-full rounded-lg py-1 px-2 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.spillway_details" />
-                        </div>
-                        <div>
-                            <InputLabel for="retaining_walls_details" value="Retaining Walls Details" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="retaining_walls_details" label="Retaining Walls Details" :error="form.errors.retaining_walls_details">
                             <TextArea id="retaining_walls_details" v-model="form.retaining_walls_details" rows="2" class="mt-0.5 block w-full rounded-lg py-1 px-2 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.retaining_walls_details" />
-                        </div>
+                        </InputGroup>
                     </div>
                 </div>
             </div>
@@ -601,41 +537,27 @@ const handleCancel = () => {
                         Budgets & Key Execution Dates
                     </h4>
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                        <div>
-                            <InputLabel for="estimated_cost" value="Estimated Cost (PKR)" class="text-xs font-semibold text-ink-600" />
+                        <InputGroup id="estimated_cost" label="Estimated Cost (PKR)" :error="form.errors.estimated_cost">
                             <TextInput id="estimated_cost" v-model="form.estimated_cost" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.estimated_cost" />
-                        </div>
-                        <div>
-                            <InputLabel for="total_hh" value="Total Households (HH)" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="total_hh" label="Total Households (HH)" :error="form.errors.total_hh">
                             <TextInput id="total_hh" v-model="form.total_hh" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.total_hh" />
-                        </div>
-                        <div>
-                            <InputLabel for="domestic_units" value="Domestic Connections" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="domestic_units" label="Domestic Connections" :error="form.errors.domestic_units">
                             <TextInput id="domestic_units" v-model="form.domestic_units" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.domestic_units" />
-                        </div>
-                        <div>
-                            <InputLabel for="commercial_units" value="Commercial Connections" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="commercial_units" label="Commercial Connections" :error="form.errors.commercial_units">
                             <TextInput id="commercial_units" v-model="form.commercial_units" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.commercial_units" />
-                        </div>
-                        <div>
-                            <InputLabel for="tentative_completion_date" value="Tentative Completion" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="tentative_completion_date" label="Tentative Completion" :error="form.errors.tentative_completion_date">
                             <DatePicker id="tentative_completion_date" v-model="form.tentative_completion_date" class="mt-0.5" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.tentative_completion_date" />
-                        </div>
-                        <div>
-                            <InputLabel for="financial_initiation_date" value="Financial Initiation Date" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="financial_initiation_date" label="Financial Initiation Date" :error="form.errors.financial_initiation_date">
                             <DatePicker id="financial_initiation_date" v-model="form.financial_initiation_date" class="mt-0.5" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.financial_initiation_date" />
-                        </div>
-                        <div>
-                            <InputLabel for="physical_completion_date" value="Physical Completion Date" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="physical_completion_date" label="Physical Completion Date" :error="form.errors.physical_completion_date">
                             <DatePicker id="physical_completion_date" v-model="form.physical_completion_date" class="mt-0.5" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.physical_completion_date" />
-                        </div>
+                        </InputGroup>
                     </div>
                 </div>
 
@@ -674,31 +596,36 @@ const handleCancel = () => {
                         Approval Milestones
                     </h4>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div>
-                            <InputLabel for="management_committee_date" value="Management Committee" class="text-xs font-semibold text-ink-600" />
+                        <InputGroup id="management_committee_date" label="Management Committee" :error="form.errors.management_committee_date">
                             <DatePicker id="management_committee_date" v-model="form.management_committee_date" class="mt-0.5" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.management_committee_date" />
-                        </div>
-                        <div>
-                            <InputLabel for="opm_shared_date" value="OPM Shared Date" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup
+                            id="opm_shared_date"
+                            label="OPM Shared Date"
+                            help="OPM means Office of the Prime Minister — the date this site's information was shared with the OPM."
+                            :error="form.errors.opm_shared_date"
+                        >
                             <DatePicker id="opm_shared_date" v-model="form.opm_shared_date" class="mt-0.5" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.opm_shared_date" />
-                        </div>
-                        <div>
-                            <InputLabel for="opm_review_meeting_date" value="OPM Review Meeting" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup
+                            id="opm_review_meeting_date"
+                            label="OPM Review Meeting"
+                            help="OPM means Office of the Prime Minister — the date of the OPM's review meeting for this site."
+                            :error="form.errors.opm_review_meeting_date"
+                        >
                             <DatePicker id="opm_review_meeting_date" v-model="form.opm_review_meeting_date" class="mt-0.5" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.opm_review_meeting_date" />
-                        </div>
-                        <div>
-                            <InputLabel for="ta_eu_comments_date" value="TA EU Comments Date" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup
+                            id="ta_eu_comments_date"
+                            label="TA EU Comments Date"
+                            help="TA EU means Technical Assistance / European Union — the date the TA/EU team's comments on this site were received."
+                            :error="form.errors.ta_eu_comments_date"
+                        >
                             <DatePicker id="ta_eu_comments_date" v-model="form.ta_eu_comments_date" class="mt-0.5" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.ta_eu_comments_date" />
-                        </div>
-                        <div>
-                            <InputLabel for="eu_approval_meeting_date" value="EU Approval Meeting" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="eu_approval_meeting_date" label="EU Approval Meeting" :error="form.errors.eu_approval_meeting_date">
                             <DatePicker id="eu_approval_meeting_date" v-model="form.eu_approval_meeting_date" class="mt-0.5" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.eu_approval_meeting_date" />
-                        </div>
+                        </InputGroup>
                     </div>
                 </div>
 
@@ -709,61 +636,44 @@ const handleCancel = () => {
                         Civil Procurement & Contracting
                     </h4>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div>
-                            <InputLabel for="social_assessment_date" value="Social Assessment Date" class="text-xs font-semibold text-ink-600" />
+                        <InputGroup id="social_assessment_date" label="Social Assessment Date" :error="form.errors.social_assessment_date">
                             <DatePicker id="social_assessment_date" v-model="form.social_assessment_date" class="mt-0.5" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.social_assessment_date" />
-                        </div>
-                        <div>
-                            <InputLabel for="opm_visit_date" value="OPM Visit Date" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup
+                            id="opm_visit_date"
+                            label="OPM Visit Date"
+                            help="OPM means Office of the Prime Minister — the date of the OPM's site visit."
+                            :error="form.errors.opm_visit_date"
+                        >
                             <DatePicker id="opm_visit_date" v-model="form.opm_visit_date" class="mt-0.5" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.opm_visit_date" />
-                        </div>
-                        <div>
-                            <InputLabel for="layout_initiation_date" value="Layout Initiation Date" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="layout_initiation_date" label="Layout Initiation Date" :error="form.errors.layout_initiation_date">
                             <DatePicker id="layout_initiation_date" v-model="form.layout_initiation_date" class="mt-0.5" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.layout_initiation_date" />
-                        </div>
-                        <div>
-                            <InputLabel for="ground_breaking_date" value="Ground Breaking Date" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="ground_breaking_date" label="Ground Breaking Date" :error="form.errors.ground_breaking_date">
                             <DatePicker id="ground_breaking_date" v-model="form.ground_breaking_date" class="mt-0.5" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.ground_breaking_date" />
-                        </div>
-                        <div>
-                            <InputLabel for="civil_works_cost" value="Civil Works Cost (PKR)" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="civil_works_cost" label="Civil Works Cost (PKR)" :error="form.errors.civil_works_cost">
                             <TextInput id="civil_works_cost" v-model="form.civil_works_cost" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.civil_works_cost" />
-                        </div>
-                        <div>
-                            <InputLabel for="civil_advertisement_date" value="Civil Advertisement Date" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="civil_advertisement_date" label="Civil Advertisement Date" :error="form.errors.civil_advertisement_date">
                             <DatePicker id="civil_advertisement_date" v-model="form.civil_advertisement_date" class="mt-0.5" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.civil_advertisement_date" />
-                        </div>
-                        <div>
-                            <InputLabel for="civil_pre_bid_meeting_date" value="Pre-Bid Meeting Date" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="civil_pre_bid_meeting_date" label="Pre-Bid Meeting Date" :error="form.errors.civil_pre_bid_meeting_date">
                             <DatePicker id="civil_pre_bid_meeting_date" v-model="form.civil_pre_bid_meeting_date" class="mt-0.5" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.civil_pre_bid_meeting_date" />
-                        </div>
-                        <div>
-                            <InputLabel for="civil_technical_bid_opening_date" value="Technical Bid Opening" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="civil_technical_bid_opening_date" label="Technical Bid Opening" :error="form.errors.civil_technical_bid_opening_date">
                             <DatePicker id="civil_technical_bid_opening_date" v-model="form.civil_technical_bid_opening_date" class="mt-0.5" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.civil_technical_bid_opening_date" />
-                        </div>
-                        <div>
-                            <InputLabel for="civil_financial_bid_opening_date" value="Financial Bid Opening" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="civil_financial_bid_opening_date" label="Financial Bid Opening" :error="form.errors.civil_financial_bid_opening_date">
                             <DatePicker id="civil_financial_bid_opening_date" v-model="form.civil_financial_bid_opening_date" class="mt-0.5" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.civil_financial_bid_opening_date" />
-                        </div>
-                        <div>
-                            <InputLabel for="civil_contract_award_date" value="Contract Award Date" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="civil_contract_award_date" label="Contract Award Date" :error="form.errors.civil_contract_award_date">
                             <DatePicker id="civil_contract_award_date" v-model="form.civil_contract_award_date" class="mt-0.5" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.civil_contract_award_date" />
-                        </div>
-                        <div>
-                            <InputLabel for="civil_contractor_amount" value="Contractor Amount (PKR)" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="civil_contractor_amount" label="Contractor Amount (PKR)" :error="form.errors.civil_contractor_amount">
                             <TextInput id="civil_contractor_amount" v-model="form.civil_contractor_amount" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.civil_contractor_amount" />
-                        </div>
+                        </InputGroup>
                     </div>
                 </div>
 
@@ -774,41 +684,27 @@ const handleCancel = () => {
                         Civil Works Progress Logs
                     </h4>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div>
-                            <InputLabel for="civil_work_initiation_date" value="Civil Work Initiation" class="text-xs font-semibold text-ink-600" />
+                        <InputGroup id="civil_work_initiation_date" label="Civil Work Initiation" :error="form.errors.civil_work_initiation_date">
                             <DatePicker id="civil_work_initiation_date" v-model="form.civil_work_initiation_date" class="mt-0.5" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.civil_work_initiation_date" />
-                        </div>
-                        <div>
-                            <InputLabel for="civil_completion_date" value="Physical Work Completion" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="civil_completion_date" label="Physical Work Completion" :error="form.errors.civil_completion_date">
                             <DatePicker id="civil_completion_date" v-model="form.civil_completion_date" class="mt-0.5" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.civil_completion_date" />
-                        </div>
-                        <div>
-                            <InputLabel for="civil_financial_progress_percent" value="Financial Progress (%)" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="civil_financial_progress_percent" label="Financial Progress (%)" :error="form.errors.civil_financial_progress_percent">
                             <TextInput id="civil_financial_progress_percent" v-model="form.civil_financial_progress_percent" type="number" step="0.01" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.civil_financial_progress_percent" />
-                        </div>
-                        <div>
-                            <InputLabel for="civil_amount_disbursed" value="Amount Disbursed (PKR)" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="civil_amount_disbursed" label="Amount Disbursed (PKR)" :error="form.errors.civil_amount_disbursed">
                             <TextInput id="civil_amount_disbursed" v-model="form.civil_amount_disbursed" type="number" step="0.01" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.civil_amount_disbursed" />
-                        </div>
-                        <div>
-                            <InputLabel for="civil_amount_remaining" value="Remaining Amount (PKR)" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="civil_amount_remaining" label="Remaining Amount (PKR)" :error="form.errors.civil_amount_remaining">
                             <TextInput id="civil_amount_remaining" v-model="form.civil_amount_remaining" type="number" step="0.01" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.civil_amount_remaining" />
-                        </div>
-                        <div>
-                            <InputLabel for="civil_physical_progress_percent" value="Physical Progress (%)" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="civil_physical_progress_percent" label="Physical Progress (%)" :error="form.errors.civil_physical_progress_percent">
                             <TextInput id="civil_physical_progress_percent" v-model="form.civil_physical_progress_percent" type="number" step="0.01" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.civil_physical_progress_percent" />
-                        </div>
-                        <div class="col-span-2 md:col-span-4">
-                            <InputLabel for="civil_progress_description" value="Progress Description Details" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="civil_progress_description" label="Progress Description Details" class="col-span-2 md:col-span-4" :error="form.errors.civil_progress_description">
                             <TextArea id="civil_progress_description" v-model="form.civil_progress_description" rows="2" class="mt-0.5 block w-full rounded-lg py-1 px-2 text-sm" />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.civil_progress_description" />
-                        </div>
+                        </InputGroup>
                     </div>
                 </div>
             </div>
@@ -821,27 +717,23 @@ const handleCancel = () => {
                         Attachments & Executive Summary Remarks
                     </h4>
                     <div class="space-y-4">
-                        <div>
-                            <InputLabel for="remarks" value="Executive / Summary Remarks" class="text-xs font-semibold text-ink-600" />
+                        <InputGroup id="remarks" label="Executive / Summary Remarks" :error="form.errors.remarks">
                             <WysiwygEditor
                                 id="remarks"
                                 v-model="form.remarks"
                                 :class="{ 'border-red-500': form.errors.remarks }"
                                 :height="150"
                             />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.remarks" />
-                        </div>
+                        </InputGroup>
 
-                        <div>
-                            <InputLabel value="Upload Attachment Documents" class="text-xs font-semibold text-ink-600 mb-1" />
+                        <InputGroup label="Upload Attachment Documents" :error="form.errors.attachments">
                             <AttachmentUploader
                                 v-model="form.attachments"
                                 :existing-attachments="existingAttachments"
                                 @remove-existing="handleAttachmentsToDelete"
                                 :error-message="form.errors.attachments"
                             />
-                            <InputError class="mt-0.5 text-xs" :message="form.errors.attachments" />
-                        </div>
+                        </InputGroup>
                     </div>
                 </div>
             </div>

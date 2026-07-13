@@ -3,7 +3,7 @@ import { watch, ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 
 import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
+import InputGroup from '@/Components/FormComponents/InputGroup.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import TextArea from '@/Components/TextArea.vue';
@@ -206,8 +206,7 @@ watch(
         <input type="hidden" v-model="form.projectable_type" />
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-                <InputLabel for="name" value="Work Name / Title" />
+            <InputGroup id="name" label="Work Name / Title" :error="form.errors.name">
                 <TextInput
                     id="name"
                     v-model="form.name"
@@ -215,33 +214,27 @@ watch(
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.name }"
                 />
-                <InputError class="mt-2" :message="form.errors.name" />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="date_of_initiation" value="Date of Initiation" />
+            <InputGroup id="date_of_initiation" label="Date of Initiation" :error="form.errors.date_of_initiation">
                 <DatePicker
                     id="date_of_initiation"
                     v-model="form.date_of_initiation"
                     :class="{ 'border-red-500': form.errors.date_of_initiation }"
                     placeholder="Select Date"
                 />
-                <InputError class="mt-2" :message="form.errors.date_of_initiation" />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="completion_date" value="Date of Completion" />
+            <InputGroup id="completion_date" label="Date of Completion" :error="form.errors.completion_date">
                 <DatePicker
                     id="completion_date"
                     v-model="form.completion_date"
                     :class="{ 'border-red-500': form.errors.completion_date }"
                     placeholder="Select Date"
                 />
-                <InputError class="mt-2" :message="form.errors.completion_date" />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="estimated_cost" value="Estimated Cost" />
+            <InputGroup id="estimated_cost" label="Estimated Cost" :error="form.errors.estimated_cost">
                 <TextInput
                     id="estimated_cost"
                     v-model="form.estimated_cost"
@@ -250,11 +243,14 @@ watch(
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.estimated_cost }"
                 />
-                <InputError class="mt-2" :message="form.errors.estimated_cost" />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="ht_poles_quantity" value="HT Poles Quantity" />
+            <InputGroup
+                id="ht_poles_quantity"
+                label="HT Poles Quantity"
+                help="HT means High Tension — the number of poles carrying the high-voltage transmission line."
+                :error="form.errors.ht_poles_quantity"
+            >
                 <TextInput
                     id="ht_poles_quantity"
                     v-model="form.ht_poles_quantity"
@@ -263,11 +259,14 @@ watch(
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.ht_poles_quantity }"
                 />
-                <InputError class="mt-2" :message="form.errors.ht_poles_quantity" />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="lt_poles_quantity" value="LT Poles Quantity" />
+            <InputGroup
+                id="lt_poles_quantity"
+                label="LT Poles Quantity"
+                help="LT means Low Tension — the number of poles carrying the low-voltage distribution line."
+                :error="form.errors.lt_poles_quantity"
+            >
                 <TextInput
                     id="lt_poles_quantity"
                     v-model="form.lt_poles_quantity"
@@ -276,11 +275,14 @@ watch(
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.lt_poles_quantity }"
                 />
-                <InputError class="mt-2" :message="form.errors.lt_poles_quantity" />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="ht_conductor_length_km" value="HT Conductor Length (KM)" />
+            <InputGroup
+                id="ht_conductor_length_km"
+                label="HT Conductor Length (KM)"
+                help="HT means High Tension — length of the high-voltage transmission conductor."
+                :error="form.errors.ht_conductor_length_km"
+            >
                 <TextInput
                     id="ht_conductor_length_km"
                     v-model="form.ht_conductor_length_km"
@@ -290,11 +292,14 @@ watch(
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.ht_conductor_length_km }"
                 />
-                <InputError class="mt-2" :message="form.errors.ht_conductor_length_km" />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="ht_conductor_type" value="HT Conductor Type" />
+            <InputGroup
+                id="ht_conductor_type"
+                label="HT Conductor Type"
+                help="HT means High Tension — the type/spec of conductor used on the high-voltage line."
+                :error="form.errors.ht_conductor_type"
+            >
                 <TextInput
                     id="ht_conductor_type"
                     v-model="form.ht_conductor_type"
@@ -302,11 +307,14 @@ watch(
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.ht_conductor_type }"
                 />
-                <InputError class="mt-2" :message="form.errors.ht_conductor_type" />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="lt_conductor_length_km" value="LT Conductor Length (KM)" />
+            <InputGroup
+                id="lt_conductor_length_km"
+                label="LT Conductor Length (KM)"
+                help="LT means Low Tension — length of the low-voltage distribution conductor."
+                :error="form.errors.lt_conductor_length_km"
+            >
                 <TextInput
                     id="lt_conductor_length_km"
                     v-model="form.lt_conductor_length_km"
@@ -316,11 +324,14 @@ watch(
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.lt_conductor_length_km }"
                 />
-                <InputError class="mt-2" :message="form.errors.lt_conductor_length_km" />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="lt_conductor_type" value="LT Conductor Type" />
+            <InputGroup
+                id="lt_conductor_type"
+                label="LT Conductor Type"
+                help="LT means Low Tension — the type/spec of conductor used on the low-voltage line."
+                :error="form.errors.lt_conductor_type"
+            >
                 <TextInput
                     id="lt_conductor_type"
                     v-model="form.lt_conductor_type"
@@ -328,8 +339,7 @@ watch(
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.lt_conductor_type }"
                 />
-                <InputError class="mt-2" :message="form.errors.lt_conductor_type" />
-            </div>
+            </InputGroup>
         </div>
 
         <div class="mt-6 border p-4 rounded-lg bg-paper-50">
@@ -340,8 +350,7 @@ watch(
                 </PrimaryButton>
             </h3>
             <div v-for="(transformer, index) in form.step_up_transformers" :key="index" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                <div>
-                    <InputLabel :for="`step_up_kva_${index}`" value="KVA" />
+                <InputGroup :id="`step_up_kva_${index}`" label="KVA" :error="form.errors[`step_up_transformers.${index}.kva`]">
                     <TextInput
                         :id="`step_up_kva_${index}`"
                         v-model="transformer.kva"
@@ -351,10 +360,8 @@ watch(
                         class="mt-1 block w-full"
                         :class="{ 'border-red-500': form.errors[`step_up_transformers.${index}.kva`] }"
                     />
-                    <InputError class="mt-2" :message="form.errors[`step_up_transformers.${index}.kva`]" />
-                </div>
-                <div>
-                    <InputLabel :for="`step_up_qty_${index}`" value="Quantity" />
+                </InputGroup>
+                <InputGroup :id="`step_up_qty_${index}`" label="Quantity" :error="form.errors[`step_up_transformers.${index}.qty`]">
                     <TextInput
                         :id="`step_up_qty_${index}`"
                         v-model="transformer.qty"
@@ -363,8 +370,7 @@ watch(
                         class="mt-1 block w-full"
                         :class="{ 'border-red-500': form.errors[`step_up_transformers.${index}.qty`] }"
                     />
-                    <InputError class="mt-2" :message="form.errors[`step_up_transformers.${index}.qty`]" />
-                </div>
+                </InputGroup>
                 <div class="flex items-end">
                     <DangerButton type="button" @click="removeTransformer('step_up', index)" class="px-3 py-2 text-sm">
                         Remove
@@ -382,8 +388,7 @@ watch(
                 </PrimaryButton>
             </h3>
             <div v-for="(transformer, index) in form.step_down_transformers" :key="index" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                <div>
-                    <InputLabel :for="`step_down_kva_${index}`" value="KVA" />
+                <InputGroup :id="`step_down_kva_${index}`" label="KVA" :error="form.errors[`step_down_transformers.${index}.kva`]">
                     <TextInput
                         :id="`step_down_kva_${index}`"
                         v-model="transformer.kva"
@@ -393,10 +398,8 @@ watch(
                         class="mt-1 block w-full"
                         :class="{ 'border-red-500': form.errors[`step_down_transformers.${index}.kva`] }"
                     />
-                    <InputError class="mt-2" :message="form.errors[`step_down_transformers.${index}.kva`]" />
-                </div>
-                <div>
-                    <InputLabel :for="`step_down_qty_${index}`" value="Quantity" />
+                </InputGroup>
+                <InputGroup :id="`step_down_qty_${index}`" label="Quantity" :error="form.errors[`step_down_transformers.${index}.qty`]">
                     <TextInput
                         :id="`step_down_qty_${index}`"
                         v-model="transformer.qty"
@@ -405,8 +408,7 @@ watch(
                         class="mt-1 block w-full"
                         :class="{ 'border-red-500': form.errors[`step_down_transformers.${index}.qty`] }"
                     />
-                    <InputError class="mt-2" :message="form.errors[`step_down_transformers.${index}.qty`]" />
-                </div>
+                </InputGroup>
                 <div class="flex items-end">
                     <DangerButton type="button" @click="removeTransformer('step_down', index)" class="px-3 py-2 text-sm">
                         Remove
@@ -417,62 +419,46 @@ watch(
         </div>
 
 
-        <div class="mt-6">
-            <InputLabel for="scope_of_work" value="Scope of Work" />
+        <InputGroup id="scope_of_work" label="Scope of Work" class="mt-6" :error="form.errors.scope_of_work">
             <TextArea
                 id="scope_of_work"
                 v-model="form.scope_of_work"
                 class="mt-1 block w-full"
                 :class="{ 'border-red-500': form.errors.scope_of_work }"
             />
-            <InputError class="mt-2" :message="form.errors.scope_of_work" />
-        </div>
+        </InputGroup>
 
-        <div class="mt-6">
-            <InputLabel for="remarks" value="Remarks" />
+        <InputGroup id="remarks" label="Remarks" class="mt-6" :error="form.errors.remarks">
             <TextArea
                 id="remarks"
                 v-model="form.remarks"
                 class="mt-1 block w-full"
                 :class="{ 'border-red-500': form.errors.remarks }"
             />
-            <InputError class="mt-2" :message="form.errors.remarks" />
-        </div>
+        </InputGroup>
 
         <!-- Procurement Milestones -->
         <div class="mt-6 border p-4 rounded-lg bg-paper-50">
             <h3 class="text-lg font-medium text-ink-900 mb-4">Procurement Milestones</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                 <div>
-                    <InputLabel for="advertisement_date" value="Advertisement in Newspaper" />
+                <InputGroup id="advertisement_date" label="Advertisement in Newspaper" :error="form.errors.advertisement_date">
                     <DatePicker id="advertisement_date" v-model="form.advertisement_date" />
-                    <InputError class="mt-2" :message="form.errors.advertisement_date" />
-                </div>
-                 <div>
-                    <InputLabel for="pre_bid_meeting_date" value="Pre-Bid Meeting" />
+                </InputGroup>
+                <InputGroup id="pre_bid_meeting_date" label="Pre-Bid Meeting" :error="form.errors.pre_bid_meeting_date">
                     <DatePicker id="pre_bid_meeting_date" v-model="form.pre_bid_meeting_date" />
-                    <InputError class="mt-2" :message="form.errors.pre_bid_meeting_date" />
-                </div>
-                 <div>
-                    <InputLabel for="technical_bid_opening_date" value="Technical Bid Opening" />
+                </InputGroup>
+                <InputGroup id="technical_bid_opening_date" label="Technical Bid Opening" :error="form.errors.technical_bid_opening_date">
                     <DatePicker id="technical_bid_opening_date" v-model="form.technical_bid_opening_date" />
-                    <InputError class="mt-2" :message="form.errors.technical_bid_opening_date" />
-                </div>
-                 <div>
-                    <InputLabel for="financial_bid_opening_date" value="Financial Bid Opening" />
+                </InputGroup>
+                <InputGroup id="financial_bid_opening_date" label="Financial Bid Opening" :error="form.errors.financial_bid_opening_date">
                     <DatePicker id="financial_bid_opening_date" v-model="form.financial_bid_opening_date" />
-                    <InputError class="mt-2" :message="form.errors.financial_bid_opening_date" />
-                </div>
-                 <div>
-                    <InputLabel for="contract_award_date" value="Contractor Agreement & Work Order" />
+                </InputGroup>
+                <InputGroup id="contract_award_date" label="Contractor Agreement & Work Order" :error="form.errors.contract_award_date">
                     <DatePicker id="contract_award_date" v-model="form.contract_award_date" />
-                    <InputError class="mt-2" :message="form.errors.contract_award_date" />
-                </div>
-                 <div>
-                    <InputLabel for="contractor_amount" value="Cost Per Bid (PKR)" />
+                </InputGroup>
+                <InputGroup id="contractor_amount" label="Cost Per Bid (PKR)" :error="form.errors.contractor_amount">
                     <TextInput id="contractor_amount" v-model="form.contractor_amount" type="number" step="0.01" class="mt-1 block w-full" />
-                    <InputError class="mt-2" :message="form.errors.contractor_amount" />
-                </div>
+                </InputGroup>
             </div>
         </div>
 
@@ -480,49 +466,37 @@ watch(
         <div class="mt-6 border p-4 rounded-lg bg-paper-50">
             <h3 class="text-lg font-medium text-ink-900 mb-4">Physical & Financial Progress</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                 <div>
-                    <InputLabel for="financial_progress_percent" value="Financial Progress (%)" />
+                <InputGroup id="financial_progress_percent" label="Financial Progress (%)" :error="form.errors.financial_progress_percent">
                     <TextInput id="financial_progress_percent" v-model="form.financial_progress_percent" type="number" step="0.01" class="mt-1 block w-full" />
-                    <InputError class="mt-2" :message="form.errors.financial_progress_percent" />
-                </div>
-                <div>
-                    <InputLabel for="amount_disbursed" value="Amount Disbursed (PKR)" />
+                </InputGroup>
+                <InputGroup id="amount_disbursed" label="Amount Disbursed (PKR)" :error="form.errors.amount_disbursed">
                     <TextInput id="amount_disbursed" v-model="form.amount_disbursed" type="number" step="0.01" class="mt-1 block w-full" />
-                    <InputError class="mt-2" :message="form.errors.amount_disbursed" />
-                </div>
-                <div>
-                    <InputLabel for="amount_remaining" value="Remaining Amount (PKR)" />
+                </InputGroup>
+                <InputGroup id="amount_remaining" label="Remaining Amount (PKR)" :error="form.errors.amount_remaining">
                     <TextInput id="amount_remaining" v-model="form.amount_remaining" type="number" step="0.01" class="mt-1 block w-full" />
-                    <InputError class="mt-2" :message="form.errors.amount_remaining" />
-                </div>
-                <div>
-                    <InputLabel for="physical_progress_percent" value="Physical Progress (%)" />
+                </InputGroup>
+                <InputGroup id="physical_progress_percent" label="Physical Progress (%)" :error="form.errors.physical_progress_percent">
                     <TextInput id="physical_progress_percent" v-model="form.physical_progress_percent" type="number" step="0.01" class="mt-1 block w-full" />
-                    <InputError class="mt-2" :message="form.errors.physical_progress_percent" />
-                </div>
-                <div class="md:col-span-2">
-                    <InputLabel for="progress_description" value="Progress Description" />
+                </InputGroup>
+                <InputGroup id="progress_description" label="Progress Description" class="md:col-span-2" :error="form.errors.progress_description">
                     <TextArea
                         id="progress_description"
                         v-model="form.progress_description"
                         class="mt-1 block w-full"
                         :class="{ 'border-red-500': form.errors.progress_description }"
                     />
-                    <InputError class="mt-2" :message="form.errors.progress_description" />
-                </div>
+                </InputGroup>
             </div>
         </div>
 
-        <div class="mt-6">
-            <InputLabel value="Attachments" />
+        <InputGroup label="Attachments" class="mt-6" :error="form.errors.attachments">
             <AttachmentUploader
                 v-model="form.attachments"
                 :existing-attachments="existingAttachments"
                 @remove-existing="handleAttachmentsToDelete"
                 :error-message="form.errors.attachments"
             />
-            <InputError class="mt-2" :message="form.errors.attachments" />
-        </div>
+        </InputGroup>
 
 
         <div class="flex items-center justify-end mt-6 space-x-4">

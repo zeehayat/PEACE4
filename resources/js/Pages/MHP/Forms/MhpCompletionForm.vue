@@ -2,8 +2,7 @@
 import { reactive, watch, ref, onMounted } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
+import InputGroup from '@/Components/FormComponents/InputGroup.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextArea from '@/Components/TextArea.vue';
 import DatePicker from '@/Components/DatePicker.vue';
@@ -112,61 +111,51 @@ onMounted(() => {
         <input type="hidden" v-model="form.mhp_site_id" />
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-                <InputLabel for="scheme_inauguration_date" value="Scheme Inauguration Date" />
+            <InputGroup id="scheme_inauguration_date" label="Scheme Inauguration Date" :error="form.errors.scheme_inauguration_date">
                 <DatePicker
                     id="scheme_inauguration_date"
                     v-model="form.scheme_inauguration_date"
                     :class="{ 'border-red-500': form.errors.scheme_inauguration_date }"
                     placeholder="Select Date"
                 />
-                <InputError class="mt-2" :message="form.errors.scheme_inauguration_date" />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="testing_commissioning_date" value="Testing & Commissioning Date" />
+            <InputGroup id="testing_commissioning_date" label="Testing & Commissioning Date" :error="form.errors.testing_commissioning_date">
                 <DatePicker
                     id="testing_commissioning_date"
                     v-model="form.testing_commissioning_date"
                     :class="{ 'border-red-500': form.errors.testing_commissioning_date }"
                     placeholder="Select Date"
                 />
-                <InputError class="mt-2" :message="form.errors.testing_commissioning_date" />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="handover_date" value="Handover Date" />
+            <InputGroup id="handover_date" label="Handover Date" :error="form.errors.handover_date">
                 <DatePicker
                     id="handover_date"
                     v-model="form.handover_date"
                     :class="{ 'border-red-500': form.errors.handover_date }"
                     placeholder="Select Date"
                 />
-                <InputError class="mt-2" :message="form.errors.handover_date" />
-            </div>
+            </InputGroup>
 
-            <div class="md:col-span-2">
-                <InputLabel for="remarks" value="Remarks" />
+            <InputGroup id="remarks" label="Remarks" class="md:col-span-2" :error="form.errors.remarks">
                 <TextArea
                     id="remarks"
                     v-model="form.remarks"
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.remarks }"
                 />
-                <InputError class="mt-2" :message="form.errors.remarks" />
-            </div>
+            </InputGroup>
         </div>
 
-        <div class="mt-6">
-            <InputLabel value="Attachments" />
+        <InputGroup label="Attachments" class="mt-6" :error="form.errors.attachments">
             <AttachmentUploader
                 :existing-attachments="existingAttachments"
                 @update-files="handleFilePondUpdate"
                 @delete-existing-attachments="handleAttachmentsToDelete"
                 :error-message="form.errors.attachments"
             />
-            <InputError class="mt-2" :message="form.errors.attachments" />
-        </div>
+        </InputGroup>
 
         <div class="flex items-center justify-end mt-6 space-x-4">
             <button

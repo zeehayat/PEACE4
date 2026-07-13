@@ -1,11 +1,10 @@
 <script setup>
 import { reactive, watch, ref, computed } from 'vue';
 import { useForm, router } from '@inertiajs/vue3';
-import InputLabel from '@/Components/InputLabel.vue';
+import InputGroup from '@/Components/FormComponents/InputGroup.vue';
 import TextInput from '@/Components/TextInput.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
-import InputError from '@/Components/InputError.vue';
 import AttachmentsInput from '@/Components/AttachmentComponent/AttachmentUploader.vue';
 
 const props = defineProps({
@@ -66,57 +65,48 @@ const title = computed(() => `Record ${form.payment_for} Progress`);
     <form @submit.prevent="submit" class="space-y-6">
         <h2 class="text-xl font-semibold text-ink-900">{{ title }}</h2>
 
-        <div>
-            <InputLabel for="progress_percentage" value="Progress Percentage" />
+        <InputGroup id="progress_percentage" label="Progress Percentage" :required="true" :error="form.errors.progress_percentage">
             <TextInput
                 id="progress_percentage"
                 type="number"
                 step="0.01"
                 class="mt-1 block w-full"
                 v-model="form.progress_percentage"
-                required
             />
-            <InputError class="mt-2" :message="form.errors.progress_percentage" />
-        </div>
+        </InputGroup>
 
-        <div>
-            <InputLabel for="progress_date" value="Progress Date" />
+        <InputGroup id="progress_date" label="Progress Date" :required="true" :error="form.errors.progress_date">
             <TextInput
                 id="progress_date"
                 type="date"
                 class="mt-1 block w-full"
                 v-model="form.progress_date"
-                required
             />
-            <InputError class="mt-2" :message="form.errors.progress_date" />
-        </div>
+        </InputGroup>
 
         <input type="hidden" v-model="form.payment_for" />
 
-        <div v-if="form.payment_for === 'EME'">
-            <InputLabel for="works" value="Works" />
+        <InputGroup v-if="form.payment_for === 'EME'" id="works" label="Works" :error="form.errors.works">
             <textarea
                 id="works"
                 class="mt-1 block w-full border-ink-300 rounded-md shadow-sm"
                 rows="3"
                 v-model="form.works"
             ></textarea>
-            <InputError class="mt-2" :message="form.errors.works" />
-        </div>
+        </InputGroup>
 
-        <div>
-            <InputLabel for="remarks" value="Remarks" />
+        <InputGroup id="remarks" label="Remarks" :error="form.errors.remarks">
             <textarea
                 id="remarks"
                 class="mt-1 block w-full border-ink-300 rounded-md shadow-sm"
                 rows="3"
                 v-model="form.remarks"
             ></textarea>
-            <InputError class="mt-2" :message="form.errors.remarks" />
-        </div>
+        </InputGroup>
 
-        <AttachmentsInput v-model="form.attachments" />
-        <InputError class="mt-2" :message="form.errors['attachments']" />
+        <InputGroup label="Attachments" :error="form.errors['attachments']">
+            <AttachmentsInput v-model="form.attachments" />
+        </InputGroup>
 
         <div class="flex justify-end gap-x-4">
             <SecondaryButton @click="emit('cancel')" :disabled="form.processing">Cancel</SecondaryButton>
