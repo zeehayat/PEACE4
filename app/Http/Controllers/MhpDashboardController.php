@@ -13,6 +13,8 @@ use Inertia\Inertia;
 
 class MhpDashboardController extends Controller
 {
+    private const DISBURSEMENT_VARIANCE_THRESHOLD = 20.0;
+
     public function index(Request $request)
     {
         $this->authorize('viewAny', MhpSite::class);
@@ -41,6 +43,7 @@ class MhpDashboardController extends Controller
             'scheme_log' => $this->buildSchemeLog($sites),
             'cbo_log' => $this->buildCboLog($sites),
             'stalled' => $this->buildStalledList($sites),
+            'mismatches' => $this->buildDisbursementMismatchList($sites),
         ]);
     }
 
@@ -182,6 +185,30 @@ class MhpDashboardController extends Controller
         }
 
         return ['labels' => $labels, 'civil' => $civil, 'eme' => $eme, 'td' => $td, 'table' => $table];
+    }
+
+    private function buildDisbursementMismatchList($sites): array
+    {
+        $financialBySite = MhpProgressLatest::query()
+            ->whereIn('mhp_id', $sites->pluck('id'))
+            ->pluck('fin_overall_latest_pct', 'mhp_id');
+
+        return $sites->sortBy('id')->map(function (MhpSite $site) use ($financialBySite) {
+            $physical = (new MhpReportService($site))->getCombinedCivilProgress();
+            $financial = (float) ($financialBySite[$site->id] ?? 0.0);
+            $variance = $financial - $physical;
+
+            return $variance > self::DISBURSEMENT_VARIANCE_THRESHOLD
+                ? [
+                    'id' => $site->id,
+                    'district' => $site->cbo?->district,
+                    'cbo_name' => $site->cbo?->cbo_name,
+                    'physical' => $physical,
+                    'financial' => $financial,
+                    'variance' => round($variance, 2),
+                ]
+                : null;
+        })->filter()->sortByDesc('variance')->values()->all();
     }
 
     private function buildBeneficiaryChart($sites): array

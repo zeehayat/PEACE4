@@ -7,6 +7,7 @@ use App\Models\District;
 use App\Models\MhpAdminApproval;
 use App\Models\MhpCompletion;
 use App\Models\MhpSite;
+use App\Models\ProjectFinancialInstallment;
 use App\Models\ProjectPhysicalProgress;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -257,6 +258,48 @@ class MhpDashboardControllerTest extends TestCase
             ->assertInertia(fn (Assert $page) => $page
                 ->has('stalled', 1)
                 ->where('stalled.0.id', $stalled->id)
+            );
+    }
+
+    public function test_index_flags_disbursement_mismatches(): void
+    {
+        District::create(['name' => 'Chitral Lower']);
+        $cbo = Cbo::factory()->create(['district' => 'Chitral Lower', 'cbo_name' => 'Mismatch CBO']);
+
+        // Physical 50%, financial 90% -> variance 40 (> 20 threshold) -> flagged
+        $mismatched = MhpSite::factory()->create([
+            'cbo_id' => $cbo->id,
+            'civil_contractor_amount' => 1000,
+            'civil_physical_progress_percent' => 50,
+        ]);
+        ProjectFinancialInstallment::factory()->create([
+            'projectable_id' => $mismatched->id,
+            'projectable_type' => MhpSite::class,
+            'payment_for' => 'Civil',
+            'installment_number' => 9,
+        ]);
+
+        // Physical 50%, financial 60% -> variance 10 (<= 20 threshold) -> not flagged
+        $onTrack = MhpSite::factory()->create([
+            'cbo_id' => $cbo->id,
+            'civil_contractor_amount' => 1000,
+            'civil_physical_progress_percent' => 50,
+        ]);
+        ProjectFinancialInstallment::factory()->create([
+            'projectable_id' => $onTrack->id,
+            'projectable_type' => MhpSite::class,
+            'payment_for' => 'Civil',
+            'installment_number' => 6,
+        ]);
+
+        $this->actingAs($this->actingAsAdmin())
+            ->get(route('mhp.overview'))
+            ->assertInertia(fn (Assert $page) => $page
+                ->has('mismatches', 1)
+                ->where('mismatches.0.id', $mismatched->id)
+                ->where('mismatches.0.physical', 50)
+                ->where('mismatches.0.financial', 90)
+                ->where('mismatches.0.variance', 40)
             );
     }
 }
