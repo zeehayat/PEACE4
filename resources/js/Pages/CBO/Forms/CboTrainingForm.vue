@@ -4,6 +4,7 @@ import { useForm } from '@inertiajs/vue3';
 
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
+import InputGroup from '@/Components/FormComponents/InputGroup.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import SelectInput from '@/Components/SelectInput.vue';
@@ -134,20 +135,17 @@ const handleCancel = () => {
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Date of Training -->
-            <div>
-                <InputLabel for="date_of_training" value="Date of Training" />
+            <InputGroup id="date_of_training" label="Date of Training" :required="true" :error="form.errors.date_of_training">
                 <DatePicker
                     id="date_of_training"
                     v-model="form.date_of_training"
                     :class="{ 'border-red-500': form.errors.date_of_training }"
                     placeholder="Select Date"
                 />
-                <InputError class="mt-2" :message="form.errors.date_of_training" />
-            </div>
+            </InputGroup>
 
             <!-- Training Type -->
-            <div>
-                <InputLabel for="training_type" value="Training Type" />
+            <InputGroup id="training_type" label="Training Type" :required="true" :error="form.errors.training_type">
                 <SelectInput
                     id="training_type"
                     v-model="form.training_type"
@@ -155,12 +153,10 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.training_type }"
                 />
-                <InputError class="mt-2" :message="form.errors.training_type" />
-            </div>
+            </InputGroup>
 
             <!-- Training Gender -->
-            <div>
-                <InputLabel for="training_gender" value="Training Gender" />
+            <InputGroup id="training_gender" label="Training Gender" :required="true" :error="form.errors.training_gender">
                 <SelectInput
                     id="training_gender"
                     v-model="form.training_gender"
@@ -168,12 +164,10 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.training_gender }"
                 />
-                <InputError class="mt-2" :message="form.errors.training_gender" />
-            </div>
+            </InputGroup>
 
             <!-- Total Participants -->
-            <div>
-                <InputLabel for="total_participants" value="Total Participants" />
+            <InputGroup id="total_participants" label="Total Participants" :required="true" :error="form.errors.total_participants">
                 <TextInput
                     id="total_participants"
                     v-model="form.total_participants"
@@ -182,33 +176,28 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.total_participants }"
                 />
-                <InputError class="mt-2" :message="form.errors.total_participants" />
-            </div>
+            </InputGroup>
 
             <!-- Remarks (WYSIWYG Editor) -->
-            <div class="md:col-span-2">
-                <InputLabel for="remarks" value="Remarks" />
+            <InputGroup id="remarks" label="Remarks" class="md:col-span-2" :error="form.errors.remarks">
                 <WysiwygEditor
                     id="remarks"
                     v-model="form.remarks"
                     :class="{ 'border-red-500': form.errors.remarks }"
                     :height="200"
                 />
-                <InputError class="mt-2" :message="form.errors.remarks" />
-            </div>
+            </InputGroup>
         </div>
 
         <!-- Attachments Section -->
-        <div class="mt-6">
-            <InputLabel value="Attachments" />
+        <InputGroup label="Attachments" class="mt-6" :error="form.errors.attachments">
             <AttachmentUploader
                 v-model="form.attachments"
                 :existing-attachments="existingAttachments"
                 @remove-existing="handleAttachmentsToDelete"
                 :error-message="form.errors.attachments"
             />
-            <InputError class="mt-2" :message="form.errors.attachments" />
-        </div>
+        </InputGroup>
 
         <div class="flex items-center justify-end mt-6 space-x-4">
             <button
