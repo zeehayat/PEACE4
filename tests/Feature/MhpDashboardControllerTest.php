@@ -193,34 +193,32 @@ class MhpDashboardControllerTest extends TestCase
         $cbo = Cbo::factory()->create(['district' => 'Kohistan', 'cbo_name' => 'Kohistan CBO 1']);
         $site = MhpSite::factory()->create(['cbo_id' => $cbo->id]);
 
-        // Civil: two rows, MAX should win (70 over 40)
-        ProjectPhysicalProgress::factory()->create([
-            'projectable_id' => $site->id,
-            'projectable_type' => MhpSite::class,
+        // Civil: two rows, MAX should win (70 over 40). Inserted via the real
+        // polymorphic relation (not a raw factory projectable_type string) so this
+        // test exercises whatever Relation::enforceMorphMap() actually writes.
+        $site->physicalProgresses()->create([
             'payment_for' => 'Civil',
             'progress_percentage' => 40,
+            'progress_date' => now(),
         ]);
-        ProjectPhysicalProgress::factory()->create([
-            'projectable_id' => $site->id,
-            'projectable_type' => MhpSite::class,
+        $site->physicalProgresses()->create([
             'payment_for' => 'Civil',
             'progress_percentage' => 70,
+            'progress_date' => now(),
         ]);
 
         // EME
-        ProjectPhysicalProgress::factory()->create([
-            'projectable_id' => $site->id,
-            'projectable_type' => MhpSite::class,
+        $site->physicalProgresses()->create([
             'payment_for' => 'EME',
             'progress_percentage' => 30,
+            'progress_date' => now(),
         ]);
 
         // T&D
-        ProjectPhysicalProgress::factory()->create([
-            'projectable_id' => $site->id,
-            'projectable_type' => MhpSite::class,
+        $site->physicalProgresses()->create([
             'payment_for' => 'T&D',
             'progress_percentage' => 15,
+            'progress_date' => now(),
         ]);
 
         $this->actingAs($this->actingAsAdmin())
@@ -272,11 +270,11 @@ class MhpDashboardControllerTest extends TestCase
             'civil_contractor_amount' => 1000,
             'civil_physical_progress_percent' => 50,
         ]);
-        ProjectFinancialInstallment::factory()->create([
-            'projectable_id' => $mismatched->id,
-            'projectable_type' => MhpSite::class,
+        $mismatched->financialInstallments()->create([
             'payment_for' => 'Civil',
             'installment_number' => 9,
+            'installment_date' => now(),
+            'installment_amount' => 100000,
         ]);
 
         // Physical 50%, financial 60% -> variance 10 (<= 20 threshold) -> not flagged
@@ -285,11 +283,11 @@ class MhpDashboardControllerTest extends TestCase
             'civil_contractor_amount' => 1000,
             'civil_physical_progress_percent' => 50,
         ]);
-        ProjectFinancialInstallment::factory()->create([
-            'projectable_id' => $onTrack->id,
-            'projectable_type' => MhpSite::class,
+        $onTrack->financialInstallments()->create([
             'payment_for' => 'Civil',
             'installment_number' => 6,
+            'installment_date' => now(),
+            'installment_amount' => 100000,
         ]);
 
         $this->actingAs($this->actingAsAdmin())

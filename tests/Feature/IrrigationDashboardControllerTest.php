@@ -63,6 +63,34 @@ class IrrigationDashboardControllerTest extends TestCase
             );
     }
 
+    public function test_index_returns_progress_chart(): void
+    {
+        District::create(['name' => 'Swat']);
+        $cbo = Cbo::factory()->create(['district' => 'Swat', 'cbo_name' => 'Swat CBO 1']);
+        $scheme = IrrigationScheme::factory()->create(['cbo_id' => $cbo->id]);
+
+        // Insert via the real polymorphic relation, exactly as the app does when a
+        // user records progress — this writes projectable_type using whatever
+        // Relation::enforceMorphMap() dictates (the morph alias), not the FQCN.
+        $scheme->physicalProgresses()->create([
+            'progress_percentage' => 65,
+            'progress_date' => now(),
+        ]);
+        $scheme->financialInstallments()->create([
+            'installment_number' => 4,
+            'installment_date' => now(),
+            'installment_amount' => 100000,
+        ]);
+
+        $this->actingAs($this->actingAsAdmin())
+            ->get(route('irrigation.overview'))
+            ->assertInertia(fn (Assert $page) => $page
+                ->has('chart_progress.labels', 1)
+                ->where('chart_progress.physical.0', 65)
+                ->where('chart_progress.financial.0', 40)
+            );
+    }
+
     public function test_index_returns_district_alignment_chart(): void
     {
         District::create(['name' => 'Chitral Upper']);
