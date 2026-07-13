@@ -2,6 +2,7 @@
 import { useForm } from '@inertiajs/vue3';
 import { watch, ref, computed } from 'vue';
 import InputLabel from '@/Components/InputLabel.vue';
+import InputGroup from '@/Components/FormComponents/InputGroup.vue';
 import TextInput from '@/Components/TextInput.vue';
 import TextArea from '@/Components/TextArea.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
@@ -178,21 +179,15 @@ const submit = () => {
                         Turbine Parameters
                     </h4>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                            <InputLabel for="turbine_capacity_kw" value="Turbine Capacity (KW)" class="text-xs font-semibold text-ink-600" />
+                        <InputGroup id="turbine_capacity_kw" label="Turbine Capacity (KW)" :error="form.errors.turbine_capacity_kw">
                             <TextInput id="turbine_capacity_kw" v-model="form.turbine_capacity_kw" type="number" step="0.01" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError :message="form.errors.turbine_capacity_kw" class="mt-0.5 text-xs" />
-                        </div>
-                        <div>
-                            <InputLabel for="turbine_type" value="Turbine Type" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="turbine_type" label="Turbine Type" :error="form.errors.turbine_type">
                             <TextInput id="turbine_type" v-model="form.turbine_type" type="text" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError :message="form.errors.turbine_type" class="mt-0.5 text-xs" />
-                        </div>
-                        <div>
-                            <InputLabel for="turbine_no" value="Turbine Serial No" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="turbine_no" label="Turbine Serial No" :error="form.errors.turbine_no">
                             <TextInput id="turbine_no" v-model="form.turbine_no" type="text" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError :message="form.errors.turbine_no" class="mt-0.5 text-xs" />
-                        </div>
+                        </InputGroup>
                     </div>
                 </div>
 
@@ -202,26 +197,23 @@ const submit = () => {
                         Governor & Penstock Configuration
                     </h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <InputLabel for="governor_type" value="Governor Type" class="text-xs font-semibold text-ink-600" />
+                        <InputGroup id="governor_type" label="Governor Type" :error="form.errors.governor_type">
                             <TextInput id="governor_type" v-model="form.governor_type" type="text" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError :message="form.errors.governor_type" class="mt-0.5 text-xs" />
-                        </div>
-                        <div>
-                            <InputLabel for="governor_no" value="Governor Serial No" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="governor_no" label="Governor Serial No" :error="form.errors.governor_no">
                             <TextInput id="governor_no" v-model="form.governor_no" type="text" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError :message="form.errors.governor_no" class="mt-0.5 text-xs" />
-                        </div>
-                        <div>
-                            <InputLabel for="penstock_pipe" value="Penstock Pipe Details" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup
+                            id="penstock_pipe"
+                            label="Penstock Pipe Details"
+                            help="The penstock is the pressurized pipe that carries water from the intake/forebay down to the turbine."
+                            :error="form.errors.penstock_pipe"
+                        >
                             <TextInput id="penstock_pipe" v-model="form.penstock_pipe" type="text" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError :message="form.errors.penstock_pipe" class="mt-0.5 text-xs" />
-                        </div>
-                        <div>
-                            <InputLabel for="no_of_penstock_pipe" value="No. of Penstock Pipes" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="no_of_penstock_pipe" label="No. of Penstock Pipes" :error="form.errors.no_of_penstock_pipe">
                             <TextInput id="no_of_penstock_pipe" v-model="form.no_of_penstock_pipe" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError :message="form.errors.no_of_penstock_pipe" class="mt-0.5 text-xs" />
-                        </div>
+                        </InputGroup>
                     </div>
                 </div>
             </div>
@@ -234,21 +226,15 @@ const submit = () => {
                         Generator & Transformer Capacities
                     </h4>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                            <InputLabel for="generator_alternator_capacity" value="Alternator Capacity (KVA)" class="text-xs font-semibold text-ink-600" />
+                        <InputGroup id="generator_alternator_capacity" label="Alternator Capacity (KVA)" :error="form.errors.generator_alternator_capacity">
                             <TextInput id="generator_alternator_capacity" v-model="form.generator_alternator_capacity" type="number" step="0.01" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError :message="form.errors.generator_alternator_capacity" class="mt-0.5 text-xs" />
-                        </div>
-                        <div>
-                            <InputLabel for="stepup_transformer_capacity" value="Step-up Capacity (KVA)" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="stepup_transformer_capacity" label="Step-up Capacity (KVA)" :error="form.errors.stepup_transformer_capacity">
                             <TextInput id="stepup_transformer_capacity" v-model="form.stepup_transformer_capacity" type="number" step="0.01" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError :message="form.errors.stepup_transformer_capacity" class="mt-0.5 text-xs" />
-                        </div>
-                        <div>
-                            <InputLabel for="no_of_step_up_transformers" value="No. of Step-up Transformers" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="no_of_step_up_transformers" label="No. of Step-up Transformers" :error="form.errors.no_of_step_up_transformers">
                             <TextInput id="no_of_step_up_transformers" v-model="form.no_of_step_up_transformers" type="number" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError :message="form.errors.no_of_step_up_transformers" class="mt-0.5 text-xs" />
-                        </div>
+                        </InputGroup>
                     </div>
                 </div>
 
@@ -263,16 +249,12 @@ const submit = () => {
                             <InputLabel for="scada_system" value="SCADA System Installed?" class="text-xs font-semibold text-ink-600" />
                             <InputError :message="form.errors.scada_system" class="mt-0.5 text-xs" />
                         </div>
-                        <div v-if="form.scada_system">
-                            <InputLabel for="scada_system_model" value="SCADA System Model" class="text-xs font-semibold text-ink-600" />
+                        <InputGroup v-if="form.scada_system" id="scada_system_model" label="SCADA System Model" :error="form.errors.scada_system_model">
                             <TextInput id="scada_system_model" v-model="form.scada_system_model" type="text" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError :message="form.errors.scada_system_model" class="mt-0.5 text-xs" />
-                        </div>
-                        <div>
-                            <InputLabel for="station_generator_capacity" value="Station Gen Capacity (KW)" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="station_generator_capacity" label="Station Gen Capacity (KW)" :error="form.errors.station_generator_capacity">
                             <TextInput id="station_generator_capacity" v-model="form.station_generator_capacity" type="number" step="0.01" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError :message="form.errors.station_generator_capacity" class="mt-0.5 text-xs" />
-                        </div>
+                        </InputGroup>
                     </div>
                 </div>
             </div>
@@ -285,21 +267,15 @@ const submit = () => {
                         Timeline & EME Cost Estimates
                     </h4>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                            <InputLabel for="estimated_cost" value="Estimated Cost (PKR)" class="text-xs font-semibold text-ink-600" />
+                        <InputGroup id="estimated_cost" label="Estimated Cost (PKR)" :error="form.errors.estimated_cost">
                             <TextInput id="estimated_cost" v-model="form.estimated_cost" type="number" step="0.01" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError :message="form.errors.estimated_cost" class="mt-0.5 text-xs" />
-                        </div>
-                        <div>
-                            <InputLabel for="initiation_date" value="EME Initiation Date" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="initiation_date" label="EME Initiation Date" :error="form.errors.initiation_date">
                             <DatePicker id="initiation_date" v-model="form.initiation_date" class="mt-0.5" />
-                            <InputError :message="form.errors.initiation_date" class="mt-0.5 text-xs" />
-                        </div>
-                        <div>
-                            <InputLabel for="completion_date" value="EME Completion Date" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="completion_date" label="EME Completion Date" :error="form.errors.completion_date">
                             <DatePicker id="completion_date" v-model="form.completion_date" class="mt-0.5" />
-                            <InputError :message="form.errors.completion_date" class="mt-0.5 text-xs" />
-                        </div>
+                        </InputGroup>
                     </div>
                 </div>
 
@@ -309,36 +285,24 @@ const submit = () => {
                         Procurement Milestones
                     </h4>
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                        <div>
-                            <InputLabel for="advertisement_date" value="Advertisement in Newspaper" class="text-xs font-semibold text-ink-600" />
+                        <InputGroup id="advertisement_date" label="Advertisement in Newspaper" :error="form.errors.advertisement_date">
                             <DatePicker id="advertisement_date" v-model="form.advertisement_date" class="mt-0.5" />
-                            <InputError :message="form.errors.advertisement_date" class="mt-0.5 text-xs" />
-                        </div>
-                        <div>
-                            <InputLabel for="pre_bid_meeting_date" value="Pre-Bid Meeting Date" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="pre_bid_meeting_date" label="Pre-Bid Meeting Date" :error="form.errors.pre_bid_meeting_date">
                             <DatePicker id="pre_bid_meeting_date" v-model="form.pre_bid_meeting_date" class="mt-0.5" />
-                            <InputError :message="form.errors.pre_bid_meeting_date" class="mt-0.5 text-xs" />
-                        </div>
-                        <div>
-                            <InputLabel for="technical_bid_opening_date" value="Technical Bid Opening" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="technical_bid_opening_date" label="Technical Bid Opening" :error="form.errors.technical_bid_opening_date">
                             <DatePicker id="technical_bid_opening_date" v-model="form.technical_bid_opening_date" class="mt-0.5" />
-                            <InputError :message="form.errors.technical_bid_opening_date" class="mt-0.5 text-xs" />
-                        </div>
-                        <div>
-                            <InputLabel for="financial_bid_opening_date" value="Financial Bid Opening" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="financial_bid_opening_date" label="Financial Bid Opening" :error="form.errors.financial_bid_opening_date">
                             <DatePicker id="financial_bid_opening_date" v-model="form.financial_bid_opening_date" class="mt-0.5" />
-                            <InputError :message="form.errors.financial_bid_opening_date" class="mt-0.5 text-xs" />
-                        </div>
-                        <div>
-                            <InputLabel for="contract_award_date" value="Contract Award Date" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="contract_award_date" label="Contract Award Date" :error="form.errors.contract_award_date">
                             <DatePicker id="contract_award_date" v-model="form.contract_award_date" class="mt-0.5" />
-                            <InputError :message="form.errors.contract_award_date" class="mt-0.5 text-xs" />
-                        </div>
-                        <div>
-                            <InputLabel for="contractor_amount" value="Awarded Bid Amount (PKR)" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="contractor_amount" label="Awarded Bid Amount (PKR)" :error="form.errors.contractor_amount">
                             <TextInput id="contractor_amount" v-model="form.contractor_amount" type="number" step="0.01" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError :message="form.errors.contractor_amount" class="mt-0.5 text-xs" />
-                        </div>
+                        </InputGroup>
                     </div>
                 </div>
             </div>
@@ -351,31 +315,21 @@ const submit = () => {
                         Physical & Financial Progress Logs
                     </h4>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div>
-                            <InputLabel for="physical_progress_percent" value="Physical Progress (%)" class="text-xs font-semibold text-ink-600" />
+                        <InputGroup id="physical_progress_percent" label="Physical Progress (%)" :error="form.errors.physical_progress_percent">
                             <TextInput id="physical_progress_percent" v-model="form.physical_progress_percent" type="number" step="0.01" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError :message="form.errors.physical_progress_percent" class="mt-0.5 text-xs" />
-                        </div>
-                        <div>
-                            <InputLabel for="financial_progress_percent" value="Financial Progress (%)" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="financial_progress_percent" label="Financial Progress (%)" :error="form.errors.financial_progress_percent">
                             <TextInput id="financial_progress_percent" v-model="form.financial_progress_percent" type="number" step="0.01" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError :message="form.errors.financial_progress_percent" class="mt-0.5 text-xs" />
-                        </div>
-                        <div>
-                            <InputLabel for="amount_disbursed" value="Amount Disbursed (PKR)" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="amount_disbursed" label="Amount Disbursed (PKR)" :error="form.errors.amount_disbursed">
                             <TextInput id="amount_disbursed" v-model="form.amount_disbursed" type="number" step="0.01" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError :message="form.errors.amount_disbursed" class="mt-0.5 text-xs" />
-                        </div>
-                        <div>
-                            <InputLabel for="amount_remaining" value="Amount Remaining (PKR)" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="amount_remaining" label="Amount Remaining (PKR)" :error="form.errors.amount_remaining">
                             <TextInput id="amount_remaining" v-model="form.amount_remaining" type="number" step="0.01" class="mt-0.5 block w-full rounded-lg py-1 px-2.5 text-sm" />
-                            <InputError :message="form.errors.amount_remaining" class="mt-0.5 text-xs" />
-                        </div>
-                        <div class="col-span-2 md:col-span-4">
-                            <InputLabel for="progress_description" value="Progress Description Details" class="text-xs font-semibold text-ink-600" />
+                        </InputGroup>
+                        <InputGroup id="progress_description" label="Progress Description Details" class="col-span-2 md:col-span-4" :error="form.errors.progress_description">
                             <TextArea id="progress_description" v-model="form.progress_description" rows="2" class="mt-0.5 block w-full rounded-lg py-1 px-2 text-sm" />
-                            <InputError :message="form.errors.progress_description" class="mt-0.5 text-xs" />
-                        </div>
+                        </InputGroup>
                     </div>
                 </div>
 
@@ -384,15 +338,14 @@ const submit = () => {
                         <span class="material-symbols-outlined text-base">attachment</span>
                         EME Documents & Attachments
                     </h4>
-                    <div class="space-y-4">
+                    <InputGroup label="Attachments" :error="form.errors.attachments">
                         <AttachmentUploader
                             @update-files="handleFiles"
                             :existing-attachments="existingAttachments"
                             @remove-existing="handleAttachmentsToDelete"
                             :error-message="form.errors.attachments"
                         />
-                        <InputError :message="form.errors.attachments" class="mt-0.5 text-xs" />
-                    </div>
+                    </InputGroup>
                 </div>
             </div>
         </div>

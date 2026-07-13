@@ -1,8 +1,7 @@
 <script setup>
 import { watch, ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
+import InputGroup from '@/Components/FormComponents/InputGroup.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import TextArea from '@/Components/TextArea.vue';
@@ -118,41 +117,31 @@ const handleCancel = () => {
         <input type="hidden" v-model="form.mhp_site_id" />
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-                <InputLabel for="cost_date" value="Cost Date" />
+            <InputGroup id="cost_date" label="Cost Date" :required="true" :error="form.errors.cost_date">
                 <DatePicker id="cost_date" v-model="form.cost_date" :class="{ 'border-red-500': form.errors.cost_date }" placeholder="Select Date" />
-                <InputError class="mt-2" :message="form.errors.cost_date" />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="expense_type_id" value="Expense Type" />
+            <InputGroup id="expense_type_id" label="Expense Type" :required="true" :error="form.errors.expense_type_id">
                 <SelectInput id="expense_type_id" v-model="form.expense_type_id" :options="expenseTypes" class="mt-1 block w-full" :class="{ 'border-red-500': form.errors.expense_type_id }" />
-                <InputError class="mt-2" :message="form.errors.expense_type_id" />
-            </div>
+            </InputGroup>
 
-            <div class="md:col-span-2">
-                <InputLabel for="amount" value="Amount" />
+            <InputGroup id="amount" label="Amount" class="md:col-span-2" :required="true" :error="form.errors.amount">
                 <TextInput id="amount" v-model="form.amount" type="number" step="0.01" min="0" class="mt-1 block w-full" :class="{ 'border-red-500': form.errors.amount }" />
-                <InputError class="mt-2" :message="form.errors.amount" />
-            </div>
+            </InputGroup>
 
-            <div class="md:col-span-2">
-                <InputLabel for="remarks" value="Remarks" />
+            <InputGroup id="remarks" label="Remarks" class="md:col-span-2" :error="form.errors.remarks">
                 <TextArea id="remarks" v-model="form.remarks" class="mt-1 block w-full" :class="{ 'border-red-500': form.errors.remarks }" />
-                <InputError class="mt-2" :message="form.errors.remarks" />
-            </div>
+            </InputGroup>
         </div>
 
-        <div class="mt-6">
-            <InputLabel value="Attachments" />
+        <InputGroup label="Attachments" class="mt-6" :error="form.errors['attachments.0']">
             <AttachmentUploader
                 :existing-attachments="existingAttachments"
                 @update-files="handleFilePondUpdate"
                 @delete-existing-attachments="handleAttachmentsToDelete"
                 :error-message="form.errors.attachments"
             />
-            <InputError class="mt-2" :message="form.errors['attachments.0']" />
-        </div>
+        </InputGroup>
 
         <div class="flex items-center justify-end mt-6 space-x-4">
             <button type="button" @click="handleCancel" class="inline-flex items-center px-4 py-2 bg-paper-200 border border-transparent rounded-md font-semibold text-xs text-ink-700 uppercase tracking-widest hover:bg-paper-300 focus:bg-paper-300 active:bg-paper-400 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 transition ease-in-out duration-150">

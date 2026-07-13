@@ -4,6 +4,7 @@ import { useForm, usePage } from '@inertiajs/vue3';
 
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
+import InputGroup from '@/Components/FormComponents/InputGroup.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import SelectInput from '@/Components/SelectInput.vue';
@@ -81,17 +82,9 @@ watch(() => props.cbo, (newCbo) => {
     existingAttachments.value = newCbo ? newCbo.attachments_frontend : [];
 
     form.clearErrors();
-    console.log('CboForm: Form and attachments initialized based on new CBO prop.');
 }, { immediate: true });
 
-onMounted(() => {
-    console.log('--- CboForm: Mounted ---');
-    console.log('CboForm: Initial form.attachments on mount:', form.attachments);
-});
-
 const handleAttachmentsToDelete = (id) => {
-    console.log('--- CboForm: handleAttachmentsToDelete called ---');
-    console.log('Deleting attachment ID:', id);
     form.attachments_to_delete.push(id);
     existingAttachments.value = existingAttachments.value.filter(att => att.id !== id);
 };
@@ -110,14 +103,12 @@ const handleSubmit = () => {
         return data;
     }).post(url, {
         onSuccess: () => {
-            console.log('--- CboForm: Submission Success ---');
             form.reset();
             existingAttachments.value = [];
             form.attachments_to_delete = [];
             emit('success', isEditMode.value ? 'CBO updated successfully!' : 'CBO created successfully!');
         },
         onError: (errors) => {
-            console.error('--- CboForm: Submission Error ---');
             console.error('Form errors:', errors);
         },
         preserveScroll: true,
@@ -126,7 +117,6 @@ const handleSubmit = () => {
 };
 
 const handleCancel = () => {
-    console.log('--- CboForm: Cancel triggered ---');
     form.reset();
     existingAttachments.value = [];
     form.attachments_to_delete = [];
@@ -137,8 +127,7 @@ const handleCancel = () => {
 <template>
     <form @submit.prevent="handleSubmit" class="p-6 space-y-6">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-                <InputLabel for="reference_code" value="Reference Code" />
+            <InputGroup id="reference_code" label="Reference Code" :required="true" :error="form.errors.reference_code">
                 <TextInput
                     id="reference_code"
                     v-model="form.reference_code"
@@ -146,11 +135,9 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.reference_code }"
                 />
-                <InputError class="mt-2" :message="form.errors.reference_code" />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="cbo_name" value="CBO Name" />
+            <InputGroup id="cbo_name" label="CBO Name" :required="true" :error="form.errors.cbo_name">
                 <TextInput
                     id="cbo_name"
                     v-model="form.cbo_name"
@@ -158,11 +145,9 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.cbo_name }"
                 />
-                <InputError class="mt-2" :message="form.errors.cbo_name" />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="region" value="Region" />
+            <InputGroup id="region" label="Region" :required="true" :error="form.errors.region">
                 <TextInput
                     id="region"
                     v-model="form.region"
@@ -170,11 +155,9 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.region }"
                 />
-                <InputError class="mt-2" :message="form.errors.region" />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="district" value="District" />
+            <InputGroup id="district" label="District" :required="true" :error="form.errors.district">
                 <SelectInput
                     id="district"
                     v-model="form.district"
@@ -182,11 +165,9 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.district }"
                 />
-                <InputError class="mt-2" :message="form.errors.district" />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="tehsil" value="Tehsil" />
+            <InputGroup id="tehsil" label="Tehsil" :required="true" :error="form.errors.tehsil">
                 <TextInput
                     id="tehsil"
                     v-model="form.tehsil"
@@ -194,11 +175,9 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.tehsil }"
                 />
-                <InputError class="mt-2" :message="form.errors.tehsil" />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="village_council" value="Village Council" />
+            <InputGroup id="village_council" label="Village Council" :required="true" :error="form.errors.village_council">
                 <TextInput
                     id="village_council"
                     v-model="form.village_council"
@@ -206,11 +185,9 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.village_council }"
                 />
-                <InputError class="mt-2" :message="form.errors.village_council" />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="village" value="Village" />
+            <InputGroup id="village" label="Village" :required="true" :error="form.errors.village">
                 <TextInput
                     id="village"
                     v-model="form.village"
@@ -218,22 +195,18 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.village }"
                 />
-                <InputError class="mt-2" :message="form.errors.village" />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="date_of_formation" value="Date of Formation" />
+            <InputGroup id="date_of_formation" label="Date of Formation" :required="true" :error="form.errors.date_of_formation">
                 <DatePicker
                     id="date_of_formation"
                     v-model="form.date_of_formation"
                     :class="{ 'border-red-500': form.errors.date_of_formation }"
                     placeholder="Select Date"
                 />
-                <InputError class="mt-2" :message="form.errors.date_of_formation" />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="total_members" value="Total Members" />
+            <InputGroup id="total_members" label="Total Members" :required="true" :error="form.errors.total_members">
                 <TextInput
                     id="total_members"
                     v-model="form.total_members"
@@ -242,11 +215,9 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.total_members }"
                 />
-                <InputError class="mt-2" :message="form.errors.total_members" />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="gender" value="Gender" />
+            <InputGroup id="gender" label="Gender" :required="true" :error="form.errors.gender">
                 <SelectInput
                     id="gender"
                     v-model="form.gender"
@@ -254,11 +225,9 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.gender }"
                 />
-                <InputError class="mt-2" :message="form.errors.gender" />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="num_cbo_members" value="Number of CBO Members" />
+            <InputGroup id="num_cbo_members" label="Number of CBO Members" :required="true" :error="form.errors.num_cbo_members">
                 <TextInput
                     id="num_cbo_members"
                     v-model="form.num_cbo_members"
@@ -267,11 +236,9 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.num_cbo_members }"
                 />
-                <InputError class="mt-2" :message="form.errors.num_cbo_members" />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="president_name" value="President Name" />
+            <InputGroup id="president_name" label="President Name" :required="true" :error="form.errors.president_name">
                 <TextInput
                     id="president_name"
                     v-model="form.president_name"
@@ -279,11 +246,9 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.president_name }"
                 />
-                <InputError class="mt-2" :message="form.errors.president_name" />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="president_contact" value="President Contact" />
+            <InputGroup id="president_contact" label="President Contact" :required="true" :error="form.errors.president_contact">
                 <TextInput
                     id="president_contact"
                     v-model="form.president_contact"
@@ -291,11 +256,9 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.president_contact }"
                 />
-                <InputError class="mt-2" :message="form.errors.president_contact" />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="secretary_name" value="Secretary Name" />
+            <InputGroup id="secretary_name" label="Secretary Name" :required="true" :error="form.errors.secretary_name">
                 <TextInput
                     id="secretary_name"
                     v-model="form.secretary_name"
@@ -303,11 +266,9 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.secretary_name }"
                 />
-                <InputError class="mt-2" :message="form.errors.secretary_name" />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="secretary_contact" value="Secretary Contact" />
+            <InputGroup id="secretary_contact" label="Secretary Contact" :required="true" :error="form.errors.secretary_contact">
                 <TextInput
                     id="secretary_contact"
                     v-model="form.secretary_contact"
@@ -315,31 +276,26 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.secretary_contact }"
                 />
-                <InputError class="mt-2" :message="form.errors.secretary_contact" />
-            </div>
+            </InputGroup>
 
-            <div class="md:col-span-2">
-                <InputLabel for="remarks" value="Remarks" />
+            <InputGroup id="remarks" label="Remarks" class="md:col-span-2" :error="form.errors.remarks">
                 <WysiwygEditor
                     id="remarks"
                     v-model="form.remarks"
                     :class="{ 'border-red-500': form.errors.remarks }"
                     :height="200"
                 />
-                <InputError class="mt-2" :message="form.errors.remarks" />
-            </div>
+            </InputGroup>
         </div>
 
-        <div class="mt-6">
-            <InputLabel value="Attachments" />
+        <InputGroup label="Attachments" class="mt-6" :error="form.errors.attachments">
             <AttachmentUploader
                 v-model="form.attachments"
                 :existing-attachments="existingAttachments"
                 @remove-existing="handleAttachmentsToDelete"
                 :error-message="form.errors.attachments"
             />
-            <InputError class="mt-2" :message="form.errors.attachments" />
-        </div>
+        </InputGroup>
 
         <div class="flex items-center justify-end mt-6 space-x-4">
             <button

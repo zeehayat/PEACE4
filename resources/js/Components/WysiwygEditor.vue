@@ -5,7 +5,7 @@ import Link from '@tiptap/extension-link';
 import Placeholder from '@tiptap/extension-placeholder';
 
 import { watch, onMounted, onBeforeUnmount } from 'vue';
-import InputLabel from '@/Components/InputLabel.vue'; // Assuming InputLabel exists
+import InputGroup from '@/Components/FormComponents/InputGroup.vue';
 
 const props = defineProps({
     modelValue: String, // The HTML content (expected by v-model)
@@ -88,9 +88,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-    <div>
-        <InputLabel v-if="label" :for="id" :value="label" class="mb-1" />
-
+    <InputGroup :id="id" :label="label">
         <div class="border border-ink-300 rounded-md shadow-sm">
             <!-- Toolbar - only show if editable -->
             <div v-if="editor && editable" class="p-2 border-b border-ink-200 bg-paper-50 flex flex-wrap gap-1">
@@ -138,7 +136,7 @@ onBeforeUnmount(() => {
             <!-- Editor Content -->
             <EditorContent :editor="editor" class="prose max-w-none p-3" :class="{'bg-paper-100 text-ink-500': !editable}" :style="{ 'min-height': height + 'px' }" />
         </div>
-    </div>
+    </InputGroup>
 </template>
 
 <style scoped>

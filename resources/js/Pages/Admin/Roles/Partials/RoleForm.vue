@@ -1,8 +1,7 @@
 <script setup>
 import { useForm } from '@inertiajs/vue3';
 import { computed } from 'vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
+import InputGroup from '@/Components/FormComponents/InputGroup.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 
@@ -70,8 +69,7 @@ const submit = () => {
                     Role Details
                 </summary>
                 <div class="px-4 pb-4 pt-2 space-y-4">
-                    <div>
-                        <InputLabel for="name" value="Role Name" />
+                    <InputGroup id="name" label="Role Name" :required="true" :error="form.errors.name">
                         <TextInput
                             id="name"
                             v-model="form.name"
@@ -79,8 +77,7 @@ const submit = () => {
                             class="block w-full mt-1"
                             required
                         />
-                        <InputError :message="form.errors.name" class="mt-2" />
-                    </div>
+                    </InputGroup>
                     <label class="flex items-center text-sm text-ink-700">
                         <input
                             type="checkbox"
@@ -101,35 +98,36 @@ const submit = () => {
                     Permissions
                 </summary>
                 <div class="px-4 pb-4 pt-2">
-                    <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
-                        <details
-                            v-for="[group, permissions] in groupEntries"
-                            :key="group"
-                            class="border border-ink-200 rounded-md bg-paper-50"
-                        >
-                            <summary class="cursor-pointer select-none px-3 py-2 font-semibold text-ink-800 capitalize">
-                                {{ group }} Management
-                            </summary>
-                            <div class="px-3 pb-3 pt-2">
-                                <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                                    <label
-                                        v-for="permission in permissions"
-                                        :key="permission.id"
-                                        class="flex items-center text-sm text-ink-700"
-                                    >
-                                        <input
-                                            type="checkbox"
-                                            :value="permission.name"
-                                            v-model="form.permissions"
-                                            class="text-accent-600 border-ink-300 rounded shadow-sm focus:ring-accent-500"
-                                        />
-                                        <span class="ml-2">{{ permission.name.replace(/_/g, ' ') }}</span>
-                                    </label>
+                    <InputGroup :error="form.errors.permissions">
+                        <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+                            <details
+                                v-for="[group, permissions] in groupEntries"
+                                :key="group"
+                                class="border border-ink-200 rounded-md bg-paper-50"
+                            >
+                                <summary class="cursor-pointer select-none px-3 py-2 font-semibold text-ink-800 capitalize">
+                                    {{ group }} Management
+                                </summary>
+                                <div class="px-3 pb-3 pt-2">
+                                    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                                        <label
+                                            v-for="permission in permissions"
+                                            :key="permission.id"
+                                            class="flex items-center text-sm text-ink-700"
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                :value="permission.name"
+                                                v-model="form.permissions"
+                                                class="text-accent-600 border-ink-300 rounded shadow-sm focus:ring-accent-500"
+                                            />
+                                            <span class="ml-2">{{ permission.name.replace(/_/g, ' ') }}</span>
+                                        </label>
+                                    </div>
                                 </div>
-                            </div>
-                        </details>
-                    </div>
-                    <InputError :message="form.errors.permissions" class="mt-3" />
+                            </details>
+                        </div>
+                    </InputGroup>
                 </div>
             </details>
         </div>

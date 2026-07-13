@@ -2,8 +2,7 @@
 import { computed, reactive, watch, ref, onMounted } from 'vue';
 import { useForm, usePage } from '@inertiajs/vue3';
 
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
+import InputGroup from '@/Components/FormComponents/InputGroup.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import SelectInput from '@/Components/SelectInput.vue';
@@ -98,8 +97,7 @@ const handleCancel = () => {
     <form @submit.prevent="handleSubmit" class="p-6 space-y-6">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Name -->
-            <div>
-                <InputLabel for="name" value="Name" />
+            <InputGroup id="name" label="Name" :required="true" :error="form.errors.name">
                 <TextInput
                     id="name"
                     v-model="form.name"
@@ -107,12 +105,10 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.name }"
                 />
-                <InputError class="mt-2" :message="form.errors.name" />
-            </div>
+            </InputGroup>
 
             <!-- Email -->
-            <div>
-                <InputLabel for="email" value="Email" />
+            <InputGroup id="email" label="Email" :required="true" :error="form.errors.email">
                 <TextInput
                     id="email"
                     v-model="form.email"
@@ -121,12 +117,10 @@ const handleCancel = () => {
                     :class="{ 'border-red-500': form.errors.email }"
                     :disabled="isEditMode"
                 />
-                <InputError class="mt-2" :message="form.errors.email" />
-            </div>
+            </InputGroup>
 
             <!-- District -->
-            <div>
-                <InputLabel for="district_id" value="District" />
+            <InputGroup id="district_id" label="District" :error="form.errors.district_id">
                 <SelectInput
                     id="district_id"
                     v-model="form.district_id"
@@ -136,12 +130,10 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.district_id }"
                 />
-                <InputError class="mt-2" :message="form.errors.district_id" />
-            </div>
+            </InputGroup>
 
             <!-- Roles -->
-            <div>
-                <InputLabel for="roles" value="Roles" />
+            <InputGroup id="roles" label="Roles" :required="!isEditMode" :error="form.errors.roles">
                 <SelectInput
                     id="roles"
                     v-model="form.roles"
@@ -152,12 +144,14 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.roles }"
                 />
-                <InputError class="mt-2" :message="form.errors.roles" />
-            </div>
+            </InputGroup>
 
             <!-- Direct Permissions -->
-            <div class="md:col-span-2">
-                <InputLabel value="Direct Permissions" />
+            <InputGroup
+                label="Direct Permissions"
+                class="md:col-span-2"
+                :error="form.errors.permissions"
+            >
                 <p class="text-xs text-ink-500 mt-1 mb-2">
                     Granted directly to this user, in addition to whatever their roles above already grant.
                 </p>
@@ -189,30 +183,31 @@ const handleCancel = () => {
                         </div>
                     </details>
                 </div>
-                <InputError :message="form.errors.permissions" class="mt-2" />
-            </div>
+            </InputGroup>
 
             <!-- Password (only for create mode, or nullable for update) -->
-            <div v-if="!isEditMode">
-                <InputLabel for="password" value="Password" />
+            <InputGroup v-if="!isEditMode" id="password" label="Password" :required="true" :error="form.errors.password">
                 <PasswordInput
                     id="password"
                     v-model="form.password"
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.password }"
                 />
-                <InputError class="mt-2" :message="form.errors.password" />
-            </div>
-            <div v-if="!isEditMode">
-                <InputLabel for="password_confirmation" value="Confirm Password" />
+            </InputGroup>
+            <InputGroup
+                v-if="!isEditMode"
+                id="password_confirmation"
+                label="Confirm Password"
+                :required="true"
+                :error="form.errors.password_confirmation"
+            >
                 <PasswordInput
                     id="password_confirmation"
                     v-model="form.password_confirmation"
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.password_confirmation }"
                 />
-                <InputError class="mt-2" :message="form.errors.password_confirmation" />
-            </div>
+            </InputGroup>
         </div>
 
         <div class="flex items-center justify-end mt-6 space-x-4">

@@ -4,6 +4,7 @@ import { useForm } from '@inertiajs/vue3';
 
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
+import InputGroup from '@/Components/FormComponents/InputGroup.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import DangerButton from '@/Components/DangerButton.vue';
 import TextInput from '@/Components/TextInput.vue';
@@ -104,44 +105,49 @@ const handleCancel = () => {
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Date of technical surveys -->
-            <div>
-                <InputLabel for="date_technical_surveys" value="Date of Technical Surveys" />
+            <InputGroup id="date_technical_surveys" label="Date of Technical Surveys" :required="true" :error="form.errors.date_technical_surveys">
                 <DatePicker
                     id="date_technical_surveys"
                     v-model="form.date_technical_surveys"
                     :class="{ 'border-red-500': form.errors.date_technical_surveys }"
                     placeholder="Select Date"
                 />
-                <InputError class="mt-2" :message="form.errors.date_technical_surveys" />
-            </div>
+            </InputGroup>
 
             <!-- Date of Detail Design & estimates Submitted to PSU -->
-            <div>
-                <InputLabel for="date_design_estimates_submission_psu" value="Date of Design & Estimates Submitted to PSU" />
+            <InputGroup
+                id="date_design_estimates_submission_psu"
+                label="Date of Design & Estimates Submitted to PSU"
+                :required="true"
+                help="PSU refers to the Project Support Unit that reviews and processes scheme design and cost estimates."
+                :error="form.errors.date_design_estimates_submission_psu"
+            >
                 <DatePicker
                     id="date_design_estimates_submission_psu"
                     v-model="form.date_design_estimates_submission_psu"
                     :class="{ 'border-red-500': form.errors.date_design_estimates_submission_psu }"
                     placeholder="Select Date"
                 />
-                <InputError class="mt-2" :message="form.errors.date_design_estimates_submission_psu" />
-            </div>
+            </InputGroup>
 
             <!-- Date of Validation Visit by PSU -->
-            <div>
-                <InputLabel for="date_validation_visit_psu" value="Date of Validation Visit by PSU" />
+            <InputGroup
+                id="date_validation_visit_psu"
+                label="Date of Validation Visit by PSU"
+                :required="true"
+                help="PSU refers to the Project Support Unit that reviews and processes scheme design and cost estimates."
+                :error="form.errors.date_validation_visit_psu"
+            >
                 <DatePicker
                     id="date_validation_visit_psu"
                     v-model="form.date_validation_visit_psu"
                     :class="{ 'border-red-500': form.errors.date_validation_visit_psu }"
                     placeholder="Select Date"
                 />
-                <InputError class="mt-2" :message="form.errors.date_validation_visit_psu" />
-            </div>
+            </InputGroup>
 
             <!-- Approved Vendor -->
-            <div>
-                <InputLabel for="approved_vendor" value="Approved Vendor (Name)" />
+            <InputGroup id="approved_vendor" label="Approved Vendor (Name)" :error="form.errors.approved_vendor">
                 <TextInput
                     id="approved_vendor"
                     v-model="form.approved_vendor"
@@ -149,23 +155,18 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.approved_vendor }"
                 />
-                <InputError class="mt-2" :message="form.errors.approved_vendor" />
-            </div>
+            </InputGroup>
             <!-- Vendor ID (linked to Vendors table) -->
-            <div>
-                <InputLabel for="vendor_id" value="Select Vendor" />
+            <InputGroup id="vendor_id" label="Select Vendor" :error="form.errors.vendor_id">
                 <SearchableVendorSelect
                     id="vendor_id"
                     v-model="form.vendor_id"
                     :initial-vendor="approval?.vendor"
-                    :error-message="form.errors.vendor_id"
                 />
-                <InputError class="mt-2" :message="form.errors.vendor_id" />
-            </div>
+            </InputGroup>
 
             <!-- Approved Cost -->
-            <div>
-                <InputLabel for="approved_cost" value="Approved Cost (PKR)" />
+            <InputGroup id="approved_cost" label="Approved Cost (PKR)" :required="true" :error="form.errors.approved_cost">
                 <TextInput
                     id="approved_cost"
                     v-model="form.approved_cost"
@@ -175,20 +176,19 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.approved_cost }"
                 />
-                <InputError class="mt-2" :message="form.errors.approved_cost" />
-            </div>
+            </InputGroup>
         </div>
 
         <!-- Attachments Section for Admin Approval -->
         <div class="mt-6">
-            <InputLabel value="Attachments" />
-            <AttachmentUploader
-                v-model="form.attachments"
-                :existing-attachments="existingAttachments"
-                @remove-existing="handleAttachmentsToDelete"
-                :error-message="form.errors.attachments"
-            />
-            <InputError class="mt-2" :message="form.errors.attachments" />
+            <InputGroup label="Attachments" :error="form.errors.attachments">
+                <AttachmentUploader
+                    v-model="form.attachments"
+                    :existing-attachments="existingAttachments"
+                    @remove-existing="handleAttachmentsToDelete"
+                    :error-message="form.errors.attachments"
+                />
+            </InputGroup>
         </div>
 
         <div class="flex items-center justify-end mt-6 space-x-4">

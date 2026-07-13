@@ -3,6 +3,7 @@ import { reactive, watch, ref, onMounted } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
+import InputGroup from '@/Components/FormComponents/InputGroup.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import SelectInput from '@/Components/SelectInput.vue';
@@ -93,19 +94,16 @@ const handleCancel = () => {
         <input type="hidden" v-model="form.projectable_type" />
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-                <InputLabel for="progress_date" value="Progress Date" />
+            <InputGroup id="progress_date" label="Progress Date" :required="true" :error="form.errors.progress_date">
                 <DatePicker
                     id="progress_date"
                     v-model="form.progress_date"
                     :class="{ 'border-red-500': form.errors.progress_date }"
                     placeholder="Select Date"
                 />
-                <InputError class="mt-2" :message="form.errors.progress_date" />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="progress_percentage" value="Progress Percentage (%)" />
+            <InputGroup id="progress_percentage" label="Progress Percentage (%)" :required="true" :error="form.errors.progress_percentage">
                 <TextInput
                     id="progress_percentage"
                     v-model="form.progress_percentage"
@@ -116,11 +114,9 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.progress_percentage }"
                 />
-                <InputError class="mt-2" :message="form.errors.progress_percentage" />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="payment_for" value="Payment For" />
+            <InputGroup id="payment_for" label="Payment For" :required="true" :error="form.errors.payment_for">
                 <TextInput
                     disabled
                     id="payment_for"
@@ -128,30 +124,27 @@ const handleCancel = () => {
                     type="text"
                     class="mt-1 block w-full bg-paper-100 cursor-not-allowed"
                 />
-                <InputError class="mt-2" :message="form.errors.payment_for" />
-            </div>
+            </InputGroup>
 
-            <div class="md:col-span-2">
-                <InputLabel for="remarks" value="Remarks" />
+            <InputGroup id="remarks" label="Remarks" class="md:col-span-2" :error="form.errors.remarks">
                 <WysiwygEditor
                     id="remarks"
                     v-model="form.remarks"
                     :class="{ 'border-red-500': form.errors.remarks }"
                     :height="200"
                 />
-                <InputError class="mt-2" :message="form.errors.remarks" />
-            </div>
+            </InputGroup>
         </div>
 
         <div class="mt-6">
-            <InputLabel value="Attachments" />
-            <AttachmentUploader
-                @update-files="handleFileUpdate"
-                :existing-attachments="existingAttachments"
-                @delete-existing-attachments="handleAttachmentsToDelete"
-                :error-message="form.errors.attachments"
-            />
-            <InputError class="mt-2" :message="form.errors.attachments" />
+            <InputGroup label="Attachments" :error="form.errors.attachments">
+                <AttachmentUploader
+                    @update-files="handleFileUpdate"
+                    :existing-attachments="existingAttachments"
+                    @delete-existing-attachments="handleAttachmentsToDelete"
+                    :error-message="form.errors.attachments"
+                />
+            </InputGroup>
         </div>
 
         <div class="flex items-center justify-end mt-6 space-x-4">

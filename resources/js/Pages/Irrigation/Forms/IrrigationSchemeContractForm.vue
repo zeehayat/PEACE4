@@ -4,6 +4,7 @@ import { useForm, usePage } from '@inertiajs/vue3';
 
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
+import InputGroup from '@/Components/FormComponents/InputGroup.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import SelectInput from '@/Components/SelectInput.vue';
@@ -85,8 +86,7 @@ const handleCancel = () => {
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Approved Vendor (Name) -->
-            <div>
-                <InputLabel for="approved_vendor" value="Approved Vendor (Name)" />
+            <InputGroup id="approved_vendor" label="Approved Vendor (Name)" :error="form.errors.approved_vendor">
                 <TextInput
                     id="approved_vendor"
                     v-model="form.approved_vendor"
@@ -94,47 +94,39 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.approved_vendor }"
                 />
-                <InputError class="mt-2" :message="form.errors.approved_vendor" />
-            </div>
+            </InputGroup>
             <!-- Vendor ID (Searchable Select) -->
-            <div>
-                <InputLabel for="vendor_id" value="Select Vendor" />
+            <InputGroup id="vendor_id" label="Select Vendor" :error="form.errors.vendor_id">
                 <SearchableVendorSelect
                     id="vendor_id"
                     v-model="form.vendor_id"
                     :initial-vendor="contract?.vendor"
                     :class="{ 'border-red-500': form.errors.vendor_id }"
                 />
-                <InputError class="mt-2" :message="form.errors.vendor_id" />
-            </div>
+            </InputGroup>
 
             <!-- Date of Agreement Contract -->
-            <div>
-                <InputLabel for="date_of_agreement_contract" value="Date of Agreement Contract" />
+            <InputGroup id="date_of_agreement_contract" label="Date of Agreement Contract" :required="true" :error="form.errors.date_of_agreement_contract">
                 <DatePicker
                     id="date_of_agreement_contract"
                     v-model="form.date_of_agreement_contract"
                     :class="{ 'border-red-500': form.errors.date_of_agreement_contract }"
                     placeholder="Select Date"
                 />
-                <InputError class="mt-2" :message="form.errors.date_of_agreement_contract" />
-            </div>
+            </InputGroup>
 
             <!-- Date of Physical Start -->
-            <div>
-                <InputLabel for="date_of_physical_start" value="Date of Physical Start" />
+            <InputGroup id="date_of_physical_start" label="Date of Physical Start" :required="true" :error="form.errors.date_of_physical_start">
                 <DatePicker
                     id="date_of_physical_start"
                     v-model="form.date_of_physical_start"
                     :class="{ 'border-red-500': form.errors.date_of_physical_start }"
                     placeholder="Select Date"
                 />
-                <InputError class="mt-2" :message="form.errors.date_of_physical_start" />
-            </div>
+            </InputGroup>
 
             <!-- Agreement Cost -->
-            <div>
-                <InputLabel for="agreement_cost" value="Agreement Cost (PKR)" />
+            <InputGroup id="agreement_cost" label="Agreement Cost (PKR)" :required="true" :error="form.errors.agreement_cost">
                 <TextInput
                     id="agreement_cost"
                     v-model="form.agreement_cost"
@@ -144,31 +136,28 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.agreement_cost }"
                 />
-                <InputError class="mt-2" :message="form.errors.agreement_cost" />
-            </div>
+            </InputGroup>
 
             <!-- Remarks (WYSIWYG Editor) -->
-            <div class="md:col-span-2">
-                <InputLabel for="remarks" value="Remarks" />
+            <InputGroup id="remarks" label="Remarks" class="md:col-span-2" :error="form.errors.remarks">
                 <WysiwygEditor
                     id="remarks"
                     v-model="form.remarks"
                     :class="{ 'border-red-500': form.errors.remarks }"
                     :height="200"
                 />
-                <InputError class="mt-2" :message="form.errors.remarks" />
-            </div>
+            </InputGroup>
         </div>
 
         <div class="mt-6">
-            <InputLabel value="Attachments" />
-            <AttachmentUploader
-                v-model="form.attachments"
-                :existing-attachments="existingAttachments"
-                @remove-existing="handleAttachmentsToDelete"
-                :error-message="form.errors.attachments"
-            />
-            <InputError class="mt-2" :message="form.errors.attachments" />
+            <InputGroup label="Attachments" :error="form.errors.attachments">
+                <AttachmentUploader
+                    v-model="form.attachments"
+                    :existing-attachments="existingAttachments"
+                    @remove-existing="handleAttachmentsToDelete"
+                    :error-message="form.errors.attachments"
+                />
+            </InputGroup>
         </div>
 
         <div class="flex items-center justify-end mt-6 space-x-4">

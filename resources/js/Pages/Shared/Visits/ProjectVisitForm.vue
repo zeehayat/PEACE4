@@ -2,8 +2,7 @@
 import { reactive, watch, ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
+import InputGroup from '@/Components/FormComponents/InputGroup.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import SelectInput from '@/Components/SelectInput.vue';
@@ -138,19 +137,16 @@ const handleCancel = () => {
 <template>
     <form @submit.prevent="handleSubmit" class="p-6 space-y-6">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-                <InputLabel for="visit_date" value="Visit Date" />
+            <InputGroup id="visit_date" label="Visit Date" :required="true" :error="form.errors.visit_date">
                 <DatePicker
                     id="visit_date"
                     v-model="form.visit_date"
                     :class="{ 'border-red-500': form.errors.visit_date }"
                     placeholder="Select Date"
                 />
-                <InputError class="mt-2" :message="form.errors.visit_date" />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="visitor_role" value="Visitor Role" />
+            <InputGroup id="visitor_role" label="Visitor Role" :required="true" :error="form.errors.visitor_role">
                 <SelectInput
                     id="visitor_role"
                     v-model="form.visitor_role"
@@ -158,11 +154,9 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.visitor_role }"
                 />
-                <InputError class="mt-2" :message="form.errors.visitor_role" />
-            </div>
+            </InputGroup>
 
-            <div v-if="form.visitor_role === 'Other'">
-                <InputLabel for="custom_role" value="Specify Visitor Role" />
+            <InputGroup v-if="form.visitor_role === 'Other'" id="custom_role" label="Specify Visitor Role" :required="true">
                 <TextInput
                     id="custom_role"
                     v-model="customRole"
@@ -171,10 +165,9 @@ const handleCancel = () => {
                     placeholder="Enter custom role"
                     required
                 />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="visit_type" value="Visit Type" />
+            <InputGroup id="visit_type" label="Visit Type" :required="true" :error="form.errors.visit_type">
                 <SelectInput
                     id="visit_type"
                     v-model="form.visit_type"
@@ -182,11 +175,9 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.visit_type }"
                 />
-                <InputError class="mt-2" :message="form.errors.visit_type" />
-            </div>
+            </InputGroup>
 
-            <div v-if="form.visit_type === 'Other'">
-                <InputLabel for="custom_type" value="Specify Visit Type" />
+            <InputGroup v-if="form.visit_type === 'Other'" id="custom_type" label="Specify Visit Type" :required="true">
                 <TextInput
                     id="custom_type"
                     v-model="customType"
@@ -195,10 +186,9 @@ const handleCancel = () => {
                     placeholder="Enter custom visit type"
                     required
                 />
-            </div>
+            </InputGroup>
 
-            <div>
-                <InputLabel for="visitor_name" value="Visitor Name (Optional)" />
+            <InputGroup id="visitor_name" label="Visitor Name (Optional)" :error="form.errors.visitor_name">
                 <TextInput
                     id="visitor_name"
                     v-model="form.visitor_name"
@@ -206,11 +196,9 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.visitor_name }"
                 />
-                <InputError class="mt-2" :message="form.errors.visitor_name" />
-            </div>
+            </InputGroup>
 
-            <div class="md:col-span-2">
-                <InputLabel for="remarks" value="Remarks / Findings" />
+            <InputGroup id="remarks" label="Remarks / Findings" class="md:col-span-2" :error="form.errors.remarks">
                 <textarea
                     id="remarks"
                     v-model="form.remarks"
@@ -218,19 +206,18 @@ const handleCancel = () => {
                     class="mt-1 block w-full border-slate-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
                     :class="{ 'border-red-500': form.errors.remarks }"
                 ></textarea>
-                <InputError class="mt-2" :message="form.errors.remarks" />
-            </div>
+            </InputGroup>
         </div>
 
         <div class="mt-6">
-            <InputLabel value="Visit Attachments (Photos/Reports)" />
-            <AttachmentUploader
-                v-model="form.attachments"
-                :existing-attachments="existingAttachments"
-                @remove-existing="handleAttachmentsToDelete"
-                :error-message="form.errors.attachments"
-            />
-            <InputError class="mt-2" :message="form.errors.attachments" />
+            <InputGroup label="Visit Attachments (Photos/Reports)" :error="form.errors.attachments">
+                <AttachmentUploader
+                    v-model="form.attachments"
+                    :existing-attachments="existingAttachments"
+                    @remove-existing="handleAttachmentsToDelete"
+                    :error-message="form.errors.attachments"
+                />
+            </InputGroup>
         </div>
 
         <div class="flex items-center justify-end mt-6 space-x-4">

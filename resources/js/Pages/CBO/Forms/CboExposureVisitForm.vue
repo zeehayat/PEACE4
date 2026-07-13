@@ -4,6 +4,7 @@ import { useForm } from '@inertiajs/vue3';
 
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
+import InputGroup from '@/Components/FormComponents/InputGroup.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import DatePicker from '@/Components/DatePicker.vue';
@@ -126,20 +127,17 @@ const handleCancel = () => {
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Date of Visit -->
-            <div>
-                <InputLabel for="date_of_visit" value="Date of Visit" />
+            <InputGroup id="date_of_visit" label="Date of Visit" :required="true" :error="form.errors.date_of_visit">
                 <DatePicker
                     id="date_of_visit"
                     v-model="form.date_of_visit"
                     :class="{ 'border-red-500': form.errors.date_of_visit }"
                     placeholder="Select Date"
                 />
-                <InputError class="mt-2" :message="form.errors.date_of_visit" />
-            </div>
+            </InputGroup>
 
             <!-- Participants -->
-            <div>
-                <InputLabel for="participants" value="Participants" />
+            <InputGroup id="participants" label="Participants" :error="form.errors.participants">
                 <TextInput
                     id="participants"
                     v-model="form.participants"
@@ -148,12 +146,10 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.participants }"
                 />
-                <InputError class="mt-2" :message="form.errors.participants" />
-            </div>
+            </InputGroup>
 
             <!-- Purpose of Visit -->
-            <div class="md:col-span-2">
-                <InputLabel for="purpose_of_visit" value="Purpose of Visit" />
+            <InputGroup id="purpose_of_visit" label="Purpose of Visit" class="md:col-span-2" :error="form.errors.purpose_of_visit">
                 <TextInput
                     id="purpose_of_visit"
                     v-model="form.purpose_of_visit"
@@ -161,33 +157,28 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.purpose_of_visit }"
                 />
-                <InputError class="mt-2" :message="form.errors.purpose_of_visit" />
-            </div>
+            </InputGroup>
 
             <!-- Remarks (WYSIWYG Editor) -->
-            <div class="md:col-span-2">
-                <InputLabel for="remarks" value="Remarks" />
+            <InputGroup id="remarks" label="Remarks" class="md:col-span-2" :error="form.errors.remarks">
                 <WysiwygEditor
                     id="remarks"
                     v-model="form.remarks"
                     :class="{ 'border-red-500': form.errors.remarks }"
                     :height="200"
                 />
-                <InputError class="mt-2" :message="form.errors.remarks" />
-            </div>
+            </InputGroup>
         </div>
 
         <!-- Attachments Section -->
-        <div class="mt-6">
-            <InputLabel value="Attachments" />
+        <InputGroup label="Attachments" class="mt-6" :error="form.errors.attachments">
             <AttachmentUploader
                 v-model="form.attachments"
                 :existing-attachments="existingAttachments"
                 @remove-existing="handleAttachmentsToDelete"
                 :error-message="form.errors.attachments"
             />
-            <InputError class="mt-2" :message="form.errors.attachments" />
-        </div>
+        </InputGroup>
 
         <div class="flex items-center justify-end mt-6 space-x-4">
             <button

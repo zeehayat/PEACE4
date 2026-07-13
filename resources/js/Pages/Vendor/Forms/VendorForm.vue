@@ -2,8 +2,7 @@
 import { reactive, watch, ref, onMounted } from 'vue';
 import { useForm, usePage } from '@inertiajs/vue3';
 
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
+import InputGroup from '@/Components/FormComponents/InputGroup.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import TextArea from '@/Components/TextArea.vue';
@@ -117,8 +116,7 @@ const handleCancel = () => {
     <form @submit.prevent="handleSubmit" class="p-6 space-y-6">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Name -->
-            <div>
-                <InputLabel for="name" value="Vendor Name" />
+            <InputGroup id="name" label="Vendor Name" :required="true" :error="form.errors.name">
                 <TextInput
                     id="name"
                     v-model="form.name"
@@ -126,12 +124,10 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.name }"
                 />
-                <InputError class="mt-2" :message="form.errors.name" />
-            </div>
+            </InputGroup>
 
             <!-- Contact Person -->
-            <div>
-                <InputLabel for="contact_person" value="Contact Person" />
+            <InputGroup id="contact_person" label="Contact Person" :error="form.errors.contact_person">
                 <TextInput
                     id="contact_person"
                     v-model="form.contact_person"
@@ -139,12 +135,10 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.contact_person }"
                 />
-                <InputError class="mt-2" :message="form.errors.contact_person" />
-            </div>
+            </InputGroup>
 
             <!-- Phone -->
-            <div>
-                <InputLabel for="phone" value="Phone" />
+            <InputGroup id="phone" label="Phone" :error="form.errors.phone">
                 <TextInput
                     id="phone"
                     v-model="form.phone"
@@ -152,12 +146,10 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.phone }"
                 />
-                <InputError class="mt-2" :message="form.errors.phone" />
-            </div>
+            </InputGroup>
 
             <!-- Email -->
-            <div>
-                <InputLabel for="email" value="Email" />
+            <InputGroup id="email" label="Email" :error="form.errors.email">
                 <TextInput
                     id="email"
                     v-model="form.email"
@@ -165,24 +157,25 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.email }"
                 />
-                <InputError class="mt-2" :message="form.errors.email" />
-            </div>
+            </InputGroup>
 
             <!-- Address -->
-            <div class="md:col-span-2">
-                <InputLabel for="address" value="Address" />
+            <InputGroup id="address" label="Address" class="md:col-span-2" :error="form.errors.address">
                 <TextArea
                     id="address"
                     v-model="form.address"
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.address }"
                 />
-                <InputError class="mt-2" :message="form.errors.address" />
-            </div>
+            </InputGroup>
 
             <!-- NTN No -->
-            <div>
-                <InputLabel for="ntn_no" value="NTN No." />
+            <InputGroup
+                id="ntn_no"
+                label="NTN No."
+                help="NTN means National Tax Number, the vendor's tax registration identifier."
+                :error="form.errors.ntn_no"
+            >
                 <TextInput
                     id="ntn_no"
                     v-model="form.ntn_no"
@@ -190,12 +183,10 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.ntn_no }"
                 />
-                <InputError class="mt-2" :message="form.errors.ntn_no" />
-            </div>
+            </InputGroup>
 
             <!-- Status -->
-            <div>
-                <InputLabel for="status" value="Status" />
+            <InputGroup id="status" label="Status" :required="true" :error="form.errors.status">
                 <SelectInput
                     id="status"
                     v-model="form.status"
@@ -203,32 +194,29 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.status }"
                 />
-                <InputError class="mt-2" :message="form.errors.status" />
-            </div>
+            </InputGroup>
 
             <!-- Remarks (WYSIWYG Editor) -->
-            <div class="md:col-span-2">
-                <InputLabel for="remarks" value="Remarks" />
+            <InputGroup id="remarks" label="Remarks" class="md:col-span-2" :error="form.errors.remarks">
                 <WysiwygEditor
                     id="remarks"
                     v-model="form.remarks"
                     :class="{ 'border-red-500': form.errors.remarks }"
                     :height="200"
                 />
-                <InputError class="mt-2" :message="form.errors.remarks" />
-            </div>
+            </InputGroup>
         </div>
 
         <!-- Attachments Section -->
         <div class="mt-6">
-            <InputLabel value="Attachments" />
-            <AttachmentUploader
-                v-model="form.attachments"
-                :existing-attachments="existingAttachments"
-                @remove-existing="handleAttachmentsToDelete"
-                :error-message="form.errors.attachments"
-            />
-            <InputError class="mt-2" :message="form.errors.attachments" />
+            <InputGroup label="Attachments" :error="form.errors.attachments">
+                <AttachmentUploader
+                    v-model="form.attachments"
+                    :existing-attachments="existingAttachments"
+                    @remove-existing="handleAttachmentsToDelete"
+                    :error-message="form.errors.attachments"
+                />
+            </InputGroup>
         </div>
 
         <div class="flex items-center justify-end mt-6 space-x-4">
