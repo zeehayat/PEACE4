@@ -111,20 +111,19 @@ class IrrigationDashboardController extends Controller
     private function buildImplementationStatusChart($schemes): array
     {
         $order = ['Not Yet Approved', 'Approved', 'Ongoing', 'Completed'];
-        $grouped = $schemes->groupBy(fn (IrrigationScheme $s) => $this->deriveStatus($s));
+        $counts = [
+            $schemes->filter(fn (IrrigationScheme $s) => $s->profile?->ho_approval_date === null)->count(),
+            $schemes->filter(fn (IrrigationScheme $s) => $s->profile?->ho_approval_date !== null)->count(),
+            $schemes->filter(fn (IrrigationScheme $s) => $s->profile?->work_initiated_date !== null)->count(),
+            $schemes->filter(fn (IrrigationScheme $s) => $s->profile?->work_completed_date !== null)->count(),
+        ];
 
-        $labels = [];
-        $counts = [];
         $table = [];
-
-        foreach ($order as $status) {
-            $count = $grouped->get($status, collect())->count();
-            $labels[] = $status;
-            $counts[] = $count;
-            $table[] = ['status' => $status, 'count' => $count];
+        foreach ($order as $i => $status) {
+            $table[] = ['status' => $status, 'count' => $counts[$i]];
         }
 
-        return ['labels' => $labels, 'counts' => $counts, 'table' => $table];
+        return ['labels' => $order, 'counts' => $counts, 'table' => $table];
     }
 
     private function buildDistrictAlignmentChart($schemes): array

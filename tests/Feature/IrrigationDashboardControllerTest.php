@@ -59,7 +59,7 @@ class IrrigationDashboardControllerTest extends TestCase
                 ->where('stats.infrastructure.km_of_channel', 9)
                 ->where('stats.infrastructure.channel_excluded_count', 1)
                 ->where('chart_implementation_status.labels', ['Not Yet Approved', 'Approved', 'Ongoing', 'Completed'])
-                ->where('chart_implementation_status.counts', [2, 1, 1, 1])
+                ->where('chart_implementation_status.counts', [2, 3, 2, 1])
             );
     }
 
