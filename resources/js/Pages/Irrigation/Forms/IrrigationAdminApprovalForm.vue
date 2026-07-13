@@ -162,7 +162,6 @@ const handleCancel = () => {
                     id="vendor_id"
                     v-model="form.vendor_id"
                     :initial-vendor="approval?.vendor"
-                    :error-message="form.errors.vendor_id"
                 />
             </InputGroup>
 
