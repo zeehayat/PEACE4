@@ -4,6 +4,7 @@ import { useForm, usePage } from '@inertiajs/vue3';
 
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
+import InputGroup from '@/Components/FormComponents/InputGroup.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import SelectInput from '@/Components/SelectInput.vue';
@@ -123,46 +124,37 @@ const handleCancel = () => {
     <form @submit.prevent="handleSubmit" class="p-6 space-y-6">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- CBO -->
-            <div>
-                <InputLabel for="cbo_id" value="" />
+            <InputGroup id="cbo_id" label="CBO" :required="true" :error="form.errors.cbo_id">
                 <SearchableCboSelect
                     id="cbo_id"
                     v-model="form.cbo_id"
                     :initial-cbo-object="scheme ? scheme.cbo : null"
                     :class="{ 'border-red-500': form.errors.cbo_id }"
                 />
-                <InputError class="mt-2" :message="form.errors.cbo_id" />
-            </div>
+            </InputGroup>
 
             <!-- Scheme Type -->
-            <div class="hidden">
-                <InputLabel for="scheme_type" value="Scheme Type" />
+            <InputGroup id="scheme_type" label="Scheme Type" class="hidden" :error="form.errors.scheme_type">
                 <TextInput
                     id="scheme_type"
                     v-model="form.scheme_type"
-
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.scheme_type }"
                 />
-                <InputError class="mt-2" :message="form.errors.scheme_type" />
-            </div>
+            </InputGroup>
 
             <!-- Sub Scheme Type -->
-            <div class="hidden">
-                <InputLabel for="sub_scheme_type" value="Sub Scheme Type" />
+            <InputGroup id="sub_scheme_type" label="Sub Scheme Type" class="hidden" :error="form.errors.sub_scheme_type">
                 <TextInput
                     id="sub_scheme_type"
                     v-model="form.sub_scheme_type"
-
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.sub_scheme_type }"
                 />
-                <InputError class="mt-2" :message="form.errors.sub_scheme_type" />
-            </div>
+            </InputGroup>
 
             <!-- Scheme Status -->
-            <div>
-                <InputLabel for="status" value="Status" />
+            <InputGroup id="status" label="Status" :required="true" :error="form.errors.status">
                 <SelectInput
                     id="status"
                     v-model="form.status"
@@ -170,39 +162,33 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.status }"
                 />
-                <InputError class="mt-2" :message="form.errors.status" />
-            </div>
+            </InputGroup>
 
             <!-- Remarks -->
-            <div class="md:col-span-2">
-                <InputLabel for="remarks" value="Remarks" />
+            <InputGroup id="remarks" label="Remarks" class="md:col-span-2" :error="form.errors.remarks">
                 <WysiwygEditor
                     id="remarks"
                     v-model="form.remarks"
                     :class="{ 'border-red-500': form.errors.remarks }"
                     :height="200"
                 />
-                <InputError class="mt-2" :message="form.errors.remarks" />
-            </div>
+            </InputGroup>
 
             <!-- Attachments Section for IrrigationScheme -->
-            <div class="md:col-span-2">
-                <InputLabel value="Scheme Attachments" />
+            <InputGroup label="Scheme Attachments" class="md:col-span-2" :error="form.errors.attachments">
                 <AttachmentUploader
                     v-model="form.attachments"
                     :existing-attachments="existingAttachments"
                     @remove-existing="handleAttachmentsToDelete"
                     :error-message="form.errors.attachments"
                 />
-                <InputError class="mt-2" :message="form.errors.attachments" />
-            </div>
+            </InputGroup>
         </div>
 
         <h3 class="text-lg font-semibold border-b pb-2 mt-8">Profile Details</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Beneficiary Farmers -->
-            <div>
-                <InputLabel for="beneficiary_farmers" value="Beneficiary Farmers" />
+            <InputGroup id="beneficiary_farmers" label="Beneficiary Farmers" :error="form.errors['profile.beneficiary_farmers']">
                 <TextInput
                     id="beneficiary_farmers"
                     v-model="form.profile.beneficiary_farmers"
@@ -211,12 +197,10 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors['profile.beneficiary_farmers'] }"
                 />
-                <InputError class="mt-2" :message="form.errors['profile.beneficiary_farmers']" />
-            </div>
+            </InputGroup>
 
             <!-- Direct Household Beneficiary -->
-            <div>
-                <InputLabel for="direct_household_beneficiary" value="Direct Household Beneficiaries" />
+            <InputGroup id="direct_household_beneficiary" label="Direct Household Beneficiaries" :error="form.errors.direct_household_beneficiary">
                 <TextInput
                     id="direct_household_beneficiary"
                     v-model="form.direct_household_beneficiary"
@@ -225,12 +209,10 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.direct_household_beneficiary }"
                 />
-                <InputError class="mt-2" :message="form.errors.direct_household_beneficiary" />
-            </div>
+            </InputGroup>
 
             <!-- Indirect Household Beneficiary -->
-            <div>
-                <InputLabel for="indirect_household_beneficiary" value="Indirect Household Beneficiaries" />
+            <InputGroup id="indirect_household_beneficiary" label="Indirect Household Beneficiaries" :error="form.errors.indirect_household_beneficiary">
                 <TextInput
                     id="indirect_household_beneficiary"
                     v-model="form.indirect_household_beneficiary"
@@ -239,12 +221,10 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.indirect_household_beneficiary }"
                 />
-                <InputError class="mt-2" :message="form.errors.indirect_household_beneficiary" />
-            </div>
+            </InputGroup>
 
             <!-- Channel Length -->
-            <div>
-                <InputLabel for="channel_length_km" value="Channel Length (KM)" />
+            <InputGroup id="channel_length_km" label="Channel Length (KM)" :error="form.errors['profile.channel_length_km']">
                 <TextInput
                     id="channel_length_km"
                     v-model="form.profile.channel_length_km"
@@ -254,12 +234,10 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors['profile.channel_length_km'] }"
                 />
-                <InputError class="mt-2" :message="form.errors['profile.channel_length_km']" />
-            </div>
+            </InputGroup>
 
             <!-- Land Area -->
-            <div>
-                <InputLabel for="land_area_hectares" value="Land Area (Hectares)" />
+            <InputGroup id="land_area_hectares" label="Land Area (Hectares)" :error="form.errors['profile.land_area_hectares']">
                 <TextInput
                     id="land_area_hectares"
                     v-model="form.profile.land_area_hectares"
@@ -269,12 +247,10 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors['profile.land_area_hectares'] }"
                 />
-                <InputError class="mt-2" :message="form.errors['profile.land_area_hectares']" />
-            </div>
+            </InputGroup>
 
              <!-- Additional Area Covered -->
-            <div>
-                <InputLabel for="additional_area_covered" value="Additional Area Covered (Hectares)" />
+            <InputGroup id="additional_area_covered" label="Additional Area Covered (Hectares)" :error="form.errors['profile.additional_area_covered']">
                 <TextInput
                     id="additional_area_covered"
                     v-model="form.profile.additional_area_covered"
@@ -284,24 +260,20 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors['profile.additional_area_covered'] }"
                 />
-                <InputError class="mt-2" :message="form.errors['profile.additional_area_covered']" />
-            </div>
+            </InputGroup>
 
             <!-- Month/Year of Establishment -->
-            <div>
-                <InputLabel for="month_year_establishment" value="Month & Year of Establishment" />
+            <InputGroup id="month_year_establishment" label="Month & Year of Establishment" :error="form.errors['profile.month_year_establishment']">
                 <DatePicker
                     id="month_year_establishment"
                     v-model="form.profile.month_year_establishment"
                     :class="{ 'border-red-500': form.errors['profile.month_year_establishment'] }"
                     placeholder="Select Date"
                 />
-                <InputError class="mt-2" :message="form.errors['profile.month_year_establishment']" />
-            </div>
+            </InputGroup>
 
             <!-- Established By -->
-            <div>
-                <InputLabel for="established_by" value="Established By" />
+            <InputGroup id="established_by" label="Established By" :error="form.errors['profile.established_by']">
                 <TextInput
                     id="established_by"
                     v-model="form.profile.established_by"
@@ -309,96 +281,90 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors['profile.established_by'] }"
                 />
-                <InputError class="mt-2" :message="form.errors['profile.established_by']" />
-            </div>
+            </InputGroup>
 
             <!-- Date Technical Surveys -->
-            <div>
-                <InputLabel for="date_technical_surveys" value="Date of Technical Surveys" />
+            <InputGroup id="date_technical_surveys" label="Date of Technical Surveys" :error="form.errors['profile.date_technical_surveys']">
                 <DatePicker
                     id="date_technical_surveys"
                     v-model="form.profile.date_technical_surveys"
                     :class="{ 'border-red-500': form.errors['profile.date_technical_surveys'] }"
                     placeholder="Select Date"
                 />
-                <InputError class="mt-2" :message="form.errors['profile.date_technical_surveys']" />
-            </div>
-            
+            </InputGroup>
+
             <!-- Social Assessment Date -->
-            <div>
-                <InputLabel for="social_assessment_date" value="Social Assessment Date" />
+            <InputGroup id="social_assessment_date" label="Social Assessment Date" :error="form.errors['profile.social_assessment_date']">
                 <DatePicker
                     id="social_assessment_date"
                     v-model="form.profile.social_assessment_date"
                     :class="{ 'border-red-500': form.errors['profile.social_assessment_date'] }"
                     placeholder="Select Date"
                 />
-                <InputError class="mt-2" :message="form.errors['profile.social_assessment_date']" />
-            </div>
+            </InputGroup>
 
              <!-- Detail Design Finalized Date -->
-            <div>
-                <InputLabel for="detail_design_finalized_date" value="Detailed Design Finalized Date" />
+            <InputGroup id="detail_design_finalized_date" label="Detailed Design Finalized Date" :error="form.errors['profile.detail_design_finalized_date']">
                 <DatePicker
                     id="detail_design_finalized_date"
                     v-model="form.profile.detail_design_finalized_date"
                     :class="{ 'border-red-500': form.errors['profile.detail_design_finalized_date'] }"
                     placeholder="Select Date"
                 />
-                <InputError class="mt-2" :message="form.errors['profile.detail_design_finalized_date']" />
-            </div>
+            </InputGroup>
 
              <!-- Work Initiated Date -->
-            <div>
-                <InputLabel for="work_initiated_date" value="Work Initiated Date" />
+            <InputGroup id="work_initiated_date" label="Work Initiated Date" :error="form.errors['profile.work_initiated_date']">
                 <DatePicker
                     id="work_initiated_date"
                     v-model="form.profile.work_initiated_date"
                     :class="{ 'border-red-500': form.errors['profile.work_initiated_date'] }"
                     placeholder="Select Date"
                 />
-                <InputError class="mt-2" :message="form.errors['profile.work_initiated_date']" />
-            </div>
+            </InputGroup>
 
              <!-- Work Completed Date -->
-            <div>
-                <InputLabel for="work_completed_date" value="Work Completed Date" />
+            <InputGroup id="work_completed_date" label="Work Completed Date" :error="form.errors['profile.work_completed_date']">
                 <DatePicker
                     id="work_completed_date"
                     v-model="form.profile.work_completed_date"
                     :class="{ 'border-red-500': form.errors['profile.work_completed_date'] }"
                     placeholder="Select Date"
                 />
-                <InputError class="mt-2" :message="form.errors['profile.work_completed_date']" />
-            </div>
+            </InputGroup>
 
              <!-- O&M Training Date -->
-            <div>
-                <InputLabel for="om_training_date" value="O&M Training Date" />
+            <InputGroup
+                id="om_training_date"
+                label="O&M Training Date"
+                help="O&M means Operations & Maintenance — training given to the CBO on running and maintaining the scheme after handover."
+                :error="form.errors['profile.om_training_date']"
+            >
                 <DatePicker
                     id="om_training_date"
                     v-model="form.profile.om_training_date"
                     :class="{ 'border-red-500': form.errors['profile.om_training_date'] }"
                     placeholder="Select Date"
                 />
-                <InputError class="mt-2" :message="form.errors['profile.om_training_date']" />
-            </div>
+            </InputGroup>
 
              <!-- Handover Date -->
-            <div>
-                <InputLabel for="handover_date" value="Handed Over Date" />
+            <InputGroup id="handover_date" label="Handed Over Date" :error="form.errors['profile.handover_date']">
                 <DatePicker
                     id="handover_date"
                     v-model="form.profile.handover_date"
                     :class="{ 'border-red-500': form.errors['profile.handover_date'] }"
                     placeholder="Select Date"
                 />
-                <InputError class="mt-2" :message="form.errors['profile.handover_date']" />
-            </div>
+            </InputGroup>
 
              <!-- Beneficiary HHs -->
-            <div>
-                <InputLabel for="beneficiary_hhs" value="Beneficiary HHs" />
+            <InputGroup
+                id="beneficiary_hhs"
+                label="Beneficiary HHs"
+                help="HHs means households."
+                :error="form.errors['profile.beneficiary_hhs']"
+            >
                 <TextInput
                     id="beneficiary_hhs"
                     v-model="form.profile.beneficiary_hhs"
@@ -407,22 +373,23 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors['profile.beneficiary_hhs'] }"
                 />
-                <InputError class="mt-2" :message="form.errors['profile.beneficiary_hhs']" />
-            </div>
+            </InputGroup>
 
             <!-- HO Approval & Duration -->
-             <div>
-                <InputLabel for="ho_approval_date" value="Date of Approval from HO" />
+            <InputGroup
+                id="ho_approval_date"
+                label="Date of Approval from HO"
+                help="The date SRSP's Head Office (HO) formally approved this scheme for construction."
+                :error="form.errors['profile.ho_approval_date']"
+            >
                 <DatePicker
                     id="ho_approval_date"
                     v-model="form.profile.ho_approval_date"
                     :class="{ 'border-red-500': form.errors['profile.ho_approval_date'] }"
                     placeholder="Select Date"
                 />
-                <InputError class="mt-2" :message="form.errors['profile.ho_approval_date']" />
-            </div>
-             <div>
-                <InputLabel for="project_duration" value="Duration of the Project" />
+            </InputGroup>
+            <InputGroup id="project_duration" label="Duration of the Project" :error="form.errors['profile.project_duration']">
                 <TextInput
                     id="project_duration"
                     v-model="form.profile.project_duration"
@@ -430,12 +397,15 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors['profile.project_duration'] }"
                 />
-                <InputError class="mt-2" :message="form.errors['profile.project_duration']" />
-            </div>
+            </InputGroup>
 
             <!-- New Physical Dimension Fields -->
-             <div>
-                <InputLabel for="channel_length_rehab_rft" value="Channel Running Feet (REHAB)" />
+            <InputGroup
+                id="channel_length_rehab_rft"
+                label="Channel Running Feet (REHAB)"
+                help="RFT means Running Feet, a linear measurement unit used for this scheme's channel, protection, and intake works."
+                :error="form.errors['profile.channel_length_rehab_rft']"
+            >
                 <TextInput
                     id="channel_length_rehab_rft"
                     v-model="form.profile.channel_length_rehab_rft"
@@ -445,10 +415,13 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors['profile.channel_length_rehab_rft'] }"
                 />
-                <InputError class="mt-2" :message="form.errors['profile.channel_length_rehab_rft']" />
-            </div>
-             <div>
-                <InputLabel for="channel_length_new_rft" value="Channel Running Feet (NEW)" />
+            </InputGroup>
+            <InputGroup
+                id="channel_length_new_rft"
+                label="Channel Running Feet (NEW)"
+                help="RFT means Running Feet, a linear measurement unit used for this scheme's channel, protection, and intake works."
+                :error="form.errors['profile.channel_length_new_rft']"
+            >
                 <TextInput
                     id="channel_length_new_rft"
                     v-model="form.profile.channel_length_new_rft"
@@ -458,10 +431,13 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors['profile.channel_length_new_rft'] }"
                 />
-                <InputError class="mt-2" :message="form.errors['profile.channel_length_new_rft']" />
-            </div>
-             <div>
-                <InputLabel for="protection_length_rft" value="Protection Length (Running Feet)" />
+            </InputGroup>
+            <InputGroup
+                id="protection_length_rft"
+                label="Protection Length (Running Feet)"
+                help="RFT means Running Feet, a linear measurement unit used for this scheme's channel, protection, and intake works."
+                :error="form.errors['profile.protection_length_rft']"
+            >
                 <TextInput
                     id="protection_length_rft"
                     v-model="form.profile.protection_length_rft"
@@ -471,10 +447,13 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors['profile.protection_length_rft'] }"
                 />
-                <InputError class="mt-2" :message="form.errors['profile.protection_length_rft']" />
-            </div>
-             <div>
-                <InputLabel for="intake_length_rft" value="Intake Length (Running Feet)" />
+            </InputGroup>
+            <InputGroup
+                id="intake_length_rft"
+                label="Intake Length (Running Feet)"
+                help="RFT means Running Feet, a linear measurement unit used for this scheme's channel, protection, and intake works."
+                :error="form.errors['profile.intake_length_rft']"
+            >
                 <TextInput
                     id="intake_length_rft"
                     v-model="form.profile.intake_length_rft"
@@ -484,12 +463,15 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors['profile.intake_length_rft'] }"
                 />
-                <InputError class="mt-2" :message="form.errors['profile.intake_length_rft']" />
-            </div>
+            </InputGroup>
 
             <!-- Northening -->
-            <div>
-                <InputLabel for="northening" value="Northening" />
+            <InputGroup
+                id="northening"
+                label="Northening"
+                help="The northing coordinate (UTM/GPS) marking this scheme's north-south position."
+                :error="form.errors['profile.northening']"
+            >
                 <TextInput
                     id="northening"
                     v-model="form.profile.northening"
@@ -498,12 +480,15 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors['profile.northening'] }"
                 />
-                <InputError class="mt-2" :message="form.errors['profile.northening']" />
-            </div>
+            </InputGroup>
 
             <!-- Easting -->
-            <div>
-                <InputLabel for="easting" value="Easting" />
+            <InputGroup
+                id="easting"
+                label="Easting"
+                help="The easting coordinate (UTM/GPS) marking this scheme's east-west position."
+                :error="form.errors['profile.easting']"
+            >
                 <TextInput
                     id="easting"
                     v-model="form.profile.easting"
@@ -512,12 +497,10 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors['profile.easting'] }"
                 />
-                <InputError class="mt-2" :message="form.errors['profile.easting']" />
-            </div>
+            </InputGroup>
 
             <!-- Elevation -->
-            <div>
-                <InputLabel for="elevation" value="Elevation" />
+            <InputGroup id="elevation" label="Elevation" :error="form.errors['profile.elevation']">
                 <TextInput
                     id="elevation"
                     v-model="form.profile.elevation"
@@ -527,8 +510,7 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors['profile.elevation'] }"
                 />
-                <InputError class="mt-2" :message="form.errors['profile.elevation']" />
-            </div>
+            </InputGroup>
 
         </div>
 
