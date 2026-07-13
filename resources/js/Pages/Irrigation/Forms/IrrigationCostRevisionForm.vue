@@ -4,6 +4,7 @@ import { useForm } from '@inertiajs/vue3';
 
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
+import InputGroup from '@/Components/FormComponents/InputGroup.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import DatePicker from '@/Components/DatePicker.vue';
@@ -96,8 +97,7 @@ const handleCancel = () => {
         <input type="hidden" v-model="form.approvable_type" />
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-                <InputLabel for="revision_number" value="Revision Number" />
+            <InputGroup id="revision_number" label="Revision Number" :required="true" :error="form.errors.revision_number">
                 <TextInput
                     id="revision_number"
                     v-model="form.revision_number"
@@ -106,10 +106,8 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.revision_number }"
                 />
-                <InputError class="mt-2" :message="form.errors.revision_number" />
-            </div>
-            <div>
-                <InputLabel for="revised_cost" value="Revised Cost" />
+            </InputGroup>
+            <InputGroup id="revised_cost" label="Revised Cost" :required="true" :error="form.errors.revised_cost">
                 <TextInput
                     id="revised_cost"
                     v-model="form.revised_cost"
@@ -119,40 +117,37 @@ const handleCancel = () => {
                     class="mt-1 block w-full"
                     :class="{ 'border-red-500': form.errors.revised_cost }"
                 />
-                <InputError class="mt-2" :message="form.errors.revised_cost" />
-            </div>
-            <div>
-                <InputLabel for="approved_on" value="Approved On" />
+            </InputGroup>
+            <InputGroup id="approved_on" label="Approved On" :required="true" :error="form.errors.approved_on">
                 <DatePicker
                     id="approved_on"
                     v-model="form.approved_on"
                     :class="{ 'border-red-500': form.errors.approved_on }"
                     placeholder="Select Date"
                 />
-                <InputError class="mt-2" :message="form.errors.approved_on" />
-            </div>
+            </InputGroup>
         </div>
 
         <div class="mt-4">
-            <InputLabel for="remarks" value="Remarks" />
-            <WysiwygEditor
-                id="remarks"
-                v-model="form.remarks"
-                :class="{ 'border-red-500': form.errors.remarks }"
-                :height="150"
-            />
-            <InputError class="mt-2" :message="form.errors.remarks" />
+            <InputGroup id="remarks" label="Remarks" :error="form.errors.remarks">
+                <WysiwygEditor
+                    id="remarks"
+                    v-model="form.remarks"
+                    :class="{ 'border-red-500': form.errors.remarks }"
+                    :height="150"
+                />
+            </InputGroup>
         </div>
 
         <div class="mt-4">
-            <InputLabel value="Attachments" />
-            <AttachmentUploader
-                @update-files="handleFileUpdate"
-                :existing-attachments="existingAttachments"
-                @delete-existing-attachments="handleAttachmentsToDelete"
-                :error-message="form.errors.attachments"
-            />
-            <InputError class="mt-2" :message="form.errors.attachments" />
+            <InputGroup label="Attachments" :error="form.errors.attachments">
+                <AttachmentUploader
+                    @update-files="handleFileUpdate"
+                    :existing-attachments="existingAttachments"
+                    @delete-existing-attachments="handleAttachmentsToDelete"
+                    :error-message="form.errors.attachments"
+                />
+            </InputGroup>
         </div>
 
         <div class="flex justify-end mt-4 space-x-2">
