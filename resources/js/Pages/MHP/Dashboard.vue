@@ -10,10 +10,12 @@ const props = defineProps({
     chart_mobilization: { type: Object, required: true },
     chart_type_breakdown: { type: Object, required: true },
     chart_progress: { type: Object, required: true },
+    chart_component_progress: { type: Object, required: true },
     chart_beneficiaries: { type: Object, required: true },
     scheme_log: { type: Array, required: true },
     cbo_log: { type: Array, required: true },
     stalled: { type: Array, required: true },
+    mismatches: { type: Array, required: true },
 });
 
 function applyDistrictFilter(district) {
@@ -75,6 +77,16 @@ const progressChartData = {
 };
 const progressChartOptions = { indexAxis: 'y' };
 
+const componentProgressChartData = {
+    labels: props.chart_component_progress.labels,
+    datasets: [
+        { label: 'Civil %', backgroundColor: '#0e7490', data: props.chart_component_progress.civil },
+        { label: 'EME %', backgroundColor: '#67e8f9', data: props.chart_component_progress.eme },
+        { label: 'T&D %', backgroundColor: '#155e75', data: props.chart_component_progress.td },
+    ],
+};
+const componentProgressChartOptions = { indexAxis: 'y' };
+
 const beneficiaryChartData = {
     labels: props.chart_beneficiaries.labels,
     datasets: [
@@ -113,6 +125,18 @@ const cboExportUrl = route('mhp.overview.export-cbos', { district: props.filters
                 <ul class="mt-2 list-disc space-y-1 pl-5">
                     <li v-for="s in stalled" :key="s.id">
                         {{ s.cbo_name }} ({{ s.district }}) — approved {{ s.stalled_since }}, {{ s.days_stalled }} days ago
+                    </li>
+                </ul>
+            </div>
+
+            <div
+                v-if="mismatches.length > 0"
+                class="rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm text-amber-800"
+            >
+                <p class="font-semibold">{{ mismatches.length }} scheme(s) with disbursement running &gt;20 points ahead of physical progress</p>
+                <ul class="mt-2 list-disc space-y-1 pl-5">
+                    <li v-for="m in mismatches" :key="m.id">
+                        {{ m.cbo_name }} ({{ m.district }}) — Physical {{ m.physical }}%, Financial {{ m.financial }}%, variance +{{ m.variance }} pts
                     </li>
                 </ul>
             </div>
@@ -202,6 +226,15 @@ const cboExportUrl = route('mhp.overview.export-cbos', { district: props.filters
                     :chart-options="progressChartOptions"
                     :table-columns="[{ key: 'scheme', label: 'Scheme' }, { key: 'physical', label: 'Physical %' }, { key: 'financial', label: 'Financial %' }]"
                     :table-rows="chart_progress.table"
+                />
+                <ChartWithTable
+                    title="04a · Progress by Component (Civil / EME / T&D)"
+                    subtitle="Physical progress split by work component, sourced from progress-log entries. May not sum exactly to the combined Physical % shown above, which is a cost-weighted current-state figure from a different source."
+                    chart-type="bar"
+                    :chart-data="componentProgressChartData"
+                    :chart-options="componentProgressChartOptions"
+                    :table-columns="[{ key: 'scheme', label: 'Scheme' }, { key: 'civil', label: 'Civil %' }, { key: 'eme', label: 'EME %' }, { key: 'td', label: 'T&D %' }]"
+                    :table-rows="chart_component_progress.table"
                 />
                 <ChartWithTable
                     title="05 · Beneficiary Overview"
