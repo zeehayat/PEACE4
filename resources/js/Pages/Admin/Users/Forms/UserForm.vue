@@ -72,6 +72,7 @@ watch(() => props.user, (newUser) => {
             district_id: globalDistrictValue,
             roles: [],
             permissions: [],
+            denied_permissions: [],
         });
     }
     form.reset();
