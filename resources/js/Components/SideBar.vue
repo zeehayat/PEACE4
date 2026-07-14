@@ -118,13 +118,13 @@ const isAdmin = computed(() => user.value?.roles?.some((r) => ['Admin', 'Root'].
             </Link>
 
             <!-- User Profile -->
-            <div v-if="user" class="relative group cursor-pointer flex flex-col items-center">
+            <Link v-if="user" :href="route('profile.show')" class="relative group cursor-pointer flex flex-col items-center">
                 <img :src="user.profile_photo_url || 'https://i.postimg.cc/DzL69Yng/images.png'" alt="User Profile" class="h-10 w-10 rounded-xl object-cover ring-2 ring-emerald-500/30 hover:scale-105 transition duration-200">
                 <div class="tooltip text-center">
                     <div class="font-semibold">{{ user.name }}</div>
                     <div class="text-[10px] text-ink-400">{{ user.email }}</div>
                 </div>
-            </div>
+            </Link>
 
             <!-- Logout -->
             <button @click="router.post(route('logout'))" class="nav-btn relative group text-rose-400 hover:bg-rose-500/10 hover:text-rose-300">
