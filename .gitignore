@@ -25,3 +25,9 @@ Thumbs.db
 rr
 .rr.yaml
 .worktrees/
+
+# Laravel Wayfinder generates these fresh from routes/*.php on every
+# npm run dev/build (see vite.config.js's wayfinder() plugin) - they are
+# 100% derived, not hand-written, and should not be version controlled.
+/resources/js/actions/
+/resources/js/routes/
