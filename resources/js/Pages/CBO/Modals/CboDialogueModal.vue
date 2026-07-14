@@ -66,7 +66,7 @@ watch(() => props.show, (newVal) => {
     } else {
         dialogues.value = [];
     }
-});
+}, { immediate: true });
 
 const openCreateForm = () => {
     selectedDialogue.value = null;

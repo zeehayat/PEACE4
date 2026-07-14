@@ -56,7 +56,7 @@ watch(() => props.show, (newValue) => {
     if (newValue) {
         fetchOperationalCosts();
     }
-});
+}, { immediate: true });
 
 /**
  * Computed property to calculate the total amount of all operational costs.

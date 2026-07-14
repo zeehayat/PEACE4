@@ -62,7 +62,7 @@ watch(() => props.show, (newVal) => {
     } else {
         physicalProgresses.value = [];
     }
-});
+}, { immediate: true });
 
 const openCreateForm = () => {
     selectedProgress.value = null;

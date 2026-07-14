@@ -70,7 +70,7 @@ watch(() => props.show, (newVal) => {
     } else {
         trainings.value = []; // Clear data when modal closes
     }
-});
+}, { immediate: true });
 
 // Handlers for managing the form state
 const openCreateForm = () => {
