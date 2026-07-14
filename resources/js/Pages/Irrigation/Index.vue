@@ -274,6 +274,7 @@ const handlePagination = (url) => {
                         <tr>
                             <th scope="col">ID</th>
                             <th scope="col">Scheme Info</th>
+                            <th scope="col">Type</th>
                             <th scope="col">Location</th>
                             <th scope="col">Details</th>
                             <th scope="col">Progress Summary</th>
@@ -292,6 +293,10 @@ const handlePagination = (url) => {
                             <td class="px-4 py-3 whitespace-nowrap text-sm text-ink-700">
                                 <div>Scheme: {{ scheme.scheme_type ?? 'N/A' }}</div>
                                 <div class="text-xs text-ink-500">{{ scheme.sub_scheme_type ?? 'N/A' }}</div>
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-ink-700">
+                                <div>{{ scheme.cbo?.district ?? 'N/A' }}</div>
+                                <div class="text-xs text-ink-500">{{ scheme.cbo?.village ?? '' }}</div>
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap text-sm text-ink-700">
                                 <div>Watercourses: {{ scheme.number_of_watercourses ?? 'N/A' }}</div>

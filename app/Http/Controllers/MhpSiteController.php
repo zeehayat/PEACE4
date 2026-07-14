@@ -6,6 +6,8 @@ use App\Http\Requests\StoreMhpSiteRequest;
 use App\Http\Requests\UpdateMhpSiteRequest;
 use App\Models\Cbo;
 use App\Models\MhpSite;
+use App\Models\Views\MhpProgressLatest;
+use App\Services\MhpReportService;
 use App\Services\MhpSiteService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -66,6 +68,20 @@ class MhpSiteController extends Controller
         }
 
         $mhpSites = $query->paginate(10)->withQueryString();
+
+        $financialBySite = MhpProgressLatest::query()
+            ->whereIn('mhp_id', $mhpSites->pluck('id'))
+            ->pluck('fin_overall_latest_pct', 'mhp_id');
+
+        $mhpSites->through(function (MhpSite $site) use ($financialBySite) {
+            $service = new MhpReportService($site);
+            $site->civil_progress = $service->getCivilProgress();
+            $site->eme_progress = $service->getEmeProgress();
+            $site->td_progress = $service->getTdProgress();
+            $site->financial_progress = (float) ($financialBySite[$site->id] ?? 0.0);
+
+            return $site;
+        });
 
         return Inertia::render('MHP/Index', [
             'mhpSites' => $mhpSites,

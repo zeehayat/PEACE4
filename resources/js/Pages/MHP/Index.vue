@@ -27,7 +27,6 @@ import EmeInfoModal from "@/Pages/MHP/Modals/EmeInfoModal.vue";
 import ProjectVisitModal from '@/Pages/Shared/Visits/ProjectVisitModal.vue';
 
 import { getFileIcon } from '@/Utils/helpers';
-import { formatCurrency } from '@/Utils/formatters';
 
 
 const props = defineProps({
@@ -359,11 +358,15 @@ const handlePagination = (url) => {
                         <thead>
                         <tr>
                             <th scope="col">Site Info</th>
+                            <th scope="col">Location</th>
                             <th scope="col">Status</th>
                             <th scope="col">Population</th>
                             <th scope="col">Approval</th>
                             <th scope="col">Attachments</th>
-                            <th scope="col">Progress Summary</th>
+                            <th scope="col">Civil %</th>
+                            <th scope="col">EME %</th>
+                            <th scope="col">T&D %</th>
+                            <th scope="col">Financial %</th>
                             <th scope="col" class="relative px-4 py-3"><span class="sr-only">Actions</span></th>
                         </tr>
                         </thead>
@@ -373,6 +376,11 @@ const handlePagination = (url) => {
                             <td class="px-4 py-3 whitespace-nowrap">
                                 <div class="text-sm font-semibold text-ink-900">{{ site.cbo?.reference_code ?? 'N/A' }}</div>
                                 <div class="text-xs text-ink-500 mt-0.5">Project ID: {{ site.project_id }}</div>
+                            </td>
+
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-ink-700">
+                                <div>{{ site.cbo?.district ?? 'N/A' }}</div>
+                                <div class="text-xs text-ink-500">{{ site.cbo?.village ?? '' }}</div>
                             </td>
 
                             <td class="px-4 py-3 whitespace-nowrap">
@@ -401,47 +409,10 @@ const handlePagination = (url) => {
                                 <span v-else class="text-ink-400 text-sm">—</span>
                             </td>
 
-                            <td class="px-4 py-3 whitespace-nowrap min-w-[200px]">
-                                <div class="space-y-2">
-                                    <!-- Physical Progress Bar -->
-                                    <div class="space-y-0.5">
-                                        <div class="flex items-center justify-between text-[11px]">
-                                            <span class="font-bold text-emerald-800 flex items-center gap-0.5">
-                                                <span class="material-symbols-outlined text-[12px]">analytics</span>
-                                                Physical: {{ site.latest_physical_progress ? site.latest_physical_progress.payment_for : 'None' }}
-                                            </span>
-                                            <span class="font-extrabold text-emerald-700">
-                                                {{ site.latest_physical_progress ? site.latest_physical_progress.progress_percentage : 0 }}%
-                                            </span>
-                                        </div>
-                                        <div class="w-full bg-paper-100 rounded-full h-1 overflow-hidden">
-                                            <div
-                                                class="bg-emerald-500 h-1 rounded-full transition-all duration-300"
-                                                :style="{ width: (site.latest_physical_progress ? site.latest_physical_progress.progress_percentage : 0) + '%' }"
-                                            ></div>
-                                        </div>
-                                        <p v-if="site.latest_physical_progress" class="text-[9px] font-semibold text-ink-400">
-                                            As of {{ new Date(site.latest_physical_progress.progress_date).toLocaleDateString() }}
-                                        </p>
-                                    </div>
-
-                                    <!-- Financial Progress Info -->
-                                    <div class="space-y-0.5 pt-1 border-t border-ink-100">
-                                        <div class="flex items-center justify-between text-[11px]">
-                                            <span class="font-bold text-amber-800 flex items-center gap-0.5">
-                                                <span class="material-symbols-outlined text-[12px]">payments</span>
-                                                Financial: {{ site.latest_financial_installment ? `Inst. #${site.latest_financial_installment.installment_number}` : 'None' }}
-                                            </span>
-                                            <span class="font-extrabold text-amber-700">
-                                                {{ site.latest_financial_installment ? `${formatCurrency(site.latest_financial_installment.installment_amount)}` : '—' }}
-                                            </span>
-                                        </div>
-                                        <p v-if="site.latest_financial_installment" class="text-[9px] font-semibold text-ink-400">
-                                            Type: {{ site.latest_financial_installment.payment_for }}
-                                        </p>
-                                    </div>
-                                </div>
-                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-ink-700">{{ site.civil_progress }}%</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-ink-700">{{ site.eme_progress }}%</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-ink-700">{{ site.td_progress }}%</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-ink-700">{{ site.financial_progress }}%</td>
 
                             <td class="px-4 py-3 whitespace-nowrap text-right text-sm font-medium relative action-menu-container">
                                 <button @click.stop="toggleActionMenu(site.id, $event)" class="p-2 text-ink-500 hover:text-ink-900 rounded-full hover:bg-paper-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity action-menu-trigger">

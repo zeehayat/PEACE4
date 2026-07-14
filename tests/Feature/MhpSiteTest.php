@@ -11,6 +11,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Inertia\Testing\AssertableInertia as Assert;
+use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 class MhpSiteTest extends TestCase
@@ -27,6 +29,35 @@ class MhpSiteTest extends TestCase
     }
 
     // ... (passing tests) ...
+
+    /**
+     * Test the sites index includes location and per-component progress fields.
+     */
+    public function test_index_returns_location_and_component_progress(): void
+    {
+        Role::firstOrCreate(['name' => 'Root', 'guard_name' => 'web']);
+        $this->user->assignRole('Root');
+
+        $cbo = Cbo::factory()->create(['district' => 'Swat', 'village' => 'Thall']);
+        $site = MhpSite::factory()->create([
+            'cbo_id' => $cbo->id,
+            'civil_contractor_amount' => 1000,
+            'civil_physical_progress_percent' => 40,
+        ]);
+        $site->emeInfo()->create(['contractor_amount' => 500, 'physical_progress_percent' => 10]);
+        $site->tAndDWorks()->create(['contractor_amount' => 300, 'physical_progress_percent' => 5]);
+
+        $this->actingAs($this->user)
+            ->get(route('mhp.sites.index'))
+            ->assertInertia(fn (Assert $page) => $page
+                ->where('mhpSites.data.0.cbo.district', 'Swat')
+                ->where('mhpSites.data.0.cbo.village', 'Thall')
+                ->where('mhpSites.data.0.civil_progress', 40)
+                ->where('mhpSites.data.0.eme_progress', 10)
+                ->where('mhpSites.data.0.td_progress', 5)
+                ->has('mhpSites.data.0.financial_progress')
+            );
+    }
 
     /**
      * Test T&D Work can be created and updated for an MHP site.
