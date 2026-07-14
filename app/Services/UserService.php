@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Permission;
 use Throwable;
 
 class UserService
@@ -25,10 +26,16 @@ class UserService
             $permissions = $data['permissions'] ?? [];
             unset($data['permissions']);
 
+            $deniedPermissions = $data['denied_permissions'] ?? [];
+            unset($data['denied_permissions']);
+
             $data['password'] = Hash::make($data['password']);
             $user = User::create($data);
             $user->syncRoles($roles);
             $user->syncPermissions($permissions);
+            $user->deniedPermissions()->sync(
+                Permission::whereIn('name', $deniedPermissions)->pluck('id')
+            );
 
             Log::info('User created.', ['user_id' => $user->id]);
             return $user;
@@ -45,6 +52,7 @@ class UserService
         return DB::transaction(function () use ($user, $data) {
             $roles = $data['roles'] ?? null;
             $permissions = $data['permissions'] ?? null;
+            $deniedPermissions = $data['denied_permissions'] ?? null;
 
             if (empty($data['password'])) {
                 unset($data['password']);
@@ -59,6 +67,11 @@ class UserService
             }
             if ($permissions !== null) {
                 $user->syncPermissions($permissions);
+            }
+            if ($deniedPermissions !== null) {
+                $user->deniedPermissions()->sync(
+                    Permission::whereIn('name', $deniedPermissions)->pluck('id')
+                );
             }
 
             Log::info('User updated.', ['user_id' => $user->id]);

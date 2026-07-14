@@ -45,8 +45,8 @@ class HandleInertiaRequests extends Middleware
                     $request->user()->only(['id', 'name', 'email']),
                     [
                         'roles' => $request->user()->getRoleNames(),
-                        'can' => $request->user()->getAllPermissions()->mapWithKeys(
-                            fn ($permission) => [$permission->name => true]
+                        'can' => $request->user()->getEffectivePermissionNames()->mapWithKeys(
+                            fn ($name) => [$name => true]
                         ),
                     ]
                 ) : null,

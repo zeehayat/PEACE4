@@ -26,7 +26,7 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $query = User::query()->with(['roles', 'permissions']);
+        $query = User::query()->with(['roles', 'permissions', 'deniedPermissions']);
 
         if ($request->has('search')) {
             $query->where('name', 'like', '%' . $request->input('search') . '%');
