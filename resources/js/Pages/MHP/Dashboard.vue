@@ -71,8 +71,10 @@ const typeChartData = {
 const progressChartData = {
     labels: props.chart_progress.labels,
     datasets: [
-        { label: 'Physical %', backgroundColor: '#0e7490', data: props.chart_progress.physical },
-        { label: 'Financial %', backgroundColor: '#67e8f9', data: props.chart_progress.financial },
+        { label: 'Civil %', backgroundColor: '#0e7490', data: props.chart_progress.civil },
+        { label: 'EME %', backgroundColor: '#67e8f9', data: props.chart_progress.eme },
+        { label: 'T&D %', backgroundColor: '#155e75', data: props.chart_progress.td },
+        { label: 'Financial %', backgroundColor: '#f59e0b', data: props.chart_progress.financial },
     ],
 };
 const progressChartOptions = { indexAxis: 'y' };
@@ -220,11 +222,11 @@ const cboExportUrl = route('mhp.overview.export-cbos', { district: props.filters
                 />
                 <ChartWithTable
                     title="04 · Overall Physical Progress by MHP Scheme"
-                    subtitle="Combined Civil + T&D + EME physical progress, paired with financial disbursement progress. Schemes not yet approved or initiated show 0%."
+                    subtitle="Civil, EME, and T&D physical progress shown separately, paired with financial disbursement progress. A component with no recorded progress shows 0%, which pulls the scheme's blended progress (chart 04a) down."
                     chart-type="bar"
                     :chart-data="progressChartData"
                     :chart-options="progressChartOptions"
-                    :table-columns="[{ key: 'scheme', label: 'Scheme' }, { key: 'physical', label: 'Physical %' }, { key: 'financial', label: 'Financial %' }]"
+                    :table-columns="[{ key: 'scheme', label: 'Scheme' }, { key: 'civil', label: 'Civil %' }, { key: 'eme', label: 'EME %' }, { key: 'td', label: 'T&D %' }, { key: 'financial', label: 'Financial %' }]"
                     :table-rows="chart_progress.table"
                 />
                 <ChartWithTable

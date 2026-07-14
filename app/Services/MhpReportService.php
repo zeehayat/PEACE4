@@ -100,6 +100,35 @@ class MhpReportService
         return round($totalWeightedProgress / $totalCost, 2);
     }
 
+    public function getCivilProgress(): float
+    {
+        return (float) ($this->mhpSite->civil_physical_progress_percent ?? 0);
+    }
+
+    public function getEmeProgress(): float
+    {
+        return (float) ($this->mhpSite->emeInfo?->physical_progress_percent ?? 0);
+    }
+
+    public function getTdProgress(): float
+    {
+        $totalCost = 0;
+        $totalWeightedProgress = 0;
+
+        foreach ($this->mhpSite->tAndDWorks as $work) {
+            $cost = $work->contractor_amount ?? $work->estimated_cost ?? 0;
+            $progress = $work->physical_progress_percent ?? 0;
+            $totalCost += $cost;
+            $totalWeightedProgress += ($cost * $progress);
+        }
+
+        if ($totalCost == 0) {
+            return 0.0;
+        }
+
+        return round($totalWeightedProgress / $totalCost, 2);
+    }
+
     public function getDialogueDate(): ?string
     {
         return optional($this->mhpSite->cbo?->dialogues->sortByDesc('date_of_dialogue')->first()?->date_of_dialogue)?->format('Y-m-d');

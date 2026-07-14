@@ -138,22 +138,35 @@ class MhpDashboardController extends Controller
             ->pluck('fin_overall_latest_pct', 'mhp_id');
 
         $labels = [];
-        $physical = [];
+        $civil = [];
+        $eme = [];
+        $td = [];
         $financial = [];
         $table = [];
 
         foreach ($sites->sortBy('id') as $site) {
             $name = $site->cbo?->cbo_name ?? "Scheme #{$site->id}";
-            $physicalProgress = (new MhpReportService($site))->getCombinedCivilProgress();
+            $service = new MhpReportService($site);
+            $civilProgress = $service->getCivilProgress();
+            $emeProgress = $service->getEmeProgress();
+            $tdProgress = $service->getTdProgress();
             $financialProgress = (float) ($financialBySite[$site->id] ?? 0.0);
 
             $labels[] = $name;
-            $physical[] = $physicalProgress;
+            $civil[] = $civilProgress;
+            $eme[] = $emeProgress;
+            $td[] = $tdProgress;
             $financial[] = $financialProgress;
-            $table[] = ['scheme' => $name, 'physical' => $physicalProgress, 'financial' => $financialProgress];
+            $table[] = [
+                'scheme' => $name,
+                'civil' => $civilProgress,
+                'eme' => $emeProgress,
+                'td' => $tdProgress,
+                'financial' => $financialProgress,
+            ];
         }
 
-        return ['labels' => $labels, 'physical' => $physical, 'financial' => $financial, 'table' => $table];
+        return ['labels' => $labels, 'civil' => $civil, 'eme' => $eme, 'td' => $td, 'financial' => $financial, 'table' => $table];
     }
 
     private function buildComponentProgressChart($sites): array

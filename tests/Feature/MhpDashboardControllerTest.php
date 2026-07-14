@@ -121,12 +121,16 @@ class MhpDashboardControllerTest extends TestCase
             'commercial_units' => 10,
         ]);
         MhpAdminApproval::create(['mhp_site_id' => $site->id, 'technical_survey_date' => now()]);
+        $site->emeInfo()->create(['contractor_amount' => 500, 'physical_progress_percent' => 20]);
+        $site->tAndDWorks()->create(['contractor_amount' => 300, 'physical_progress_percent' => 10]);
 
         $this->actingAs($this->actingAsAdmin())
             ->get(route('mhp.overview'))
             ->assertInertia(fn (Assert $page) => $page
                 ->has('chart_progress.labels', 1)
-                ->where('chart_progress.physical.0', 50)
+                ->where('chart_progress.civil.0', 50)
+                ->where('chart_progress.eme.0', 20)
+                ->where('chart_progress.td.0', 10)
                 ->has('chart_beneficiaries.labels', 1)
                 ->where('chart_beneficiaries.total_hh.0', 120)
                 ->where('chart_beneficiaries.commercial_units.0', 10)
