@@ -185,8 +185,14 @@ const handleCancel = () => {
                 </div>
             </InputGroup>
 
-            <!-- Password (only for create mode, or nullable for update) -->
-            <InputGroup v-if="!isEditMode" id="password" label="Password" :required="true" :error="form.errors.password">
+            <!-- Password (required on create, optional reset on edit) -->
+            <InputGroup
+                id="password"
+                label="Password"
+                :required="!isEditMode"
+                :help="isEditMode ? 'Leave blank to keep the current password.' : undefined"
+                :error="form.errors.password"
+            >
                 <PasswordInput
                     id="password"
                     v-model="form.password"
@@ -195,10 +201,9 @@ const handleCancel = () => {
                 />
             </InputGroup>
             <InputGroup
-                v-if="!isEditMode"
                 id="password_confirmation"
                 label="Confirm Password"
-                :required="true"
+                :required="!isEditMode"
                 :error="form.errors.password_confirmation"
             >
                 <PasswordInput
