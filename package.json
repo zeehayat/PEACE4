@@ -1,5 +1,6 @@
 {
     "$schema": "https://json.schemastore.org/package.json",
+    "name": "srsp-peace2",
     "private": true,
     "type": "module",
     "scripts": {
