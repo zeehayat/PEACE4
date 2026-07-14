@@ -13,11 +13,15 @@ use Laravel\Sanctum\HasApiTokens; // Use Sanctum's trait
 use Spatie\Permission\Traits\HasRoles; // Ensure this is present
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Spatie\Permission\Models\Permission;
 
 class User extends Authenticatable
 {
     // The order of traits can sometimes matter.
-    use HasApiTokens, HasFactory, Notifiable, HasProfilePhoto, TwoFactorAuthenticatable, HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, HasProfilePhoto, TwoFactorAuthenticatable, HasRoles {
+        HasRoles::hasPermissionTo as protected traitHasPermissionTo;
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -93,5 +97,47 @@ class User extends Authenticatable
             'delete' => (bool) $perm->can_delete,
             default => false,
         };
+    }
+
+    /**
+     * Permissions explicitly denied for this user, overriding any role or
+     * direct grant of the same permission.
+     */
+    public function deniedPermissions(): BelongsToMany
+    {
+        return $this->belongsToMany(Permission::class, 'user_denied_permissions');
+    }
+
+    /**
+     * Overrides Spatie's HasPermissions::hasPermissionTo() (same signature,
+     * confirmed at vendor/spatie/laravel-permission/src/Traits/HasPermissions.php:209).
+     * An explicit denial always wins over role and direct grants.
+     *
+     * Note: hasPermissionTo() is defined on the HasPermissions trait (used via
+     * HasRoles), not on a parent class, so `parent::hasPermissionTo()` would not
+     * resolve to it — PHP's `parent::` only walks the class hierarchy, not traits
+     * used by the same class. The trait's original implementation is aliased to
+     * traitHasPermissionTo() in the `use HasRoles { ... }` block above so it can
+     * be invoked explicitly.
+     */
+    public function hasPermissionTo($permission, $guardName = null): bool
+    {
+        $permissionName = is_string($permission) ? $permission : $permission->name;
+
+        if ($this->deniedPermissions()->where('name', $permissionName)->exists()) {
+            return false;
+        }
+
+        return $this->traitHasPermissionTo($permission, $guardName);
+    }
+
+    /**
+     * This user's true effective permission set: everything their roles and
+     * direct grants would give them, minus anything explicitly denied.
+     */
+    public function getEffectivePermissionNames(): \Illuminate\Support\Collection
+    {
+        $denied = $this->deniedPermissions()->pluck('name');
+        return $this->getAllPermissions()->pluck('name')->diff($denied)->values();
     }
 }
