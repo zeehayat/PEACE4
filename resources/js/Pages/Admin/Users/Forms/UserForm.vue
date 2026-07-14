@@ -21,6 +21,19 @@ const groupEntries = computed(() => {
     return entries.sort(([a], [b]) => a.localeCompare(b));
 });
 
+function permissionState(name) {
+    if (form.denied_permissions.includes(name)) return 'deny';
+    if (form.permissions.includes(name)) return 'grant';
+    return 'inherit';
+}
+
+function setPermissionState(name, state) {
+    form.permissions = form.permissions.filter(p => p !== name);
+    form.denied_permissions = form.denied_permissions.filter(p => p !== name);
+    if (state === 'grant') form.permissions.push(name);
+    if (state === 'deny') form.denied_permissions.push(name);
+}
+
 const emit = defineEmits(['success', 'cancel']);
 const isEditMode = ref(props.mode === 'update');
 const globalDistrictValue = 'global';
@@ -33,6 +46,7 @@ const form = useForm({
     district_id: props.user?.district_id ?? globalDistrictValue,
     roles: props.user?.roles.map(role => role.name) || [],
     permissions: props.user?.permissions?.map(permission => permission.name) || [],
+    denied_permissions: props.user?.denied_permissions?.map(permission => permission.name) || [],
 });
 
 const districtOptions = computed(() => [
@@ -49,6 +63,7 @@ watch(() => props.user, (newUser) => {
             district_id: newUser.district_id ?? globalDistrictValue,
             roles: newUser.roles.map(role => role.name),
             permissions: newUser.permissions.map(p => p.name),
+            denied_permissions: newUser.denied_permissions ? newUser.denied_permissions.map(p => p.name) : [],
         });
     } else {
         form.defaults({
@@ -150,10 +165,10 @@ const handleCancel = () => {
             <InputGroup
                 label="Direct Permissions"
                 class="md:col-span-2"
-                :error="form.errors.permissions"
+                :error="form.errors.permissions || form.errors.denied_permissions"
             >
                 <p class="text-xs text-ink-500 mt-1 mb-2">
-                    Granted directly to this user, in addition to whatever their roles above already grant.
+                    Inherit uses whatever this user's roles above grant. Grant adds this permission directly, even without a role. Deny removes this permission for this user specifically, even if a role above would otherwise grant it.
                 </p>
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                     <details
@@ -166,19 +181,33 @@ const handleCancel = () => {
                         </summary>
                         <div class="px-3 pb-3 pt-2">
                             <div class="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                                <label
+                                <div
                                     v-for="permission in groupPermissions"
                                     :key="permission.id"
-                                    class="flex items-center text-sm text-ink-700"
+                                    class="flex items-center justify-between gap-2 text-sm text-ink-700"
                                 >
-                                    <input
-                                        type="checkbox"
-                                        :value="permission.name"
-                                        v-model="form.permissions"
-                                        class="text-accent-600 border-ink-300 rounded shadow-sm focus:ring-accent-500"
-                                    />
-                                    <span class="ml-2">{{ permission.name.replace(/_/g, ' ') }}</span>
-                                </label>
+                                    <span>{{ permission.name.replace(/_/g, ' ') }}</span>
+                                    <div class="inline-flex rounded-md border border-ink-200 text-xs overflow-hidden flex-shrink-0">
+                                        <button
+                                            type="button"
+                                            @click="setPermissionState(permission.name, 'inherit')"
+                                            :class="permissionState(permission.name) === 'inherit' ? 'bg-ink-200 text-ink-900' : 'bg-surface text-ink-500'"
+                                            class="px-2 py-1"
+                                        >Inherit</button>
+                                        <button
+                                            type="button"
+                                            @click="setPermissionState(permission.name, 'grant')"
+                                            :class="permissionState(permission.name) === 'grant' ? 'bg-emerald-600 text-white' : 'bg-surface text-ink-500'"
+                                            class="px-2 py-1 border-l border-ink-200"
+                                        >Grant</button>
+                                        <button
+                                            type="button"
+                                            @click="setPermissionState(permission.name, 'deny')"
+                                            :class="permissionState(permission.name) === 'deny' ? 'bg-red-600 text-white' : 'bg-surface text-ink-500'"
+                                            class="px-2 py-1 border-l border-ink-200"
+                                        >Deny</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </details>
