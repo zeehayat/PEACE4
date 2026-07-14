@@ -30,7 +30,7 @@ step "Installing PHP dependencies"
 composer install --no-dev --no-interaction
 
 step "Installing JS dependencies"
-npm install
+npm ci
 
 step "Building frontend assets"
 npm run build
