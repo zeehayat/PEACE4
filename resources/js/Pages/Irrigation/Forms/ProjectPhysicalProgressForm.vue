@@ -56,7 +56,7 @@ const handleFileUpdate = (files) => {
 
 const handleSubmit = () => {
     const url = isEditMode.value
-        ? route('irrigation.schemes.physical-progresses.update', { scheme: props.schemeId, physical_progress: props.progress.id })
+        ? route('irrigation.physical-progresses.update', { physical_progress: props.progress.id })
         : route('irrigation.schemes.physical-progresses.store', { scheme: props.schemeId });
 
     form.transform((data) => {

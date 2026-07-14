@@ -91,7 +91,7 @@ const handleFormCancel = () => {
 };
 const handleDeleteProgress = (progressId) => {
     if (confirm('Are you sure you want to delete this physical progress entry?')) {
-        router.delete(route('irrigation.schemes.physical-progresses.destroy', { scheme: props.scheme.id, physical_progress: progressId }), {
+        router.delete(route('irrigation.physical-progresses.destroy', { physical_progress: progressId }), {
             onSuccess: () => {
                 emit('saved', 'Physical Progress deleted successfully!');
                 fetchProgresses();

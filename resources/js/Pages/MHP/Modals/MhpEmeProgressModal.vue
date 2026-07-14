@@ -90,7 +90,7 @@ const handleFormCancel = () => {
 
 const handleDeleteProgress = (progressId) => {
     if (confirm('Are you sure you want to delete this physical progress entry?')) {
-        router.delete(route('mhp.sites.physical-progresses.destroy', { site: props.site.id, physical_progress: progressId }), {
+        router.delete(route('mhp.physical-progresses.destroy', { physical_progress: progressId }), {
             onSuccess: () => {
                 emit('saved', 'Physical Progress deleted successfully!');
                 fetchPhysicalProgress();
