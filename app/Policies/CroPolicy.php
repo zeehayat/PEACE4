@@ -11,17 +11,6 @@ class CroPolicy extends BasePolicy
     use HandlesAuthorization;
 
     /**
-     * The 'before' method grants the Root role all permissions.
-     */
-    public function before(User $user, string $ability): bool|null
-    {
-        if ($user->hasRole('Root')) {
-            return true;
-        }
-        return null;
-    }
-
-    /**
      * Determine whether the user can view any CROs.
      */
     public function viewAny(User $user): bool

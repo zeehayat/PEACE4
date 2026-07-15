@@ -9,17 +9,6 @@ use App\Models\User;
 class IrrigationCostRevisionPolicy extends BasePolicy
 {
     /**
-     * The 'before' method handles the Root user.
-     */
-    public function before(User $user, string $ability): bool|null
-    {
-        if ($user->hasRole('Root')) {
-            return true;
-        }
-        return null;
-    }
-
-    /**
      * Determine whether the user can create cost revisions for a scheme.
      */
     public function create(User $user, IrrigationScheme $irrigationScheme): bool

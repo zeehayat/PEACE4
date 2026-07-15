@@ -6,7 +6,7 @@ use App\Models\EmeInfo;
 use App\Models\MhpSite;
 use App\Models\User;
 
-class EmeInfoPolicy
+class EmeInfoPolicy extends BasePolicy
 {
     /**
      * Determine whether a user can create or update an EME info record for a given MHP site.

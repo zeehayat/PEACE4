@@ -10,14 +10,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProjectPhysicalProgressPolicy extends BasePolicy
 {
-    public function before(User $user, string $ability): bool|null
-    {
-        if ($user->hasRole('Root')) {
-            return true;
-        }
-        return null;
-    }
-
     public function viewAny(User $user, Model $project): bool
     {
         return $user->can('view', $project);

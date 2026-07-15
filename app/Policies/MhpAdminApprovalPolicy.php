@@ -10,17 +10,6 @@ use Illuminate\Auth\Access\Response;
 class MhpAdminApprovalPolicy extends BasePolicy
 {
     /**
-     * The 'before' method handles the Root user.
-     */
-    public function before(User $user, string $ability): bool|null
-    {
-        if ($user->hasRole('Root')) {
-            return true;
-        }
-        return null;
-    }
-
-    /**
      * Determine whether the user can view the model.
      * Logic: Can the user view the parent MHP site?
      */

@@ -9,17 +9,6 @@ use App\Models\User;
 class IrrigationCompletionPolicy extends BasePolicy
 {
     /**
-     * The 'before' method handles the Root user.
-     */
-    public function before(User $user, string $ability): bool|null
-    {
-        if ($user->hasRole('Root')) {
-            return true;
-        }
-        return null;
-    }
-
-    /**
      * Determine whether the user can view the model.
      */
     public function view(User $user, IrrigationCompletion $irrigationCompletion): bool

@@ -10,14 +10,6 @@ class IrrigationSchemePolicy extends BasePolicy
 {
     use HandlesAuthorization;
 
-    public function before(User $user, string $ability): bool|null
-    {
-        if ($user->hasRole('Root')) {
-            return true;
-        }
-        return null;
-    }
-
     public function viewAny(User $user): bool
     {
         return $user->can('irrigation_scheme_view');
