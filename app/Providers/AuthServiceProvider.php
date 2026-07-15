@@ -99,7 +99,7 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::before(function (User $user, string $ability) {
-            if ($user->hasAnyRole(['Super Admin', 'Root'])) {
+            if ($user->hasAnyRole(['Super Admin', 'Root', 'Admin'])) {
                 return true;
             }
             return null;

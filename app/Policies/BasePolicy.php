@@ -15,7 +15,7 @@ class BasePolicy
      */
     public function before(User $user, string $ability): bool|null
     {
-        if ($user->hasAnyRole(['Super Admin', 'Root'])) {
+        if ($user->hasAnyRole(['Super Admin', 'Root', 'Admin'])) {
             return true;
         }
 
