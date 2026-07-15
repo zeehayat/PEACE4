@@ -63,7 +63,21 @@ return Application::configure(basePath: dirname(__DIR__))
 
 
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        $exceptions->render(function (\Illuminate\Auth\Access\AuthorizationException $e, \Illuminate\Http\Request $request) {
+            return \App\Support\ForbiddenResponse::make($request, $e->getMessage());
+        });
+        // Laravel's Handler::prepareException() converts an unhandled
+        // AuthorizationException into AccessDeniedHttpException *before*
+        // render callbacks are consulted, so the callback above only
+        // fires for AuthorizationException instances with an explicit
+        // ->response()/status() set. Catch the common (status-less) case
+        // via its converted form too.
+        $exceptions->render(function (\Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException $e, \Illuminate\Http\Request $request) {
+            return \App\Support\ForbiddenResponse::make($request, $e->getMessage());
+        });
+        $exceptions->render(function (\Spatie\Permission\Exceptions\UnauthorizedException $e, \Illuminate\Http\Request $request) {
+            return \App\Support\ForbiddenResponse::make($request, $e->getMessage());
+        });
     })
     ->withProviders([
         ServiceBindingProvider::class, // 👈 Add your custom provider here
