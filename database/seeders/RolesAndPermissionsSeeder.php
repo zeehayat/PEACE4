@@ -191,7 +191,7 @@ class RolesAndPermissionsSeeder extends Seeder
         Log::info('Root user created/assigned.');
 
         $superAdminUser = User::firstOrCreate(
-            ['email' => 'superadmin@example.com'],
+            ['email' => 'zeenux@gmail.com'],
             [
                 'name' => 'Super Admin User',
                 'password' => Hash::make('password'),

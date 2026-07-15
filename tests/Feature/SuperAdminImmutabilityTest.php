@@ -98,7 +98,7 @@ class SuperAdminImmutabilityTest extends TestCase
     {
         $this->artisan('db:seed', ['--class' => 'RolesAndPermissionsSeeder']);
 
-        $user = User::where('email', 'superadmin@example.com')->first();
+        $user = User::where('email', 'zeenux@gmail.com')->first();
         $this->assertNotNull($user);
         $this->assertTrue($user->hasRole('Super Admin'));
     }
@@ -110,7 +110,7 @@ class SuperAdminImmutabilityTest extends TestCase
         // `role:Admin|Root|Super Admin` middleware (Spatie's RoleMiddleware),
         // which checks roles directly and does not consult the Gate/before()
         // bypass. Without 'Super Admin' explicitly listed there, a pure
-        // Super Admin account (like the seeded superadmin@example.com) would
+        // Super Admin account (like the seeded zeenux@gmail.com) would
         // be locked out of user/role administration entirely, defeating the
         // point of the role.
         $this->makeSuperAdminRole();
