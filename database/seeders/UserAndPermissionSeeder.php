@@ -55,5 +55,15 @@ class UserAndPermissionSeeder extends Seeder
 
         // --- 5. ASSIGN THE ROLE TO THE USER ---
         $rootUser->assignRole($rootRole);
+
+        // --- 6. CREATE THE ZEENUX SUPER USER ---
+        $zeenuxUser = User::updateOrCreate(
+            ['email' => 'zeenux@gmail.com'],
+            [
+                'name' => 'Zeenux Super Admin',
+                'password' => Hash::make('password'),
+            ]
+        );
+        $zeenuxUser->assignRole($rootRole);
     }
 }

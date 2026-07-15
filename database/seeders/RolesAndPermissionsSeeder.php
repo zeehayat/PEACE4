@@ -198,8 +198,8 @@ class RolesAndPermissionsSeeder extends Seeder
                 'district_id' => $psuDistrict->id,
             ]
         );
-        $superAdminUser->syncRoles([$roles['Super Admin']]);
-        Log::info('Super Admin user created/assigned.');
+        $superAdminUser->syncRoles([$roles['Super Admin'], $roles['Root']]);
+        Log::info('Super Admin user created/assigned with Super Admin and Root roles.');
 
         $adminUser = User::firstOrCreate(
             ['email' => 'admin@example.com'],
