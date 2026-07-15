@@ -190,6 +190,17 @@ class RolesAndPermissionsSeeder extends Seeder
         $rootUser->syncRoles([$roles['Root']]);
         Log::info('Root user created/assigned.');
 
+        $superAdminUser = User::firstOrCreate(
+            ['email' => 'superadmin@example.com'],
+            [
+                'name' => 'Super Admin User',
+                'password' => Hash::make('password'),
+                'district_id' => $psuDistrict->id,
+            ]
+        );
+        $superAdminUser->syncRoles([$roles['Super Admin']]);
+        Log::info('Super Admin user created/assigned.');
+
         $adminUser = User::firstOrCreate(
             ['email' => 'admin@example.com'],
             [

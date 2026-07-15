@@ -28,8 +28,10 @@ class UserPolicy extends BasePolicy
 
     public function update(User $user, User $model): bool
     {
-        // Prevent a non-Root user from editing the Root user.
-        if ($model->hasRole('Root') && !$user->hasRole('Root')) {
+        // Prevent a non-Root user from editing the Root user, and a
+        // non-Super-Admin user from editing a Super Admin user.
+        if (($model->hasRole('Root') && !$user->hasRole('Root'))
+            || ($model->hasRole('Super Admin') && !$user->hasRole('Super Admin'))) {
             return false;
         }
 
@@ -43,8 +45,10 @@ class UserPolicy extends BasePolicy
 
     public function delete(User $user, User $model): bool
     {
-        // Prevent a non-Root user from deleting the Root user.
-        if ($model->hasRole('Root') && !$user->hasRole('Root')) {
+        // Prevent a non-Root user from deleting the Root user, and a
+        // non-Super-Admin user from deleting a Super Admin user.
+        if (($model->hasRole('Root') && !$user->hasRole('Root'))
+            || ($model->hasRole('Super Admin') && !$user->hasRole('Super Admin'))) {
             return false;
         }
 

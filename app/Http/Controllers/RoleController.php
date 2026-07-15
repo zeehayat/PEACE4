@@ -60,6 +60,10 @@ class RoleController extends Controller
 
     public function update(Request $request, Role $role)
     {
+        if ($role->name === 'Super Admin') {
+            return redirect()->route('admin.roles.index')->with('error', 'The Super Admin role cannot be modified.');
+        }
+
         $request->validate([
             'name' => 'required|string|max:255|unique:roles,name,' . $role->id,
             'permissions' => 'nullable|array'
