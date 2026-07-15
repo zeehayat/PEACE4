@@ -102,4 +102,24 @@ class SuperAdminImmutabilityTest extends TestCase
         $this->assertNotNull($user);
         $this->assertTrue($user->hasRole('Super Admin'));
     }
+
+    public function test_pure_super_admin_can_reach_admin_routes(): void
+    {
+        // A user holding ONLY the Super Admin role (no Admin/Root) must be
+        // able to reach admin.* routes - these carry route-level
+        // `role:Admin|Root|Super Admin` middleware (Spatie's RoleMiddleware),
+        // which checks roles directly and does not consult the Gate/before()
+        // bypass. Without 'Super Admin' explicitly listed there, a pure
+        // Super Admin account (like the seeded superadmin@example.com) would
+        // be locked out of user/role administration entirely, defeating the
+        // point of the role.
+        $this->makeSuperAdminRole();
+        $district = District::create(['name' => 'Swat']);
+        $actor = User::factory()->create(['district_id' => $district->id]);
+        $actor->assignRole('Super Admin');
+
+        $this->actingAs($actor)
+            ->get(route('admin.users.index'))
+            ->assertOk();
+    }
 }

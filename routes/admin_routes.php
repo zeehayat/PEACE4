@@ -18,7 +18,7 @@ use App\Http\Controllers\DistrictController;
 |
 */
 
-Route::middleware(['role:Admin|Root'])->group(function () {
+Route::middleware(['role:Admin|Root|Super Admin'])->group(function () {
     // Route for the main admin dashboard
     Route::get('/', AdminDashboardController::class)->name('dashboard');
 
